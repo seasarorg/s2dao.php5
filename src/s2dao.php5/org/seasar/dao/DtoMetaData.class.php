@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke hata  
+ * @author nowel
  */
 interface DtoMetaData {
 

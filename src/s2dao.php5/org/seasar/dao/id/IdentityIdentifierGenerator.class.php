@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class IdentityIdentifierGenerator extends AbstractIdentifierGenerator {
 
@@ -9,10 +9,6 @@ class IdentityIdentifierGenerator extends AbstractIdentifierGenerator {
         parent::__construct($propertyName, $dbms);
     }
 
-    /**
-     * @param $bean
-     * @param $ds type.DataSource
-     */
 //    public function setIdentifier($bean, $value) {
 //        if( $value instanceof DataSource){
 //            $val = $this->executeSql($value,

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 interface IdentifierGenerator {
 

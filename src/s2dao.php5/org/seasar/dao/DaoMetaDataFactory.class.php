@@ -1,10 +1,9 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 interface DaoMetaDataFactory {
-    
     public function getDaoMetaData($daoClass);
 }
 ?>

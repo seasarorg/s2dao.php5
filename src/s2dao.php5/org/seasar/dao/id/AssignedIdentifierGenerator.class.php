@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class AssignedIdentifierGenerator extends AbstractIdentifierGenerator {
 

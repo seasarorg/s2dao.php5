@@ -1,9 +1,7 @@
 <?php
 
-//import java.lang.reflect.Constructor;
-
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class IdentifierGeneratorFactory {
 
