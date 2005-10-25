@@ -69,7 +69,8 @@ class FieldAnnotationReader implements DaoAnnotationReader {
         return null;
     }
     
-    private function spacetrim(array $elem){
+    //private function spacetrim(array $elem){
+    private function spacetrim($elem){
         $ret = array();
         foreach($elem as $key => $value){
             $ret[$key] = trim($value);

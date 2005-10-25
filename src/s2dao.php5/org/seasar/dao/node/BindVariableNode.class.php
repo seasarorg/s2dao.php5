@@ -28,15 +28,17 @@ class BindVariableNode extends AbstractNode {
         $value = $ctx->getArg($this->names_[0]);
         $clazz = $ctx->getArgType($this->names_[0]);
         
-        for($pos = 1; $pos < count($this->names_); $pos++){
-            $beanDesc = BeanDescFactory::getBeanDesc($clazz);
-            $pd = $beanDesc->getPropertyDesc($this->names_[$pos]);
-            if ($value == null) {
-                break;
-            }
-            $value = $pd->getValue($value);
-            $clazz = $pd->getPropertyType();
-        }
+//        for($pos = 1; $pos < count($this->names_); $pos++){
+//            $beanDesc = BeanDescFactory::getBeanDesc($clazz);
+//            $pd = $beanDesc->getPropertyDesc($this->names_[$pos]);
+//            if ($value == null) {
+//                break;
+//            }
+//            $value = $pd->getValue($value);
+//            $clazz = $pd->getPropertyType();
+//        }
+
+        settype($value, $clazz);
         $ctx->addSql("?", $value, $clazz);
     }
 }

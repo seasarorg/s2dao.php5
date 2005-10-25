@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class DaoMetaDataImpl implements DaoMetaData {
 
@@ -354,7 +354,6 @@ class DaoMetaDataImpl implements DaoMetaData {
             if (count($argNames) == 0 && count($method->getParameters()) == 1) {
                 //$argNames = array("dto");
 
-                //$types = $method->getParameters();
             	$param = $method->getParameters();
             	$types = $param[0]->getClass();
 

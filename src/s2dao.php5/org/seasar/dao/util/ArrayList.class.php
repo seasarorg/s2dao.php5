@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author nowel
+ */
 class ArrayList {
 
 	private $element = null;

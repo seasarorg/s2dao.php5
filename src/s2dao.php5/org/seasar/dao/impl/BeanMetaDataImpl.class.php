@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class BeanMetaDataImpl extends DtoMetaDataImpl implements BeanMetaData {
 
@@ -25,7 +25,6 @@ class BeanMetaDataImpl extends DtoMetaDataImpl implements BeanMetaData {
 
         self::$logger_ = S2Logger::getLogger(__CLASS__);
         
-        //$this->propertyTypesByColumnName_ = new CaseInsensitiveMap();
         $this->propertyTypesByColumnName_ = new HashMap();
         $this->relationPropertyTypes_ = new ArrayList();
         $this->setBeanClass($beanClass);

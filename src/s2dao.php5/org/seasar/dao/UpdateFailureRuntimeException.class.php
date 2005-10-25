@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata  
+ * @author nowel
  */
 class UpdateFailureRuntimeException extends S2RuntimeException {
 

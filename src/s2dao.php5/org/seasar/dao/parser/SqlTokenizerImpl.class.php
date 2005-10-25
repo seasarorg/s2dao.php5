@@ -91,7 +91,8 @@ class SqlTokenizerImpl implements SqlTokenizer {
             $this->position_ = strlen($this->sql_);
             $this->tokenType_ = self::SQL;
         } else {
-            $this->token_ = substr($this->sql_, $this->position_, $nextStartPos);
+            $endPos = $nextStartPos - $this->position_;
+            $this->token_ = substr($this->sql_, $this->position_, $endPos);
             $this->tokenType_ = self::SQL;
             $needNext = $nextStartPos == $this->position_;
             
@@ -136,15 +137,14 @@ class SqlTokenizerImpl implements SqlTokenizer {
     }
 
     protected function parseComment() {
-        $commentEndPos = strpos($this->sql_, "*/", $this->position_);
+        $commentEndPos = strpos($this->sql_, '*/', $this->position_);
         if ($commentEndPos === false || $commentEndPos < 0) {
-            throw new TokenNotClosedRuntimeException("*/",
+            throw new TokenNotClosedRuntimeException('*/',
                                                      substr($this->sql_,
                                                      $this->position_));
         }
-        $pos = $this->position_ - $commentEndPos -2;
-        $this->token_ = substr($this->sql_, $pos, $commentEndPos);
-        var_dump($this->token_);
+        $endPos = $commentEndPos - $this->position_;
+        $this->token_ = substr($this->sql_, $this->position_, $endPos);
         $this->nextTokenType_ = self::SQL;
         $this->position_ = $commentEndPos + 2;
         $this->tokenType_ = self::COMMENT;

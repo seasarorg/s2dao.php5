@@ -1,8 +1,5 @@
 <?php
 
-//import ognl.ObjectPropertyAccessor;
-//import ognl.OgnlException;
-
 /**
  * @author nowel
  */

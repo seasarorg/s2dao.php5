@@ -144,8 +144,6 @@ class SqlParserImpl implements SqlParser {
     }
 
     protected function peek() {
-        //$peek = array_slice($this->nodeStack_, 0, 1, true);
-        //return $peek[0];
         $shift = array_shift($this->nodeStack_);
         array_unshift($this->nodeStack_, $shift);
         return $shift;
@@ -165,9 +163,7 @@ class SqlParserImpl implements SqlParser {
     }
 
     private static function isTargetComment($comment = null) {
-        /*return $comment != null && strlen($comment) > 0
-                && Character.isJavaIdentifierStart(substr($comment,0,1));
-        */
+        //Character.isJavaIdentifierStart(substr($comment,0,1));
         return $comment != null && strlen($comment) > 0
                 && substr($comment,0,1) != null;
     }

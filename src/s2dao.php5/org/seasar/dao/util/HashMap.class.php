@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class HashMap {
 	
@@ -12,7 +12,7 @@ class HashMap {
 	}
 	
 	public function isEmpty(){
-		return is_empty($this->element);
+		return empty($this->element);
 	}
 	
 	public function get($object){

@@ -29,7 +29,6 @@ class SelectDynamicCommand extends AbstractDynamicCommand {
         $selectHandler = new BasicSelectHandler(
                                 $this->getDataSource(),
                                 $ctx->getSql(),
-                                //$this->getSql(),
                                 $this->resultSetHandler_,
                                 $this->getStatementFactory(),
                                 $this->resultSetFactory_);

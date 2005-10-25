@@ -5,6 +5,5 @@
  */
 interface SqlParser {
     public function parse();
-
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class IfConditionNotFoundRuntimeException extends S2RuntimeException {
     

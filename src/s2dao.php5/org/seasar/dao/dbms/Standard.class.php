@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class Standard implements Dbms {
 
@@ -20,7 +20,6 @@ class Standard implements Dbms {
         $buf .= $beanMetaData->getAutoSelectList();
         $buf .= " ";
 
-        //$beanName = $beanMetaData->getBeanClass()->getName();
         $beanClass = new ReflectionClass($beanMetaData->getBeanClass());
         $beanName = $beanClass->getName();
         $fromClause = (string)$this->autoSelectFromClauseCache_->get($beanName);
