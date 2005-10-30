@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 abstract class AbstractAutoHandler extends BasicHandler implements UpdateHandler {
 
@@ -135,9 +135,8 @@ abstract class AbstractAutoHandler extends BasicHandler implements UpdateHandler
         $varList = new ArrayList();
         $varTypeList = new ArrayList();
 
-        $bmd = $this->getBeanMetaData();
-        for ($i = 0; $i < $bmd->getPropertyTypeSize(); ++$i) {
-            $pt = $bmd->getPropertyType($i);
+        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+            $pt = $this->propertyTypes_[$i];
             if ( strcasecmp($pt->getPropertyName(),
                             $this->getBeanMetaData()->getTimestampPropertyName()) == 0 ) {
                 $this->setTimestamp(time());
@@ -159,10 +158,8 @@ abstract class AbstractAutoHandler extends BasicHandler implements UpdateHandler
         $varList = new ArrayList();
         $varTypeList = new ArrayList();
 
-        $bmd = $this->getBeanMetaData();
-        for ($i = 0; $i < $bmd->getPropertyTypeSize(); ++$i) {
-            //$pt = $this->propertyTypes_[$i];
-            $pt = $this->getBeanMetaData()->getPropertyType($i);
+        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+            $pt = $this->propertyTypes_[$i];
             if ( strcasecmp($pt->getPropertyName(),
                     $this->getBeanMetaData()->getTimestampPropertyName()) == 0 ) {
                 $this->setTimestamp(time());

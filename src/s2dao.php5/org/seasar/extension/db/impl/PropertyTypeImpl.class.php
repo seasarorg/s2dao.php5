@@ -1,10 +1,5 @@
 <?php
 
-//import org.seasar.extension.jdbc.PropertyType;
-//import org.seasar.extension.jdbc.ValueType;
-//import org.seasar.extension.jdbc.types.ValueTypes;
-//import org.seasar.framework.beans.PropertyDesc;
-
 /**
  * @author Yusuke Hata
  */

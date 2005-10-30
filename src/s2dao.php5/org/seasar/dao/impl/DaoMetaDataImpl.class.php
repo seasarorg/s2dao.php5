@@ -306,17 +306,19 @@ class DaoMetaDataImpl implements DaoMetaData {
             }
         } else {
             $props = $this->annotationReader_->getPersistentProps($methodName);
-            $names->addAll(new ArrayList($props));
-            for ($i = 0; $i < $this->beanMetaData_->getPrimaryKeySize(); ++$i) {
-                $pk = $this->beanMetaData_->getPrimaryKey($i);
-                $pt = $this->beanMetaData_->getPropertyTypeByColumnName($pk);
-                $names->add($pt->getPropertyName());
-            }
-            if ($this->beanMetaData_->hasVersionNoPropertyType()) {
-                $names->add($this->beanMetaData_->getVersionNoPropertyName());
-            }
-            if ($this->beanMetaData_->hasTimestampPropertyType()) {
-                $names->add($this->beanMetaData_->getTimestampPropertyName());
+            if($props != null){
+                $names->addAll(new ArrayList($props));
+                for ($i = 0; $i < $this->beanMetaData_->getPrimaryKeySize(); ++$i) {
+                    $pk = $this->beanMetaData_->getPrimaryKey($i);
+                    $pt = $this->beanMetaData_->getPropertyTypeByColumnName($pk);
+                    $names->add($pt->getPropertyName());
+                }
+                if ($this->beanMetaData_->hasVersionNoPropertyType()) {
+                    $names->add($this->beanMetaData_->getVersionNoPropertyName());
+                }
+                if ($this->beanMetaData_->hasTimestampPropertyType()) {
+                    $names->add($this->beanMetaData_->getTimestampPropertyName());
+                }
             }
         }
         if ($names->size() == 0) {
@@ -354,6 +356,7 @@ class DaoMetaDataImpl implements DaoMetaData {
             if (count($argNames) == 0 && count($method->getParameters()) == 1) {
                 //$argNames = array("dto");
 
+                //$types = $method->getParameters();
             	$param = $method->getParameters();
             	$types = $param[0]->getClass();
 

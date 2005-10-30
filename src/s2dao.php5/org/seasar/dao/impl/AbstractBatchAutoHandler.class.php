@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 abstract class AbstractBatchAutoHandler extends AbstractAutoHandler {
 
@@ -23,7 +23,7 @@ abstract class AbstractBatchAutoHandler extends AbstractAutoHandler {
             if ($args[0] instanceof ArrayList) {
                 $beans = $args[0]->toArray();
             } else {
-                $beans = $args;
+                $beans = (array)$args;
             }
             if ($beans == null) {
                 throw new IllegalArgumentException("args[0]");

@@ -51,8 +51,8 @@ class FieldAnnotationReader implements DaoAnnotationReader {
     }
 
     private function getProps($methodName, $fieldName){
-        if ($this->daoBeanDesc_->hasField($fieldName)) {
-            $s = $this->daoBeanDesc_->getField($fieldName);
+        if ($this->daoBeanDesc_->hasConstant($fieldName)) {
+            $s = $this->daoBeanDesc_->getConstant($fieldName);
             return $this->spacetrim(explode(",", $s));
         }
         return null;
@@ -69,7 +69,6 @@ class FieldAnnotationReader implements DaoAnnotationReader {
         return null;
     }
     
-    //private function spacetrim(array $elem){
     private function spacetrim($elem){
         $ret = array();
         foreach($elem as $key => $value){

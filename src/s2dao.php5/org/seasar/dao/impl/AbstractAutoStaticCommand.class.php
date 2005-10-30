@@ -76,17 +76,15 @@ abstract class AbstractAutoStaticCommand extends AbstractStaticCommand {
         $buf .= "INSERT INTO ";
         $buf .= $bmd->getTableName();
         $buf .= " (";
-        for ($i = 0; $i < $bmd->getPropertyTypeSize(); ++$i) {
-            //$pt = $this->propertyTypes_[$i];
-            //$pt = $bmd->getPropertyType($i)->getPropertyDesc();
-            $pt = $bmd->getPropertyType($i);
+        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+            $pt = $this->propertyTypes_[$i];
+            //$pt = $bmd->getPropertyType($i);
             $buf .= $pt->getColumnName();
             $buf .= ", ";
         }
         $buf = preg_replace("/(, )$/", "", $buf);
         $buf .= ") VALUES (";
-        //for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
-        for($i = 0; $i < $bmd->getPropertyTypeSize(); ++$i){
+        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
             $buf .= "?, ";
         }
         $buf = preg_replace("/(, )$/", "", $buf);
@@ -95,17 +93,12 @@ abstract class AbstractAutoStaticCommand extends AbstractStaticCommand {
     }
 
     protected function setupUpdateSql() {
-        $this->checkPrimaryKey();
-
-        $bmd = $this->getBeanMetaData();
         $buf = "";
         $buf .= "UPDATE ";
-        $buf .= $bmd->getTableName();
+        $buf .= $this->getBeanMetaData()->getTableName();
         $buf .= " SET ";
-        for ($i = 0; $i < $bmd->getPropertyTypeSize(); ++$i) {
-            //$pt = $this->propertyTypes_[$i];
-            //$pt = $bmd->getPropertyType($i)->getPropertyDesc();
-            $pt = $bmd->getPropertyType($i);
+        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+            $pt = $this->propertyTypes_[$i];
             $buf .= $pt->getColumnName();
             $buf .= " = ?, ";
         }

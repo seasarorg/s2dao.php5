@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author nowel
+ * @author Yusuke Hata  
  */
 class UpdateBatchAutoStaticCommand extends AbstractBatchAutoStaticCommand {
 
