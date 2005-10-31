@@ -10,7 +10,7 @@ class BeanArrayMetaDataResultSetHandler extends BeanListMetaDataResultSetHandler
         $list = parent::handle($rs);
         
         $array = new ArrayObject();
-        foreach( $list->toArray() as $value ){
+        foreach($list->toArray() as $value){
             $array->append($value);
         }
         

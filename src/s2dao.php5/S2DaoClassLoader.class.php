@@ -185,6 +185,8 @@ class S2DaoClassLoader {
             "/org/seasar/dao/dbms/MySQL.class.php",
         "Standard" =>
             "/org/seasar/dao/dbms/Standard.class.php",
+        "ColumnNotFoundRuntimeException" =>
+            "/org/seasar/extension/db/ColumnNotFoundRuntimeException.class.php",
     );
 
     public static function load($className){

@@ -28,9 +28,7 @@ class ArrayList {
     }
 	
 	public function get($index){
-        if( $this->contains($index) ){
-            return $this->element->offsetGet($index);
-        }
+        return $this->element->offsetGet($index);
     }
 	
 	public function set($index, $element){
