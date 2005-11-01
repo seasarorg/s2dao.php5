@@ -103,13 +103,13 @@ class S2DaoClassLoader {
             "/org/seasar/dao/impl/DtoMetaDataImpl.class.php",
         "DaoMetaDataFactoryImpl" =>
            "/org/seasar/dao/impl/DaoMetaDataFactoryImpl.class.php",
-    	"DaoMetaData" =>
+        "DaoMetaData" =>
             "/org/seasar/dao/DaoMetaData.class.php",
         "DaoMetaDataImpl" =>
             "/org/seasar/dao/impl/DaoMetaDataImpl.class.php",
-    	"DaoMetaDataFactory" =>
+        "DaoMetaDataFactory" =>
             "/org/seasar/dao/DaoMetaDataFactory.class.php",
-    	"DaoNotFoundRuntimeException" =>
+        "DaoNotFoundRuntimeException" =>
             "/org/seasar/dao/DaoNotFoundRuntimeException.class.php",
         "DaoAnnotationReader" =>
             "/org/seasar/dao/DaoAnnotationReader.class.php",
@@ -187,6 +187,12 @@ class S2DaoClassLoader {
             "/org/seasar/dao/dbms/Standard.class.php",
         "ColumnNotFoundRuntimeException" =>
             "/org/seasar/extension/db/ColumnNotFoundRuntimeException.class.php",
+        "PDODataSource" =>
+            "/org/seasar/extension/db/pdo/PDODataSource.class.php",
+        "PDOSqlHandler" =>
+            "/org/seasar/extension/db/pdo/PDOSqlHandler.class.php",
+        "PDOTxInterceptor" =>
+            "/org/seasar/extension/db/pdo/PDOTxInterceptor.class.php",
     );
 
     public static function load($className){
