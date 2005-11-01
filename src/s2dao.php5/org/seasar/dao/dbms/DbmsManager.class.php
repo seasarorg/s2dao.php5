@@ -29,14 +29,7 @@ final class DbmsManager {
                 self::$dbmses_->put($productName, $dbms);
             }
         }
-        /*
-        for ($i = $dbmsClassNames->keySet()->iterator(); $i->hasNext(); ) {
-            $productName = (string)$i->next();
-            $dbms = ClassUtil::newInstance($dbmsClassNames->getProperty($productName));
-            self::$dbmses_->put($productName, $dbms);
-        }
-        */
-
+    	
         self::$staticConst = true;
     }
 
