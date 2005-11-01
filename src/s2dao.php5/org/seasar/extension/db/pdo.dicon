@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="Shift_JIS"?>
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "components21.dtd">
-<components namespace="peardb">
-    <component name="dataSource" class="PearDBDataSource">
+<components namespace="pdo">
+    <component name="dataSource" class="PDODataSource">
         <property name="dsn">
             "mysql://hoge:hoge@localhost:3306/s2container"
         </property>
@@ -15,11 +15,11 @@
         <property name="database">"s2container"</property>
         -->
     </component>
-    <component class="PearDBSqlHandler"/>
-    <component name="dbtx" class="PearDBTxInterceptor"/>
+    <component class="PDOSqlHandler" />
+    <component name="dbtx" class="PDOTxInterceptor" />
 
-    <component name="dao" class="SimpleDaoInterceptor"/>
-    <component class="DaoMetaDataFactoryImpl"/>
-    <component name="session" class="DBSessionImpl"/>
+    <component name="dao" class="S2DaoInterceptor" />
+    <component class="DaoMetaDataFactoryImpl" />
+    <component name="session" class="DBSessionImpl" />
     
 </components>

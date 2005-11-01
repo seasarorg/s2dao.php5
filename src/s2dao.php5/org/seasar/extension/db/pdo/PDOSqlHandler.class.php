@@ -1,54 +1,43 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-// +----------------------------------------------------------------------+
-// | PHP version 5                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003-2004 The Seasar Project.                          |
-// +----------------------------------------------------------------------+
-// | The Seasar Software License, Version 1.1                             |
-// |   This product includes software developed by the Seasar Project.    |
-// |   (http://www.seasar.org/)                                           |
-// +----------------------------------------------------------------------+
-// | Authors: klove                                                       |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+
 /**
- * @package org.seasar.extension.db.peardb
- * @author klove
+ * @author nowel
  */
-class PearDBSqlHandler implements SqlHandler {
-	private $log_;
+class PDOSqlHandler implements SqlHandler {
 
-	public function PearDBSqlHandler(){
-		$this->log_ = S2Logger::getLogger(get_class($this));
-	}
+    private $log_;
 
-	public function execute($sql,
-	                          DataSource $dataSource,
-	                          ResultSetHandler $resultSetHandler) {
+    public function __construct(){
+        $this->log_ = S2Logger::getLogger(__CLASS__);
+    }
+
+    public function execute($sql,
+                            DataSource $dataSource,
+                            ResultSetHandler $resultSetHandler) {
+        
         $db = $dataSource->getConnection();
         
-        $db->setFetchMode(DB_FETCHMODE_ASSOC);
-        $result = $db->query($sql); 
-        if(DB::isError($result)){
-        	$this->log_->error($result->getMessage(),__METHOD__);
-        	$this->log_->error($result->getDebugInfo(),__METHOD__);
-        	$db->disconnect();
-        	exit;
+        try {
+            $stmt = $db->query($sql);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        } catch (PDOException $e){
+            $this->log_->error($e->getMessage(), __METHOD__);
+            $this->log_->error($e->getCode(), __METHOD__);
+            exit();
         }
         
-        if($result == DB_OK){
-        	return $db->affectedRows();
+        $count = $stmt->rowCount();
+        if($count > 0){
+            return $count;
         }
         
         $ret = array();
-        while($row = $result->fetchRow()){
-            array_push($ret,$resultSetHandler->handle($row));
+        while($row = $stmt->fetchRow()){
+            array_push($ret, $resultSetHandler->handle($row));
         }
-        $result->free();
-        $db->disconnect();
+        unset($stmt);
+        unset($db);
         return $ret;
- 	}
+     }
 }
 ?>
