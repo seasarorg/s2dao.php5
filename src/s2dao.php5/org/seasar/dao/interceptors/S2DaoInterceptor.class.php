@@ -23,7 +23,6 @@ class S2DaoInterceptor extends AbstractInterceptor {
             $cmd = $dmd->getSqlCommand($method->getName());
             $ret = $cmd->execute($invocation->getArguments());
             
-            // umm...
             /*
             $retType = $method->returnsReference();
             if ( is_string($retType) ||

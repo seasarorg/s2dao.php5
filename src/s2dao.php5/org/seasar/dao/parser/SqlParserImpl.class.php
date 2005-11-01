@@ -54,7 +54,6 @@ class SqlParserImpl implements SqlParser {
             $token = $st->skipToken();
             $st->skipWhitespace();
 
-            // strcasecmp ?
             if( eregi("AND",$token) || eregi("OR",$token) ){
                 $node->addChild(new PrefixSqlNode($st->getBefore(), $st->getAfter()));
             } else {

@@ -6,17 +6,11 @@
 abstract class AbstractAutoHandler extends BasicHandler implements UpdateHandler {
 
     private static $logger_ = null;
-
     private $beanMetaData_;
-
     private $bindVariables_;
-
     private $bindVariableTypes_;
-
     private $timestamp_;
-
     private $versionNo_;
-
     private $propertyTypes_;
 
     public function __construct(DataSource $dataSource,

@@ -54,11 +54,7 @@ class DaoMetaDataImpl implements DaoMetaData {
         $con = $this->dataSource_->getConnection();
         $dbMetaData = ConnectionUtil::getMetaData($con);
         $this->dbms_ = DbmsManager::getDbms($dbMetaData);
-
-        if($this->dbms_ === null){
-            throw new Exception();
-        }
-
+        
         $this->beanMetaData_ = new BeanMetaDataImpl($this->beanClass_,
                                                     $dbMetaData,
                                                     $this->dbms_);

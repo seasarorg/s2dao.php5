@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 abstract class AbstractStaticCommand extends AbstractSqlCommand {
 

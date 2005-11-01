@@ -1,12 +1,13 @@
 <?php
 
 /**
- * @author Yusuke Hata  
+ * @author nowel
  */
 class UpdateAutoHandler extends AbstractAutoHandler {
 
     public function __construct(DataSource $dataSource,
-                                StatementFactory $statementFactory,
+                                //StatementFactory $statementFactory,
+                                $statementFactory,
                                 BeanMetaData $beanMetaData,
                                 $propertyTypes) {
 

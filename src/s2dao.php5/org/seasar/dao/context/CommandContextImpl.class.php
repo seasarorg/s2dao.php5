@@ -17,11 +17,8 @@ class CommandContextImpl implements CommandContext {
     private static $init = false;
 
     private static function staticConst(){
-        /*
         self::$logger_ = Logger::getLogger(__CLASS__);
-        OgnlRuntime::setPropertyAccessor("CommandContext",
-                new CommandContextPropertyAccessor());
-        */
+        //OgnlRuntime::setPropertyAccessor("CommandContext", new CommandContextPropertyAccessor());
         self::$init = true;
     }
 

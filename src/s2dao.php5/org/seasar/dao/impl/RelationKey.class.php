@@ -11,7 +11,6 @@ final class RelationKey {
     public function __construct($values) {
         $this->values_ = $values;
         for ($i = 0; $i < count($values); ++$i) {
-            // TO http://jp.php.net/manual/ja/function.crc32.php#52817
             $this->hashCode_ += crc32($values[$i]);
         }
     }

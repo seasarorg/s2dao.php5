@@ -33,10 +33,8 @@ class DtoMetaDataImpl implements DtoMetaData {
         if( is_integer($index) ){
             $arrays = array_values($this->propertyTypes_);
             return $arrays[$index];
-            //return $this->propertyTypes_->get($index);
         } else {
             $propertyType = $this->propertyTypes_[$index];
-            //$propertyType = $this->propertyTypes_->get($index);
             if ($propertyType == null) {
                 throw new PropertyNotFoundRuntimeException($this->beanClass_,
                                                             $propertyType);
@@ -47,7 +45,6 @@ class DtoMetaDataImpl implements DtoMetaData {
 
     public function hasPropertyType($propertyName) {
         return isset($this->propertyTypes_[$propertyName]);
-        //return $this->propertyTypes_->get($propertyName) != null;
     }
 
     protected function setupPropertyType(BeanDesc $beanDesc) {
@@ -65,14 +62,12 @@ class DtoMetaDataImpl implements DtoMetaData {
         if ($beanDesc->hasConstant($columnNameKey)) {
             $columnName = $beanDesc->getConstant($columnNameKey);
         }
-        //$valueType = ValueTypes::getValueType($propertyDesc->getPropertyType());
         $valueType = $propertyDesc->getPropertyType();
         return new PropertyTypeImpl($propertyDesc, $valueType, $columnName);
     }
 
     protected function addPropertyType(PropertyType $propertyType) {
         $this->propertyTypes_[$propertyType->getPropertyName()] = $propertyType;
-        //$this->propertyTypes_->put($propertyType->getPropertyName(), $propertyType);
     }
 }
 ?>

@@ -1,14 +1,11 @@
 <?php
 
-//require_once "org/seasar/framework/util/OgnlUtil.class.php";
-
 /**
  * @author nowel
  */
 class ParenBindVariableNode extends AbstractNode {
 
     private $expression_ = "";
-
     private $parsedExpression_ = null;
 
     public function __construct($expression) {

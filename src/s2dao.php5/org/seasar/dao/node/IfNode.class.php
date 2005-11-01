@@ -1,9 +1,7 @@
 <?php
 
-//require_once "org/seasar/framework/util/OgnlUtil.class.php";
-
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class IfNode extends ContainerNode {
 

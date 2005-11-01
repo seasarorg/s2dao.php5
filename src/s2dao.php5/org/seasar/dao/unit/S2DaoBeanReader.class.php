@@ -1,28 +1,12 @@
-package org.seasar.dao.unit;
+<?php
 
-import java.sql.DatabaseMetaData;
+/**
+ * @author nowel
+ */
+class S2DaoBeanReader implements DataReader {
 
-import org.seasar.dao.BeanMetaData;
-import org.seasar.dao.Dbms;
-import org.seasar.dao.RelationPropertyType;
-import org.seasar.dao.dbms.DbmsManager;
-import org.seasar.dao.impl.BeanMetaDataImpl;
-import org.seasar.extension.dataset.ColumnType;
-import org.seasar.extension.dataset.DataReader;
-import org.seasar.extension.dataset.DataRow;
-import org.seasar.extension.dataset.DataSet;
-import org.seasar.extension.dataset.DataTable;
-import org.seasar.extension.dataset.impl.DataSetImpl;
-import org.seasar.extension.dataset.states.RowStates;
-import org.seasar.extension.dataset.types.ColumnTypes;
-import org.seasar.extension.jdbc.PropertyType;
-import org.seasar.framework.beans.PropertyDesc;
-
-public class S2DaoBeanReader implements DataReader {
-
-	private DataSet dataSet_ = new DataSetImpl();
-
-	private DataTable table_ = dataSet_.addTable("S2DaoBean");
+	private $dataSet_ = new DataSetImpl();
+	private $table_ = dataSet_.addTable("S2DaoBean");
 
 	protected S2DaoBeanReader() {
 	}
@@ -88,3 +72,4 @@ public class S2DaoBeanReader implements DataReader {
 	}
 
 }
+?>

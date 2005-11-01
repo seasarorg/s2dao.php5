@@ -29,9 +29,9 @@ class DaoMetaDataFactoryImpl implements DaoMetaDataFactory {
         }
         
         $dmd = new DaoMetaDataImpl($daoClass,
-                                    $this->dataSource_,
-                                    $this->statementFactory_,
-                                    $this->resultSetFactory_);
+                                   $this->dataSource_,
+                                   $this->statementFactory_,
+                                   $this->resultSetFactory_);
         $this->daoMetaDataCache_->put($key, $dmd);
         
         return $dmd;
