@@ -11,7 +11,7 @@ class IfNode extends ContainerNode {
 
     public function __construct($expression) {
         $this->expression_ = $expression;
-        $this->parsedExpression_ = OgnlUtil::parseExpression($expression);
+        $this->parsedExpression_ = EvalUtil::getExpression($expression);
     }
 
     public function getExpression() {
@@ -27,7 +27,9 @@ class IfNode extends ContainerNode {
     }
 
     public function accept(CommandContext $ctx) {
-        $result = OgnlUtil::getValue($this->parsedExpression_, $ctx);
+        //$result = getValue($this->parsedExpression_, $ctx);
+        $result = eval($this->parsedExpression_);
+        var_dump($ctx);
 
         if (is_bool($result)) {
             if ( $result == true ) {

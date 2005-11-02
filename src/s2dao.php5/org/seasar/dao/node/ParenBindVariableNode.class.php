@@ -10,7 +10,7 @@ class ParenBindVariableNode extends AbstractNode {
 
     public function __construct($expression) {
         $this->expression_ = $expression;
-        $this->parsedExpression_ = OgnlUtil::parseExpression($expression);
+        $this->parsedExpression_ = EvalUtil::getExpression($expression);
     }
 
     public function getExpression() {
@@ -18,7 +18,10 @@ class ParenBindVariableNode extends AbstractNode {
     }
 
     public function accept(CommandContext $ctx) {
-        $value = OgnlUtil::getValue($this->parsedExpression_, $ctx);
+        //$value = getValue($this->parsedExpression_, $ctx);
+        $value = eval($this->parsedExpression_);
+        var_dump($ctx);
+        
         if ($value instanceof ArrayList) {
             $this->bindArray($ctx, $value->toArray());
         } else if ($value == null) {
