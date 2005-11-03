@@ -4,9 +4,9 @@
  * @author nowel
  */
 class BeanListMetaDataResultSetHandler extends AbstractBeanMetaDataResultSetHandler {
-    
-    const FETCH = DB_FETCHMODE_ARRAY;
 
+    const FETCH_MODE = DB_FETCHMODE_ASSOC;
+    
     public function __construct(BeanMetaData $beanMetaData) {
         parent::__construct($beanMetaData);
     }
@@ -14,13 +14,13 @@ class BeanListMetaDataResultSetHandler extends AbstractBeanMetaDataResultSetHand
     public function handle($rs){
         $list = new ArrayList();
 
-        while($row = $rs->fetchRow(self::FETCH)){
+        $beanMetaData = $this->getBeanMetaData();
+        while($row = $rs->fetchRow(self::FETCH_MODE)){
             $columns = array_keys($row);
-            $cls = $this->getBeanMetaData()->getBeanClass()->newInstance();
+            $cls = $beanMetaData->getBeanClass()->newInstance();
             
-            for($i = 0; $i < count($columns); $i++){
-                $value = $row[$i];
-                $pt = $this->getBeanMetaData()->getPropertyType($i);
+            foreach($row as $column => $value){
+                $pt = $beanMetaData->getPropertyTypeByColumnName($column);
 
                 if($pt === null){
                     continue;

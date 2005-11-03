@@ -11,7 +11,7 @@ class IfNode extends ContainerNode {
 
     public function __construct($expression) {
         $this->expression_ = $expression;
-        $this->parsedExpression_ = EvalUtil::getExpression($expression);
+        $this->parsedExpression_ = quotemeta($expression);
     }
 
     public function getExpression() {
@@ -27,9 +27,11 @@ class IfNode extends ContainerNode {
     }
 
     public function accept(CommandContext $ctx) {
-        //$result = getValue($this->parsedExpression_, $ctx);
-        $result = eval($this->parsedExpression_);
-        var_dump($ctx);
+        //preg_match("/^(\w+)\s+.*/i", $this->parsedExpression_, $match);
+        $expression = preg_replace("/^(\w+)(\s+.*)/i",
+                        "\$ctx->getArg(\"\\1\")" . "\\2", $this->parsedExpression_);
+        $expression = EvalUtil::getExpression($expression);
+        $result = eval($expression);
 
         if (is_bool($result)) {
             if ( $result == true ) {

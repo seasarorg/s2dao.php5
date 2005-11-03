@@ -10,7 +10,7 @@ class ParenBindVariableNode extends AbstractNode {
 
     public function __construct($expression) {
         $this->expression_ = $expression;
-        $this->parsedExpression_ = EvalUtil::getExpression($expression);
+        $this->parsedExpression_ = quotemeta($expression);
     }
 
     public function getExpression() {
@@ -18,16 +18,17 @@ class ParenBindVariableNode extends AbstractNode {
     }
 
     public function accept(CommandContext $ctx) {
-        //$value = getValue($this->parsedExpression_, $ctx);
-        $value = eval($this->parsedExpression_);
-        var_dump($ctx);
+        $expression = preg_replace("/^(\w+)(\s+.*)/i",
+                        "\$ctx->getArg(\"\\1\")" . "\\2", $this->parsedExpression_);
+        $expression = EvalUtil::getExpression($expression);
+        $result = eval($expression);
         
         if ($value instanceof ArrayList) {
             $this->bindArray($ctx, $value->toArray());
         } else if ($value == null) {
             return;
         } else if (is_array($value)) {
-            $this->bindArray(ctx, $value);
+            $this->bindArray($ctx, $value);
         } else {
             $ctx->addSql("?", $value, get_class($value));
         }
