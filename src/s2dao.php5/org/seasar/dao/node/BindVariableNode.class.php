@@ -38,7 +38,11 @@ class BindVariableNode extends AbstractNode {
 //            $clazz = $pd->getPropertyType();
 //        }
 
-        settype($value, $clazz);
+        if($value != null && $clazz != null){
+            settype($value, $clazz);
+        } else {
+            //settype($value, 'null');
+        }
         $ctx->addSql("?", $value, $clazz);
     }
 }

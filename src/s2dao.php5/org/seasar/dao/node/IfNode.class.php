@@ -27,14 +27,13 @@ class IfNode extends ContainerNode {
     }
 
     public function accept(CommandContext $ctx) {
-        //preg_match("/^(\w+)\s+.*/i", $this->parsedExpression_, $match);
         $expression = preg_replace("/^(\w+)(\s+.*)/i",
                         "\$ctx->getArg(\"\\1\")" . "\\2", $this->parsedExpression_);
         $expression = EvalUtil::getExpression($expression);
         $result = eval($expression);
 
         if (is_bool($result)) {
-            if ( $result == true ) {
+            if ( $result === true ) {
                 parent::accept($ctx);
                 $ctx->setEnabled(true);
             } else if ($this->elseNode_ != null) {
