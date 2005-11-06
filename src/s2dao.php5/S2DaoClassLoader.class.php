@@ -175,8 +175,6 @@ class S2DaoClassLoader {
             "/org/seasar/extension/db/StatementFactory.class.php",
         "ResultSetFactory" =>
             "/org/seasar/extension/db/ResultSetFactory.class.php",
-        "FieldUtil" =>
-            "/org/seasar/framework/util/FieldUtil.class.php",
         "ArrayList" =>
             "/org/seasar/dao/util/ArrayList.class.php",
         "HashMap" =>

@@ -34,41 +34,30 @@ abstract class AbstractBatchAutoHandler extends AbstractAutoHandler {
                 $this->preUpdateBean($beans[$i]);
                 $this->setupBindVariables($beans[$i]);
 
-//                if($this->getLogger()->isDebugEnabled()){
-//                    $this->getLogger()->debug(
-//                        $this->getCompleteSql($this->getBindVariables())
-//                    );
-//                }
+                if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
+                    $this->getLogger()->debug(
+                        $this->getCompleteSql($this->getBindVariables())
+                    );
+                }
 
                 $this->bindArgs($ps, $this->getBindVariables(),
                                 $this->getBindVariableTypes());
                 $this->postUpdateBean($beans[$i]);
-                $res = $connection->execute($ps, $this->getBindVariables());
-                var_dump($this->getCompleteSql($this->getBindVariables()));
+                $result = $connection->execute($ps, $this->getBindVariables());
             }
             
-            if(DB::isError($res)){
-                //$this->log_->error($result->getMessage(), __METHOD__);
-                //$this->log_->error($result->getDebugInfo(), __METHOD__);
-                var_dump($res->getMessage());
-                var_dump($res->getDebuginfo());
+            if(DB::isError($result)){
+                $this->getLogger()->error($result->getMessage(), __METHOD__);
+                $this->getLogger()->error($result->getDebugInfo(), __METHOD__);
                 $connection->disconnect();
-                exit;
+                throw new Exception();
             }
 
-            if($res == DB_OK){
-                return $connection->affectedRows();
+            if($result == DB_OK){
+                $ret = $connection->affectedRows();
             }
 
-            /*
-            $ret = array();
-            while($row = $res->fetchRow()){
-                array_push($ret, $resultSetHandler->handle($row));
-            }
-            */
-            
-            $res->free();
-            $db->disconnect();
+            $connection->disconnect();
             return $ret;
         } else {
             throw new Exception( get_class($args) );

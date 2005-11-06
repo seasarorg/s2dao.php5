@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class ObjectResultSetHandler implements ResultSetHandler {
 
@@ -9,7 +9,6 @@ class ObjectResultSetHandler implements ResultSetHandler {
         //parent::__construct($beanClass);
 	}
 
-    /** @throws SQLException */
 	public function handle($rs) {
 		if ($rs->next()) {
 			$rsmd = $rs->getMetaData();

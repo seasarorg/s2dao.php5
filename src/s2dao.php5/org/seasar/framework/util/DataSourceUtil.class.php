@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 final class DataSourceUtil {
 
@@ -12,7 +12,6 @@ final class DataSourceUtil {
 		try {
 			return $dataSource->getConnection();
 		} catch (Exception $ex) {
-			//throw new SQLRuntimeException($ex);
 			throw $ex;
 		}
 	}

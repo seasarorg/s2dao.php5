@@ -1,17 +1,7 @@
 <?php
 
-//import java.io.File;
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.io.UnsupportedEncodingException;
-//import java.net.URL;
-//import java.net.URLDecoder;
-//import java.util.Properties;
-
-//import org.seasar.framework.exception.IORuntimeException;
-
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 final class ResourceUtil {
 
@@ -32,12 +22,6 @@ final class ResourceUtil {
 		return str_replace(".", "/", $path) . $extension;
 	}
 	
-    /*
-	public static ClassLoader getClassLoader() {
-		return Thread.currentThread().getContextClassLoader();
-	}
-    */
-
 	public static function getResource($path, $extension = null) {
         if( $extension == null ){
 		    return self::getResource($path, "");
@@ -56,22 +40,10 @@ final class ResourceUtil {
 		    return $this->getResourceNoException(path, "");
         } else {
 		    $path = $this->getResourcePath($path, $extension);
-		    //return getClassLoader().getResource(path);
             require_once ($path);
 	    }
     }
 	
-    /*
-	public static InputStream getResourceAsStream(String path) {
-		return getResourceAsStream(path, null);
-	}
-		
-	public static InputStream getResourceAsStream(String path, String extension) {
-		URL url = getResource(path, extension);
-		return URLUtil.openStream(url);
-	}
-    */
-
 	public static function isExist($path) {
 		return $this->getResourceNoException($path) != null;
 	}

@@ -17,7 +17,6 @@ abstract class AbstractDynamicCommand extends AbstractSqlCommand {
 
     public function setSql($sql) {
         parent::setSql($sql);
-
         $sqlparser = new SqlParserImpl($sql);
         $this->rootNode_ = $sqlparser->parse();
     }

@@ -4,6 +4,6 @@
  * @author nowel
  */
 interface SelectHandler {
-    public function execute( $element, $args = null, $argTypes = null );
+    public function execute($element, $args = null, $argTypes = null);
 }
 ?>

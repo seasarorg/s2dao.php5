@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 final class DatabaseMetaDataUtil {
 
@@ -25,7 +25,6 @@ final class DatabaseMetaDataUtil {
 			$tableName = substr($tableName, $index + 1);
 		}
 		$convertedTableName = self::convertIdentifier($dbMetaData, $tableName); 
-		//$set = new CaseInsensitiveSet();
         $set = new ArrayList();
 		self::addPrimaryKeys($dbMetaData,
                               self::convertIdentifier($dbMetaData, $schema),

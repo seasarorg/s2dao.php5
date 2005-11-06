@@ -21,7 +21,7 @@ class BasicSelectHandler extends BasicHandler implements SelectHandler {
                                  $statementFacotry = null,
                                  $resultSetFacotry = null) {
 
-        //self::$logger_ = Logger.getLogger(__CLASS__);
+        self::$logger_ = S2Logger::getLogger(__CLASS__);
         $this->setDataSource($dataSource);
         $this->setSql($sql);
         $this->setResultSetHandler($resultSetHandler);
@@ -103,7 +103,9 @@ class BasicSelectHandler extends BasicHandler implements SelectHandler {
         $this->bindArgs($ps, $element, $args);
         
         $result = $connection->execute($ps, $element);
-        var_dump($this->getCompleteSql($element));
+        if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
+            self::$logger_->debug($this->getCompleteSql($element));
+        }
         
         if ($this->resultSetHandler_ == null) {
             throw new EmptyRuntimeException("resultSetHandler");

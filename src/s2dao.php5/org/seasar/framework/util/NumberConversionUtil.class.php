@@ -1,9 +1,7 @@
 <?php
-//import java.math.BigDecimal;
-//import java.math.BigInteger;
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 final class NumberConversionUtil {
 

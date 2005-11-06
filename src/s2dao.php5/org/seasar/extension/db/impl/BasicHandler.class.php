@@ -1,14 +1,12 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 class BasicHandler {
 
 	private $dataSource_;
-
 	private $sql_;
-
 	private $statementFactory_ = null;
 
 	public function __construct(DataSource $ds, $sql, $statementFactory = null) {
@@ -69,7 +67,6 @@ class BasicHandler {
         return $args;
 		for ($i = 0; $i < count($args); ++$i) {
 			try {
-                
                 $pos = 0;
                 $buf = $this->sql_;
                 foreach($args as $value){
@@ -80,7 +77,6 @@ class BasicHandler {
                         break;
                     }
                 }
-
 		        return $buf;
                 //return $args;
                 //$ps->bindParam($i + 1, $args[$i], $argTypes[$i]);
@@ -108,7 +104,6 @@ class BasicHandler {
         if ($args == null || !is_array($args)) {
 			return $this->sql_;
 		}
-
         $pos = 0;
         $buf = $this->sql_;
         foreach($args as $value){
@@ -119,7 +114,6 @@ class BasicHandler {
                 break;
             }
         }
-
 		return $buf;
 	}
 

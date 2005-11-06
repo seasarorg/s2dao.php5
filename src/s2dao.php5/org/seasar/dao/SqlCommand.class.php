@@ -1,10 +1,9 @@
 <?php
 
 /**
- * @author Yusuke Hata
+ * @author nowel
  */
 interface SqlCommand {
-
     public function execute($args);
 }
 
