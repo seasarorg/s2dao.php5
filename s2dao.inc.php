@@ -50,8 +50,22 @@ if( function_exists("__autoload") ){
     exit("sorry. is already __autoload()");
 }
 
+// when beta2
+function unsetS2ContainerClsLoderKey($key){
+    if(isset(S2ContainerClassLoader::$CLASSES[$key])){
+        unset(S2ContainerClassLoader::$CLASSES[$key]);
+    }
+}
+
 /** __autoload function */
 if( class_exists("S2ContainerClassLoader") && class_exists("S2DaoClassLoader") ){
+
+    // unset
+    unsetS2ContainerClsLoderKey("DaoMetaData");
+    unsetS2ContainerClsLoderKey("DaoMetaDataImpl");
+    unsetS2ContainerClsLoderKey("DaoMetaDataFactory");
+    unsetS2ContainerClsLoderKey("DaoMetaDataFactoryImpl");
+    unsetS2ContainerClsLoderKey("SqlCommand");
     
     function __autoload($class = null){
         if( S2ContainerClassLoader::load($class) ){
