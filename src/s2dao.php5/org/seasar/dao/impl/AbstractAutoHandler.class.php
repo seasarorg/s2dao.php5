@@ -76,45 +76,40 @@ abstract class AbstractAutoHandler extends BasicHandler implements UpdateHandler
     }
 
     public function execute($args, $arg2 = null) {
-//        if( is_object($args) && !is_array($args) && $arg2 != null ){
-//            $this->preUpdateBean($arg2);
-//            $this->setupBindVariables($arg2);
-//            /*
-//            if (self::$logger_->isDebugEnabled()) {
-//                self::$logger_->debug($this->getCompleteSql($this->bindVariables_));
-//            }
-//          */
-//            //$ps = $this->prepareStatement($args);
-//            $ret = -1;
-//
-//            $this->bindArgs($ps, $this->bindVariables_, $this->bindVariableTypes_);
-//          $ret = $args->execute($arg2);
-//            //StatementUtil::close($ps);
-//
-//            $this->postUpdateBean($arg2);
-//            return $ret;
-//        } else if( isset($args, $arg2) && is_array($arg2) ){
-//            return $this->execute($args);
-//        } else {
-//            $connection = $this->getConnection();
-//            //$ret = $this->execute($connection, $args[0]);
-//            
-//            $this->preUpdateBean($args);
-//            $this->setupBindVariables($args);
-//            
-//            $ps = $this->prepareStatement($connection);
-//            $ret = -1;
-//
-//            $this->bindArgs($ps, $this->bindVariables_, $this->bindVariableTypes_);
-//            
-//            $ret = $ps->execute();
-//
-//            $ps->close();
-//            
-//            $this->postUpdateBean($args);
-//            $connection->disconnect();
-//            return $ret;
-//        }
+        $args = $args[0];
+        $connection = $this->getConnection();
+        $connection->setFetchMode(DB_FETCHMODE_ASSOC);
+
+        $ps = $this->prepareStatement($connection);
+
+        $this->preUpdateBean($args);
+        $this->setupBindVariables($args);
+
+        if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
+            $this->getLogger()->debug(
+                $this->getCompleteSql($this->bindVariables)
+            );
+        }
+            
+        $this->bindArgs($ps, $this->bindVariables_, $this->bindVariableTypes_);
+        
+        $ret = -1;
+        $result = $connection->execute($ps, $this->bindVariables_);
+
+        if(DB::isError($result)){
+            $this->getLogger()->error($result->getMessage(), __METHOD__);
+            $this->getLogger()->error($result->getDebugInfo(), __METHOD__);
+            $connection->disconnect();
+            throw new Exception();
+        }
+
+        if($result == DB_OK){
+            $ret = $connection->affectedRows();
+        }
+
+        $this->postUpdateBean($args);
+        $connection->disconnect();
+        return $ret;
     }
 
     protected function preUpdateBean($bean) {

@@ -6,7 +6,7 @@
 class DeleteAutoHandler extends AbstractAutoHandler {
 
     public function __construct(DataSource $dataSource,
-                                StatementFactory $statementFactory,
+                                $statementFactory,
                                 BeanMetaData $beanMetaData,
                                 $propertyTypes) {
 

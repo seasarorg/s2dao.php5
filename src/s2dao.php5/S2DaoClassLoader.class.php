@@ -55,7 +55,7 @@ class S2DaoClassLoader {
             "/org/seasar/dao/impl/UpdateBatchAutoStaticCommand.class.php",
         "UpdateAutoStaticCommand" =>
             "/org/seasar/dao/impl/UpdateAutoStaticCommand.class.php",
-        "DeleteAutoHandler",
+        "DeleteAutoHandler" =>
             "/org/seasar/dao/impl/DeleteAutoHandler.class.php",
         "DeleteAutoStaticCommand" =>
             "/org/seasar/dao/impl/DeleteAutoStaticCommand.class.php",
