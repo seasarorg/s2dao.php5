@@ -25,6 +25,16 @@
 
 <h1>セットアップ</h1>
 
+    <h3><a name="SetUp">セットアップ</a></h3>
+        <p>Seasar2と同様にJDK1.4以上が必要です。S2DaoVx.x.x.zipを解凍してできたs2daoディレクトリをEclipseで、
+        ｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。
+        これで、私と全く同じ環境になります。src/examples配下にサンプルもあります。</p>
+        <p> S2Daoとして必要なjarファイルは、s2dao/libにそろってます。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
+        機能を試す前にあらかじめHSQLDBを実行しておいてください。HSQLDBを実行するには、bin/runHsqldb.batをダブルクリック(Windowsの場合)します。
+        lib/hsqldb.jarはHSQLDBを実行する上では必要ですが、本番では必要ありません。
+        libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon、dao.dicon、log4j.propertiesをCLASSPATHにとおせば、S2Daoを実行できます。
+        Eclipseにインポートして使う場合は設定は不要です。</p>
+
 <!-- document end -->
 <!-- don't edit start -->
 </td>
