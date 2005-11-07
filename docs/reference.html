@@ -26,7 +26,7 @@
 	<ul>
 		<li><a href="#reference">S2Daoリファレンス</a>
         	<ul>
-				<li><a href="#SetUp">セットアップ</a></li>
+				<!-- <li><a href="#SetUp">セットアップ</a></li> -->
                 <li><a href="#DaoMakeFile">作成すべきファイル</a></li>
                 	<ul>
                 		<li type="circle"><a href="#Beans">Beans</a></li>
@@ -34,11 +34,11 @@
 								<li><a href="#TableAnnotation">TABLEアノテーション</a></li>
 								<li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
 
-								<li><a href="#N1Mapping">N:1マッピング</a></li>
-								<li><a href="#IDAutoGenerate">IDの自動生成</a></li>
-								<li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
-								<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
-								<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
+								<!-- <li><a href="#N1Mapping">N:1マッピング</a></li> -->
+								<!-- <li><a href="#IDAutoGenerate">IDの自動生成</a></li> -->
+								<!-- <li><a href="#NoPersistentColumns">永続化されないカラム</a></li> -->
+								<!-- <li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li> -->
+								<!-- <li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li> -->
 								<li><a href="#property">カラムに対応するプロパティの宣言</a></li>
 
 								<li><a href="#GetterSetterMethod">getter/setterメソッドの実装</a></li>
@@ -47,7 +47,7 @@
 							<ul>
 								<li><a href="#BeanAnnotation">BEANアノテーション</a></li>
 								<li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
-								<li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
+								<!-- <li><a href="#QueryAnnotation">QUERYアノテーション</a></li>-->
 
 								<li><a href="#DefMethod">メソッドの定義</a></li>
 								<li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
@@ -113,14 +113,10 @@
 		Beansにテーブルの関連付けを行うには、以下の定数宣言とメソッドの実装が必要になります。</p>
 
 		<ul>
-		<li>テーブルとの関連付けの定数宣言</li>
-			(<a href="#TableAnnotation">TABLEアノテーション</a>)
-		<li>カラムとの関連付けの定数宣言</li>
-			(<a href="#ColumnAnnotation">COLUMNアノテーション</a>)
-		<li>別テーブルと結合する場合はキーとなる定数宣言</li>
-
-			(<a href="#N1Mapping">N:1マッピング</a>)
-		<li><a href="#IDAutoGenerate">IDの自動生成</a></li>
+		<li>テーブルとの関連付けの定数宣言 (<a href="#TableAnnotation">TABLEアノテーション</a>)</li>
+		<!-- <li>カラムとの関連付けの定数宣言 (<a href="#ColumnAnnotation">COLUMNアノテーション</a>)</li> -->
+		<!-- <li>別テーブルと結合する場合はキーとなる定数宣言 (<a href="#N1Mapping">N:1マッピング</a>)</li>-->
+		<!-- <li><a href="#IDAutoGenerate">IDの自動生成</a></li> -->
 		<li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
 		<li><a href="#property">カラムに対応するプロパティの宣言</a><il>
 		<li><a href="#GetterSetterMethod">getter/setterメソッドの実装</a></li>
@@ -146,15 +142,15 @@
 			<tr>
 			  <td>ENAME</td>
 			  <td>VARCHAR</td>
-			  <td><br /></td>
-			  <td><br /></td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
 			</tr>
 			<tr>
 
 			  <td>DEPTNUM</td>
 			  <td>NUMBER</td>
-			  <td><br /></td>
-			  <td><br /></td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
 			</tr>
 		</table>
 	   <br />
@@ -178,29 +174,31 @@
 
 			  <td>DNAME</td>
 			  <td>VARCHAR</td>
-			  <td><br /></td>
-			  <td><br /></td>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
 			</tr>
 		</table>
     <h5><a name="TableAnnotation">TABLEアノテーション</a></h5>
 
     	<p>テーブルとの関連付けはTABLEアノテーションを使用します。
 		TABLEアノテーションは以下の形式で定数を宣言します。</p>
-		<p> -  public static final String TABLE = “<span class="italic">テーブル名</span>”;</p>
+		<p> -  const TABLE = “<span class="italic">テーブル名</span>”;</p>
 		<p>EMPテーブルの場合以下のようになります。</p>
-		<pre>public static final String TABLE = "EMP";</pre>
-		<p>スキーマの定義をすることも可能です。スキーマ名が"SCOTT"の場合は以下のようになります。</p>
-
+		<pre>const TABLE = "EMP";</pre>
+        
+		<!--
+        <p>スキーマの定義をすることも可能です。スキーマ名が"SCOTT"の場合は以下のようになります。</p>
 		<pre>public static final String TABLE = "SCOTT.EMP";</pre>
     	※クラス名からパッケージ名を除いた名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。
-
+        -->
+     <!--
      <h5><a name="ColumnAnnotation">COLUMNアノテーション</a></h5>
     	<p>テーブルのカラムとの関連付けはCOLUMNアノテーションを使用します。<br />
 		COLUMNアノテーションは以下の形式で定数を宣言します。</p>
-		<p>-  public static final String <span class="italic">プロパティ名</span>_COLUMN = "<span class="italic">カラム名</span>";</p>
+		<p> -  const <span class="italic">プロパティ名</span>_COLUMN = "<span class="italic">カラム名</span>";</p>
 
 		employeeNoというプロパティにEMPNOカラムを関連付けする場合以下のようになります。
-		<pre>public static final String employeeNo_COLUMN = "EMPNO";</pre>
+		<pre>const employeeNo_COLUMN = "EMPNO";</pre>
     	※プロパティ名とカラム名が一致する場合は、COLUMNアノテーションを定義する必要はありません。
 		テーブルに存在しないプロパティは、自動的に無視されるので、特に何か定義する必要はありません。
 
@@ -209,133 +207,120 @@
 		 N:1マッピングを使用するには、RELNO定数とRELKEYS定数をそれぞれ宣言する必要があります。<br />
 	     RELNO定数は以下の形式になります。</p>
 
-		<p>-  public static final int <span class="italic">プロパティ名</span>_RELNO = <span class="italic">数値</span>;</p>
+		<p> - const <span class="italic">プロパティ名</span>_RELNO = <span class="italic">数値</span>;</p>
 		<p>RELNO定数は、N:1マッピングの連番です。<br />
 		例えば、AAAのテーブルにBBB,CCCのテーブルがN:1マッピングされるとするとBBBのRELNOは0、CCCのRELNOは1になります。 <br />
 		RELNOは結果セットに含まれているカラムが、どのテーブルに所属しているのかを判定することに使われます。<br />
 		例えば、SELECT ..., BBB.HOGE AS HOGE_0, ... FROM AAA, BBB ...のようなSELECT文があった場合、 HOGE_0はBBBテーブルに含まれているHOGEカラムであると認識されます。<br />
 
 		RELKEYS定数は以下の形式になります。</p>
-		<p>-  public static final String <span class="italic">プロパティ名</span>_RELKEYS = "<span class="italic">N側のテーブルのカラム名: 1側のテーブルのカラム名</span>";</p>
+		<p> - const <span class="italic">プロパティ名</span>_RELKEYS = "<span class="italic">N側のテーブルのカラム名: 1側のテーブルのカラム名</span>";</p>
 		<p>N:1マッピングのキーはRELKEYS定数で指定します。
 		キーが複数ある場合には、カンマ( , )で区切ります。例えば、mykey1:yourkey1, mykey2:yourkey2のようにします。<br />
 		EMPテーブルのDEPTNUMカラムとDEPTテーブルのDEPTNOを関連付ける場合は以下のようになります。</p>
 <pre>
-
-public static final int department_RELNO = 0;
-public static final String department_RELKEYS = "DEPTNUM:DEPTNO";
+const department_RELNO = 0;
+const department_RELKEYS = "DEPTNUM:DEPTNO";
 </pre>
 		<p>1側のテーブルのカラム名がN側のテーブルのカラム名に等しい場合は、1側のテーブルのカラム名を省略することができます。
 		その場合以下のように定義することが出来ます。</p>
-<pre>public static final String department_RELKEYS = "DEPTNO";</pre>
+<pre>const department_RELKEYS = "DEPTNO";</pre>
 		<p>また1側のテーブルのカラム名とN側のテーブルのカラム名に等しく、1側のテーブルのカラム名がプライマリーキーの場合、RELKEYS定数を省略することができます。</p>
 
 	<h5><a name="IDAutoGenerate">IDの自動生成</a></h5>
 	<p>ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。そのために使うのが、IDアノテーションです。IDアノテーションは、プロパティ名_ID = &quot;identity&quot;のように指定します。 </p>
 
-<pre>public static final String id_ID = "identity";</pre>
+<pre>const id_ID = "identity";</pre>
 	<p>SEQUENCEを使うことも出来ます。myseqの部分は、実際のSEQUENCEに置き換えてください。</p>
-<pre>
-public static final String id_ID = "sequence, sequenceName=myseq";
-</pre>
+<pre>const id_ID = "sequence, sequenceName=myseq";</pre>
 	<p>手動でIDを設定する場合は、何も指定する必要がありません。テーブルのプライマリーキーだという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。また、明示的にassignedを指定することもできます。</p>
-<pre>
-public static final String id_ID = "assigned";
-</pre>
+<pre>const id_ID = "assigned";</pre>
+
 	<h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
 
 	<p>カラムが永続化の対象かどうかという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。また、明示的にNO_PERSISTENT_PROPSを使って永続化したくないカラムを指定することもできます。NO_PERSISTENT_PROPSに空文字を指定するとJDBCのメタデータのメタデータを使わずにすべてのプロパティを永続化の対象とみなします。</p>
-<pre>
-public static final String NO_PERSISTENT_PROPS = "dummy1, dummy2";
-</pre>
+<pre>const NO_PERSISTENT_PROPS = "dummy1, dummy2";</pre>
 
 <h5><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h5>
 <p><a href="#VersionNo">versionNo</a>による排他制御用のプロパティ名をデフォルトのversionNoから変えるときに使うのがVERSION_NO_PROPERTYアノテーションです。次のように使います。</p>
-<pre>public static final String VERSION_NO_PROPERTY = "myVersionNo";</pre>
+<pre>const VERSION_NO_PROPERTY = "myVersionNo";</pre>
 
 <h5><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h5>
 
 <p><a href="#Timestamp">timestamp</a>による排他制御用のプロパティ名をデフォルトのtimestampから変えるときに使うのがTIMESTAMP_PROPERTYアノテーションです。次のように使います。</p>
-<pre>public static final String TIMESTAMP_PROPERTY = "myTimestamp";</pre>
-
+<pre>const TIMESTAMP_PROPERTY = "myTimestamp";</pre>
+-->
 	<h5><a name="property">カラムに対応するプロパティの宣言</a></h5>
      	<p>テーブルのカラムに対応した変数を宣言します。</p>
-     	NUMBER型のEMPNOというカラムの場合、以下のように宣言することができます。（関連：<a href="#ColumnAnnotation">COLUMNアノテーション</a>）
-<pre>private long empno;</pre>
+     	NUMBER型のEMPNOというカラムの場合、以下のように宣言することができます。
 
-	     <p>※カラムがNull可の場合、プリミティブ型を指定するとNullの際、0(ゼロ)が返されるのでNullを扱う場合は、
-	     ラッパークラス(intならjava.lang.Integer)を指定して下さい。</p>
+        <pre>private $empno;</pre>
+
      <h5><a name="GetterSetterMethod">getter/setterメソッド</a></h5>
     	<p>テーブルのカラムに対応した各プロパティのgetter/setterメソッドを実装します。メソッドの命名規則は以下の形式になります。</p>
 		getterメソッド
-		<p>-  public <span class="italic">型</span> get<span class="italic">プロパティ名</span>()</p>
+		<p> - public <span class="italic">function</span> get<span class="italic">プロパティ名</span>()</p>
 
 		setterメソッド
-		<p>-  public void set<span class="italic">プロパティ名(引数)</span></p>
+		<p> - public function set<span class="italic">プロパティ名(引数)</span></p>
 		private long empnoというプロパティの場合は以下のようになります。
 
-<pre>private long empno;
+<pre>private $empno;
 
-public long getEmpno() {
-    return empno;
+public function getEmpno() {
+    return $this-&gt;empno;
 }
 
-public void setEmpno(long empno) {
-    this.empno = empno;
+public function setEmpno($empno) {
+    $this-&gt;empno = $empno;
 }
 </pre>
 		<p>以上の設定を行ったEMPテーブルに関連付くBeansは次のようになります。</p>
 <pre>
-import java.io.Serializable;
+class Employee {
+    const TABLE = "EMP";
 
-public class Employee implements Serializable {
-    public static final String TABLE = "EMP";
+    private $empno;
 
-    public static final int department_RELNO = 0;
+    private $ename;
 
-    public static final String department_RELKEYS = "DEPTNUM:DEPTNO";
+    private $deptnum;
 
-    private long empno;
+    private $department;
 
-    private String ename;
-
-    private Short deptnum;
-
-    private Department department;
-
-    public Employee() {
+    public function Employee() {
     }
 
-    public Department getDepartment() {
-        return department;
+    public function getDepartment() {
+        return $this-&gt;department;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public function setDepartment(Department $department) {
+        $this-&gt;department = $department;
     }
 
-    public Short getDeptnum() {
-        return deptnum;
+    public function getDeptnum() {
+        return $this-&gt;deptnum;
     }
 
-    public void setDeptnum(Short deptnum) {
-        this.deptnum = deptnum;
+    public function setDeptnum($deptnum) {
+        $this-&gt;deptnum = $deptnum;
     }
 
-    public long getEmpno() {
-        return empno;
+    public function getEmpno() {
+        return $this-&gt;empno;
     }
 
-    public void setEmpno(long empno) {
-        this.empno = empno;
+    public function setEmpno($empno) {
+        $this-&gt;empno = $empno;
     }
 
-    public String getEname() {
-        return ename;
+    public function getEname() {
+        return $this-&gt;ename;
     }
 
-    public void setEname(String ename) {
-        this.ename = ename;
+    public function setEname($ename) {
+        $this-&gt;ename = $ename;
     }
 }
 </pre>
@@ -354,7 +339,7 @@ public class Employee implements Serializable {
 
 		<ul>
 			<li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
-			<li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
+			<!-- <li><a href="#QueryAnnotation">QUERYアノテーション</a></li> -->
 			<li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
 			<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
 			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
@@ -364,39 +349,42 @@ public class Employee implements Serializable {
     <h5><a name="BeanAnnotation">BEANアノテーション</a></h5>
 	    <p>DaoがどのBeans(エンティティ)に関連付けられているのかはBEANアノテーションで指定します。<br />
 		BEANアノテーションは以下の形式で定数を宣言します。</p>
-		<p>-  public static final Class BEAN = <span class="italic">Beans名</span>.class;</p>
+		<p> - const BEAN = "<span class="italic">Beans名</span>";</p>
 
 		<p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。 	</p>
-		<pre>public static final Class BEAN = Employee.class;</pre>
+		<pre>const BEAN = "Employee";</pre>
     <h5><a name="ArgsAnnotation">ARGSアノテーション</a></h5>
     	<p>メソッドの引数をSQL文で参照できるように、ARGSアノテーションを使用し、メソッドの引数名を指定します。メソッドの引数名は、リフレクションで取得できないためです。<br />
 		ARGSアノテーションは以下の形式で定数を宣言します。</p>
- 		<p>- public static final String <span class="italic">メソッド名</span>_ARGS = "<span class="italic">引数名</span>";</p>
+ 		<p> - const <span class="italic">メソッド名</span>_ARGS = "<span class="italic">引数名</span>";</p>
 
- 		 <p>public Employee getEmployee(int empno)というメソッドがDaoに定義されていた場合の引数名は次のように定義します。</p>
-		<pre>public static final String getEmployee_ARGS = "empno";</pre>
+ 		 <p>public function List_getEmployee($empno)というメソッドがDaoに定義されていた場合の引数名は次のように定義します。</p>
+		<pre>const List_getEmployee_ARGS = "empno";</pre>
 		<p>メソッドの引数がテーブルのカラム名に対応している場合、<span class="italic">引数名</span>にはテーブルのカラム名を指定します。例えば、メソッドの引数名がempnoで、テーブルのカラム名がemployeenoの場合は、employeenoを指定するということです。
 		引数が複数ある場合には、カンマで区切ります。引数が1つの場合、ARGSアノテーションは省略できます。</p>
+
+<!--
     <h5><a name="QueryAnnotation">QUERYアノテーション</a></h5>
 	    <p>自動的に生成されるSELECT文にWHERE句やORDER BY句を追加するには、QUERYアノテーションを使用します。<br />
 
 		QUERYアノテーションは以下の形式で定数を宣言します。</p>
-		<p>-  public static final String <span class="italic">メソッド名</span>_QUERY = "<span class="italic">WHERE句ORDER BY句</span>";</p>
+		<p> - const <span class="italic">メソッド名</span>_QUERY = "<span class="italic">WHERE句ORDER BY句</span>";</p>
 		<p>引数で給与の上限と下限を指定し、その間に含まれる従業員を抽出する場合、次のようにします。</p>
 <pre>
-public static final String getEmployeesBySal_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
+const getEmployeesBySal_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
 
-public List getEmployeesBySal(Float minSal, Float maxSal);
+public function List_getEmployeesBySal($minSal, $maxSal);
 </pre>
 		<p>上記例の“?”をバインド変数と言います。バインド変数をQUERYアノテーションに記述することにより、メソッドの引数の値が順に”?”の部分に代入されます。
 		ARGSアノテーションは、必要ありません。ORDER BY句だけを記述するときは、ORDER BYで始めてください。<a href="#SQLbind">SQLコメント</a>も記述することが出来ます。
 		SQLコメントを使用したサンプルは以下のとおりです。
 		</p>
 
-<pre>public static final String getEmployees_QUERY =
+<pre>const getEmployees_QUERY =
                       "job = /*job*/'CLERK'/*IF deptno != null*/ AND deptno = /*deptno*/20/*END*/";
 </pre>
         <p>上記サンプルは、引数deptnoがnullでない場合、deptnoが引数の値と一致するという条件を追加します。SQLコメントについての詳しい説明は、<a href="#SQLbind">SQLコメント</a>の項目を参照して下さい。</p>
+-->
 
 	<h5><a name="DefMethod">メソッドの定義</a></h5>
 	    <p>Daoに定義したメソッドを呼ぶことにより、対応するSQLファイルに記述されているSQLが実行されますが、
@@ -406,58 +394,70 @@ public List getEmployeesBySal(Float minSal, Float maxSal);
 		<ul>
 		<li>INSERT処理</li>
 
-		<p>INSERT処理を行なうメソッドの名前が、insert,add,createではじまる必要があります。戻り値はvoidあるいはintを指定してください。
-		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
+		<p>INSERT処理を行なうメソッドの名前が、insert,add,createではじまる必要があります。
+		更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 		メソッドの定義例は以下のようになります。</p>
-<pre>public void insert(Department department);
-public int addDept(Department department);
-public void createDept(Department department);
+<pre>public function insert(Department $department);
+public function addDept(Department $department);
+public function createDept(Department $department);
 </pre>
 		<li>UPDATE処理</li>
-		<p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。戻り値はvoidあるいはintです。
-		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
-メソッドの定義例は以下のようになります。</p>
+		<p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。
+		更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
+        メソッドの定義例は以下のようになります。</p>
 <pre>
-
-public int update(Department department);
-public int modifyDept(Department department);
-public void storeDept(Department department);
+public function update(Department $department);
+public function modifyDept(Department $department);
+public function storeDept(Department $department);
 </pre>
 		<li>DELETE処理</li>
-		<p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。戻り値はvoidあるいはintです。
+		<p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。
 		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 		メソッドの定義例は以下のようになります。</p>
 <pre>
-public void delete(Department department);
-public int removeDept(Department department);
+public function delete(Department $department);
+public function removeDept(Department $department);
 </pre>
 		<li>検索(SELECT)処理</li>
 
-		<p>検索処理を行ないたい場合は、戻り値の型を指定します。戻り値の型がjava.util.Listを実装している場合、SELECT文でエンティティのリストを返します。
-		戻り値がエンティティ型の配列である場合、エンティティ配列を返します。戻り値の型がエンティティの型の場合、エンティティを返します。
-		それ以外の場合、SELECT count(*) FROM empのように1行で1のカラムの値を返すというようにS2Daoは想定します。</p>
+		<p>検索処理を行ないたい場合は、メソッド名の最初が<span class="italic">List</span>または、<span class="italic">Array</span>である必要があります。</p>
+        
+        <p>Listで始まるメソッド名の場合は、SELECT文でエンティティのリスト(ArrayList形式)を返します。<br />
+           以下のように記述することができます。(ArrayListはS2Dao.PHP5の組み込みクラスです。)</p>
+        <pre>
+        public function List_getEmp();
+        public function list_getEmp();
+        </pre>
+
+		<p>Arrayで始まる場合は、エンティティ配列(ArrayObject)を返します。<br />
+            以下のように記述することができます。(ArrayObjectはPHP5から導入されたSPLです。)</p>
+        <pre>
+        public function Array_getEmp();
+        public function array_getEmp();
+        </pre>
 		</ul>
 
 	<h5><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h5>
 	<p>更新するときに、このプロパティは、SQLに含めて欲しくないという場合もあります。
 	そのような場合は、NO_PERSISTENT_PROPSアノテーションを使います。</p>
-	<pre>public static final String insert_NO_PERSISTENT_PROPS = "sal, comm";</pre>
+	<pre>const insert_NO_PERSISTENT_PROPS = "sal, comm";</pre>
 	<p>上記のように指定すると、insertメソッドで、salとcommプロパティは永続化の対象になりません。</p>
 
 	<h5><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h5>
 	<p>更新するときに、このプロパティだけをSQLに含めたいという場合もあります。
 	そのような場合は、PERSISTENT_PROPSアノテーションを使います。</p>
-	<pre>public static final String insert_PERSISTENT_PROPS = "deptno";</pre>
-	<p>上記のように指定すると、insertメソッドで、プライマリーキー、versionNo、timestampのプロパティに加えて、
+	<pre>const update_PERSISTENT_PROPS = "deptno";</pre>
+	<p>上記のように指定すると、updateメソッドで、プライマリーキー、versionNo、timestampのプロパティに加えて、
 	PERSISTENT_PROPSアノテーションで指定したプロパティが永続化の対象になります。</p>
  	<h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
-	<p>バージョン1.0.28より、SQLアノテーションを使用することが可能です。機能はSQLファイルと同様で、アノテーションにてSQL及びSQLコメントを使用することが可能です。</p>
+	<p>SQLアノテーションを使用することが可能です。<br />
+    機能はSQLファイルと同様で、アノテーションにてSQL及びSQLコメントを使用することが可能です。</p>
 
  	<p>SQLアノテーションに命名規則があります。</p>
  	<ul>
  	<li>SQLファイルとDaoに定義したメソッドの関連付け</li>
  	<p>SQLアノテーションとDaoに定義したメソッドの関連付けをするには、SQLアノテーションを以下の形式にする必要があります。</p>
- 	<p>-  <span class="italic">メソッド名</span>_SQL</p>
+ 	<p> - <span class="italic">メソッド名</span>_SQL</p>
  	examples.dao.EmployeeDao#getAllEmployees()に対応するSQLアノテーションは以下のようになります。
  	<pre>public static final String getAllEmployees_SQL = "SELECT
 emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
@@ -513,11 +513,11 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
     	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。
-    	diconファイルの詳しい設定方法については、<a href="DIContainer.html">DIContainer</a>を参照して下さい。</p>
+    	diconファイルの詳しい設定方法については、<a href="http://s2container.php5.sandbox.seasar.org/DIContainer.html">DIContainer</a>を参照して下さい。</p>
 		<h5>S2DaoInterceptorの適用</h5>
 
-    	<p>Dao機能を使用するにはorg.seasar.dao.interceptors.S2DaoInterceptorを登録したDaoに対してAOPを適用します。<br />
-    	AOPについては、<a href="aop.html">AOP</a>のページを参照して下さい。<br />
+    	<p>Dao機能を使用するには"/org/seasar/dao/interceptors/S2DaoInterceptor"を登録したDaoに対してAOPを適用します。<br />
+    	AOPについては、<a href="http://s2container.php5.sandbox.seasar.org/aop.html">AOP</a>のページを参照して下さい。<br />
     	以下はDao(example.dao.EmployeeDao)をコンポーネント登録するサンプル</p>
     	EmployeeDao.dicon
 <pre>
@@ -628,9 +628,9 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 		<p>引数名はDaoに設定したARGSアノテーションの値と揃える必要があります。
 		(ただし引数が一つの場合は、その制約はありません。)</p>
 <pre>
-public String getEmployee_ARGS = "empno";
+const getEmployee_ARGS = "empno";
 
-public Employee getEmployee(int empno);
+public function getEmployee($empno);
 </pre>
 
 		<p>Daoに上記のメソッドを定義した場合、SQLファイル(EmploeeDao_getEmployee.sql)は次のようにバインド変数を使用することが可能です。自動的にgetEmployeeメソッドの引数の値が設定されます。</p>
