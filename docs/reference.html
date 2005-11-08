@@ -364,14 +364,17 @@ public function List_getEmployeesBySal($minSal, $maxSal);
         <p>INSERT処理を行なうメソッドの名前が、insert,add,createではじまる必要があります。
         更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
         メソッドの定義例は以下のようになります。</p>
+
 <pre>public function insert(Department $department);
 public function addDept(Department $department);
 public function createDept(Department $department);
 </pre>
+
         <li>UPDATE処理</li>
         <p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。
         更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
         メソッドの定義例は以下のようになります。</p>
+
 <pre>
 public function update(Department $department);
 public function modifyDept(Department $department);
@@ -381,27 +384,32 @@ public function storeDept(Department $department);
         <p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。
         intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
         メソッドの定義例は以下のようになります。</p>
+
 <pre>
 public function delete(Department $department);
 public function removeDept(Department $department);
 </pre>
+
         <li>検索(SELECT)処理</li>
 
         <p>検索処理を行ないたい場合は、メソッド名の最初が<span class="italic">List</span>または、<span class="italic">Array</span>である必要があります。</p>
 
         <p>Listで始まるメソッド名の場合は、SELECT文でエンティティのリスト(ArrayList形式)を返します。<br />
            以下のように記述することができます。(ArrayListはS2Dao.PHP5の組み込みクラスです。)</p>
-        <pre>
-        public function List_getEmp();
-        public function list_getEmp();
-        </pre>
+
+<pre>
+public function List_getEmp();
+public function list_getEmp();
+</pre>
 
         <p>Arrayで始まる場合は、エンティティ配列(ArrayObject)を返します。<br />
             以下のように記述することができます。(ArrayObjectはPHP5から導入されたSPLです。)</p>
-        <pre>
-        public function Array_getEmp();
-        public function array_getEmp();
-        </pre>
+
+<pre>
+public function Array_getEmp();
+public function array_getEmp();
+</pre>
+
         </ul>
 
     <h5><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h5>
@@ -413,23 +421,28 @@ public function removeDept(Department $department);
     <h5><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h5>
     <p>更新するときに、このプロパティだけをSQLに含めたいという場合もあります。
     そのような場合は、PERSISTENT_PROPSアノテーションを使います。</p>
+
     <pre>const update_PERSISTENT_PROPS = "deptno";</pre>
+
     <p>上記のように指定すると、updateメソッドで、プライマリーキー、versionNo、timestampのプロパティに加えて、
     PERSISTENT_PROPSアノテーションで指定したプロパティが永続化の対象になります。</p>
+
     <h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
     <p>SQLアノテーションを使用することが可能です。<br />
     機能はSQLファイルと同様で、アノテーションにてSQL及びSQLコメントを使用することが可能です。</p>
 
+<!--
     <p>SQLアノテーションに命名規則があります。</p>
     <ul>
     <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
     <p>SQLアノテーションとDaoに定義したメソッドの関連付けをするには、SQLアノテーションを以下の形式にする必要があります。</p>
     <p> - <span class="italic">メソッド名</span>_SQL</p>
     examples.dao.EmployeeDao#getAllEmployees()に対応するSQLアノテーションは以下のようになります。
-    <pre>public static final String getAllEmployees_SQL = "SELECT
+
+<pre>public static final String getAllEmployees_SQL = "SELECT
 emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
  WHERE emp.deptno = dept.deptno ORDER BY emp.empno;";</pre>
-
+-->
     <li>複数DBMS対応</li>
     <p>DBMSごとに使用するSQLアノテーションを指定することができます。
     どのDBMSを使っているのかはjava.sql.DatabaseMetadata#getDatabaseProductName()に応じて、S2Daoが自動的に判断しています。
@@ -486,31 +499,38 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
         <p>Dao機能を使用するには"/org/seasar/dao/interceptors/S2DaoInterceptor"を登録したDaoに対してAOPを適用します。<br />
         AOPについては、<a href="http://s2container.php5.sandbox.seasar.org/aop.html">AOP</a>のページを参照して下さい。<br />
         以下はDao(example.dao.EmployeeDao)をコンポーネント登録するサンプル</p>
-        EmployeeDao.dicon
+
+        <p>EmployeeDao.dicon</p>
+
 <pre>
 &lt;components&gt;
     &lt;include path="dao.dicon"/&gt;
-
-    &lt;component class="example.dao.EmployeeDao"&gt;
-        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
+    &lt;component class="EmployeeDao"&gt;
+        &lt;aspect&gt;interceptor&lt;/aspect&gt;
     &lt;/component&gt;
 &lt;/components&gt;
 </pre>
-        dao.dicon
-<pre>
 
+        <p>dao.dicon</p>
+
+<pre>
 &lt;components namespace="dao"&gt;
-    &lt;include path="j2ee.dicon"/&gt;
-    &lt;component
-        class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-    &lt;component name="interceptor"
-        class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
+    &lt;component name="dataSource" class="PearDBDataSource"&gt;
+        &lt;property name="dsn"&gt;"mysql://root:pass@localhost/dbname"&lt;/property&gt;
+    &lt;/component&gt;
+    &lt;component class="PearDBSqlHandler"/&gt;
+    &lt;component name="dbtx" class="PearDBTxInterceptor"/&gt;
+    &lt;component name="session" class="DBSessionImpl"/&gt;
+    &lt;component class="DaoMetaDataFactoryImpl"/&gt;
+    &lt;component name="interceptor" class="S2DaoInterceptor"/&gt;
 &lt;/components&gt;
 </pre>
-        <p> &lt;component class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
-         org.seasar.dao.impl.DaoMetaDataFactoryImplも記述しておきます。</p>
 
-    <h4><a name="SQLfile">SQLファイル</a></h4>
+        <p>&lt;component class="DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
+         DaoMetaDataFactoryImplも記述しておきます。<br />
+         (※ S2Dao.PHP5 beta1 は PearDBDataSource のみサポートしています)</p>
+
+        <h4><a name="SQLfile">SQLファイル</a></h4>
         <p>検索、更新処理等を行うSQL文を記述します。
         Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
         作成したSQLファイルはDaoと同じ場所に配置してください。
@@ -522,7 +542,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 
         <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
         <p>作成したSQLファイルとDaoに定義したメソッドの関連付けをするには、SQLファイルのファイル名を以下の形式にする必要があります。</p>
-        <p>-  <span class="italic">Daoのクラス名</span>_<span class="italic">メソッド名</span>.sql</p>
+        <p> -  <span class="italic">Daoのクラス名</span>_<span class="italic">メソッド名</span>.sql</p>
         examples.dao.EmployeeDao#getAllEmployees()に対応するSQLファイルは以下のようになります。
         <pre>examples/dao/EmployeeDao_getAllEmployees.sql   </pre>
 
@@ -568,81 +588,98 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
             <tr>
                 <td>SQLite</td>
                 <td>sqlite</td>
-
             </tr>
         </table>
         </ul>
+
         <h5>SQL文の記述</h5>
         <p>SQLファイルには、”SELECT * FROM EMP”, “DELETE FROM EMP WHERE EMPNO = 7788”といった、普通のSQL文を記述することが可能です。
         また、WHERE句の条件の値などを動的に変化させることも可能です。詳しくは、<a href="#SQLbind">SQLコメント</a>を参照して下さい。</p>
 
-    <h3><a name="SQLBind">SQLコメント</a></h3>
+        <h3><a name="SQLBind">SQLコメント</a></h3>
 
         <p>S2Daoでは、メソッドの引数とSQL文のバインド変数の対応付けを/**/や--などのコメントを使って行います。
         コメントなので、対応付けをした後でも、SQL*PlusなどのSQLのツールでそのまま実行することができます。
         最初、SQLのツールでSQL文を実行して思い通りの結果を出力するようになったら、
         それに対して、コメントを埋め込んでいくと良いでしょう。</p>
+
         <p>また、SQL文に対しての説明の意味でのコメントを使用したい場合は、/*の後にスペースを入れることにより、
         普通のコメントを使用することが出来ます。例として、/* hoge*/となります。/*の後にスペースが入っているので、実行時には無視されます。</p>
+
         <h4>バインド変数コメント</h4>
         <p>Daoに定義したメソッドの引数の値をSQL文で使用する場合は、SQL文にバインド変数コメントを記述します。
         バインド変数コメントの右側のリテラルに引数の値が自動的に置換され実行されます。
         バインド変数コメントは、以下のように記述します。</p>
         <p> -  /*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
 
+        <!--
         <p>引数がBeansの場合は以下のように記述します。</p>
         <p>-  /*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></P>
-        <p>引数名はDaoに設定したARGSアノテーションの値と揃える必要があります。
-        (ただし引数が一つの場合は、その制約はありません。)</p>
+        -->
+
+        <p>引数名はDaoに設定したARGSアノテーションの値と揃える必要があります。(ただし引数が一つの場合は、その制約はありません。)</p>
+
 <pre>
 const getEmployee_ARGS = "empno";
 
-public function getEmployee($empno);
+public function List_getEmployee($empno);
 </pre>
 
-        <p>Daoに上記のメソッドを定義した場合、SQLファイル(EmploeeDao_getEmployee.sql)は次のようにバインド変数を使用することが可能です。自動的にgetEmployeeメソッドの引数の値が設定されます。</p>
+        <p>Daoに上記のメソッドを定義した場合、SQLファイル(EmploeeDao_List_getEmployee.sql)は次のようにバインド変数を使用することが可能です。
+        自動的にList_getEmployeeメソッドの引数の値が設定されます。</p>
+
         <pre>SELECT * FROM emp WHERE empno = /*empno*/7788</pre>
+
+        <!--
         <p>IN句にバインド変数を適用したい場合は以下のようにすることができます。</p>
         <p>-  IN /*<span class="italic">引数名</span>*/(...)</p>
         <pre>IN /*names*/('aaa', 'bbb')</pre>
-
         <p>引数はjava.util.Listや配列の引数となります。上記のIN句の場合は、以下のように引数を用意します。</p>
         <pre>String[] names = new String[]{"SCOTT", "SMITH", "JAMES"};</pre>
         <p>String配列namesが自動的にバインド変数の部分に置換されます。</p>
+        -->
+
         <p>LIKEを使用する場合は、次のようにします。</p>
         <pre>ename LIKE /*ename*/'hoge'</pre>
+
+        <!--
         <p>ワイルドカードを使いたい場合は、メソッドの引数の値に埋め込みます。
         「"COT"を含む」という条件を指定する場合は、以下のように引数の値にワイルドカードを埋め込みます。</p>
-
         <pre>employeeDao.findEmployees("%COT%");</pre>
+        -->
 
         <h4>埋め込み変数コメント</h4>
         <p>Daoに定義したメソッドの引数の値をSQL文に文字列として直接埋め込む場合は、SQL文に埋め込み変数コメントを記述します。
         埋め込み変数コメントの右側のリテラルに引数の値が自動的に置換され実行されます。
         埋め込み変数コメントは、以下のように記述します。</p>
-        <p> -  /*<span class="italic">$引数名</span>*/<span class="italic">リテラル</span></p>
+        <p>  -  /*<span class="italic">$引数名</span>*/<span class="italic">リテラル</span></p>
 
+        <!--
         <p>引数がBeansの場合は以下のように記述します。</p>
-        <p>-  /*<span class="italic">$引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></P>
+        <p>-  /*<span class="italic">$引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
+        -->
 
         <h4>IFコメント</h4>
         <p>IFコメントでは、条件に応じて実行するSQL文を変えることが可能です。IFコメントは以下の形式で記述します。</p>
 
         <p> -  /*IF <span class="italic">条件</span>*/ .../*END*/</p>
         <p>サンプルは以下のとおりです。</p>
-<pre>/*IF hoge != null*/hoge = /*hoge*/'abc'/*END*/</pre>
+
+        <pre>/*IF hoge != null*/hoge = /*hoge*/'abc'/*END*/</pre>
+
         <p>IFコメントは、条件が真の場合、/*IF*/と/*END*/に囲まれた部分が評価されます。
         上記の場合、引数hogeがnull出ない場合にのみ、IFコメントで囲まれている部分(hoge = /*hoge*/'abc')が評価されます。
         <br />また偽の場合の処理としてELSEコメントというものが用意されています。
         条件が偽となった場合は、”ELSE”の後に記述した部分が評価されます。ELSEコメントは以下のように記述します。</p>
 
 <pre>
-
 /*IF hoge != null*/hoge = /*hoge*/'abc'
   -- ELSE hoge is null
 /*END*/
 </pre>
+
         <p>条件がfalseになると-- ELSEの後の部分(hoge is null)が評価されます。</p>
+
         <h4>BEGINコメント</h4>
         <p>BEGINコメントは、WHERE句内のすべてのELSEを含まないIFコメントがfalseになった場合に、
         WHERE句自体を出力したくない場合に使います。BEGINコメントはIFコメントと併せて使用します。<br />
@@ -656,20 +693,22 @@ public function getEmployee($empno);
   /*IF deptno != null*/AND deptno = /*deptno*/20/*END*/
 /*END*/
 </pre>
+
         <p>上記の場合、job,deptnoがnullの場合は、WHERE句は出力されません。
         job == null,deptno != nullの場合は、WHERE depno = ?、 job != null,deptno == nullの場合は、WHERE job = ?、
         job != null,deptno != nullの場合は、WHERE job = ? AND depno = ?のようになります。動的SQLも思いのままです。</p>
 
-    <h3><a name="AutoUpdate">更新SQLの自動生成</a></h3>
+        <h3><a name="AutoUpdate">更新SQLの自動生成</a></h3>
         <p>更新SQL文を自動生成させるには、メソッド名を<a href="#DefMethod">命名規則</a>にあわせ、Beansを1つ引数に持つメソッドを定義するだけです。
         SQLファイルの作成は不要です。例としてInsertの場合、命名規則に合わせ、以下のように定義します。</p>
 
 <pre>
-public int insert(Department department);
+public function insert(Department $department);
 </pre>
 
-    <h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
-        <p>メソッドのsignatueより、 S2Daoに自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、引数の値によってWHERE句が変わるような動的なSQL文も自動生成できます。</p>
+        <h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
+        <p>メソッドのsignatueより、 S2Daoに自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、
+        引数の値によってWHERE句が変わるような動的なSQL文も自動生成できます。</p>
 <pre>
 SELECT * FROM emp
 /*BEGIN*/WHERE
@@ -679,10 +718,11 @@ SELECT * FROM emp
 </pre>
         <p>上記SQL文に相当するSQL文を自動生成するには以下のように定義します。上記SQLの/**/などについては、<a href="#SQLBind">SQLコメント</a>を参照してください。</p>
 <pre>
-public static final String getEmployeeByJobDeptno_ARGS = "job, deptno";
-public List getEmployeeByJobDeptno(String job, Integer deptno);
+const List_getEmployeeByJobDeptno_ARGS = "job, deptno";
+const List_getEmployeeByJobDeptno($job, $deptno);
 </pre>
 
+<!--
         <p><a href="#N1Mapping">N:1でマッピング</a>されているカラムを指定する場合には、「カラム名_関連番号」で指定します。
         N:1でマッピングされているBeanは左外部結合を使って1つのSQL文で取得されます。左外部結合をサポートしていないRDBMSはSELECT文自動生成の対象外です。
         オラクルのように左外部結合が標準と異なる場合も、S2DaoがRDBMSがオラクルであると自動的に判断して適切なSQL文を組み立てます。</p>
@@ -704,6 +744,7 @@ public class EmployeeSearchCondition {
 </pre>
 <pre>List getEmployeesBySearchCondition(EmployeeSearchCondition dto);</pre>
     <p>また同様の指定方法で引数にEntityを使用することも出来ます。DTOの詳しい使用方法は、<a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a>を参照して下さい。</a>
+-->
 
     <h3><a name="HowToRun">S2Daoの実行</a></h3>
     <p>Daoを実行する基本的な方法は以下のようになります。</p>
@@ -711,34 +752,17 @@ public class EmployeeSearchCondition {
     <li>作成したdiconファイルのパスを引数にS2Containerを生成</li>
     <li>生成したS2ContainerからgetComponentを呼び出し、登録したDaoを取得する </li>
     <li>取得したDaoのメソッドを実行する</li>
-
     </ol>
-    <p>S2Daoではトランザクション制御は行なっていません、トランザクションについては<a href="tx.html">トランザクションの自動制御</a>を参照して下さい。</p>
+
     実行クラスサンプル
 <pre>
-package examples.dao;
-
-import org.seasar.framework.container.S2Container;
-import org.seasar.framework.container.factory.S2ContainerFactory;
-
-public class EmployeeDaoClient {
-
-    private static final String PATH = "examples/dao/EmployeeDao.dicon";
-
-    public static void main(String[] args) {
-
-        S2Container container = S2ContainerFactory.create(PATH); /* 手順1 */
-        container.init();
-        try {
-            EmployeeDao dao = (EmployeeDao) container.getComponent(EmployeeDao.class);/* 手順2 */
-            System.out.println(dao.getAllEmployee(7788));/* 手順3 */
-        } finally {
-            container.destroy();
-        }
-    }
-}
+&lt;?php
+define("PATH", "examples/dao/EmployeeDao.dicon");
+$container = S2ContainerFactory::create(PATH); /* 手順1 */
+$dao = $container->getComponent("EmployeeDao"); /* 手順2 */
+var_dump($dao->List_getAllEmployee(7788)); /* 手順3 */
+?&gt;
 </pre>
-
 
 <!-- document end -->
 <!-- don't edit start -->
