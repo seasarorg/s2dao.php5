@@ -5,7 +5,7 @@ package org.seasar.dao.dbms;
  * @author higa
  *
  */
-public class DB2 extends Standard {
+public class DB2 extends S2Dao_Standard {
 
 	/**
 	 * @see org.seasar.dao.Dbms#getSuffix()

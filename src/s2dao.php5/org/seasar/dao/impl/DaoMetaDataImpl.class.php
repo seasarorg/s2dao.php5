@@ -27,48 +27,43 @@ class DaoMetaDataImpl implements DaoMetaData {
     protected $beanMetaData_;
 
     public function __construct($daoClass,
-                                DataSource $dataSource,
+                                S2Container_DataSource $dataSource,
                                 //SqlHandler $sqlHandler ){
                                 $sqlHandler ){
                                 //$statementFactory,
                                 //$resultSetFactory) {
 
-        $this->sqlCommands_ = new HashMap();
-
+        $this->sqlCommands_ = new S2Dao_HashMap();
         $this->daoClass_ = $daoClass;
-        $this->daoBeanDesc_ = BeanDescFactory::getBeanDesc($daoClass);
+        $this->daoBeanDesc_ = S2Container_BeanDescFactory::getBeanDesc($daoClass);
         $this->daoInterface_ = self::getDaoInterface($daoClass);
-
-        $this->annotationReader_ = new FieldAnnotationReader($this->daoBeanDesc_);
+        $this->annotationReader_ = new S2Dao_FieldAnnotationReader($this->daoBeanDesc_);
         $this->beanClass_ = $this->annotationReader_->getBeanClass();
 
         if($this->beanClass_ !== null){
-            $this->resultSetHandler_ = new BeanResultSetHandler($this->beanClass_);
+            $this->resultSetHandler_ = new S2Container_BeanResultSetHandler($this->beanClass_);
         } else {
-            $this->resultSetHandler_ = new ArrayResultSetHandler();
+            $this->resultSetHandler_ = new S2Container_ArrayResultSetHandler();
         }
 
         $this->dataSource_ = $dataSource;
         //$this->statementFactory_ = $statementFactory;
-
         $con = $this->dataSource_->getConnection();
-        $dbMetaData = ConnectionUtil::getMetaData($con);
-        $this->dbms_ = DbmsManager::getDbms($dbMetaData);
-        
-        $this->beanMetaData_ = new BeanMetaDataImpl($this->beanClass_,
+        $dbMetaData = S2Dao_ConnectionUtil::getMetaData($con);
+        $this->dbms_ = S2Dao_DbmsManager::getDbms($dbMetaData);
+        $this->beanMetaData_ = new S2Dao_BeanMetaDataImpl($this->beanClass_,
                                                     $dbMetaData,
                                                     $this->dbms_);
-
         $con->disconnect();
         $this->setupSqlCommand();
     }
 
     protected function setupSqlCommand() {
-        $idbd = BeanDescFactory::getBeanDesc($this->daoInterface_);
+        $idbd = S2Container_BeanDescFactory::getBeanDesc($this->daoInterface_);
         $names = $idbd->getMethodNames();
         for ($i = 0; $i < count($names); ++$i) {
             $methods = $this->daoBeanDesc_->getMethods($names[$i]);
-            if (count($methods) == 1 && MethodUtil::isAbstract($methods)) {
+            if (count($methods) == 1 && S2Container_MethodUtil::isAbstract($methods)) {
                 $this->setupMethod($methods);
             }
         }
@@ -127,9 +122,9 @@ class DaoMetaDataImpl implements DaoMetaData {
         $this->sqlCommands_->put($method->getName(), $cmd);
     }
 
-    protected function createSelectDynamicCommand(ResultSetHandler $rsh, $query = null) {
+    protected function createSelectDynamicCommand(S2Container_ResultSetHandler $rsh, $query = null) {
         if( $query == null ){
-            return new SelectDynamicCommand( $this->dataSource_,
+            return new S2Dao_SelectDynamicCommand( $this->dataSource_,
                                              $this->statementFactory_,
                                              $rsh,
                                              $this->resultSetFactory_);
@@ -176,13 +171,13 @@ class DaoMetaDataImpl implements DaoMetaData {
 
     protected function createResultSetHandler(ReflectionMethod $method) {
         if( $this->isSelectList($method->getName()) ){
-            return new BeanListMetaDataResultSetHandler($this->beanMetaData_);
+            return new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_);
         } else if( $this->isBeanClassAssignable($method->returnsReference()) ){
-            return new BeanMetaDataResultSetHandler($this->beanMetaData_);
+            return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
         } else if( $this->isSelectArray($method->getName()) ){
-        	return new BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
+        	return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
         } else {
-            return new ObjectResultSetHandler();
+            return new S2Dao_ObjectResultSetHandler();
         }
     }
 
@@ -200,7 +195,7 @@ class DaoMetaDataImpl implements DaoMetaData {
     }
 
     protected function setupUpdateMethodByManual(ReflectionMethod $method, $sql) {
-        $cmd = new UpdateDynamicCommand($this->dataSource_, $this->statementFactory_);
+        $cmd = new S2Dao_UpdateDynamicCommand($this->dataSource_, $this->statementFactory_);
         $cmd->setSql($sql);
         $argNames = $this->annotationReader_->getArgNames($method->getName());
         if (count($argNames) == 0 && $this->isUpdateSignatureForBean($method)) {
@@ -239,12 +234,12 @@ class DaoMetaDataImpl implements DaoMetaData {
         $cmd = null;
 
         if ($this->isUpdateSignatureForBean($method)) {
-            $cmd = new InsertAutoStaticCommand($this->dataSource_,
+            $cmd = new S2Dao_InsertAutoStaticCommand($this->dataSource_,
                                                $this->statementFactory_,
                                                $this->beanMetaData_,
                                                $propertyNames);
         } else {
-            $cmd = new InsertBatchAutoStaticCommand($this->dataSource_,
+            $cmd = new S2Dao_InsertBatchAutoStaticCommand($this->dataSource_,
                                                     $this->statementFactory_,
                                                     $this->beanMetaData_,
                                                     $propertyNames);
@@ -258,12 +253,12 @@ class DaoMetaDataImpl implements DaoMetaData {
         $cmd = null;
 
         if ($this->isUpdateSignatureForBean($method)) {
-            $cmd = new UpdateAutoStaticCommand($this->dataSource_,
+            $cmd = new S2Dao_UpdateAutoStaticCommand($this->dataSource_,
                                                $this->statementFactory_,
                                                $this->beanMetaData_,
                                                $propertyNames);
         } else {
-            $cmd = new UpdateBatchAutoStaticCommand($this->dataSource_,
+            $cmd = new S2Dao_UpdateBatchAutoStaticCommand($this->dataSource_,
                                                     $this->statementFactory_,
                                                     $this->beanMetaData_,
                                                     $propertyNames);
@@ -276,12 +271,12 @@ class DaoMetaDataImpl implements DaoMetaData {
         $propertyNames = $this->getPersistentPropertyNames($method->getName());
         $cmd = null;
         if ($this->isUpdateSignatureForBean($method)) {
-            $cmd = new DeleteAutoStaticCommand($this->dataSource_,
+            $cmd = new S2Dao_DeleteAutoStaticCommand($this->dataSource_,
                                                $this->statementFactory_,
                                                $this->beanMetaData_,
                                                $propertyNames);
         } else {
-            $cmd = new DeleteBatchAutoStaticCommand($this->dataSource_,
+            $cmd = new S2Dao_DeleteBatchAutoStaticCommand($this->dataSource_,
                                                     $this->statementFactory_,
                                                     $this->beanMetaData_,
                                                     $propertyNames);
@@ -290,7 +285,7 @@ class DaoMetaDataImpl implements DaoMetaData {
     }
 
     protected function getPersistentPropertyNames($methodName) {
-        $names = new ArrayList();
+        $names = new S2Dao_ArrayList();
         $props = $this->annotationReader_->getNoPersistentProps($methodName);
         if ($props != null) {
             for ($i = 0; $i < $this->beanMetaData_->getPropertyTypeSize(); ++$i) {
@@ -303,7 +298,7 @@ class DaoMetaDataImpl implements DaoMetaData {
         } else {
             $props = $this->annotationReader_->getPersistentProps($methodName);
             if($props != null){
-                $names->addAll(new ArrayList($props));
+                $names->addAll(new S2Dao_ArrayList($props));
                 for ($i = 0; $i < $this->beanMetaData_->getPrimaryKeySize(); ++$i) {
                     $pk = $this->beanMetaData_->getPrimaryKey($i);
                     $pt = $this->beanMetaData_->getPropertyTypeByColumnName($pk);
@@ -378,7 +373,7 @@ class DaoMetaDataImpl implements DaoMetaData {
         $sql = $this->dbms_->getAutoSelectSql($this->getBeanMetaData());
         $buf = $sql;
 
-        $dmd = new DtoMetaDataImpl($dtoClass);
+        $dmd = new S2Dao_DtoMetaDataImpl($dtoClass);
         $began = false;
 
         if (!(strrpos($sql,"WHERE") > 0)) {
@@ -451,9 +446,9 @@ class DaoMetaDataImpl implements DaoMetaData {
         $types = $method->getParameters();
         if ( count($types) != 1
                 || !$this->isBeanClassAssignable($types[0])
-                && !$types[0] instanceof ArrayList
+                && !$types[0] instanceof S2Dao_ArrayList
                 && !is_array($types) ) {
-            throw new IllegalSignatureRuntimeException("EDAO0006", (string)$method);
+            throw new S2Dao_IllegalSignatureRuntimeException("EDAO0006", (string)$method);
         }
     }
 
@@ -528,7 +523,7 @@ class DaoMetaDataImpl implements DaoMetaData {
     public function getSqlCommand($methodName){
         $cmd = $this->sqlCommands_->get($methodName);
         if ($cmd == null) {
-            throw new MethodNotFoundRuntimeException($this->daoClass_, $methodName, null);
+            throw new S2Container_MethodNotFoundRuntimeException($this->daoClass_, $methodName, null);
         }
         return $cmd;
     }
@@ -539,21 +534,21 @@ class DaoMetaDataImpl implements DaoMetaData {
 
     public function createFindCommand($query) {
         return $this->createSelectDynamicCommand(
-                new BeanListMetaDataResultSetHandler($this->beanMetaData_), $query);
+                new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_), $query);
     }
 
     public function createFindArrayCommand($query) {
         return $this->createSelectDynamicCommand(
-                new BeanArrayMetaDataResultSetHandler($this->beanMetaData_), $query);
+                new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_), $query);
     }
 
     public function createFindBeanCommand($query) {
         return $this->createSelectDynamicCommand(
-                new BeanMetaDataResultSetHandler($this->beanMetaData_), $query);
+                new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_), $query);
     }
 
     public function createFindObjectCommand($query) {
-        return $this->createSelectDynamicCommand(new ObjectResultSetHandler(), $query);
+        return $this->createSelectDynamicCommand(new S2Dao_ObjectResultSetHandler(), $query);
     }
 
     public static function getDaoInterface($clazz) {
@@ -569,10 +564,10 @@ class DaoMetaDataImpl implements DaoMetaData {
                 }
             }
         }
-        throw new DaoNotFoundRuntimeException($clazz);
+        throw new S2Dao_DaoNotFoundRuntimeException($clazz);
     }
 
-    public function setDbms(Dbms $dbms) {
+    public function setDbms(S2Dao_Dbms $dbms) {
         $this->dbms_ = $dbms;
     }
 }

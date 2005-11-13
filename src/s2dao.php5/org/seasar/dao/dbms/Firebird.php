@@ -5,7 +5,7 @@ package org.seasar.dao.dbms;
  * @author higa
  *
  */
-public class Firebird extends Standard {
+public class Firebird extends S2Dao_Standard {
 
 	/**
 	 * @see org.seasar.dao.Dbms#getSuffix()

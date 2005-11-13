@@ -10,8 +10,8 @@ abstract class AbstractSqlCommand implements SqlCommand {
     private $sql_;
     private $notSingleRowUpdatedExceptionClass_;
 
-    public function __construct(DataSource $dataSource,
-                                //StatementFactory $statementFactory) {
+    public function __construct(S2Container_DataSource $dataSource,
+                                //S2Dao_StatementFactory $statementFactory) {
                                 $statementFactory){
         
         $this->dataSource_ = $dataSource;

@@ -5,7 +5,7 @@ package org.seasar.dao.dbms;
  * @author higa
  *
  */
-public class MSSQLServer extends Standard {
+public class MSSQLServer extends S2Dao_Standard {
 
 	/**
 	 * @see org.seasar.dao.Dbms#getSuffix()

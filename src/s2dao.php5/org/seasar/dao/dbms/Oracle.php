@@ -7,7 +7,7 @@ import org.seasar.dao.RelationPropertyType;
  * @author higa
  *
  */
-public class Oracle extends Standard {
+public class Oracle extends S2Dao_Standard {
 
 	/**
 	 * @see org.seasar.dao.Dbms#getSuffix()
@@ -17,17 +17,17 @@ public class Oracle extends Standard {
 	}
 	
 	/**
-	 * @see org.seasar.dao.dbms.Standard#createAutoSelectFromClause(org.seasar.dao.BeanMetaData)
+	 * @see org.seasar.dao.dbms.Standard#createAutoSelectFromClause(org.seasar.dao.S2Dao_BeanMetaData)
 	 */
-	protected String createAutoSelectFromClause(BeanMetaData beanMetaData) {
+	protected String createAutoSelectFromClause(S2Dao_BeanMetaData beanMetaData) {
 		StringBuffer buf = new StringBuffer(100);
 		buf.append("FROM ");
 		String myTableName = beanMetaData.getTableName();
 		buf.append(myTableName);
 		StringBuffer whereBuf = new StringBuffer(100);
 		for (int i = 0; i < beanMetaData.getRelationPropertyTypeSize(); ++i) {
-			RelationPropertyType rpt = beanMetaData.getRelationPropertyType(i);
-			BeanMetaData bmd = rpt.getBeanMetaData();
+			S2Dao_RelationPropertyType rpt = beanMetaData.getRelationPropertyType(i);
+			S2Dao_BeanMetaData bmd = rpt.getBeanMetaData();
 			buf.append(", ");
 			buf.append(bmd.getTableName());
 			buf.append(" ");

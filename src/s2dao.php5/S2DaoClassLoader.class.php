@@ -1,106 +1,106 @@
 <?php
 class S2DaoClassLoader {
     public static $CLASSES = array(
-        "ConnectionUtil" =>
-            "/org/seasar/framework/util/ConnectionUtil.class.php",
-        "RelationRowCache" =>
-            "/org/seasar/dao/impl/RelationRowCache.class.php",
-        "BasicResultSetFactory" =>
-            "/org/seasar/extension/db/impl/BasicResultSetFactory.class.php",
-        "BasicSelectHandler" =>
-            "/org/seasar/extension/db/impl/BasicSelectHandler.class.php",
-        "SelectHandler" =>
-            "/org/seasar/extension/db/SelectHandler.class.php",
-        "BasicStatementFactory" =>
-            "/org/seasar/extension/db/impl/BasicStatementFactory.class.php",
-        "BeanArrayMetaDataResultSetHandler" =>
-            "/org/seasar/dao/impl/BeanArrayMetaDataResultSetHandler.class.php",
-        "BeanListMetaDataResultSetHandler" =>
-            "/org/seasar/dao/impl/BeanListMetaDataResultSetHandler.class.php",
-        "PrimaryKeyNotFoundRuntimeException" =>
-            "/org/seasar/dao/PrimaryKeyNotFoundRuntimeException.class.php",
-        "UpdateFailureRuntimeException" =>
-            "/org/seasar/dao/UpdateFailureRuntimeException.class.php",
-        "NotSingleRowUpdatedRuntimeException" =>
-            "/org/seasar/dao/NotSingleRowUpdatedRuntimeException.class.php",
-        "BasicHandler" =>
-            "/org/seasar/extension/db/impl/BasicHandler.class.php",
+        "S2Dao_ConnectionUtil" =>
+            "/org/seasar/framework/util/S2Dao_ConnectionUtil.class.php",
+        "S2Dao_RelationRowCache" =>
+            "/org/seasar/dao/impl/S2Dao_RelationRowCache.class.php",
+        "S2Dao_BasicResultSetFactory" =>
+            "/org/seasar/extension/db/impl/S2Dao_BasicResultSetFactory.class.php",
+        "S2Dao_BasicSelectHandler" =>
+            "/org/seasar/extension/db/impl/S2Dao_BasicSelectHandler.class.php",
+        "S2Dao_SelectHandler" =>
+            "/org/seasar/extension/db/S2Dao_SelectHandler.class.php",
+        "S2Dao_BasicStatementFactory" =>
+            "/org/seasar/extension/db/impl/S2Dao_BasicStatementFactory.class.php",
+        "S2Dao_BeanArrayMetaDataResultSetHandler" =>
+            "/org/seasar/dao/impl/S2Dao_BeanArrayMetaDataResultSetHandler.class.php",
+        "S2Dao_BeanListMetaDataResultSetHandler" =>
+            "/org/seasar/dao/impl/S2Dao_BeanListMetaDataResultSetHandler.class.php",
+        "S2Dao_PrimaryKeyNotFoundRuntimeException" =>
+            "/org/seasar/dao/S2Dao_PrimaryKeyNotFoundRuntimeException.class.php",
+        "S2Dao_UpdateFailureRuntimeException" =>
+            "/org/seasar/dao/S2Dao_UpdateFailureRuntimeException.class.php",
+        "S2Dao_NotSingleRowUpdatedRuntimeException" =>
+            "/org/seasar/dao/S2Dao_NotSingleRowUpdatedRuntimeException.class.php",
+        "S2Dao_BasicHandler" =>
+            "/org/seasar/extension/db/impl/S2Dao_BasicHandler.class.php",
         "BasicBatchHandler" =>
             "/org/seasar/extension/db/impl/BasicBatchHandler.class.php",
-        "UpdateHandler" =>
-            "/org/seasar/extension/db/UpdateHandler.class.php",
-        "AbstractAutoHandler" =>
-            "/org/seasar/dao/impl/AbstractAutoHandler.class.php",
-        "SqlParser" =>
-            "/org/seasar/dao/SqlParser.class.php",
-        "SqlParserImpl" =>
-            "/org/seasar/dao/parser/SqlParserImpl.class.php",
-        "SqlTokenizer" =>
-            "/org/seasar/dao/SqlTokenizer.class.php",
-        "SqlTokenizerImpl" =>
-            "/org/seasar/dao/parser/SqlTokenizerImpl.class.php",
-        "InsertAutoHandler" =>
-            "/org/seasar/dao/impl/InsertAutoHandler.class.php",
-        "InsertAutoStaticCommand" =>
-            "/org/seasar/dao/impl/InsertAutoStaticCommand.class.php",
-        "InsertBatchAutoHandler" =>
-            "/org/seasar/dao/impl/InsertBatchAutoHandler.class.php",
-        "InsertBatchAutoStaticCommand" =>
-            "/org/seasar/dao/impl/InsertBatchAutoStaticCommand.class.php",
-        "UpdateAutoHandler" =>
-            "/org/seasar/dao/impl/UpdateAutoHandler.class.php",
-        "UpdateBatchAutoHandler" =>
-            "/org/seasar/dao/impl/UpdateBatchAutoHandler.class.php",
-        "UpdateBatchAutoStaticCommand" =>
-            "/org/seasar/dao/impl/UpdateBatchAutoStaticCommand.class.php",
-        "UpdateAutoStaticCommand" =>
-            "/org/seasar/dao/impl/UpdateAutoStaticCommand.class.php",
-        "DeleteAutoHandler" =>
-            "/org/seasar/dao/impl/DeleteAutoHandler.class.php",
-        "DeleteAutoStaticCommand" =>
-            "/org/seasar/dao/impl/DeleteAutoStaticCommand.class.php",
-        "DeleteBatchAutoStaticCommand" =>
-            "/org/seasar/dao/impl/DeleteBatchAutoStaticCommand.class.php",
-        "DeleteBatchAutoHandler" =>
-            "/org/seasar/dao/impl/DeleteBatchAutoHandler.class.php",
-        "SelectDynamicCommand" =>
-            "/org/seasar/dao/impl/SelectDynamicCommand.class.php",
-        "AbstractDynamicCommand" =>
-            "/org/seasar/dao/impl/AbstractDynamicCommand.class.php",
-        "AbstractBatchAutoStaticCommand" =>
-            "/org/seasar/dao/impl/AbstractBatchAutoStaticCommand.class.php",
-        "ObjectResultSetHandler" =>
-            "/org/seasar/extension/db/impl/ObjectResultSetHandler.class.php",
-        "PropertyType" =>
-            "/org/seasar/extension/db/PropertyType.class.php",
-        "PropertyTypeImpl" =>
-            "/org/seasar/extension/db/impl/PropertyTypeImpl.class.php",
-        "DatabaseMetaDataUtil" =>
-            "/org/seasar/framework/util/DatabaseMetaDataUtil.class.php",
-        "DataSourceUtil" =>
-            "/org/seasar/framework/util/DataSourceUtil.class.php",
-        "AssignedIdentifierGenerator" =>
-            "/org/seasar/dao/id/AssignedIdentifierGenerator.class.php",
-        "IdentifierGeneratorFactory" =>
-            "/org/seasar/dao/id/IdentifierGeneratorFactory.class.php",
-        "AbstractIdentifierGenerator" =>
-            "/org/seasar/dao/id/AbstractIdentifierGenerator.class.php",
-        "AbstractStaticCommand" =>
-            "/org/seasar/dao/impl/AbstractStaticCommand.class.php",
+        "S2Dao_UpdateHandler" =>
+            "/org/seasar/extension/db/S2Dao_UpdateHandler.class.php",
+        "S2Dao_AbstractAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractAutoHandler.class.php",
+        "S2Dao_SqlParser" =>
+            "/org/seasar/dao/S2Dao_SqlParser.class.php",
+        "S2Dao_SqlParserImpl" =>
+            "/org/seasar/dao/parser/S2Dao_SqlParserImpl.class.php",
+        "S2Dao_SqlTokenizer" =>
+            "/org/seasar/dao/S2Dao_SqlTokenizer.class.php",
+        "S2Dao_SqlTokenizerImpl" =>
+            "/org/seasar/dao/parser/S2Dao_SqlTokenizerImpl.class.php",
+        "S2Dao_InsertAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_InsertAutoHandler.class.php",
+        "S2Dao_InsertAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_InsertAutoStaticCommand.class.php",
+        "S2Dao_InsertBatchAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_InsertBatchAutoHandler.class.php",
+        "S2Dao_InsertBatchAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_InsertBatchAutoStaticCommand.class.php",
+        "S2Dao_UpdateAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_UpdateAutoHandler.class.php",
+        "S2Dao_UpdateBatchAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_UpdateBatchAutoHandler.class.php",
+        "S2Dao_UpdateBatchAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_UpdateBatchAutoStaticCommand.class.php",
+        "S2Dao_UpdateAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_UpdateAutoStaticCommand.class.php",
+        "S2Dao_DeleteAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_DeleteAutoHandler.class.php",
+        "S2Dao_DeleteAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_DeleteAutoStaticCommand.class.php",
+        "S2Dao_DeleteBatchAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_DeleteBatchAutoStaticCommand.class.php",
+        "S2Dao_DeleteBatchAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_DeleteBatchAutoHandler.class.php",
+        "S2Dao_SelectDynamicCommand" =>
+            "/org/seasar/dao/impl/S2Dao_SelectDynamicCommand.class.php",
+        "S2Dao_AbstractDynamicCommand" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractDynamicCommand.class.php",
+        "S2Dao_AbstractBatchAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractBatchAutoStaticCommand.class.php",
+        "S2Dao_ObjectResultSetHandler" =>
+            "/org/seasar/extension/db/impl/S2Dao_ObjectResultSetHandler.class.php",
+        "S2Dao_PropertyType" =>
+            "/org/seasar/extension/db/S2Dao_PropertyType.class.php",
+        "S2Dao_PropertyTypeImpl" =>
+            "/org/seasar/extension/db/impl/S2Dao_PropertyTypeImpl.class.php",
+        "S2Dao_DatabaseMetaDataUtil" =>
+            "/org/seasar/framework/util/S2Dao_DatabaseMetaDataUtil.class.php",
+        "S2Dao_DataSourceUtil" =>
+            "/org/seasar/framework/util/S2Dao_DataSourceUtil.class.php",
+        "S2Dao_AssignedIdentifierGenerator" =>
+            "/org/seasar/dao/id/S2Dao_AssignedIdentifierGenerator.class.php",
+        "S2Dao_IdentifierGeneratorFactory" =>
+            "/org/seasar/dao/id/S2Dao_IdentifierGeneratorFactory.class.php",
+        "S2Dao_AbstractIdentifierGenerator" =>
+            "/org/seasar/dao/id/S2Dao_AbstractIdentifierGenerator.class.php",
+        "S2Dao_AbstractStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractStaticCommand.class.php",
         "AbstractSqlCommand" =>
             "/org/seasar/dao/impl/AbstractSqlCommand.class.php",
-        "AbstractBeanMetaDataResultSetHandler" =>
-            "/org/seasar/dao/impl/AbstractBeanMetaDataResultSetHandler.class.php",
-        "AbstractBatchAutoHandler" =>
-            "/org/seasar/dao/impl/AbstractBatchAutoHandler.class.php",
-        "AbstractAutoStaticCommand" =>
-            "/org/seasar/dao/impl/AbstractAutoStaticCommand.class.php",
-        "FieldAnnotationReader" =>
-            "/org/seasar/dao/impl/FieldAnnotationReader.class.php",
-        "DtoMetaData" =>
-            "/org/seasar/dao/DtoMetaData.class.php",
-        "DtoMetaDataImpl" =>
-            "/org/seasar/dao/impl/DtoMetaDataImpl.class.php",
+        "S2Dao_AbstractBeanMetaDataResultSetHandler" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php",
+        "S2Dao_AbstractBatchAutoHandler" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractBatchAutoHandler.class.php",
+        "S2Dao_AbstractAutoStaticCommand" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractAutoStaticCommand.class.php",
+        "S2Dao_FieldAnnotationReader" =>
+            "/org/seasar/dao/impl/S2Dao_FieldAnnotationReader.class.php",
+        "S2Dao_DtoMetaData" =>
+            "/org/seasar/dao/S2Dao_DtoMetaData.class.php",
+        "S2Dao_DtoMetaDataImpl" =>
+            "/org/seasar/dao/impl/S2Dao_DtoMetaDataImpl.class.php",
         "DaoMetaDataFactoryImpl" =>
            "/org/seasar/dao/impl/DaoMetaDataFactoryImpl.class.php",
         "DaoMetaData" =>
@@ -109,88 +109,88 @@ class S2DaoClassLoader {
             "/org/seasar/dao/impl/DaoMetaDataImpl.class.php",
         "DaoMetaDataFactory" =>
             "/org/seasar/dao/DaoMetaDataFactory.class.php",
-        "DaoNotFoundRuntimeException" =>
-            "/org/seasar/dao/DaoNotFoundRuntimeException.class.php",
-        "DaoAnnotationReader" =>
-            "/org/seasar/dao/DaoAnnotationReader.class.php",
+        "S2Dao_DaoNotFoundRuntimeException" =>
+            "/org/seasar/dao/S2Dao_DaoNotFoundRuntimeException.class.php",
+        "S2Dao_DaoAnnotationReader" =>
+            "/org/seasar/dao/S2Dao_DaoAnnotationReader.class.php",
         "S2DaoInterceptor" =>
             "/org/seasar/dao/interceptors/S2DaoInterceptor.class.php",
         "SqlCommand" =>
             "/org/seasar/dao/SqlCommand.class.php",
         "SqlParsar" =>
             "/org/seasar/dao/SqlParsar.class.php",
-        "CommandContext" =>
-            "/org/seasar/dao/CommandContext.class.php",
-        "CommandContextImpl" =>
-            "/org/seasar/dao/context/CommandContextImpl.class.php",
-        "Dbms" =>
-            "/org/seasar/dao/Dbms.class.php",
-        "DbmsManager" =>
-            "/org/seasar/dao/dbms/DbmsManager.class.php",
-        "IllegalBoolExpressionRuntimeException" =>
-            "/org/seasar/dao/IllegalBoolExpressionRuntimeException.class.php",
-        "IllegalSignatureRuntimeException" =>
-            "/org/seasar/dao/IllegalSignatureRuntimeException.class.php",
-        "IdentifierGenerator" =>
-            "/org/seasar/dao/IdentifierGenerator.class.php",
-        "Node" =>
-            "/org/seasar/dao/Node.class.php",
-        "BeanMetaData" =>
-            "/org/seasar/dao/BeanMetaData.class.php",
-        "BeanMetaDataImpl" =>
-            "/org/seasar/dao/impl/BeanMetaDataImpl.class.php",
-        "BeanMetaDataResultSetHandler" =>
-            "/org/seasar/dao/impl/BeanMetaDataResultSetHandler.class.php",
-        "EndCommentNotFoundRuntimeException" =>
-            "/org/seasar/dao/EndCommentNotFoundRuntimeException.class.php",
-        "IfConditionNotFoundRuntimeException" =>
-            "/org/seasar/dao/IfConditionNotFoundRuntimeException.class.php",
-        "SqlTokenizer" =>
-            "/org/seasar/dao/SqlTokenizer.class.php",
-        "BeginNode" =>
-            "/org/seasar/dao/node/BeginNode.class.php",
-        "BindVariableNode" =>
-            "/org/seasar/dao/node/BindVariableNode.class.php",
-        "AbstractNode" =>
-            "/org/seasar/dao/node/AbstractNode.class.php",
-        "ContainerNode" =>
-            "/org/seasar/dao/node/ContainerNode.class.php",
-        "ElseNode" =>
-            "/org/seasar/dao/node/ElseNode.class.php",
-        "EmbeddedValueNode" =>
-            "/org/seasar/dao/node/EmbeddedValueNode.class.php",
-        "IfNode" =>
-            "/org/seasar/dao/node/IfNode.class.php",
-        "ParenBindVariableNode" =>
-            "/org/seasar/dao/node/ParenBindVariableNode.class.php",
-        "PrefixSqlNode" =>
-            "/org/seasar/dao/node/PrefixSqlNode.class.php",
-        "SqlNode" =>
-            "/org/seasar/dao/node/SqlNode.class.php",
-        "EntityManager" =>
-            "/org/seasar/dao/EntityManager.class.php",
-        "RelationPropertyType" =>
-            "/org/seasar/dao/RelationPropertyType.class.php",
-        "StatementFactory" =>
-            "/org/seasar/extension/db/StatementFactory.class.php",
-        "ResultSetFactory" =>
-            "/org/seasar/extension/db/ResultSetFactory.class.php",
-        "ArrayList" =>
-            "/org/seasar/dao/util/ArrayList.class.php",
-        "HashMap" =>
-            "/org/seasar/dao/util/HashMap.class.php",
-        "MySQL" =>
-            "/org/seasar/dao/dbms/MySQL.class.php",
-        "Standard" =>
-            "/org/seasar/dao/dbms/Standard.class.php",
-        "ColumnNotFoundRuntimeException" =>
-            "/org/seasar/extension/db/ColumnNotFoundRuntimeException.class.php",
-        "PDODataSource" =>
-            "/org/seasar/extension/db/pdo/PDODataSource.class.php",
-        "PDOSqlHandler" =>
-            "/org/seasar/extension/db/pdo/PDOSqlHandler.class.php",
-        "PDOTxInterceptor" =>
-            "/org/seasar/extension/db/pdo/PDOTxInterceptor.class.php",
+        "S2Dao_CommandContext" =>
+            "/org/seasar/dao/S2Dao_CommandContext.class.php",
+        "S2Dao_CommandContextImpl" =>
+            "/org/seasar/dao/context/S2Dao_CommandContextImpl.class.php",
+        "S2Dao_Dbms" =>
+            "/org/seasar/dao/S2Dao_Dbms.class.php",
+        "S2Dao_DbmsManager" =>
+            "/org/seasar/dao/dbms/S2Dao_DbmsManager.class.php",
+        "S2Dao_IllegalBoolExpressionRuntimeException" =>
+            "/org/seasar/dao/S2Dao_IllegalBoolExpressionRuntimeException.class.php",
+        "S2Dao_IllegalSignatureRuntimeException" =>
+            "/org/seasar/dao/S2Dao_IllegalSignatureRuntimeException.class.php",
+        "S2Dao_IdentifierGenerator" =>
+            "/org/seasar/dao/S2Dao_IdentifierGenerator.class.php",
+        "S2Dao_Node" =>
+            "/org/seasar/dao/S2Dao_Node.class.php",
+        "S2Dao_BeanMetaData" =>
+            "/org/seasar/dao/S2Dao_BeanMetaData.class.php",
+        "S2Dao_BeanMetaDataImpl" =>
+            "/org/seasar/dao/impl/S2Dao_BeanMetaDataImpl.class.php",
+        "S2Dao_BeanMetaDataResultSetHandler" =>
+            "/org/seasar/dao/impl/S2Dao_BeanMetaDataResultSetHandler.class.php",
+        "S2Dao_EndCommentNotFoundRuntimeException" =>
+            "/org/seasar/dao/S2Dao_EndCommentNotFoundRuntimeException.class.php",
+        "S2Dao_IfConditionNotFoundRuntimeException" =>
+            "/org/seasar/dao/S2Dao_IfConditionNotFoundRuntimeException.class.php",
+        "S2Dao_SqlTokenizer" =>
+            "/org/seasar/dao/S2Dao_SqlTokenizer.class.php",
+        "S2Dao_BeginNode" =>
+            "/org/seasar/dao/node/S2Dao_BeginNode.class.php",
+        "S2Dao_BindVariableNode" =>
+            "/org/seasar/dao/node/S2Dao_BindVariableNode.class.php",
+        "S2Dao_AbstractNode" =>
+            "/org/seasar/dao/node/S2Dao_AbstractNode.class.php",
+        "S2Dao_ContainerNode" =>
+            "/org/seasar/dao/node/S2Dao_ContainerNode.class.php",
+        "S2Dao_ElseNode" =>
+            "/org/seasar/dao/node/S2Dao_ElseNode.class.php",
+        "S2Dao_EmbeddedValueNode" =>
+            "/org/seasar/dao/node/S2Dao_EmbeddedValueNode.class.php",
+        "S2Dao_IfNode" =>
+            "/org/seasar/dao/node/S2Dao_IfNode.class.php",
+        "S2Dao_ParenBindVariableNode" =>
+            "/org/seasar/dao/node/S2Dao_ParenBindVariableNode.class.php",
+        "S2Dao_PrefixSqlNode" =>
+            "/org/seasar/dao/node/S2Dao_PrefixSqlNode.class.php",
+        "S2Dao_SqlNode" =>
+            "/org/seasar/dao/node/S2Dao_SqlNode.class.php",
+        "S2Dao_EntityManager" =>
+            "/org/seasar/dao/S2Dao_EntityManager.class.php",
+        "S2Dao_RelationPropertyType" =>
+            "/org/seasar/dao/S2Dao_RelationPropertyType.class.php",
+        "S2Dao_StatementFactory" =>
+            "/org/seasar/extension/db/S2Dao_StatementFactory.class.php",
+        "S2Dao_ResultSetFactory" =>
+            "/org/seasar/extension/db/S2Dao_ResultSetFactory.class.php",
+        "S2Dao_ArrayList" =>
+            "/org/seasar/dao/util/S2Dao_ArrayList.class.php",
+        "S2Dao_HashMap" =>
+            "/org/seasar/dao/util/S2Dao_HashMap.class.php",
+        "S2Dao_MySQL" =>
+            "/org/seasar/dao/dbms/S2Dao_MySQL.class.php",
+        "S2Dao_Standard" =>
+            "/org/seasar/dao/dbms/S2Dao_Standard.class.php",
+        "S2Dao_ColumnNotFoundRuntimeException" =>
+            "/org/seasar/extension/db/S2Dao_ColumnNotFoundRuntimeException.class.php",
+        "S2Dao_PDODataSource" =>
+            "/org/seasar/extension/db/pdo/S2Dao_PDODataSource.class.php",
+        "S2Dao_PDOSqlHandler" =>
+            "/org/seasar/extension/db/pdo/S2Dao_PDOSqlHandler.class.php",
+        "S2Dao_PDOTxInterceptor" =>
+            "/org/seasar/extension/db/pdo/S2Dao_PDOTxInterceptor.class.php",
     );
 
     public static function load($className){

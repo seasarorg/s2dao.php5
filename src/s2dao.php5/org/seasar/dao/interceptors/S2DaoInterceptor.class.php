@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class S2DaoInterceptor extends AbstractInterceptor {
+class S2DaoInterceptor extends S2Container_AbstractInterceptor {
 
     private $daoMetaDataFactory_;
 
@@ -11,10 +11,10 @@ class S2DaoInterceptor extends AbstractInterceptor {
         $this->daoMetaDataFactory_ = $daoMetaDataFactory;
     }
 
-    public function invoke(MethodInvocation $invocation){
+    public function invoke(S2Container_MethodInvocation $invocation){
         try{
             $method = $invocation->getMethod();
-            if (!MethodUtil::isAbstract($method)) {
+            if (!S2Container_MethodUtil::isAbstract($method)) {
                 return $invocation->proceed();
             }
             
@@ -28,14 +28,14 @@ class S2DaoInterceptor extends AbstractInterceptor {
             if ( is_string($retType) ||
                  is_integer($retType) ||
                  is_double($retType) ) {
-                return NumberConversionUtil::convertPrimitiveWrapper($retType, $ret);
+                return S2Dao_NumberConversionUtil::convertPrimitiveWrapper($retType, $ret);
             } else if( is_numeric($retType) ){
-                return NumberConversionUtil::convertNumber($retType, $ret);
+                return S2Dao_NumberConversionUtil::convertNumber($retType, $ret);
             }
             */
 
             return $ret;
-        } catch ( Exception $e ){
+        } catch (Exception $e){
             throw $e;
         }
     }

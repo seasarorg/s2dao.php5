@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "components21.dtd">
 <components namespace="pdo">
-    <component name="dataSource" class="PDODataSource">
+    <component name="dataSource" class="S2Dao_PDODataSource">
         <property name="dsn">
             "mysql://hoge:hoge@localhost:3306/s2container"
         </property>
@@ -15,8 +15,8 @@
         <property name="database">"s2container"</property>
         -->
     </component>
-    <component class="PDOSqlHandler" />
-    <component name="dbtx" class="PDOTxInterceptor" />
+    <component class="S2Dao_PDOSqlHandler" />
+    <component name="dbtx" class="S2Dao_PDOTxInterceptor" />
 
     <component name="dao" class="S2DaoInterceptor" />
     <component class="DaoMetaDataFactoryImpl" />
