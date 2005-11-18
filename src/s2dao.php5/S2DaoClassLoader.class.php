@@ -199,7 +199,15 @@ class S2DaoClassLoader {
             return true;
         } else {
             return false;
-       }
+        }
+    }
+    
+    public static function export(){
+        $export = array();
+        foreach(self::$CLASSES as $key => $value){
+            $export[$key] = S2DAO_PHP5 . $value;
+        }
+        return $export;
     }
 }
 ?>

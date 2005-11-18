@@ -1,10 +1,9 @@
 <?php
-require_once dirname(dirname(dirname(__FILE__))) . "/s2dao.inc.php";
+require_once dirname(__FILE__) . "/example.inc.php";
+require dirname(__FILE__) . "/CdDao.class.php";
+require dirname(__FILE__) . "/CdBean.class.php";
 
-require "CdDao.class.php";
-require "CdBean.class.php";
-
-$container = S2ContainerFactory::create("example.dicon");
+$container = S2ContainerFactory::create("example.dicon.xml");
 $dao = $container->getComponent("CdDao");
 
 // $bean instanceof ArrayObject
