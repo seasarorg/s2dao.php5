@@ -23,14 +23,14 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
         $expression = EvalUtil::getExpression($expression);
         $result = eval($expression);
         
-        if ($value instanceof S2Dao_ArrayList) {
+        if ($result instanceof S2Dao_ArrayList) {
             $this->bindArray($ctx, $value->toArray());
-        } else if ($value == null) {
+        } else if ($result == null) {
             return;
-        } else if (is_array($value)) {
-            $this->bindArray($ctx, $value);
+        } else if (is_array($result)) {
+            $this->bindArray($ctx, $result);
         } else {
-            $ctx->addSql("?", $value, get_class($value));
+            $ctx->addSql("?", $result, get_class($result));
         }
     }
 
