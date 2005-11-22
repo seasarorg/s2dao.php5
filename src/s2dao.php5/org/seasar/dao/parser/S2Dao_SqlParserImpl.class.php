@@ -6,14 +6,13 @@
 class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
 
     private $tokenizer_ = null;
-    private $nodeStack_;
+    private $nodeStack_ = array();
 
     public function __construct($sql) {
         $sql = trim($sql);
 
         $sql = preg_replace("/(.+);$/s", "\\1", $sql);
         $this->tokenizer_ = new S2Dao_SqlTokenizerImpl($sql);
-        $this->nodeStack_ = array();
     }
 
     public function parse() {
@@ -80,7 +79,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     protected function parseIf() {
-        $condition = trim( substr($this->tokenizer_->getToken(), 2) );
+        $condition = trim(substr($this->tokenizer_->getToken(), 2));
         if (empty($condition)) {
             throw new S2Dao_IfConditionNotFoundRuntimeException();
         }
@@ -143,8 +142,8 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     protected function peek() {
-        $shift = array_shift($this->nodeStack_);
-        array_unshift($this->nodeStack_, $shift);
+        $st = $this->nodeStack_;
+        $shift = array_pop($st);
         return $shift;
     }
 
@@ -162,7 +161,6 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     private static function isTargetComment($comment = null) {
-        //Character.isJavaIdentifierStart(substr($comment,0,1));
         return $comment != null && strlen($comment) > 0
                 && substr($comment,0,1) != null;
     }

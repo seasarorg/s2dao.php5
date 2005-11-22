@@ -13,7 +13,7 @@ class DaoMetaDataImpl implements DaoMetaData {
     const SELECT_LIST_NAME = "/List_/i";
 
     const NOT_SINGLE_ROW_UPDATED = "NotSingleRowUpdated";
-    const startWithOrderByPattern = "/(/\*[^*]+\*/)*order by/i";
+    const startWithOrderByPattern = "/(\/\*[^\*]+\*\/)+order by/i";
 
     protected $daoClass_;
     protected $daoInterface_;
@@ -139,11 +139,12 @@ class DaoMetaDataImpl implements DaoMetaData {
                 if ($query != null) {
                     if (self::startsWithOrderBy($query)) {
                         $buf .= " ";
-                    } else if (strrpos($sql,"WHERE") < 0) {
+                    } else if (strrpos($sql, "WHERE") < 0) {
                         $buf .= " WHERE ";
                     } else {
                         $buf .= " AND ";
                     }
+                    $buf = preg_replace("/ AND $/", " ", $buf);
                     $buf .= $query;
                 }
             }
@@ -162,7 +163,7 @@ class DaoMetaDataImpl implements DaoMetaData {
      protected static function startsWithOrderBy($query = null) {
         if ($query != null) {
             $match = "";
-            if( preg_match_all( self::startWithOrderByPattern, $query, $match ) ){
+            if( preg_match( self::startWithOrderByPattern, $query, $match ) ){
                 return true;
             }
         }
@@ -420,7 +421,7 @@ class DaoMetaDataImpl implements DaoMetaData {
                 $buf .= "/*BEGIN*/ WHERE ";
                 $began = true;
             }
-            foreach( $argNames as $key => $argName ){
+            foreach($argNames as $key => $argName){
                 $columnName = $this->beanMetaData_->convertFullColumnName($argName);
                 $buf .= "/*IF ";
                 $buf .= $argName;

@@ -76,7 +76,7 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
         if ($lineCommentStartPos !== false && 0 <= $lineCommentStartPos) {
             $skipPos = $this->skipWhitespace($lineCommentStartPos + 2);
             if ($skipPos + 4 < strlen($this->sql_)
-                    && 'ELSE' === substr($this->sql_, $skipPos, $skipPos + 4)) {
+                    && 'ELSE' === substr($this->sql_, $skipPos, 4)) {
                 $elseCommentStartPos = $lineCommentStartPos;
                 $elseCommentLength = $skipPos + 4 - $lineCommentStartPos;
             }
@@ -211,7 +211,7 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
     }
 
     public function skipWhitespace($position = null) {
-        if($position == null){
+        if($position === null){
             $index = $this->skipWhitespace($this->position_);
             $this->token_ = substr($this->sql_, $this->position_, $index);
             $this->position_ = $index;
