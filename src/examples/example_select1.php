@@ -6,17 +6,25 @@ require dirname(__FILE__) . "/CdBean.class.php";
 $container = S2ContainerFactory::create("example.dicon.xml");
 $dao = $container->getComponent("CdDao");
 
-// $bean instanceof ArrayObject
-$bean = $dao->Array_getAllCD();
-$iterator = $bean->getIterator();
+// $cd is array()
+$cd = $dao->Array_getAllCD();
 
-for($iterator->rewind(); $iterator->valid(); $iterator->next()){
-    // cd instanceof CdBean
-    $cd = $iterator->current();
-    echo "ID: " . $cd->getId() . PHP_EOL;
-    echo "TITLE: " . $cd->getTitle() . PHP_EOL;
-    echo "CONTENT: " . $cd->getContent() . PHP_EOL;
-    echo "-------".PHP_EOL;
+for($i = 0; $i < count($cd); $i++){
+    // $cd[$i] instanceof CdBean
+    echo "ID: " . $cd[$i]->getId() . PHP_EOL;
+    echo "TITLE: " . $cd[$i]->getTitle() . PHP_EOL;
+    echo "CONTENT: " . $cd[$i]->getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
+}
+
+echo "=====" . PHP_EOL;
+
+$cd = $dao->Array_getSelectCdById(20);
+foreach($cd as $bean){
+    echo "ID: " . $bean->getId() . PHP_EOL;
+    echo "TITLE: " . $bean->getTitle() . PHP_EOL;
+    echo "CONTENT: " . $bean->getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
 }
 
 ?>

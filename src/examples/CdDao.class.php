@@ -3,17 +3,24 @@
 interface CdDao {
 
     const BEAN = "CdBean";
+
     const insert_NO_PERSISTENT_PROPS = "content";
     const update_NO_PERSISTENT_PROPS = "id, content";
+
+    const Array_getSelectCdById_QUERY = "WHERE ID = /*id*/1";
+
     const List_getCD1_ARGS = "id, title";
     const List_getCD2_ARGS = "id, title, content";
+    const List_getCD3_ARGS = "id";
     
     public function update(CdBean $cd);
     public function insert(CdBean $cd);
     public function delete(CdBean $cd);
     
     public function Array_getAllCd();
+    public function Array_getSelectCdById($id);
     public function List_getCD1($id, $title = null);
     public function List_getCD2($id, $title, $content);
+    public function List_getCD3($id = null);
 }
 ?>
