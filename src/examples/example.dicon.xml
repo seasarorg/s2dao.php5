@@ -10,7 +10,7 @@
     <component name="dbtx" class="S2Container_PearDBTxInterceptor"/>
     <component name="session" class="S2Container_DBSessionImpl" />
 	
-    <component class="DaoMetaDataFactoryImpl" />
+    <component class="S2Dao_DaoMetaDataFactoryImpl" />
     <component name="interceptor" class="S2DaoInterceptor" />
     
     <component name="beanCdDao" class="CdDao">
