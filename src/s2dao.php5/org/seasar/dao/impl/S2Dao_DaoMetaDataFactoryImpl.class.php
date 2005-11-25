@@ -15,7 +15,6 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
                                 $resultSetFactory) {
 
         $this->daoMetaDataCache_ = new S2Dao_HashMap();
-
         $this->dataSource_ = $dataSource;
         $this->statementFactory_ = $statementFactory;
         $this->resultSetFactory_ = $resultSetFactory;
@@ -27,7 +26,7 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         if ($dmd !== null) {
             return $dmd;
         }        
-        $dmd = new DaoMetaDataImpl($daoClass,
+        $dmd = new S2Dao_DaoMetaDataImpl($daoClass,
                                    $this->dataSource_,
                                    $this->statementFactory_,
                                    $this->resultSetFactory_);
