@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class S2Dao_PDODataSource extends AbstractDataSource {
+class S2Dao_PDODataSource extends S2Dao_AbstractDataSource {
 
     private $log_;
     protected $type ="";

@@ -5,7 +5,7 @@
  */
 class S2DaoBeanListReader extends S2DaoBeanReader {
 
-	public function __construct($list, DatabaseMetaData $dbMetaData) {
+	public function __construct($list, $dbMetaData) {
 		$dbms = S2Dao_DbmsManager::getDbms($dbMetaData);
 		$beanMetaData = new S2Dao_BeanMetaDataImpl(
 				get_class($list->get(0)), $dbMetaData, $dbms);

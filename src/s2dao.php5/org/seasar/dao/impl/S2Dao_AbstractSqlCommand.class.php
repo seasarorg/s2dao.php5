@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-abstract class AbstractSqlCommand implements SqlCommand {
+abstract class S2Dao_AbstractSqlCommand implements S2Dao_SqlCommand {
 
     private $dataSource_;
     private $statementFactory_;

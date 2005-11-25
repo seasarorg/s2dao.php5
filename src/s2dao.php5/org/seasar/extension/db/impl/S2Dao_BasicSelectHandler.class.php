@@ -6,13 +6,9 @@
 class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_SelectHandler {
 
     private static $logger_ = null;
-
     private $resultSetFactory_ = null;
-
     private $resultSetHandler_;
-
     private $fetchSize_ = 100;
-
     private $maxRows_ = -1;
 
     public function __construct(S2Container_DataSource $dataSource,

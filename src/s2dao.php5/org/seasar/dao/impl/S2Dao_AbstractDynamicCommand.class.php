@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-abstract class S2Dao_AbstractDynamicCommand extends AbstractSqlCommand {
+abstract class S2Dao_AbstractDynamicCommand extends S2Dao_AbstractSqlCommand {
 
     private $rootNode_;
     private $argNames_ = array();

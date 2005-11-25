@@ -28,7 +28,7 @@ class S2Dao_IdentifierGeneratorFactory {
         if ($clazz != null) {
             return $clazz;
         }
-        return ClassUtil::forName($name);
+        return S2Container_ClassUtil::forName($name);
     }
     
     public static function createIdentifierGenerator($propertyName, S2Dao_Dbms $dbms, $annotation = null) {
@@ -39,8 +39,8 @@ class S2Dao_IdentifierGeneratorFactory {
         $array = explode("=, ", $annotation);
         $clazz = self::getGeneratorClass($array[0]);
         
-        $construct = ClassUtil::getConstructot( $clazz, array("", get_class($dbms)) );
-        $generator = ConstructorUtil::newInstance($construct, array($propertyName, $dbms));
+        $construct = S2Container_ClassUtil::getConstructot( $clazz, array("", get_class($dbms)) );
+        $generator = S2Container_ConstructorUtil::newInstance($construct, array($propertyName, $dbms));
         
         for ($i = 1; $i < count($array); $i += 2) {
             self::setProperty($generator, trim($array[$i]), trim($array[$i + 1]));
@@ -49,7 +49,7 @@ class S2Dao_IdentifierGeneratorFactory {
     }
     
     protected static function setProperty($generator, $propertyName, $value) {
-        $beanDesc = BeanDescFactory::getBeanDesc(get_class($generator));
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc(get_class($generator));
         $pd = $beanDesc->getPropertyDesc($propertyName);
         $pd->setValue($generator, $value);
     }

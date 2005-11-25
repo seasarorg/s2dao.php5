@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class DaoMetaDataFactoryImpl implements DaoMetaDataFactory {
+class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
 
     protected $daoMetaDataCache_ = null;
     protected $dataSource_ = null;

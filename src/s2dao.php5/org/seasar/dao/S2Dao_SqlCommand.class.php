@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-interface SqlCommand {
+interface S2Dao_SqlCommand {
     public function execute($args);
 }
 

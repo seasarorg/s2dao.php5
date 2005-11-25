@@ -7,7 +7,7 @@ abstract class S2Dao_AbstractDao {
 
     private $entityManager_;
 
-    public function __construct(DaoMetaDataFactory $daoMetaDataFactory) {
+    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory) {
         $this->entityManager_ = new S2Dao_EntityManagerImpl(
                         $daoMetaDataFactory->getDaoMetaData(__CLASS__));
     }

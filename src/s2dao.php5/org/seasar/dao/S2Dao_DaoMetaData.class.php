@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-interface DaoMetaData {
+interface S2Dao_DaoMetaData {
 
     const BEAN = "BEAN";
     const QUERY = "QUERY";

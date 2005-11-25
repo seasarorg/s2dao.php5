@@ -16,7 +16,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Container
     }
 
     protected function createRow($columnNames){
-//        $row = ClassUtil::newInstance($this->beanMetaData_->getBeanClass());
+//        $row = S2Container_ClassUtil::newInstance($this->beanMetaData_->getBeanClass());
 //        for ($i = 0; $i < $this->beanMetaData_->getPropertyTypeSize(); ++$i) {
 //            $pt = $this->beanMetaData_->getPropertyType($i);
 //            
@@ -57,7 +57,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Container
 //            $columnName = $rpt->getMyKey($i);
 //            if ($columnNames->contains($columnName)) {
 //                if ($row == null) {
-//                    $row = ClassUtil.newInstance($rpt->getPropertyDesc()->getPropertyType());
+//                    $row = S2Container_ClassUtil::newInstance($rpt->getPropertyDesc()->getPropertyType());
 //                }
 //                if ($relKeyValues != null && $relKeyValues->containsKey($columnName)) {
 //                    $value = $relKeyValues->get($columnName);

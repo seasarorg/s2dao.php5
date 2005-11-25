@@ -10,7 +10,7 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
     protected $yourKeys_ = array();
     protected $beanMetaData_;
 
-    public function __construct(PropertyDesc $propertyDesc, $relationNo = null,
+    public function __construct(S2Container_PropertyDesc $propertyDesc, $relationNo = null,
                                 $myKeys = null, $yourKeys = null,
                                 $dbMetaData = null, $dbms = null){
 

@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class S2Dao_PDOTxInterceptor extends AbstractTxInterceptor {
+class S2Dao_PDOTxInterceptor extends S2Container_AbstractTxInterceptor {
     
     private $log_;
     

@@ -23,13 +23,13 @@ abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGene
         return $this->dbms_;
     }
     
-    protected function executeSql(DataSource $ds, $sql, $args) {
+    protected function executeSql(S2Container_DataSource $ds, $sql, $args) {
         $handler = new S2Dao_BasicSelectHandler($ds, $sql, $this->resultSetHandler_);
         return $handler->execute($args);
     }
     
     protected function setIdentifier($bean, $value) {
-        if( $value instanceof DataSource ){
+        if( $value instanceof S2Container_DataSource ){
             $val = $this->executeSql($value,
                             $this->getDbms()->getIdentitySelectString(),
                             null);
@@ -38,7 +38,7 @@ abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGene
             if ($this->propertyName_ == null) {
                 throw new S2Container_EmptyRuntimeException("propertyName");
             }
-            $beanDesc = BeanDescFactory::getBeanDesc(get_class($bean));
+            $beanDesc = S2Container_BeanDescFactory::getBeanDesc(get_class($bean));
             $pd = $beanDesc->getPropertyDesc($this->propertyName_);
             $pd->setValue($bean, $value);
         }

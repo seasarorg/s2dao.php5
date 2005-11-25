@@ -41,7 +41,7 @@ class S2Dao_ArrayList extends ArrayObject {
         }
     }
     
-    public function addAll(S2Dao_ArrayObject $list){
+    public function addAll(ArrayObject $list){
         foreach( $list->toArray() as $value ){
             $this->append($value);
         }

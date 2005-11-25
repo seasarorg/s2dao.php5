@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-interface DaoMetaDataFactory {
+interface S2Dao_DaoMetaDataFactory {
     public function getDaoMetaData($daoClass);
 }
 ?>

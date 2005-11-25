@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class DaoMetaDataImpl implements DaoMetaData {
+class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     private static $INSERT_NAMES = array("insert", "create", "add");
     private static $UPDATE_NAMES = array("update", "modify", "store");
@@ -124,10 +124,10 @@ class DaoMetaDataImpl implements DaoMetaData {
 
     protected function createSelectDynamicCommand(S2Container_ResultSetHandler $rsh, $query = null) {
         if( $query == null ){
-            return new S2Dao_SelectDynamicCommand( $this->dataSource_,
-                                             $this->statementFactory_,
-                                             $rsh,
-                                             $this->resultSetFactory_);
+            return new S2Dao_SelectDynamicCommand($this->dataSource_,
+                                                  $this->statementFactory_,
+                                                  $rsh,
+                                                  $this->resultSetFactory_);
         } else {
             $cmd = $this->createSelectDynamicCommand($rsh);
             $buf = "";
@@ -163,7 +163,7 @@ class DaoMetaDataImpl implements DaoMetaData {
      protected static function startsWithOrderBy($query = null) {
         if ($query != null) {
             $match = "";
-            if( preg_match( self::startWithOrderByPattern, $query, $match ) ){
+            if( preg_match(self::startWithOrderByPattern, $query, $match) ){
                 return true;
             }
         }
@@ -200,8 +200,8 @@ class DaoMetaDataImpl implements DaoMetaData {
         $cmd->setSql($sql);
         $argNames = $this->annotationReader_->getArgNames($method->getName());
         if (count($argNames) == 0 && $this->isUpdateSignatureForBean($method)) {
-            $argNames = array(StringUtil::decapitalize(
-                                ClassUtil::getShortClassName($this->beanClass_))
+            $argNames = array(S2Container_StringUtil::decapitalize(
+                                S2Container_ClassUtil::getShortClassName($this->beanClass_))
                              );
         }
         $cmd->setArgNames($argNames);
@@ -559,7 +559,6 @@ class DaoMetaDataImpl implements DaoMetaData {
         foreach( $clazz->getInterfaces() as $interface ){
             for($i = 0; $i < count($interface); ++$i){
                 $intf = $interface[$i];
-
                 if( ereg("Dao$", $intf->getName()) ) {
                     return $intf;
                 }

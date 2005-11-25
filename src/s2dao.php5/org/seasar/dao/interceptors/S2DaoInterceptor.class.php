@@ -7,7 +7,7 @@ class S2DaoInterceptor extends S2Container_AbstractInterceptor {
 
     private $daoMetaDataFactory_;
 
-    public function __construct(DaoMetaDataFactory $daoMetaDataFactory) {
+    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory) {
         $this->daoMetaDataFactory_ = $daoMetaDataFactory;
     }
 

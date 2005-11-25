@@ -9,7 +9,7 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
 
     private $daoMetaData_;
 
-    public function __construct(DaoMetaData $daoMetaData) {
+    public function __construct(S2Dao_DaoMetaData $daoMetaData) {
         $this->daoMetaData_ = $daoMetaData;
     }
 

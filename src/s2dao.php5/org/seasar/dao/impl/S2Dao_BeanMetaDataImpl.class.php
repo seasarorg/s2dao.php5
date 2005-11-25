@@ -17,10 +17,10 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     private $timestampPropertyName_ = "timestamp";
 
     public function S2Dao_BeanMetaDataImpl($beanClass,
-                                       $dbMetaData,
-                                       S2Dao_Dbms $dbms,
-                                       //$dbms,
-                                       $relation = null) {
+                                           $dbMetaData,
+                                           S2Dao_Dbms $dbms,
+                                           //$dbms,
+                                           $relation = null) {
 
         self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
         

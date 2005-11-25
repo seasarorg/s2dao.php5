@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-abstract class S2Dao_AbstractStaticCommand extends AbstractSqlCommand {
+abstract class S2Dao_AbstractStaticCommand extends S2Dao_AbstractSqlCommand {
 
     private $beanMetaData_;
 
