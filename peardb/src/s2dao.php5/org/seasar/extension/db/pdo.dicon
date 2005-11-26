@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"components21.dtd">
+<components namespace="pdo">
+    <component name="dataSource" class="S2Dao_PDODataSource">
+        <property name="dsn">
+            "mysql://hoge:hoge@localhost:3306/s2container"
+        </property>
+        <!--
+        <property name="type">"mysql"</property>
+        <property name="user">"hoge"</property>
+        <property name="password">"hoge"</property>
+        <property name="host">"localhost"</property>
+        <property name="port">"3306"</property>
+        <property name="database">"s2container"</property>
+        -->
+    </component>
+    <component class="S2Dao_PDOSqlHandler" />
+    <component name="dbtx" class="S2Dao_PDOTxInterceptor" />
+
+    <component name="dao" class="S2DaoInterceptor" />
+    <component class="DaoMetaDataFactoryImpl" />
+    <component name="session" class="DBSessionImpl" />
+    
+</components>
