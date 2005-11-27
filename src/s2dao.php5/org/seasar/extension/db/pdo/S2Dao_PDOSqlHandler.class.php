@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class S2Dao_PDOSqlHandler implements S2Dao_SqlHandler {
+class S2Dao_PDOSqlHandler implements S2Container_SqlHandler {
 
     private $log_;
 

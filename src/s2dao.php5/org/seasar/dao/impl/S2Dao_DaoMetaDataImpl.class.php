@@ -49,12 +49,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $this->dataSource_ = $dataSource;
         //$this->statementFactory_ = $statementFactory;
         $con = $this->dataSource_->getConnection();
-        $dbMetaData = S2Dao_ConnectionUtil::getMetaData($con);
-        $this->dbms_ = S2Dao_DbmsManager::getDbms($dbMetaData);
+        $this->dbms_ = S2Dao_DbmsManager::getDbms($con);
         $this->beanMetaData_ = new S2Dao_BeanMetaDataImpl($this->beanClass_,
-                                                    $dbMetaData,
+                                                    $con,
                                                     $this->dbms_);
-        $con->disconnect();
         $this->setupSqlCommand();
     }
 

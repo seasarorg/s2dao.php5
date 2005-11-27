@@ -22,6 +22,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $this->setSql($sql);
         $this->setResultSetHandler($resultSetHandler);
         
+        /*
         if( isset($statementFactory, $resultSetFactory) ){
             $this->setStatementFactory($statementFactory);
             $this->setResultSetFactory($resultSetFactory);
@@ -29,6 +30,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
             $this->setStatementFactory( new S2Dao_BasicStatementFactory );
             $this->setResultSetFactory( new S2Dao_BasicResultSetFactory );
         }
+        */
     }
 
     public function getResultSetFactory() {
@@ -94,11 +96,11 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         */
 
         $connection = $this->getConnection();
-        $connection->setFetchMode(DB_FETCHMODE_ASSOC);
         $ps = $this->prepareStatement($connection);
+        $ps->setFetchMode(PDO::FETCH_ASSOC);
         $this->bindArgs($ps, $element, $args);
-        
-        $result = $connection->execute($ps, $element);
+        $ps->execute();
+
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
             self::$logger_->debug($this->getCompleteSql($element));
         }
@@ -108,7 +110,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         }
         //$resultSet = $this->createResultSet($element);
         //return $this->resultSetHandler_->handle($resultSet);
-        return $this->resultSetHandler_->handle($result);
+        return $this->resultSetHandler_->handle($ps);
     }
 
     protected function setup($con, $args) {
@@ -117,12 +119,14 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
 
     protected function prepareStatement($connection) {
         $ps = parent::prepareStatement($connection);
+        /*
         if ($this->fetchSize_ > -1) {
             //StatementUtil::setFetchSize($ps, $this->fetchSize_);
         }
         if ($this->maxRows_ > -1) {
             //StatementUtil::setMaxRows($ps, $this->maxRows_);
         }
+        */
         return $ps;
     }
 

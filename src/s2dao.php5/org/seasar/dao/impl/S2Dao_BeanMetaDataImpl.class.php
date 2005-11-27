@@ -19,7 +19,6 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     public function S2Dao_BeanMetaDataImpl($beanClass,
                                            $dbMetaData,
                                            S2Dao_Dbms $dbms,
-                                           //$dbms,
                                            $relation = null) {
 
         self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
@@ -248,10 +247,8 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet(
                                                $dbMetaData, $this->tableName_);
 
-            $pks = $primaryKeySet->toArray();
-            for ($i = 0; $i < count($pks); ++$i) {
-                //$pkeyList->add($primaryKeySet->get($i));
-                $pkeyList->add($pks[$i]);
+            for ($i = 0; $i < $primaryKeySet->size(); ++$i) {
+                $pkeyList->add($primaryKeySet->get($i));
                 $pt = $this->getPropertyType($i);
                 if ($primaryKeySet->contains($pt->getColumnName())) {
                     $pt->setPrimaryKey(true);

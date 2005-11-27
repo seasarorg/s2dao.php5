@@ -5,8 +5,6 @@
  */
 class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResultSetHandler {
 
-    const FETCH_MODE = DB_FETCHMODE_ASSOC;
-    
     public function __construct(S2Dao_BeanMetaData $beanMetaData) {
         parent::__construct($beanMetaData);
     }
@@ -15,7 +13,7 @@ class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataR
         $list = new S2Dao_ArrayList();
 
         $beanMetaData = $this->getBeanMetaData();
-        while($row = $rs->fetchRow(self::FETCH_MODE)){
+        while($row = $rs->fetch(PDO::FETCH_ASSOC)){
             $columns = array_keys($row);
             $cls = $beanMetaData->getBeanClass()->newInstance();
             
@@ -34,7 +32,6 @@ class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataR
             }
             $list->add($cls);
         }
-        $rs->free();
         return $list;
         
 //            $relSize = $this->getBeanMetaData()->getRelationPropertyTypeSize();

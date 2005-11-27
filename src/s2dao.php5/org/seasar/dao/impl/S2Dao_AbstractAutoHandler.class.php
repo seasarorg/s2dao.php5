@@ -78,37 +78,34 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     public function execute($args, $arg2 = null) {
         $args = $args[0];
         $connection = $this->getConnection();
-        $connection->setFetchMode(DB_FETCHMODE_ASSOC);
 
         $ps = $this->prepareStatement($connection);
+        $ps->setFetchMode(PDO::FETCH_ASSOC);
 
         $this->preUpdateBean($args);
         $this->setupBindVariables($args);
 
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
             $this->getLogger()->debug(
-                $this->getCompleteSql($this->bindVariables)
+                $this->getCompleteSql($this->bindVariables_)
             );
         }
-            
+
         $this->bindArgs($ps, $this->bindVariables_, $this->bindVariableTypes_);
         
         $ret = -1;
-        $result = $connection->execute($ps, $this->bindVariables_);
+        $result = $ps->execute();
 
-        if(DB::isError($result)){
-            $this->getLogger()->error($result->getMessage(), __METHOD__);
-            $this->getLogger()->error($result->getDebugInfo(), __METHOD__);
-            $connection->disconnect();
+        if($result === false){
+            $this->getLogger()->error($ps->errorCode(), __METHOD__);
+            $this->getLogger()->error(print_r($ps->errorInfo()), __METHOD__);
+            unset($connection);
             throw new Exception();
-        }
-
-        if($result == DB_OK){
-            $ret = $connection->affectedRows();
+        } else {
+            $ret = $ps->rowCount();
         }
 
         $this->postUpdateBean($args);
-        $connection->disconnect();
         return $ret;
     }
 

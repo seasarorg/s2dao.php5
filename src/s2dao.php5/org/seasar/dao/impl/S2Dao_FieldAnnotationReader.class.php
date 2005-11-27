@@ -69,7 +69,7 @@ class S2Dao_FieldAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
     
-    private function spacetrim($elem){
+    private function spacetrim(array $elem){
         $ret = array();
         foreach($elem as $key => $value){
             $ret[$key] = trim($value);

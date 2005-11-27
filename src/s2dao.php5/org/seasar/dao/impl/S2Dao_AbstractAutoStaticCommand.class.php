@@ -42,7 +42,7 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
 
     protected function setupInsertPropertyTypes($propertyNames) {
         $types = new S2Dao_ArrayList();
-        for ($i = 0; $i < count($propertyNames); ++$i) {
+        for ($i = 0; $i < count($propertyNames); $i++) {
             $pt = $this->getBeanMetaData()->getPropertyType($propertyNames[$i]);
             if ($pt->isPrimaryKey() &&
                 !$this->getBeanMetaData()->getIdentifierGenerator()->isSelfGenerate()) {
@@ -55,7 +55,7 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
 
     protected function setupUpdatePropertyTypes($propertyNames) {
         $types = new S2Dao_ArrayList();
-        for ($i = 0; $i < count($propertyNames); ++$i) {
+        for ($i = 0; $i < count($propertyNames); $i++) {
             $pt = $this->getBeanMetaData()->getPropertyType($propertyNames[$i]);
             if ($pt->isPrimaryKey()) {
                 continue;
@@ -70,21 +70,19 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
     protected abstract function setupSql();
 
     protected function setupInsertSql() {
-        $bmd = $this->getBeanMetaData();
-        
         $buf = "";
         $buf .= "INSERT INTO ";
-        $buf .= $bmd->getTableName();
+        $buf .= $this->getBeanMetaData()->getTableName();
         $buf .= " (";
-        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+        $c = count($this->propertyTypes_);
+        for ($i = 0; $i < $c; $i++) {
             $pt = $this->propertyTypes_[$i];
-            //$pt = $bmd->getPropertyType($i);
             $buf .= $pt->getColumnName();
             $buf .= ", ";
         }
         $buf = preg_replace("/(, )$/", "", $buf);
         $buf .= ") VALUES (";
-        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+        for ($i = 0; $i < $c; $i++) {
             $buf .= "?, ";
         }
         $buf = preg_replace("/(, )$/", "", $buf);
@@ -97,7 +95,8 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
         $buf .= "UPDATE ";
         $buf .= $this->getBeanMetaData()->getTableName();
         $buf .= " SET ";
-        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+        $c = count($this->propertyTypes_);
+        for ($i = 0; $i < $c; $i++) {
             $pt = $this->propertyTypes_[$i];
             $buf .= $pt->getColumnName();
             $buf .= " = ?, ";

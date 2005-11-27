@@ -3,35 +3,42 @@
 /**
  * @author nowel
  */
-class S2Dao_PDODataSource extends S2Dao_AbstractDataSource {
+class S2Dao_PDODataSource extends S2Container_AbstractDataSource {
 
     private $log_;
-    protected $type ="";
-    protected $dsn ="";
+    protected $type = "";
+    protected $dsn = "";
+    protected $user = "";
+    protected $pass = "";
+    protected $option = "";
         
     public function __construct(){
         $this->log_ = S2Container_S2Logger::getLogger(__CLASS__);
     }
     
-    public function setType($type){
-        $this->type = $type;    
+    public function setDsn($dsn){
+        $this->dsn = $dsn; 
     }
 
-    public function setDsn($dsn){
-        $this->dsn = $dsn;    
+    public function setPassword($pass){
+        $this->pass = $pass;
+    }
+
+    public function setOption($option){
+        $this->option = $option;
     }
 
     public function getConnection(){
-        if($this->dsn == ""){
-            $this->dsn = $this->constructDsn();
-        }
-
     	try {
-            $db = new PDO($this->dsn);
+            if( isset($this->user, $this->pass) ){
+                $db = new PDO($this->dsn, $this->user, $this->pass);
+            } else {
+                $db = new PDO($this->dsn);
+            }
     	} catch(PDOException $e){
     		$this->log_->error($e->getMessage(), __METHOD__);
     		$this->log_->error($e->getCode(), __METHOD__);
-    		throw new Exception();
+    		throw $e;
     	}
         return $db;
     }
@@ -82,32 +89,5 @@ class S2Dao_PDODataSource extends S2Dao_AbstractDataSource {
         return $dsn;
     }
 
-    protected function constructDsn(){
-        $dsn = "";
-        if($this->type != ""){
-            $dsn .= $this->type . "://";
-        }
-
-        if($this->user != ""){
-            $dsn .= $this->user;
-        }
-        
-        if($this->password != ""){
-            $dsn .= ":" . $this->password;
-        }
-
-        if($this->host != ""){
-            $dsn .= "@" . $this->host;
-            if($this->port != ""){
-                $dsn .= ":" . $this->port;
-            }
-        }
-
-        if($this->database != ""){
-            $dsn .= "/" . $this->database;
-        }
-        
-        return $dsn;
-    }
 }
 ?>

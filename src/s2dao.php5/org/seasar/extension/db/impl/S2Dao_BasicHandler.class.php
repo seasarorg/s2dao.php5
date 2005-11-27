@@ -52,11 +52,10 @@ class S2Dao_BasicHandler {
 		return S2Dao_DataSourceUtil::getConnection($this->dataSource_);
 	}
 
-	protected function prepareStatement($connection) {
+	protected function prepareStatement(PDO $connection) {
 		if ($this->sql_ == null) {
 			throw new S2Container_EmptyRuntimeException("sql");
 		}
-		//return $this->statementFactory_->createPreparedStatement($connection, $this->sql_);
         return $connection->prepare($this->sql_);
 	}
 
@@ -64,22 +63,14 @@ class S2Dao_BasicHandler {
         if ($args === null) {
 			return;
 		}
-        return $args;
-		for ($i = 0; $i < count($args); ++$i) {
+        $c = count($args);
+		for ($i = 0; $i < $c; $i++) {
 			try {
-                $pos = 0;
-                $buf = $this->sql_;
-                foreach($args as $value){
-                    $pos = strpos($buf, '?');
-                    if( $pos !== false ){
-                        $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
-                    } else {
-                        break;
-                    }
+                if( isset($argTypes[$i]) ){
+                    $ps->bindValue($i + 1, $args[$i], $this->getBindParamTypes($argTypes[$i]));
+                } else {
+                    $ps->bindValue($i + 1, $args[$i]);
                 }
-		        return $buf;
-                //return $args;
-                //$ps->bindParam($i + 1, $args[$i], $argTypes[$i]);
 			} catch (Exception $ex) {
 				throw new S2Container_SQLRuntimeException($ex);
 			}
@@ -116,6 +107,27 @@ class S2Dao_BasicHandler {
         }
 		return $buf;
 	}
+
+    protected function getBindParamTypes($phpType){
+        if($phpType == null){ return PDO::PARAM_INPUT_OUTPUT; }
+        switch($phpType){
+            case "char":
+            case "string":
+                return PDO::PARAM_STR;
+            case "int":
+            case "integer":
+                return PDO::PARAM_INT;
+            case "bool":
+            case "boolean":
+                return PDO::PARAM_BOOL;
+            case "null":
+                return PDO::PARAM_NULL;
+            default:
+            case "double":
+            case "float":
+                return PDO::PARAM_STMT;
+        }
+    }
 
 	protected function getBindVariableText($bindVariable) {
 		if (is_string($bindVariable)) {

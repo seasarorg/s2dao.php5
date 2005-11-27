@@ -19,12 +19,7 @@ class S2Dao_HashMap {
         if( isset($this->element[$object]) ){
             return $this->element[$object];
         } else {
-            if( is_integer($object) ){
-                $arrays = array_values($this->element);
-                return $arrays[$object];
-            } else {
-                return null;
-            }
+            return null;
         }
 	}
 	
@@ -37,7 +32,7 @@ class S2Dao_HashMap {
 	}
 	
 	public function containsKey($key){
-		return isset($this->element[$key]);
+		return array_key_exists($key, $this->element);
 	}
 
     public function toArray(){
