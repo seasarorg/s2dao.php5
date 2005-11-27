@@ -3,12 +3,14 @@
 "components21.dtd">
 <components namespace="dao">
 
-    <component name="dataSource" class="S2Container_PearDBDataSource">
-        <property name="dsn">"mysql://root:pass@localhost/s2con"</property>
+    <component name="dataSource" class="S2Dao_PDODataSource">
+        <property name="dsn">"mysql:host=localhost; dbname=s2con"</property>
+        <property name="user">"root"</property>
+        <property name="password">"pass"</property>
     </component>
-    <component class="S2Container_PearDBSqlHandler"/>
-    <component name="dbtx" class="S2Container_PearDBTxInterceptor"/>
-    <component name="session" class="S2Container_DBSessionImpl" />
+    <component class="S2Dao_PDOSqlHandler"/>
+    <component name="dbtx" class="S2Dao_PDOTxInterceptor"/>
+    <component name="session" class="S2Dao_PDOSessionImpl" />
 	
     <component class="S2Dao_DaoMetaDataFactoryImpl" />
     <component name="interceptor" class="S2DaoInterceptor" />

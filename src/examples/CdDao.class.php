@@ -7,11 +7,12 @@ interface CdDao {
     const insert_NO_PERSISTENT_PROPS = "content";
     const update_NO_PERSISTENT_PROPS = "id, content";
 
-    const Array_getSelectCdById_QUERY = "WHERE ID = /*id*/1";
-
+    const Array_getSelectCdById_ARGS = "id";
     const List_getCD1_ARGS = "id, title";
     const List_getCD2_ARGS = "id, title, content";
     const List_getCD3_ARGS = "id";
+
+    const Array_getSelectCdById_QUERY = "WHERE ID = /*id*/1";
     
     public function update(CdBean $cd);
     public function insert(CdBean $cd);
