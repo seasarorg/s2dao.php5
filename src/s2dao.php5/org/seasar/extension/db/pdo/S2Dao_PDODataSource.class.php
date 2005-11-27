@@ -30,7 +30,10 @@ class S2Dao_PDODataSource extends S2Container_AbstractDataSource {
 
     public function getConnection(){
     	try {
-            if( isset($this->user, $this->pass) ){
+            if( !empty($this->option) ){
+                $this->dsn .= " " . $this->option;
+            }
+            if( !empty($this->user) && !empty($this->pass) ){
                 $db = new PDO($this->dsn, $this->user, $this->pass);
             } else {
                 $db = new PDO($this->dsn);

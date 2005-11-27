@@ -4,16 +4,11 @@
 <components namespace="pdo">
     <component name="dataSource" class="S2Dao_PDODataSource">
         <property name="dsn">
-            "mysql://hoge:hoge@localhost:3306/s2container"
+            "mysql:host=localhost; dbname=s2container"
         </property>
-        <!--
-        <property name="type">"mysql"</property>
         <property name="user">"hoge"</property>
         <property name="password">"hoge"</property>
-        <property name="host">"localhost"</property>
-        <property name="port">"3306"</property>
-        <property name="database">"s2container"</property>
-        -->
+        <property name="option">"port=3306"</property>
     </component>
     <component class="S2Dao_PDOSqlHandler" />
     <component name="dbtx" class="S2Dao_PDOTxInterceptor" />
