@@ -1,3 +1,19 @@
+2005-11-27 nowel <nowel@xole.net>
+
+    * fix - SQL Comment
+    * fix - Improved Performance; Premared Statement.
+
+    * PDO update
+        - support
+            - mysql
+            - sqlite
+            - pgsql
+        - unsupport
+            - oracle
+            - db2
+            - odbc
+            - and other dbms
+
 2005-11-23 nowel <nowel@xole.net>
 
     * SQLコメント ELSE に対応
@@ -8,19 +24,18 @@
     * Dao => Array_*** methods
         ArrayObject 形式から 通常の array() に変更
         List_*** メソッドでは ArrayObject を継承しているため、似たようなオブジェクトになって
-        いる為、変更に至る
+        いる為変更。
 
 2005-11-1x nowel <nowel@xole.net>
 
     * beta 2
         - Namespace 対策と S2Conatiner beta3 に合わせるため S2Dao_ プレフィックスを付加
-        - S2DaoLoader に export() を追加。 S2ContainerClassLoader に import することで
-          __autoload() を s2dao.inc.php で用意すること無く、 S2ContainerClassLoader に一任。
-          ユーザは s2container.inc.php と s2dao.inc.php を読み込むだけの形に修正
+        - S2DaoLoader に export() を追加。 S2ContainerClassLoader に import する方法に変更
         - S2Dao.PHP5 で用意していた SSRMessages.properties は
-          S2Container.PHP5 のSSRMessages.properties と DaoMessages.propertis をマージして
-          いたが、S2Container.PHP5 の MessageUtil に メッセージファイルをマージする方式に
-          変更、これによって SSRMessages.properties を削除
+          S2Container.PHP5 のSSRMessages.properties と DaoMessages.propertis をマージした
+          ものを使っていたのを、S2Container.PHP5 の MessageUtil に メッセージファイルを読み込ませる
+          方式に変更。
+          この変更で、SSRMessages.properties を削除(DaoMessages.propertiesを使う)
         - Apache Software Lisence 2.0 へ変更
         - s2dao.inc.php を上記の変更に伴い変更
         - src/example の一部を変更
