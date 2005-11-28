@@ -70,9 +70,9 @@ class S2DaoClassLoader {
         "S2Dao_PropertyTypeImpl" =>
             "/org/seasar/extension/db/impl/S2Dao_PropertyTypeImpl.class.php",
         "S2Dao_DatabaseMetaDataUtil" =>
-            "/org/seasar/framework/util/S2Dao_DatabaseMetaDataUtil.class.php",
+            "/org/seasar/dao/util/S2Dao_DatabaseMetaDataUtil.class.php",
         "S2Dao_DataSourceUtil" =>
-            "/org/seasar/framework/util/S2Dao_DataSourceUtil.class.php",
+            "/org/seasar/dao/util/S2Dao_DataSourceUtil.class.php",
         "S2Dao_AssignedIdentifierGenerator" =>
             "/org/seasar/dao/id/S2Dao_AssignedIdentifierGenerator.class.php",
         "S2Dao_IdentifierGeneratorFactory" =>
