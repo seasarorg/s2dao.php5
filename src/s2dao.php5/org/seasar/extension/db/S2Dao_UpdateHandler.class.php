@@ -4,6 +4,6 @@
  * @author nowel
  */
 interface S2Dao_UpdateHandler {
-	//public function execute($args, $argTypes);
+    //public function execute($args, $argTypes);
 }
 ?>
