@@ -1,5 +1,10 @@
 2005-11-28 nowel <nowel@xole.net>
 
+    * src/example の Dao, Entityをディレクトリに移動
+    
+    * src/s2dao.php5/org/seasar/framework/util の中身を
+      src/s2dao.php5/org/seasar/dao/util に移動
+
     * タブスペースを半角スペースに統一
 
     * S2Dao_Dbms と S2Dao_DatabaseMetaDataUtil
