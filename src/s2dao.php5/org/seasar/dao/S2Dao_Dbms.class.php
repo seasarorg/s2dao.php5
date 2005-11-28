@@ -4,9 +4,13 @@
  * @author nowel
  */
 interface S2Dao_Dbms {
+    const BIND_TABLE = ":TABLE";
+    
     function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData);
     function getSuffix();
     function getIdentitySelectString();
     function getSequenceNextValString($sequenceName);
+    function getTableSql();
+    function getTableInfoSql();
 }
 ?>

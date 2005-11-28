@@ -60,7 +60,7 @@ class S2Dao_Standard implements S2Dao_Dbms {
                 $buf .= $rpt->getYourKey($j);
                 $buf .= " AND ";
             }
-            //buf.setLength(buf.length() - 5);
+            $buf = preg_match("/ AND $/", "", $buf);
         }
 
         return $buf;
@@ -71,6 +71,14 @@ class S2Dao_Standard implements S2Dao_Dbms {
     }
 
     public function getSequenceNextValString($sequenceName) {
+        return null;
+    }
+    
+    public function getTableSql(){
+        return null;
+    }
+    
+    public function getTableInfoSql(){
         return null;
     }
 }

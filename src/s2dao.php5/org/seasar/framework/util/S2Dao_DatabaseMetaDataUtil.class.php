@@ -5,58 +5,19 @@
  */
 final class S2Dao_DatabaseMetaDataUtil {
 
-    const BIND_TABLE = ":TABLE";
     const PRIMARY_KEY = "primary_key";
     const REL_KEY = "foreign_key";
-
-    private static $TABLES = array(
-                    "mysql" => "SHOW TABLES",
-                    "sqlite" => "SELECT name FROM sqlite_master WHERE type='table'
-                                 UNION ALL SELECT name FROM sqlite_temp_master
-                                 WHERE type='table' ORDER BY name",
-                    "pgsql" => "SELECT c.relname AS 'Name'
-                                FROM pg_class c, pg_user u
-                                WHERE c.relowner = u.usesysid
-                                    AND c.relkind = 'r'
-                                    AND NOT EXISTS
-                                    (SELECT 1 FROM pg_views
-                                    WHERE viewname = c.relname)
-                                    AND c.relname !~ '^(pg_|sql_)
-                                UNION
-                                SELECT c.relname AS 'Name'
-                                FROM pg_class c
-                                WHERE c.relkind = 'r'
-                                    AND NOT EXISTS
-                                    (SELECT 1 FROM pg_views
-                                    WHERE viewname = c.relname)
-                                    AND NOT EXISTS
-                                    (SELECT 1 FROM pg_user
-                                    WHERE usesysid = c.relowner)
-                                    AND c.relname !~ '^pg_'",
-                    "oracle" => "SELECT table_name FROM user_tables",
-                    "db2" => null,
-                    "odbc" => null,
-                );
-
-    private static $INFO = array(
-                    "mysql" => "SELECT * FROM :TABLE LIMIT 0",
-                    "sqlite" => "PRAGMA table_info(:TABLE)",
-                    "pgsql" => "SELECT * FROM :TABLE LIMIT 0",
-                    "oracle" => null,
-                    "db2" => null,
-                    "odbc" => null,
-                );
 
     private function S2Dao_DatabaseMetaDataUtil() {
     }
 
     /*
-	public static String[] getPrimaryKeys(DatabaseMetaData dbMetaData,
-			String tableName) {
+    public static String[] getPrimaryKeys(DatabaseMetaData dbMetaData,
+            String tableName) {
 
-		Set set = getPrimaryKeySet(dbMetaData, tableName);
-		return (String[]) set.toArray(new String[set.size()]);
-	}
+        Set set = getPrimaryKeySet(dbMetaData, tableName);
+        return (String[]) set.toArray(new String[set.size()]);
+    }
     */
 
     public static function getPrimaryKeySet(PDO $dbMetaData, $tableName) {
@@ -84,7 +45,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
         return $set;
     }
-	
+    
     private static function addPrimaryKeys($dbMetaData, $schema, $tableName, $set) {
         try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
@@ -99,16 +60,16 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
 
     /*
-	public static String[] getColumns(DatabaseMetaData dbMetaData,
-			String tableName) {
+    public static String[] getColumns(DatabaseMetaData dbMetaData,
+            String tableName) {
 
-		Set set = getColumnSet(dbMetaData, tableName);
-		return (String[]) set.toArray(new String[set.size()]);
-	}
+        Set set = getColumnSet(dbMetaData, tableName);
+        return (String[]) set.toArray(new String[set.size()]);
+    }
     */
     
     public static function getColumnSet($dbMetaData, $tableName) {
-		$schema = null;
+        $schema = null;
         $index = strpos(".", $tableName);
         if ($index >= 0 && $index !== false) {
             $schema = substr($tableName, 0, $index);
@@ -135,7 +96,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
     
     private static function addColumns($dbMetaData, $schema, $tableName, $set) {
-		try {
+        try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
             foreach( $rs as $col ){
                 $set->add($col["name"]);
@@ -145,16 +106,16 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-	public static function convertIdentifier(PDO $dbMetaData, $identifier) {
+    public static function convertIdentifier(PDO $dbMetaData, $identifier) {
         $tables = self::getTables($dbMetaData);
         if (!in_array($identifier, $tables, true)) {
             $upper = strtoupper($identifier);
             $lower = strtolower($identifier);
-			if (in_array($upper, $tables, true)) {
+            if (in_array($upper, $tables, true)) {
                 return $upper;
             } else if( in_array($lower, $tables, true) ){
                 return $lower;
-			} else {
+            } else {
                 return $identifier;
             }
         } else {
@@ -163,28 +124,28 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
 
     /*
-	public static boolean supportsMixedCaseIdentifiers(
-			DatabaseMetaData dbMetaData) {
+    public static boolean supportsMixedCaseIdentifiers(
+            DatabaseMetaData dbMetaData) {
 
-		try {
-			return dbMetaData.supportsMixedCaseIdentifiers();
-		} catch (S2Container_SQLException ex) {
-			throw new S2Container_SQLRuntimeException(ex);
-		}
-	}
+        try {
+            return dbMetaData.supportsMixedCaseIdentifiers();
+        } catch (S2Container_SQLException ex) {
+            throw new S2Container_SQLRuntimeException(ex);
+        }
+    }
 
-	public static boolean storesUpperCaseIdentifiers(DatabaseMetaData dbMetaData) {
-		try {
-			return dbMetaData.storesUpperCaseIdentifiers();
-		} catch (S2Container_SQLException ex) {
-			throw new S2Container_SQLRuntimeException(ex);
-		}
-	}
+    public static boolean storesUpperCaseIdentifiers(DatabaseMetaData dbMetaData) {
+        try {
+            return dbMetaData.storesUpperCaseIdentifiers();
+        } catch (S2Container_SQLException ex) {
+            throw new S2Container_SQLRuntimeException(ex);
+        }
+    }
     */
 
     public static function getDatabaseProductName($dbMetaData) {
         try {
-            throw new Exception(__FILE__.":".__METHOD__);
+            throw new Exception(__FILE__ . ":" . __METHOD__);
             return $dbMetaData->getDatabaseProductName();
         } catch (S2Container_SQLException $ex) {
             throw new S2Container_SQLRuntimeException($ex);
@@ -192,44 +153,28 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
 
     private function getTables(PDO $db){
-        $meta = self::getMetaName($db);
-        switch($meta){
-            case "mysql":
-            case "sqlite":
-            case "pgsql":
-                $stmt = $db->query(self::$TABLES[$meta]);
-                return $stmt->fetchAll(PDO::FETCH_COLUMN);
-            default:
-            case "oracle":
-            case "db2":
-            case "odbc":
-                throw new Exception("no db case '${meta}'");
-        }
+        $dbms = self::getDbms($db);
+        $stmt = $db->query($dbms->getTableSql());
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
     private function getTableInfo(PDO $db, $table, $schema){
-        $retVal = array();
-        $meta = self::getMetaName($db);
-        switch($meta){
-            case "mysql":
-            case "sqlite":
-            case "pgsql":
-                $sql = str_replace(self::BIND_TABLE, $table, self::$INFO[$meta]);
-                $stmt = $db->query($sql);
-                for($i = 0; $i < $stmt->columnCount(); $i++){
-                    $retVal[] = $stmt->getColumnMeta($i);
-                }
-                return $retVal;
-            default:
-            case "oracle":
-            case "db2":
-            case "odbc":
-                throw new Exception("no db case '${meta}'");
+        $dbms = self::getDbms($db);
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
+        $stmt = $db->query($sql);
+        for($i = 0; $i < $stmt->columnCount(); $i++){
+            $retVal[] = $stmt->getColumnMeta($i);
         }
+        return $retVal;
+    }
+    
+    private static function getDbms(PDO $db){
+        $dbms = S2Dao_DbmsManager::getDbms($db);
+        if($dbms === null){
+            throw new Exception("not such dbms case");
+        }
+        return $dbms;
     }
 
-    private static function getMetaName(PDO $pdo){
-        return $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
-    }
 }
 ?>
