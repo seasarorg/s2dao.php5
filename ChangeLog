@@ -1,3 +1,15 @@
+2005-11-28 nowel <nowel@xole.net>
+
+    * タブスペースを半角スペースに統一
+
+    * S2Dao_Dbms と S2Dao_DatabaseMetaDataUtil
+        - S2Dao_DatabaseMetaDataUtil::getTables()
+        - S2Dao_DatabaseMetaDataUtil::getTableInfo()
+        にて org.seasar.dao.dbms.S2Dao_ の各DBMSごとに SQL を発行するように変更
+        - getTableSql()
+        - getTableInfoSql()
+        ただし、S2Dao_Standardは一切対応していない
+
 2005-11-27 nowel <nowel@xole.net>
 
     * fix - SQL Comment
@@ -8,10 +20,9 @@
             - mysql
             - sqlite
             - pgsql
-        - unsupport
+        - not yet
             - oracle
-            - db2
-            - odbc
+            - odbc(db2)
             - and other dbms
 
 2005-11-23 nowel <nowel@xole.net>
