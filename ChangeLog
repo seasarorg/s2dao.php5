@@ -1,62 +1,68 @@
+2005-11-29 nowel <nowel@xole.net>
+
+    * beta2リリースを12月上旬に行います。
+        beta2では下記の変更を含み、PHP5.1.x以降でPDO利用時のみでのサポートをします。
+
 2005-11-28 nowel <nowel@xole.net>
 
-    * src/example の Dao, Entityをディレクトリに移動
+    * src/example の Dao, Entityをディレクトリに移動しました。
     
     * src/s2dao.php5/org/seasar/framework/util の中身を
-      src/s2dao.php5/org/seasar/dao/util に移動
+      src/s2dao.php5/org/seasar/dao/util に移動しました。
 
     * タブスペースを半角スペースに統一
 
     * S2Dao_Dbms と S2Dao_DatabaseMetaDataUtil
         - S2Dao_DatabaseMetaDataUtil::getTables()
         - S2Dao_DatabaseMetaDataUtil::getTableInfo()
-        にて org.seasar.dao.dbms.S2Dao_ の各DBMSごとに SQL を発行するように変更
+        にて org.seasar.dao.dbms.S2Dao_ の各DBMSごとに SQL を発行するように変更しました。
         - getTableSql()
         - getTableInfoSql()
-        ただし、S2Dao_Standardは一切対応していない
+        上記の変更により、対応しているDBMSにメソッドを追加しました。
 
 2005-11-27 nowel <nowel@xole.net>
 
-    * fix - SQL Comment
+    * fix - SQL Comment に関する処理を修正しました。
     * fix - Improved Performance; Premared Statement.
+            プリペアステートメントに関する処理を修正しました。
 
-    * PDO update
-        - support
+    * PDO update PDOの処理を更新しました。
+        - support サポートされているDBMSは以下です。
             - mysql
             - sqlite
             - pgsql
-        - not yet
+        - not yet まだサポートしていないDBMSは以下です。
             - oracle
             - odbc(db2)
             - and other dbms
 
 2005-11-23 nowel <nowel@xole.net>
 
-    * SQLコメント ELSE に対応
-        SqlParser の nodeStack も修正(fix)
+    * SQLコメント ELSE に対応しました。
+        SqlParserのnodeStack(Nodeに関する処理)を修正しました。
 
-    * _QUERY アノテーション対応
+    * _QUERY アノテーション対応しました。
 
     * Dao => Array_*** methods
-        ArrayObject 形式から 通常の array() に変更
+        ArrayObject 形式から 通常の array() に変更しました。
         List_*** メソッドでは ArrayObject を継承しているため、似たようなオブジェクトになって
-        いる為変更。
+        いる為変更しました。
 
 2005-11-1x nowel <nowel@xole.net>
 
     * beta 2
-        - Namespace 対策と S2Conatiner beta3 に合わせるため S2Dao_ プレフィックスを付加
-        - S2DaoLoader に export() を追加。 S2ContainerClassLoader に import する方法に変更
+        - Namespace 対策と S2Conatiner beta3 に合わせるため S2Dao_ プレフィックスを付加しました。
+        - S2DaoLoader に export() を追加。 S2ContainerClassLoader に import する方法に変更しました。
         - S2Dao.PHP5 で用意していた SSRMessages.properties は
           S2Container.PHP5 のSSRMessages.properties と DaoMessages.propertis をマージした
           ものを使っていたのを、S2Container.PHP5 の MessageUtil に メッセージファイルを読み込ませる
-          方式に変更。
-          この変更で、SSRMessages.properties を削除(DaoMessages.propertiesを使う)
-        - Apache Software Lisence 2.0 へ変更
-        - s2dao.inc.php を上記の変更に伴い変更
-        - src/example の一部を変更
-        - PDO に対応
+          方式に変更しました。
+          この変更で、SSRMessages.properties を削除(DaoMessages.propertiesのみ)しました。
+        - Apache Software Lisence 2.0 へ変更しました。
+        - s2dao.inc.php を上記の変更に伴い変更しました。
+        - src/example の一部を変更しました。
+        - PDO に対応しました。
 
 2005-11-09 nowel <nowel@xole.net>
     * beta 1
-        - 初リリース 
+        - 初リリース
