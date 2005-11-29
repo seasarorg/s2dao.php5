@@ -10,24 +10,31 @@ class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResul
     }
 
     public function handle($resultSet){
-        if ($resultSet->next()) {
-            $columnNames = $this->createColumnNames($resultSet->getMetaData());
-            $row = $this->createRow($resultSet, $columnNames);
-            for ($i = 0; $i < $this->getBeanMetaData()->getRelationPropertyTypeSize(); ++$i) {
-                $rpt = $this->getBeanMetaData()->getRelationPropertyType($i);
-                if ($rpt == null) {
-                    continue;
-                }
-                $relationRow = $this->createRelationRow($resultSet, $rpt, $columnNames, null);
-                if ($relationRow != null) {
-                    $pd = $rpt->getPropertyDesc();
-                    $pd->setValue($row, $relationRow);
-                }
-            }
-            return $row;
-        } else {
+        $rows = $resultSet->fetchAll(PDO::FETCH_ASSOC);
+        $rowCount = count($rows);
+        if($rowCount < 1){
             return null;
         }
+
+        $clazz = array();
+        $beanMetaData = $this->getBeanMetaData();
+        for($i = 0; $i < $rowCount; $i++){
+            $columns = array_keys($rows[$i]);
+            $claz = $beanMetaData->getBeanClass()->newInstance();
+ 
+            foreach($rows[$i] as $column => $value){
+                $pt = $beanMetaData->getPropertyTypeByColumnName($column);
+                if ($pt == null) {
+                    continue;
+                }
+                if (in_array($pt->getColumnName(), $columns)) {
+                    $pd = $pt->getPropertyDesc();
+                    $pd->setValue($claz, $value);
+                }
+            }
+            $clazz[] = $claz;
+        }
+        return $clazz;
     }
 }
 ?>

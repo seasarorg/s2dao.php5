@@ -7,6 +7,9 @@ class CdDaoImpl extends S2Dao_AbstractDao implements CdDao {
 
     public function getCd($id){
         return $this->getEntityManager()->find("ID = ".$id);
+        //return $this->getEntityManager()->findArray("ID = ".$id);
+        //return $this->getEntityManager()->findBean("ID = ".$id);
+        //return $this->getEntityManager()->findObject("ID = ".$id);
     }
 }
 

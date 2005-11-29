@@ -15,6 +15,10 @@
     * src/examples 以下に S2Dao_AbstractDao を利用するサンプルを配置しました。
       src/examples/impl/CdDaoImpl.class.php を参考にしてください。
 
+    * 以下の ResultSetHandler を修正しました。
+        - S2Dao_ObjectResultSetHandler
+        - S2Dao_BeanMetaDataResultSetHandler
+
 2005-11-28 nowel <nowel@xole.net>
 
     * src/example の Dao, Entityをディレクトリに移動しました。
