@@ -11,8 +11,8 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
     protected $resultSetFactory_ = null;
 
     public function __construct(S2Container_DataSource $dataSource,
-                                $statementFactory,
-                                $resultSetFactory) {
+                                S2Dao_StatementFactory $statementFactory = null,
+                                S2Dao_ResultSetFactory $resultSetFactory = null) {
 
         $this->daoMetaDataCache_ = new S2Dao_HashMap();
         $this->dataSource_ = $dataSource;

@@ -14,8 +14,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     private $propertyTypes_;
 
     public function __construct(S2Container_DataSource $dataSource,
-                                //S2Dao_StatementFactory $statementFactory,
-                                $statementFactory,
+                                S2Dao_StatementFactory $statementFactory = null,
                                 S2Dao_BeanMetaData $beanMetaData,
                                 $propertyTypes) {
 

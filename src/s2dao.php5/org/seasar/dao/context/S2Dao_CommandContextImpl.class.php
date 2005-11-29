@@ -18,7 +18,6 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
 
     private static function staticConst(){
         self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
-        //OgnlRuntime::setPropertyAccessor("S2Dao_CommandContext", new S2Dao_CommandContextPropertyAccessor());
         self::$init = true;
     }
 

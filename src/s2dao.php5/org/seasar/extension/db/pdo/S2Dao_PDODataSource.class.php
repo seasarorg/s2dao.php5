@@ -36,6 +36,7 @@ class S2Dao_PDODataSource extends S2Container_AbstractDataSource {
             $this->log_->error($e->getCode(), __METHOD__);
             throw $e;
         }
+    	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $db;
     }
 

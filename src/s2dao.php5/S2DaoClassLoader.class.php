@@ -3,10 +3,16 @@ class S2DaoClassLoader {
     public static $CLASSES = array(
         "S2Dao_RelationRowCache" =>
             "/org/seasar/dao/impl/S2Dao_RelationRowCache.class.php",
+    	"S2Dao_BasicStatementFactory" =>
+    	    "/org/seasar/extension/db/impl/S2Dao_BasicStatementFactory.class.php",
         "S2Dao_BasicResultSetFactory" =>
             "/org/seasar/extension/db/impl/S2Dao_BasicResultSetFactory.class.php",
         "S2Dao_BasicSelectHandler" =>
             "/org/seasar/extension/db/impl/S2Dao_BasicSelectHandler.class.php",
+    	"S2Dao_StatementFactory" =>
+    	    "/org/seasar/extension/db/S2Dao_StatementFactory.class.php",
+        "S2Dao_ResultSetFactory" =>
+            "/org/seasar/extension/db/S2Dao_ResultSetFactory.class.php",
         "S2Dao_SelectHandler" =>
             "/org/seasar/extension/db/S2Dao_SelectHandler.class.php",
         "S2Dao_BeanArrayMetaDataResultSetHandler" =>
@@ -173,8 +179,6 @@ class S2DaoClassLoader {
             "/org/seasar/dao/dbms/S2Dao_MySQL.class.php",
         "S2Dao_Standard" =>
             "/org/seasar/dao/dbms/S2Dao_Standard.class.php",
-        "S2Dao_ResultSetFactory" =>
-            "/org/seasar/extension/db/S2Dao_ResultSetFactory.class.php",
         "S2Dao_ColumnNotFoundRuntimeException" =>
             "/org/seasar/extension/db/S2Dao_ColumnNotFoundRuntimeException.class.php",
         "S2Dao_PDODataSource" =>

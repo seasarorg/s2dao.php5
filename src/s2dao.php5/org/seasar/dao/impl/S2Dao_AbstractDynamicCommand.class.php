@@ -10,8 +10,7 @@ abstract class S2Dao_AbstractDynamicCommand extends S2Dao_AbstractSqlCommand {
     private $argTypes_ = array();
 
     public function __construct(S2Container_DataSource $dataSource,
-                                //S2Dao_StatementFactory $statementFactory
-                                $statementFactory) {
+                                S2Dao_StatementFactory $statementFactory = null){
         parent::__construct($dataSource, $statementFactory);
     }
 

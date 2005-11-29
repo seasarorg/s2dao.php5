@@ -8,10 +8,14 @@
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
     </component>
-    <component class="S2Dao_PDOSqlHandler"/>
-    <component name="dbtx" class="S2Dao_PDOTxInterceptor"/>
+    
+    <component class="S2Dao_BasicResultSetFactory" />
+    <component class="S2Dao_BasicStatementFactory" />
+    
+    <component class="S2Dao_PDOSqlHandler" />
+    <component name="dbtx" class="S2Dao_PDOTxInterceptor" />
     <component name="session" class="S2Dao_PDOSessionImpl" />
-	
+    
     <component class="S2Dao_DaoMetaDataFactoryImpl" />
     <component name="interceptor" class="S2DaoInterceptor" />
     

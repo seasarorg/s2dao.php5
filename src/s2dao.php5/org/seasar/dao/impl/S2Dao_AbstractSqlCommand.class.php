@@ -11,8 +11,7 @@ abstract class S2Dao_AbstractSqlCommand implements S2Dao_SqlCommand {
     private $notSingleRowUpdatedExceptionClass_;
 
     public function __construct(S2Container_DataSource $dataSource,
-                                //S2Dao_StatementFactory $statementFactory) {
-                                $statementFactory){
+                                S2Dao_StatementFactory $statementFactory = null) {
         
         $this->dataSource_ = $dataSource;
         $this->statementFactory_ = $statementFactory;

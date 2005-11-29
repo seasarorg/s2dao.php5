@@ -28,10 +28,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     public function __construct($daoClass,
                                 S2Container_DataSource $dataSource,
-                                //SqlHandler $sqlHandler ){
-                                $sqlHandler ){
-                                //$statementFactory,
-                                //$resultSetFactory) {
+    	                        S2Dao_StatementFactory $statementFactory,
+    	                        S2Dao_ResultSetFactory $resultSetFactory){
 
         $this->sqlCommands_ = new S2Dao_HashMap();
         $this->daoClass_ = $daoClass;
@@ -493,7 +491,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     protected function isUpdate($methodName) {
         foreach ( self::$UPDATE_NAMES as $updateNames ){
-            // startswith...
             if (strcmp($methodName, $updateNames) == 0) {
                 return true;
             }

@@ -9,11 +9,9 @@ class S2Dao_SelectDynamicCommand extends S2Dao_AbstractDynamicCommand {
     private $resultSetFactory_ = null;
 
     public function __construct(S2Container_DataSource $dataSource,
-                                //S2Dao_StatementFactory $statementFactory,
-                                $statementFactory,
+                                S2Dao_StatementFactory $statementFactory = null,
                                 S2Container_ResultSetHandler $resultSetHandler,
-                                $resultSetFactory){
-                                //S2Dao_ResultSetFactory $resultSetFactory
+                                S2Dao_ResultSetFactory $resultSetFactory = null){
 
         parent::__construct($dataSource, $statementFactory);
         $this->resultSetHandler_ = $resultSetHandler;

@@ -23,17 +23,6 @@ class S2DaoInterceptor extends S2Container_AbstractInterceptor {
             $cmd = $dmd->getSqlCommand($method->getName());
             $ret = $cmd->execute($invocation->getArguments());
             
-            /*
-            $retType = $method->returnsReference();
-            if ( is_string($retType) ||
-                 is_integer($retType) ||
-                 is_double($retType) ) {
-                return S2Dao_NumberConversionUtil::convertPrimitiveWrapper($retType, $ret);
-            } else if( is_numeric($retType) ){
-                return S2Dao_NumberConversionUtil::convertNumber($retType, $ret);
-            }
-            */
-
             return $ret;
         } catch (Exception $e){
             throw $e;

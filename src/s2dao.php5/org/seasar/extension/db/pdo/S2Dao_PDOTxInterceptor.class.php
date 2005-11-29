@@ -21,21 +21,20 @@ class S2Dao_PDOTxInterceptor extends S2Container_AbstractTxInterceptor {
             $this->log_->error($e->getMessage(), __METHOD__);
             $this->log_->error($e->getCode(), __METHOD__);
             $this->session->disconnect();
-            throw new Exception();
+            throw $e;
         }
         $this->log_->info("auto commit false. (start transaction.)",__METHOD__);
     }
 
     function commit(){
-        $ret = $this->session->getConnection()->commit();
-        /*
-        if(DB::isError($ret)){
-            $this->log_->error($ret->getMessage(),__METHOD__);
-            $this->log_->error($ret->getDebugInfo(),__METHOD__);
+        try {
+            $ret = $this->session->getConnection()->commit();
+        } catch(PDOException $e){
+            $this->log_->error($e->getMessage(), __METHOD__);
+            $this->log_->error($e->getCode(), __METHOD__);
             $this->session == null;
-            throw new Exception();
+            throw $e;
         }
-        */
         
         $this->session->disconnect();
         $this->log_->info("transaction commit and disconnect.",__METHOD__);
