@@ -2,6 +2,15 @@
 
     * beta2リリースを12月上旬に行います。
         beta2では下記の変更を含み、PHP5.1.x以降でPDO利用時のみでのサポートをします。
+        
+    * src/examples の example.dicon.xml を更新しました。
+        <component class="S2Dao_BasicResultSetFactory" />
+        <component class="S2Dao_BasicStatementFactory" />
+        を定義することで標準でS2Dao_BasicResultSetFactoryとS2Dao_BasicStatementFactoryを利用します。
+        
+    * statementFactoryと$resultSetFactoryのtypehintに以下を記述しました。
+        S2Dao_StatementFactory $statementFactory = null
+        S2Dao_ResultSetFactory $resultSetFactory = null
 
 2005-11-28 nowel <nowel@xole.net>
 
