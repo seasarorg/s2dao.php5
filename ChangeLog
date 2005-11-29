@@ -11,6 +11,9 @@
     * statementFactoryと$resultSetFactoryのtypehintに以下を記述しました。
         S2Dao_StatementFactory $statementFactory = null
         S2Dao_ResultSetFactory $resultSetFactory = null
+        
+    * src/examples 以下に S2Dao_AbstractDao を利用するサンプルを配置しました。
+      src/examples/impl/CdDaoImpl.class.php があるので参考にしてください。
 
 2005-11-28 nowel <nowel@xole.net>
 
