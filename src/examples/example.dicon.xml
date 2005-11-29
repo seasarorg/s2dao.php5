@@ -6,7 +6,7 @@
     <component name="dataSource" class="S2Dao_PDODataSource">
         <property name="dsn">"mysql:host=localhost; dbname=s2con"</property>
         <property name="user">"root"</property>
-        <property name="password">""</property>
+        <property name="password">"pass"</property>
     </component>
     
     <component class="S2Dao_BasicResultSetFactory" />
