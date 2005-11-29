@@ -19,7 +19,7 @@
     <component class="S2Dao_DaoMetaDataFactoryImpl" />
     <component name="interceptor" class="S2DaoInterceptor" />
     
-    <component name="beanCdDao" class="CdDao">
+    <component name="beanCdDao" class="Cd">
         <aspect>interceptor</aspect>
     </component>
     
