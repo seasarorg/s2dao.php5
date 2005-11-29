@@ -59,7 +59,7 @@ class S2Dao_BasicHandler {
         return $connection->prepare($this->sql_);
     }
 
-    protected function bindArgs($ps, $args, $argTypes) {
+    protected function bindArgs(PDOStatement $ps, $args, $argTypes) {
         if ($args === null) {
             return;
         }

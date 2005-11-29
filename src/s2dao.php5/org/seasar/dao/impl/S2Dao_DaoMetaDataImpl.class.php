@@ -45,7 +45,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         }
 
         $this->dataSource_ = $dataSource;
-        //$this->statementFactory_ = $statementFactory;
+        $this->statementFactory_ = $statementFactory;
         $con = $this->dataSource_->getConnection();
         $this->dbms_ = S2Dao_DbmsManager::getDbms($con);
         $this->beanMetaData_ = new S2Dao_BeanMetaDataImpl($this->beanClass_,
@@ -133,15 +133,15 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 $sql = $this->dbms_->getAutoSelectSql($this->getBeanMetaData());
                 $buf .= $sql;
                 if ($query != null) {
-                    $strpos = strrpos($sql, "WHERE");
+                    $strpos = stripos($sql, "WHERE");
                     if (self::startsWithOrderBy($query)) {
                         $buf .= " ";
-                    } else if ($strpos < 0 || $strpos === false) {
+                    } else if ($strpos === false) {
                         $buf .= " WHERE ";
                     } else {
                         $buf .= " AND ";
                     }
-                    $buf = preg_replace("/ AND $/", " ", $buf);
+                    //$buf = preg_replace("/ AND $/", " ", $buf);
                     $buf .= $query;
                 }
             }

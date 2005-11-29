@@ -22,9 +22,6 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $this->setSql($sql);
         $this->setResultSetHandler($resultSetHandler);
         
-        $this->setStatementFactory($statementFactory);
-        $this->setResultSetFactory($resultSetFactory);
-
         if( isset($statementFactory, $resultSetFactory) ){
             $this->setStatementFactory($statementFactory);
             $this->setResultSetFactory($resultSetFactory);
