@@ -1,19 +1,19 @@
 2005-11-29 nowel <nowel@xole.net>
 
     * beta2リリースを12月上旬に行います。
-        beta2では下記の変更を含み、PHP5.1.x以降でPDO利用時のみでのサポートをします。
+        beta2ではPHP5.1.x以降、PDO利用でのみサポートをします。
         
     * src/examples の example.dicon.xml を更新しました。
         <component class="S2Dao_BasicResultSetFactory" />
         <component class="S2Dao_BasicStatementFactory" />
         を定義することで標準でS2Dao_BasicResultSetFactoryとS2Dao_BasicStatementFactoryを利用します。
         
-    * statementFactoryと$resultSetFactoryのtypehintに以下を記述しました。
+    * statementFactoryとresultSetFactoryのtypehintに以下を記述しました。
         S2Dao_StatementFactory $statementFactory = null
         S2Dao_ResultSetFactory $resultSetFactory = null
         
     * src/examples 以下に S2Dao_AbstractDao を利用するサンプルを配置しました。
-      src/examples/impl/CdDaoImpl.class.php があるので参考にしてください。
+      src/examples/impl/CdDaoImpl.class.php を参考にしてください。
 
 2005-11-28 nowel <nowel@xole.net>
 
@@ -21,8 +21,6 @@
     
     * src/s2dao.php5/org/seasar/framework/util の中身を
       src/s2dao.php5/org/seasar/dao/util に移動しました。
-
-    * タブスペースを半角スペースに統一
 
     * S2Dao_Dbms と S2Dao_DatabaseMetaDataUtil
         - S2Dao_DatabaseMetaDataUtil::getTables()
@@ -62,14 +60,14 @@
 
 2005-11-1x nowel <nowel@xole.net>
 
-    * beta 2
-        - Namespace 対策と S2Conatiner beta3 に合わせるため S2Dao_ プレフィックスを付加しました。
-        - S2DaoLoader に export() を追加。 S2ContainerClassLoader に import する方法に変更しました。
+    * beta 2 に移行します。
+        - Namespace 対策及び S2Conatiner beta3 に合わせるため S2Dao_ プレフィックスを付加しました。
+        - S2DaoLoader に export() を追加。
+            S2ContainerClassLoader に import する方法に変更しました。
         - S2Dao.PHP5 で用意していた SSRMessages.properties は
-          S2Container.PHP5 のSSRMessages.properties と DaoMessages.propertis をマージした
-          ものを使っていたのを、S2Container.PHP5 の MessageUtil に メッセージファイルを読み込ませる
-          方式に変更しました。
-          この変更で、SSRMessages.properties を削除(DaoMessages.propertiesのみ)しました。
+          S2Container.PHP5 のSSRMessages.properties と DaoMessages.propertis をマージしていましたが
+          S2Container.PHP5 の MessageUtil に メッセージファイル((DaoMessages.properties)を読み込ませる
+          方式に変更しました。この変更で、SSRMessages.properties をしました。
         - Apache Software Lisence 2.0 へ変更しました。
         - s2dao.inc.php を上記の変更に伴い変更しました。
         - src/example の一部を変更しました。
