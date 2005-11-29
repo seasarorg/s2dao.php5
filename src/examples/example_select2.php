@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . "/example.inc.php";
 
 $container = S2ContainerFactory::create("example.dicon.xml");
-$dao = $container->getComponent("CdDao");
+$dao = $container->getComponent("beanCdDao");
 
 // $list instanceof S2Dao_ArrayList
 $list = $dao->List_getCD1(2, 'aaa');

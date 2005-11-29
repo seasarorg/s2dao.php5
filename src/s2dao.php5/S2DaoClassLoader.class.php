@@ -3,14 +3,14 @@ class S2DaoClassLoader {
     public static $CLASSES = array(
         "S2Dao_RelationRowCache" =>
             "/org/seasar/dao/impl/S2Dao_RelationRowCache.class.php",
-    	"S2Dao_BasicStatementFactory" =>
-    	    "/org/seasar/extension/db/impl/S2Dao_BasicStatementFactory.class.php",
+        "S2Dao_BasicStatementFactory" =>
+            "/org/seasar/extension/db/impl/S2Dao_BasicStatementFactory.class.php",
         "S2Dao_BasicResultSetFactory" =>
             "/org/seasar/extension/db/impl/S2Dao_BasicResultSetFactory.class.php",
         "S2Dao_BasicSelectHandler" =>
             "/org/seasar/extension/db/impl/S2Dao_BasicSelectHandler.class.php",
-    	"S2Dao_StatementFactory" =>
-    	    "/org/seasar/extension/db/S2Dao_StatementFactory.class.php",
+        "S2Dao_StatementFactory" =>
+            "/org/seasar/extension/db/S2Dao_StatementFactory.class.php",
         "S2Dao_ResultSetFactory" =>
             "/org/seasar/extension/db/S2Dao_ResultSetFactory.class.php",
         "S2Dao_SelectHandler" =>
@@ -95,6 +95,10 @@ class S2DaoClassLoader {
             "/org/seasar/dao/impl/S2Dao_AbstractBatchAutoHandler.class.php",
         "S2Dao_AbstractAutoStaticCommand" =>
             "/org/seasar/dao/impl/S2Dao_AbstractAutoStaticCommand.class.php",
+        "S2Dao_AbstractDao" =>
+            "/org/seasar/dao/impl/S2Dao_AbstractDao.class.php",
+        "S2Dao_EntityManagerImpl" =>
+            "/org/seasar/dao/impl/S2Dao_EntityManagerImpl.class.php",
         "S2Dao_FieldAnnotationReader" =>
             "/org/seasar/dao/impl/S2Dao_FieldAnnotationReader.class.php",
         "S2Dao_DtoMetaData" =>

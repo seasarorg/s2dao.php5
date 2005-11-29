@@ -133,9 +133,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 $sql = $this->dbms_->getAutoSelectSql($this->getBeanMetaData());
                 $buf .= $sql;
                 if ($query != null) {
+                    $strpos = strrpos($sql, "WHERE");
                     if (self::startsWithOrderBy($query)) {
                         $buf .= " ";
-                    } else if (strrpos($sql, "WHERE") < 0) {
+                    } else if ($strpos < 0 || $strpos === false) {
                         $buf .= " WHERE ";
                     } else {
                         $buf .= " AND ";
@@ -553,9 +554,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         }
         foreach( $clazz->getInterfaces() as $interface ){
             for($i = 0; $i < count($interface); ++$i){
-                $intf = $interface[$i];
-                if( ereg("Dao$", $intf->getName()) ) {
-                    return $intf;
+                if( ereg("Dao$", $interface->getName()) ) {
+                    return $interface;
                 }
             }
         }

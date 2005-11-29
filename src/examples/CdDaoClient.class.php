@@ -1,12 +1,10 @@
 <?php
+
 require_once dirname(__FILE__) . "/example.inc.php";
 
 $container = S2ContainerFactory::create("example.dicon.xml");
-$dao = $container->getComponent("beanCdDao");
-$cd = new CdBean();
+$dao = $container->getComponent("daoImpl");
 
-$cd->setId(2);
-$dao->delete($cd);
-//$dao->remove($cd);
+var_dump($dao->getCd(2));
 
 ?>
