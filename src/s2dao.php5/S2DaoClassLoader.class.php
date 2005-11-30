@@ -181,6 +181,8 @@ class S2DaoClassLoader {
             "/org/seasar/dao/util/S2Dao_HashMap.class.php",
         "S2Dao_MySQL" =>
             "/org/seasar/dao/dbms/S2Dao_MySQL.class.php",
+        "S2Dao_pgsql" =>
+            "/org/seasar/dao/dbms/S2Dao_pgsql.class.php",
         "S2Dao_Standard" =>
             "/org/seasar/dao/dbms/S2Dao_Standard.class.php",
         "S2Dao_ColumnNotFoundRuntimeException" =>
