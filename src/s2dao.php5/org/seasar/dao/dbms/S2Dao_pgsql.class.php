@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class S2Dao_PostgreSQL extends S2Dao_Standard {
+class S2Dao_pgsql extends S2Dao_Standard {
 
     public function getSuffix() {
         return "_pgsql";
@@ -14,6 +14,12 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
     }
     
     public function getTableSql(){
+        return "SELECT c.relname AS NAME ".
+               "FROM pg_class c, pg_user u " .
+               "WHERE c.relowner = u.usesysid " .
+               "AND c.relkind = 'r' " .
+               "AND c.relname !~ '^(pg_|sql_)'";
+        /*
         return "SELECT c.relname AS 'Name' " .
                "FROM pg_class c, pg_user u " .
                "WHERE c.relowner = u.usesysid " .
@@ -33,6 +39,7 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
                "        (SELECT 1 FROM pg_user " .
                "         WHERE usesysid = c.relowner) " .
                "     AND c.relname !~ '^pg_'";
+        */
     }
 
     public function getTableInfoSql(){
