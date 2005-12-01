@@ -50,7 +50,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
             foreach($rs as $col){
-                if(in_array(self::PRIMARY_KEY, $col["flags"])){
+                if(isset($col["flags"]) && in_array(self::PRIMARY_KEY, $col["flags"])){
                     $set->add($col["name"]);
                 }
             }
@@ -102,6 +102,7 @@ final class S2Dao_DatabaseMetaDataUtil {
                 $set->add($col["name"]);
             }
         } catch (Exception $ex) {
+            var_dump($ex->getMessage());
             throw new S2Container_SQLRuntimeException($ex);
         }
     }
@@ -165,6 +166,9 @@ final class S2Dao_DatabaseMetaDataUtil {
         for($i = 0; $i < $stmt->columnCount(); $i++){
             $retVal[] = $stmt->getColumnMeta($i);
         }
+        if(preg_match("/pgsql/i", get_class($dbms), $m)){
+            self::pg_metadata($db, $dbms, $table, $retVal);
+        }
         return $retVal;
     }
     
@@ -174,6 +178,20 @@ final class S2Dao_DatabaseMetaDataUtil {
             throw new Exception("not such dbms case");
         }
         return $dbms;
+    }
+
+    private function pg_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
+        $stmt = $db->prepare($dbms->getPrimaryKeySql());
+        foreach($retVal as &$value){
+            $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table . "%");
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if( is_array($row) && preg_match("/\((.+)\)/i", $row["pkey"], $match) ){
+                if( $match[1] == $value["name"] ){
+                    $value["flags"] = (array)self::PRIMARY_KEY;
+                }
+            }
+        }
     }
 
 }
