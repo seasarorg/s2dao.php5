@@ -98,7 +98,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     private static function addColumns($dbMetaData, $schema, $tableName, $set) {
         try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
-            foreach( $rs as $col ){
+            foreach($rs as $col){
                 $set->add($col["name"]);
             }
         } catch (Exception $ex) {
@@ -162,12 +162,17 @@ final class S2Dao_DatabaseMetaDataUtil {
         $dbms = self::getDbms($db);
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
         $stmt = $db->query($sql);
+
         for($i = 0; $i < $stmt->columnCount(); $i++){
             $retVal[] = $stmt->getColumnMeta($i);
         }
-        if(preg_match("/pgsql/i", get_class($dbms), $m)){
+
+        if(preg_match("/sqlite/i", get_class($dbms), $m)){
+            self::sqlite_metadata($db, $dbms, $table, $retVal);
+        } else if(preg_match("/pgsql/i", get_class($dbms), $m)){
             self::pg_metadata($db, $dbms, $table, $retVal);
         }
+
         return $retVal;
     }
     
@@ -179,11 +184,25 @@ final class S2Dao_DatabaseMetaDataUtil {
         return $dbms;
     }
 
+    private function sqlite_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getPrimaryKeySql());
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        foreach($retVal as &$value){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if( is_array($row) && $row["name"] == $value["name"] ){
+                if( $row["pk"] == "1" ){
+                    $value["flags"] = (array)self::PRIMARY_KEY;
+                }
+            }
+        }
+    }
+
     private function pg_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
         $stmt = $db->prepare($dbms->getPrimaryKeySql());
+        $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table . "%");
+        $stmt->execute();
         foreach($retVal as &$value){
-            $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table . "%");
-            $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if( is_array($row) && preg_match("/\((.+)\)/i", $row["pkey"], $match) ){
                 if( $match[1] == $value["name"] ){

@@ -17,24 +17,15 @@
 // | either express or implied. See the License for the specific language |
 // | governing permissions and limitations under the License.             |
 // +----------------------------------------------------------------------+
-// | Authors: nowel                                                       |
+// | Authors: klove                                                       |
 // +----------------------------------------------------------------------+
+//
 // $Id$
 /**
- * @author nowel
+ * @package org.seasar.extension.db
+ * @author klove, nowel
  */
-
-/** S2Dao.PHP5 ROOT Directory */
-define("S2DAO_PHP5", dirname(__FILE__) . "/src/s2dao.php5");
-
-/** S2Dao.PHP5 ClassLoader */
-require_once(S2DAO_PHP5 . "/S2DaoClassLoader.class.php");
-
-if( class_exists("S2ContainerClassLoader") ){
-    S2ContainerClassLoader::import(S2DaoClassLoader::export());
+interface S2Dao_ResultSetHandler {
+	public function handle($resultSet);
 }
-if( class_exists("S2Container_MessageUtil") ){
-    S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5."/DaoMessages.properties");
-}
-
 ?>

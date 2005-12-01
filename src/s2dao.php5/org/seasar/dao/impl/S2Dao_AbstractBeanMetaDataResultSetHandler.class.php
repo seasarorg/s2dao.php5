@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Container_ResultSetHandler {
+abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_ResultSetHandler {
 
     private $beanMetaData_;
 

@@ -13,7 +13,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
 
     public function __construct(S2Container_DataSource $dataSource,
                                 $sql,
-                                S2Container_ResultSetHandler $resultSetHandler,
+                                S2Dao_ResultSetHandler $resultSetHandler,
                                 S2Dao_StatementFactory $statementFacotry = null,
                                 S2Dao_ResultSetFactory $resultSetFacotry = null) {
 
@@ -43,7 +43,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         return $this->resultSetHandler_;
     }
 
-    public function setResultSetHandler(S2Container_ResultSetHandler $resultSetHandler = null) {
+    public function setResultSetHandler(S2Dao_ResultSetHandler $resultSetHandler = null) {
         $this->resultSetHandler_ = $resultSetHandler;
     }
 

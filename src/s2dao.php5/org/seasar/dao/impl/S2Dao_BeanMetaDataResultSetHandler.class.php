@@ -16,11 +16,10 @@ class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResul
             return null;
         }
 
-        $clazz = array();
         $beanMetaData = $this->getBeanMetaData();
+        $claz = $beanMetaData->getBeanClass()->newInstance(array());
         for($i = 0; $i < $rowCount; $i++){
             $columns = array_keys($rows[$i]);
-            $claz = $beanMetaData->getBeanClass()->newInstance();
  
             foreach($rows[$i] as $column => $value){
                 $pt = $beanMetaData->getPropertyTypeByColumnName($column);
@@ -32,9 +31,8 @@ class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResul
                     $pd->setValue($claz, $value);
                 }
             }
-            $clazz[] = $claz;
         }
-        return $clazz;
+        return $claz;
     }
 }
 ?>

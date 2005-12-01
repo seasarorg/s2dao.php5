@@ -1,3 +1,15 @@
+2005-12-02 nowel <nowel@xole.net>
+
+    * fix - S2Dao_DaoMetaDataImpl
+
+    * PDO 上での SQLite, PostgreSQL の動作を確認しました。
+
+    * PostgreSQL の プレフィックスを postgre から pgsql へ変更しました。
+
+    * S2Dao_PDODataSource を S2Container.PHP5 へ移動し、今後の管理はS2Container.PHP5で行うことになりました。
+
+    * いくつかのパッケージを削除しました。
+
 2005-11-29 nowel <nowel@xole.net>
 
     * beta2リリースを12月上旬に行います。

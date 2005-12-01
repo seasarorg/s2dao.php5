@@ -1,6 +1,8 @@
 <?php
 class S2DaoClassLoader {
     public static $CLASSES = array(
+        "S2Dao_ResultSetHandler" =>
+            "/org/seasar/extension/db/S2Dao_ResultSetHandler.class.php",
         "S2Dao_RelationRowCache" =>
             "/org/seasar/dao/impl/S2Dao_RelationRowCache.class.php",
         "S2Dao_BasicStatementFactory" =>

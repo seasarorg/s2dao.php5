@@ -38,14 +38,11 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $this->annotationReader_ = new S2Dao_FieldAnnotationReader($this->daoBeanDesc_);
         $this->beanClass_ = $this->annotationReader_->getBeanClass();
 
-        if($this->beanClass_ !== null){
-            $this->resultSetHandler_ = new S2Container_BeanResultSetHandler($this->beanClass_);
-        } else {
-            $this->resultSetHandler_ = new S2Container_ArrayResultSetHandler();
-        }
+        //$this->resultSetHandler_ = new S2Dao_BasicSelectResultSetHandler($this->beanClass_);
 
         $this->dataSource_ = $dataSource;
         $this->statementFactory_ = $statementFactory;
+        $this->resultSetFactory_ = $resultSetFactory;
         $con = $this->dataSource_->getConnection();
         $this->dbms_ = S2Dao_DbmsManager::getDbms($con);
         $this->beanMetaData_ = new S2Dao_BeanMetaDataImpl($this->beanClass_,
@@ -118,7 +115,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $this->sqlCommands_->put($method->getName(), $cmd);
     }
 
-    protected function createSelectDynamicCommand(S2Container_ResultSetHandler $rsh, $query = null) {
+    protected function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $query = null) {
         if( $query == null ){
             return new S2Dao_SelectDynamicCommand($this->dataSource_,
                                                   $this->statementFactory_,

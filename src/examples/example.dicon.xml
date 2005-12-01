@@ -3,26 +3,31 @@
 "components21.dtd">
 <components namespace="dao">
 
-    <component name="dataSource" class="S2Dao_PDODataSource">
+    <component name="dataSource" class="S2Container_PDODataSource">
         <property name="dsn">"mysql:host=localhost; dbname=s2con"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
     </component>
 
     <!--
-    <component name="dataSource" class="S2Dao_PDODataSource">
-        <property name="dsn">"pgsql:host=localhost"</property>
-        <property name="user">"postgres"</property>
+    <component name="dataSource" class="S2Container_PDODataSource">
+        <property name="dsn">"sqlite:/path/to/s2con.db"</property>
+    </component>
+    -->
+
+    <!--
+    <component name="dataSource" class="S2Container_PDODataSource">
+        <property name="dsn">"pgsql:host=localhost dbname=s2con"</property>
+        <property name="user">"root"</property>
         <property name="password">"pass"</property>
     </component>
     -->
-    
+
     <component class="S2Dao_BasicResultSetFactory" />
     <component class="S2Dao_BasicStatementFactory" />
     
-    <component class="S2Dao_PDOSqlHandler" />
-    <component name="dbtx" class="S2Dao_PDOTxInterceptor" />
-    <component name="session" class="S2Dao_PDOSessionImpl" />
+    <component name="dbtx" class="S2Container_PDOTxInterceptor" />
+    <component name="session" class="S2Container_PDOSessionImpl" />
     
     <component class="S2Dao_DaoMetaDataFactoryImpl" />
     <component name="interceptor" class="S2DaoInterceptor" />
