@@ -102,7 +102,6 @@ final class S2Dao_DatabaseMetaDataUtil {
                 $set->add($col["name"]);
             }
         } catch (Exception $ex) {
-            var_dump($ex->getMessage());
             throw new S2Container_SQLRuntimeException($ex);
         }
     }

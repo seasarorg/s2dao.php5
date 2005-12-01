@@ -8,6 +8,14 @@
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
     </component>
+
+    <!--
+    <component name="dataSource" class="S2Dao_PDODataSource">
+        <property name="dsn">"pgsql:host=localhost"</property>
+        <property name="user">"postgres"</property>
+        <property name="password">"pass"</property>
+    </component>
+    -->
     
     <component class="S2Dao_BasicResultSetFactory" />
     <component class="S2Dao_BasicStatementFactory" />
