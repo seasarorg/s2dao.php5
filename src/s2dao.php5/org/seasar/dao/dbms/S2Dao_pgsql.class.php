@@ -32,7 +32,7 @@ class S2Dao_pgsql extends S2Dao_Standard {
                "FROM pg_catalog.pg_class c,pg_catalog.pg_class c2, " .
                "     pg_catalog.pg_index i ".
                "WHERE c.oid = i.indrelid AND i.indexrelid = c2.oid ".
-               "AND c2.relname LIKE ". self::BIND_TABLE;
+               "AND c2.relname ~ ". self::BIND_TABLE;
     }
 }
 ?>
