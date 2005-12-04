@@ -13,5 +13,6 @@ interface S2Dao_Dbms {
     function getSequenceNextValString($sequenceName);
     function getTableSql();
     function getTableInfoSql();
+    function getPrimaryKeySql();
 }
 ?>

@@ -81,5 +81,9 @@ class S2Dao_Standard implements S2Dao_Dbms {
     public function getTableInfoSql(){
         return null;
     }
+
+    public function getPrimaryKeySql(){
+        return null;
+    }
 }
 ?>
