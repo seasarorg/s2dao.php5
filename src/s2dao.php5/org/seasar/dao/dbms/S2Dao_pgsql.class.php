@@ -18,7 +18,6 @@ class S2Dao_pgsql extends S2Dao_Standard {
                "FROM pg_class c, pg_user u " .
                "WHERE c.relowner = u.usesysid " .
                "AND c.relkind = 'r' " .
-               // "AND NOT EXISTS (SELECT 1 FROM pg_views WHERE viewname = c.relname)" .
                "AND c.relname !~ '^(pg_|sql_)'";
     }
 
@@ -27,12 +26,11 @@ class S2Dao_pgsql extends S2Dao_Standard {
     }
 
     public function getPrimaryKeySql(){
-        return "SELECT c2.relname AS NAME, i.indisprimary, ".
-               "pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) AS PKEY " .
-               "FROM pg_catalog.pg_class c,pg_catalog.pg_class c2, " .
-               "     pg_catalog.pg_index i ".
-               "WHERE c.oid = i.indrelid AND i.indexrelid = c2.oid ".
-               "AND c2.relname ~ ". self::BIND_TABLE;
+        return "SELECT a.attname AS PKEY " .
+               "FROM pg_attribute a, pg_constraint c, pg_class r " .
+               "WHERE c.conrelid = r.oid " .
+               "AND a.attrelid = r.oid AND a.attnum = any (c.conkey) " .
+               "AND r.relname = " . self::BIND_TABLE . " AND c.contype = 'p'";
     }
 }
 ?>

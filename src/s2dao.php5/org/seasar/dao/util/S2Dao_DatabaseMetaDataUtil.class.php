@@ -200,14 +200,12 @@ final class S2Dao_DatabaseMetaDataUtil {
 
     private function pg_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
         $stmt = $db->prepare($dbms->getPrimaryKeySql());
-        $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, "^" . $table . "_pkey$");
+        $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table);
         $stmt->execute();
         foreach($retVal as &$value){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if( is_array($row) && preg_match("/\((.+)\)/i", $row["pkey"], $match) ){
-                if( $match[1] == $value["name"] ){
-                    $value["flags"] = (array)self::PRIMARY_KEY;
-                }
+            if( is_array($row) && $row["pkey"] == $value["name"] ){
+                $value["flags"] = (array)self::PRIMARY_KEY;
             }
         }
     }
