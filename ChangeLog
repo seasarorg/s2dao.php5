@@ -1,3 +1,16 @@
+2005-12-05 nowel <nowel@xole.net>
+
+    * fix - dbms/S2Dao_pgsql.class.php
+            プライマリーキー取得のSQLを変更しました。
+
+    * S2Dao_Dbms のインタフェースに以下を設定しました。
+        - function getTableSql();
+            テーブル一覧を取得するSQLをDBMS毎に発行します。
+        - function getTableInfoSql();
+            テーブル情報(カラム名など)を取得するSQLをDBMS毎に発行します。
+        - function getPrimaryKeySql();
+            プライマリーキーを取得するSQLをDBMS毎に発行します。
+
 2005-12-02 nowel <nowel@xole.net>
 
     * fix - S2Dao_DaoMetaDataImpl
