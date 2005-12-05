@@ -54,7 +54,7 @@
     * S2Dao_Dbms と S2Dao_DatabaseMetaDataUtil
         - S2Dao_DatabaseMetaDataUtil::getTables()
         - S2Dao_DatabaseMetaDataUtil::getTableInfo()
-        にて org.seasar.dao.dbms.S2Dao_ の各DBMSごとに SQL を発行するように変更しました。
+        にて org.seasar.dao.dbms.S2Dao_*** の各DBMSごとに SQL を発行するように変更しました。
         - getTableSql()
         - getTableInfoSql()
         上記の変更により、対応しているDBMSにメソッドを追加しました。
