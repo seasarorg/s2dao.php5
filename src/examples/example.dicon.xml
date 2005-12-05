@@ -1,43 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "components21.dtd">
-<components namespace="dao">
+<components namespace="example">
 
-    <component name="dataSource" class="S2Container_PDODataSource">
-        <property name="dsn">"mysql:host=localhost; dbname=s2con"</property>
-        <property name="user">"root"</property>
-        <property name="password">"pass"</property>
-    </component>
+    <include path="%S2DAO_SRC%/dao.dicon" />
 
-    <!--
-    <component name="dataSource" class="S2Container_PDODataSource">
-        <property name="dsn">"sqlite:/path/to/s2con.db"</property>
-    </component>
-    -->
-
-    <!--
-    <component name="dataSource" class="S2Container_PDODataSource">
-        <property name="dsn">"pgsql:host=localhost dbname=s2con"</property>
-        <property name="user">"root"</property>
-        <property name="password">"pass"</property>
-    </component>
-    -->
-
-    <component class="S2Dao_BasicResultSetFactory" />
-    <component class="S2Dao_BasicStatementFactory" />
-    
-    <component name="dbtx" class="S2Container_PDOTxInterceptor" />
-    <component name="session" class="S2Container_PDOSessionImpl" />
-    
-    <component class="S2Dao_DaoMetaDataFactoryImpl" />
-    <component name="interceptor" class="S2DaoInterceptor" />
-    
     <component name="beanCdDao" class="Cd">
-        <aspect>interceptor</aspect>
+        <aspect>dao.interceptor</aspect>
     </component>
     
     <component name="daoImpl" class="CdDaoImpl">
-        <aspect>interceptor</aspect>
+        <aspect>dao.interceptor</aspect>
     </component>
     
 </components>

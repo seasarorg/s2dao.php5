@@ -13,6 +13,13 @@ for($i = 0; $i < $list->size(); $i++){
     echo "-------" . PHP_EOL;
 }
 
-$hoge = $dao->getCds();
-var_dump($hoge);
+echo "======" . PHP_EOL;
+
+$cds = $dao->Array_getCds();
+foreach($cds as $cd){
+    echo "ID: " . $cd->getId() . PHP_EOL;
+    echo "TITLE: " . $cd->getTitle() . PHP_EOL;
+    echo "CONTENT: " . $cd->getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
+}
 ?>
