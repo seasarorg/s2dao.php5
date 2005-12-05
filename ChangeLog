@@ -1,3 +1,14 @@
+2005-12-06 nowel <nowel@xole.net>
+
+    * src/example/example.dicon.xml を dao.dicon と pdo.dicon に分割しました。
+        dao.dicon では S2Dao.PHP5 で必要なものが記述されています。
+        pdo.dicon では データベース接続に必要な情報が記述されています。
+        また、s2dao.inc.php に S2DAO_SRC という定数を設定しました。
+        S2DAO_SRC は 標準では ./src を指しています。
+        dao.dicon 及び example.dicon.xml では %S2DAO_SRC% のパスを利用しています。
+
+    * _SQL アノテーションに対応しました。
+
 2005-12-05 nowel <nowel@xole.net>
 
     * fix - dbms/S2Dao_pgsql.class.php
