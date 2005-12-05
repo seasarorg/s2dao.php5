@@ -1,6 +1,6 @@
 <?php
 
-interface Cd {
+interface Cd1Dao {
 
     const BEAN = "CdBean";
 

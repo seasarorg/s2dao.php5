@@ -1,5 +1,5 @@
 <?php
-class CdDaoImpl extends S2Dao_AbstractDao implements CdDao {
+class Cd2DaoImpl extends S2Dao_AbstractDao implements Cd2Dao {
 
     public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory){
         parent::__construct($daoMetaDataFactory);

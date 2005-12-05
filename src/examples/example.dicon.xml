@@ -5,11 +5,11 @@
 
     <include path="%S2DAO_SRC%/dao.dicon" />
 
-    <component name="beanCdDao" class="Cd">
+    <component name="beanCdDao" class="Cd1Dao">
         <aspect>dao.interceptor</aspect>
     </component>
     
-    <component name="daoImpl" class="CdDaoImpl">
+    <component name="daoImpl" class="Cd2DaoImpl">
         <aspect>dao.interceptor</aspect>
     </component>
     
