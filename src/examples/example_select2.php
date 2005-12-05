@@ -28,15 +28,4 @@ while($i->valid()){
     $i->next();
 }
 
-echo "=====" . PHP_EOL;
-
-$list = $dao->List_getCD3(null);
-$cds = $list->toArray();
-for($i = 0; $i < $list->size(); $i++){
-    echo "ID: " . $cds[$i]->getId() . PHP_EOL;
-    echo "TITLE: " . $cds[$i]->getTitle() . PHP_EOL;
-    echo "CONTENT: " . $cds[$i]->getContent() . PHP_EOL;
-    echo "-------" . PHP_EOL;
-}
-
 ?>
