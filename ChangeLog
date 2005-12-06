@@ -5,7 +5,10 @@
     * src/example/example.dicon.xml を dao.dicon と pdo.dicon に分割しました。
         dao.dicon では S2Dao.PHP5 で必要なものが記述されています。
         pdo.dicon では データベース接続に必要な情報が記述されています。
-        dao.dicon 及び example.dicon.xml では %S2DAO_PHP5% のパスを利用しています。
+        src/s2dao.php5/dao.dicon で %PDO_DICON% で pdo.dicon ファイルをincludeしているので
+        定数 PDO_DICON を設定する必要があります。
+
+        ex) define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
 
 2005-12-05 nowel <nowel@xole.net>
 

@@ -30,6 +30,9 @@ define("S2DAO_PHP5", dirname(__FILE__) . "/src/s2dao.php5");
 /** S2Dao.PHP5 ClassLoader */
 require_once(S2DAO_PHP5 . "/S2DaoClassLoader.class.php");
 
+/** PDO DataSource dicon */
+//define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
+
 if( class_exists("S2ContainerClassLoader") ){
     S2ContainerClassLoader::import(S2DaoClassLoader::export());
 }
