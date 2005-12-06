@@ -4,6 +4,8 @@ require_once dirname(dirname(dirname(__FILE__))) . "/s2dao.inc.php";
 
 define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
 
+define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
+
 /** __autoload function */
 if( class_exists("S2ContainerClassLoader") ){
     S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");

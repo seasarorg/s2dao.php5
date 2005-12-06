@@ -1,3 +1,29 @@
+2005-12-07 nowel <nowel@xole.net>
+
+================ S2Dao.PHP5-1.0.0-beta2 更新履歴 ===================
+
+    * PDO に対応しました。
+        S2Dao.PHP5-1.0.0-beta2 が対応している DBMS は以下の通りです。
+        - MySQL(mysql)
+        - SQLite(sqlite)
+        - PostgreSQL(pgsql)
+    * _QUERY アノテーションに対応しました。
+    * _SQL アノテーションに対応しました。
+    * S2Dao_AbstractDaoを用いてEntityManagerに対応しました。
+    * SQL コメント ELSE に対応しました。
+
+    * S2DaoClassLoader を修正しました。
+    * SQL コメントに関する処理を修正しました。
+    * プリペアステートメントに関する処理を修正しました。
+    * ResultSetHandler に関する処理を修正しました。
+
+    * 各クラス及びファイルに S2Dao_ のプレフィックスを付けました。
+    * __autoload()関数内に S2DaoClassLoader を含めなくてもよいように変更しました。
+    * Array_ メソッドの戻り値を ArrayObject から array() に変更しました。
+    * SSRMessages.propertiesを削除しメッセージファイルは DaoMessages.properties に変更しました。
+
+    * 利用していないいくつかのファイルを削除しました。
+
 2005-12-06 nowel <nowel@xole.net>
 
     * _SQL アノテーションに対応しました。
@@ -40,6 +66,8 @@
     * beta2リリースを12月上旬に行います。
         beta2ではPHP5.1.x以降、PDO利用でのみサポートをします。
         
+    * src/s2dao/org/seasar/impl 内のファイルを修正しました。
+
     * src/examples の example.dicon.xml を更新しました。
         <component class="S2Dao_BasicResultSetFactory" />
         <component class="S2Dao_BasicStatementFactory" />
@@ -107,7 +135,7 @@
             S2ContainerClassLoader に import する方法に変更しました。
         - S2Dao.PHP5 で用意していた SSRMessages.properties は
           S2Container.PHP5 のSSRMessages.properties と DaoMessages.propertis をマージしていましたが
-          S2Container.PHP5 の MessageUtil に メッセージファイル((DaoMessages.properties)を読み込ませる
+          S2Container.PHP5 の MessageUtil に メッセージファイル(DaoMessages.properties)を読み込ませる
           方式に変更しました。この変更で、SSRMessages.properties をしました。
         - Apache Software Lisence 2.0 へ変更しました。
         - s2dao.inc.php を上記の変更に伴い変更しました。

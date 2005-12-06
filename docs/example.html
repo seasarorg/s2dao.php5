@@ -23,1135 +23,655 @@
 <!-- don't edit end -->
 <!-- document start -->
 
-<h1>Example</h1>
-<p> s2dao/src/examples 以下に用意されているものをご覧になってください。</p>
-
-<!--
+    <ul>
     <li><a href="#Example">Example</a>
         <ul>
-            <li><a href="#SelectExample">SQL文を記述する場合のExample</a></li>
-
-            <li><a href="#AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></li>
-            <li><a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a></li>
+            <li><a href="#EasyExample">S2Dao.PHP5の簡単なExample</a></li>
             <li><a href="#EntityManagerExample">EntityManagerを使用したExample</a></li>
-            <li><a href="testtech.html#S2DaoTestCaseExample">S2DaoTestCaseのExample</a></li>
         </ul>
     </li>
+    </ul>
 
-    <h1><a name="Example">Example</a></h1>
+    <h2><a name="Example">Example</a></h2>
     <p>このExampleは前提条件として以下のテーブル、Beans、dao.diconを使用します。</p>
 
-        テーブル：EMP
+        テーブル：CD
         <table border="1" class="main">
             <tr bgcolor="#d1f3f4" align="center">
               <th>カラム名</th>
               <th>論理名</th>
               <th>型</th>
               <th>NotNull</th>
-
               <th>主キー</th>
             </tr>
             <tr>
-              <td>EMPNO</td>
-              <td>従業員番号</td>
-              <td>NUMBER</td>
-              <td align="center">〇</td>
-
-              <td align="center">〇</td>
-            </tr>
-            <tr>
-              <td>ENAME</td>
-              <td>従業員名</td>
-              <td>VARCHAR</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>JOB</td>
-              <td>仕事</td>
-              <td>VARCHAR</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>MGR</td>
-              <td>上司</td>
-              <td>NUMBER</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>HIREDATE</td>
-              <td>雇用日</td>
-              <td>DATE</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>SAL</td>
-              <td>給料</td>
-              <td>NUMBER</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>COMM</td>
-              <td>手数料</td>
-              <td>NUMBER</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>DEPTNO</td>
-              <td>部署番号</td>
-              <td>NUMBER</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>TSTAMP</td>
-              <td>タイムスタンプ</td>
-              <td>TIMESTAMP</td>
-              <td><br /></td>
-
-              <td><br /></td>
-            </tr>
-        </table>
-        <br />テーブル：DEPT
-        <table border="1" class="main">
-            <tr bgcolor="#d1f3f4" align="center">
-              <th>カラム名</th>
-               <th>論理名</th>
-
-              <th>型</th>
-              <th>NotNull</th>
-              <th>主キー</th>
-            </tr>
-            <tr>
-              <td>DEPTNO</td>
-              <td>部署番号</td>
-
-              <td>NUMBER</td>
+              <td>ID</td>
+              <td>ID</td>
+              <td>INTEGER</td>
               <td align="center">〇</td>
               <td align="center">〇</td>
             </tr>
             <tr>
-              <td>DNAME</td>
-              <td>部署名</td>
-
-              <td>VARCHAR</td>
+              <td>TITLE</td>
+              <td>アルバム名</td>
+              <td>VARCHAR(100)</td>
               <td><br /></td>
               <td><br /></td>
             </tr>
             <tr>
-              <td>LOC</td>
-              <td>ロケーション</td>
-
-              <td>VARCHAR</td>
-              <td><br /></td>
-              <td><br /></td>
-            </tr>
-            <tr>
-              <td>VERSIONNO</td>
-              <td>バージョン番号</td>
-
-              <td>NUMBER</td>
+              <td>CONTENT</td>
+              <td>内容(ジャンル)</td>
+              <td>VARCHAR(200)</td>
               <td><br /></td>
               <td><br /></td>
             </tr>
         </table>
-        <br />
-        <p>EMPテーブルに関連付くBeansは次の通りです。</p>
+
+        <p>CDテーブルに関連付くBeansは次の通りです。</p>
+
 <pre>
+&lt;?php
+class CdBean {
 
-package examples.dao;
+    const TABLE = "CD";
 
-import java.io.Serializable;
-import java.sql.Timestamp;
+    private $id;
+    private $title;
+    private $content;
 
-public class Employee implements Serializable {
-
-    public static final String TABLE = "EMP";
-
-    public static final int department_RELNO = 0;
-
-    public static final String timestamp_COLUMN = "tstamp";
-
-    private long empno;
-
-    private String ename;
-
-    private String job;
-
-    private Short mgr;
-
-    private java.util.Date hiredate;
-
-    private Float sal;
-
-    private Float comm;
-
-    private int deptno;
-
-    private Timestamp timestamp;
-
-    private Department department;
-
-    public Employee() {
+    public function getContent() {
+        return $this-&gt;content;
     }
 
-    public Employee(long empno) {
-        this.empno = empno;
+    public function setContent($content) {
+        $this-&gt;content = $content;
     }
 
-    public long getEmpno() {
-        return this.empno;
+    public function getId() {
+        return $this-&gt;id;
     }
 
-    public void setEmpno(long empno) {
-        this.empno = empno;
+    public function setId($id) {
+        $this-&gt;id = $id;
     }
 
-    public java.lang.String getEname() {
-        return this.ename;
+    public function getTitle() {
+        return $this-&gt;title;
     }
 
-    public void setEname(java.lang.String ename) {
-        this.ename = ename;
-    }
-
-    public java.lang.String getJob() {
-        return this.job;
-    }
-
-    public void setJob(java.lang.String job) {
-        this.job = job;
-    }
-
-    public Short getMgr() {
-        return this.mgr;
-    }
-
-    public void setMgr(Short mgr) {
-        this.mgr = mgr;
-    }
-
-    public java.util.Date getHiredate() {
-        return this.hiredate;
-    }
-
-    public void setHiredate(java.util.Date hiredate) {
-        this.hiredate = hiredate;
-    }
-
-    public Float getSal() {
-        return this.sal;
-    }
-
-    public void setSal(Float sal) {
-        this.sal = sal;
-    }
-
-    public Float getComm() {
-        return this.comm;
-    }
-
-    public void setComm(Float comm) {
-        this.comm = comm;
-    }
-
-    public int getDeptno() {
-        return this.deptno;
-    }
-
-    public void setDeptno(int deptno) {
-        this.deptno = deptno;
-    }
-
-    public Timestamp getTimestamp() {
-        return this.timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Department getDepartment() {
-        return this.department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public boolean equals(Object other) {
-        if (!(other instanceof Employee))
-            return false;
-        Employee castOther = (Employee) other;
-        return this.getEmpno() == castOther.getEmpno();
-    }
-
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append(empno).append(", ");
-        buf.append(ename).append(", ");
-        buf.append(job).append(", ");
-        buf.append(mgr).append(", ");
-        buf.append(hiredate).append(", ");
-        buf.append(sal).append(", ");
-        buf.append(comm).append(", ");
-        buf.append(deptno).append(", ");
-        buf.append(timestamp).append(" {");
-        buf.append(department).append("}");
-        return buf.toString();
-    }
-
-    public int hashCode() {
-        return (int) this.getEmpno();
+    public function setTitle($title) {
+        $this-&gt;title = $title;
     }
 }
+?&gt;
 </pre>
-        <p>DEPTテーブルに関連付くBeansは次の通りです。</p>
+
+        <p>各Exampleでincludeしているdiconは以下の通りです。</p>
+
+        <p>src/s2dao.php5/dao.dicon</p>
+
 <pre>
-package examples.dao;
-
-import java.io.Serializable;
-
-public class Department implements Serializable {
-
-    public static final String TABLE = "DEPT";
-
-    private int deptno;
-
-    private String dname;
-
-    private String loc;
-
-    private int versionNo;
-
-    public Department() {
-    }
-
-    public int getDeptno() {
-        return this.deptno;
-    }
-
-    public void setDeptno(int deptno) {
-        this.deptno = deptno;
-    }
-
-    public java.lang.String getDname() {
-        return this.dname;
-    }
-
-    public void setDname(java.lang.String dname) {
-        this.dname = dname;
-    }
-
-    public java.lang.String getLoc() {
-        return this.loc;
-    }
-
-    public void setLoc(java.lang.String loc) {
-        this.loc = loc;
-    }
-
-    public int getVersionNo() {
-        return this.versionNo;
-    }
-
-    public void setVersionNo(int versionNo) {
-        this.versionNo = versionNo;
-    }
-
-    public boolean equals(Object other) {
-        if (!(other instanceof Department))
-            return false;
-        Department castOther = (Department) other;
-        return this.getDeptno() == castOther.getDeptno();
-    }
-
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append(deptno).append(", ");
-        buf.append(dname).append(", ");
-        buf.append(loc).append(", ");
-        buf.append(versionNo);
-        return buf.toString();
-    }
-
-    public int hashCode() {
-        return (int) this.getDeptno();
-    }
-}
-</pre>
-        <p>各Exampleでincludeしているdao.diconは以下の通りです。</p>
-<pre>
-&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components.dtd"&gt;
+"http://www.seasar.org/dtd/components21.dtd"&gt;
 &lt;components namespace="dao"&gt;
 
-    &lt;include path="j2ee.dicon"/&gt;
-    &lt;component
-        class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-    &lt;component name="interceptor"
-        class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
+    &lt;include path="%PDO_DICON%" /&gt;
+
+    &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
+    &lt;component class="S2Dao_BasicStatementFactory" /&gt;
+
+    &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
+    &lt;component name="interceptor" class="S2DaoInterceptor" /&gt;
+
 &lt;/components&gt;
 </pre>
-        <h3><a name="SelectExample">SQL文を記述する場合のExample</a></h3>
-        <p>SQLファイルを作成し、Daoから記述したSQL文を実行する演習です。<br />
 
+    <p>src/example/pdo.dicon</p>
+
+<pre>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"components21.dtd"&gt;
+&lt;components namespace="pdo"&gt;
+
+    &lt;component name="dataSource" class="S2Container_PDODataSource"&gt;
+        &lt;property name="dsn"&gt;"mysql:host=localhost; dbname=s2con"&lt;/property&gt;
+        &lt;property name="user"&gt;"root"&lt;/property&gt;
+        &lt;property name="password"&gt;"pass"&lt;/property&gt;
+    &lt;/component&gt;
+
+&lt;/components&gt;
+</pre>
+
+    <p>また、テーブルの状態は以下の通りです。</p>
+
+<pre>
+mysql&gt; select * from CD order by ID;
++----+--------------------+---------+
+| ID | TITLE              | CONTENT |
++----+--------------------+---------+
+|  1 | HeyJude            | Rock    |
+|  2 | ride on technology |         |
+|  3 | あの木何の木 | J-POP   |
+| 20 | gonna rice         | NULL    |
++----+--------------------+---------+
+</pre>
+
+        <h3><a name="EasyExample">S2Dao.PHP5の簡単なExample</a></h3>
+        <p>S2Dao.PHP5を用いる場合の簡単なサンプルです。<br />
         作成するファイルは以下のとおりです。</p>
-        <ul>
-            <li type="circle">Dao(EmployeeDao.java)</li>
-            <li type="circle">SQLファイル(EmployeeDao_getAllEmployees.sql, EmployeeDao_getEmployee.sql, EmployeeDao_getCount.sql, EmployeeDao_getEmployeeByJobDeptno.sql, EmployeeDao_update.sql)</li>
-            <li type="circle">diconファイル(EmployeeDao.dicon)</li>
-            <li type="circle">実行クラス(EmployeeDaoClient.java)</li>
 
+        <ul>
+            <li type="circle">Dao(Cd1Dao.class.php)</li>
+            <li type="circle">SQLファイル(Cd1Dao_List_getCD1.sql, Cd1Dao_List_getCD2.sql, Cd1Dao_List_getCD3.sql)</li>
+            <li type="circle">diconファイル(example.dicon.xml)</li>
+            <li type="circle">共通読み込みファイル(example.inc.php)</li>
+            <li type="circle">実行クラス&lt;検索系&gt;(example_select1.php, example_select2.php, example_select3.php)</li>
+            <li type="circle">実行クラス&lt;更新系&gt;(example_insert.php, example_update.php, example_delete.php)</li>
         </ul>
-        <h5>Daoの作成</h5>
-        <ul>
-            <li type="circle">EMPテーブルと対応するBeansと関連付けをします。</li>
-            <li type="circle">メソッドを定義します。<br />
-            全件検索するメソッド(getAllEmployees()メソッド)<br />
-            従業員番号を引数として、一致する従業員を検索するメソッド(getEmployee(int empno)メソッド)<br />
 
-            従業員をカウントするメソッド(getCount()メソッド)
-            仕事と部署番号を引数として、一致する従業員を検索するメソッド(getEmployeeByJobDeptno(String job, Integer deptno)メソッド)<br />
-            従業員を更新するメソッド(update(Employee employee)メソッド)
+        <h4>Daoの作成</h4>
+        <ul>
+            <li type="circle">CDテーブルと対応するBeansと関連付けをします。</li>
+            <li type="circle">メソッドを定義します。
+                <ul>
+                    <li>全件検索するメソッド(Array_getAllCd()メソッド)</li>
+                    <li>IDが1以上のCDを検索するメソッド(Array_getCds()メソッド)</li>
+                    <li>IDを引数として、一致するCDを検索するメソッド(Array_getSelectCdById($id)メソッド)</li>
+                    <li>IDとタイトルを引数として一致するCDを検索するメソッド(List_getCD1($id, $title = null)メソッド)</li>
+                    <li>IDとタイトル、ジャンルを引数として一致するCDを検索するメソッド(List_getCD2($id, $title, $content)メソッド)</li>
+                    <li>IDを引数として、一致するCDを検索するメソッド(List_getCD3($id = null)メソッド)</li>
+                </ul>
+                <ul>
+                    <li>CDの更新を行うメソッド(update(CdBean $cd)メソッド)</li>
+                    <li>CDの追加を行うメソッド(insert(CdBean $cd)メソッド)</li>
+                    <li>CDの削除を行うメソッド(delete(CdBean $cd)メソッド)</li>
+                </ul>
             </li>
-            <li type="circle">SQL文とメソッドの引数を関連付けするには<a href="#ArgsAnnotation">ARGSアノテーション</a>を使用します。</li>
-            <li type="circle">EMPテーブルの件数を取得するgetCount()メソッドは、１行でテーブルの件数が返ってくるので戻り値をintとします。</li>
+            <li type="circle">SQL文とメソッドの引数を関連付けするには<a href="reference.html#ArgsAnnotation">ARGSアノテーション</a>を使用します。</li>
+            <li type="circle">※List_で始まるメソッドはS2Dao_ArrayList形式、Array_で始まるメソッドの戻り値については<a href="reference.html#DefMethod">メソッドの定義</a>を御覧になってください</li>
         </ul>
 
 <pre>
-package examples.dao;
+&lt;?php
 
-import java.util.List;
+interface Cd1Dao {
 
-public interface EmployeeDao {
+    const BEAN = "CdBean";
 
-    public Class BEAN = Employee.class;
+    const insert_NO_PERSISTENT_PROPS = "content";
+    const update_NO_PERSISTENT_PROPS = "id, content";
 
-    public List getAllEmployees();
+    const Array_getSelectCdById_ARGS = "id";
+    const List_getCD1_ARGS = "id, title";
+    const List_getCD2_ARGS = "id, title, content";
+    const List_getCD3_ARGS = "id";
 
-    public String getEmployee_ARGS = "empno";
+    const Array_getCds_SQL = "SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1";
+    const Array_getSelectCdById_QUERY = "ID = /*id*/1";
 
-    public Employee getEmployee(int empno);
+    public function update(CdBean $cd);
+    public function insert(CdBean $cd);
+    public function delete(CdBean $cd);
 
-    public int getCount();
-
-    public String getEmployeeByJobDeptno_ARGS = "job, deptno";
-
-    public List getEmployeeByJobDeptno(String job, Integer deptno);
-
-    public int update(Employee employee);
+    public function Array_getAllCd();
+    public function Array_getCds();
+    public function Array_getSelectCdById($id);
+    public function List_getCD1($id, $title = null);
+    public function List_getCD2($id, $title, $content);
+    public function List_getCD3($id = null);
 }
+?&gt;
 </pre>
-        <h5>SQLファイルの作成</h5>
+
+        <h4>SQLファイルの作成</h4>
         <ul>
             <li type="circle">Daoに定義したメソッドに対応するSQLファイルをそれぞれ作成します。</li>
             <li type="circle">ファイル名は「クラス名_メソッド名.sql」とします。</li>
-            <li type="circle">動的なSQLは<a href="#SQLbind">SQLコメント</a>を使用して作成します。</li>
-
+            <li type="circle">動的なSQLは<a href="reference.html#SQLbind">SQLコメント</a>を使用して作成します。</li>
         </ul>
-        EmployeeDao_getAllEmployees.sql
+
+        <p>Cd1Dao_List_getCD1.sql</p>
 <pre>
-SELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
-WHERE emp.deptno = dept.deptno ORDER BY emp.empno
-</pre>
-        EmployeeDao_getEmployee.sql
-<pre>
-SELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
-WHERE empno = /*empno*/7788 AND emp.deptno = dept.deptno
-</pre>
-        EmployeeDao_getCount.sql
-<pre>
-SELECT count(*) FROM emp
+SELECT * FROM CD WHERE ID = /*id*/16 OR TITLE = /*title*/'18';
 </pre>
 
-        EmployeeDao_getEmployeeByJobDeptno.sql
+        <p>Cd1Dao_List_getCD2.sql</p>
+
 <pre>
-SELECT * FROM emp
+SELECT *
+FROM CD
 /*BEGIN*/WHERE
-  /*IF job != null*/job = /*job*/'CLERK'/*END*/
-  /*IF deptno != null*/AND deptno = /*deptno*/20/*END*/
+    /*IF id != null*/ ID = /*id*/'1'/*END*/
+    /*IF title != null*/ AND TITLE = /*title*/'bohemian rhapsody'/*END*/
+    /*IF content == "rock"*/ AND CONTENT = 'blues'/*END*/
 /*END*/
 </pre>
-        EmployeeDao_update.sql
+
+        <p>Cd1Dao_List_getCD3.sql</p>
+
 <pre>
-UPDATE emp SET ename = /*employee.ename*/'SCOTT'
-WHERE empno = /*employee.empno*/7788
-</pre>
-        <h5>diconファイルの作成</h5>
-        <ul>
-            <li type="circle">dao.diconをincludeします。</li>
-
-            <li type="circle">作成したDaoのコンポーネント定義します。</li>
-            <li type="circle">Daoにdao.interceptor(S2DaoInterceptor)を適用します。</li>
-        </ul>
-<pre>
-&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components.dtd"&gt;
-&lt;components&gt;
-   &lt;include path="dao.dicon"/&gt;
-
-   &lt;component class="examples.dao.EmployeeDao"&gt;
-       &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
-   &lt;/component&gt;
-&lt;/components&gt;
-</pre>
-        <h5>実行ファイルの作成</h5>
-
-        <ul>
-            <li type="circle">org.seasar.framework.container.S2Container#create()メソッドの第1引数に作成したdiconファイル(EmployeeDao.dicon)のパスを指定してコンテナを作成します。</li>
-            <li type="circle">org.seasar.framework.container.S2Container#getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（EmployeeDao.class)を指定してコンポーネントを取得します。</li>
-            <li type="circle">Daoに定義したメソッドを実行します。</li>
-        </ul>
-<pre>
-package examples.dao;
-
-import java.util.List;
-
-import org.seasar.framework.container.S2Container;
-import org.seasar.framework.container.factory.S2ContainerFactory;
-
-public class EmployeeDaoClient {
-
-    private static final String PATH = "examples/dao/EmployeeDao.dicon";
-
-    public static void main(String[] args) {
-        S2Container container = S2ContainerFactory.create(PATH);
-        container.init();
-        try {
-            EmployeeDao dao = (EmployeeDao) container
-                    .getComponent(EmployeeDao.class);
-            List employees = dao.getAllEmployees();
-            for (int i = 0; i < employees.size(); ++i) {
-                System.out.println(employees.get(i));
-            }
-
-            Employee employee = dao.getEmployee(7788);
-            System.out.println(employee);
-
-            int count = dao.getCount();
-            System.out.println("count:" + count);
-
-            dao.getEmployeeByJobDeptno(null, null);
-            dao.getEmployeeByJobDeptno("CLERK", null);
-            dao.getEmployeeByJobDeptno(null, new Integer(20));
-            dao.getEmployeeByJobDeptno("CLERK", new Integer(20));
-
-            System.out.println("updatedRows:" + dao.update(employee));
-        } finally {
-            container.destroy();
-        }
-
-    }
-}
-</pre>
-
-        <h5>実行結果</h5>
-<pre>
-DEBUG 2004-10-12 11:07:01,117 [main] 物理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:01,133 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:01,914 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:07:02,742 [main] SELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
-WHERE emp.deptno = dept.deptno ORDER BY emp.empno
-DEBUG 2004-10-12 11:07:02,758 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:02,867 [main] 論理的なコネクションを閉じました
-7369, SMITH, CLERK, 7902, 1980-12-17 00:00:00.0, 800.0, null, 20, 1980-12-17 00:00:00.0
-{0, RESEARCH, DALLAS, 0}
-7499, ALLEN, SALESMAN, 7698, 1981-02-20 00:00:00.0, 1600.0, 300.0, 30, 1980-12-17 00:00:00.0
-{0, SALES, CHICAGO, 0}
-7521, WARD, SALESMAN, 7698, 1981-02-22 00:00:00.0, 1250.0, 500.0, 30, 1980-12-17 00:00:00.0
-{0, SALES, CHICAGO, 0}
-7566, JONES, MANAGER, 7839, 1981-04-02 00:00:00.0, 2975.0, null, 20, 1980-12-17 00:00:00.0
-{0, RESEARCH, DALLAS, 0}
-7654, MARTIN, SALESMAN, 7698, 1981-09-28 00:00:00.0, 1250.0, 1400.0, 30, 1980-12-17 00:00:00.0
-{0, SALES, CHICAGO, 0}
-7698, BLAKE, MANAGER, 7839, 1981-05-01 00:00:00.0, 2850.0, null, 30, 1980-12-17 00:00:00.0
-{0, SALES, CHICAGO, 0}
-7782, CLARK, MANAGER, 7839, 1981-06-09 00:00:00.0, 2450.0, null, 10, 1980-12-17 00:00:00.0
-{0, ACCOUNTING, NEW YORK, 0}
-7788, SCOTT, ANALYST, 7566, 1982-12-09 00:00:00.0, 3000.0, null, 20, 2004-10-12 10:15:54.914
-{0, RESEARCH, DALLAS, 0}
-7839, KING, PRESIDENT, null, 1981-11-17 00:00:00.0, 5000.0, null, 10, 1980-12-17 00:00:00.0
-{0, ACCOUNTING, NEW YORK, 0}
-7844, TURNER, SALESMAN, 7698, 1981-09-08 00:00:00.0, 1500.0, 0.0, 30, 1980-12-17 00:00:00.0
-{0, SALES, CHICAGO, 0}
-7876, ADAMS, CLERK, 7788, 1983-01-12 00:00:00.0, 1100.0, null, 20, 1980-12-17 00:00:00.0
-{0, RESEARCH, DALLAS, 0}
-7900, JAMES, CLERK, 7698, 1981-12-03 00:00:00.0, 950.0, null, 30, 1980-12-17 00:00:00.0
-{0, SALES, CHICAGO, 0}
-7902, FORD, ANALYST, 7566, 1981-12-03 00:00:00.0, 3000.0, null, 20, 1980-12-17 00:00:00.0
-{0, RESEARCH, DALLAS, 0}
-7934, MILLER, CLERK, 7782, 1982-01-23 00:00:00.0, 1300.0, null, 10, 1980-12-17 00:00:00.0
-{0, ACCOUNTING, NEW YORK, 0}
-DEBUG 2004-10-12 11:07:02,883 [main] SELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
-WHERE empno = 7788 AND emp.deptno = dept.deptno
-DEBUG 2004-10-12 11:07:02,883 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:02,914 [main] 論理的なコネクションを閉じました
-7788, SCOTT, ANALYST, 7566, 1982-12-09 00:00:00.0, 3000.0, null, 20, 2004-10-12 10:15:54.914
-{0, RESEARCH, DALLAS, 0}
-DEBUG 2004-10-12 11:07:02,914 [main] SELECT count(*) FROM emp
-DEBUG 2004-10-12 11:07:02,914 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:02,914 [main] 論理的なコネクションを閉じました
-count:14
-DEBUG 2004-10-12 11:07:02,929 [main] SELECT * FROM emp
-
-DEBUG 2004-10-12 11:07:02,929 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:02,945 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:07:02,945 [main] SELECT * FROM emp
+SELECT *
+FROM CD
 WHERE
-  job = 'CLERK'
-
-
-DEBUG 2004-10-12 11:07:02,945 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:02,961 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:07:02,961 [main] SELECT * FROM emp
-WHERE
-
-  deptno = 20
-
-DEBUG 2004-10-12 11:07:02,961 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:02,961 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:07:02,961 [main] SELECT * FROM emp
-WHERE
-  job = 'CLERK'
-  AND deptno = 20
-
-DEBUG 2004-10-12 11:07:02,961 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:03,008 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:07:03,023 [main] UPDATE emp SET ename = 'SCOTT'
-WHERE empno = 7788
-DEBUG 2004-10-12 11:07:03,023 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:07:03,023 [main] 論理的なコネクションを閉じました
-updatedRows:1
-DEBUG 2004-10-12 11:07:03,023 [main] 物理的なコネクションを閉じました
+/*IF id != null*/ ID = /*id*/'1'
+    -- ELSE ID = 1
+/*END*/
 </pre>
-        <p>"updatedRows"の値から更新された件数を確認することができます。<br />
-        この演習は、s2dao/src/examples/dao以下に用意されています。</p>
 
-        <h3><a name="AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></h3>
-        <p>自動で更新処理(UPDATE, INSERT, DELETE)のSQL文の生成とVersionNoによる排他制御の演習です。SQLファイルの作成は不要です。<br />
-
-        作成するファイルは以下のとおりです。</p>
-        <ul>
-            <li type="circle">Dao(DepartmentDao.java)</li>
-            <li type="circle">diconファイル(DepartmentDao.dicon)</li>
-            <li type="circle">実行クラス(DepartmentDaoClient.java)</li>
-        </ul>
-        <h5>Daoの作成</h5>
-
-        <ul>
-            <li type="circle">DEPTテーブルと対応するBeansと関連付けをします。</li>
-            <li type="circle">更新処理を行うメソッドを定義します。<br />
-            部署を追加するメソッド(insert(Department department)メソッド)<br />
-            部署を更新するメソッド(update(Department department)メソッド)<br />
-            部署を削除するメソッド(delete(Department department)メソッド)
-            </li>
-
-        </ul>
-<pre>
-package examples.dao;
-
-public interface DepartmentDao {
-
-    public Class BEAN = Department.class;
-
-    public void insert(Department department);
-
-    public void update(Department department);
-
-    public void delete(Department department);
-}
-</pre>
-        <h5>diconファイルの作成</h5>
+        <h4>diconファイルの作成</h4>
         <ul>
             <li type="circle">dao.diconをincludeします。</li>
             <li type="circle">作成したDaoのコンポーネント定義します。</li>
             <li type="circle">Daoにdao.interceptor(S2DaoInterceptor)を適用します。</li>
-
         </ul>
-<pre>
-&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components.dtd"&gt;
-&lt;components&gt;
-  &lt;include path="dao.dicon"/&gt;
-  &lt;component class="examples.dao.DepartmentDao"&gt;
-    &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
 
-  &lt;/component&gt;
+<pre>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"components21.dtd"&gt;
+&lt;components namespace="example"&gt;
+
+    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+
+    &lt;component name="beanCdDao" class="Cd1Dao"&gt;
+        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+
+    &lt;component name="daoImpl" class="Cd2DaoImpl"&gt;
+        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+
 &lt;/components&gt;
 </pre>
-        <h5>実行ファイルの作成</h5>
+
+        <h4>共通読み込みファイル(example.inc.php)の作成</h4>
         <ul>
-            <li type="circle">org.seasar.framework.container.S2Container#create()メソッドの第1引数に作成したdiconファイル(DepartmentDao.dicon)のパスを指定してコンテナを作成します。</li>
-            <li type="circle">org.seasar.framework.container.S2Container#getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（DepartmentDao.class)を指定してコンポーネントを取得します。</li>
-
-            <li type="circle">Daoに定義したメソッドを実行します。</li>
+            <li type="circle">s2container.inc.phpとs2dao.inc.phpを読み込みます。</li>
+            <li type="circle">pdo.diconファイルまでのパスを設定します。(PDO_DICON定数)</li>
+            <li type="circle">S2ContainerClassLoader::import()で作成したファイルを読み込ませます。</li>
+            <li type="circle">__autoload()関数にS2ContainerClassLoader::load()を設定します。</li>
         </ul>
+
 <pre>
-package examples.dao;
+&lt;?php
+require_once dirname(dirname(dirname(__FILE__))) . "/s2container.inc.php";
+require_once dirname(dirname(dirname(__FILE__))) . "/s2dao.inc.php";
 
-import org.seasar.framework.container.S2Container;
-import org.seasar.framework.container.factory.S2ContainerFactory;
+define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
 
-public class DepartmentDaoClient {
+/** __autoload function */
+if( class_exists("S2ContainerClassLoader") ){
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/impl");
 
-    private static final String PATH = "examples/dao/DepartmentDao.dicon";
-
-    public static void main(String[] args) {
-        S2Container container = S2ContainerFactory.create(PATH);
-        container.init();
-        try {
-            DepartmentDao dao = (DepartmentDao) container
-                    .getComponent(DepartmentDao.class);
-
-            Department dept = new Department();
-            dept.setDeptno(99);
-            dept.setDname("foo");
-            dao.insert(dept);
-            dept.setDname("bar");
-
-            System.out.println("before update versionNo:" + dept.getVersionNo());
-            dao.update(dept);
-            System.out.println("after update versionNo:" + dept.getVersionNo());
-            dao.delete(dept);
-        } finally {
-            container.destroy();
+    function __autoload($class = null){
+        if( S2ContainerClassLoader::load($class) ){
+            return;
         }
     }
 }
+?&gt;
 </pre>
-        <h5>実行結果</h5>
-<pre>
-DEBUG 2004-09-09 19:22:10,588 [main] 物理的なコネクションを取得しました
-DEBUG 2004-09-09 19:22:10,588 [main] 論理的なコネクションを取得しました
-DEBUG 2004-09-09 19:22:11,447 [main] 論理的なコネクションを閉じました
-DEBUG 2004-09-09 19:22:11,603 [main] 論理的なコネクションを取得しました
-DEBUG 2004-09-09 19:22:11,603 [main] INSERT INTO DEPT (deptno, dname, versionNo, loc)
-  VALUES(99, 'foo', 0, null)
-DEBUG 2004-09-09 19:22:11,666 [main] 論理的なコネクションを閉じました
-before update versionNo:0
-DEBUG 2004-09-09 19:22:11,666 [main] 論理的なコネクションを取得しました
-DEBUG 2004-09-09 19:22:11,666 [main] UPDATE DEPT SET dname = 'bar',
-  versionNo = versionNo + 1, loc = null   WHERE deptno = 99 AND versionNo = 0
-DEBUG 2004-09-09 19:22:11,666 [main] 論理的なコネクションを閉じました
-after update versionNo:1
-DEBUG 2004-09-09 19:22:11,666 [main] 論理的なコネクションを取得しました
-DEBUG 2004-09-09 19:22:11,666 [main] DELETE FROM DEPT WHERE deptno = 99 AND versionNo = 1
-DEBUG 2004-09-09 19:22:11,681 [main] 論理的なコネクションを閉じました
-DEBUG 2004-09-09 19:22:11,681 [main] 物理的なコネクションを閉じました
-</pre>
-        <p>出力結果を見ると、自動的にSQL文が発行されていることが分かります。またBeans(Department)にはint型のプロパティversionNoが定義してあるので、
-        自動でversionNoの値が+1され、この値によって排他制御されていることがわかります。
-        updateメソッドを呼ぶ以前では、versionNoの値は0ですが、updateメソッドを呼び出した後では、値が1になります。<br />
 
-        この演習は、s2dao/src/examples/dao以下に用意されています。</p>
+        <h4>実行ファイルの作成</h4>
 
-        <h3><a name="AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a></h3>
-        <p>自動でSELECT文の生成と<a href="#Timestamp">Timestampによる自動排他制御</a>を行う演習です。SQLファイルの作成は不要です。また引数にDTOを使用するメソッドも定義してみましょう。
-        作成するファイルは以下のとおりです。</p>
         <ul>
-            <li type="circle">Dao(EmployeeAutoDao.java)</li>
-
-            <li type="circle">DTO(EmployeeSearchCondition.java)</li>
-            <li type="circle">diconファイル(EmployeeAutoDao.dicon)</li>
-            <li type="circle">実行クラス(EmployeeAutoDaoClient.java)</li>
-        </ul>
-        <h5>Daoの作成</h5>
-        <ul>
-            <li type="circle">EMPテーブルと対応するBeansと関連付けをします。</li>
-
-            <li type="circle">メソッドを定義します。<br />
-            全件検索するメソッド(getAllEmployees()メソッド)<br />
-            仕事と部署番号を引数として、一致する従業員を検索するメソッド(getEmployeeByJobDeptno(String job, Integer deptno)メソッド)<br />
-            従業員番号を引数として、一致する従業員を検索するメソッド(getEmployeeByEmpno(int empno)メソッド)<br />
-            指定した給料の間に含まれる従業員を検索するメソッド(getEmployeesBySal(float minSal, float maxSal)メソッド)<br />
-            指定した部署と一致する従業員を検索するメソッド(getEmployeeByDname(String dname)メソッド)<br />
-
-            DTOを引数とした従業員の検索をするメソッド(getEmployeesBySearchCondition(EmployeeSearchCondition dto)メソッド)<br />
-            従業員を更新するメソッド(update(Employee employee)メソッド)
-            </li>
-        </ul>
-<pre>
-package examples.dao;
-
-import java.util.List;
-
-public interface EmployeeAutoDao {
-
-    public Class BEAN = Employee.class;
-
-    public List getAllEmployees();
-
-    public String getEmployeeByJobDeptno_ARGS = "job, deptno";
-
-    public List getEmployeeByJobDeptno(String job, Integer deptno);
-
-    public String getEmployeeByEmpno_ARGS = "empno";
-
-    public Employee getEmployeeByEmpno(int empno);
-
-    public String getEmployeesBySal_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
-
-    public List getEmployeesBySal(float minSal, float maxSal);
-
-    public String getEmployeeByDname_ARGS = "dname_0";
-
-    public List getEmployeeByDname(String dname);
-
-    public List getEmployeesBySearchCondition(EmployeeSearchCondition dto);
-
-    public void update(Employee employee);
-}
-</pre>
-        <h5>DTOの作成</h5>
-        <ul>
-            <li type="circle"><a href="#COLUMNAnnotation">COLUMNアノテーション</a>でカラムとdnameプロパティを関連付けします。</li>
-
-            <li type="circle">プロパティの宣言をします。</li>
-        </ul>
-<pre>
-package examples.dao;
-
-public class EmployeeSearchCondition {
-
-    public static final String dname_COLUMN = "dname_0";
-    private String job;
-    private String dname;
-
-    public String getDname() {
-        return dname;
-    }
-
-    public void setDname(String dname) {
-        this.dname = dname;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
-    }
-}
-</pre>
-        <h5>diconファイルの作成</h5>
-        <ul>
-            <li type="circle">dao.diconをincludeします。</li>
-            <li type="circle">作成したDaoのコンポーネント定義します。</li>
-
-            <li type="circle">Daoにdao.interceptor(S2DaoInterceptor)を適用します。</li>
-        </ul>
-<pre>
-&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components.dtd"&gt;
-&lt;components&gt;
-  &lt;include path="dao.dicon"/&gt;
-  &lt;component class="examples.dao.EmployeeAutoDao"&gt;
-
-    &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
-  &lt;/component&gt;
-&lt;/components&gt;
-</pre>
-        <h5>実行ファイルの作成</h5>
-        <ul>
-            <li type="circle">org.seasar.framework.container.S2Container#create()メソッドの第1引数に作成したdiconファイル(EmployeeAutoDao.dicon)のパスを指定してコンテナを作成します。</li>
-
-            <li type="circle">org.seasar.framework.container.S2Container#getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（EmployeeAutoDao.class)を指定してコンポーネントを取得します。</li>
+            <li type="circle">先に作成した共通読み込みファイル(example.inc.php)を読み込みます</li>
+            <li type="circle">S2Container::create()メソッドの第1引数に作成したdiconファイル(example.dicon.dicon)のパスを指定してコンテナを作成します。</li>
+            <li type="circle">S2Container::getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（beanCdDao)を指定してコンポーネントを取得します。</li>
             <li type="circle">Daoに定義したメソッドを実行します。</li>
         </ul>
+
+        <h4>検索系のサンプル</h4>
+
+        <h5>example_select1.php</h5>
+
 <pre>
-package examples.dao;
+&lt;?php
+require_once dirname(__FILE__) . "/example.inc.php";
 
-import java.util.List;
+$container = S2ContainerFactory::create("example.dicon.xml");
+$dao = $container-&gt;getComponent("beanCdDao");
 
-import org.seasar.framework.container.S2Container;
-import org.seasar.framework.container.factory.S2ContainerFactory;
+$cd = $dao-&gt;Array_getAllCD();
 
-public class EmployeeAutoDaoClient {
-
-    private static final String PATH = "examples/dao/EmployeeAutoDao.dicon";
-
-    public static void main(String[] args) {
-        S2Container container = S2ContainerFactory.create(PATH);
-        container.init();
-        try {
-            EmployeeAutoDao dao = (EmployeeAutoDao) container
-                    .getComponent(EmployeeAutoDao.class);
-
-            dao.getEmployeeByJobDeptno(null, null);
-            dao.getEmployeeByJobDeptno("CLERK", null);
-            dao.getEmployeeByJobDeptno(null, new Integer(20));
-            dao.getEmployeeByJobDeptno("CLERK", new Integer(20));
-
-            List employees = dao.getEmployeesBySal(0, 1000);
-            for (int i = 0; i < employees.size(); ++i) {
-                System.out.println(employees.get(i));
-            }
-
-            employees = dao.getEmployeeByDname("SALES");
-            for (int i = 0; i < employees.size(); ++i) {
-                System.out.println(employees.get(i));
-            }
-
-            EmployeeSearchCondition dto = new EmployeeSearchCondition();
-            dto.setDname("RESEARCH");
-            employees = dao.getEmployeesBySearchCondition(dto);
-            for (int i = 0; i < employees.size(); ++i) {
-                System.out.println(employees.get(i));
-            }
-
-            Employee employee = dao.getEmployeeByEmpno(7788);
-            System.out.println("before timestamp:" + employee.getTimestamp());
-            dao.update(employee);
-            System.out.println("after timestamp:" + employee.getTimestamp());
-        } finally {
-            container.destroy();
-        }
-
-    }
+for($i = 0; $i &lt; count($cd); $i++){
+    echo "ID: " . $cd[$i]-&gt;getId() . PHP_EOL;
+    echo "TITLE: " . $cd[$i]-&gt;getTitle() . PHP_EOL;
+    echo "CONTENT: " . $cd[$i]-&gt;getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
 }
+
+echo "=====" . PHP_EOL;
+
+$cd = $dao-&gt;Array_getSelectCdById(20);
+foreach($cd as $bean){
+    echo "ID: " . $bean-&gt;getId() . PHP_EOL;
+    echo "TITLE: " . $bean-&gt;getTitle() . PHP_EOL;
+    echo "CONTENT: " . $bean-&gt;getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
+}
+
+?&gt;
 </pre>
+
         <h5>実行結果</h5>
 
 <pre>
-DEBUG 2004-10-12 11:35:22,054 [main] 物理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:22,069 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:22,897 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:35:23,726 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno
-DEBUG 2004-10-12 11:35:23,726 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,866 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:35:23,866 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno WHERE  EMP.job = 'CLERK'
-DEBUG 2004-10-12 11:35:23,866 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,882 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:35:23,882 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno WHERE EMP.deptno = 20
-DEBUG 2004-10-12 11:35:23,882 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,913 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:35:23,913 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno WHERE  EMP.job = 'CLERK' AND EMP.deptno = 20
-DEBUG 2004-10-12 11:35:23,913 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,929 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-12 11:35:23,929 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno WHERE sal BETWEEN 0.0 AND 1000.0 ORDER BY empno
-DEBUG 2004-10-12 11:35:23,929 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,944 [main] 論理的なコネクションを閉じました
-7369, SMITH, CLERK, 7902, 1980-12-17 00:00:00.0, 800.0, null, 20, 1980-12-17 00:00:00.0
-{20, RESEARCH, DALLAS, 0}
-7900, JAMES, CLERK, 7698, 1981-12-03 00:00:00.0, 950.0, null, 30, 1980-12-17 00:00:00.0
-{30, SALES, CHICAGO, 0}
-DEBUG 2004-10-12 11:35:23,944 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno WHERE  department.dname = 'SALES'
-DEBUG 2004-10-12 11:35:23,944 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,960 [main] 論理的なコネクションを閉じました
-7499, ALLEN, SALESMAN, 7698, 1981-02-20 00:00:00.0, 1600.0, 300.0, 30, 1980-12-17 00:00:00.0
-{30, SALES, CHICAGO, 0}
-7521, WARD, SALESMAN, 7698, 1981-02-22 00:00:00.0, 1250.0, 500.0, 30, 1980-12-17 00:00:00.0
-{30, SALES, CHICAGO, 0}
-7654, MARTIN, SALESMAN, 7698, 1981-09-28 00:00:00.0, 1250.0, 1400.0, 30, 1980-12-17 00:00:00.0
-{30, SALES, CHICAGO, 0}
-7698, BLAKE, MANAGER, 7839, 1981-05-01 00:00:00.0, 2850.0, null, 30, 1980-12-17 00:00:00.0
-{30, SALES, CHICAGO, 0}
-7844, TURNER, SALESMAN, 7698, 1981-09-08 00:00:00.0, 1500.0, 0.0, 30, 1980-12-17 00:00:00.0
-{30, SALES, CHICAGO, 0}
-7900, JAMES, CLERK, 7698, 1981-12-03 00:00:00.0, 950.0, null, 30, 1980-12-17 00:00:00.0
-{30, SALES, CHICAGO, 0}
-DEBUG 2004-10-12 11:35:23,960 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno WHERE  department.dname = 'RESEARCH'
-DEBUG 2004-10-12 11:35:23,976 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,976 [main] 論理的なコネクションを閉じました
-7369, SMITH, CLERK, 7902, 1980-12-17 00:00:00.0, 800.0, null, 20, 1980-12-17 00:00:00.0
-{20, RESEARCH, DALLAS, 0}
-7566, JONES, MANAGER, 7839, 1981-04-02 00:00:00.0, 2975.0, null, 20, 1980-12-17 00:00:00.0
-{20, RESEARCH, DALLAS, 0}
-7788, SCOTT, ANALYST, 7566, 1982-12-09 00:00:00.0, 3000.0, null, 20, 2004-10-12 10:15:54.914
-{20, RESEARCH, DALLAS, 0}
-7876, ADAMS, CLERK, 7788, 1983-01-12 00:00:00.0, 1100.0, null, 20, 1980-12-17 00:00:00.0
-{20, RESEARCH, DALLAS, 0}
-7902, FORD, ANALYST, 7566, 1981-12-03 00:00:00.0, 3000.0, null, 20, 1980-12-17 00:00:00.0
-{20, RESEARCH, DALLAS, 0}
-DEBUG 2004-10-12 11:35:23,976 [main] SELECT EMP.tstamp, EMP.empno, EMP.ename, EMP.job, EMP.mgr,
-EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, department.dname AS dname_0, department.deptno AS deptno_0,
-department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP LEFT OUTER JOIN DEPT department
-ON EMP.deptno = department.deptno WHERE  EMP.empno = 7788
-DEBUG 2004-10-12 11:35:23,991 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,991 [main] 論理的なコネクションを閉じました
-before timestamp:2004-10-12 10:15:54.914
-DEBUG 2004-10-12 11:35:23,991 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-12 11:35:23,991 [main] UPDATE EMP SET tstamp = '2004-10-12 11.35.23', ename = 'SCOTT',
-job = 'ANALYST', mgr = 7566, hiredate = '1982-12-09 00.00.00', sal = 3000.0, comm = null, deptno = 20
-WHERE empno = 7788 AND tstamp = '2004-10-12 10.15.54'
-DEBUG 2004-10-12 11:35:24,054 [main] 論理的なコネクションを閉じました
-after timestamp:2004-10-12 11:35:23.991
-DEBUG 2004-10-12 11:35:24,054 [main] 物理的なコネクションを閉じました
+&gt; php example_select1.php
+[DEBUG]  - SELECT CD.CONTENT, CD.ID, CD.TITLE FROM CD
+ID: 1
+TITLE: HeyJude
+CONTENT: Rock
+-------
+ID: 20
+TITLE: gonna rice
+CONTENT:
+-------
+ID: 3
+TITLE: あの木何の木
+CONTENT: J-POP
+-------
+ID: 2
+TITLE: ride on technology
+CONTENT:
+-------
+=====
+[DEBUG]  - SELECT CD.CONTENT, CD.ID, CD.TITLE FROM CD WHERE ID = 20
+ID: 20
+TITLE: gonna rice
+CONTENT:
+-------
 </pre>
-        <p>出力されているログからSQL文が自動的に生成されていることがわかります。<br />
-        また更新前と更新後ではTimestampの値が変化していることに気付くと思います。この値で排他制御を行っていることがわかります。<br />
-        この演習は、s2dao/src/examples/dao以下に用意されています。</p>
+
+        <h5>example_select2.php</h5>
+
+<pre>
+&lt;?php
+require_once dirname(__FILE__) . "/example.inc.php";
+
+$container = S2ContainerFactory::create("example.dicon.xml");
+$dao = $container-&gt;getComponent("beanCdDao");
+
+$list = $dao-&gt;List_getCD1(2, 'aaa');
+for($i = 0; $i &lt; $list-&gt;size(); $i++){
+    $cd = $list-&gt;get($i);
+    echo "ID: " . $cd-&gt;getId() . PHP_EOL;
+    echo "TITLE: " . $cd-&gt;getTitle() . PHP_EOL;
+    echo "CONTENT: " . $cd-&gt;getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
+}
+
+echo "=====" . PHP_EOL;
+
+$list = $dao-&gt;List_getCD2(2, 'help!', 'rock');
+$i = $list-&gt;getIterator();
+while($i-&gt;valid()){
+    $cd = $i-&gt;current();
+    echo "ID: " . $cd-&gt;getId() . PHP_EOL;
+    echo "TITLE: " . $cd-&gt;getTitle() . PHP_EOL;
+    echo "CONTENT: " . $cd-&gt;getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
+    $i-&gt;next();
+}
+
+?&gt;
+</pre>
+
+        <h5>実行結果</h5>
+
+<pre>
+&gt; php example_select2.php
+[DEBUG]  - SELECT * FROM CD WHERE ID = 2 OR TITLE = 'aaa'
+ID: 2
+TITLE: ride on technology
+CONTENT:
+-------
+=====
+[DEBUG]  - SELECT *
+FROM CD
+WHERE
+     ID = 2
+     AND TITLE = 'help!'
+     AND CONTENT = 'blues'
+</pre>
+
+        <h5>example_select3.php</h5>
+
+<pre>
+&lt;?php
+require_once dirname(__FILE__) . "/example.inc.php";
+
+$container = S2ContainerFactory::create("example.dicon.xml");
+$dao = $container-&gt;getComponent("beanCdDao");
+
+$list = $dao-&gt;List_getCD3(null);
+$cds = $list-&gt;toArray();
+for($i = 0; $i &lt; $list-&gt;size(); $i++){
+    echo "ID: " . $cds[$i]-&gt;getId() . PHP_EOL;
+    echo "TITLE: " . $cds[$i]-&gt;getTitle() . PHP_EOL;
+    echo "CONTENT: " . $cds[$i]-&gt;getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
+}
+
+echo "======" . PHP_EOL;
+
+$cds = $dao-&gt;Array_getCds();
+foreach($cds as $cd){
+    echo "ID: " . $cd-&gt;getId() . PHP_EOL;
+    echo "TITLE: " . $cd-&gt;getTitle() . PHP_EOL;
+    echo "CONTENT: " . $cd-&gt;getContent() . PHP_EOL;
+    echo "-------" . PHP_EOL;
+}
+?&gt;
+</pre>
+
+        <h5>実行結果</h5>
+
+<pre>
+&gt; php example_select3.php
+[DEBUG]  - SELECT *
+FROM CD
+WHERE
+ID = 1
+
+ID: 1
+TITLE: HeyJude
+CONTENT: Rock
+-------
+======
+[DEBUG]  - SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1
+ID: 2
+TITLE: ride on technology
+CONTENT:
+-------
+ID: 3
+TITLE: あの木何の木
+CONTENT:
+-------
+ID: 20
+TITLE: gonna rice
+CONTENT:
+-------
+</pre>
+
+        <h4>更新系のサンプル</h4>
+
+        <h5>example_insert.php</h5>
+
+<pre>
+&lt;?php
+require_once dirname(__FILE__) . "/example.inc.php";
+
+$container = S2ContainerFactory::create("example.dicon.xml");
+$dao = $container-&gt;getComponent("beanCdDao");
+$cd = new CdBean();
+
+$cd-&gt;setId(4);
+$cd-&gt;setTitle("gonna rice");
+$cd-&gt;setContent("Techno");
+$dao-&gt;insert($cd);
+
+?&gt;
+</pre>
+
+        <h5>実行結果</h5>
+
+<pre>
+&gt; php example_insert.php
+[DEBUG]  - INSERT INTO CD (ID, TITLE) VALUES (4, 'gonna rice')
+</pre>
+
+        <h5>example_update.php</h5>
+
+<pre>
+&lt;?php
+require_once dirname(__FILE__) . "/example.inc.php";
+
+$container = S2ContainerFactory::create("example.dicon.xml");
+$dao = $container-&gt;getComponent("beanCdDao");
+$cd = new CdBean();
+
+$cd-&gt;setId(4);
+$cd-&gt;setTitle("ride on technology");
+$dao-&gt;update($cd);
+
+?&gt;
+</pre>
+
+        <h5>実行結果</h5>
+
+<pre>
+&gt; php example_update.php
+[DEBUG]  - UPDATE CD SET TITLE = 'ride on technology' WHERE ID = 4
+</pre>
+
+        <h5>example_delete.php</h5>
+
+<pre>
+&lt;?php
+require_once dirname(__FILE__) . "/example.inc.php";
+
+$container = S2ContainerFactory::create("example.dicon.xml");
+$dao = $container-&gt;getComponent("beanCdDao");
+$cd = new CdBean();
+
+$cd-&gt;setId(4);
+$dao-&gt;delete($cd);
+
+?&gt;
+</pre>
+
+        <h5>実行結果</h5>
+
+<pre>
+&lt; php example_delete.php
+[DEBUG]  - DELETE FROM CD WHERE ID = 4
+</pre>
+
+        <p>この演習は、/src/examples以下に用意されています。</p>
 
         <h3><a name="EntityManagerExample">EntityManagerを使用したExample</a></h3>
-        <p><a href="#EntityManager">EntityManager</a>を使用して、指定した文字列を名前に含む従業員を検索する演習です。<br />
-
+        <p><a href="reference.html#EntityManager">EntityManager</a>を用いる場合の簡単なサンプルです。<br />
         作成するファイルは以下のとおりです。</p>
-        <ul>
-            <li type="circle">Dao(Employee2Dao.java)</li>
-            <li type="circle">AbstractDaoを継承したクラス(Employee2DaoImpl.java)</li>
-            <li type="circle">diconファイル(Employee2Dao.dicon)</li>
-            <li type="circle">実行クラス(Employee2DaoClient.java)</li>
 
-        </ul>
-        <h5>Daoの作成</h5>
         <ul>
-            <li type="circle">なお、インターフェース名は"Dao"で終わらす必要があります。</li>
-            <li type="circle">EMPテーブルと対応するBeansと関連付けをします。</li>
-            <li type="circle">検索処理を行うメソッドを定義します。<br />
-             従業員を検索するメソッド(getEmployees(String ename))
-            </li>
-
+            <li type="circle">Dao(Cd2Dao.class.php)</li>
+            <li type="circle">S2Dao_AbstractDaoを継承したクラス(Cd2DaoImpl.class.php)</li>
+            <li type="circle">実行ファイル(Cd2DaoClient.php)</li>
         </ul>
+
+        <h4>Daoの作成</h4>
+        <ul>
+            <li type="circle">インターフェース名は"Dao"で終わらす必要があります</li>
+            <li type="circle">CDテーブルと対応するBeansと関連付けをします。</li>
+            <li type="circle">メソッドを定義します。<br />
+                            IDを引数に検索するメソッド(getCd($id))<li>
+        </ul>
+
 <pre>
-package examples.dao;
+&lt;?php
 
-import java.util.List;
-
-public interface Employee2Dao {
-
-    public Class BEAN = Employee.class;
-
-    public List getEmployees(String ename);
+interface Cd2Dao {
+    const BEAN = "CdBean";
+    public function getCd($id);
 }
+?&gt;
 </pre>
-        <h5>AbstractDaoを継承したクラスの作成</h5>
+
+        <h4>S2Dao_AbstractDaoを継承したクラスの作成</h4>
+
         <ul>
-            <li type="circle">org.seasar.dao.impl.AbstractDaoを継承します。</li>
-            <li type="circle">Employee2Daoをimplementsします。</li>
-            <li type="circle">getEmployeesメソッドを実装します。指定した文字列を名前に含む検索をします。</li>
-
+            <li>S2Dao_AbstractDaoを継承します。</li>
+            <li>Cd2Daoをimplementsします。</li>
+            <li>geCdメソッドを実装します。<br />
+                            IDを指定して検索をします。</li>
         </ul>
+
 <pre>
-package examples.dao;
+&lt;?php
+class Cd2DaoImpl extends S2Dao_AbstractDao implements Cd2Dao {
 
-import java.util.List;
-
-import org.seasar.dao.DaoMetaDataFactory;
-import org.seasar.dao.impl.AbstractDao;
-
-public class Employee2DaoImpl extends AbstractDao implements Employee2Dao {
-
-    public Employee2DaoImpl(DaoMetaDataFactory daoMetaDataFactory) {
-        super(daoMetaDataFactory);
+    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory){
+        parent::__construct($daoMetaDataFactory);
     }
 
-    public List getEmployees(String ename) {
-        return getEntityManager().find("ename LIKE ?", "%" + ename + "%");
+    public function getCd($id){
+        return $this-&gt;getEntityManager()-&gt;find("ID = ?", $id);
+        //return $this-&gt;getEntityManager()-&gt;findArray("ID = ?", $id);
+        //return $this-&gt;getEntityManager()-&gt;findBean("ID = ?", $id);
+        //return $this-&gt;getEntityManager()-&gt;findObject("ID = ?", $id);
     }
 }
+
+?&gt;
 </pre>
-        <h5>diconファイルの作成</h5>
+
+        <h4>実行ファイルの作成</h4>
+
         <ul>
-            <li type="circle">dao.diconをincludeします。</li>
-            <li type="circle">AbstractDaoを継承したクラスをコンポーネント定義します。</li>
-            <li type="circle">登録したコンポーネントにdao.interceptor(S2DaoInterceptor)を適用します。</li>
-
-        </ul>
-<pre>
-&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components.dtd"&gt;
-&lt;components&gt;
-    &lt;include path="dao.dicon"/&gt;
-    &lt;component class="examples.dao.Employee2DaoImpl"&gt;
-        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
-
-    &lt;/component&gt;
-&lt;/components&gt;
-</pre>
-        <h5>実行ファイルの作成</h5>
-        <ul>
-            <li type="circle">org.seasar.framework.container.S2Container#create()メソッドの第1引数に作成したdiconファイル(Employee2Dao.dicon)のパスを指定してコンテナを作成します。</li>
-            <li type="circle">org.seasar.framework.container.S2Container#getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（Employee2Dao.class)を指定してコンポーネントを取得します。</li>
-
-            <li type="circle">"CO"を名前に含むという条件を指定します。</li>
+            <li type="circle">先に作成した共通読み込みファイル(example.inc.php)を読み込みます</li>
+            <li type="circle">S2Container::create()メソッドの第1引数に作成したdiconファイル(example.dicon.dicon)のパスを指定してコンテナを作成します。</li>
+            <li type="circle">S2Container::getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（beanCdDao)を指定してコンポーネントを取得します。</li>
+            <li type="circle">IDが2を指定します。</li>
             <li type="circle">Daoに定義したメソッドを実行します。</li>
         </ul>
+
 <pre>
-package examples.dao;
+&lt;?php
 
-import java.util.List;
+require_once dirname(__FILE__) . "/example.inc.php";
 
-import org.seasar.framework.container.S2Container;
-import org.seasar.framework.container.factory.S2ContainerFactory;
+$container = S2ContainerFactory::create("example.dicon.xml");
+$dao = $container-&gt;getComponent("daoImpl");
 
-public class Employee2DaoClient {
+var_dump($dao-&gt;getCd(2));
 
-    private static final String PATH = "examples/dao/Employee2Dao.dicon";
+?&gt;
+</pre>
 
-    public static void main(String[] args) {
-        S2Container container = S2ContainerFactory.create(PATH);
-        container.init();
-        try {
-            Employee2Dao dao = (Employee2Dao) container
-                    .getComponent(Employee2Dao.class);
-            List employees = dao.getEmployees("CO");
-            for (int i = 0; i < employees.size(); ++i) {
-                System.out.println(employees.get(i));
-            }
-        } finally {
-            container.destroy();
-        }
+        <h5>実行結果</h5>
 
-    }
+<pre>
+&gt; php Cd2DaoClient.class.php
+[DEBUG]  - SELECT CD.CONTENT, CD.ID, CD.TITLE FROM CD WHERE ID = 2
+object(S2Dao_ArrayList)#259 (1) {
+  [0]=&gt;
+  object(CdBean)#260 (3) {
+    ["id:private"]=&gt;
+    string(1) "2"
+    ["title:private"]=&gt;
+    string(18) "ride on technology"
+    ["content:private"]=&gt;
+    string(0) ""
+  }
 }
 </pre>
-        <h5>実行結果</h5>
-<pre>
-DEBUG 2004-10-01 10:14:39,333 [main] 物理的なコネクションを取得しました
-DEBUG 2004-10-01 10:14:39,333 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-01 10:14:40,379 [main] 論理的なコネクションを閉じました
-DEBUG 2004-10-01 10:14:41,254 [main] SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate,
-  EMP.sal, EMP.comm, EMP.deptno, department.deptno AS deptno_0, department.dname AS dname_0,
-  department.loc AS loc_0, department.versionNo AS versionNo_0 FROM EMP
-  LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE ename LIKE '%CO%'
-DEBUG 2004-10-01 10:14:41,270 [main] 論理的なコネクションを取得しました
-DEBUG 2004-10-01 10:14:41,426 [main] 論理的なコネクションを閉じました
-7788, SCOTT, ANALYST, 7566, 1982-12-09 00:00:00.0, 3000.0, null, 20 {20, RESEARCH, DALLAS, 0}
-DEBUG 2004-10-01 10:14:41,442 [main] 物理的なコネクションを閉じました
 
-</pre>
-        <p>この演習は、s2dao/src/examples/dao以下に用意されています。</p>
--->
+    <p>この演習は、/src/examples以下に用意されています。</p>
 
 <!-- document end -->
 <!-- don't edit start -->

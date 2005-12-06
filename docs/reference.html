@@ -74,8 +74,7 @@
         各ファイルの実装・設定方法の詳細は次のようになります。</p>
 
     <h4><a name="Beans">Beans</a></h4>
-        <p>
-        Beansはテーブルとの関連付けに使用します。
+        <p>Beansはテーブルとの関連付けに使用します。
         Beansにテーブルの関連付けを行うには、以下の定数宣言とメソッドの実装が必要になります。</p>
 
         <ul>
@@ -195,19 +194,20 @@
 
     <h5><a name="property">カラムに対応するプロパティの宣言</a></h5>
         <p>テーブルのカラムに対応した変数を宣言します。</p>
-        NUMBER型のEMPNOというカラムの場合、以下のように宣言することができます。
+        <p>EMPNOというカラムの場合、以下のように宣言することができます。<p>
 
         <pre>private $empno;</pre>
 
 
      <h5><a name="GetterSetterMethod">getter/setterメソッド</a></h5>
         <p>テーブルのカラムに対応した各プロパティのgetter/setterメソッドを実装します。メソッドの命名規則は以下の形式になります。</p>
-        getterメソッド
+        <p>getterメソッド</p>
         <p> - public <span class="italic">function</span> get<span class="italic">プロパティ名</span>()</p>
 
-        setterメソッド
+        <p>setterメソッド</p>
         <p> - public function set<span class="italic">プロパティ名(引数)</span></p>
-        private long empnoというプロパティの場合は以下のようになります。
+
+        <p>private $empnoというプロパティの場合は以下のようになります。</p>
 
 <pre>private $empno;
 
@@ -287,7 +287,6 @@ class Employee {
             <li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
             <li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
             <li><a href="#SqlAnnotation">SQLアノテーション</a></li>
-
         </ul>
 
 
@@ -298,7 +297,7 @@ class Employee {
 
         <p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。  </p>
         <pre>const BEAN = "Employee";</pre>
-        
+
 
     <h5><a name="ArgsAnnotation">ARGSアノテーション</a></h5>
         <p>メソッドの引数をSQL文で参照できるように、ARGSアノテーションを使用し、メソッドの引数名を指定します。メソッドの引数名は、リフレクションで取得できないためです。<br />
@@ -306,22 +305,26 @@ class Employee {
         <p> - const <span class="italic">メソッド名</span>_ARGS = "<span class="italic">引数名</span>";</p>
 
          <p>public function List_getEmployee($empno)というメソッドがDaoに定義されていた場合の引数名は次のように定義します。</p>
-        <pre>const List_getEmployee_ARGS = "empno";</pre>
-        <p>メソッドの引数がテーブルのカラム名に対応している場合、<span class="italic">引数名</span>にはテーブルのカラム名を指定します。例えば、メソッドの引数名がempnoで、テーブルのカラム名がemployeenoの場合は、employeenoを指定するということです。
-        引数が複数ある場合には、カンマで区切ります。引数が1つの場合、ARGSアノテーションは省略できます。</p>
+         <pre>const List_getEmployee_ARGS = "empno";</pre>
+         <!--
+         <p>メソッドの引数がテーブルのカラム名に対応している場合、<span class="italic">引数名</span>にはテーブルのカラム名を指定します。例えば、メソッドの引数名がempnoで、テーブルのカラム名がemployeenoの場合は、employeenoを指定するということです。
+         引数が複数ある場合には、カンマで区切ります。引数が1つの場合、ARGSアノテーションは省略できます。</p>
+         -->
 
 
     <h5><a name="QueryAnnotation">QUERYアノテーション</a></h5>
         <p>自動的に生成されるSELECT文にWHERE句やORDER BY句を追加するには、QUERYアノテーションを使用します。<br />
-
         QUERYアノテーションは以下の形式で定数を宣言します。</p>
+
         <p> - const <span class="italic">メソッド名</span>_QUERY = "<span class="italic">WHERE句ORDER BY句</span>";</p>
         <p>引数で給与の上限と下限を指定し、その間に含まれる従業員を抽出する場合、次のようにします。</p>
+
 <pre>
 const List_getEmployeesBySal_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
 
 public function List_getEmployeesBySal($minSal, $maxSal);
 </pre>
+
         <p>上記例の“?”をバインド変数と言います。バインド変数をQUERYアノテーションに記述することにより、メソッドの引数の値が順に”?”の部分に代入されます。
         ARGSアノテーションは、必要ありません。ORDER BY句だけを記述するときは、ORDER BYで始めてください。<a href="#SQLbind">SQLコメント</a>も記述することが出来ます。
         SQLコメントを使用したサンプルは以下のとおりです。
@@ -330,7 +333,9 @@ public function List_getEmployeesBySal($minSal, $maxSal);
 <pre>const List_getEmployees_QUERY =
                       "job = /*job*/'CLERK'/*IF deptno != null*/ AND deptno = /*deptno*/20/*END*/";
 </pre>
+
         <p>上記サンプルは、引数deptnoがnullでない場合、deptnoが引数の値と一致するという条件を追加します。SQLコメントについての詳しい説明は、<a href="#SQLbind">SQLコメント</a>の項目を参照して下さい。</p>
+
 
     <h5><a name="DefMethod">メソッドの定義</a></h5>
         <p>Daoに定義したメソッドを呼ぶことにより、対応するSQLファイルに記述されているSQLが実行されますが、
@@ -371,7 +376,7 @@ public function removeDept(Department $department);
 
         <li>検索(SELECT)処理</li>
         <p>検索処理を行ないたい場合は、メソッド名の最初が<span class="italic">List</span>または、<span class="italic">Array</span>である必要があります。</p>
-        <p>Listで始まるメソッド名の場合は、SELECT文でエンティティのリスト(S2Dao_ArrayList形式)を返します。<br />
+        <p>Listで始まるメソッド名の場合は、SELECT文でエンティティのリスト(S2Dao_ArrayList形式)を返します。(S2Dao_ArrayListはArrayObjectを継承しています)<br />
            以下のように記述することができます。(S2Dao_ArrayListはS2Dao.PHP5の組み込みクラスです。ArrayListと同じような機能を提供します。)</p>
 
 <pre>
@@ -409,13 +414,14 @@ public function array_getEmp();
     機能はSQLファイルと同様で、アノテーションにてSQL及びSQLコメントを使用することが可能です。</p>
 
     <p>SQLアノテーションに命名規則があります。</p>
+
     <ul>
     <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
     <p>SQLアノテーションとDaoに定義したメソッドの関連付けをするには、SQLアノテーションを以下の形式にする必要があります。</p>
     <p> - <span class="italic">メソッド名</span>_SQL</p>
-    <p>examples.dao.EmployeeDao#getAllEmployees()に対応するSQLアノテーションは以下のようになります。</p>
+    <p>examples.dao.EmployeeDao#List_getAllEmployees()に対応するSQLアノテーションは以下のようになります。</p>
 
-<pre>public static final String getAllEmployees_SQL = "SELECT
+<pre>const List_getAllEmployees_SQL = "SELECT
 emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
  WHERE emp.deptno = dept.deptno ORDER BY emp.empno;";</pre>
 
@@ -424,7 +430,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
     <p>DBMSごとに使用するSQLアノテーションを指定することができます。<br />
     どのDBMSを使っているのかは PDO::ATTR_DRIVER_NAME の値に応じて、S2Dao が自動的に判断しています。<br />
     S2DaoのほうでDBMSごとにサフィックスを決めているので、SQLアノテーションにサフィックスを追加します。<br />
-    例えばMySQLの場合、サフィックスはmysqlなので、「getAllEmployees_mysql_SQL」というSQLアノテーションになります。</p>
+    例えばMySQLの場合、サフィックスはmysqlなので、「List_getAllEmployees_mysql_SQL」というSQLアノテーションになります。</p>
 
     <p>DBMSとサフィックスの関係は以下の通りです。</p>
     <table class="main" border="1">
@@ -483,36 +489,44 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 &lt;components&gt;
     &lt;include path="dao.dicon"/&gt;
     &lt;component class="EmployeeDao"&gt;
-        &lt;aspect&gt;interceptor&lt;/aspect&gt;
+        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
 &lt;/components&gt;
 </pre>
 
         <p>dao.dicon</p>
-
 <pre>
 &lt;components namespace="dao"&gt;
-    &lt;component name="dataSource" class="S2Container_PDODataSource"&gt;
-        &lt;property name="dsn"&gt;"mysql://root:pass@localhost/dbname"&lt;/property&gt;
-    &lt;/component&gt;
-    &lt;component class="PearDBSqlHandler"/&gt;
-    &lt;component name="dbtx" class="PearDBTxInterceptor"/&gt;
-    &lt;component name="session" class="DBSessionImpl"/&gt;
-    &lt;component class="DaoMetaDataFactoryImpl"/&gt;
-    &lt;component name="interceptor" class="S2DaoInterceptor"/&gt;
+    &lt;include path="%PDO_DICON%" /&gt;
+    &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
+    &lt;component class="S2Dao_BasicStatementFactory" /&gt;
+    &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
+    &lt;component name="interceptor" class="S2DaoInterceptor" /&gt;
 &lt;/components&gt;
 </pre>
 
-        <p>&lt;component class="DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
-         DaoMetaDataFactoryImplも記述しておきます。<br />
-         (※ S2Dao.PHP5 beta2 以降からは PDO のみのサポートになりました。PDOが利用できる環境で使用してください。<br />
-             S2Dao.PHP5 beta1 は PEAR::DB のみサポートしています)</p>
+        <p>pdo.dicon</p>
+
+<pre>
+&lt;components namespace="pdo"&gt;
+    &lt;component name="dataSource" class="S2Container_PDODataSource"&gt;
+        &lt;property name="dsn"&gt;"mysql:host=localhost; dbname=s2con"&lt;/property&gt;
+        &lt;property name="user"&gt;"root"&lt;/property&gt;
+        &lt;property name="password"&gt;"pass"&lt;/property&gt;
+    &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+
+        <p>&lt;component class="S2Dao_DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
+         S2Dao_DaoMetaDataFactoryImplも記述しておきます。<br />
+         (※ S2Dao.PHP5 beta2 以降からは PDO のみのサポートになりました。PDOが利用できる環境で使用してください。))</p>
 
         <h4><a name="SQLfile">SQLファイル</a></h4>
         <p>検索、更新処理等を行うSQL文を記述します。
         Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
         作成したSQLファイルはDaoと同じ場所に配置してください。
         ※S2DaoにはSQLを<a href="#AutoUpdate">自動で生成する機能</a>が用意されているので、SQLファイルがない場合、S2DaoがSQL文を自動生成します。</p>
+
         <h5>SQLファイル名</h5>
         <p>S2DaoにはSQLのファイル名にも命名規則があります。</p>
 
@@ -521,15 +535,17 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
         <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
         <p>作成したSQLファイルとDaoに定義したメソッドの関連付けをするには、SQLファイルのファイル名を以下の形式にする必要があります。</p>
         <p> -  <span class="italic">Daoのクラス名</span>_<span class="italic">メソッド名</span>.sql</p>
-        examples.dao.EmployeeDao#getAllEmployees()に対応するSQLファイルは以下のようになります。
-        <pre>examples/dao/EmployeeDao_getAllEmployees.sql   </pre>
+
+        <p>examples.dao.EmployeeDao#List_getAllEmployees()に対応するSQLファイルは以下のようになります。</p>
+
+        <pre>examples/dao/EmployeeDao_List_getAllEmployees.sql</pre>
 
         <li>複数DBMS対応</li>
         <p>DBMSごとに使用するSQLファイルを指定することができます。<br />
         どのDBMSを使っているのかは PDO::ATTR_DRIVER_NAME の値に応じて、S2Dao が自動的に判断しています。<br />
         S2DaoのほうでDBMSごとにサフィックスを決めているので、SQLファイル名にサフィックスを追加します。<br />
-        例えば MySQL の場合、サフィックスは mysql なので、「EmployeeDao_getAllEmployees_mysql.sql」というファイル名になります。</p>
-        
+        例えば MySQL の場合、サフィックスは mysql なので、「EmployeeDao_List_getAllEmployees_mysql.sql」というファイル名になります。</p>
+
         <p>DBMSとサフィックスの関係は以下の通りです。</p>
         <table border="1" class="main">
             <tr bgcolor="#d1f3f4" align="center">
@@ -673,19 +689,19 @@ public function List_getEmployee($empno);
         <p>上記の場合、job,deptnoがnullの場合は、WHERE句は出力されません。
         job == null,deptno != nullの場合は、WHERE depno = ?、 job != null,deptno == nullの場合は、WHERE job = ?、
         job != null,deptno != nullの場合は、WHERE job = ? AND depno = ?のようになります。動的SQLも思いのままです。</p>
-        
-        
+
+
         <h3><a name="EntityManager">EntityManagerを使用したQueryの実行</a></h3>
         <p>EntityManagerを使用し、自動的に生成されるSELECT文にWHERE句やORDER BY句を追加できます。書き方は、<a href="#QueryAnnotation">QUERYアノテーション</a>と同様です。
         主に、動的にQueryを組み立てたいときに使用します。EntityManagerを使用するには、以下のクラスを継承します。</p>
-        
+
         <p>- S2Dao_AbstractDao</p>
-        
+
         <p>Daoのインターフェース名は、必ず"Dao"で終わるようにしてください。S2Daoは、S2Dao_AbstractDaoを継承したクラスが実装しているインターフェースの中で、
         クラス名が"Dao"で終わっているインターフェースをDaoインターフェースだと判断しているためです。</p>
-        
+
         <p>EntityManagerには、以下のメソッドが用意されています。</p>
-        
+
         <dl>
             <dt style="text-indent:1em;">find()メソッド</dt>
             <dd>戻り値をS2Dap_ArrayList(ArrayObject)で返します。引数の種類は以下の通りです。<br />
@@ -705,9 +721,9 @@ public function List_getEmployee($empno);
             </dd>
         </dl>
         <p>引数は、QUERYアノテーションと同様に記述します。引数が4つ以上になるの場合は、配列(array)を使用します。</p>
-        
+
         <h4>S2Dao_AbstractDaoを継承したクラスの基本的な実装方法</h4>
-        
+
         <ol>
             <li>S2Dao_AbstractDaoの継承</li>
             <li>Daoをimplementsする</li>
@@ -718,9 +734,9 @@ public function List_getEmployee($empno);
             <br />EntityManagerで提供しているメソッドを使用する場合は、<span class="italic">$this-&gt;getEntityManager()-&gt;find(...);</span>のように、getEntityManager()メソッドを使用し、
             EntityManagerを取得し呼び出すことが出来ます。<br />
         </ol>
-        
+
         <p>S2Dao_AbstractDaoを継承したクラスのサンプルは以下の通りです。</p>
-        
+
 <pre>
 class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
 
@@ -745,6 +761,7 @@ public function insert(Department $department);
         <h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
         <p>メソッドのsignatueより、 S2Daoに自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、
         引数の値によってWHERE句が変わるような動的なSQL文も自動生成できます。</p>
+
 <pre>
 SELECT * FROM emp
 /*BEGIN*/WHERE
@@ -752,7 +769,9 @@ SELECT * FROM emp
   /*IF deptno != null*/AND deptno = /*deptno*/20/*END*/
 /*END*/
 </pre>
+
         <p>上記SQL文に相当するSQL文を自動生成するには以下のように定義します。上記SQLの/**/などについては、<a href="#SQLBind">SQLコメント</a>を参照してください。</p>
+
 <pre>
 const List_getEmployeeByJobDeptno_ARGS = "job, deptno";
 const List_getEmployeeByJobDeptno($job, $deptno);
@@ -766,10 +785,13 @@ const List_getEmployeeByJobDeptno($job, $deptno);
     <li>取得したDaoのメソッドを実行する</li>
     </ol>
 
-    実行クラスサンプル
+   <p> 実行クラスサンプル</p>
+
 <pre>
 &lt;?php
 define("PATH", "examples/dao/EmployeeDao.dicon");
+define("PDO_DICON", "examples/pdo.dicon");
+
 $container = S2ContainerFactory::create(PATH); /* 手順1 */
 $dao = $container->getComponent("EmployeeDao"); /* 手順2 */
 var_dump($dao->List_getAllEmployee(7788)); /* 手順3 */

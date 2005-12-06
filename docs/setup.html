@@ -30,7 +30,8 @@
             <li><a href="#beta2_setting">S2Dao.PHP5-1.0.0-beta2の設定</a>
                 <ul>
                     <li><a href="#dicon">DICONの設定</a></li>
-                    <li><a href="#pdo_dicon">PDOの設定(DSN)</a></li>
+                    <li><a href="#pdo_dicon">PDOの設定</a></li>
+                    <li><a href="#S2ContainerClassloader_import">Dao,Entityの読み込みの例(S2ContainerClassLoader::importを用いて)</a></li>
                 </ul>
             </li>
             <li><a href="#beta1_setting">S2Dao.PHP5-1.0.0-beta1の設定</a>
@@ -56,17 +57,21 @@ s2dao.php5/
 </pre>
 
 <p><a href="http://s2container.php5.sandbox.seasar.org/">S2Container.PHP5</a>が必要です。<br />
-<a href="http://s2container.php5.sandbox.seasar.org/setup.html">S2Container.PHP5のセットアップ</a>を終えてからS2Dao.PHP5の設定をしてください。</p>
-
-<p>また、S2Dao.PHP5では<a href="http://jp2.php.net/manual/ja/ref.pdo.php">PDO</a>を利用しています。先にPDOのインストールも終えておいてください。</p>
+<a href="http://s2container.php5.sandbox.seasar.org/setup.html">S2Container.PHP5のセットアップ</a>を終えてからS2Dao.PHP5の設定をしてください。<br />
+また、S2Dao.PHP5では<a href="http://jp2.php.net/manual/ja/ref.pdo.php">PDO</a>を利用しています。
+利用前に<a href="http://jp2.php.net/manual/ja/ref.pdo.php#pdo.installation">PDOのインストール</a>も終えておいてください。</p>
 
 <h3><a name="beta2_setting">S2Dao.PHP5-1.0.0-beta2の設定</a></h3>
 <p>通常 s2dao.inc.php を読み込むだけでS2Dao.PHP5の利用が可能です。</p>
-<p>また、s2dao.inc.php の設定は以下の通りです。</p>
+
+<p>s2dao.inc.php の設定は以下の通りです。</p>
 
 <pre>
-/** S2Dao.PHP5 ROOT Directory: 定数S2DAO_PHP5にはS2Dao.PHP5の設置してあるディレクトリを指定してください。 */
+/** S2Dao.PHP5 ROOT Directory; 定数S2DAO_PHP5にはS2Dao.PHP5の設置してあるディレクトリを指定してください。 */
 define("S2DAO_PHP5", dirname(__FILE__) . "/src/s2dao.php5");
+
+/** PDO DataSource dicon; 定数PDO_DICON には pdo.diconへのパスを指定してください(任意) */
+//define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
 
 /** S2Dao.PHP5 ClassLoader */
 require_once(S2DAO_PHP5 . "/S2DaoClassLoader.class.php");
@@ -84,20 +89,22 @@ if( class_exists("S2Container_MessageUtil") ){
 <p>※S2Dao.PHP5-1.0.0-beta1の時のように __autoload() 関数内にS2DaoClassLoaderを設定することはありません。</p>
 
 <h4><a name="dicon">DICONの設定</a></h4>
-<p> src/s2dao.php5/dao.dicon と <a href="#pdo_dicon">pdo.dicon</a> を読み込むことで S2Dao.PHP5 の利用ができます。</p>
+<p>S2Dao.PHP5を利用するには src/s2dao.php5/dao.dicon を読み込んでください。<br />
+事前に<a href="#pdo_dicon">pdo.dicon</a>の設定をしておいてください。</p>
+
 <p>dao.diconは以下のように記述されています。</p>
 
 <pre>
 &lt;components namespace="dao"&gt;
 
-    &lt;include path="%S2DAO_PHP5%/pdo.dicon" /&gt;
+    &lt;include path="%PDO_DICON%" /&gt;
 
     &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
     &lt;component class="S2Dao_BasicStatementFactory" /&gt;
-    
+
     &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
     &lt;component name="interceptor" class="S2DaoInterceptor" /&gt;
-    
+
 &lt;/components&gt;
 </pre>
 
@@ -111,17 +118,17 @@ if( class_exists("S2Container_MessageUtil") ){
     &lt;component name="beanCdDao" class="Cd1Dao"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
-    
+
     &lt;component name="daoImpl" class="Cd2DaoImpl"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
-    
+
 &lt;/components&gt;
 </pre>
 
 <p>詳細は src/example/example.dicon.xml に記述しているので参考にしてください。</p>
 
-<h5>Dao,Entityの読み込みの例(S2ClassLoader::import()を用いて)</h5>
+<h5><a name="S2ContainerClassloader_import">Dao,Entityの読み込みの例(S2ContainerClassLoader::importを用いて)</a></h5>
 <p> src/example/example.inc.php では 以下のように記述し、複数個生成された dao 及び entity(bean)の読み込みを自動化しています。</p>
 
 <pre>
@@ -140,12 +147,16 @@ if( class_exists("S2ContainerClassLoader") ){
 
 <p>詳細は src/example/example.inc.php に記述しているので参考にしてください。</p>
 
-<h4><a name="pdo_dicon">PDOの設定(DSN)</a></h4>
+<h4><a name="pdo_dicon">PDOの設定</a></h4>
 
 <p>S2Dao.PHP5-1.0.0-beta2からは PDO を利用しています。PDO で利用できる DSN については
 <a href="http://jp2.php.net/manual/en/ref.pdo.php#pdo.drivers">PHP: PDO Functions - Manual</a>を参考に設定してください。</p>
 
-<p>また、 src/s2dao.php5/pdo.dicon には以下のように記述されています。</p>
+<p>pdo.diconファイルを読み込ませるには、定数 PDO_DICON に pdo.diconまでのパスを指定してください。</p>
+
+<pre>define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");</pre>
+
+<p>また、 src/example/pdo.dicon には以下のように記述されています。</p>
 
 <pre>
 &lt;components namespace="pdo"&gt;
@@ -172,33 +183,30 @@ if( class_exists("S2ContainerClassLoader") ){
 
     &lt;component name="dbtx" class="S2Container_PDOTxInterceptor" /&gt;
     &lt;component name="session" class="S2Container_PDOSessionImpl" /&gt;
-    
+
 &lt;/components&gt;
 </pre>
 
+<p>詳細は src/example/example.inc.php 及び src/example/example.dicon.xml を参考にしてください。</p>
+
 <p>※S2Dao.PHPP5-1.0.0-beta1まで利用していた PEAR::DB は利用でませんのでご注意ください。</p>
+
+<p><hr /></p>
 
 <h3><a name="beta1_setting">S2Dao.PHP5-1.0.0-beta1の設定</a></h3>
 <p><strong style="color: red;">※S2Dao.PHP5-1.0.0-beta1を利用する場合はS2Container.PHP5のバージョンがS2Container.PHP5-1.0.0-beta2に限定されます。</strong></p>
 
 <p>s2dao.inc.phpを適切に設定し、 s2dao.inc.php を読み込むことで S2Dao.PHP5を利用することができます。</p>
 
-<pre>
-require_once "/path/to/s2dao.inc.php";
-</pre>
+<pre>require_once "/path/to/s2dao.inc.php";</pre>
 
 <p>s2dao.inc.php での設定</p>
 <pre><code>&lt;?php
-
-/** 主に設定するのは
-    ----------- ここから ------------------ */
 
 /** S2Container.PHP5 を設置したディレクトリを設定します。 */
 define('S2CONTAINER_PHP5', dirname(__FILE__) . "/src/s2container.php5");
 /** S2Dao.PHP5 が設置されているディレクトリを設定します。 */
 define("S2DAO_PHP5", dirname(__FILE__) . "/src/s2dao.php5");
-
-/** ----------- ここまでです。 ----------- */
 
 /** DICON XML format DTD Validation Switch */
 define("S2CONTAINER_PHP5_DOM_VALIDATE", false);
