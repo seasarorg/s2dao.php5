@@ -32,7 +32,6 @@
                             <ul>
                                 <li><a href="#TableAnnotation">TABLEアノテーション</a></li>
                                 <li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
-                                <!-- <li><a href="#N1Mapping">N:1マッピング</a></li> -->
                                 <!-- <li><a href="#IDAutoGenerate">IDの自動生成</a></li> -->
                                 <li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
                                 <!-- <li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li> -->
@@ -65,7 +64,7 @@
         </li>
     </ul>
 
-    <h1><a name="reference">S2Dao.PHP5リファレンス</a></h1>
+    <h2><a name="reference">S2Dao.PHP5リファレンス</a></h2>
 
     <h3><a name="DaoMakeFile">作成すべきファイル</a></h3>
         <p>S2Dao機能を使用するにあたり、Beans、Dao(.php)、diconファイル、SQLファイル(.sql)の作成が必要となります。</p>
@@ -82,7 +81,6 @@
         <ul>
         <li>テーブルとの関連付けの定数宣言 (<a href="#TableAnnotation">TABLEアノテーション</a>)</li>
         <!-- <li>カラムとの関連付けの定数宣言 (<a href="#ColumnAnnotation">COLUMNアノテーション</a>)</li> -->
-        <!-- <li>別テーブルと結合する場合はキーとなる定数宣言 (<a href="#N1Mapping">N:1マッピング</a>)</li>-->
         <!-- <li><a href="#IDAutoGenerate">IDの自動生成</a></li> -->
         <li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
         <li><a href="#property">カラムに対応するプロパティの宣言</a><il>
@@ -170,31 +168,6 @@
         <pre>const employeeNo_COLUMN = "EMPNO";</pre>
         ※プロパティ名とカラム名が一致する場合は、COLUMNアノテーションを定義する必要はありません。
         テーブルに存在しないプロパティは、自動的に無視されるので、特に何か定義する必要はありません。
-
-     <h5><a name="N1Mapping">N:1マッピング</a></h5>
-         <p>N:1マッピングとは、複数の従業員の行に1つの部署の行が関連付けられるような場合のマッピングです。<br />
-         N:1マッピングを使用するには、RELNO定数とRELKEYS定数をそれぞれ宣言する必要があります。<br />
-         RELNO定数は以下の形式になります。</p>
-
-        <p> - const <span class="italic">プロパティ名</span>_RELNO = <span class="italic">数値</span>;</p>
-        <p>RELNO定数は、N:1マッピングの連番です。<br />
-        例えば、AAAのテーブルにBBB,CCCのテーブルがN:1マッピングされるとするとBBBのRELNOは0、CCCのRELNOは1になります。 <br />
-        RELNOは結果セットに含まれているカラムが、どのテーブルに所属しているのかを判定することに使われます。<br />
-        例えば、SELECT ..., BBB.HOGE AS HOGE_0, ... FROM AAA, BBB ...のようなSELECT文があった場合、 HOGE_0はBBBテーブルに含まれているHOGEカラムであると認識されます。<br />
-
-        RELKEYS定数は以下の形式になります。</p>
-        <p> - const <span class="italic">プロパティ名</span>_RELKEYS = "<span class="italic">N側のテーブルのカラム名: 1側のテーブルのカラム名</span>";</p>
-        <p>N:1マッピングのキーはRELKEYS定数で指定します。
-        キーが複数ある場合には、カンマ( , )で区切ります。例えば、mykey1:yourkey1, mykey2:yourkey2のようにします。<br />
-        EMPテーブルのDEPTNUMカラムとDEPTテーブルのDEPTNOを関連付ける場合は以下のようになります。</p>
-<pre>
-const department_RELNO = 0;
-const department_RELKEYS = "DEPTNUM:DEPTNO";
-</pre>
-        <p>1側のテーブルのカラム名がN側のテーブルのカラム名に等しい場合は、1側のテーブルのカラム名を省略することができます。
-        その場合以下のように定義することが出来ます。</p>
-<pre>const department_RELKEYS = "DEPTNO";</pre>
-        <p>また1側のテーブルのカラム名とN側のテーブルのカラム名に等しく、1側のテーブルのカラム名がプライマリーキーの場合、RELKEYS定数を省略することができます。</p>
 
     <h5><a name="IDAutoGenerate">IDの自動生成</a></h5>
     <p>ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。そのために使うのが、IDアノテーションです。IDアノテーションは、プロパティ名_ID = &quot;identity&quot;のように指定します。 </p>
@@ -345,7 +318,7 @@ class Employee {
         <p> - const <span class="italic">メソッド名</span>_QUERY = "<span class="italic">WHERE句ORDER BY句</span>";</p>
         <p>引数で給与の上限と下限を指定し、その間に含まれる従業員を抽出する場合、次のようにします。</p>
 <pre>
-const getEmployeesBySal_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
+const List_getEmployeesBySal_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
 
 public function List_getEmployeesBySal($minSal, $maxSal);
 </pre>
@@ -354,7 +327,7 @@ public function List_getEmployeesBySal($minSal, $maxSal);
         SQLコメントを使用したサンプルは以下のとおりです。
         </p>
 
-<pre>const getEmployees_QUERY =
+<pre>const List_getEmployees_QUERY =
                       "job = /*job*/'CLERK'/*IF deptno != null*/ AND deptno = /*deptno*/20/*END*/";
 </pre>
         <p>上記サンプルは、引数deptnoがnullでない場合、deptnoが引数の値と一致するという条件を追加します。SQLコメントについての詳しい説明は、<a href="#SQLbind">SQLコメント</a>の項目を参照して下さい。</p>
@@ -406,7 +379,7 @@ public function List_getEmp();
 public function list_getEmp();
 </pre>
 
-        <p>Arrayで始まる場合は、エンティティの配列(<span class="italic">array()</a>)を返します。<br />
+        <p>Arrayで始まる場合は、エンティティの配列(<span class="italic">array()</span>)を返します。<br />
             以下のように記述することができます。</p>
 
 <pre>
@@ -532,8 +505,8 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 
         <p>&lt;component class="DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
          DaoMetaDataFactoryImplも記述しておきます。<br />
-         (※ S2Dao.PHP5 beta2 以降からは PDO のみのサポートになりました。<br />
-             S2Dao.PHP5 beta1 は PearDBDataSource のみサポートしています)</p>
+         (※ S2Dao.PHP5 beta2 以降からは PDO のみのサポートになりました。PDOが利用できる環境で使用してください。<br />
+             S2Dao.PHP5 beta1 は PEAR::DB のみサポートしています)</p>
 
         <h4><a name="SQLfile">SQLファイル</a></h4>
         <p>検索、更新処理等を行うSQL文を記述します。
@@ -625,7 +598,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
         <p>引数名はDaoに設定したARGSアノテーションの値と揃える必要があります。(ただし引数が一つの場合は、その制約はありません。)</p>
 
 <pre>
-const getEmployee_ARGS = "empno";
+const List_getEmployee_ARGS = "empno";
 
 public function List_getEmployee($empno);
 </pre>
@@ -649,7 +622,7 @@ public function List_getEmployee($empno);
 
         <p>ワイルドカードを使いたい場合は、メソッドの引数の値に埋め込みます。
         「"COT"を含む」という条件を指定する場合は、以下のように引数の値にワイルドカードを埋め込みます。</p>
-        <pre>employeeDao.findEmployees("%COT%");</pre>
+        <pre>employeeDao-&gt;findEmployees("%COT%");</pre>
 
         <h4>埋め込み変数コメント</h4>
         <p>Daoに定義したメソッドの引数の値をSQL文に文字列として直接埋め込む場合は、SQL文に埋め込み変数コメントを記述します。
@@ -726,16 +699,10 @@ public function List_getEmployee($empno);
             <dd>戻り値をBeansで返します。引数の種類は以下の通りです。<br />
             public function findBean($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
-            <!--
             <dt style="text-indent:1em;">findObject()メソッド</dt>
-            <dd>戻り値をcount(*)の結果のような単独の値を返します。引数の種類は以下の通りです。<br />
-            public Object findObject(String query);<br />
-            public Object findObject(String query, Object arg1);<br />
-            public Object findObject(String query, Object arg1, Object arg2);<br />
-            public Object findObject(String query, Object arg1, Object arg2, Object arg3);<br />
-            public Object findObject(String query, Object[] args);
+            <dd>結果セットを stdClass オブジェクトで返します。引数の種類は以下の通りです。<br />
+            public function findObject($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
-            -->
         </dl>
         <p>引数は、QUERYアノテーションと同様に記述します。引数が4つ以上になるの場合は、配列(array)を使用します。</p>
         
@@ -746,23 +713,23 @@ public function List_getEmployee($empno);
             <li>Daoをimplementsする</li>
             <br />implementsするDaoのインターフェース名の最後は"Dao"で終了している必要があります。
             <li>コンストラクタの実装</li>
-            <br />org.seasar.dao.DaoMetaDataFactoryを引数とし、super(org.seasar.dao.DaoMetaDataFactory)を呼び出します。
+            <br />S2Dao_DaoMetaDataFactoryを引数とし、parent::__construct(S2Dao_DaoMetaDataFactory)を呼び出します。
             <li>Daoに定義したメソッドの実装</li>
-            <br />EntityManagerで提供しているメソッドを使用する場合は、getEntityManager().find(...);のように、getEntityManager()メソッドを使用し、EntityManagerを取得し呼び出すことが出来ます。
-            <br />
+            <br />EntityManagerで提供しているメソッドを使用する場合は、<span class="italic">$this-&gt;getEntityManager()-&gt;find(...);</span>のように、getEntityManager()メソッドを使用し、
+            EntityManagerを取得し呼び出すことが出来ます。<br />
         </ol>
         
         <p>S2Dao_AbstractDaoを継承したクラスのサンプルは以下の通りです。</p>
         
 <pre>
-public class Employee2DaoImpl extends AbstractDao implements Employee2Dao {
+class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
 
-    public Employee2DaoImpl(DaoMetaDataFactory daoMetaDataFactory) {
-        super(daoMetaDataFactory);
+    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory) {
+        parent::__construct($daoMetaDataFactory);
     }
 
-    public List getEmployees(String ename) {
-        return getEntityManager().find("ename LIKE ?", "%" + ename + "%");
+    public function List_getEmployees($ename) {
+        return $this-&gt;getEntityManager()-&gt;find("ename LIKE ?", "%" + $ename + "%");
     }
 }
 </pre>
@@ -790,30 +757,6 @@ SELECT * FROM emp
 const List_getEmployeeByJobDeptno_ARGS = "job, deptno";
 const List_getEmployeeByJobDeptno($job, $deptno);
 </pre>
-
-<!--
-        <p><a href="#N1Mapping">N:1でマッピング</a>されているカラムを指定する場合には、「カラム名_関連番号」で指定します。
-        N:1でマッピングされているBeanは左外部結合を使って1つのSQL文で取得されます。左外部結合をサポートしていないRDBMSはSELECT文自動生成の対象外です。
-        オラクルのように左外部結合が標準と異なる場合も、S2DaoがRDBMSがオラクルであると自動的に判断して適切なSQL文を組み立てます。</p>
-        <p>引数にDTO（Data Transter Object）を指定することもできます。その場合、ARGSアノテーションを指定してはいけません。
-        S2Daoは、引数が1つで、ARGSアノテーションが指定されていない場合、引数をDTOとみなし、DTOのプロパティを使って自動的にSQL文を組み立てます。
-        プロパティ名とカラム名が異なる場合は、COLUMNアノテーションを使ってカラム名を指定します。N:1でマッピングされているカラムを指定する場合には、カラム名_関連番号で指定します。
-        テーブルに存在しないプロパティ(カラム)は自動的に無視されます。プロパティの値によって、WHERE句が変わるような動的SQL文を自動生成します。<br />
-        動的SQL文の自動生成とORDER BYではじまるQUERYアノテーションは併用することが出来ます。 </p>
-<pre>
-package examples.dao;
-
-public class EmployeeSearchCondition {
-
-    public static final String dname_COLUMN = "dname_0";
-    private String job;
-    private String dname;
-    ...
-}
-</pre>
-<pre>List getEmployeesBySearchCondition(EmployeeSearchCondition dto);</pre>
-    <p>また同様の指定方法で引数にEntityを使用することも出来ます。DTOの詳しい使用方法は、<a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a>を参照して下さい。</a>
--->
 
     <h3><a name="HowToRun">S2Daoの実行</a></h3>
     <p>Daoを実行する基本的な方法は以下のようになります。</p>
