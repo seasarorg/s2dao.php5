@@ -1,3 +1,8 @@
+2005-12-10 nowel <nowel@xole.net>
+
+    * PHP Archive Task を修正しました。
+        付属のbuild.xmlを参考にしてください。
+
 2005-12-09 nowel <nowel@xole.net>
 
     * Phing PHP Archive Task
