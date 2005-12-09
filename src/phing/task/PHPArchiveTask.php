@@ -17,7 +17,7 @@ class PHPArchiveTask extends Task {
     }
 
     public function main(){
-        $phar = new PHP_Archive_Creator($this->inifile, $this->usegzip);
+        $phar = new PHP_Archive_Creator($this->inifile->getPath(), $this->usegzip);
         $prefix = $this->fileset->getPrefix();
         foreach($this->getFileList() as $file){
             $phar->addFile($file["fullpath"], $file["key"], true);
