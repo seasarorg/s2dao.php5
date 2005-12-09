@@ -3,40 +3,40 @@
 
     <taskdef name="phar" classname="src.phing.task.PHPArchiveTask" />
     <typedef name="pharfileset" classname="src.phing.types.PharFileSet" />
+    <typedef name="ignorefileset" classname="src.phing.types.IgnoreFileSet" />
 
     <target name="properties">
-        <property name="version" value="1.0.0-beta3" />
-        <property name="src" value="./src" />
+        <property name="package.name" value="s2dao.php5" />
+        <property name="package.version" value="1.0.0-beta3" />
+        <property name="src" value="./src/${package.name}" override="true" />
         <property name="build" value="./build" />
-        <property name="php" value="${src}/s2dao.php5" override="true" />
-        <property name="phar.usegzip" value="true" override="true" />
-        <property name="phar.filename" value="s2dao.php5.${version}.phar" override="true" />
+        <property name="phar.inifile" value="S2DaoClassLoader.class.php" />
+        <property name="phar.usegzip" value="true" />
+        <property name="phar.filename" value="${package.name}-${package.version}.phar" override="true" />
         <property name="phar.fullpath" value="${build}/${phar.filename}" override="true" />
     </target>
 
     <target name="prepare" depends="properties">
-        <includepath>
-            <classpath>
-                <pathelement dir="${php}" />
-            </classpath>
-        </includepath>
         <mkdir dir="${build}" />
     </target>
 
     <target name="package" depends="prepare" description="make phar file">
         <echo msg="Makeing PHP Archive Files..." />
-        <phar pharfile="${phar.fullpath}" inifile="hoge.php" usegzip="${phar.usegzip}">
-            <pharfileset prefix="s2dao.php5" dir="${src}">
-                <include name="${src}/**" />
+        <phar pharfile="${phar.fullpath}" inifile="${phar.inifile}" usegzip="${phar.usegzip}">
+            <pharfileset prefix="${package.name}" dir="${src}">
+                <include name="**" />
             </pharfileset>
+            <ignorefileset dir="${src}">
+                <include name="**/*.core.classes.php" />
+                <include name="**examples/**" />
+                <include name="**phing/**" />
+            </ignorefileset>
         </phar>
-        <available property="exists" file="${phar.fullpath}" value="succeed" />
-        <echo msg="Create: ${phar.fullpath}... ${exists}" />
     </target>
 
     <target name="clean" depends="prepare" description="clean up">
         <echo msg="Cleaning up..." />
-        <delete file="${build}" />
+        <delete dir="${build}" />
     </target>
 
 </project>
