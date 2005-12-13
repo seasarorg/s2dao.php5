@@ -156,8 +156,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
      protected static function startsWithOrderBy($query = null) {
         if ($query != null) {
-            $match = "";
-            if( preg_match(self::startWithOrderByPattern, $query, $match) ){
+            if( preg_match(self::startWithOrderByPattern, $query) ){
                 return true;
             }
         }
@@ -461,8 +460,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isSelectArray($methodName){
-        $match = null;
-        if( preg_match(self::SELECT_ARRAY_NAME, $methodName, $match) ){
+        if( preg_match(self::SELECT_ARRAY_NAME, $methodName) ){
             return true;
         } else {
             return false;
@@ -470,8 +468,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isSelectList($methodName){
-        $match = null;
-        if( preg_match(self::SELECT_LIST_NAME, $methodName, $match) ){
+        if( preg_match(self::SELECT_LIST_NAME, $methodName) ){
             return true;
         } else {
             return false;

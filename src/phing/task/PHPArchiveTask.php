@@ -24,7 +24,7 @@ class PHPArchiveTask extends Task {
         $ignorefiles = array();
         foreach($this->ignFileSets as $fileset){
             foreach($this->getFileList($fileset) as $files){
-                $ignorefiles[] = $files["fullpath"];
+                $ignorefiles[] = $files;
             }
         }
 
@@ -33,7 +33,7 @@ class PHPArchiveTask extends Task {
             $c = count($files);
             for($i = 0; $i < $c; $i++){
                 $file = $files[$i];
-                if( !in_array($file["fullpath"], $ignorefiles) ){
+                if( !in_array($file, $ignorefiles) ){
                     echo "include: " . $file["fullpath"] . PHP_EOL;
                     $phar->addFile($file["fullpath"], $file["key"], false);
                 } else {
