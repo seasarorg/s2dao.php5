@@ -40,7 +40,7 @@ class PHPArchiveTask extends Task {
                     $this->log($e->getMessage());
                 }
 
-                $this->log("[include] file :" . $file["path"]);
+                $this->log("[include] file: " . $file["path"]);
                 $phar->addString($contents, $file["key"], false);
             }
         }
