@@ -20,7 +20,7 @@
     </target>
 
     <target name="package" depends="prepare" description="make phar file">
-        <echo msg="Makeing PHP Archive Files..." />
+        <echo msg="Making PHP Archive Files..." />
         <phar pharfile="${phar.file.path}" inifile="${phar.inifile}" usegzip="${phar.usegzip}">
             <pharfileset prefix="${project.name}" dir="${project.src.dir}">
                 <include name="**" />

@@ -9,8 +9,10 @@ class PHPArchiveTask extends Task {
     private $filterChains = array();
 
     public function init(){
-        require_once "PHP/Archive.php";
-        require_once "PHP/Archive/Creator.php";
+        include_once "PHP/Archive/Creator.php";
+        if(!class_exists("PHP_Archive_Creator")){
+            throw new BuildException("PHP_Archive_Creator...orz");
+        }
     }
 
     public function main(){
@@ -25,10 +27,8 @@ class PHPArchiveTask extends Task {
             $c = count($files);
             for($i = 0; $i < $c; $i++){
                 try {
-                    $file = $files[$i];
-                    
                     $contents = "";
-                    $in = FileUtils::getChainedReader(new FileReader($file["path"]),
+                    $in = FileUtils::getChainedReader(new FileReader($files[$i]["path"]),
                                                       $this->filterChains,
                                                       $this->project);
                     while(-1 !== ($buffer = $in->read())) {
@@ -40,12 +40,12 @@ class PHPArchiveTask extends Task {
                     $this->log($e->getMessage());
                 }
 
-                $this->log("[include] file: " . $file["path"]);
-                $phar->addString($contents, $this->replacePath($file["key"]), false);
+                $this->log("[add] file: " . $files[$i]["path"]);
+                $phar->addString($contents, $this->replacePath($files[$i]["key"]), false);
             }
         }
 
-        $this->log("[make] file: " . $this->pharfile->getPath() . "...... ");
+        $this->log("[make] file: " . $this->pharfile->getPath() . "......");
         if( $phar->savePhar($this->pharfile->getPath()) ){
             $this->log("Succeed.");
         } else {
@@ -62,7 +62,7 @@ class PHPArchiveTask extends Task {
     }
 
     public function setUsegzip($usegzip = false){
-        $usegzip == 1 && $this->usegzip = true;
+        $usegzip == "1" && $this->usegzip = true;
     }
 
     public function createPharFileSet(){
