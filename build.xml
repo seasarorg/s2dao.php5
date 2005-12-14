@@ -29,7 +29,7 @@
                 <exclude name="**phing/**" />
             </pharfileset>
             <filterchain>
-                <tabtospaces tablength="0" />
+                <tabtospaces tablength="4" />
                 <stripphpcomments />
                 <striplinecomments>
                     <comment value="#" />
