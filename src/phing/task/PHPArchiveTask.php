@@ -41,7 +41,7 @@ class PHPArchiveTask extends Task {
                 }
 
                 $this->log("[include] file: " . $file["path"]);
-                $phar->addString($contents, $file["key"], false);
+                $phar->addString($contents, $this->replacePath($file["key"]), false);
             }
         }
 
@@ -88,6 +88,10 @@ class PHPArchiveTask extends Task {
                     );
         }
         return $files;
+    }
+
+    private function replacePath($pathstr){
+        return str_replace(DIRECTORY_SEPARATOR, '/', $pathstr);
     }
 
 }

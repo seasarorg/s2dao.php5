@@ -18,7 +18,7 @@ final class S2Dao_DbmsManager {
                               );
 
         for($i = $dbmsClassNames->getIterator(); $i->valid(); $i->next() ){
-            $path = S2DAO_PHP5 . DIRECTORY_SEPARATOR . 
+            $path = S2DAO_PHP5 . "/" .
                     str_replace(".", "/", $i->current()) . ".class.php";
 
             if( file_exists($path) ){
