@@ -1,3 +1,8 @@
+2005-12-14 nowel <nowel@xole.net>
+
+    * PHP Archive Task を修正しました。
+        FilterChainを用いて比較的小さなpharファイルを作成することができます。
+
 2005-12-10 nowel <nowel@xole.net>
 
     * PHP Archive Task を修正しました。

@@ -6,7 +6,7 @@ class PHPArchiveTask extends Task {
     private $inifile = null;
     private $usegzip = false;
     private $incFileSets = array();
-    private $ignFileSets = array();
+    private $filterChains = array();
 
     public function init(){
         require_once "PHP/Archive.php";
@@ -21,40 +21,35 @@ class PHPArchiveTask extends Task {
             $includefiles[] = $this->getFileList($fileset);
         }
 
-        $ignorefiles = array();
-        foreach($this->ignFileSets as $fileset){
-            foreach($this->getFileList($fileset) as $files){
-                $ignorefiles[] = $files;
-            }
-        }
-
-        $ignore = array();
         foreach($includefiles as $files){
             $c = count($files);
             for($i = 0; $i < $c; $i++){
-                $file = $files[$i];
-                if( !in_array($file, $ignorefiles) ){
-                    echo "include: " . $file["fullpath"] . PHP_EOL;
-                    $phar->addFile($file["fullpath"], $file["key"], false);
-                } else {
-                    $ignore[] = $file["fullpath"];
+                try {
+                    $file = $files[$i];
+                    
+                    $contents = "";
+                    $in = FileUtils::getChainedReader(new FileReader($file["path"]),
+                                                      $this->filterChains,
+                                                      $this->project);
+                    while(-1 !== ($buffer = $in->read())) {
+                        $contents .= $buffer;
+                    }
+                    $in->close();
+                } catch (Exception $e){
+                    if($in) $in->close();
+                    $this->log($e->getMessage());
                 }
+
+                $this->log("[include] file :" . $file["path"]);
+                $phar->addString($contents, $file["key"], false);
             }
         }
 
-        echo PHP_EOL;
-
-        foreach($ignore as $file){
-            echo "exclude: " . $file . PHP_EOL;
-        }
-
-        echo PHP_EOL;
-
-        echo "making: " . $this->pharfile->getPath() . "...... ";
+        $this->log("[make] file: " . $this->pharfile->getPath() . "...... ");
         if( $phar->savePhar($this->pharfile->getPath()) ){
-            echo "Succeed." . PHP_EOL;
+            $this->log("Succeed.");
         } else {
-            echo "Failure. orz" . PHP_EOL;
+            $this->log("Failure. orz");
         }
     }
 
@@ -76,24 +71,25 @@ class PHPArchiveTask extends Task {
         return $fs;
     }
 
-    public function createIgnoreFileSet(){
-        $fs = new IgnoreFileSet();
-        $this->ignFileSets[] = $fs;
-        return $fs;
+    public function createFilterChain(){
+        $fc = new FilterChain($this->project);
+        $this->filterChains[] = $fc;
+        return $fc;
     }
 
     private function getFileList(FileSet $fileset){
         $ds = $fileset->getDirectoryScanner($this->project);
         $files = $ds->getIncludedFiles();
         foreach($files as &$file){
-            $fs = realpath($ds->getBaseDir() . DIRECTORY_SEPARATOR . $file);
+            $path = realpath($ds->getBaseDir() . DIRECTORY_SEPARATOR . $file);
             $file = array(
-                        "fullpath" => $fs,
-                        "key" => $file,
+                        "path" => $path, 
+                        "key" => $file
                     );
         }
         return $files;
     }
+
 }
 
 ?>
