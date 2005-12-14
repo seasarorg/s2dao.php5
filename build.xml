@@ -8,7 +8,7 @@
         <property name="project.name" value="${phing.project.name}" />
         <property name="project.postfix" value="1.0.0-beta3" />
         <property name="project.src.dir" value="${project.basedir}/src/${project.name}" />
-        <property name="project.build.dir" value="${project.basedir}/new/lib" />
+        <property name="project.build.dir" value="${project.basedir}/build" />
         <property name="phar.inifile" value="S2DaoClassLoader.class.php" />
         <property name="phar.usegzip" value="true" />
         <property name="phar.file.name" value="${project.name}-${project.postfix}.phar" />
