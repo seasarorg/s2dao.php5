@@ -87,6 +87,8 @@ class S2DaoClassLoader {
             "/org/seasar/dao/id/S2Dao_IdentifierGeneratorFactory.class.php",
         "S2Dao_AbstractIdentifierGenerator" =>
             "/org/seasar/dao/id/S2Dao_AbstractIdentifierGenerator.class.php",
+        "S2Dao_IdentityIdentifierGenerator" =>
+            "/org/seasar/dao/id/S2Dao_IdentityIdentifierGenerator.class.php",
         "S2Dao_AbstractStaticCommand" =>
             "/org/seasar/dao/impl/S2Dao_AbstractStaticCommand.class.php",
         "S2Dao_AbstractSqlCommand" =>

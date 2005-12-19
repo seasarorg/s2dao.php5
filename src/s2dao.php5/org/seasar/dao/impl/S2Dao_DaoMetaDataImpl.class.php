@@ -138,7 +138,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                     } else {
                         $buf .= " AND ";
                     }
-                    //$buf = preg_replace("/ AND $/", " ", $buf);
                     $buf .= $query;
                 }
             }
@@ -151,7 +150,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if ($query == null) {
             return false;
         }
-        return ereg("^select", trim($query));
+        return eregi("^select", trim($query));
     }
 
      protected static function startsWithOrderBy($query = null) {
@@ -468,7 +467,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isSelectList($methodName){
-        if( preg_match(self::SELECT_LIST_NAME, $methodName) ){
+        if(preg_match(self::SELECT_LIST_NAME, $methodName)){
             return true;
         } else {
             return false;
@@ -476,8 +475,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isInsert($methodName) {
-        foreach ( self::$INSERT_NAMES as $insertNames ){
-            if (strcmp($methodName, $insertNames) == 0) {
+        foreach (self::$INSERT_NAMES as $insertNames){
+            if (eregi("^" . $insertNames, $methodName)) {
                 return true;
             }
         }
@@ -485,8 +484,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isUpdate($methodName) {
-        foreach ( self::$UPDATE_NAMES as $updateNames ){
-            if (strcmp($methodName, $updateNames) == 0) {
+        foreach (self::$UPDATE_NAMES as $updateNames){
+            if (eregi("^" . $updateNames, $methodName)) {
                 return true;
             }
         }
@@ -494,8 +493,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isDelete($methodName) {
-        foreach ( self::$DELETE_NAMES as $deleteNames ) {
-            if (strcmp($methodName, $deleteNames) == 0) {
+        foreach (self::$DELETE_NAMES as $deleteNames) {
+            if (eregi("^" . $deleteNames, $methodName)) {
                 return true;
             }
         }

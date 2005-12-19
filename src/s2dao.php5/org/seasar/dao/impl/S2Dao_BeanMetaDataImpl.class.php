@@ -176,12 +176,6 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             $this->tableName_ = $beanDesc->getConstant(self::TABLE);
         } else {
             $this->tableName_ = $this->getBeanClass()->getName();
-            //$bean = $this->getBeanClass();
-            //$table = $bean->getConstant(self::TABLE);
-            //if( $table === false ){
-            //    $table = $this->getBeanClass()->getName();
-            //}
-            //$this->tableName_ = $table;
         }
     }
 
@@ -227,7 +221,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                         S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator(
                                     $pd->getPropertyName(),$dbms, $idAnnotation
                                 );
-                    $this->primaryKeys_ = array( $pt->getColumnName() );
+                    $this->primaryKeys_ = (array)$pt->getColumnName();
                     $pt->setPrimaryKey(true);
                 }
             }

@@ -28,7 +28,7 @@ class S2Dao_IdentifierGeneratorFactory {
         if ($clazz != null) {
             return $clazz;
         }
-        return S2Container_ClassUtil::forName($name);
+        return new $name;
     }
     
     public static function createIdentifierGenerator($propertyName, S2Dao_Dbms $dbms, $annotation = null) {
@@ -39,9 +39,9 @@ class S2Dao_IdentifierGeneratorFactory {
         $array = explode("=, ", $annotation);
         $clazz = self::getGeneratorClass($array[0]);
         
-        $construct = S2Container_ClassUtil::getConstructot( $clazz, array("", get_class($dbms)) );
-        $generator = S2Container_ConstructorUtil::newInstance($construct, array($propertyName, $dbms));
-        
+        $refCls = new ReflectionClass($clazz);
+        $generator = S2Container_ConstructorUtil::newInstance($refCls, array($propertyName, $dbms));
+
         for ($i = 1; $i < count($array); $i += 2) {
             self::setProperty($generator, trim($array[$i]), trim($array[$i + 1]));
         }

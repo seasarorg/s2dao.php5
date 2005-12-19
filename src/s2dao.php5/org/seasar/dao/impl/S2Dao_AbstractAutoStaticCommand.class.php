@@ -39,9 +39,10 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
 
     protected abstract function setupPropertyTypes($propertyNames);
 
-    protected function setupInsertPropertyTypes($propertyNames) {
+    protected function setupInsertPropertyTypes(array $propertyNames) {
         $types = new S2Dao_ArrayList();
-        for ($i = 0; $i < count($propertyNames); $i++) {
+        $c = count($propertyNames);
+        for ($i = 0; $i < $c; $i++) {
             $pt = $this->getBeanMetaData()->getPropertyType($propertyNames[$i]);
             if ($pt->isPrimaryKey() &&
                 !$this->getBeanMetaData()->getIdentifierGenerator()->isSelfGenerate()) {

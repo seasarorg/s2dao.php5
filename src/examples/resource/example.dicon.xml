@@ -12,5 +12,9 @@
     <component name="daoImpl" class="Cd2DaoImpl">
         <aspect>dao.interceptor</aspect>
     </component>
+
+    <component class="ShelfDao">
+        <aspect>dao.interceptor</aspect>
+    </component>
     
 </components>

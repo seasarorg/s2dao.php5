@@ -74,15 +74,15 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
         $this->propertyTypes_ = $propertyTypes;
     }
 
-    public function execute($args, $arg2 = null) {
-        $args = $args[0];
+    public function execute(array $args, $arg2 = null) {
+        $bean = $args[0];
         $connection = $this->getConnection();
 
         $ps = $this->prepareStatement($connection);
         $ps->setFetchMode(PDO::FETCH_ASSOC);
 
-        $this->preUpdateBean($args);
-        $this->setupBindVariables($args);
+        $this->preUpdateBean($bean);
+        $this->setupBindVariables($bean);
 
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
             $this->getLogger()->debug(
@@ -90,9 +90,8 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             );
         }
 
-        $this->bindArgs($ps, $this->bindVariables_, $this->bindVariableTypes_);
-        
         $ret = -1;
+        $this->bindArgs($ps, $this->bindVariables_, $this->bindVariableTypes_);
         $result = $ps->execute();
 
         if($result === false){
@@ -104,7 +103,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             $ret = $ps->rowCount();
         }
 
-        $this->postUpdateBean($args);
+        $this->postUpdateBean($bean);
         return $ret;
     }
 
@@ -120,14 +119,15 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
         $varList = new S2Dao_ArrayList();
         $varTypeList = new S2Dao_ArrayList();
 
-        for ($i = 0; $i < count($this->propertyTypes_); ++$i) {
+        $c = count($this->propertyTypes_);
+        for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
-            if ( strcasecmp($pt->getPropertyName(),
-                            $this->getBeanMetaData()->getTimestampPropertyName()) == 0 ) {
+            if (strcasecmp($pt->getPropertyName(),
+                           $this->getBeanMetaData()->getTimestampPropertyName()) == 0) {
                 $this->setTimestamp(time());
                 $varList->add($this->getTimestamp());
             } else if ($pt->getPropertyName() ===
-                        $this->getBeanMetaData()->getVersionNoPropertyName() ) {
+                       $this->getBeanMetaData()->getVersionNoPropertyName()) {
                 $this->setVersionNo(0);
                 $varList->add($this->getVersionNo());
             } else {
@@ -168,7 +168,6 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     protected function setupDeleteBindVariables($bean) {
         $varList = new S2Dao_ArrayList();
         $varTypeList = new S2Dao_ArrayList();
-        
         $this->addAutoUpdateWhereBindVariables($varList, $varTypeList, $bean);
         $this->setBindVariables($varList->toArray());
         $this->setBindVariableTypes($varTypeList->toArray());
