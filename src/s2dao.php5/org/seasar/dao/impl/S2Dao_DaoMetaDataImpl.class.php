@@ -284,7 +284,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             for ($i = 0; $i < $this->beanMetaData_->getPropertyTypeSize(); ++$i) {
                 $pt = $this->beanMetaData_->getPropertyType($i);
                 if ($pt->isPersistent()
-                        && !$this->isPropertyExist($props, $pt->getPropertyName())) {
+                      && !$this->isPropertyExist($props, $pt->getPropertyName())) {
                     $names->add($pt->getPropertyName());
                 }
             }
@@ -308,7 +308,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if ($names->size() == 0) {
             for ($i = 0; $i < $this->beanMetaData_->getPropertyTypeSize(); ++$i) {
                 $pt = $this->beanMetaData_->getPropertyType($i);
-                if ($pt !== null && $pt->isPersistent()) {
+                if ($pt->isPersistent()) {
                     $names->add($pt->getPropertyName());
                 }
             }
@@ -459,7 +459,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isSelectArray($methodName){
-        if( preg_match(self::SELECT_ARRAY_NAME, $methodName) ){
+        if(preg_match(self::SELECT_ARRAY_NAME, $methodName)){
             return true;
         } else {
             return false;

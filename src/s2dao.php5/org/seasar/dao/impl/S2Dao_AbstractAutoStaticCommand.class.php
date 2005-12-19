@@ -42,7 +42,7 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
     protected function setupInsertPropertyTypes(array $propertyNames) {
         $types = new S2Dao_ArrayList();
         $c = count($propertyNames);
-        for ($i = 0; $i < $c; $i++) {
+        for ($i = 0; $i < $c; ++$i) {
             $pt = $this->getBeanMetaData()->getPropertyType($propertyNames[$i]);
             if ($pt->isPrimaryKey() &&
                 !$this->getBeanMetaData()->getIdentifierGenerator()->isSelfGenerate()) {
@@ -55,7 +55,8 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
 
     protected function setupUpdatePropertyTypes($propertyNames) {
         $types = new S2Dao_ArrayList();
-        for ($i = 0; $i < count($propertyNames); $i++) {
+        $c = count($propertyNames);
+        for ($i = 0; $i < $c; ++$i) {
             $pt = $this->getBeanMetaData()->getPropertyType($propertyNames[$i]);
             if ($pt->isPrimaryKey()) {
                 continue;
@@ -75,14 +76,14 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
         $buf .= $this->getBeanMetaData()->getTableName();
         $buf .= " (";
         $c = count($this->propertyTypes_);
-        for ($i = 0; $i < $c; $i++) {
+        for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
             $buf .= $pt->getColumnName();
             $buf .= ", ";
         }
         $buf = preg_replace("/(, )$/", "", $buf);
         $buf .= ") VALUES (";
-        for ($i = 0; $i < $c; $i++) {
+        for ($i = 0; $i < $c; ++$i) {
             $buf .= "?, ";
         }
         $buf = preg_replace("/(, )$/", "", $buf);
@@ -91,12 +92,13 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
     }
 
     protected function setupUpdateSql() {
+        $this->checkPrimaryKey();
         $buf = "";
         $buf .= "UPDATE ";
         $buf .= $this->getBeanMetaData()->getTableName();
         $buf .= " SET ";
         $c = count($this->propertyTypes_);
-        for ($i = 0; $i < $c; $i++) {
+        for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
             $buf .= $pt->getColumnName();
             $buf .= " = ?, ";

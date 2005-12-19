@@ -59,10 +59,10 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     protected function createPropertyType(S2Container_BeanDesc $beanDesc,
                                           S2Container_PropertyDesc $propertyDesc) {
-        $columnNameKey = $propertyDesc->getPropertyName() . self::COLUMN_SUFFIX;
         $columnName = $propertyDesc->getPropertyName();
-        if ($beanDesc->hasConstant($columnNameKey)) {
-            $columnName = $beanDesc->getConstant($columnNameKey);
+        $colKey = $propertyDesc->getPropertyName() . self::COLUMN_SUFFIX;
+        if ($colKey != null && $beanDesc->hasConstant($colKey)) {
+            $columnName = $beanDesc->getConstant($colKey);
         }
         $valueType = $propertyDesc->getPropertyType();
         return new S2Dao_PropertyTypeImpl($propertyDesc, $valueType, $columnName);

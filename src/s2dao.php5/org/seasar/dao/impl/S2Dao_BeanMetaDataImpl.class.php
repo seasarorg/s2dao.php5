@@ -264,20 +264,18 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         if ($columnSet->isEmpty()) {
             self::$logger_->log("WDAO0002", array( $this->tableName_ ));
         }
-        
-        $colSet = new ArrayObject($columnSet->toArray());
-        for ($i = $colSet->getIterator(); $i->valid(); $i->next()) {
-            $columnName = $i->current();
-            $columnName2 = str_replace( "_", "", $columnName);
-            for ($j = 0; $j < $this->getPropertyTypeSize(); ++$j) {
-                $pt = $this->getPropertyType($j);
-                if ( strcasecmp($pt->getColumnName(), $columnName2) == 0) {
+
+        foreach($columnSet->toArray() as $columnName){
+            $col2 = str_replace("_", "", $columnName);
+            for($i = 0; $i < $this->getPropertyTypeSize(); ++$i){
+                $pt = $this->getPropertyType($i);
+                if(0 == strcasecmp($pt->getColumnName(), $col2)){
                     $pt->setColumnName($columnName);
                     break;
                 }
             }
         }
-        
+
         if ($beanDesc->hasConstant(self::NO_PERSISTENT_PROPS)) {
             $str = $beanDesc->getConstant(self::NO_PERSISTENT_PROPS);
             $props = explode(", ", $str);

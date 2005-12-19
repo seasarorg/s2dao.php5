@@ -1,3 +1,10 @@
+2005-12-20 nowel <nowel@xole.net>
+
+    * IDアノテーション COLUMNアノテーションに対応しました。
+
+    * メソッド定義の修正
+        Daoによって定義するメソッド定義を修正しました。
+
 2005-12-14 nowel <nowel@xole.net>
 
     * PHP Archive Task を修正しました。
@@ -13,6 +20,8 @@
 
     * Phing PHP Archive Task
         PHP Archive(phar) 化を行う Phing Task を作成しました。
+
+    * S2Dao.PHP5-1.0.0-beta3 開発開始
 
 2005-12-07 nowel <nowel@xole.net>
 

@@ -3,7 +3,9 @@
 class ShelfBean {
 
     const TABLE = "SHELF";
-    const id_ID = "identity";
+    const id_ID = "assigned";
+    const cdid_COLUMN = "CD_ID";
+    const addtime_COLUMN = "ADD_TIME";
 
     private $id;
     private $cdid;
