@@ -28,8 +28,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     public function __construct($daoClass,
                                 S2Container_DataSource $dataSource,
-    	                        S2Dao_StatementFactory $statementFactory,
-    	                        S2Dao_ResultSetFactory $resultSetFactory){
+                                S2Dao_StatementFactory $statementFactory,
+                                S2Dao_ResultSetFactory $resultSetFactory){
 
         $this->sqlCommands_ = new S2Dao_HashMap();
         $this->daoClass_ = $daoClass;
@@ -168,7 +168,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         } else if( $this->isBeanClassAssignable($method->returnsReference()) ){
             return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
         } else if( $this->isSelectArray($method->getName()) ){
-        	return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
+            return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
         } else {
             return new S2Dao_ObjectResultSetHandler();
         }
@@ -341,14 +341,14 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 //$argNames = array("dto");
 
                 //$types = $method->getParameters();
-            	$param = $method->getParameters();
-            	$types = $param[0]->getClass();
+                $param = $method->getParameters();
+                $types = $param[0]->getClass();
 
-            	if( $types !== null ){
+                if( $types !== null ){
                     $sql = $this->createAutoSelectSqlByDto($types[0]);
-            	} else {
-            		$sql = $this->createAutoSelectSql($argNames);
-            	}
+                } else {
+                    $sql = $this->createAutoSelectSql($argNames);
+                }
             } else {
                 $sql = $this->createAutoSelectSql($argNames);
             }
@@ -407,7 +407,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $sql = $this->dbms_->getAutoSelectSql($this->getBeanMetaData());
         $buf = $sql;
 
-    	if (count($argNames) != 0) {
+        if (count($argNames) != 0) {
             $began = false;
             if (!(strrpos($sql, "WHERE") > 0)) {
                 $buf .= "/*BEGIN*/ WHERE ";

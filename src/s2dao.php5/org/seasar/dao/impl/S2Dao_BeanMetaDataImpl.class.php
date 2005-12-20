@@ -398,7 +398,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                 }
             }
         }
-    	$buf = preg_replace("/(, )$/", "", $buf);
+        $buf = preg_replace("/(, )$/", "", $buf);
         $this->autoSelectList_ = $buf;
     }
 

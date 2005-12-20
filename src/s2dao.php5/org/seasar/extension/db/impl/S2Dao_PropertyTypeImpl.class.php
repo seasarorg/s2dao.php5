@@ -5,14 +5,14 @@
  */
 class S2Dao_PropertyTypeImpl implements S2Dao_PropertyType {
 
-	private $propertyDesc_ = null;
-	private $propertyName_ = null;
-	private $columnName_ = null;
-	private $valueType_ = null;
-	private $primaryKey_ = false;
-	private $persistent_ = true;
+    private $propertyDesc_ = null;
+    private $propertyName_ = null;
+    private $columnName_ = null;
+    private $valueType_ = null;
+    private $primaryKey_ = false;
+    private $persistent_ = true;
 
-	public function __construct($propertyDesc, $valueType = null, $columnName = null) {
+    public function __construct($propertyDesc, $valueType = null, $columnName = null) {
         if( $propertyDesc instanceof S2Container_PropertyDesc && isset($valueType, $columnName) ){
             $this->propertyDesc_ = $propertyDesc;
             $this->propertyName_ = $propertyDesc->getPropertyName();
@@ -33,42 +33,42 @@ class S2Dao_PropertyTypeImpl implements S2Dao_PropertyType {
             $this->propertyName_ = $propertyDesc->getPropertyName();
             $this->columnName_ = $columnName;
         }
-	}
+    }
 
-	public function getPropertyDesc() {
-		return $this->propertyDesc_;
-	}
+    public function getPropertyDesc() {
+        return $this->propertyDesc_;
+    }
 
-	public function getPropertyName() {
+    public function getPropertyName() {
         return $this->propertyName_;
-	}
+    }
 
-	public function getColumnName() {
-		return $this->columnName_;
-	}
-	
-	public function setColumnName($columnName) {
-		$this->columnName_ = $columnName;
-	}
+    public function getColumnName() {
+        return $this->columnName_;
+    }
+    
+    public function setColumnName($columnName) {
+        $this->columnName_ = $columnName;
+    }
 
-	public function getValueType() {
-		return $this->valueType_;
-	}
+    public function getValueType() {
+        return $this->valueType_;
+    }
 
-	public function isPrimaryKey() {
-		return $this->primaryKey_;
-	}
+    public function isPrimaryKey() {
+        return $this->primaryKey_;
+    }
 
-	public function setPrimaryKey($primaryKey) {
-		$this->primaryKey_ = $primaryKey;
-	}
+    public function setPrimaryKey($primaryKey) {
+        $this->primaryKey_ = $primaryKey;
+    }
 
-	public function isPersistent() {
-		return $this->persistent_;
-	}
+    public function isPersistent() {
+        return $this->persistent_;
+    }
 
-	public function setPersistent($persistent) {
-		$this->persistent_ = $persistent;
-	}
+    public function setPersistent($persistent) {
+        $this->persistent_ = $persistent;
+    }
 }
 ?>
