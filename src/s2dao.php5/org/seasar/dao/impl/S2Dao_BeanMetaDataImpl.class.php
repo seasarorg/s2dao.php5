@@ -83,7 +83,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $relno = -1;
         try {
             $relno = (int)$relnoStr;
-        } catch (Throwable $t) {
+        } catch (Exception $t) {
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
         }
         $rpt = $this->getRelationPropertyType($relno);
@@ -110,7 +110,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $relno = -1;
         try {
             $relno = (int)$relnoStr;
-        } catch (Throwable $t) {
+        } catch (Exception $t) {
             return false;
         }
         if ($relno >= $this->getRelationPropertyTypeSize()) {
@@ -141,7 +141,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $relno = -1;
         try {
             $relno = (int)$relnoStr;
-        } catch (Throwable $t) {
+        } catch (Exception $t) {
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
         }
         $rpt = $this->getRelationPropertyType($relno);
@@ -278,7 +278,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
         if ($beanDesc->hasConstant(self::NO_PERSISTENT_PROPS)) {
             $str = $beanDesc->getConstant(self::NO_PERSISTENT_PROPS);
-            $props = explode(", ", $str);
+            $props = explode(",", $str);
             for ($i = 0; $i < count($props); ++$i) {
                 $pt = $this->getPropertyType(trim($props[$i]));
                 $pt->setPersistent(false);
