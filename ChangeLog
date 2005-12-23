@@ -1,3 +1,11 @@
+2005-12-24 nowel <nowel@xole.net>
+
+    * example/shelf_insert.php を修正しました。
+        プロパティ addtime が add*METHOD* に衝突するので
+        prop_COLUMN プロパティを行うように修正しています。
+
+    * TODO: add*** プロパティとメソッドの衝突に対する対処
+
 2005-12-20 nowel <nowel@xole.net>
 
     * IDアノテーション COLUMNアノテーションに対応しました。

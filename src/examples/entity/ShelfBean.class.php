@@ -4,12 +4,13 @@ class ShelfBean {
 
     const TABLE = "SHELF";
     const id_ID = "assigned";
+    const id_COLUMN = "ID";
     const cdid_COLUMN = "CD_ID";
-    const addtime_COLUMN = "ADD_TIME";
+    const time_COLUMN = "ADD_TIME";
 
     private $id;
     private $cdid;
-    private $addtime;
+    private $time;
 
     public function setId($id){
         $this->id = $id;
@@ -27,12 +28,12 @@ class ShelfBean {
         return $this->cdid;
     }
 
-    public function setAddtime($time){
-        $this->addtime = $time;
+    public function setTime($time){
+        $this->time = $time;
     }
 
-    public function getAddTime(){
-        return $this->addtime;
+    public function getTime(){
+        return $this->time;
     }
 }
 

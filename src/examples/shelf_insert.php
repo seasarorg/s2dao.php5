@@ -6,7 +6,6 @@ $dao = $container->getComponent("ShelfDao");
 $shelf = new ShelfBean();
 
 $shelf->setCdId(2);
-$shelf->setAddTime("2005-12-18 10:11:09");
+$shelf->setTime("2005-12-18 10:11:09");
 $dao->insert($shelf);
-
 ?>
