@@ -161,6 +161,11 @@ final class S2Dao_DatabaseMetaDataUtil {
 
     private function getTableInfo(PDO $db, $table, $schema){
         $dbms = self::getDbms($db);
+        if($dbms instanceof S2Dao_Firebird){
+            return self::firebird_metadata($db, $dbms, $table);
+        }
+
+        // else firebird ...
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
         $stmt = $db->query($sql);
 
@@ -168,9 +173,9 @@ final class S2Dao_DatabaseMetaDataUtil {
             $retVal[] = $stmt->getColumnMeta($i);
         }
 
-        if(preg_match("/sqlite/i", get_class($dbms), $m)){
+        if($dbms instanceof S2Dao_SQLite){
             self::sqlite_metadata($db, $dbms, $table, $retVal);
-        } else if(preg_match("/pgsql/i", get_class($dbms), $m)){
+        } else if($dbms instanceof S2Dao_pgsql){
             self::pg_metadata($db, $dbms, $table, $retVal);
         }
 
@@ -209,6 +214,24 @@ final class S2Dao_DatabaseMetaDataUtil {
                 $value["flags"] = (array)self::PRIMARY_KEY;
             }
         }
+    }
+
+    private function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
+        $retVal = array();
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
+        $stmt = $db->query($sql);
+        $columns = $stmt->fetchAll(PDO::FETCH_NAMED);
+        foreach($columns[0] as $key => $column){
+            $retVal[] = array(
+                            "name" => $key,
+                            "native_type" => array(),
+                            "flags" => null,
+                            "len" => -1,
+                            "precision" => 0,
+                            "pdo_type" => null,
+                        );
+        }
+        return $retVal;
     }
 
 }
