@@ -31,7 +31,7 @@ final class S2Dao_DbmsManager {
     }
 
     public static function getDbms($ds) {
-        if( !self::$staticConst ){
+        if(!self::$staticConst){
             self::staticConst();
         }
         $info = $ds->getAttribute(PDO::ATTR_DRIVER_NAME);

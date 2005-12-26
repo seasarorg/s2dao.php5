@@ -110,7 +110,7 @@ class S2DaoClassLoader {
         "S2Dao_DtoMetaDataImpl" =>
             "/org/seasar/dao/impl/S2Dao_DtoMetaDataImpl.class.php",
         "S2Dao_DaoMetaDataFactoryImpl" =>
-           "/org/seasar/dao/impl/S2Dao_DaoMetaDataFactoryImpl.class.php",
+            "/org/seasar/dao/impl/S2Dao_DaoMetaDataFactoryImpl.class.php",
         "S2Dao_DaoMetaData" =>
             "/org/seasar/dao/S2Dao_DaoMetaData.class.php",
         "S2Dao_DaoMetaDataImpl" =>
@@ -200,7 +200,7 @@ class S2DaoClassLoader {
     );
 
     public static function load($className){
-        if( isset(self::$CLASSES[$className]) ){
+        if(isset(self::$CLASSES[$className])){
             require_once(S2DAO_PHP5 . self::$CLASSES[$className]);
             return true;
         } else {
