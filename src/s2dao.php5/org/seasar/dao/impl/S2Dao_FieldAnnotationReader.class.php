@@ -57,6 +57,7 @@ class S2Dao_FieldAnnotationReader implements S2Dao_DaoAnnotationReader {
         }
         return null;
     }
+
     public function getSQL($methodName, $dbmsSuffix) {
         $key = $methodName . $dbmsSuffix . self::SQL_SUFFIX;
         if ($this->daoBeanDesc_->hasConstant($key)) {
@@ -69,7 +70,7 @@ class S2Dao_FieldAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
     
-    private function spacetrim(array $elem){
+    protected static function spacetrim(array $elem){
         $ret = array();
         foreach($elem as $key => $value){
             $ret[$key] = trim($value);
