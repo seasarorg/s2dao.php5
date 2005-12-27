@@ -3,10 +3,10 @@
 /**
  * @author nowel
  */
-class Oracle extends S2Dao_Standard {
+class S2Dao_Oracle extends S2Dao_Standard {
 
     public function getSuffix() {
-        return "_oci";
+        return "_oracle";
     }
     
     protected function createAutoSelectFromClause(S2Dao_BeanMetaData $beanMetaData) {
@@ -51,7 +51,7 @@ class Oracle extends S2Dao_Standard {
         return "SELECT table_name FROM user_tables";
     }
     
-    public String getTableInfoSql(){
+    public function getTableInfoSql(){
         return null;
     }
 }

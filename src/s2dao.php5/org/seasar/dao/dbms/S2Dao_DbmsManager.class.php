@@ -13,18 +13,16 @@ final class S2Dao_DbmsManager {
 
     private static function staticConst(){
         self::$dbmses_ = new S2Dao_HashMap();
-        $dbmsClassNames = new ArrayObject(
-                                  parse_ini_file(S2DAO_PHP5 . "/dbms.properties")
-                              );
+        $dbmsClassNames = parse_ini_file(S2DAO_PHP5 . "/dbms.properties");
 
-        for($i = $dbmsClassNames->getIterator(); $i->valid(); $i->next() ){
-            $path = S2DAO_PHP5 . "/" .
-                    str_replace(".", "/", $i->current()) . ".class.php";
+        foreach($dbmsClassNames as $key => $value){
+             $path = S2DAO_PHP5 . "/" .
+                     str_replace(".", "/", $value) . ".class.php";
 
-            if( file_exists($path) ){
+            if(file_exists($path)){
                 require_once ($path);
-                $productName = strtolower($i->key());
-                self::$dbmses_->put($productName, new $productName());
+                $productName = basename($path, ".class.php");
+                self::$dbmses_->put(strtolower($key), new $productName());
             }
         }
         self::$staticConst = true;
@@ -35,7 +33,7 @@ final class S2Dao_DbmsManager {
             self::staticConst();
         }
         $info = $ds->getAttribute(PDO::ATTR_DRIVER_NAME);
-        return self::$dbmses_->get("s2dao_" . $info);
+        return self::$dbmses_->get($info);
     }
 }
 ?>
