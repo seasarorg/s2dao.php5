@@ -1,3 +1,8 @@
+2005-12-27 nowel <nowel@xole.net>
+
+    * dbms.properties と S2Dao_DbmsManager を修正しました。
+        よりDBMS向き(一般的な)の表現を用いることにしました。
+
 2005-12-24 nowel <nowel@xole.net>
 
     * example/shelf_insert.php を修正しました。

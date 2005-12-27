@@ -25,7 +25,7 @@
 
     <!--
     <component name="dataSource" class="S2Container_PDODataSource">
-        <property name="dsn">"firebird:host=localhost; dbname=/home/nowel/workspace/db/s2con.fdb"</property>
+        <property name="dsn">"firebird:host=localhost; dbname=/path/to/s2con.fdb"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
     </component>
