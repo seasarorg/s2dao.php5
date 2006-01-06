@@ -3,14 +3,15 @@
 /**
  * @author nowel
  */
-class S2Dao_FieldAnnotationReader implements S2Dao_DaoAnnotationReader {
+//class S2Dao_FieldAnnotationReader implements S2Dao_DaoAnnotationReader {
+class S2Dao_FieldAnnotationReader {
 
-    const BEAN = "BEAN";
-    const ARGS_SUFFIX = "_ARGS";
-    const SQL_SUFFIX = "_SQL";
-    const QUERY_SUFFIX = "_QUERY";
-    const NO_PERSISTENT_PROPS_SUFFIX = "_NO_PERSISTENT_PROPS";
-    const PERSISTENT_PROPS_SUFFIX = "_PERSISTENT_PROPS";
+    const BEAN = 'BEAN';
+    const ARGS_SUFFIX = '_ARGS';
+    const SQL_SUFFIX = '_SQL';
+    const QUERY_SUFFIX = '_QUERY';
+    const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
+    const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
 
     protected $daoBeanDesc_;
 
@@ -70,7 +71,7 @@ class S2Dao_FieldAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
     
-    protected static function spacetrim(array $elem){
+    public static function spacetrim(array $elem){
         $ret = array();
         foreach($elem as $key => $value){
             $ret[$key] = trim($value);

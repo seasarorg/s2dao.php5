@@ -65,8 +65,8 @@ class PHPArchiveTask extends Task {
         $usegzip == "1" && $this->usegzip = true;
     }
 
-    public function createPharFileSet(){
-        $fs = new PharFileSet();
+    public function createFileSet(){
+        $fs = new FileSet();
         $this->incFileSets[] = $fs;
         return $fs;
     }

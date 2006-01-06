@@ -16,9 +16,9 @@ class S2Dao_Standard implements S2Dao_Dbms {
     }
 
     public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData) {
-        $buf = "";
+        $buf = '';
         $buf .= $beanMetaData->getAutoSelectList();
-        $buf .= " ";
+        $buf .= ' ';
 
         $beanClass = new ReflectionClass($beanMetaData->getBeanClass());
         $beanName = $beanClass->getName();
@@ -32,8 +32,8 @@ class S2Dao_Standard implements S2Dao_Dbms {
     }
 
     protected function createAutoSelectFromClause(S2Dao_BeanMetaData $beanMetaData) {
-        $buf = "";
-        $buf .= "FROM ";
+        $buf = '';
+        $buf .= 'FROM ';
 
         $myTableName = $beanMetaData->getTableName();
         $buf .= $myTableName;
@@ -42,25 +42,25 @@ class S2Dao_Standard implements S2Dao_Dbms {
             $rpt = $beanMetaData->getRelationPropertyType($i);
             $bmd = $rpt->getBeanMetaData();
 
-            $buf .= " LEFT OUTER JOIN ";
+            $buf .= ' LEFT OUTER JOIN ';
             $buf .= $bmd->getTableName();
-            $buf .= " ";
+            $buf .= ' ';
 
             $yourAliasName = $rpt->getPropertyName();
             $buf .= $yourAliasName;
-            $buf .= " ON ";
+            $buf .= ' ON ';
 
             for ($j = 0; $j < $rpt->getKeySize(); ++$j) {
                 $buf .= $myTableName;
-                $buf .= ".";
+                $buf .= '.';
                 $buf .= $rpt->getMyKey($j);
-                $buf .= " = ";
+                $buf .= ' = ';
                 $buf .= $yourAliasName;
-                $buf .= ".";
+                $buf .= '.';
                 $buf .= $rpt->getYourKey($j);
-                $buf .= " AND ";
+                $buf .= ' AND ';
             }
-            $buf = preg_match("/ AND $/", "", $buf);
+            $buf = preg_match('/ AND $/', '', $buf);
         }
 
         return $buf;

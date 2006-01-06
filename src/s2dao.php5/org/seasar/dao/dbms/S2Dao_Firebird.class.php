@@ -6,11 +6,11 @@
 class S2Dao_Firebird extends S2Dao_Standard {
 
     public function getSuffix() {
-        return "_firebird";
+        return '_firebird';
     }
     
     public function getSequenceNextValString($sequenceName) {
-        return "SELECT GEN_ID( " + $sequenceName + ", 1 ) from RDB\$DATABASE";
+        return 'SELECT GEN_ID( ' + $sequenceName + ', 1 ) from RDB$DATABASE';
     }
 
     public function getTableSql(){
@@ -19,7 +19,7 @@ class S2Dao_Firebird extends S2Dao_Standard {
     }
 
     public function getTableInfoSql(){
-        return "SELECT * FROM " . self::BIND_TABLE . " WHERE 1 = 1";
+        return 'SELECT * FROM ' . self::BIND_TABLE . ' WHERE 1 = 1';
     }
 }
 

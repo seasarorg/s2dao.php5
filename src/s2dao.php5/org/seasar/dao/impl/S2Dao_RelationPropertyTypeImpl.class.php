@@ -10,17 +10,16 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
     protected $yourKeys_ = array();
     protected $beanMetaData_;
 
-    public function __construct(S2Container_PropertyDesc $propertyDesc, $relationNo = null,
-                                $myKeys = null, $yourKeys = null,
-                                $dbMetaData = null, $dbms = null){
+    public function __construct(S2Container_PropertyDesc $propertyDesc,
+                                $relationNo = null, $myKeys = null, $yourKeys = null,
+                                S2Dao_BeanMetaData $beanMetaData){
 
         parent::__construct($propertyDesc);
-        if( isset($relationNo, $myKeys, $dbMetaData, $dbms) ){
+        if( isset($relationNo, $myKeys, $dbMetaData, $beanMetaData) ){
             $this->relationNo_ = $relationNo;
             $this->myKeys_ = $myKeys;
             $this->yourKeys_ = $yourKeys;
-            $beanClass = $propertyDesc->getPropertyType();
-            $this->beanMetaData_ = new S2Dao_BeanMetaDataImpl($beanClass, $dbMetaData, $dbms, true);
+            $this->beanMetaData_ = $beanMetaData;
         }
     }
 
@@ -54,7 +53,7 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
     
     public function isYourKey($columnName) {
         for ($i = 0; $i < $this->getKeySize(); ++$i) {
-            if (strcasecmp($columnName,$this->getYourKey($i)) == 0 ){
+            if (strcasecmp($columnName, $this->getYourKey($i)) == 0 ){
                 return true;
             }
         }

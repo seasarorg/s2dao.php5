@@ -4,8 +4,8 @@
  * @author nowel
  */
 interface S2Dao_Dbms {
-    const BIND_TABLE = ":TABLE";
-    const BIND_COLUMN = ":COLUMN";
+    const BIND_TABLE = ':TABLE';
+    const BIND_COLUMN = ':COLUMN';
     
     function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData);
     function getSuffix();

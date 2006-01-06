@@ -5,12 +5,13 @@
  */
 class S2Dao_FieldDaoAnnotationReader implements S2Dao_DaoAnnotationReader {
 
-    const BEAN = "BEAN";
-    const ARGS_SUFFIX = "_ARGS";
-    const SQL_SUFFIX = "_SQL";
-    const QUERY_SUFFIX = "_QUERY";
-    const NO_PERSISTENT_PROPS_SUFFIX = "_NO_PERSISTENT_PROPS";
-    const PERSISTENT_PROPS_SUFFIX = "_PERSISTENT_PROPS";
+    const BEAN = 'BEAN';
+    const ARGS_SUFFIX = '_ARGS';
+    const SQL_SUFFIX = '_SQL';
+    const QUERY_SUFFIX = '_QUERY';
+    const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
+    const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
+
     protected $daoBeanDesc_;
     
     public function __construct(S2Container_BeanDesc $daoBeanDesc_) {
@@ -19,7 +20,7 @@ class S2Dao_FieldDaoAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     public function getArgNames(ReflectionMethod $method) {
         $argsKey = $method->getName() . self::ARGS_SUFFIX;
-        if ($this->daoBeanDesc_->hasConst(argsKey)) {
+        if ($this->daoBeanDesc_->hasConstant($argsKey)) {
             $argNames = $this->daoBeanDesc_->getConstant($argsKey);
             return S2Dao_FieldAnnotationReader::spacetrim(explode(",", $argNames));
         } else {
@@ -27,8 +28,8 @@ class S2Dao_FieldDaoAnnotationReader implements S2Dao_DaoAnnotationReader {
         }
     }
 
-    public function getQuery($methodName) {
-        $key = $methodName . self::QUERY_SUFFIX;
+    public function getQuery(ReflectionMethod $method) {
+        $key = $method->getName() . self::QUERY_SUFFIX;
         if ($this->daoBeanDesc_->hasConstant($key)) {
             return $this->daoBeanDesc_->getConstant($key);
         } else {

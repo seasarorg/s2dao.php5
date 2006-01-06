@@ -71,78 +71,80 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
     protected abstract function setupSql();
 
     protected function setupInsertSql() {
-        $buf = "";
-        $buf .= "INSERT INTO ";
+        $buf = '';
+        $buf .= 'INSERT INTO ';
         $buf .= $this->getBeanMetaData()->getTableName();
-        $buf .= " (";
+        $buf .= ' (';
         $c = count($this->propertyTypes_);
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
             $buf .= $pt->getColumnName();
-            $buf .= ", ";
+            $buf .= ', ';
         }
-        $buf = preg_replace("/(, )$/", "", $buf);
-        $buf .= ") VALUES (";
+        $buf = preg_replace('/(, )$/', '', $buf);
+        $buf .= ') VALUES (';
         for ($i = 0; $i < $c; ++$i) {
-            $buf .= "?, ";
+            $buf .= '?, ';
         }
-        $buf = preg_replace("/(, )$/", "", $buf);
-        $buf .= ")";
+        $buf = preg_replace('/(, )$/', '', $buf);
+        $buf .= ')';
         $this->setSql($buf);
     }
 
     protected function setupUpdateSql() {
         $this->checkPrimaryKey();
-        $buf = "";
-        $buf .= "UPDATE ";
+        $buf = '';
+        $buf .= 'UPDATE ';
         $buf .= $this->getBeanMetaData()->getTableName();
-        $buf .= " SET ";
+        $buf .= ' SET ';
         $c = count($this->propertyTypes_);
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
             $buf .= $pt->getColumnName();
-            $buf .= " = ?, ";
+            $buf .= ' = ?, ';
         }
-        $buf = preg_replace("/(, )$/", "", $buf);
+        $buf = preg_replace('/(, )$/', '', $buf);
         $this->setupUpdateWhere($buf);
         $this->setSql($buf);
     }
 
     protected function setupDeleteSql() {
         $this->checkPrimaryKey();
-        $buf = "";
-        $buf .= "DELETE FROM ";
+        $buf = '';
+        $buf .= 'DELETE FROM ';
         $buf .= $this->getBeanMetaData()->getTableName();
         $this->setupUpdateWhere($buf);
         $this->setSql($buf);
     }
 
     protected function checkPrimaryKey() {
+        /*
         $bmd = $this->getBeanMetaData();
         if ($bmd->getPrimaryKeySize() == 0) {
             throw new S2Dao_PrimaryKeyNotFoundRuntimeException($bmd->getBeanClass());
         }
+        */
     }
 
     protected function setupUpdateWhere(&$buf) {
         $bmd = $this->getBeanMetaData();
-        $buf .= " WHERE ";
+        $buf .= ' WHERE ';
         for ($i = 0; $i < $bmd->getPrimaryKeySize(); ++$i) {
             $buf .= $bmd->getPrimaryKey($i);
-            $buf .= " = ? AND ";
+            $buf .= ' = ? AND ';
         }
-        $buf = preg_replace("/ AND $/", "", $buf);
+        $buf = preg_replace('/ AND $/', '', $buf);
         if ($bmd->hasVersionNoPropertyType()) {
             $pt = $bmd->getVersionNoPropertyType();
-            $buf .= " AND ";
+            $buf .= ' AND ';
             $buf .= $pt->getColumnName();
-            $buf .= " = ?";
+            $buf .= ' = ?';
         }
         if ($bmd->hasTimestampPropertyType()) {
             $pt = $bmd->getTimestampPropertyType();
-            $buf .= " AND ";
+            $buf .= ' AND ';
             $buf .= $pt->getColumnName();
-            $buf .= " = ?";
+            $buf .= ' = ?';
         }
     }
 }

@@ -1,11 +1,22 @@
+2006-01-07 nowel <nowel@xole.net>
+
+    * AnnotationReaderFactory を追加しました。
+        Java 版 S2Dao 1.0.29 と同じ物です。 
+        added
+        - impl/S2Dao_FieldAnnotationReaderFactory
+        - impl/S2Dao_FieldDaoAnnotationReader
+        - impl/S2Dao_FieldBeanAnnotationReader
+        - S2Dao_BeanAnnotationReader
+        - S2Dao_AnnotationReaderFactory
+
 2005-12-27 nowel <nowel@xole.net>
 
     * dbms.properties と S2Dao_DbmsManager を修正しました。
-        よりDBMS向き(一般的な)の表現を用いることにしました。
+        より DBMS 向き(一般的な)の表現を用いることにしました。
 
 2005-12-24 nowel <nowel@xole.net>
 
-    * example/shelf_insert.php を修正しました。
+    * example/shelf_*.php を修正しました。
         プロパティ addtime が add*METHOD* に衝突するので
         prop_COLUMN プロパティを行うように修正しています。
 
@@ -13,10 +24,10 @@
 
 2005-12-20 nowel <nowel@xole.net>
 
-    * IDアノテーション COLUMNアノテーションに対応しました。
+    * IDアノテーション COLUMN アノテーションに対応しました。
 
     * メソッド定義の修正
-        Daoによって定義するメソッド定義を修正しました。
+        Dao によって定義するメソッド定義を修正しました。
 
 2005-12-14 nowel <nowel@xole.net>
 

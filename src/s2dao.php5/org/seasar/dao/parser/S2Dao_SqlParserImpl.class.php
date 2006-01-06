@@ -11,7 +11,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     public function __construct($sql) {
         $sql = trim($sql);
 
-        $sql = preg_replace("/(.+);$/s", "\\1", $sql);
+        $sql = preg_replace('/(.+);$/s', '\1', $sql);
         $this->tokenizer_ = new S2Dao_SqlTokenizerImpl($sql);
     }
 
@@ -43,7 +43,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     protected function parseSql() {
         $sql = $this->tokenizer_->getToken();
         if ($this->isElseMode()) {
-            $sql = str_replace("--", "", $sql);
+            $sql = str_replace('--', '', $sql);
         }
         $node = $this->peek();
         if (($node instanceof S2Dao_IfNode || $node instanceof S2Dao_ElseNode)
@@ -53,7 +53,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
             $token = $st->skipToken();
             $st->skipWhitespace();
 
-            if( eregi("AND",$token) || eregi("OR",$token) ){
+            if( eregi('AND',$token) || eregi('OR',$token) ){
                 $node->addChild(new S2Dao_PrefixSqlNode($st->getBefore(), $st->getAfter()));
             } else {
                 $node->addChild(new S2Dao_SqlNode($sql));
@@ -123,9 +123,9 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     protected function parseCommentBindVariable() {
         $expr = $this->tokenizer_->getToken();
         $s = $this->tokenizer_->skipToken();
-        if ($s !== false && ereg("^\(", $s) && ereg("\)$", $s) ) {
+        if ($s !== false && ereg('^\(', $s) && ereg('\)$', $s) ) {
             $this->peek()->addChild(new S2Dao_ParenBindVariableNode($expr));
-        } else if (ereg("^\$", $expr)) {
+        } else if (ereg('^\$', $expr)) {
             $this->peek()->addChild(new S2Dao_EmbeddedValueNode(substr($expr,1)));
         } else {
             $this->peek()->addChild(new S2Dao_BindVariableNode($expr));
@@ -166,15 +166,15 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     private static function isIfComment($comment) {
-        return ereg("^IF", $comment);
+        return ereg('^IF', $comment);
     }
 
     private static function isBeginComment($content = null) {
-        return $content != null && "BEGIN" == $content;
+        return $content != null && 'BEGIN' == $content;
     }
 
     private static function isEndComment($content = null) {
-        return $content != null && "END" == $content;
+        return $content != null && 'END' == $content;
     }
 }
 ?>

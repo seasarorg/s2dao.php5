@@ -7,14 +7,17 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     private $beanClass_;
     private $propertyTypes_ = array();
+    protected $beanAnnotationReader_;
 
-    const COLUMN_SUFFIX = "_COLUMN";
-
-    public function __construct($beanClass = null) {
-        if( $beanClass !== null ){
+    public function __construct($beanClass,
+                                S2Dao_BeanAnnotationReader $beanAnnotationReader) {
+        if( 0 == count(func_get_args) ){
+            $this->beanAnnotationReader_ = $beanAnnotationReader;
             $this->beanClass_ = $beanClass;
             $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
             $this->setupPropertyType($beanDesc);
+        } else {
+            throw new Exception();
         }
     }
 
@@ -38,15 +41,15 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
         } else {
             $propertyType = $this->propertyTypes_[$index];
             if ($propertyType == null) {
-                throw new S2Container_PropertyNotFoundRuntimeException($this->beanClass_,
-                                                            $propertyType);
+                throw new S2Container_PropertyNotFoundRuntimeException(
+                                $this->beanClass_, $propertyType);
             }
             return $propertyType;
         }
     }
 
     public function hasPropertyType($propertyName) {
-        return array_key_exists($propertyName, $this->propertyTypes_);
+        return isset($this->propertyTypes_[$propertyName]);
     }
 
     protected function setupPropertyType(S2Container_BeanDesc $beanDesc) {
@@ -60,9 +63,9 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     protected function createPropertyType(S2Container_BeanDesc $beanDesc,
                                           S2Container_PropertyDesc $propertyDesc) {
         $columnName = $propertyDesc->getPropertyName();
-        $colKey = $propertyDesc->getPropertyName() . self::COLUMN_SUFFIX;
-        if ($colKey != null && $beanDesc->hasConstant($colKey)) {
-            $columnName = $beanDesc->getConstant($colKey);
+        $ca = $this->beanAnnotationReader_->getColumnAnnotation($propertyDesc);
+        if($ca != null){
+            $columnName = $ca;
         }
         $valueType = $propertyDesc->getPropertyType();
         return new S2Dao_PropertyTypeImpl($propertyDesc, $valueType, $columnName);

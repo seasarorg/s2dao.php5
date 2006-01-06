@@ -8,7 +8,7 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
     private static $logger_;
     private $args_;
     private $argTypes_;
-    private $sqlBuf_ = "";
+    private $sqlBuf_ = '';
     private $bindVariables_;
     private $bindVariableTypes_;
     private $enabled_ = true;
@@ -27,7 +27,7 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
         }
         $this->args_ = new S2Dao_HashMap();
         $this->argTypes_ = new S2Dao_HashMap();
-        $this->sqlBuf_ = "";
+        $this->sqlBuf_ = '';
         $this->bindVariables_ = new S2Dao_ArrayList();
         $this->bindVariableTypes_ = new S2Dao_ArrayList();
 
@@ -58,7 +58,7 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
             if ($this->argTypes_->size() == 1) {
                 return $this->argTypes_->get(0);
             }
-            self::$logger_->log("WDAO0001", (array)$name);
+            self::$logger_->log('WDAO0001', (array)$name);
             return null;
         }
     }

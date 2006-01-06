@@ -12,8 +12,7 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
 
     public function __construct($expression) {
         $this->expression_ = $expression;
-        
-        $this->names_ = explode(".", $expression);
+        $this->names_ = explode('.', $expression);
 //        $this->baseName_ = $array[0];
 //        if(count($array) > 1){
 //            $this->propertyName_ = $array[1];

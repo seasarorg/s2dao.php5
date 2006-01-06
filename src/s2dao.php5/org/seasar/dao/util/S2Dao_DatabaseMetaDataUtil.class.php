@@ -12,14 +12,10 @@ final class S2Dao_DatabaseMetaDataUtil {
     private function S2Dao_DatabaseMetaDataUtil() {
     }
 
-    /*
-    public static String[] getPrimaryKeys(DatabaseMetaData dbMetaData,
-            String tableName) {
+    public static function getPrimaryKeys(PDO $dbMetaData,$tableName) {
 
-        Set set = getPrimaryKeySet(dbMetaData, tableName);
-        return (String[]) set.toArray(new String[set.size()]);
+        return $this->getPrimaryKeySet($dbMetaData, $tableName)->toArray();
     }
-    */
 
     public static function getPrimaryKeySet(PDO $dbMetaData, $tableName) {
         $schema = null;
@@ -60,16 +56,11 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-    /*
-    public static String[] getColumns(DatabaseMetaData dbMetaData,
-            String tableName) {
-
-        Set set = getColumnSet(dbMetaData, tableName);
-        return (String[]) set.toArray(new String[set.size()]);
+    public static function getColumns(PDO $dbMetaData, $tableName) {
+        return $this->getColumnSet($dbMetaData, $tableName)->toArray();
     }
-    */
     
-    public static function getColumnSet($dbMetaData, $tableName) {
+    public static function getColumnSet(PDO $dbMetaData, $tableName) {
         $schema = null;
         $index = strpos(".", $tableName);
         if ($index >= 0 && $index !== false) {
@@ -124,26 +115,6 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-    /*
-    public static boolean supportsMixedCaseIdentifiers(
-            DatabaseMetaData dbMetaData) {
-
-        try {
-            return dbMetaData.supportsMixedCaseIdentifiers();
-        } catch (S2Container_SQLException ex) {
-            throw new S2Container_SQLRuntimeException(ex);
-        }
-    }
-
-    public static boolean storesUpperCaseIdentifiers(DatabaseMetaData dbMetaData) {
-        try {
-            return dbMetaData.storesUpperCaseIdentifiers();
-        } catch (S2Container_SQLException ex) {
-            throw new S2Container_SQLRuntimeException(ex);
-        }
-    }
-    */
-
     public static function getDatabaseProductName($dbMetaData) {
         try {
             throw new Exception(__FILE__ . ":" . __METHOD__);
@@ -161,9 +132,10 @@ final class S2Dao_DatabaseMetaDataUtil {
 
     private function getTableInfo(PDO $db, $table, $schema){
         $dbms = self::getDbms($db);
-        if($dbms instanceof S2Dao_Firebird){
-            return self::firebird_metadata($db, $dbms, $table);
-        }
+
+//        if($dbms instanceof S2Dao_Firebird){
+//            return self::firebird_metadata($db, $dbms, $table);
+//        }
 
         // else firebird ...
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
@@ -216,23 +188,23 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-    private function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
-        $retVal = array();
-        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
-        $stmt = $db->query($sql);
-        $columns = $stmt->fetchAll(PDO::FETCH_NAMED);
-        foreach($columns[0] as $key => $column){
-            $retVal[] = array(
-                            "name" => $key,
-                            "native_type" => array(),
-                            "flags" => null,
-                            "len" => -1,
-                            "precision" => 0,
-                            "pdo_type" => null,
-                        );
-        }
-        return $retVal;
-    }
+//    private function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
+//        $retVal = array();
+//        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
+//        $stmt = $db->query($sql);
+//        $columns = $stmt->fetchAll(PDO::FETCH_NAMED);
+//        foreach($columns[0] as $key => $column){
+//            $retVal[] = array(
+//                            "name" => $key,
+//                            "native_type" => array(),
+//                            "flags" => null,
+//                            "len" => -1,
+//                            "precision" => 0,
+//                            "pdo_type" => null,
+//                        );
+//        }
+//        return $retVal;
+//    }
 
 }
 ?>

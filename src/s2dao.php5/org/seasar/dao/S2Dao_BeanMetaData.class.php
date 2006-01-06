@@ -5,13 +5,13 @@
  */
 interface S2Dao_BeanMetaData extends S2Dao_DtoMetaData {
 
-    const TABLE = "TABLE";
-    const RELNO_SUFFIX = "_RELNO";
-    const RELKEYS_SUFFIX = "_RELKEYS";
-    const ID_SUFFIX = "_ID";
-    const NO_PERSISTENT_PROPS = "NO_PERSISTENT_PROPS";
-    const VERSION_NO_PROPERTY = "VERSION_NO_PROPERTY";
-    const TIMESTAMP_PROPERTY = "TIMESTAMP_PROPERTY";
+    const TABLE = 'TABLE';
+    const RELNO_SUFFIX = '_RELNO';
+    const RELKEYS_SUFFIX = '_RELKEYS';
+    const ID_SUFFIX = '_ID';
+    const NO_PERSISTENT_PROPS = 'NO_PERSISTENT_PROPS';
+    const VERSION_NO_PROPERTY = 'VERSION_NO_PROPERTY';
+    const TIMESTAMP_PROPERTY = 'TIMESTAMP_PROPERTY';
 
     public function getTableName();
 

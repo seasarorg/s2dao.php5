@@ -18,7 +18,7 @@ class S2Dao_RelationRowCache {
         return $this->getRowMap($relno)->get($key);
     }
     
-    public function addRelationRow($relno, S2Dao_RelationKey $key, Object $row) {
+    public function addRelationRow($relno, S2Dao_RelationKey $key, $row) {
         $this->getRowMap($relno)->put($key, $row);
     }
 

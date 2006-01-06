@@ -5,14 +5,15 @@
  */
 class S2Dao_FieldBeanAnnotationReader implements S2Dao_BeanAnnotationReader {
 
-    const TABLE = "TABLE";
-    const RELNO_SUFFIX = "_RELNO";
-    const RELKEYS_SUFFIX = "_RELKEYS";
-    const ID_SUFFIX = "_ID";
-    const NO_PERSISTENT_PROPS = "NO_PERSISTENT_PROPS";
-    const VERSION_NO_PROPERTY = "VERSION_NO_PROPERTY";
-    const TIMESTAMP_PROPERTY = "TIMESTAMP_PROPERTY";
-    const COLUMN_SUFFIX = "_COLUMN";
+    const TABLE = 'TABLE';
+    const RELNO_SUFFIX = '_RELNO';
+    const RELKEYS_SUFFIX = '_RELKEYS';
+    const ID_SUFFIX = '_ID';
+    const NO_PERSISTENT_PROPS = 'NO_PERSISTENT_PROPS';
+    const VERSION_NO_PROPERTY = 'VERSION_NO_PROPERTY';
+    const TIMESTAMP_PROPERTY = 'TIMESTAMP_PROPERTY';
+    const COLUMN_SUFFIX = '_COLUMN';
+
     private $beanDesc_;
     
     public function __construct($beanClass_) {
@@ -26,7 +27,7 @@ class S2Dao_FieldBeanAnnotationReader implements S2Dao_BeanAnnotationReader {
         if ($this->beanDesc_->hasConstant($columnNameKey)) {
             $columnName = $this->beanDesc_->getConstant($columnNameKey);
         }
-        return columnName;
+        return $columnName;
     }
 
     public function getTableAnnotation() {

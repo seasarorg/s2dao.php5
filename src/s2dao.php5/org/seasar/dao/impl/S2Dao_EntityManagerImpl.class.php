@@ -22,7 +22,7 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
             case 1:
                 return $this->find($query, self::$EMPTY_ARGS);
             case 2:
-                if( is_array($args) ){
+                if(is_array($args)){
                     $cmd = $this->daoMetaData_->createFindCommand($query);
                     return $cmd->execute($args);
                 } else {
@@ -36,11 +36,11 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     }
 
     public function findArray($query, $args = null, $arg2 = null, $arg3 = null) {
-        switch( count(func_get_args()) ){
+        switch(count(func_get_args())){
             case 1:
                 return $this->findArray($query, self::$EMPTY_ARGS);
             case 2:
-                if( is_array($args) ){
+                if(is_array($args)){
                     $cmd = $this->daoMetaData_->createFindArrayCommand($query);
                     return $cmd->execute($args);
                 } else {
@@ -54,11 +54,11 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     }
     
     public function findBean($query, $args = null, $arg2 = null, $arg3 = null) {
-        switch( count(func_get_args()) ){
+        switch(count(func_get_args())){
             case 1:
                 return $this->findBean($query, self::$EMPTY_ARGS);
             case 2:
-                if( is_array($args) ){
+                if(is_array($args)){
                     $cmd = $this->daoMetaData_->createFindBeanCommand($query);
                     return $cmd->execute($args);
                 } else {
@@ -72,11 +72,11 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     }
 
     public function findObject($query, $args = null, $arg2 = null, $arg3 = null) {
-        switch( count(func_get_args()) ){
+        switch(count(func_get_args())){
             case 1:
                 return $this->findObject($query, self::$EMPTY_ARGS);
             case 2:
-                if( is_array($args) ){
+                if(is_array($args)){
                     $cmd = $this->daoMetaData_->createFindObjectCommand($query);
                     return $cmd->execute($args);
                 } else {

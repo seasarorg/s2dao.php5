@@ -4,18 +4,16 @@
  * @author nowel
  */
 interface S2Dao_DaoAnnotationReader {
+    function getQuery(ReflectionMethod $method);
 
-    function getQuery($name);
-
-    function getArgNames($name);
+    function getArgNames(ReflectionMethod $method);
 
     function getBeanClass();
 
-    function getNoPersistentProps($methodName);
+    function getNoPersistentProps(ReflectionMethod $method);
 
-    function getPersistentProps($methodName);
+    function getPersistentProps(ReflectionMethod $method);
 
-    function getSQL($name, $suffix);
-
+    function getSQL(ReflectionMethod $method, $suffix);
 }
 ?>

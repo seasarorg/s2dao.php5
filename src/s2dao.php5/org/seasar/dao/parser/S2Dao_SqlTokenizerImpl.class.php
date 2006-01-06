@@ -5,7 +5,7 @@
  */
 class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
 
-    private $sql_ = "";
+    private $sql_ = '';
     private $position_ = 0;
     private $token_ = null;
     private $tokenType_ = self::SQL;
