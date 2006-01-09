@@ -3,11 +3,13 @@
 "components21.dtd">
 <components namespace="pdo">
 
+    <!--
     <component name="dataSource" class="S2Container_PDODataSource">
         <property name="dsn">"mysql:host=localhost; dbname=s2con"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
     </component>
+    -->
 
     <!--
     <component name="dataSource" class="S2Container_PDODataSource">
@@ -30,5 +32,11 @@
         <property name="password">"pass"</property>
     </component>
     -->
+
+    <component name="dataSource" class="S2Container_PDODataSource">
+        <property name="dsn">"oci:host=localhost; dbname=orcl"</property>
+        <property name="user">"scott"</property>
+        <property name="password">"tiger"</property>
+    </component>
 
 </components>
