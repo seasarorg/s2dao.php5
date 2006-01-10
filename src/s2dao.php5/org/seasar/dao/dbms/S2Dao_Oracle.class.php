@@ -52,7 +52,21 @@ class S2Dao_Oracle extends S2Dao_Standard {
     }
     
     public function getTableInfoSql(){
-        return null;
+        return 'SELECT u.column_name, u.data_type, u.nullable, ' .
+               'u.data_precision, u.char_col_decl_length ' .
+               'FROM user_tab_columns u ' .
+               'WHERE u.table_name = ' . self::BIND_TABLE;
+    }
+
+    public function getPrimaryKeySql(){
+        return 'SELECT t.constraint_type ' .
+               'FROM user_constraints t, user_cons_columns c ' . 
+               'WHERE t.table_name = ' . self::BIND_TABLE .
+               ' AND t.table_name = c.table_name' .
+               ' AND t.owner = c.owner' .
+               ' AND c.column_name = ' . self::BIND_COLUMN .
+               ' AND t.constraint_name = c.constraint_name' .
+               ' AND t.constraint_type = \'P\'';
     }
 }
 

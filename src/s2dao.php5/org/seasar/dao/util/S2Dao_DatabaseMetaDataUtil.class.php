@@ -133,22 +133,30 @@ final class S2Dao_DatabaseMetaDataUtil {
     private function getTableInfo(PDO $db, $table, $schema){
         $dbms = self::getDbms($db);
 
-//        if($dbms instanceof S2Dao_Firebird){
-//            return self::firebird_metadata($db, $dbms, $table);
-//        }
+        // {{{
+        // dbms instanceof Firebird/Oracle
+        if($dbms instanceof S2Dao_FireBird){
+            return self::firebird_metadata($db, $dbms, $table);
+        } else if($dbms instanceof S2Dao_Oracle){
+            return self::oracle_metadata($db, $dbms, $table);
+        }
+        // else
+        // }}}
 
-        // else firebird ...
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
         $stmt = $db->query($sql);
 
+        $retVal = array();
         for($i = 0; $i < $stmt->columnCount(); $i++){
             $retVal[] = $stmt->getColumnMeta($i);
         }
 
         if($dbms instanceof S2Dao_SQLite){
             self::sqlite_metadata($db, $dbms, $table, $retVal);
-        } else if($dbms instanceof S2Dao_pgsql){
+        } else if($dbms instanceof S2Dao_PostgreSQL){
             self::pg_metadata($db, $dbms, $table, $retVal);
+        } else if($dbms instanceof S2Dao_Firebird){
+                self::fb_metadata($db, $dbms, $table, $retVal);
         }
 
         return $retVal;
@@ -188,23 +196,57 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-//    private function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
-//        $retVal = array();
-//        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
-//        $stmt = $db->query($sql);
-//        $columns = $stmt->fetchAll(PDO::FETCH_NAMED);
-//        foreach($columns[0] as $key => $column){
-//            $retVal[] = array(
-//                            "name" => $key,
-//                            "native_type" => array(),
-//                            "flags" => null,
-//                            "len" => -1,
-//                            "precision" => 0,
-//                            "pdo_type" => null,
-//                        );
-//        }
-//        return $retVal;
-//    }
+    private function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
+        $retVal = array();
+        $stmt = $db->prepare($dbms->getTableInfoSql());
+        $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table);
+        $stmt->execute();
+        $columns = $stmt->fetchAll(PDO::FETCH_NAMED);
+        foreach($columns as $key => $column){
+            $retVal[] = array(
+                            "name" => $key,
+                            "native_type" => array(),
+                            "flags" => null,
+                            "len" => -1,
+                            "precision" => 0,
+                            "pdo_type" => null,
+                        );
+        }
+        return $retVal;
+    }
 
+    private function oracle_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
+        $retVal = array();
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, '\''.$table.'\'', $dbms->getTableInfoSql());
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+
+        // FIXME hangup
+        $colsql = $dbms->getPrimaryKeySql();
+        $colsql = str_replace(S2Dao_Dbms::BIND_TABLE, '\''.$table.'\'', $colsql);
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($rows as $row){
+            // FIXME hangup
+            $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\''.$row["COLUMN_NAME"].'\'', $colsql);
+            $stcol = $db->query($sql);
+            $col = $stcol->fetch(PDO::FETCH_ASSOC);
+
+            $flg = null;
+            if("P" == $col["CONSTRAINT_TYPE"]){
+                $flg = (array)self::PRIMARY_KEY;
+            }
+
+            $retVal[] = array(
+                            "name" => $row["COLUMN_NAME"],
+                            "native_type" => $row["DATA_TYPE"],
+                            "flags" => $flg,
+                            "len" => $row["CHAR_COL_DECL_LENGTH"],
+                            "precision" => $row["DATA_PRECISION"],
+                            "pdo_type" => null,
+                        );
+        }
+        return $retVal;
+    }
 }
 ?>
