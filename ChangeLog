@@ -1,3 +1,11 @@
+2006-01-12 nowel <nowel@xole.net>
+
+    * Oracle 利用可能になりました。(alpha)
+
+2006-01-11 nowel <nowel@xole.net>
+
+    * dbms.properties を変更しました。
+
 2006-01-07 nowel <nowel@xole.net>
 
     * AnnotationReaderFactory を追加しました。
@@ -8,11 +16,6 @@
         - impl/S2Dao_FieldBeanAnnotationReader
         - S2Dao_BeanAnnotationReader
         - S2Dao_AnnotationReaderFactory
-
-2005-12-27 nowel <nowel@xole.net>
-
-    * dbms.properties と S2Dao_DbmsManager を修正しました。
-        より DBMS 向き(一般的な)の表現を用いることにしました。
 
 2005-12-24 nowel <nowel@xole.net>
 

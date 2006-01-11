@@ -22,7 +22,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $this->setSql($sql);
         $this->setResultSetHandler($resultSetHandler);
         
-        if( isset($statementFactory, $resultSetFactory) ){
+        if(isset($statementFactory, $resultSetFactory)){
             $this->setStatementFactory($statementFactory);
             $this->setResultSetFactory($resultSetFactory);
         } else {
@@ -63,52 +63,25 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $this->maxRows_ = $maxRows;
     }
 
-    public function execute( $element, $args = null, $types = null ){
-        /*
-        if( is_object($element) ){
-            $ps = $this->prepareStatement($element);
-            $this->bindArgs($ps, $args, $types);
-            return $this->execute($ps);
-        } else if( !isset($args, $type) ){
-            return $this->execute($element, $this->getArgTypes($element));
-        } else if( is_array($element) && is_array($args) ){
-            if (self::$logger_->isDebugEnabled()) {
-                self::$logger_->debug($this->getCompleteSql($element));
-            }
-            $con = $this->getConnection();
-            try {
-                return $this->execute($con, $element, $args);
-            } catch (S2Container_SQLException $ex) {
-                throw new S2Container_SQLRuntimeException($ex);
-            }
-            $con->close();
-        } else {
-            // $element is PrerareStatement...
-            if ($this->resultSetHandler_ == null) {
-                throw new S2Container_EmptyRuntimeException("resultSetHandler");
-            }
-            $resultSet = $this->createResultSet($element);
-            return $this->resultSetHandler_->handle($resultSet);
-            ResultSetUtil::close($resultSet);
-        }
-        */
-
-        $connection = $this->getConnection();
-        $ps = $this->prepareStatement($connection);
+    public function execute($element, $args){
+        $ps = $this->prepareStatement($this->getConnection());
         $ps->setFetchMode(PDO::FETCH_ASSOC);
+
         $this->bindArgs($ps, $element, $args);
-        $ps->execute();
 
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
             self::$logger_->debug($this->getCompleteSql($element));
         }
-        
         if ($this->resultSetHandler_ == null) {
             throw new S2Container_EmptyRuntimeException("resultSetHandler");
         }
-        //$resultSet = $this->createResultSet($element);
-        //return $this->resultSetHandler_->handle($resultSet);
-        return $this->resultSetHandler_->handle($ps);
+
+        try{
+            $resultSet = $this->createResultSet($ps);
+            return $this->resultSetHandler_->handle($ps);
+        } catch (S2Container_SQLException $ex) {
+            throw new S2Container_SQLRuntimeException($ex);
+        }
     }
 
     protected function setup($con, $args) {
@@ -116,22 +89,13 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     }
 
     protected function prepareStatement($connection) {
-        $ps = parent::prepareStatement($connection);
-        /*
-        if ($this->fetchSize_ > -1) {
-            //StatementUtil::setFetchSize($ps, $this->fetchSize_);
-        }
-        if ($this->maxRows_ > -1) {
-            //StatementUtil::setMaxRows($ps, $this->maxRows_);
-        }
-        */
-        return $ps;
+        return parent::prepareStatement($connection);
     }
 
     protected function setupDatabaseMetaData(DatabaseMetaData $dbMetaData) {
     }
 
-    protected function createResultSet($ps) {
+    protected function createResultSet(PDOStatement $ps) {
         return $this->resultSetFactory_->createResultSet($ps);
     }
 }

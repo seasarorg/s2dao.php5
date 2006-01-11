@@ -13,7 +13,7 @@ class S2Dao_BasicHandler {
         if( is_null($statementFactory) ){
             $this->setDataSource($ds);
             $this->setSql($sql);
-            $this->setStatementFactory("S2Dao_BasicStatementFactory");
+            $this->setStatementFactory(new S2Dao_BasicStatementFactory);
         } else {
             $this->setDataSource($ds);
             $this->setSql($sql);
@@ -47,14 +47,14 @@ class S2Dao_BasicHandler {
 
     protected function getConnection() {
         if ($this->dataSource_ == null) {
-            throw new S2Container_EmptyRuntimeException("dataSource");
+            throw new S2Container_EmptyRuntimeException('dataSource');
         }
         return S2Dao_DataSourceUtil::getConnection($this->dataSource_);
     }
 
     protected function prepareStatement(PDO $connection) {
         if ($this->sql_ == null) {
-            throw new S2Container_EmptyRuntimeException("sql");
+            throw new S2Container_EmptyRuntimeException('sql');
         }
         return $connection->prepare($this->sql_);
     }
@@ -66,7 +66,7 @@ class S2Dao_BasicHandler {
         $c = count($args);
         for ($i = 0; $i < $c; $i++) {
             try {
-                if( isset($argTypes[$i]) ){
+                if(isset($argTypes[$i])){
                     $ps->bindValue($i + 1, $args[$i], $this->getBindParamTypes($argTypes[$i]));
                 } else {
                     $ps->bindValue($i + 1, $args[$i]);
@@ -111,20 +111,20 @@ class S2Dao_BasicHandler {
     protected function getBindParamTypes($phpType){
         if($phpType == null){ return PDO::PARAM_INPUT_OUTPUT; }
         switch($phpType){
-            case "char":
-            case "string":
+            case 'char':
+            case 'string':
                 return PDO::PARAM_STR;
-            case "int":
-            case "integer":
+            case 'int':
+            case 'integer':
                 return PDO::PARAM_INT;
-            case "bool":
-            case "boolean":
+            case 'bool':
+            case 'boolean':
                 return PDO::PARAM_BOOL;
-            case "null":
+            case 'null':
                 return PDO::PARAM_NULL;
             default:
-            case "double":
-            case "float":
+            case 'double':
+            case 'float':
                 return PDO::PARAM_STMT;
         }
     }

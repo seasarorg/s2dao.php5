@@ -4,6 +4,6 @@
  * @author nowel
  */
 interface S2Dao_ResultSetFactory {
-    public function createResultSet($ps);
+    public function createResultSet(PDOStatement $ps);
 }
 ?>

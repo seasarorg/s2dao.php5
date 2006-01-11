@@ -1,7 +1,6 @@
 <?php
 require_once dirname(dirname(dirname(__FILE__))) . "/s2container.inc.php";
 require_once dirname(dirname(dirname(__FILE__))) . "/s2dao.inc.php";
-//require_once dirname(dirname(dirname(__FILE__))) . "/s2dao.phar.php";
 
 define("PDO_DICON", dirname(__FILE__) . "/resource/pdo.dicon");
 

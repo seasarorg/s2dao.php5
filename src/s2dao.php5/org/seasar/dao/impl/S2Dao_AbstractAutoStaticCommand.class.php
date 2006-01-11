@@ -118,12 +118,10 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
     }
 
     protected function checkPrimaryKey() {
-        /*
         $bmd = $this->getBeanMetaData();
         if ($bmd->getPrimaryKeySize() == 0) {
             throw new S2Dao_PrimaryKeyNotFoundRuntimeException($bmd->getBeanClass());
         }
-        */
     }
 
     protected function setupUpdateWhere(&$buf) {

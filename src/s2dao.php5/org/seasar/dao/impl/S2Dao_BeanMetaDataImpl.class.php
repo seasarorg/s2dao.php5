@@ -242,7 +242,10 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             $pkeyList = new S2Dao_ArrayList();
             $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet(
                                                $dbMetaData, $this->tableName_);
-            for ($i = 0; $i < $primaryKeySet->size(); ++$i) {
+
+            //$c = $primaryKeySet->size();
+            $c = $this->getPropertyTypeSize();
+            for ($i = 0; $i < $c; ++$i) {
                 $pt = $this->getPropertyType($i);
                 if ($primaryKeySet->contains($pt->getColumnName())) {
                     $pt->setPrimaryKey(true);
@@ -267,7 +270,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
 
         foreach($columnSet->toArray() as $columnName){
-            $col2 = str_replace("_", "", $columnName);
+            $col2 = str_replace('_', '', $columnName);
             for($i = 0; $i < $this->getPropertyTypeSize(); ++$i){
                 $pt = $this->getPropertyType($i);
                 if(0 == strcasecmp($pt->getColumnName(), $col2)){
@@ -304,7 +307,6 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                                                   S2Container_PropertyDesc $propertyDesc,
                                                   $dbMetaData,
                                                   S2Dao_Dbms $dbms) {
-
         $myKeys = array();
         $yourKeys = array();
         $relno = $this->beanAnnotationReader_->getRelationNo($propertyDesc);

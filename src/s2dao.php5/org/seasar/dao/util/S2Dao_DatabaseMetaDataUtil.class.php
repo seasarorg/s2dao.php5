@@ -5,21 +5,20 @@
  */
 final class S2Dao_DatabaseMetaDataUtil {
 
-    const PRIMARY_KEY = "primary_key";
-    //const REL_KEY = "foreign_key";
-    const REL_KEY = "multiple_key";
+    const PRIMARY_KEY = 'primary_key';
+    //const REL_KEY = 'foreign_key';
+    const REL_KEY = 'multiple_key';
 
     private function S2Dao_DatabaseMetaDataUtil() {
     }
 
     public static function getPrimaryKeys(PDO $dbMetaData,$tableName) {
-
         return $this->getPrimaryKeySet($dbMetaData, $tableName)->toArray();
     }
 
     public static function getPrimaryKeySet(PDO $dbMetaData, $tableName) {
         $schema = null;
-        $index = strpos(".", $tableName);
+        $index = strpos('.', $tableName);
         if ($index >= 0 && $index !== false) {
             $schema = substr($tableName, 0, $index);
             $tableName = substr($tableName, $index + 1);
@@ -47,8 +46,8 @@ final class S2Dao_DatabaseMetaDataUtil {
         try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
             foreach($rs as $col){
-                if(isset($col["flags"]) && in_array(self::PRIMARY_KEY, $col["flags"])){
-                    $set->add($col["name"]);
+                if(isset($col['flags']) && in_array(self::PRIMARY_KEY, $col['flags'])){
+                    $set->add($col['name']);
                 }
             }
         } catch (Exception $ex) {
@@ -62,7 +61,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     
     public static function getColumnSet(PDO $dbMetaData, $tableName) {
         $schema = null;
-        $index = strpos(".", $tableName);
+        $index = strpos('.', $tableName);
         if ($index >= 0 && $index !== false) {
             $schema = substr($tableName, 0, $index);
             $tableName = substr($tableName, $index + 1);
@@ -91,7 +90,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
             foreach($rs as $col){
-                $set->add($col["name"]);
+                $set->add($col['name']);
             }
         } catch (Exception $ex) {
             throw new S2Container_SQLRuntimeException($ex);
@@ -117,7 +116,7 @@ final class S2Dao_DatabaseMetaDataUtil {
 
     public static function getDatabaseProductName($dbMetaData) {
         try {
-            throw new Exception(__FILE__ . ":" . __METHOD__);
+            throw new Exception(__FILE__ . ':' . __METHOD__);
             return $dbMetaData->getDatabaseProductName();
         } catch (S2Container_SQLException $ex) {
             throw new S2Container_SQLRuntimeException($ex);
@@ -174,9 +173,9 @@ final class S2Dao_DatabaseMetaDataUtil {
         $stmt->execute();
         foreach($retVal as &$value){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if( is_array($row) && $row["name"] == $value["name"] ){
-                if( $row["pk"] == "1" ){
-                    $value["flags"] = (array)self::PRIMARY_KEY;
+            if( is_array($row) && $row['name'] == $value['name'] ){
+                if( $row['pk'] == '1' ){
+                    $value['flags'] = (array)self::PRIMARY_KEY;
                 }
             }
         }
@@ -188,8 +187,8 @@ final class S2Dao_DatabaseMetaDataUtil {
         $stmt->execute();
         foreach($retVal as &$value){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if( is_array($row) && $row["pkey"] == $value["name"] ){
-                $value["flags"] = (array)self::PRIMARY_KEY;
+            if( is_array($row) && $row['pkey'] == $value['name'] ){
+                $value['flags'] = (array)self::PRIMARY_KEY;
             }
         }
     }
@@ -202,12 +201,12 @@ final class S2Dao_DatabaseMetaDataUtil {
         $columns = $stmt->fetchAll(PDO::FETCH_NAMED);
         foreach($columns as $key => $column){
             $retVal[] = array(
-                            "name" => $key,
-                            "native_type" => array(),
-                            "flags" => null,
-                            "len" => -1,
-                            "precision" => 0,
-                            "pdo_type" => null,
+                            'name' => $key,
+                            'native_type' => array(),
+                            'flags' => null,
+                            'len' => -1,
+                            'precision' => 0,
+                            'pdo_type' => null,
                         );
         }
         return $retVal;
@@ -226,22 +225,22 @@ final class S2Dao_DatabaseMetaDataUtil {
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach($rows as $row){
             // FIXME hangup
-            $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\''.$row["COLUMN_NAME"].'\'', $colsql);
+            $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\''.$row['COLUMN_NAME'].'\'', $colsql);
             $stcol = $db->query($sql);
             $col = $stcol->fetch(PDO::FETCH_ASSOC);
 
             $flg = null;
-            if("P" == $col["CONSTRAINT_TYPE"]){
+            if('P' == $col['CONSTRAINT_TYPE']){
                 $flg = (array)self::PRIMARY_KEY;
             }
 
             $retVal[] = array(
-                            "name" => $row["COLUMN_NAME"],
-                            "native_type" => $row["DATA_TYPE"],
-                            "flags" => $flg,
-                            "len" => $row["CHAR_COL_DECL_LENGTH"],
-                            "precision" => $row["DATA_PRECISION"],
-                            "pdo_type" => null,
+                            'name' => $row['COLUMN_NAME'],
+                            'native_type' => $row['DATA_TYPE'],
+                            'flags' => $flg,
+                            'len' => $row['CHAR_COL_DECL_LENGTH'],
+                            'precision' => $row['DATA_PRECISION'],
+                            'pdo_type' => null,
                         );
         }
         return $retVal;

@@ -4,6 +4,6 @@
  * @author nowel
  */
 interface S2Dao_SelectHandler {
-    public function execute($element, $args = null, $argTypes = null);
+    public function execute($element, $args);
 }
 ?>

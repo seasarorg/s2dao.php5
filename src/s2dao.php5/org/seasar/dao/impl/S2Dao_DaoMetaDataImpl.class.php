@@ -183,9 +183,11 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $clz = $clazz->getDeclaringClass();
             if(null == $clz){
                 return false;
+            } else {
+                return true;
             }
-            return $this->beanClass_->isSubclassOf($clz->getName()) ||
-                   $clz->isSubclassOf($this->beanClass_->getName());
+//            return $this->beanClass_->isSubclassOf($clz->getName()) ||
+//                   $clz->isSubclassOf($this->beanClass_->getName());
         } else {
             return false;
         }

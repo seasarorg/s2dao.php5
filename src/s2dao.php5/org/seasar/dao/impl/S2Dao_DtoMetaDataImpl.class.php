@@ -35,9 +35,8 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     public function getPropertyType($index) {
         if(is_integer($index)){
-            $array = array_slice($this->propertyTypes_, $index, 1);
-            $key = key($array);
-            return $array[$key];
+            $array = array_values($this->propertyTypes_);
+            return $array[$index];
         } else {
             $propertyType = $this->propertyTypes_[$index];
             if ($propertyType == null) {

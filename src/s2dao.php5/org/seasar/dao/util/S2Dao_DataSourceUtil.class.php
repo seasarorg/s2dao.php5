@@ -5,7 +5,7 @@
  */
 final class S2Dao_DataSourceUtil {
 
-    private function S2Dao_DataSourceUtil() {
+    private function __construct() {
     }
 
     public static function getConnection(S2Container_DataSource $dataSource) {

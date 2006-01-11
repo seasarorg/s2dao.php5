@@ -5,7 +5,7 @@
  */
 class S2Dao_BasicResultSetFactory implements S2Dao_ResultSetFactory {
     
-    public function createResultSet($ps) {
+    public function createResultSet(PDOStatement $ps) {
         return $ps->execute();
     }
 }
