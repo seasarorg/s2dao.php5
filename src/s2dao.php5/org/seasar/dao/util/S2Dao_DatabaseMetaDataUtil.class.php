@@ -135,7 +135,7 @@ final class S2Dao_DatabaseMetaDataUtil {
 
         // {{{
         // dbms instanceof Firebird/Oracle
-        if($dbms instanceof S2Dao_FireBird){
+        if($dbms instanceof S2Dao_Firebird){
             return self::firebird_metadata($db, $dbms, $table);
         } else if($dbms instanceof S2Dao_Oracle){
             return self::oracle_metadata($db, $dbms, $table);
@@ -155,8 +155,6 @@ final class S2Dao_DatabaseMetaDataUtil {
             self::sqlite_metadata($db, $dbms, $table, $retVal);
         } else if($dbms instanceof S2Dao_PostgreSQL){
             self::pg_metadata($db, $dbms, $table, $retVal);
-        } else if($dbms instanceof S2Dao_Firebird){
-                self::fb_metadata($db, $dbms, $table, $retVal);
         }
 
         return $retVal;
