@@ -81,10 +81,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $dbmsPath = $base . $this->dbms_->getSuffix() . '.sql';
         $standardPath = $base . '.sql';
 
-        if ( file_exists($dbmsPath) ) {
+        if (file_exists($dbmsPath)) {
             $sql = file_get_contents($dbmsPath);
             $this->setupMethodByManual($method, $sql);
-        } else if ( file_exists($standardPath) ) {
+        } else if (file_exists($standardPath)) {
             $sql = file_get_contents($standardPath);
             $this->setupMethodByManual($method, $sql);
         } else {
@@ -169,27 +169,30 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected function createResultSetHandler(ReflectionMethod $method) {
         if( $this->isSelectList($method->getName()) ){
             return new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_);
-        } else if( $this->isBeanClassAssignable($method) ){
-            return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
         } else if( $this->isSelectArray($method->getName()) ){
             return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
+        } else if( $this->isBeanClassAssignable($method) ){
+            return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
         } else {
             return new S2Dao_ObjectResultSetHandler();
         }
     }
 
-    protected function isBeanClassAssignable($clazz) {
-        if($clazz instanceof ReflectionMethod){
-            $clz = $clazz->getDeclaringClass();
-            if(null == $clz){
-                return false;
-            } else {
-                return true;
-            }
+    protected function isBeanClassAssignable($clazz = null) {
+        if($clazz instanceof ReflectionClass){
 //            return $this->beanClass_->isSubclassOf($clz->getName()) ||
 //                   $clz->isSubclassOf($this->beanClass_->getName());
-        } else {
+            return $clazz;
+        } else if($clazz instanceof ReflectionMethod){
+            return $this->isBeanClassAssignable($clazz->getDeclaringClass());
+        } else if($clazz instanceof ReflectionParameter){
+            return $this->isBeanClassAssignable($clazz->getClass());
+        }
+
+        if($clazz === null){
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -219,7 +222,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $exceptionTypes = $method->getExceptionTypes();
         if ($exceptionTypes != null) {
             foreach($exceptionTypes as $exceptionType){
-                if( strpos($exceptionType->getName(), self::NOT_SINGLE_ROW_UPDATED) >= 0 ){
+                if(strpos($exceptionType->getName(), self::NOT_SINGLE_ROW_UPDATED) >= 0){
                     return $exceptionType;
                 }
             }

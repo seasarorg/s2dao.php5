@@ -63,6 +63,7 @@ class S2Dao_BasicHandler {
         if ($args === null) {
             return;
         }
+
         $c = count($args);
         for ($i = 0; $i < $c; $i++) {
             try {

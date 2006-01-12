@@ -12,6 +12,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     private $timestamp_;
     private $versionNo_;
     private $propertyTypes_;
+    private $beanCache_ = null;
 
     public function __construct(S2Container_DataSource $dataSource,
                                 S2Dao_StatementFactory $statementFactory = null,
@@ -74,37 +75,63 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
         $this->propertyTypes_ = $propertyTypes;
     }
 
-    public function execute(array $args, $arg2 = null) {
-        $bean = $args[0];
-        $connection = $this->getConnection();
+    public function execute($args, $arg2 = null) {
+        if(is_array($args)){
+            $bean = $args[0];
+            // {{{
+            // oracle...
+            // FIXME -- pdo_oci bugs ??
+            $oci = false;
+            if(preg_match('/dsn = oci:/', $this->getDataSource()->__toString())){
+                $oci = true;
+            }
+            // return oracle result set
+            // else
+            // }}}
 
-        $ps = $this->prepareStatement($connection);
-        $ps->setFetchMode(PDO::FETCH_ASSOC);
+            $this->beanCache_ = $bean;
+            $this->preUpdateBean($bean);
+            $this->setupBindVariables($bean);
 
-        $this->preUpdateBean($bean);
-        $this->setupBindVariables($bean);
+            if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
+                $this->getLogger()->debug(
+                    $this->getCompleteSql($this->bindVariables_)
+                );
+            }
 
-        if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
-            $this->getLogger()->debug(
-                $this->getCompleteSql($this->bindVariables_)
-            );
+            return $this->execute($this->getConnection(), $oci);
+        } else if($args instanceof PDO && is_bool($arg2)){
+            $ps = null;
+            if($arg2){
+                $ps = $args->prepare($this->getCompleteSql($this->bindVariables_));
+            } else {
+                $ps = $this->prepareStatement($args);
+            }
+            $ps->setFetchMode(PDO::FETCH_ASSOC);
+            return $this->execute($ps, $arg2);
+        } else if($args instanceof PDOStatement && is_bool($arg2)){
+            try {
+                if(!$arg2){
+                    $this->bindArgs($args, $this->bindVariables_, $this->bindVariableTypes_);
+                }
+                $result = $args->execute();
+            } catch(Exception $e){
+                throw $e;
+            }
+
+            $ret = -1;
+            if($result === false){
+                $this->getLogger()->error($args->errorCode(), __METHOD__);
+                $this->getLogger()->error(print_r($args->errorInfo()), __METHOD__);
+                unset($args);
+                throw new Exception();
+            } else {
+                $ret = $args->rowCount();
+            }
+
+            $this->postUpdateBean($this->beanCache_);
+            return $ret;
         }
-
-        $ret = -1;
-        $this->bindArgs($ps, $this->bindVariables_, $this->bindVariableTypes_);
-        $result = $ps->execute();
-
-        if($result === false){
-            $this->getLogger()->error($ps->errorCode(), __METHOD__);
-            $this->getLogger()->error(print_r($ps->errorInfo()), __METHOD__);
-            unset($connection);
-            throw new Exception();
-        } else {
-            $ret = $ps->rowCount();
-        }
-
-        $this->postUpdateBean($bean);
-        return $ret;
     }
 
     protected function preUpdateBean($bean) {
@@ -113,12 +140,11 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     protected function postUpdateBean($bean) {
     }
 
-    protected function setupBindVariables($bean){}
+    protected abstract function setupBindVariables($bean);
 
     protected function setupInsertBindVariables($bean) {
         $varList = new S2Dao_ArrayList();
         $varTypeList = new S2Dao_ArrayList();
-
         $c = count($this->propertyTypes_);
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];

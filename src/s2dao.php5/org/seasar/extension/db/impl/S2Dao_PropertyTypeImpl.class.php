@@ -13,24 +13,21 @@ class S2Dao_PropertyTypeImpl implements S2Dao_PropertyType {
     private $persistent_ = true;
 
     public function __construct($propertyDesc, $valueType = null, $columnName = null) {
-        if( $propertyDesc instanceof S2Container_PropertyDesc && isset($valueType, $columnName) ){
+        if($propertyDesc instanceof S2Container_PropertyDesc){
             $this->propertyDesc_ = $propertyDesc;
             $this->propertyName_ = $propertyDesc->getPropertyName();
-            $this->valueType_ = $valueType;
-            $this->columnName_ = $columnName;
-        } else if( $propertyDesc instanceof S2Container_PropertyDesc
-                            && isset($valueType) && is_null($columnName) ){
-            $this->propertyDesc_ = $propertyDesc;
-            $this->valueType_ = $valueType;
             $this->columnName_ = $propertyDesc->getPropertyName();
-        } else if( is_string($propertyDesc) && isset($valueType) ){
+        } else if(is_string($propertyDesc)){
             $this->propertyName_ = $propertyDesc;
-            $this->valueType_ = $valueType;
             $this->columnName_ = $propertyDesc;
+        }
+
+        if($valueType !== null){
+            $this->valueType_ = $valueType;
         } else {
-            $this->propertyDesc_ = $propertyDesc;
             $this->valueType_ = "ValueTypes";
-            $this->propertyName_ = $propertyDesc->getPropertyName();
+        }
+        if($columnName !== null){
             $this->columnName_ = $columnName;
         }
     }

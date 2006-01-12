@@ -22,7 +22,7 @@ class S2DaoInterceptor extends S2Container_AbstractInterceptor {
             $dmd = $this->daoMetaDataFactory_->getDaoMetaData($targetClass);
             $cmd = $dmd->getSqlCommand($method->getName());
             $ret = $cmd->execute($invocation->getArguments());
-            
+
             return $ret;
         } catch (Exception $e){
             throw $e;

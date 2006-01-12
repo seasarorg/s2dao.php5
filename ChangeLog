@@ -1,3 +1,11 @@
+2006-01-13 nowel <nowel@xole.net>
+
+    * S2Dao_PropertyTypeImpl を修正しました。
+    * S2Dao_AbstractAutoHandler を修正しました。(Oracle対応)
+    * Array_***, find*** メソッド利用時の結果セットを正しく返すように修正しました。
+    * Oracle 使用時のバグを修正しました。
+        - Oracle での Null の扱いについては pdo.dicon の optionで設定してください
+
 2006-01-12 nowel <nowel@xole.net>
 
     * Oracle 利用可能になりました。(alpha)
@@ -22,8 +30,6 @@
     * example/shelf_*.php を修正しました。
         プロパティ addtime が add*METHOD* に衝突するので
         prop_COLUMN プロパティを行うように修正しています。
-
-    * TODO: add*** プロパティとメソッドの衝突に対する対処
 
 2005-12-20 nowel <nowel@xole.net>
 
