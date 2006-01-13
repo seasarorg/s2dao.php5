@@ -16,5 +16,11 @@
     <component class="ShelfDao">
         <aspect>dao.interceptor</aspect>
     </component>
+
+    <!--
+    <component name="cdRecord" class="CdFoo">
+        <aspect>dao.activerecord</aspect>
+    </component>
+    -->
     
 </components>
