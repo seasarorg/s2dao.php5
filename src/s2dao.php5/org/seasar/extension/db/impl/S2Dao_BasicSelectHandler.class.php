@@ -66,9 +66,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     public function execute($element, $args){
         $ps = $this->prepareStatement($this->getConnection());
         $ps->setFetchMode(PDO::FETCH_ASSOC);
-
         $this->bindArgs($ps, $element, $args);
-
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
             self::$logger_->debug($this->getCompleteSql($element));
         }

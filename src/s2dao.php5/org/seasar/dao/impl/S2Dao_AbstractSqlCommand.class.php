@@ -40,5 +40,6 @@ abstract class S2Dao_AbstractSqlCommand implements S2Dao_SqlCommand {
     public function setNotSingleRowUpdatedExceptionClass($notSingleRowUpdatedExceptionClass) {
         $this->notSingleRowUpdatedExceptionClass_ = $notSingleRowUpdatedExceptionClass;
     }
+
 }
 ?>

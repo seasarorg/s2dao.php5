@@ -24,8 +24,6 @@ class S2Dao_PropertyTypeImpl implements S2Dao_PropertyType {
 
         if($valueType !== null){
             $this->valueType_ = $valueType;
-        } else {
-            $this->valueType_ = "ValueTypes";
         }
         if($columnName !== null){
             $this->columnName_ = $columnName;
@@ -50,6 +48,10 @@ class S2Dao_PropertyTypeImpl implements S2Dao_PropertyType {
 
     public function getValueType() {
         return $this->valueType_;
+    }
+
+    public function setValueType($type) {
+        $this->valueType_ = $type;
     }
 
     public function isPrimaryKey() {

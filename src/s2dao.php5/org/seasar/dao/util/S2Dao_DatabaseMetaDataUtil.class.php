@@ -195,10 +195,9 @@ final class S2Dao_DatabaseMetaDataUtil {
 
     private function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
         $retVal = array();
-        $stmt = $db->prepare($dbms->getTableInfoSql());
-        $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table);
-        $stmt->execute();
-        $columns = $stmt->fetchAll(PDO::FETCH_NAMED);
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
+        $stmt = $db->query($sql);
+        $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach($columns as $key => $column){
             $retVal[] = array(
                             'name' => $key,

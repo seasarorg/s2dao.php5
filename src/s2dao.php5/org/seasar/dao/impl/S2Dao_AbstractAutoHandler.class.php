@@ -20,7 +20,6 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
                                 $propertyTypes) {
 
         self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
-
         $this->setDataSource($dataSource);
         $this->setStatementFactory($statementFactory);
         $this->beanMetaData_ = $beanMetaData;
@@ -78,19 +77,9 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     public function execute($args, $arg2 = null) {
         if(is_array($args)){
             $bean = $args[0];
-            // {{{
-            // oracle...
-            // FIXME -- pdo_oci bugs ??
-            $oci = false;
-            if(preg_match('/dsn = oci:/', $this->getDataSource()->__toString())){
-                $oci = true;
-            }
-            // return oracle result set
-            // else
-            // }}}
-
             $this->beanCache_ = $bean;
             $this->preUpdateBean($bean);
+            $this->setupPropertyTypes($bean);
             $this->setupBindVariables($bean);
 
             if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
@@ -99,21 +88,14 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
                 );
             }
 
-            return $this->execute($this->getConnection(), $oci);
+            return $this->execute($this->getConnection(), false);
         } else if($args instanceof PDO && is_bool($arg2)){
-            $ps = null;
-            if($arg2){
-                $ps = $args->prepare($this->getCompleteSql($this->bindVariables_));
-            } else {
-                $ps = $this->prepareStatement($args);
-            }
+            $ps = $this->prepareStatement($args);
             $ps->setFetchMode(PDO::FETCH_ASSOC);
             return $this->execute($ps, $arg2);
         } else if($args instanceof PDOStatement && is_bool($arg2)){
             try {
-                if(!$arg2){
-                    $this->bindArgs($args, $this->bindVariables_, $this->bindVariableTypes_);
-                }
+                $this->bindArgs($args, $this->bindVariables_, $this->bindVariableTypes_);
                 $result = $args->execute();
             } catch(Exception $e){
                 throw $e;
@@ -142,6 +124,15 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
 
     protected abstract function setupBindVariables($bean);
 
+    protected function setupPropertyTypes($bean){
+        $c = count($this->propertyTypes_);
+        for($i = 0; $i < $c; $i++){
+            $pt = $this->propertyTypes_[$i];
+            $value = $pt->getPropertyDesc()->getValue($bean);
+            $pt->setValueType(gettype($value));
+        }
+    }
+
     protected function setupInsertBindVariables($bean) {
         $varList = new S2Dao_ArrayList();
         $varTypeList = new S2Dao_ArrayList();
@@ -159,7 +150,8 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             } else {
                 $varList->add($pt->getPropertyDesc()->getValue($bean));
             }
-            $varTypeList->add($pt->getPropertyDesc()->getPropertyType());
+            //$varTypeList->add($pt->getPropertyDesc()->getPropertyType());
+            $varTypeList->add($pt->getValueType());
         }
         $this->setBindVariables($varList->toArray());
         $this->setBindVariableTypes($varTypeList->toArray());
@@ -184,7 +176,8 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             } else {
                 $varList->add($pt->getPropertyDesc()->getValue($bean));
             }
-            $varTypeList->add($pt->getPropertyDesc()->getPropertyType());
+            //$varTypeList->add($pt->getPropertyDesc()->getPropertyType());
+            $varTypeList->add($pt->getValueType());
         }
         $this->addAutoUpdateWhereBindVariables($varList, $varTypeList, $bean);
         $this->setBindVariables($varList->toArray());
@@ -205,19 +198,22 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             $pt = $bmd->getPropertyTypeByColumnName($bmd->getPrimaryKey($i));
             $pd = $pt->getPropertyDesc();
             $varList->add($pd->getValue($bean));
-            $varTypeList->add($pd->getPropertyType());
+            //$varTypeList->add($pd->getPropertyType());
+            $varTypeList->add($pt->getValueType());
         }
         if ($bmd->hasVersionNoPropertyType()) {
             $pt = $bmd->getVersionNoPropertyType();
             $pd = $pt->getPropertyDesc();
             $varList->add($pd->getValue($bean));
-            $varTypeList->add($pd->getPropertyType());
+            //$varTypeList->add($pd->getPropertyType());
+            $varTypeList->add($pt->getValueType());
         }
         if ($bmd->hasTimestampPropertyType()) {
             $pt = $bmd->getTimestampPropertyType();
             $pd = $pt->getPropertyDesc();
             $varList->add($pd->getValue($bean));
-            $varTypeList->add($pd->getPropertyType());
+            //$varTypeList->add($pd->getPropertyType());
+            $varTypeList->add($pt->getValueType());
         }
     }
 

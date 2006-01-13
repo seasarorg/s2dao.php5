@@ -66,8 +66,9 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
         if($ca != null){
             $columnName = $ca;
         }
-        $valueType = $propertyDesc->getPropertyType();
-        return new S2Dao_PropertyTypeImpl($propertyDesc, $valueType, $columnName);
+        //$valueType = $propertyDesc->getPropertyType();
+        //return new S2Dao_PropertyTypeImpl($propertyDesc, $valueType, $columnName);
+        return new S2Dao_PropertyTypeImpl($propertyDesc, null, $columnName);
     }
 
     protected function addPropertyType(S2Dao_PropertyType $propertyType) {

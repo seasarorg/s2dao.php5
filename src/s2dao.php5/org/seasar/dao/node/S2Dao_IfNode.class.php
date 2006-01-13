@@ -33,7 +33,7 @@ class S2Dao_IfNode extends S2Dao_ContainerNode {
         $result = eval($expression);
 
         if (is_bool($result)) {
-            if ( $result === true ) {
+            if ($result) {
                 parent::accept($ctx);
                 $ctx->setEnabled(true);
             } else if ($this->elseNode_ != null) {

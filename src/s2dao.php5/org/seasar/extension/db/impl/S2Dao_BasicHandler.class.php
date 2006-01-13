@@ -10,7 +10,7 @@ class S2Dao_BasicHandler {
     private $statementFactory_ = null;
 
     public function __construct(S2Container_DataSource $ds, $sql, $statementFactory = null) {
-        if( is_null($statementFactory) ){
+        if(is_null($statementFactory)){
             $this->setDataSource($ds);
             $this->setSql($sql);
             $this->setStatementFactory(new S2Dao_BasicStatementFactory);
