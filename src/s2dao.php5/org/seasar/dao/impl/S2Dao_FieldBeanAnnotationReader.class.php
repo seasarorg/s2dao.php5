@@ -37,7 +37,7 @@ class S2Dao_FieldBeanAnnotationReader implements S2Dao_BeanAnnotationReader {
         return null;
     }
 
-    public function getVersionNoProteryNameAnnotation() {
+    public function getVersionNoPropertyNameAnnotation() {
         if ($this->beanDesc_->hasConstant(self::VERSION_NO_PROPERTY)) {
             return $this->beanDesc_->getConstant(self::VERSION_NO_PROPERTY);
         }

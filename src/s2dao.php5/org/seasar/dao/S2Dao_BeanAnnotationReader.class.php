@@ -8,7 +8,7 @@ interface S2Dao_BeanAnnotationReader {
 
     function getTableAnnotation();
 
-    function getVersionNoProteryNameAnnotation();
+    function getVersionNoPropertyNameAnnotation();
 
     function getTimestampPropertyName();
 

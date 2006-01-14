@@ -558,7 +558,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         foreach( $clazz->getInterfaces() as $interface ){
             $c = count($interface);
             for($i = 0; $i < $c; ++$i){
-                if( ereg('Dao$', $interface->getName()) ) {
+                if(ereg('Dao$', $interface->getName())) {
                     return $interface;
                 }
             }

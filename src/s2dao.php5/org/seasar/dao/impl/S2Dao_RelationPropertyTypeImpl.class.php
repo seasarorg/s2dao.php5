@@ -15,12 +15,10 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
                                 S2Dao_BeanMetaData $beanMetaData){
 
         parent::__construct($propertyDesc);
-        if( isset($relationNo, $myKeys, $dbMetaData, $beanMetaData) ){
-            $this->relationNo_ = $relationNo;
-            $this->myKeys_ = $myKeys;
-            $this->yourKeys_ = $yourKeys;
-            $this->beanMetaData_ = $beanMetaData;
-        }
+        $this->relationNo_ = $relationNo;
+        $this->myKeys_ = $myKeys;
+        $this->yourKeys_ = $yourKeys;
+        $this->beanMetaData_ = $beanMetaData;
     }
 
     public function getRelationNo() {

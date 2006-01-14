@@ -20,9 +20,8 @@ class S2Dao_Standard implements S2Dao_Dbms {
         $buf .= $beanMetaData->getAutoSelectList();
         $buf .= ' ';
 
-        $beanClass = new ReflectionClass($beanMetaData->getBeanClass());
-        $beanName = $beanClass->getName();
-        $fromClause = (string)$this->autoSelectFromClauseCache_->get($beanName);
+        $beanName = $beanMetaData->getBeanClass()->getName();
+        $fromClause = $this->autoSelectFromClauseCache_->get($beanName);
         if ($fromClause == null) {
             $fromClause = $this->createAutoSelectFromClause($beanMetaData);
             $this->autoSelectFromClauseCache_->put($beanName, $fromClause);
@@ -32,8 +31,7 @@ class S2Dao_Standard implements S2Dao_Dbms {
     }
 
     protected function createAutoSelectFromClause(S2Dao_BeanMetaData $beanMetaData) {
-        $buf = '';
-        $buf .= 'FROM ';
+        $buf = 'FROM ';
 
         $myTableName = $beanMetaData->getTableName();
         $buf .= $myTableName;
@@ -60,7 +58,7 @@ class S2Dao_Standard implements S2Dao_Dbms {
                 $buf .= $rpt->getYourKey($j);
                 $buf .= ' AND ';
             }
-            $buf = preg_match('/ AND $/', '', $buf);
+            $buf = preg_replace('/( AND )$/', '', $buf);
         }
 
         return $buf;

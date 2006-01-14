@@ -1,3 +1,17 @@
+2006-01-15 nowel <nowel@xole.net>
+
+    * N:1 マッピングに対応しました。
+        ***_RELNO アノテーション, ***_RELKEYS アノテーションに対応しました。
+
+    * ***_ARGS アノテーションが指定されない場合に、メソッドの引数名を使用するように変更しました。
+        - JAVA では メソッドの引数名に対してリフレクションできませんでしたが、PHP5.1.x では
+        　可能であるため、対応させました。
+            現段階では、メソッドの初期値に null が設定されている場合には設定しません。
+
+        ex)
+            method_SQL = "select * from hoge where foo = /*id*/ and bar = /*bar*/
+            public function method($id, $bar);
+
 2006-01-13 nowel <nowel@xole.net>
 
     * S2Dao_PropertyTypeImpl を修正しました。

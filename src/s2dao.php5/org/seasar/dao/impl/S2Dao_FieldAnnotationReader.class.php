@@ -15,7 +15,7 @@ class S2Dao_FieldAnnotationReader {
 
     protected $daoBeanDesc_;
 
-    public function __construct(S2Container_BeanDesc $daoBeanDesc) {
+    private function __construct(S2Container_BeanDesc $daoBeanDesc) {
         $this->daoBeanDesc_ = $daoBeanDesc;
     }
 

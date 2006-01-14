@@ -11,7 +11,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     public function __construct($beanClass,
                                 S2Dao_BeanAnnotationReader $beanAnnotationReader) {
-        if( 0 == count(func_get_args) ){
+        if(0 == count(func_get_args)){
             $this->beanAnnotationReader_ = $beanAnnotationReader;
             $this->beanClass_ = $beanClass;
             $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
@@ -41,7 +41,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
             $propertyType = $this->propertyTypes_[$index];
             if ($propertyType == null) {
                 throw new S2Container_PropertyNotFoundRuntimeException(
-                                $this->beanClass_, $propertyType);
+                                $this->getBeanClass(), $propertyType);
             }
             return $propertyType;
         }

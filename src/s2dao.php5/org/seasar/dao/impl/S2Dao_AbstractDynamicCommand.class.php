@@ -47,7 +47,7 @@ abstract class S2Dao_AbstractDynamicCommand extends S2Dao_AbstractSqlCommand {
         if ($args != null) {
             for ($i = 0; $i < count($args); ++$i) {
                 $argType = null;
-                //if ($args[$i] != null)
+                if ($args[$i] != null)
                 if ($i < count($this->argTypes_)) {
                     $argType = $this->argTypes_[$i];
                 } else if ($args[$i] != null) {

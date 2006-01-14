@@ -22,9 +22,22 @@ class S2Dao_FieldDaoAnnotationReader implements S2Dao_DaoAnnotationReader {
         $argsKey = $method->getName() . self::ARGS_SUFFIX;
         if ($this->daoBeanDesc_->hasConstant($argsKey)) {
             $argNames = $this->daoBeanDesc_->getConstant($argsKey);
-            return S2Dao_FieldAnnotationReader::spacetrim(explode(",", $argNames));
+            return S2Dao_FieldAnnotationReader::spacetrim(explode(',', $argNames));
         } else {
-            return array();
+            $params = array();
+            foreach($method->getParameters() as $param){
+                if(!$param->isDefaultValueAvailable()){
+                    $params[] = $param->getName();
+                } else {
+                    $defparam = $param->getDefaultValue();
+                    if(is_null($defparam)){
+                        return array();
+                    } else {
+                        $params[] = $param->getName();
+                    }
+                }
+            }
+            return $params;
         }
     }
 
