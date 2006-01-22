@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd">
+<components>
+    <include path="%S2DAO_PHP5%/dao.dicon" />
+    <component class="EmployeeDao">
+            <aspect>dao.interceptor</aspect>
+    </component>
+</components>
