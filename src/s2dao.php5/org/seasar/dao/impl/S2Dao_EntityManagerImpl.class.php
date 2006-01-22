@@ -18,7 +18,7 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     }
 
     public function find($query, $args = null, $arg2 = null, $arg3 = null) {
-        switch( count(func_get_args()) ){
+        switch(count(func_get_args())){
             case 1:
                 return $this->find($query, self::$EMPTY_ARGS);
             case 2:

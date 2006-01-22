@@ -122,6 +122,7 @@ class S2Dao_BasicHandler {
             case 'boolean':
                 return PDO::PARAM_BOOL;
             case 'null':
+            case 'NULL':
                 return PDO::PARAM_NULL;
             default:
             case 'double':

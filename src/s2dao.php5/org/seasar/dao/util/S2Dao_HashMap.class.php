@@ -16,7 +16,7 @@ class S2Dao_HashMap {
     }
     
     public function get($object){
-        if( isset($this->element[$object]) ){
+        if(isset($this->element[$object])){
             return $this->element[$object];
         } else {
             return null;

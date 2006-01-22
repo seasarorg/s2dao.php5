@@ -18,14 +18,12 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
     protected function createRow(array $resultSet){
         $row = $this->beanMetaData_->getBeanClass()->newInstance();
         $columnNames = new S2Dao_ArrayList(array_keys($resultSet));
-        foreach($resultSet as $column => $value){
-            $pt = $this->beanMetaData_->getPropertyTypeByColumnName($column);
-            
-            if( $pt === null ){
-                continue;
-            }
-
+        
+        $c = $this->beanMetaData_->getPropertyTypeSize();
+        for($i = 0; $i < $c; ++$i) {
+            $pt = $this->beanMetaData_->getPropertyType($i);
             if ($columnNames->contains($pt->getColumnName())) {
+                $value = $resultSet[$pt->getColumnName()];
                 $pd = $pt->getPropertyDesc();
                 $pd->setValue($row, $value);
             } else if (!$pt->isPersistent()) {
@@ -33,6 +31,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                     $columnName = $iter->current();
                     $columnName2 = str_replace("_", "", $columnName);
                     if (strcasecmp($columnName2, $pt->getColumnName()) == 0 ) {
+                        $value = $resultSet[$pt->getColumnName()];
                         $pd = $pt->getPropertyDesc();
                         $pd->setValue($row, $value);
                         break;
@@ -40,6 +39,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                 }
             }
         }
+
         return $row;
     }
 
@@ -53,8 +53,8 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
         for ($i = 0; $i < $rpt->getKeySize(); ++$i) {
             $columnName = $rpt->getMyKey($i);
             if ($columnNames->contains($columnName)) {
-                if ($row == null) {
-                    $row = S2Container_ClassUtil::newInstance($rpt->getPropertyDesc()->getPropertyType());
+                if ($row === null) {
+                    $row = $bmd->getBeanClass()->newInstance();
                 }
                 if ($relKeyValues != null && $relKeyValues->containsKey($columnName)) {
                     $value = $relKeyValues->get($columnName);
@@ -73,21 +73,19 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
             if (!$columnNames->contains($columnName)) {
                 continue;
             }
-            if ($row == null) {
-                $row = ClassUtil::newInstance($rpt->getPropertyDesc()->getPropertyType());
+            if ($row === null) {
+                $row = $bmd->getBeanClass()->newInstance();
             }
             $value = null;
             if ($relKeyValues != null && $relKeyValues->containsKey($columnName)) {
                 $value = $relKeyValues->get($columnName);
             } else {
-                $valueType = $pt->getValueType();
-                $value = $valueType->getValue($rs, $columnName);
+                $value = $resultSet[$columnName];
             }
             $pd = $pt->getPropertyDesc();
             if ($value != null) {
                 $pd->setValue($row, $value);
             }
-
         }
         return $row;
     }

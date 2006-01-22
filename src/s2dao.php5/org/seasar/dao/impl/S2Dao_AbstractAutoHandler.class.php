@@ -128,7 +128,19 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
         $c = count($this->propertyTypes_);
         for($i = 0; $i < $c; $i++){
             $pt = $this->propertyTypes_[$i];
-            $value = $pt->getPropertyDesc()->getValue($bean);
+
+            // FIXME
+            $bd = $pt->getPropertyDesc()->getBeanDesc();
+            $methods = $bd->getMethodNames();
+            $length = count($methods);
+            for($j = 0; $j < $length; $j++){
+                $regex = "/(get" . $pt->getPropertyName() . ")/i";
+                if(preg_match($regex, $methods[$j], $m)){
+                    if($bean->$m[1]() !== null){
+                        $value = $pt->getPropertyDesc()->getValue($bean);
+                    }
+                }
+            }
             $pt->setValueType(gettype($value));
         }
     }
@@ -170,7 +182,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             } else if ($pt->getPropertyName() ===
                     $this->getBeanMetaData()->getVersionNoPropertyName()) {
                 $value = $pt->getPropertyDesc()->getValue($bean);
-                $intValue = IntegerConversionUtil::toPrimitiveInt($value) + 1;
+                $intValue = (int)$value + 1;
                 $this->setVersionNo($intValue);
                 $varList->add($this->getVersionNo());
             } else {
@@ -218,14 +230,14 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     }
 
     protected function updateTimestampIfNeed($bean) {
-        if ($this->getTimestamp() != null) {
+        if ($this->getTimestamp() !== null) {
             $pd = $this->getBeanMetaData()->getTimestampPropertyType()->getPropertyDesc();
             $pd->setValue($bean, $this->getTimestamp());
         }
     }
 
     protected function updateVersionNoIfNeed($bean) {
-        if ($this->getVersionNo() != null) {
+        if ($this->getVersionNo() !== null) {
             $pd = $this->getBeanMetaData()->getVersionNoPropertyType()->getPropertyDesc();
             $pd->setValue($bean, $this->getVersionNo());
         }

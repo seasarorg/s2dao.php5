@@ -17,7 +17,7 @@ class S2DaoInterceptor extends S2Container_AbstractInterceptor {
             if (!S2Container_MethodUtil::isAbstract($method)) {
                 return $invocation->proceed();
             }
-            
+
             $targetClass = $this->getTargetClass($invocation);
             $dmd = $this->daoMetaDataFactory_->getDaoMetaData($targetClass);
             $cmd = $dmd->getSqlCommand($method->getName());

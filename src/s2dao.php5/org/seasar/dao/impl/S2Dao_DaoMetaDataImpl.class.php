@@ -219,14 +219,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function getNotSingleRowUpdatedExceptionClass(ReflectionMethod $method) {
-        $exceptionTypes = $method->getExceptionTypes();
-        if ($exceptionTypes != null) {
-            foreach($exceptionTypes as $exceptionType){
-                if(strpos($exceptionType->getName(), self::NOT_SINGLE_ROW_UPDATED) >= 0){
-                    return $exceptionType;
-                }
-            }
-        }
         return null;
     }
 
@@ -345,9 +337,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $cmd = $this->createSelectDynamicCommand($handler);
             $sql = null;
             if (count($argNames) == 0 && count($method->getParameters()) == 1) {
-                //$argNames = array("dto");
+                $argNames = array("dto");
 
-                //$types = $method->getParameters();
                 $param = $method->getParameters();
                 $types = $param[0]->getClass();
 

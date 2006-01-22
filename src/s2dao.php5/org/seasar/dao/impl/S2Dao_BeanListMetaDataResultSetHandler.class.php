@@ -50,9 +50,9 @@ class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataR
         $columnNames = new S2Dao_ArrayList(array_keys($resultSet));
         $bmd = $rpt->getBeanMetaData();
         for ($i = 0; $i < $rpt->getKeySize(); ++$i) {
-            $pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
-            $valueType = $pt->getValueType();
-            $columnName = $pt->getColumnName() . "_" . $rpt->getRelationNo();
+            //$pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
+            //$valueType = $pt->getValueType();
+            //$columnName = $pt->getColumnName() . "_" . $rpt->getRelationNo();
             $valueType = null;
             $columnName = $rpt->getMyKey($i);
             if ($columnNames->contains($columnName)) {
@@ -60,17 +60,17 @@ class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataR
                 $valueType = $pt->getValueType();
             } else {
                 $pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
-                $columnName = $pt->getColumnName() + "_" + $rpt->getRelationNo();
+                $columnName = $pt->getColumnName() . "_" . $rpt->getRelationNo();
                 if ($columnNames->contains($columnName)) {
                     $valueType = $pt->getValueType();
                 } else {
                     return null;
                 }
             }
-            $value = $valueType->getValue($rs, $columnName);
-            if ($value == null) {
+            if(!isset($resultSet[$columnName])){
                 return null;
             }
+            $value = $resultSet[$columnName];
             $relKeyValues->put($columnName, $value);
             $keyList->add($value);
         }

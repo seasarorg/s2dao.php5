@@ -71,7 +71,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
     public function getPropertyTypeByColumnName($columnName) {
         $propertyType = $this->propertyTypesByColumnName_->get($columnName);
-        if ($propertyType == null) {
+        if ($propertyType === null) {
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $columnName);
         }
         return $propertyType;
@@ -189,14 +189,14 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
     protected function setupVersionNoPropertyName(S2Container_BeanDesc $beanDesc) {
         $vna = $this->beanAnnotationReader_->getVersionNoPropertyNameAnnotation();
-        if ($vna != null) {
+        if ($vna !== null) {
             $this->versionNoPropertyName_ = $vna;
         }
     }
 
     protected function setupTimestampPropertyName(S2Container_BeanDesc $beanDesc) {
         $tsa = $this->beanAnnotationReader_->getTimestampPropertyName();
-        if ($tsa != null) {
+        if ($tsa !== null) {
             $this->timestampPropertyName_ = $tsa;
         }
     }
@@ -218,7 +218,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                 $pt = $this->createPropertyType($beanDesc, $pd);
                 $this->addPropertyType($pt);
             }
-            if ($this->identifierGenerator_ == null && $pt != null) {
+            if ($this->identifierGenerator_ == null && $pt !== null) {
                 $idAnnotation = $this->beanAnnotationReader_->getId($pd);
                 if($idAnnotation != null){
                     $this->identifierGenerator_ =
@@ -392,7 +392,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                 $pt = $bmd->getPropertyType($j);
                 if ($pt !== null && $pt->isPersistent()) {
                     $columnName = $pt->getColumnName();
-                    $tableName = $rpt->getBeanMetaData()->getTableName();
+                    //$tableName = $rpt->getBeanMetaData()->getTableName();
                     $buf .= $rpt->getPropertyName();
                     $buf .= '.';
                     $buf .= $columnName;
