@@ -14,6 +14,8 @@ interface Cd1Dao {
 
     const Array_getCds_SQL = "SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1";
     const Array_getSelectCdById_QUERY = "ID = /*id*/1";
+
+    const getCdCount_SQL = "SELECT COUNT(ID) FROM CD";
     
     // auto update methods
     public function update(CdBean $cd);
@@ -33,5 +35,7 @@ interface Cd1Dao {
     public function List_getCD1($id, $title = null);
     public function List_getCD2($id, $title, $content);
     public function List_getCD3($id = null);
+
+    public function getCdCount();
 }
 ?>

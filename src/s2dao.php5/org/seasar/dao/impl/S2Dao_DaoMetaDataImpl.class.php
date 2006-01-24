@@ -116,7 +116,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $cmd = $this->createSelectDynamicCommand($this->createResultSetHandler($method));
         $cmd->setSql($sql);
         $cmd->setArgNames($this->annotationReader_->getArgNames($method));
-        //$cmd->setArgTypes($method->getParameterTypes());
         $this->sqlCommands_->put($method->getName(), $cmd);
     }
 
@@ -206,7 +205,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                              );
         }
         $cmd->setArgNames($argNames);
-        //$cmd->setArgTypes($method->getParameterTypes());
         $cmd->setNotSingleRowUpdatedExceptionClass(
                 $this->getNotSingleRowUpdatedExceptionClass($method)
             );
@@ -356,7 +354,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $cmd->setSql($sql);
         }
         $cmd->setArgNames($argNames);
-        //$cmd->setArgTypes($method->getParameters());
         $this->sqlCommands_->put($method->getName(), $cmd);
     }
 
@@ -546,12 +543,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if ($clazz->isInterface()) {
             return $clazz;
         }
-        foreach( $clazz->getInterfaces() as $interface ){
-            $c = count($interface);
-            for($i = 0; $i < $c; ++$i){
-                if(ereg('Dao$', $interface->getName())) {
-                    return $interface;
-                }
+        foreach($clazz->getInterfaces() as $interface){
+            if(ereg('Dao$', $interface->getName())) {
+                return $interface;
             }
         }
         throw new S2Dao_DaoNotFoundRuntimeException($clazz);

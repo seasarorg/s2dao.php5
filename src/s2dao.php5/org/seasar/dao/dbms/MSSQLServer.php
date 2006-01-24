@@ -1,20 +1,23 @@
-package org.seasar.dao.dbms;
-
+<?php
 
 /**
- * @author higa
- *
+ * @author nowel
  */
-public class MSSQLServer extends S2Dao_Standard {
+class S2Dao_MSSQLServer extends S2Dao_Standard {
 
-	/**
-	 * @see org.seasar.dao.Dbms#getSuffix()
-	 */
-	public String getSuffix() {
-		return "_mssql";
-	}
-	
-	public String getIdentitySelectString() {
-		return "select @@identity";
-	}
+    public function getSuffix() {
+        return '_mssql';
+    }
+    
+    public function getIdentitySelectString() {
+        return 'select @@identity';
+    }
+
+    public function getTableSql(){
+    }
+
+    public function getTableInfoSql(){
+    }
 }
+
+?>
