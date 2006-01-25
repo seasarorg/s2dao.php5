@@ -5,11 +5,11 @@ $container = S2ContainerFactory::create("./resource/EmployeeDao.dicon");
 $dao = $container->getComponent("EmployeeDao");
 $employees = $dao->List_getAllEmployees();
 for ($i = 0; $i < $employees->size(); ++$i) {
-//    var_dump($employees->get($i));
+    var_dump($employees->get($i)->toString());
 }
 
 $employee = $dao->getEmployee(7788);
-var_dump($employee);
+var_dump($employee->toString());
 
 $count = $dao->getCount();
 var_dump("count:" . $count);

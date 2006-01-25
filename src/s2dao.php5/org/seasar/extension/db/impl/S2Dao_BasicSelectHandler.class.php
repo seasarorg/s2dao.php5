@@ -77,7 +77,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         try{
             // FIXME sql start with "select count|max|min from" string returned integer
             if(preg_match("/^select\s+(count|max|min)\(.+\)\s+from/i", $this->getSql())){
-                $ps->execute();
+                $this->createResultSet($ps);
                 return (int)$ps->fetch(PDO::FETCH_NUM);
             } else {
                 $resultSet = $this->createResultSet($ps);

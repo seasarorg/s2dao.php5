@@ -11,19 +11,19 @@ $dao->List_getEmployeeByJobDeptno("CLERK", 20);
 
 $employees = $dao->List_getEmployeesBySal(0, 1000);
 for ($i = 0; $i < $employees->size(); ++$i) {
-    var_dump($employees->get($i));
+    var_dump($employees->get($i)->toString());
 }
 
 $employees = $dao->List_getEmployeeByDname("SALES");
 for ($i = 0; $i < $employees->size(); ++$i) {
-    var_dump($employees->get($i));
+    var_dump($employees->get($i)->toString());
 }
 
 $dto = new EmployeeSearchCondition();
 $dto->setDname("RESEARCH");
 $employees = $dao->getEmployeesBySearchCondition($dto);
 for ($i = 0; $i < $employees->size(); ++$i) {
-    var_dump($employees->get($i));
+    var_dump($employees->get($i)->toString());
 }
 
 $employee = $dao->getEmployeeByEmpno(7788);

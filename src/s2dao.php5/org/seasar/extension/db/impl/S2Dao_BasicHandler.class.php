@@ -100,7 +100,7 @@ class S2Dao_BasicHandler {
         $buf = $this->sql_;
         foreach($args as $value){
             $pos = strpos($buf, '?');
-            if( $pos !== false ){
+            if($pos !== false){
                 $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
             } else {
                 break;
@@ -124,10 +124,12 @@ class S2Dao_BasicHandler {
             case 'null':
             case 'NULL':
                 return PDO::PARAM_NULL;
+            case 'resource':
+                return PDO::PARAM_LOB;
             default:
             case 'double':
             case 'float':
-                return PDO::PARAM_STMT;
+                return PDO::PARAM_STMT||PDO::PARAM_INPUT_OUTPUT;
         }
     }
 
