@@ -8,7 +8,7 @@ for ($i = 0; $i < $employees->size(); ++$i) {
     var_dump($employees->get($i)->toString());
 }
 $employee = $dao->getEmployee(7788);
-var_dump($employee->toString());
+var_dump($employee[0]->toString());
 
 $container->destroy();
 ?>

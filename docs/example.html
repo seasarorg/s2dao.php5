@@ -24,12 +24,18 @@
 <!-- document start -->
 
     <ul>
-    <li><a href="#Example">Example</a>
-        <ul>
-            <li><a href="#EasyExample">S2Dao.PHP5の簡単なExample</a></li>
-            <li><a href="#EntityManagerExample">EntityManagerを使用したExample</a></li>
-        </ul>
-    </li>
+        <li><a href="#Example">Example</a>
+            <ul>
+                <li><a href="#EasyExample">S2Dao.PHP5の簡単なExample</a></li>
+                <li><a href="#EntityManagerExample">EntityManagerを使用したExample</a></li>
+            </ul>
+        </li>
+        <li><a href="#Example2">Example2</a>(Java版S2DaoのExample)
+            <ul>
+                <li><a href="#AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></li>
+                <li><a href="#EntityManagerExample2">EntityManagerを使用したExample2</a></li>
+            </ul>
+        </li>
     </ul>
 
     <h2><a name="Example">Example</a></h2>
@@ -671,7 +677,554 @@ object(S2Dao_ArrayList)#259 (1) {
 }
 </pre>
 
-    <p>この演習は、/src/examples以下に用意されています。</p>
+        <p>この演習は、/src/examples以下に用意されています。</p>
+
+<h2><a name="Example2">Example2</a>(Java版S2DaoのExample)</h2>
+
+    <p>このExampleは前提条件として以下のテーブル、Beansを使用します。</p>
+
+    <p>テーブル：EMP</p>
+    <table border="1" class="main">
+        <tr bgcolor="#d1f3f4" align="center">
+            <th>カラム名</th>
+            <th>論理名</th>
+            <th>型</th>
+            <th>NotNull</th>
+            <th>主キー</th>
+        </tr>
+        <tr>
+            <td>EMPNO</td>
+            <td>従業員番号</td>
+            <td>INTEGER</td>
+            <td align="center">〇</td>
+            <td align="center">〇</td>
+        </tr>
+        <tr>
+            <td>ENAME</td>
+            <td>従業員名</td>
+            <td>VARCHAR</td>
+            <td><br /></td>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td>JOB</td>
+            <td>仕事</td>
+            <td>VARCHAR</td>
+            <td><br /></td>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td>MGR</td>
+            <td>上司</td>
+            <td>INTEGER</td>
+            <td><br /></td>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td>HIREDATE</td>
+            <td>雇用日</td>
+            <td>DATE</td>
+            <td><br /></td>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td>SAL</td>
+            <td>給料</td>
+            <td>NUMBER</td>
+            <td><br /></td>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td>COMM</td>
+            <td>手数料</td>
+            <td>NUMBER</td>
+            <td><br /></td>
+            <td><br /></td>
+        </tr>
+        <tr>
+            <td>DEPTNO</td>
+            <td>部署番号</td>
+            <td>INTEGER</td>
+            <td><br /></td>
+            <td><br /></td>
+        </tr>
+    </table>
+
+    <p>テーブル：DEPT</p>
+        <table border="1" class="main">
+            <tr bgcolor="#d1f3f4" align="center">
+              <th>カラム名</th>
+              <th>論理名</th>
+              <th>型</th>
+              <th>NotNull</th>
+              <th>主キー</th>
+            </tr>
+            <tr>
+              <td>DEPTNO</td>
+              <td>部署番号</td>
+              <td>INTEGER</td>
+              <td align="center">〇</td>
+              <td align="center">〇</td>
+            </tr>
+            <tr>
+              <td>DNAME</td>
+              <td>部署名</td>
+              <td>VARCHAR</td>
+              <td><br /></td>
+              <td><br /></td>
+            </tr>
+            <tr>
+              <td>LOC</td>
+              <td>ロケーション</td>
+              <td>VARCHAR</td>
+              <td><br /></td>
+              <td><br /></td>
+            </tr>
+            <tr>
+              <td>VERSIONNO</td>
+              <td>バージョン番号</td>
+              <td>INTEGER</td>
+              <td><br /></td>
+              <td><br /></td>
+            </tr>
+        </table>
+
+        <p>EMPテーブルに関連付くBeansは次の通りです。</p>
+
+<pre><code>&lt;?php
+
+class Employee implements Serializable {
+
+    const TABLE = "EMP";
+    const department_RELNO = 0;
+    const timestamp_COLUMN = "tstamp";
+
+    private $empno;
+    private $ename;
+    private $job;
+    private $mgr;
+    private $hiredate;
+    private $sal;
+    private $comm;
+    private $deptno;
+    private $timestamp;
+
+    private $department;
+
+    public function serialize(){
+        $prop = array();
+        foreach(get_class_vars(__CLASS__) as $key =&gt; $value){
+            $prop[$key] = $value;
+        }
+        return serialize($prop);
+    }
+
+    public function unserialize($serialized){
+        foreach(unserialize($serialized) as $key =&gt; $value){
+            $this-&gt;$key = $value;
+        }
+    }
+
+    public function __construct($empno = null) {
+        if(!is_null($empno)){
+            $this-&gt;empno = $empno;
+        }
+    }
+
+    public function getEmpno() {
+        return $this-&gt;empno;
+    }
+
+    public function setEmpno($empno) {
+        $this-&gt;empno = $empno;
+    }
+
+    public function getEname() {
+        return $this-&gt;ename;
+    }
+
+    public function setEname($ename) {
+        $this-&gt;ename = $ename;
+    }
+
+    public function getJob() {
+        return $this-&gt;job;
+    }
+
+    public function setJob($job) {
+        $this-&gt;job = $job;
+    }
+
+    public function getMgr() {
+        return $this-&gt;mgr;
+    }
+
+    public function setMgr($mgr) {
+        $this-&gt;mgr = $mgr;
+    }
+
+    public function getHiredate() {
+        return $this-&gt;hiredate;
+    }
+
+    public function setHiredate($hiredate) {
+        $this-&gt;hiredate = $hiredate;
+    }
+
+    public function getSal() {
+        return $this-&gt;sal;
+    }
+
+    public function setSal($sal) {
+        $this-&gt;sal = $sal;
+    }
+
+    public function getComm() {
+        return $this-&gt;comm;
+    }
+
+    public function setComm($comm) {
+        $this-&gt;comm = $comm;
+    }
+
+    public function getDeptno() {
+        return $this-&gt;deptno;
+    }
+
+    public function setDeptno($deptno) {
+        $this-&gt;deptno = $deptno;
+    }
+
+    public function getTimestamp() {
+        return $this-&gt;timestamp;
+    }
+
+    public function setTimestamp($timestamp) {
+        $this-&gt;timestamp = $timestamp;
+    }
+
+    public function getDepartment() {
+        return $this-&gt;department;
+    }
+
+    public function setDepartment($department) {
+        $this-&gt;department = $department;
+    }
+
+    public function equals($other) {
+        if (!($other instanceof Employee)) return false;
+        return $this-&gt;getEmpno() == $other-&gt;getEmpno();
+    }
+
+    public function toString() {
+        $buf = $this-&gt;empno . ", ";
+        $buf .= $this-&gt;ename . ", ";
+        $buf .= $this-&gt;job . ", ";
+        $buf .= $this-&gt;mgr . ", ";
+        $buf .= $this-&gt;hiredate . ", ";
+        $buf .= $this-&gt;sal . ", ";
+        $buf .= $this-&gt;comm . ", ";
+        $buf .= $this-&gt;deptno . ", ";
+        $buf .= $this-&gt;timestamp . " {";
+        $buf .= $this-&gt;department . "}";
+        return $buf;
+    }
+
+    public function hashCode() {
+        return $this-&gt;getEmpno();
+    }
+
+}
+?&gt;</code></pre>
+
+        <p>DEPTテーブルに関連付くBeansは次の通りです。</p>
+
+<pre><code>&lt;?php
+
+class Department implements Serializable {
+
+    const TABLE = "DEPT";
+    private $deptno;
+    private $dname;
+    private $loc;
+    private $versionNo;
+
+    public function __construct() {
+    }
+
+    public function serialize(){
+        return serialize(array(
+                    "deptno" =&gt; $this-&gt;deptno,
+                    "dname" =&gt; $this-&gt;dname,
+                    "loc" =&gt; $this-&gt;loc,
+                    "versionNo" =&gt; $this-&gt;versionNo,
+                ));
+    }
+
+    public function unserialize($serialized){
+        foreach(unserialize($serialized) as $key =&gt; $value){
+            $this-&gt;$key = $value;
+        }
+    }
+
+    public function getDeptno() {
+        return $this-&gt;deptno;
+    }
+
+    public function setDeptno($deptno) {
+        $this-&gt;deptno = $deptno;
+    }
+
+    public function getDname() {
+        return $this-&gt;dname;
+    }
+
+    public function setDname($dname) {
+        $this-&gt;dname = $dname;
+    }
+
+    public function getLoc() {
+        return $this-&gt;loc;
+    }
+
+    public function setLoc($loc) {
+        $this-&gt;loc = $loc;
+    }
+
+    public function getVersionNo() {
+        return $this-&gt;versionNo;
+    }
+
+    public function setVersionNo($versionNo) {
+        $this-&gt;versionNo = $versionNo;
+    }
+
+    public function equals($other) {
+        if (!($other instanceof Department) ) return false;
+        return $this-&gt;getDeptno() == $other-&gt;getDeptno();
+    }
+
+    public function toString() {
+        $buf = $this-&gt;deptno . ", ";
+        $buf .= $this-&gt;dname . ", ";
+        $buf .= $this-&gt;loc . ", ";
+        $buf .= $this-&gt;versionNo;
+        return $buf;
+    }
+
+    public function hashCode() {
+        return $this-&gt;getDeptno();
+    }
+}
+
+?&gt;</code></pre>
+
+    <h3><a name="AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></h3>
+
+        <p>自動で更新処理(UPDATE, INSERT, DELETE)のSQL文の生成とVersionNoによる排他制御の演習です。SQLファイルの作成は不要です。<br />
+        <p>作成するファイルは以下のとおりです。</p>
+
+        <ul>
+            <li type="circle">Dao(DepartmentDao.class.php)</li>
+            <li type="circle">diconファイル(DepartmentDao.dicon)</li>
+            <li type="circle">実行クラス(DepartmentDaoClient.class.php)</li>
+        </ul>
+
+        <h5>Daoの作成</h5>
+        <ul>
+            <li type="circle">DEPTテーブルと対応するJavaBeansと関連付けをします。</li>
+            <li type="circle">更新処理を行うメソッドを定義します。<br />
+                部署を追加するメソッド(insert(Department department)メソッド)<br />
+                部署を更新するメソッド(update(Department department)メソッド)<br />
+                部署を削除するメソッド(delete(Department department)メソッド)
+            </li>
+        </ul>
+
+<pre><code>&lt;?php
+
+interface DepartmentDao {
+
+    const BEAN = "Department";
+
+    public function insert(Department $department);
+    public function update(Department $department);
+    public function delete(Department $department);
+}
+
+?&gt;</code></pre>
+
+        <h5>diconファイルの作成</h5>
+        <ul>
+            <li type="circle">dao.diconをincludeします。</li>
+            <li type="circle">作成したDaoのコンポーネント定義します。</li>
+            <li type="circle">Daoにdao.interceptor(S2DaoInterceptor)を適用します。</li>
+        </ul>
+
+<pre>
+&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd"&gt;
+&lt;components&gt;
+    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;component class="DepartmentDao"&gt;
+            &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+
+        <h5>実行ファイルの作成</h5>
+        <ul>
+            <li type="circle">S2Container::create()メソッドの第1引数に作成したdiconファイル(DepartmentDao.dicon)のパスを指定してコンテナを作成します。</li>
+            <li type="circle">S2Container::getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（DepartmentDao)を指定してコンポーネントを取得します。</li>
+            <li type="circle">Daoに定義したメソッドを実行します。</li>
+        </ul>
+
+<pre>&lt;?php
+require_once dirname(__FILE__) . "/orign.inc.php";
+
+$container = S2ContainerFactory::create("./resource/DepartmentDao.dicon");
+$dao = $container-&gt;getComponent("DepartmentDao");
+$dept = new Department();
+
+$dept-&gt;setDeptno(99);
+$dept-&gt;setDname("foo");
+$dao-&gt;insert($dept);
+$dept-&gt;setDname("bar");
+
+echo "before update versionNo:" . $dept-&gt;getVersionNo() . PHP_EOL;
+$dao-&gt;update($dept);
+echo "after update versionNo:" . $dept-&gt;getVersionNo() . PHP_EOL;
+$dao-&gt;delete($dept);
+
+$container-&gt;destroy();
+?&gt;</pre>
+
+        <h5>実行結果</h5>
+
+<pre>&gt; php DepartmentDaoClient.php
+[DEBUG]  - INSERT INTO DEPT (DEPTNO, DNAME, LOC, VERSIONNO) VALUES (99, 'foo', null, 0)
+before update versionNo:0
+[DEBUG]  - UPDATE DEPT SET DNAME = 'bar', LOC = null, VERSIONNO = 1 WHERE DEPTNO = 99 AND VERSIONNO = 0
+after update versionNo:1
+[DEBUG]  - DELETE FROM DEPT WHERE DEPTNO = 99 AND VERSIONNO = 1
+</pre>
+
+        <p>出力結果を見ると、自動的にSQL文が発行されていることが分かります。
+        またBeans(Department)にはint型のプロパティversionNoが定義してあるので、
+        自動でversionNoの値が+1され、この値によって排他制御されていることがわかります。
+        updateメソッドを呼ぶ以前では、versionNoの値は0ですが、updateメソッドを呼び出した後では、値が1になります。<br />
+
+        <p>この演習は、/src/examples/s2dao_orign以下に用意されています。</p>
+
+
+    <h3><a name="EntityManagerExample2">EntityManagerを使用したExample2</a></h3>
+
+        <p><a href="reference.html#EntityManager">EntityManager</a>を使用して、指定した文字列を名前に含む従業員を検索する演習です。<br />
+        作成するファイルは以下のとおりです。</p>
+
+        <ul>
+            <li type="circle">Dao(Employee2Dao.class.php)</li>
+            <li type="circle">S2Dao_AbstractDaoを継承したクラス(Employee2DaoImpl.class.php)</li>
+            <li type="circle">diconファイル(Employee2Dao.dicon)</li>
+            <li type="circle">実行クラス(Employee2DaoClient.class.php)</li>
+        </ul>
+
+    <h5>Daoの作成</h5>
+
+        <ul>
+            <li type="circle">なお、インターフェース名は"Dao"で終わらす必要があります。</li>
+            <li type="circle">EMPテーブルと対応するJavaBeansと関連付けをします。</li>
+            <li type="circle">検索処理を行うメソッドを定義します。<br />従業員を検索するメソッド(getEmployees(String ename))</li>
+        </ul>
+
+<pre><code>&lt;?php
+interface Employee2Dao {
+    public function getEmployees($ename);
+    public function getEmployee($eno);
+}
+?&gt;</code></pre>
+
+    <h5>AbstractDaoを継承したクラスの作成</h5>
+        <ul>
+            <li type="circle">S2Dao_AbstractDaoを継承します。</li>
+            <li type="circle">Employee2Daoをimplementsします。</li>
+            <li type="circle">getEmployeesメソッドを実装します。指定した文字列を名前に含む検索をします。</li>
+        </ul>
+
+<pre><code>&lt;?php
+class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
+
+    const BEAN = "Employee";
+
+    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory){
+        parent::__construct($daoMetaDataFactory);
+    }
+
+    public function getEmployees($ename) {
+        return $this-&gt;getEntityManager()-&gt;find("EMP.ename LIKE ? ", "%" . $ename . "%");
+    }
+
+    public function getEmployee($eno){
+        return $this-&gt;getEntityManager()-&gt;find(
+                    "SELECT * FROM EMP WHERE EMPNO = ?", $eno);
+    }
+
+}
+?&gt;</code></pre>
+
+    <h5>diconファイルの作成</h5>
+        <ul>
+            <li type="circle">dao.diconをincludeします。</li>
+            <li type="circle">AbstractDaoを継承したクラスをコンポーネント定義します。</li>
+            <li type="circle">登録したコンポーネントにdao.interceptor(S2DaoInterceptor)を適用します。</li>
+        </ul>
+
+<pre>
+&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd"&gt;
+&lt;components&gt;
+    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;component class="Employee2DaoImpl"&gt;
+        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+
+    <h5>実行ファイルの作成</h5>
+        <ul>
+            <li type="circle">S2Container::create()メソッドの第1引数に作成したdiconファイル(Employee2Dao.dicon)のパスを指定してコンテナを作成します。</li>
+            <li type="circle">S2Container::getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（Employee2Dao)を指定してコンポーネントを取得します。</li>
+            <li type="circle">"CO"を名前に含むという条件を指定します。</li>
+            <li type="circle">Daoに定義したメソッドを実行します。</li>
+        </ul>
+
+<pre><code>&lt;?php
+require_once dirname(__FILE__) . "/orign.inc.php";
+
+$container = S2ContainerFactory::create("./resource/Employee2Dao.dicon");
+$dao = $container-&gt;getComponent("Employee2Dao");
+$employees = $dao-&gt;getEmployees("CO");
+for ($i = 0; $i &lt; $employees-&gt;size(); ++$i) {
+    var_dump($employees-&gt;get($i)-&gt;toString());
+}
+$employee = $dao-&gt;getEmployee(7788);
+var_dump($employee[0]->toString());
+
+$container-&gt;destroy();
+?&gt;</code></pre>
+
+        <h5>実行結果</h5>
+
+<pre>
+&gt; php Employee2DaoClient.class.php
+[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO, department.EMPNO AS EMPNO_0, department.ENAME AS ENAME_0, department.JOB AS JOB_0, department.MGR AS MGR_0, department.HIREDATE AS HIREDATE_0, department.SAL AS SAL_0, department.COMM AS COMM_0, department.DEPTNO AS DEPTNO_0 FROM EMP LEFT OUTER JOIN EMP department ON EMP.EMPNO = department.EMPNO WHERE EMP.ename LIKE '%CO%'
+string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #348}"
+[DEBUG]  - SELECT * FROM EMP WHERE EMPNO = 7788
+string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #350}"
+</pre>
+
+        <p>この演習は、/src/examples/s2dao_orign以下に用意されています。</p>
 
 <!-- document end -->
 <!-- don't edit start -->

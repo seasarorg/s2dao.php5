@@ -1,2 +1,2 @@
-ELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM EMP as emp, DEPT as dept
-WHERE emp.empno = /*empno*/7788 AND emp.deptno = dept.deptno
+SELECT EMP.*, DEPT.dname dname_0, DEPT.loc loc_0 FROM EMP, DEPT
+WHERE EMP.empno = /*empno*/7788 AND EMP.deptno = DEPT.deptno
