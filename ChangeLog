@@ -1,15 +1,34 @@
-2006-01-22 nowel <nowel@xole.net>
+2006-01-31 nowel 
+
+================ S2Dao.PHP5-1.0.0-beta3 更新履歴 ===================
+    * DBMS の対応が増えました。現在対応しているDBMSは以下です。
+        - MySql
+        - PostgreSQL
+        - SQLite
+        - Oracle
+    * ID アノテーションに対応しました。
+    * COLUMN アノテーションに対応しました。
+    * RELNO アノテーションに対応しました。
+    * RELKEYS アノテーションに対応しました。
+    * ARGS アノテーションを使用しなくても、メソッドの引数名を取得できるようになりました。
+    * S2Dao(Java) の version 1.0.29 とほぼ同等になりました。
+    * SQL 文にて SELECT COUNT(*) FROM EMP などのように、単一の数値を返す場合の処理を変更しました。
+      SELECT のすぐ後ろに COUNT, MAX, MIN が来た場合は結果セットをそのまま返却します。
+    * fix: Array_, find メソッド使用時の不具合を修正しました。
+    * fix: PEAR::DB の情報が残っており正しく動作しない不具合を修正しました。
+    * fix: 型の判定を修正しました。
+    * fix: findObject 使用時に stdClass が戻されるのを修正しました。
+
+2006-01-22 nowel
 
     * src/phing/task/* 及び build.xml は S2Container.PHP5 のプロジェクトに移行しました。
         phar パッケージ及び pear パッケージ作成の際は S2Container.PHP5 から行ってください。
+    * src/example/s2dao_orign に S2Dao(java) の Exapme を作成しました。
 
-    * src\example/s2dao_orign に S2Dao(java) の Exapme を作成しました。
-
-2006-01-15 nowel <nowel@xole.net>
+2006-01-15 nowel
 
     * N:1 マッピングに対応しました。
         ***_RELNO アノテーション, ***_RELKEYS アノテーションに対応しました。
-
     * ***_ARGS アノテーションが指定されない場合に、メソッドの引数名を使用するように変更しました。
         - JAVA では メソッドの引数名に対してリフレクションできませんでしたが、PHP5.1.x では
         　可能であるため、対応させました。
@@ -19,7 +38,7 @@
             method_SQL = "select * from hoge where foo = /*id*/ and bar = /*bar*/
             public function method($id, $bar);
 
-2006-01-13 nowel <nowel@xole.net>
+2006-01-13 nowel
 
     * S2Dao_PropertyTypeImpl を修正しました。
     * S2Dao_AbstractAutoHandler を修正しました。(Oracle対応)
@@ -27,15 +46,16 @@
     * Oracle 使用時のバグを修正しました。
         - Oracle での Null の扱いについては pdo.dicon の optionで設定してください
 
-2006-01-12 nowel <nowel@xole.net>
+2006-01-12 nowel
 
-    * Oracle 利用可能になりました。(alpha)
+    * Oracle 利用可能になりました。
+    * PHP ファイル内の文字列を "(ダブルクォート) から '(シングルクォート)に変更しました。
 
-2006-01-11 nowel <nowel@xole.net>
+2006-01-11 nowel
 
     * dbms.properties を変更しました。
 
-2006-01-07 nowel <nowel@xole.net>
+2006-01-07 nowel
 
     * AnnotationReaderFactory を追加しました。
         Java 版 S2Dao 1.0.29 と同じ物です。 
@@ -46,38 +66,34 @@
         - S2Dao_BeanAnnotationReader
         - S2Dao_AnnotationReaderFactory
 
-2005-12-24 nowel <nowel@xole.net>
+2005-12-24 nowel
 
     * example/shelf_*.php を修正しました。
-        プロパティ addtime が add*METHOD* に衝突するので
-        prop_COLUMN プロパティを行うように修正しています。
 
-2005-12-20 nowel <nowel@xole.net>
+2005-12-20 nowel
 
     * IDアノテーション COLUMN アノテーションに対応しました。
+    * DaoMetaDataImpl のメソッド呼び出し順序の修正
+    * DaoMetaDataImpl::isBeanClassAssignable()の処理変更
 
-    * メソッド定義の修正
-        Dao によって定義するメソッド定義を修正しました。
-
-2005-12-14 nowel <nowel@xole.net>
+2005-12-14 nowel
 
     * PHP Archive Task を修正しました。
         - FilterChainを用いて比較的小さなpharファイルを作成することができます。
-        - Windowsでの動作をサポートしました。(仮)
+        - Windowsでの動作をサポートしました。
 
-2005-12-10 nowel <nowel@xole.net>
+2005-12-10 nowel
 
     * PHP Archive Task を修正しました。
         付属のbuild.xmlを参考にしてください。
 
-2005-12-09 nowel <nowel@xole.net>
+2005-12-09 nowel
 
     * Phing PHP Archive Task
         PHP Archive(phar) 化を行う Phing Task を作成しました。
-
     * S2Dao.PHP5-1.0.0-beta3 開発開始
 
-2005-12-07 nowel <nowel@xole.net>
+2005-12-07 nowel
 
 ================ S2Dao.PHP5-1.0.0-beta2 更新履歴 ===================
 
@@ -90,23 +106,19 @@
     * _SQL アノテーションに対応しました。
     * S2Dao_AbstractDaoを用いてEntityManagerに対応しました。
     * SQL コメント ELSE に対応しました。
-
     * S2DaoClassLoader を修正しました。
     * SQL コメントに関する処理を修正しました。
     * プリペアステートメントに関する処理を修正しました。
     * ResultSetHandler に関する処理を修正しました。
-
     * 各クラス及びファイルに S2Dao_ のプレフィックスを付けました。
     * __autoload()関数内に S2DaoClassLoader を含めなくてもよいように変更しました。
     * Array_ メソッドの戻り値を ArrayObject から array() に変更しました。
     * SSRMessages.propertiesを削除しメッセージファイルは DaoMessages.properties に変更しました。
-
     * 利用していないいくつかのファイルを削除しました。
 
-2005-12-06 nowel <nowel@xole.net>
+2005-12-06 nowel
 
     * _SQL アノテーションに対応しました。
-
     * src/example/example.dicon.xml を dao.dicon と pdo.dicon に分割しました。
         dao.dicon では S2Dao.PHP5 で必要なものが記述されています。
         pdo.dicon では データベース接続に必要な情報が記述されています。
@@ -115,11 +127,10 @@
 
         ex) define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
 
-2005-12-05 nowel <nowel@xole.net>
+2005-12-05 nowel
 
     * fix - dbms/S2Dao_pgsql.class.php
             プライマリーキー取得のSQLを変更しました。
-
     * S2Dao_Dbms のインタフェースに以下を設定しました。
         - function getTableSql();
             テーブル一覧を取得するSQLをDBMS毎に発行します。
@@ -128,48 +139,37 @@
         - function getPrimaryKeySql();
             プライマリーキーを取得するSQLをDBMS毎に発行します。
 
-2005-12-02 nowel <nowel@xole.net>
+2005-12-02 nowel
 
     * fix - S2Dao_DaoMetaDataImpl
-
     * PDO 上での SQLite, PostgreSQL の動作を確認しました。
-
     * PostgreSQL の プレフィックスを postgre から pgsql へ変更しました。
-
     * S2Dao_PDODataSource を S2Container.PHP5 へ移動し、今後の管理はS2Container.PHP5で行うことになりました。
-
     * いくつかのパッケージを削除しました。
 
-2005-11-29 nowel <nowel@xole.net>
+2005-11-29 nowel
 
     * beta2リリースを12月上旬に行います。
         beta2ではPHP5.1.x以降、PDO利用でのみサポートをします。
-        
     * src/s2dao/org/seasar/impl 内のファイルを修正しました。
-
     * src/examples の example.dicon.xml を更新しました。
         <component class="S2Dao_BasicResultSetFactory" />
         <component class="S2Dao_BasicStatementFactory" />
         を定義することで標準でS2Dao_BasicResultSetFactoryとS2Dao_BasicStatementFactoryを利用します。
-        
     * statementFactoryとresultSetFactoryのtypehintに以下を記述しました。
         S2Dao_StatementFactory $statementFactory = null
         S2Dao_ResultSetFactory $resultSetFactory = null
-        
     * src/examples 以下に S2Dao_AbstractDao を利用するサンプルを配置しました。
       src/examples/impl/CdDaoImpl.class.php を参考にしてください。
-
     * 以下の ResultSetHandler を修正しました。
         - S2Dao_ObjectResultSetHandler
         - S2Dao_BeanMetaDataResultSetHandler
 
-2005-11-28 nowel <nowel@xole.net>
+2005-11-28 nowel
 
     * src/example の Dao, Entityをディレクトリに移動しました。
-    
     * src/s2dao.php5/org/seasar/framework/util の中身を
       src/s2dao.php5/org/seasar/dao/util に移動しました。
-
     * S2Dao_Dbms と S2Dao_DatabaseMetaDataUtil
         - S2Dao_DatabaseMetaDataUtil::getTables()
         - S2Dao_DatabaseMetaDataUtil::getTableInfo()
@@ -178,12 +178,11 @@
         - getTableInfoSql()
         上記の変更により、対応しているDBMSにメソッドを追加しました。
 
-2005-11-27 nowel <nowel@xole.net>
+2005-11-27 nowel
 
     * fix - SQL Comment に関する処理を修正しました。
     * fix - Improved Performance; Premared Statement.
             プリペアステートメントに関する処理を修正しました。
-
     * PDO update PDOの処理を更新しました。
         - support サポートされているDBMSは以下です。
             - mysql
@@ -194,19 +193,17 @@
             - odbc(db2)
             - and other dbms
 
-2005-11-23 nowel <nowel@xole.net>
+2005-11-23 nowel
 
     * SQLコメント ELSE に対応しました。
         SqlParserのnodeStack(Nodeに関する処理)を修正しました。
-
     * _QUERY アノテーション対応しました。
-
     * Dao => Array_*** methods
         ArrayObject 形式から 通常の array() に変更しました。
         List_*** メソッドでは ArrayObject を継承しているため、似たようなオブジェクトになって
         いる為変更しました。
 
-2005-11-1x nowel <nowel@xole.net>
+2005-11-1x nowel
 
     * beta 2 に移行します。
         - Namespace 対策及び S2Conatiner beta3 に合わせるため S2Dao_ プレフィックスを付加しました。
@@ -221,6 +218,7 @@
         - src/example の一部を変更しました。
         - PDO に対応しました。
 
-2005-11-09 nowel <nowel@xole.net>
+2005-11-09 nowel
+
     * beta 1
         - 初リリース
