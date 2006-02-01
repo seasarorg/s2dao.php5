@@ -196,7 +196,8 @@ mysql&gt; select * from CD order by ID;
                 </ul>
             </li>
             <li type="circle">SQL文とメソッドの引数を関連付けするには<a href="reference.html#ArgsAnnotation">ARGSアノテーション</a>を使用します。</li>
-            <li type="circle">※List_で始まるメソッドはS2Dao_ArrayList形式、Array_で始まるメソッドの戻り値については<a href="reference.html#DefMethod">メソッドの定義</a>を御覧になってください</li>
+            <li type="circle">※List_で始まるメソッドはS2Dao_ArrayList形式、Array_で始まるメソッドの戻り値については
+            <a href="reference.html#DefMethod">メソッドの定義</a>を御覧になってください</li>
         </ul>
 
 <pre>
@@ -1218,7 +1219,10 @@ $container-&gt;destroy();
 
 <pre>
 &gt; php Employee2DaoClient.class.php
-[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO, department.EMPNO AS EMPNO_0, department.ENAME AS ENAME_0, department.JOB AS JOB_0, department.MGR AS MGR_0, department.HIREDATE AS HIREDATE_0, department.SAL AS SAL_0, department.COMM AS COMM_0, department.DEPTNO AS DEPTNO_0 FROM EMP LEFT OUTER JOIN EMP department ON EMP.EMPNO = department.EMPNO WHERE EMP.ename LIKE '%CO%'
+[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
+department.EMPNO AS EMPNO_0, department.ENAME AS ENAME_0, department.JOB AS JOB_0, department.MGR AS MGR_0,
+department.HIREDATE AS HIREDATE_0, department.SAL AS SAL_0, department.COMM AS COMM_0, department.DEPTNO AS DEPTNO_0
+FROM EMP LEFT OUTER JOIN EMP department ON EMP.EMPNO = department.EMPNO WHERE EMP.ename LIKE '%CO%'
 string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #348}"
 [DEBUG]  - SELECT * FROM EMP WHERE EMPNO = 7788
 string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #350}"
