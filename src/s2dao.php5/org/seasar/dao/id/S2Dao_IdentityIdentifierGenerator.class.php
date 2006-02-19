@@ -9,14 +9,14 @@ class S2Dao_IdentityIdentifierGenerator extends S2Dao_AbstractIdentifierGenerato
         parent::__construct($propertyName, $dbms);
     }
 
-//    public function setIdentifier($bean, $value) {
-//        if( $value instanceof DataSource){
-//            $val = $this->executeSql($value,
-//                        $this->getDbms()->getIdentitySelectString(),
-//                        null);
-//            $this->setIdentifier($bean, $val);
-//        }
-//    }
+    public function setIdentifier($bean, $value) {
+        if($value instanceof S2Container_PDODataSource){
+            $ret = $this->executeSql($value,
+                        $this->getDbms()->getIdentitySelectString(),
+                        null);
+            $this->setIdentifier($bean, $ret);
+        }
+    }
 
     public function isSelfGenerate() {
         return false;

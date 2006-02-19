@@ -67,7 +67,7 @@ class S2Dao_BasicHandler {
         $c = count($args);
         for ($i = 0; $i < $c; $i++) {
             try {
-                if(isset($argTypes[$i])){
+                if($argTypes[$i] !== null){
                     $ps->bindValue($i + 1, $args[$i], $this->getBindParamTypes($argTypes[$i]));
                 } else {
                     $ps->bindValue($i + 1, $args[$i]);

@@ -9,7 +9,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     //const REL_KEY = 'foreign_key';
     const REL_KEY = 'multiple_key';
 
-    private function S2Dao_DatabaseMetaDataUtil() {
+    private function __construct() {
     }
 
     public static function getPrimaryKeys(PDO $dbMetaData,$tableName) {

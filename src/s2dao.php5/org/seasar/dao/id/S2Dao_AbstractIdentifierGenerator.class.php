@@ -24,12 +24,12 @@ abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGene
     }
     
     protected function executeSql(S2Container_DataSource $ds, $sql, $args) {
-        $handler = new S2Dao_BasicSelectHandler($ds, $sql, $this->resultSetHandler_);
-        return $handler->execute($args);
+        $handler = new S2Dao_BasicSelectHandler($ds, $sql, self::$resultSetHandler_);
+        return $handler->execute($args, null);
     }
     
     protected function setIdentifier($bean, $value) {
-        if( $value instanceof S2Container_DataSource ){
+        if($value instanceof S2Container_DataSource){
             $val = $this->executeSql($value,
                             $this->getDbms()->getIdentitySelectString(),
                             null);
