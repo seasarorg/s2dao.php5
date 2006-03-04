@@ -130,6 +130,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             $pt = $this->propertyTypes_[$i];
 
             // FIXME
+            $value = null;
             $bd = $pt->getPropertyDesc()->getBeanDesc();
             $methods = $bd->getMethodNames();
             $length = count($methods);

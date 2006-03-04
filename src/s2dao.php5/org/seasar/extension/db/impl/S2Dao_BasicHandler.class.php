@@ -109,28 +109,8 @@ class S2Dao_BasicHandler {
         return $buf;
     }
 
-    protected function getBindParamTypes($phpType){
-        if($phpType == null){ return PDO::PARAM_INPUT_OUTPUT; }
-        switch($phpType){
-            case 'char':
-            case 'string':
-                return PDO::PARAM_STR;
-            case 'int':
-            case 'integer':
-                return PDO::PARAM_INT;
-            case 'bool':
-            case 'boolean':
-                return PDO::PARAM_BOOL;
-            case 'null':
-            case 'NULL':
-                return PDO::PARAM_NULL;
-            case 'resource':
-                return PDO::PARAM_LOB;
-            default:
-            case 'double':
-            case 'float':
-                return PDO::PARAM_STMT||PDO::PARAM_INPUT_OUTPUT;
-        }
+    protected function getBindParamTypes($phpType = null){
+        return S2Dao_PDOType::gettype($phpType = null);
     }
 
     protected function getBindVariableText($bindVariable) {
