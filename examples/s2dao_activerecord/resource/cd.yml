@@ -1,0 +1,6 @@
+components:
+    include: %S2DAO_PHP5%/dao.dicon
+    conponent:
+        - class: cd
+        - aspect:
+            - dao.activerecord
