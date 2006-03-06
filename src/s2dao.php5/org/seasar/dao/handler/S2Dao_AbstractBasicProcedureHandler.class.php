@@ -1,263 +1,215 @@
-/*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
-package org.seasar.dao.handler;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.sql.DataSource;
-
-import org.seasar.extension.jdbc.StatementFactory;
-import org.seasar.extension.jdbc.ValueType;
-import org.seasar.extension.jdbc.impl.BasicStatementFactory;
-import org.seasar.extension.jdbc.types.ValueTypes;
-import org.seasar.extension.jdbc.util.ConnectionUtil;
-import org.seasar.extension.jdbc.util.DataSourceUtil;
-import org.seasar.extension.jdbc.util.DatabaseMetaDataUtil;
-import org.seasar.framework.exception.EmptyRuntimeException;
-import org.seasar.framework.exception.SQLRuntimeException;
-import org.seasar.framework.exception.SRuntimeException;
-import org.seasar.framework.util.ResultSetUtil;
+<?php
 
 /**
- * @author higa
- *  
+ * @author nowel
  */
-public abstract class AbstractBasicProcedureHandler implements ProcedureHandler{
-	protected boolean initialised = false;
-	
-	protected DataSource dataSource_;
+abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHandler{
+    protected $initialised = false;
+    protected $dataSource_;
+    protected $procedureName_;
+    protected $sql_;
+    protected $columnInOutTypes_ = array();
+    protected $columnTypes_ = array();
+    protected $columnNames_ = array();
+    protected $statementFactory_ = null;
 
-	protected String procedureName_;
-	
-	protected String sql_;
-	
-	protected Integer[] columnInOutTypes_;
+    public function getDataSource() {
+        return $this->dataSource_;
+    }
 
-	protected Integer[] columnTypes_;
-	
-	protected String[] columnNames_;
-	
-	protected StatementFactory statementFactory_ = BasicStatementFactory.INSTANCE;
+    public function setDataSource(S2Container_DataSource $dataSource) {
+        $this->dataSource_ = $dataSource;
+    }
+    public function getProcedureName() {
+        return $this->procedureName_;
+    }
+    public function setProcedureName($procedureName) {
+        $this->procedureName_ = $procedureName;
+    }
 
-	public DataSource getDataSource() {
-		return dataSource_;
-	}
+    public function getStatementFactory() {
+        return $this->statementFactory_;
+    }
 
-	public void setDataSource(DataSource dataSource) {
-		dataSource_ = dataSource;
-	}
-	public String getProcedureName() {
-		return procedureName_;
-	}
-	public void setProcedureName(String procedureName) {
-		this.procedureName_ = procedureName;
-	}
+    public function setStatementFactory(S2Dao_StatementFactory $statementFactory) {
+        $this->statementFactory_ = $statementFactory;
+    }
 
-	public StatementFactory getStatementFactory() {
-		return statementFactory_;
-	}
+    protected function getConnection() {
+        if ($this->dataSource_ === null) {
+            throw new S2Container_EmptyRuntimeException('dataSource');
+        }
+        return S2Dao_DataSourceUtil::getConnection($this->dataSource_);
+    }
 
-	public void setStatementFactory(StatementFactory statementFactory) {
-		statementFactory_ = statementFactory;
-	}
+    protected function prepareCallableStatement(PDO $connection) {
+        if ($this->sql_ == null) {
+            throw new S2Container_EmptyRuntimeException("sql");
+        }
+        return $this->statementFactory_->createCallableStatement(
+                        $connection, $this->sql_);
+    }
 
-	protected Connection getConnection() {
-		if (dataSource_ == null) {
-			throw new EmptyRuntimeException("dataSource");
-		}
-		return DataSourceUtil.getConnection(dataSource_);
-	}
-
-	protected CallableStatement prepareCallableStatement(Connection connection) {
-		if (sql_ == null) {
-			throw new EmptyRuntimeException("sql");
-		}
-		return statementFactory_.createCallableStatement(connection,
-				sql_);
-	}
-	public Object execute(Object[] args) throws SQLRuntimeException {
-		Connection connection = getConnection();
-		try {
-			return execute(connection, args);
-		} finally {
-			ConnectionUtil.close(connection);
-		}
-	}
-	protected String[] confirmProcedureName(DatabaseMetaData dmd) throws SQLException{
-		String[] names = DatabaseMetaDataUtil.
-			convertIdentifier(dmd,procedureName_).split("\\.");
-		int namesLength = names.length;
-		ResultSet rs = null;
-		try{
-			if(namesLength == 1){
-				rs = dmd.getProcedures(null,null,names[0]);
-			}else if(namesLength == 2){
-				rs = dmd.getProcedures(names[0],null,names[1]);
-			}else if(namesLength == 3){
-				rs = dmd.getProcedures(names[0],names[1],names[2]);
-			}
-			int len = 0;
-			names = new String[3];
-			while(rs.next()){
-				names[0] = rs.getString(1);
-				names[1] = rs.getString(2);
-				names[2] = rs.getString(3);
-				len++;
-			}
-			if(len < 1){
-				throw new SRuntimeException("EDAO0012",new Object[]{procedureName_});
-			}
-			if(len > 1){
-				throw new SRuntimeException("EDAO0013",new Object[]{procedureName_});
-			}
-			return names;
-		}finally{
-			ResultSetUtil.close(rs);
-		}
-	}
-	protected int initTypes(){
-		StringBuffer buff = new StringBuffer();
-		buff.append("{ call ");
-		buff.append(procedureName_);
-		buff.append("(");
-		List columnNames = new ArrayList();
-		List dataType = new ArrayList();
-		List inOutTypes = new ArrayList();
-		ResultSet rs = null;
-		int outparameterNum = 0;
-		Connection connection = null;
-		try{
-			connection = getConnection();
-			DatabaseMetaData dmd = ConnectionUtil.getMetaData(connection);
-			String[] names = confirmProcedureName(dmd);
-			rs = dmd.getProcedureColumns(names[0],names[1],names[2],null);
-			while(rs.next()){
-				columnNames.add(rs.getObject(4));
-				int columnType = rs.getInt(5);
-				inOutTypes.add(new Integer(columnType));
-				dataType.add(new Integer(rs.getInt(6)));
-				if(columnType == DatabaseMetaData.procedureColumnIn){
-					buff.append("?,");
-				}else if(columnType == DatabaseMetaData.procedureColumnReturn){
-					buff.setLength(0);
-					buff.append("{? = call ");
-					buff.append(procedureName_);
-					buff.append("(");
-				}else if(columnType == DatabaseMetaData.procedureColumnOut ||
-						columnType == DatabaseMetaData.procedureColumnInOut){
-					buff.append("?,");
-					outparameterNum++;
-				}else{
-					throw new SRuntimeException("EDAO0010",new Object[]{procedureName_});
-				}
-			}			
-		} catch (SQLException e) {
-			throw new SQLRuntimeException(e);
-		}finally{
-			ResultSetUtil.close(rs);
-			ConnectionUtil.close(connection);
-		}
-		buff.setLength(buff.length() - 1 );
-		buff.append(")}");
-		sql_ = buff.toString();
-		columnNames_ = (String[])
-			columnNames.toArray(new String[columnNames.size()]);
-		columnTypes_ = (Integer[]) 
-			dataType.toArray(new Integer[dataType.size()]);
-		columnInOutTypes_ = (Integer[])
-			inOutTypes.toArray(new Integer[inOutTypes.size()]);
-		return outparameterNum;
-	}
-	
-	protected abstract Object execute(Connection connection, Object[] args);
-	
-	protected void bindArgs(CallableStatement ps, Object[] args) throws SQLException {
-		if (args == null) {
-			return;
-		}
-		int argPos = 0;
-		for (int i = 0; i < columnTypes_.length;i++) {
-			if(isOutputColum(columnInOutTypes_[i].intValue())){
-				ps.registerOutParameter(i+1,columnTypes_[i].intValue());
-			}
-			if(isInputColum(columnInOutTypes_[i].intValue())){
-				ps.setObject(i+1,args[argPos++],columnTypes_[i].intValue());
-			}
-		}
-	}
-	protected boolean isInputColum(int columnInOutType){
-		return columnInOutType == DatabaseMetaData.procedureColumnIn ||
-			columnInOutType == DatabaseMetaData.procedureColumnInOut;
-	}
-	protected boolean isOutputColum(int columnInOutType){
-		return columnInOutType == DatabaseMetaData.procedureColumnReturn ||
-			columnInOutType == DatabaseMetaData.procedureColumnOut ||
-			columnInOutType == DatabaseMetaData.procedureColumnInOut;
-	}
-	protected String getCompleteSql(Object[] args) {
-		if (args == null || args.length == 0) {
-			return sql_;
-		}
-		StringBuffer buf = new StringBuffer(200);
-		int pos = 0;
-		int pos2 = 0;
-		int index = 0;
-		while (true) {
-			pos = sql_.indexOf('?', pos2);
-			if (pos > 0) {
-				buf.append(sql_.substring(pos2, pos));
-				buf.append(getBindVariableText(args[index++]));
-				pos2 = pos + 1;
-			} else {
-				buf.append(sql_.substring(pos2));
-				break;
-			}
-		}
-		return buf.toString();
-	}
-
-	protected String getBindVariableText(Object bindVariable) {
-		if (bindVariable instanceof String) {
-			return "'" + bindVariable + "'";
-		} else if (bindVariable instanceof Number) {
-			return bindVariable.toString();
-		} else if (bindVariable instanceof Timestamp) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
-			return "'" + sdf.format((java.util.Date) bindVariable) + "'";
-		} else if (bindVariable instanceof java.util.Date) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			return "'" + sdf.format((java.util.Date) bindVariable) + "'";
-		} else if (bindVariable instanceof Boolean) {
-			return bindVariable.toString();
-		} else if (bindVariable == null) {
-			return "null";
-		} else {
-			return "'" + bindVariable.toString() + "'";
-		}
-	}
+    protected function confirmProcedureName($dmd) {
+        $str = S2Dao_DatabaseMetaDataUtil::convertIdentifier($dmd, $this->procedureName_);
+        $names = split("\\.", $str);
+        $namesLength = count($names);
+        $rs = null;
+        try{
+            if($namesLength == 1){
+                $rs = $dmd->getProcedures(null, null, $names[0]);
+            }else if($namesLength == 2){
+                $rs = $dmd->getProcedures($names[0], null, $names[1]);
+            }else if($namesLength == 3){
+                $rs = $dmd->getProcedures($names[0], $names[1], $names[2]);
+            }
+            $len = 0;
+            $names = '';
+            while($rs->next()){
+                $names[0] = $rs->getString(1);
+                $names[1] = $rs->getString(2);
+                $names[2] = $rs->getString(3);
+                $len++;
+            }
+            if($len < 1){
+                throw new S2Container_RuntimeException("EDAO0012",
+                                            array($this->procedureName_));
+            }
+            if($len > 1){
+                throw new S2Container_RuntimeException("EDAO0013",
+                                            array($this->procedureName_));
+            }
+            return $names;
+        }
+    }
     
-    protected ValueType getValueType(Class clazz) {
-        return ValueTypes.getValueType(clazz);
+    protected function initTypes(){
+        $buff = '';
+        $buff .= '{ call ';
+        $buff .= $this->procedureName_;
+        $buff .= '(';
+        $columnNames = new S2Dao_ArrayList();
+        $dataType = new S2Dao_ArrayList();
+        $inOutTypes = new S2Dao_ArrayList();
+        $rs = null;
+        $outparameterNum = 0;
+        $connection = null;
+        try{
+            $connection = $this->getConnection();
+            $dmd = S2Dao_ConnectionUtil::getMetaData($connection);
+            $names = $this->confirmProcedureName($dmd);
+            $rs = $dmd->getProcedureColumns($names[0], $names[1], $names[2],null);
+            while($rs->next()){
+                $columnNames->add($rs->getObject(4));
+                $columnType = $rs->getInt(5);
+                $inOutTypes->add((int)$columnType);
+                $dataType->add((int)$rs->getInt(6));
+                if($columnType == S2Dao_DatabaseMetaData::procedureColumnIn){
+                    $buff .= '?,';
+                } else if($columnType == S2Dao_DatabaseMetaData::procedureColumnReturn){
+                    $buf = '';
+                    $buff .= '{? = call ';
+                    $buff .= $this->procedureName_;
+                    $buff .= '(';
+                } else if($columnType == S2Dao_DatabaseMetaData::procedureColumnOut ||
+                        $columnType == S2Dao_DatabaseMetaData::procedureColumnInOut){
+                    $buff .= '?,';
+                    $outparameterNum++;
+                }else{
+                    throw new S2Container_RuntimeException("EDAO0010",
+                                                        array($this->procedureName_));
+                }
+            }            
+        } catch (S2Container_SQLException $e) {
+            throw new S2Container_SQLRuntimeException($e);
+        }
+        $buff .= ')}';
+        $this->sql_ = $buff;
+        $this->columnNames_ = $columnNames->toArray();
+        $this->columnTypes_ = $dataType->toArray();
+        $this->columnInOutTypes_ = $inOutTypes->toArray();
+        return $outparameterNum;
+    }
+
+    public function execute() {
+        if(func_num_args() > 1){
+            $connection = func_get_arg(0);
+            $args = func_get_arg(1);
+            
+        } else {
+            $args = func_get_arg(0);
+            $connection = $this->getConnection();
+            return $this->execute($connection, $args);
+        }
+    }
+    
+    protected abstract function execute(PDO $connection, array $args);
+    
+    protected function bindArgs(PDOStatement $ps, array $args = null) {
+        if ($args == null) {
+            return;
+        }
+        $argPos = 0;
+        $c = count($this->columnTypes_);
+        for ($i = 0; $i < $c; $i++) {
+            if($this->isOutputColum(intVal($this->columnInOutTypes_[$i]))){
+                $ps->registerOutParameter($i+1, intVal($this->columnTypes_[$i]));
+            }
+            if($this->isInputColum(intVal($this->columnInOutTypes_[$i]))){
+                $ps->setObject($i+1, $args[$argPos++], intVal($this->columnTypes_[$i]));
+            }
+        }
+    }
+    
+    protected function isInputColum($columnInOutType){
+        return $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnIn ||
+            $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnInOut;
+    }
+    
+    protected function isOutputColum($columnInOutType){
+        return $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnReturn ||
+            $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnOut ||
+            $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnInOut;
+    }
+
+    protected function getCompleteSql($args = null) {
+        if ($args == null || !is_array($args)) {
+            return $this->sql_;
+        }
+        $pos = 0;
+        $buf = $this->sql_;
+        foreach($args as $value){
+            $pos = strpos($buf, '?');
+            if($pos !== false){
+                $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
+            } else {
+                break;
+            }
+        }
+        return $buf;
+    }
+
+    protected function getBindVariableText($bindVariable) {
+        if (is_string($bindVariable)) {
+            return "'" . $bindVariable . "'";
+        } else if (is_numeric($bindVariable)) {
+            return (string)$bindVariable;
+        } else if (is_long($bindVariable)) {
+            return "'" . date("Y-m-d H.i.s", $bindVariable) . "'";
+        } else if (is_bool($bindVariable)) {
+            return (string)$bindVariable;
+        } else if ($bindVariable == null) {
+            return "null";
+        } else if (strtotime($bindVariable) !== -1 ) {
+            return "'" . date("Y-m-d", strtotime($bindVariable)) . "'";
+        } else {
+            return "'" . (string)$bindVariable . "'";
+        }
+    }
+    
+    protected function getValueType($clazz = null) {
+        return S2Dao_PDOType::gettype(gettype($clazz));
     }
 }
+
+?>
