@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @author nowel
+ */
+class S2ActiveRecordCondition {
+    
+    private $datasource;
+    private $beanDesc;
+    private $daoReader;
+    private $beanReader;
+    private $dbms;
+    private $table;
+    private $columns = array();
+    private $primaryKeys = array();
+    private $recursMethodName = array();
+    
+    public function __construct(S2Container_DataSource $dataSource,
+                                ReflectionClass $clazz){
+        $annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
+        $this->beanDesc = S2Container_BeanDescFactory::getBeanDesc($clazz);
+        $this->daoReader = $annotationReaderFactory->createDaoAnnotationReader($this->beanDesc);
+        $this->beanReader = $annotationReaderFactory->createBeanAnnotationReader($clazz);
+        $this->datasource = $dataSource;
+        $this->dbms = S2Dao_DbmsManager::getDbms($dataSource->getConnection());
+        
+        $this->setupSqlCommand();
+        $this->setupTable();
+        $this->setupColumns();
+    }
+    
+    protected function setupSqlCommand(){
+        $methods = $this->beanDesc->getBeanClass()->getMethods();
+        foreach($methods as $method){
+            if($this->isUserDefinedMethod($method)){
+                $this->setupMethod($method);
+            }
+        }
+    }
+    
+    protected function setupMethod(ReflectionMethod $method){
+        if($this->isConcealedMethod($method)){
+            $this->recursMethodName = null;
+        }
+    }
+    
+    protected function setupTable(){
+        $ta = $this->beanReader->getTableAnnotation();
+        if($ta != null){
+            $this->table = $ta;
+        } else {
+            $this->table = $this->beanDesc->getBeanClass()->getName();
+        }
+    }
+    
+    protected function setupColumns(){
+        $conn = $this->datasource->getConnection();
+        $this->primaryKeys = S2Dao_DatabaseMetaDataUtil::getPrimaryKeys($conn, $this->table);
+        $this->columns = S2Dao_DatabaseMetaDataUtil::getColumns($conn, $this->table);
+    }
+    
+    public function getTable(){
+        return $this->table;
+    }
+    
+    public function getColumn($name){
+    }
+    
+    public function getColumns(){
+        return $this->columns;
+    }
+    
+    public function getMethodSql($methodName){
+        $class = $this->beanDesc->getBeanClass();
+        $method = new ReflectionMethod($class, $methodName);
+        $sql = $this->annotationReader_->getSQL($method, $this->dbms->getSuffix());
+        if($sql != null){
+            return $sql;
+        }
+
+        $dir = dirname($class->getFileName());
+        $base =  $dir . DIRECTORY_SEPARATOR . $class->getName() . '_' . $methodName;
+        $dbmsPath = $base . $this->dbms->getSuffix() . '.sql';
+        $standardPath = $base . '.sql';
+
+        if (file_exists($dbmsPath)) {
+            return file_get_contents($dbmsPath);
+        } else if (file_exists($standardPath)) {
+            return file_get_contents($standardPath);
+        } else {
+            return null;
+        }
+    }
+    
+    public function isRecursiveMethod($methodName){
+        return in_array($methodName, $this->recursMethodName, true);
+    }
+    
+    protected function isUserDefinedMethod(ReflectionMethod $method){
+        return $method->getDeclaringClass() == $this->beanDesc->getBeanClass();
+    }
+    
+    protected function isConcealedMethod(ReflectionMethod $method){
+        return $method->isPrivate() || $method->isProtected();
+    }
+    
+}
+
+?>

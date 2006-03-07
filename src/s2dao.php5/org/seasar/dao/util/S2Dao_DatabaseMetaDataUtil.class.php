@@ -12,8 +12,8 @@ final class S2Dao_DatabaseMetaDataUtil {
     private function __construct() {
     }
 
-    public static function getPrimaryKeys(PDO $dbMetaData,$tableName) {
-        return $this->getPrimaryKeySet($dbMetaData, $tableName)->toArray();
+    public static function getPrimaryKeys(PDO $dbMetaData, $tableName) {
+        return self::getPrimaryKeySet($dbMetaData, $tableName)->toArray();
     }
 
     public static function getPrimaryKeySet(PDO $dbMetaData, $tableName) {
@@ -56,7 +56,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
 
     public static function getColumns(PDO $dbMetaData, $tableName) {
-        return $this->getColumnSet($dbMetaData, $tableName)->toArray();
+        return self::getColumnSet($dbMetaData, $tableName)->toArray();
     }
     
     public static function getColumnSet(PDO $dbMetaData, $tableName) {

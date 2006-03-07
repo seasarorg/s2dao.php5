@@ -37,6 +37,6 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $this->daoMetaDataCache_->put($key, $dmd);
         return $dmd;
     }
-
+    
 }
 ?>

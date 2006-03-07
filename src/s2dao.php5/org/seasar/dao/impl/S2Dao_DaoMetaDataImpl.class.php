@@ -70,7 +70,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     protected function setupMethod(ReflectionMethod $method) {
         $sql = $this->annotationReader_->getSQL($method, $this->dbms_->getSuffix());
-        if( $sql != null){
+        if($sql != null){
             $this->setupMethodByManual($method, $sql);
             return;
         }

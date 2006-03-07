@@ -1,11 +1,10 @@
 <?php
-
-class cd {}
-
 require_once dirname(__FILE__) . "/example.inc.php";
-$container = S2ContainerFactory::create("./resource/cd.dicon.xml");
-$cd = $container->getComponent("CD");
+require dirname(__FILE__) . "/classes/cd.class.php";
 
-var_dump($cd->findAll());
+$container = S2ContainerFactory::create("./resource/cd.dicon.xml");
+$cd = $container->getComponent("Cd");
+
+var_dump($cd->getAll());
 
 ?>
