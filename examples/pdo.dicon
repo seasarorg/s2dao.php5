@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"components21.dtd">
+"http://www.seasar.org/dtd/components.dtd">
 <components namespace="pdo">
 
     <component name="dataSource" class="S2Container_PDODataSource">
