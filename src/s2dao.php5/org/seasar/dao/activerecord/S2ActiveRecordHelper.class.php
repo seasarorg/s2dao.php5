@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class S2ActiveRecordCondition {
+class S2ActiveRecordHelper {
     
     private $datasource;
     private $beanDesc;
@@ -66,8 +66,34 @@ class S2ActiveRecordCondition {
     public function getColumn($name){
     }
     
-    public function getColumns(){
+    public function getColumnNames(){
         return $this->columns;
+    }
+    
+    public function bindArgs(PDOStatement $ps, array $args){
+        $values = array_values($args);
+        $c = count($args);
+        
+        try {
+            for($i = 0; $i < $c; $i++){
+                $phpType = gettype($values[$i]);
+                $ps->bindValue($i + 1, $values[$i], S2Dao_PDOType::gettype($phpType));
+            }
+        } catch (Exception $e) {
+            throw new S2Container_SQLRuntimeException($e);
+        }
+    }
+    
+    public function query($sql){
+        $this->datasource->getConnection()->query($sql);
+    }
+    
+    public function prepare($sql){
+        return $this->datasource->getConnection()->prepare($sql);
+    }
+    
+    public function getDataSource(){
+        return $this->datasource;
     }
     
     public function getMethodSql($methodName){
