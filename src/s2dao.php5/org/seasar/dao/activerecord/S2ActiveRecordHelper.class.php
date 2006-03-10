@@ -40,7 +40,7 @@ class S2ActiveRecordHelper {
     
     protected function setupMethod(ReflectionMethod $method){
         if($this->isConcealedMethod($method)){
-            $this->recursMethodName = null;
+            //$this->recursMethodName[] = null;
         }
     }
     
@@ -63,7 +63,14 @@ class S2ActiveRecordHelper {
         return $this->table;
     }
     
+    public function getPrimeryKey($name){
+    }
+    
     public function getColumn($name){
+    }
+    
+    public function getPrimaryKeyNames(){
+        return $this->primaryKeys;
     }
     
     public function getColumnNames(){
@@ -98,11 +105,6 @@ class S2ActiveRecordHelper {
     
     public function getMethodSql($methodName){
         $class = $this->beanDesc->getBeanClass();
-        $method = new ReflectionMethod($class, $methodName);
-        $sql = $this->annotationReader_->getSQL($method, $this->dbms->getSuffix());
-        if($sql != null){
-            return $sql;
-        }
 
         $dir = dirname($class->getFileName());
         $base =  $dir . DIRECTORY_SEPARATOR . $class->getName() . '_' . $methodName;

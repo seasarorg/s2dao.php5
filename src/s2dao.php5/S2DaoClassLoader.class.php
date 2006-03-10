@@ -94,6 +94,7 @@ class S2DaoClassLoader {
         'S2DaoInterceptor' => '/org/seasar/dao/interceptors/S2DaoInterceptor.class.php',
         'S2ActiveRecord' => '/org/seasar/dao/activerecord/S2ActiveRecord.class.php',
         'S2ActiveRecordHelper' => '/org/seasar/dao/activerecord/S2ActiveRecordHelper.class.php',
+        'S2ActiveRecordCollection' => '/org/seasar/dao/activerecord/S2ActiveRecordCollection.class.php',
         'S2Dao_AbstractNode' => '/org/seasar/dao/node/S2Dao_AbstractNode.class.php',
         'S2Dao_BeginNode' => '/org/seasar/dao/node/S2Dao_BeginNode.class.php',
         'S2Dao_BindVariableNode' => '/org/seasar/dao/node/S2Dao_BindVariableNode.class.php',

@@ -1,6 +1,14 @@
 2006-03-05 nowel
 
-    * ~/src/examples を ~/examples に移動しました。
+    * S2ActiveRecord を作成しました。(a)
+    * /examples のディレクトリ構成を変更しました。
+
+2006-03-05 nowel
+
+    * /src/examples を /examples に移動しました。
+    * PROCEDURE アノテーションに対応しました。現在対応している PROCEDURE は以下です。
+        - MySQL (5.x 以降)
+        - PostgreSQL
     
 2006-02-20 nowel
 
