@@ -110,7 +110,7 @@ class S2Dao_BasicHandler {
     }
 
     protected function getBindParamTypes($phpType = null){
-        return S2Dao_PDOType::gettype($phpType = null);
+        return S2Dao_PDOType::gettype($phpType);
     }
 
     protected function getBindVariableText($bindVariable) {
