@@ -5,7 +5,7 @@
  */
 class S2ActiveRecordHelper {
     
-    private $datasource;
+    private $connection;
     private $beanDesc;
     private $daoReader;
     private $beanReader;
@@ -21,8 +21,8 @@ class S2ActiveRecordHelper {
         $this->beanDesc = S2Container_BeanDescFactory::getBeanDesc($clazz);
         $this->daoReader = $annotationReaderFactory->createDaoAnnotationReader($this->beanDesc);
         $this->beanReader = $annotationReaderFactory->createBeanAnnotationReader($clazz);
-        $this->datasource = $dataSource;
-        $this->dbms = S2Dao_DbmsManager::getDbms($dataSource->getConnection());
+        $this->connection = $dataSource->getConnection();
+        $this->dbms = S2Dao_DbmsManager::getDbms($this->connection);
         
         $this->setupSqlCommand();
         $this->setupTable();
@@ -54,7 +54,7 @@ class S2ActiveRecordHelper {
     }
     
     protected function setupColumns(){
-        $conn = $this->datasource->getConnection();
+        $conn = $this->connection;
         $this->primaryKeys = S2Dao_DatabaseMetaDataUtil::getPrimaryKeys($conn, $this->table);
         $this->columns = S2Dao_DatabaseMetaDataUtil::getColumns($conn, $this->table);
     }
@@ -92,15 +92,19 @@ class S2ActiveRecordHelper {
     }
     
     public function query($sql){
-        $this->datasource->getConnection()->query($sql);
+        return $this->connection->query($sql);
+    }
+    
+    public function execute($sql){
+        return $this->connection->exec($sql);
     }
     
     public function prepare($sql){
-        return $this->datasource->getConnection()->prepare($sql);
+        return $this->connection->prepare($sql);
     }
     
-    public function getDataSource(){
-        return $this->datasource;
+    public function getConnection(){
+        return $this->connection;
     }
     
     public function getMethodSql($methodName){

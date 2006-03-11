@@ -33,6 +33,10 @@ class S2ActiveRecordCollection implements Iterator {
     public function rewind() {
         $this->key = 0;
     }
+    
+    public function count(){
+        return count($this->rows);
+    }
 
     public function valid(){
         return $this->rows[$this->key] instanceof S2ActiveRecord;
