@@ -13,7 +13,7 @@ class S2ActiveRecordHelper {
     private $table;
     private $columns = array();
     private $primaryKeys = array();
-    private $recursMethodName = array();
+    private $recursMethod = array();
     
     public function __construct(S2Container_DataSource $dataSource,
                                 ReflectionClass $clazz){
@@ -40,7 +40,14 @@ class S2ActiveRecordHelper {
     
     protected function setupMethod(ReflectionMethod $method){
         if($this->isConcealedMethod($method)){
-            //$this->recursMethodName[] = null;
+            if(preg_match('/^__(.*)/', $method->getName(), $match)){
+                $params = $method->getParameters();
+                foreach($params as $param){
+                    if($this->isAllowParam($param)){
+                        $this->recursMethod[$match[1]] = $method;
+                    }
+                }
+            }
         }
     }
     
@@ -80,7 +87,6 @@ class S2ActiveRecordHelper {
     public function bindArgs(PDOStatement $ps, array $args){
         $values = array_values($args);
         $c = count($args);
-        
         try {
             for($i = 0; $i < $c; $i++){
                 $phpType = gettype($values[$i]);
@@ -114,7 +120,7 @@ class S2ActiveRecordHelper {
         $base =  $dir . DIRECTORY_SEPARATOR . $class->getName() . '_' . $methodName;
         $dbmsPath = $base . $this->dbms->getSuffix() . '.sql';
         $standardPath = $base . '.sql';
-
+        
         if (file_exists($dbmsPath)) {
             return file_get_contents($dbmsPath);
         } else if (file_exists($standardPath)) {
@@ -124,8 +130,17 @@ class S2ActiveRecordHelper {
         }
     }
     
-    public function isRecursiveMethod($methodName){
-        return in_array($methodName, $this->recursMethodName, true);
+    public function hasRecursiveMethod($methodName){
+        return array_key_exists($methodName, $this->recursMethod);
+    }
+    
+    public function getRecursiveMethod($methodName){
+        return $this->recursMethod[$methodName];
+    }
+    
+    public function call($methodName, $args){
+        $refMethod = $this->recursMethod[$methodName];
+        $refMethod->invoke($this->beanDesc->getBeanClass(), $args);
     }
     
     protected function isUserDefinedMethod(ReflectionMethod $method){
@@ -134,6 +149,12 @@ class S2ActiveRecordHelper {
     
     protected function isConcealedMethod(ReflectionMethod $method){
         return $method->isPrivate() || $method->isProtected();
+    }
+    
+    protected function isAllowParam(ReflectionParameter $param){
+        $typehint = $param->getClass();
+        return $typehint != null &&
+               strcasecmp($typehint->getName(),'PDOStatement') == 0;
     }
     
 }

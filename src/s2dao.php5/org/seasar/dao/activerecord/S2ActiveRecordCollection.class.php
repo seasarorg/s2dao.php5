@@ -41,5 +41,13 @@ class S2ActiveRecordCollection implements Iterator {
     public function valid(){
         return $this->rows[$this->key] instanceof S2ActiveRecord;
     }
+    
+    public function toArray(){
+        $ret = array();
+        foreach($this->rows as $row){
+            $ret[] = $row->toArray();
+        }
+        return $ret;
+    }
 }
 ?>

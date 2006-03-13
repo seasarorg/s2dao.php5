@@ -82,10 +82,12 @@ abstract class S2ActiveRecord {
         } else {
             $sql = $this->helper->getMethodSql($name);
             if($sql == null){
-                throw new Exception();
+                throw new Exception($name . ' is not defined in ' . get_class($this));
             }
             
-            if($this->helper->isRecursiveMethod($name)){
+            if($this->helper->hasRecursiveMethod($name)){
+                $name = $this->helper->getRecursiveMethod($name)->getName();
+                return $this->$name($this->execute($sql));
             }
         }
     }
@@ -96,6 +98,10 @@ abstract class S2ActiveRecord {
     
     public function toString(){
         return $this->__toString();
+    }
+    
+    public function toArray(){
+        return $this->row;
     }
     
     public function find(){
@@ -164,7 +170,8 @@ abstract class S2ActiveRecord {
                     $sql = $args[0];
                     $order = $args[1];
                     if(isset($order)){
-                        $sql .= $this->createOrderByNormal($order);
+                        $sql .= ' ORDER BY ';
+                        $sql .= implode(',', $this->createOrderByNormal($order));
                     }
                     return $sql;
                 }
@@ -192,7 +199,7 @@ abstract class S2ActiveRecord {
             $s = $this->helper->getTable() . '.' . $this->map->get($column);
             $order[] = $s . ' ' . $sort;
         }
-        return ' ORDER BY ' . implode(',', $order);
+        return $order;
     }
     
     protected function isSetPkey(){
@@ -256,7 +263,7 @@ abstract class S2ActiveRecord {
     
     private function _delete(){
         if(!$this->isSetPkey()){
-            throw new Exception("Primery Key not set");
+            throw new Exception('Primery Key not set');
         }
         
         $sql = 'DELETE FROM ' . $this->helper->getTable();
