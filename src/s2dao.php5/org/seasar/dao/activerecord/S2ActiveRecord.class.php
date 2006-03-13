@@ -81,11 +81,9 @@ abstract class S2ActiveRecord {
             return $this->_delete();
         } else {
             $sql = $this->helper->getMethodSql($name);
-            if($sql == null){
+            if($sql == null && !$this->helper->hasRecursiveMethod($name)){
                 throw new Exception($name . ' is not defined in ' . get_class($this));
-            }
-            
-            if($this->helper->hasRecursiveMethod($name)){
+            } else {
                 $name = $this->helper->getRecursiveMethod($name)->getName();
                 return $this->$name($this->execute($sql));
             }
@@ -142,15 +140,6 @@ abstract class S2ActiveRecord {
         return (int)$this->helper->query($sql)->fetchColumn();
     }
 
-    protected function getPlaceholders(array $row){
-        $folder = array();
-        foreach($row as $column => $value){
-            $folder[] = $this->helper->getTable() . '.' .
-                        $this->map->get($column) . ' = ?'; 
-        }
-        return $folder;
-    }
-    
     protected function createSelectSql(){
         switch(func_num_args()){
             case 0:
@@ -185,7 +174,7 @@ abstract class S2ActiveRecord {
                ' FROM ' . $this->helper->getTable();
         if(0 < count($this->row)){
             $sql .= ' WHERE ';
-            $sql .= implode(',', $this->getPlaceholders($this->row));
+            $sql .= implode(',', $this->createWhere($this->row));
         }
         return $sql;
     }
@@ -200,6 +189,45 @@ abstract class S2ActiveRecord {
             $order[] = $s . ' ' . $sort;
         }
         return $order;
+    }
+    
+    protected function createWhere(array $row){
+        $folder = array();
+        foreach($row as $column => $value){
+            $folder[] = $this->helper->getTable() . '.' .
+                        $this->map->get($column) . ' = ?'; 
+        }
+        return $folder;
+    }
+    
+    protected function createWhereOr(){
+    }
+    
+    protected function createUpdateWhere(){
+    }
+    
+    //FIXME
+    protected function getUpdateWhereStatement($sql){
+        $pkeys = $this->helper->getPrimaryKeyNames();
+        $where = array();
+        $bind = array();
+        foreach($pkeys as $index => $pk){
+            $value = $this->__get($pk);
+            if($value != null){
+                $where[] = $this->helper->getTable() . '.' . $pk . ' = ?';
+                $bind[] = $value;
+            }
+        }
+        $sql .= ' WHERE ' . implode(',', $where);
+        
+        $stmt = $this->helper->prepare($sql);
+        $this->helper->bindArgs($stmt, $this->row);
+        $l = count($this->row) + 1;
+        foreach($bind as $index => $value){
+            $phptype = gettype($value);
+            $stmt->bindValue($l + $index, $value, S2Dao_PDOType::gettype($phptype));
+        }
+        return $stmt;
     }
     
     protected function isSetPkey(){
@@ -236,26 +264,8 @@ abstract class S2ActiveRecord {
     private function _update(){
         $sql = 'UPDATE ' . $this->helper->getTable();
         $sql .= ' SET ';
-        $sql .= implode(',', $this->getPlaceholders($this->row));
-        
-        $pkeys = $this->helper->getPrimaryKeyNames();
-        $where = array();
-        $bind = array();
-        foreach($pkeys as $index => $pk){
-            $value = $this->__get($pk);
-            if($value != null){
-                $where[] = $this->helper->getTable() . '.' . $pk . ' = ?';
-                $bind[] = $value;
-            }
-        }
-        $sql .= ' WHERE ' . implode(',', $where);
-        $stmt = $this->helper->prepare($sql);
-        $this->helper->bindArgs($stmt, $this->row);
-        $l = count($this->row) + 1;
-        foreach($bind as $index => $value){
-            $phptype = gettype($value);
-            $stmt->bindValue($l + $index, $value, S2Dao_PDOType::gettype($phptype));
-        }
+        $sql .= implode(',', $this->createWhere($this->row));
+        $stmt = $this->getUpdateWhereStatement($sql);
         $stmt->execute();
         return $stmt->rowCount();
     }
@@ -267,24 +277,7 @@ abstract class S2ActiveRecord {
         }
         
         $sql = 'DELETE FROM ' . $this->helper->getTable();
-        $pkeys = $this->helper->getPrimaryKeyNames();
-        $where = array();
-        $bind = array();
-        foreach($pkeys as $index => $pk){
-            $value = $this->__get($pk);
-            if($value != null){
-                $where[] = $this->helper->getTable() . '.' . $pk . ' = ?';
-                $bind[] = $value;
-            }
-        }
-        $sql .= ' WHERE ' . implode(',', $where);
-        $stmt = $this->helper->prepare($sql);
-        $this->helper->bindArgs($stmt, $this->row);
-        $l = count($this->row) + 1;
-        foreach($bind as $index => $value){
-            $phptype = gettype($value);
-            $stmt->bindValue($l + $index, $value, S2Dao_PDOType::gettype($phptype));
-        }
+        $stmt = $this->getUpdateWhereStatement($sql);
         $stmt->execute();
         return $stmt->rowCount();
     }
