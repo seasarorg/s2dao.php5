@@ -28,7 +28,7 @@
             <ul>
                 <li><a href="#DaoMakeFile">作成すべきファイル</a></li>
                     <ul>
-                        <li type="circle"><a href="#Beans">Beans</a></li>
+                        <li type="circle"><a href="#Entity">Entity</a></li>
                             <ul>
                                 <li><a href="#TableAnnotation">TABLEアノテーション</a></li>
                                 <li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
@@ -68,15 +68,15 @@
     <h2><a name="reference">S2Dao.PHP5リファレンス</a></h2>
 
     <h3><a name="DaoMakeFile">作成すべきファイル</a></h3>
-        <p>S2Dao機能を使用するにあたり、Beans、Dao(.php)、diconファイル、SQLファイル(.sql)の作成が必要となります。</p>
+        <p>S2Dao機能を使用するにあたり、Entity、Dao、diconファイル、SQLファイル(.sql)の作成が必要となります。</p>
         <p>詳細なドキュメントは<a href="http://s2dao.seasar.org/">Java版S2Dao</a>をご覧になってください。</p>
 
-        <p>Beansはテーブル、DaoはBeans、diconファイルはDao、SQLファイルはDaoとそれぞれ関連しています。<br />
+        <p>Entityはテーブル、DaoはEntity、diconファイルはDao、SQLファイルはDaoとそれぞれ関連しています。<br />
         各ファイルの実装・設定方法の詳細は次のようになります。</p>
 
-    <h4><a name="Beans">Beans</a></h4>
-        <p>Beansはテーブルとの関連付けに使用します。
-        Beansにテーブルの関連付けを行うには、以下の定数宣言とメソッドの実装が必要になります。</p>
+    <h4><a name="Entity">Entity</a></h4>
+        <p>Entityはテーブルとの関連付けに使用します。
+        Entityにテーブルの関連付けを行うには、以下の定数宣言とメソッドの実装が必要になります。</p>
 
         <ul>
             <li>テーブルとの関連付けの定数宣言 (<a href="#TableAnnotation">TABLEアノテーション</a>)</li>
@@ -88,7 +88,7 @@
             <li><a href="#GetterSetterMethod">getter/setterメソッドの実装</a></li>
         </ul>
 
-        <p>Beansの構成と説明内で使用するテーブルは以下の通りです。</p>
+        <p>Entityの構成と説明内で使用するテーブルは以下の通りです。</p>
 
         <p>テーブル：EMP</p>
         <table border="1" class="main">
@@ -253,9 +253,9 @@ public function setEmpno($empno) {
 }
 </pre>
 
-        <p>以上の設定を行ったEMPテーブルに関連付くBeansは次のようになります。</p>
+        <p>以上の設定を行ったEMPテーブルに関連付くEntityは次のようになります。</p>
 
-<pre>&gt;?php
+<pre>&lt;?php
 class Employee {
     const TABLE = "EMP";
 
@@ -307,12 +307,12 @@ class Employee {
     <h4><a name="Dao">Dao(Data Access Object)</a></h4>
 
         <p>Daoはインターフェースとして作成します。永続化されるデータとロジックを分離して、Dao本来の目的であるBeanの永続化を行います。
-        Beansとは1：1の関係にあるので、一つのBeansに対して一つのDaoを作成することになります。
+        Entityとは1：1の関係にあるので、一つのEntityに対して一つのDaoを作成することになります。
         Daoのメソッドを呼ぶことにより、メソッドに対応したSQLファイルに記述されているSQLが実行されます。
         Daoを作成するには、以下の点が必要になります。</p>
 
         <ul>
-            <li>Beansとの関連付けの定数宣言(<a href="#BeanAnnotation">BEANアノテーション</a>)</li>
+            <li>Entityとの関連付けの定数宣言(<a href="#BeanAnnotation">BEANアノテーション</a>)</li>
             <li><a href="#DefMethod">メソッドの定義</a></li>
         </ul>
 
@@ -328,9 +328,9 @@ class Employee {
 
     <h5><a name="BeanAnnotation">BEANアノテーション</a></h5>
 
-        <p>DaoがどのBeans(エンティティ)に関連付けられているのかはBEANアノテーションで指定します。<br />
+        <p>DaoがどのEntity(エンティティ)に関連付けられているのかはBEANアノテーションで指定します。<br />
         BEANアノテーションは以下の形式で定数を宣言します。</p>
-        <p> - const BEAN = "<span class="italic">Beans名</span>";</p>
+        <p> - const BEAN = "<span class="italic">Entity名</span>";</p>
         <p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。  </p>
         <pre>const BEAN = "Employee";</pre>
 
@@ -390,7 +390,8 @@ public function List_getEmployeesBySal($minSal, $maxSal);
                 更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
                 メソッドの定義例は以下のようになります。</p>
 
-<pre>public function insert(Department $department);
+<pre>
+public function insert(Department $department);
 public function addDept(Department $department);
 public function createDept(Department $department);
 </pre>
@@ -650,10 +651,8 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
         バインド変数コメントは、以下のように記述します。</p>
         <p> -  /*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
 
-        <!--
-        <p>引数がBeansの場合は以下のように記述します。</p>
-        <p>-  /*<span class="italic">引数名</span>-&gt;<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
-        -->
+        <p>引数がEntityの場合は以下のように記述します。</p>
+        <p>-  /*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
 
         <pre>public function List_getEmployee($empno);</pre>
 
@@ -684,10 +683,8 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
         埋め込み変数コメントは、以下のように記述します。</p>
         <p>  -  /*<span class="italic">$引数名</span>*/<span class="italic">リテラル</span></p>
 
-        <!--
-        <p>引数がBeansの場合は以下のように記述します。</p>
-        <p>-  /*<span class="italic">$引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
-        -->
+        <p>引数がEntityの場合は以下のように記述します。</p>
+        <p>-  /*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
 
     <h4>IFコメント</h4>
 
@@ -754,12 +751,12 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
             </dd>
 
             <dt style="text-indent:1em;">findBean()メソッド</dt>
-            <dd>戻り値をBeansで返します。引数の種類は以下の通りです。<br />
+            <dd>戻り値をEntityで返します。引数の種類は以下の通りです。<br />
             public function findBean($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
 
             <dt style="text-indent:1em;">findObject()メソッド</dt>
-            <dd>結果セットを Beans オブジェクトで返します。引数の種類は以下の通りです。<br />
+            <dd>結果セットを Entity オブジェクトで返します。引数の種類は以下の通りです。<br />
             public function findObject($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
         </dl>
@@ -796,13 +793,13 @@ class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
 
     <h3><a name="AutoUpdate">更新SQLの自動生成</a></h3>
 
-        <p>更新SQL文を自動生成させるには、メソッド名を<a href="#DefMethod">命名規則</a>にあわせ、Beansを1つ引数に持つメソッドを定義するだけです。
+        <p>更新SQL文を自動生成させるには、メソッド名を<a href="#DefMethod">命名規則</a>にあわせ、Entityを1つ引数に持つメソッドを定義するだけです。
         SQLファイルの作成は不要です。例としてInsertの場合、命名規則に合わせ、以下のように定義します。</p>
         <pre>public function insert(Department $department);</pre>
 
     <h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
 
-        <p>メソッドのsignatueより、 S2Daoに自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、
+        <p>メソッドのsignatueより、S2Daoに自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、
         引数の値によってWHERE句が変わるような動的なSQL文も自動生成できます。</p>
 
 <pre>

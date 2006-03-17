@@ -55,7 +55,7 @@ s2dao.php5/
 また、S2Dao.PHP5では<a href="http://jp2.php.net/manual/ja/ref.pdo.php">PDO</a>を利用しています。
 利用前に<a href="http://jp2.php.net/manual/ja/ref.pdo.php#pdo.installation">PDOのインストール</a>も終えておいてください。</p>
 
-<h3><a name="beta2_setting">S2Dao.PHP5-1.0.0-beta2以降の設定</a></h3>
+<h3><a name="beta2_setting">S2Dao.PHP5の設定</a></h3>
 <p>通常 s2dao.inc.php を読み込むだけでS2Dao.PHP5の利用が可能です。</p>
 
 <p>s2dao.inc.php の設定は以下の通りです。</p>
@@ -78,7 +78,7 @@ if( class_exists("S2Container_MessageUtil") ){
 }
 </pre>
 
-<p>詳細は src/example/example.inc.php に記述しているので参考にしてください。</p>
+<p>詳細は /example/example.inc.php に記述しているので参考にしてください。</p>
 
 <h4><a name="dicon">DICONの設定</a></h4>
 <p>S2Dao.PHP5を利用するには src/s2dao.php5/dao.dicon を読み込んでください。<br />
@@ -119,10 +119,10 @@ if( class_exists("S2Container_MessageUtil") ){
 &lt;/components&gt;
 </pre>
 
-<p>詳細は src/examples/resource/example.dicon.xml に記述しているので参考にしてください。</p>
+<p>詳細は /examples/s2dao/resource/example.dicon.xml に記述しているので参考にしてください。</p>
 
 <h5><a name="S2ContainerClassloader_import">Dao,Entityの読み込みの例(S2ContainerClassLoader::importを用いて)</a></h5>
-<p> src/examples/example.inc.php では 以下のように記述し、複数個生成された dao 及び entity(bean)の読み込みを自動化しています。</p>
+<p> /examples/example.inc.php では 以下のように記述し、複数個生成された dao 及び entity(bean)の読み込みを自動化しています。</p>
 
 <pre>
 if( class_exists("S2ContainerClassLoader") ){
@@ -138,16 +138,16 @@ if( class_exists("S2ContainerClassLoader") ){
 }
 </pre>
 
-<p>詳細は src/examples/example.inc.php に記述しているので参考にしてください。</p>
+<p>詳細は /examples/s2dao/example.inc.php に記述しているので参考にしてください。</p>
 
 <h4><a name="pdo_dicon">PDOの設定</a></h4>
 
 <p>S2Dao.PHP5-1.0.0-beta2以降 PDO を利用しています。PDO で利用できる DSN については
 <a href="http://jp2.php.net/manual/en/ref.pdo.php#pdo.drivers">PHP: PDO Functions - Manual</a>を参考に設定してください。<br />
-多くの場合は src/examples/resource/pdo.dicon が参考になると思います。</p>
+多くの場合は /examples/s2dao/resource/pdo.dicon が参考になると思います。</p>
 <p>dao.dicon を読み込む前に pdo.dicon を読み込むように設定してください。</p>
 
-<p>src/examples/resource/pdo.dicon には以下のように記述されています。</p>
+<p>/examples/s2dao/resource/pdo.dicon には以下のように記述されています。</p>
 
 <pre>
 &lt;components namespace="pdo"&gt;

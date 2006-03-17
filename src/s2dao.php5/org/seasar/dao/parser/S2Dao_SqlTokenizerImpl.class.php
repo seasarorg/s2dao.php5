@@ -220,7 +220,7 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
             $index = strlen($this->sql_);
             for ($i = $position; $i < strlen($this->sql_); ++$i) {
                 $c = substr($this->sql_, $i, 1);
-                if (!preg_match('/\s/', $c) == 1) {
+                if (!preg_match('/\s?/', $c) == 1) {
                     $index = $i;
                     break;
                 }

@@ -579,7 +579,7 @@ $dao-&gt;delete($cd);
 [DEBUG]  - DELETE FROM CD WHERE ID = 4
 </pre>
 
-        <p>この演習は、/src/examples以下に用意されています。</p>
+        <p>この演習は、/examples以下に用意されています。</p>
 
         <h3><a name="EntityManagerExample">EntityManagerを使用したExample</a></h3>
         <p><a href="reference.html#EntityManager">EntityManager</a>を用いる場合の簡単なサンプルです。<br />
@@ -678,7 +678,7 @@ object(S2Dao_ArrayList)#259 (1) {
 }
 </pre>
 
-        <p>この演習は、/src/examples以下に用意されています。</p>
+        <p>この演習は、/examples以下に用意されています。</p>
 
 <h2><a name="Example2">Example2</a>(Java版S2DaoのExample)</h2>
 
@@ -1115,7 +1115,7 @@ after update versionNo:1
         自動でversionNoの値が+1され、この値によって排他制御されていることがわかります。
         updateメソッドを呼ぶ以前では、versionNoの値は0ですが、updateメソッドを呼び出した後では、値が1になります。<br />
 
-        <p>この演習は、/src/examples/s2dao_orign以下に用意されています。</p>
+        <p>この演習は、/examples/s2dao_java_orign以下に用意されています。</p>
 
 
     <h3><a name="EntityManagerExample2">EntityManagerを使用したExample2</a></h3>
@@ -1221,14 +1221,15 @@ $container-&gt;destroy();
 &gt; php Employee2DaoClient.class.php
 [DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
 department.EMPNO AS EMPNO_0, department.ENAME AS ENAME_0, department.JOB AS JOB_0, department.MGR AS MGR_0,
-department.HIREDATE AS HIREDATE_0, department.SAL AS SAL_0, department.COMM AS COMM_0, department.DEPTNO AS DEPTNO_0
+department.HIREDATE AS HIREDATE_0, department.SAL AS SAL_0, department.COMM AS COMM_0,
+department.DEPTNO AS DEPTNO_0
 FROM EMP LEFT OUTER JOIN EMP department ON EMP.EMPNO = department.EMPNO WHERE EMP.ename LIKE '%CO%'
 string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #348}"
 [DEBUG]  - SELECT * FROM EMP WHERE EMPNO = 7788
 string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #350}"
 </pre>
 
-        <p>この演習は、/src/examples/s2dao_orign以下に用意されています。</p>
+        <p>この演習は、/examples/s2dao_java_orign以下に用意されています。</p>
 
 <!-- document end -->
 <!-- don't edit start -->
