@@ -56,7 +56,6 @@ class S2Dao_BasicHandler {
         if ($this->sql_ == null) {
             throw new S2Container_EmptyRuntimeException('sql');
         }
-        var_dump($this->sql_);
         return $connection->prepare($this->sql_);
     }
 
