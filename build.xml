@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<project name="s2dao.php5" default="generate" basedir=".">
+
+    <taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
+
+    <target name="init">
+        <property name="project.name" value="${phing.project.name}" />
+        <property name="package.name" value="S2Dao" />
+        <property name="project.version" value="1.0.0" />
+        <property name="project.state" value="beta" />
+        <property name="project.build.dir" value="${project.basedir}/build" />
+        <property name="project.src.dir" value="${project.basedir}/src" />
+        <property name="license.file" value="Apache_Software_License_2.0.txt" />
+        <property name="release.notes" value="Release Candidate version 1" />
+    </target>
+
+    <target name="clean" depends="init">
+        <delete dir="${project.build.dir}"/>
+    </target>
+
+    <target name="prepare" depends="init">
+        <mkdir dir="${project.build.dir}" />
+        <mkdir dir="${project.build.dir}/${project.name}/${package.name}" />
+    </target>
+	
+	<target name="generate" depends="prepare">
+       	<property name="dsn" value="mysql:host=localhost; dbname=s2con" />
+       	<property name="user" value="root" />
+       	<property name="password" value="pass" />
+		<generate toDir="${project.build.dir}/${project.name}" />
+	</target>
+
+	<!--
+    <target name="build" depends="prepare">
+        <copy2 toDir="${project.build.dir}/${project.name}/${package.name}">
+            <fileset dir="${project.src.dir}">
+                <include name="${project.name}/**/*.php"/>
+                <include name="${project.name}/**/*.properties"/>
+            </fileset>
+        </copy2>
+
+        <gcore searchDir="${project.build.dir}/${project.name}/${package.name}"
+               coreFile="${project.build.dir}/${project.name}/s2dao.core.classes.php"
+               listFile="${project.basedir}/etc/s2dao.core.files.txt"/>
+
+        <copy file="${project.basedir}/etc/${package.name}.php.tpl"
+              tofile="${project.build.dir}/${project.name}/${package.name}.php"
+              overwrite="true"/>
+
+        <copy file="${project.basedir}/${license.file}"
+              tofile="${project.build.dir}/${project.name}/${license.file}"
+              overwrite="true"/>
+    </target>
+
+    <target name="pear-pkg-xml" depends="build">
+        <pearpkg name="${package.name}" 
+                 dir="${project.build.dir}/${project.name}" 
+                 destFile="${project.build.dir}/${project.name}/package-dist.xml">
+            <fileset dir="${project.build.dir}/${project.name}">
+                <include name="**/*"/>
+            </fileset>
+            <option name="notes">${release.notes}</option>
+            <option name="description">S2Container is a lightweight container which supports DI(Dependency Injection) and AOP(Aspect Oriented Programming). The goal of S2Container.PHP5 project is to port Java Seasar2 to PHP5.</option>
+            <option name="summary">S2Container.PHP5, a lightweight container supports DI and AOP.</option>
+            <option name="version" value="${project.version}"/>
+            <option name="state" value="${project.state}"/>
+            <option name="baseinstalldir" value="${package.name}"/>
+            <option name="license" value="The Apache License, Version 2.0"/>
+            <mapping name="deps">
+                <element>
+                    <element key="type" value="php"/>
+                    <element key="rel" value="ge"/>
+                    <element key="version" value="5.1.0"/>
+                </element>
+            </mapping>
+            <mapping name="maintainers">
+                <element>
+                    <element key="handle" value="klove"/>
+                    <element key="name" value="klove"/>
+                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
+                    <element key="role" value="lead"/>
+                </element>
+                <element>
+                    <element key="handle" value="nowel"/>
+                    <element key="name" value="nowel"/>
+                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
+                    <element key="role" value="developer"/>
+                </element>
+                <element>
+                    <element key="handle" value="kent"/>
+                    <element key="name" value="kent"/>
+                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
+                    <element key="role" value="developer"/>
+                </element>
+            </mapping>
+        </pearpkg>
+
+        <copy file="${project.build.dir}/${project.name}/package-dist.xml"
+              tofile="${project.build.dir}/${project.name}/package.xml">
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="(role=.)data" replace="\1php" ignoreCase="true"/>
+                </replaceregexp>
+            </filterchain>
+        </copy>
+    </target>
+ 
+    <target name="pear-pkg" depends="pear-pkg-xml">
+        <exec command="pear package " 
+              dir="${project.build.dir}/${project.name}" />
+
+        <move toDir="${project.build.dir}/pear" overwrite="true">
+            <fileset dir="${project.build.dir}/${project.name}">
+                <include name="*.tgz"/>
+                <include name="package*.xml"/>
+            </fileset>
+        </move>
+    </target>
+    -->
+	
+</project>
