@@ -1,0 +1,11 @@
+<?php
+
+class @@BEAN@@ {
+const TABLE = "@@TABLE@@";
+    
+@@PROPS@@
+    
+@@METHODS@@
+}
+
+?>
