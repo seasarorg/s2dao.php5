@@ -133,7 +133,7 @@ class Employee implements Serializable {
         $buf .= $this->comm . ", ";
         $buf .= $this->deptno . ", ";
         $buf .= $this->timestamp . " {";
-        $buf .= $this->department . "}";
+        $buf .= $this->department ? $this->department->toString() : "null" . "}";
         return $buf;
     }
 

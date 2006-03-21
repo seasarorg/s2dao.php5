@@ -11,7 +11,7 @@ interface ShelfDao {
     const List_SearchByTime_SQL = "SELECT * FROM SHELF WHERE ADD_TIME < /*time*/'2005-12-31 12:59:59'";
     const List_SearchByTrue_SQL = "
         SELECT * FROM SHELF WHERE
-            /*IF time === true*/
+            /*IF time == true*/
                 ADD_TIME > '2004-01-01 10:12:34'
             -- ELSE ADD_TIME < /*time*/
             /*END*/";

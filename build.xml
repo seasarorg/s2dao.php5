@@ -22,15 +22,15 @@
         <mkdir dir="${project.build.dir}" />
         <mkdir dir="${project.build.dir}/${project.name}/${package.name}" />
     </target>
-	
-	<target name="generate" depends="prepare">
-       	<property name="dsn" value="mysql:host=localhost; dbname=s2con" />
-       	<property name="user" value="root" />
-       	<property name="password" value="pass" />
-		<generate toDir="${project.build.dir}/${project.name}" />
-	</target>
+    
+    <target name="generate" depends="prepare">
+           <property name="dsn" value="mysql:host=localhost; dbname=s2con" />
+           <property name="user" value="root" />
+           <property name="password" value="pass" />
+        <generate toDir="${project.build.dir}/${project.name}" />
+    </target>
 
-	<!--
+    <!--
     <target name="build" depends="prepare">
         <copy2 toDir="${project.build.dir}/${project.name}/${package.name}">
             <fileset dir="${project.src.dir}">
@@ -117,5 +117,5 @@
         </move>
     </target>
     -->
-	
+    
 </project>
