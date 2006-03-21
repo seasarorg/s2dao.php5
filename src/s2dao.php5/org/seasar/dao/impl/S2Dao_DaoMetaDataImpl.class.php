@@ -5,13 +5,13 @@
  */
 class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
-    private static $INSERT_NAMES = array('insert', 'create', 'add');
-    private static $UPDATE_NAMES = array('update', 'modify', 'store');
-    private static $DELETE_NAMES = array('delete', 'remove');
-
-    const SELECT_ARRAY_NAME = '/Array_/i';
-    const SELECT_LIST_NAME = '/List_/i';
+    const INSERT_NAMES = '/^(insert|create|add)/i';
+    const UPDATE_NAMES = '/^(update|modify|store)/i';
+    const DELETE_NAMES = '/^(delete|remove)/i';
+    const SELECT_ARRAY_NAME = '/^Array_/i';
+    const SELECT_LIST_NAME = '/^List_/i';
     const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
+    const startWithSelectPattern = '/^select/i';
     const startWithOrderByPattern = '/(\/\*[^\*]+\*\/)*order by/i';
 
     protected $daoClass_;
@@ -149,18 +149,16 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         }
     }
 
-    protected static function startsWithSelect($query) {
+    protected static function startsWithSelect($query = null) {
         if ($query == null) {
             return false;
         }
-        return eregi('^select', trim($query));
+        return preg_match(self::startWithSelectPattern, trim($query));
     }
 
-     protected static function startsWithOrderBy($query) {
+     protected static function startsWithOrderBy($query = null) {
         if ($query != null) {
-            if(preg_match(self::startWithOrderByPattern, $query)){
-                return true;
-            }
+            return preg_match(self::startWithOrderByPattern, $query);
         }
         return false;
     }
@@ -404,7 +402,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
         if (count($argNames) != 0) {
             $began = false;
-            if (!(strrpos($sql, 'WHERE') > 0)) {
+            if (!(strripos($sql, 'WHERE') > 0)) {
                 $buf .= '/*BEGIN*/ WHERE ';
                 $began = true;
             }
@@ -455,46 +453,23 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isSelectArray($methodName){
-        if(preg_match(self::SELECT_ARRAY_NAME, $methodName)){
-            return true;
-        } else {
-            return false;
-        }
+        return preg_match(self::SELECT_ARRAY_NAME, $methodName);
     }
 
     protected function isSelectList($methodName){
-        if(preg_match(self::SELECT_LIST_NAME, $methodName)){
-            return true;
-        } else {
-            return false;
-        }
+        return preg_match(self::SELECT_LIST_NAME, $methodName);
     }
 
     protected function isInsert($methodName) {
-        foreach (self::$INSERT_NAMES as $insertNames){
-            if (eregi('^' . $insertNames, $methodName)) {
-                return true;
-            }
-        }
-        return false;
+        return preg_match(self::INSERT_NAMES,$methodName);
     }
 
     protected function isUpdate($methodName) {
-        foreach (self::$UPDATE_NAMES as $updateNames){
-            if (eregi('^' . $updateNames, $methodName)) {
-                return true;
-            }
-        }
-        return false;
+        return preg_match(self::UPDATE_NAMES, $methodName);
     }
 
     protected function isDelete($methodName) {
-        foreach (self::$DELETE_NAMES as $deleteNames) {
-            if (eregi('^' . $deleteNames, $methodName)) {
-                return true;
-            }
-        }
-        return false;
+        return preg_match(self::DELETE_NAMES, $methodName);
     }
 
 

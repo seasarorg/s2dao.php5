@@ -10,7 +10,6 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
 
     public function __construct($sql) {
         $sql = trim($sql);
-
         $sql = preg_replace('/(.+);$/s', '\1', $sql);
         $this->tokenizer_ = new S2Dao_SqlTokenizerImpl($sql);
     }

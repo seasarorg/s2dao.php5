@@ -178,7 +178,8 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
             $quote = ')';
         }
         $i = $quoting ? ($this->position_ + 1) : $this->position_;
-        for (; $i < strlen($this->sql_); ++$i) {
+        $len = strlen($this->sql_);
+        for (; $i < $len; ++$i) {
             $c = substr($this->sql_, $i, 1);
             
             if ((preg_match("/(\s|,|\)|\()/", $c) > 0 ) && !$quoting) {
@@ -218,9 +219,10 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
             return $this->token_;
         } else {
             $index = strlen($this->sql_);
-            for ($i = $position; $i < strlen($this->sql_); ++$i) {
+            $len = strlen($this->sql_);
+            for ($i = $position; $i < $len; ++$i) {
                 $c = substr($this->sql_, $i, 1);
-                if (!preg_match('/\s?/', $c) == 1) {
+                if (preg_match('/\W?/', $c)) {
                     $index = $i;
                     break;
                 }

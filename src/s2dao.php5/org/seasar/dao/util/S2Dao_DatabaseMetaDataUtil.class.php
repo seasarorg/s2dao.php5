@@ -218,13 +218,13 @@ final class S2Dao_DatabaseMetaDataUtil {
         $stmt = $db->prepare($sql);
         $stmt->execute();
 
-        // FIXME hangup
+        // FIXME
         $colsql = $dbms->getPrimaryKeySql();
         $colsql = str_replace(S2Dao_Dbms::BIND_TABLE, '\''.$table.'\'', $colsql);
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach($rows as $row){
-            // FIXME hangup
+            // FIXME
             $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\''.$row['COLUMN_NAME'].'\'', $colsql);
             $stcol = $db->query($sql);
             $col = $stcol->fetch(PDO::FETCH_ASSOC);

@@ -315,7 +315,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $relkeys = $this->beanAnnotationReader_->getRelationKey($propertyDesc);
 
         if($relkeys !== null){
-            $delim = new ArrayObject(preg_split("/[\s,]+/", $relkeys));
+            $delim = new ArrayObject(preg_split('/[\s,]+/', $relkeys));
             $st = $delim->getIterator();
             $myKeyList = new S2Dao_ArrayList();
             $yourKeyList = new S2Dao_ArrayList();
