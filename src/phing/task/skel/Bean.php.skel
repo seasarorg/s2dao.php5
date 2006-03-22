@@ -1,11 +1,21 @@
 <?php
 
+/**
+ * @author nowel
+ */
 class @@BEAN@@ {
 const TABLE = "@@TABLE@@";
-    
+
+// {{{
+// properties 
 @@PROPS@@
-    
+// }}}
+
+// {{{
+// methods
 @@METHODS@@
+// }}}
+
 }
 
 ?>

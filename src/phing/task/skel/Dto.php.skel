@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author nowel
+ */
 class @@BEAN@@ {
     const TABLE = "@@TABLE@@";
 }

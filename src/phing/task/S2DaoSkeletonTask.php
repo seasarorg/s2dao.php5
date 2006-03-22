@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author nowel
+ */
 class S2DaoSkeletonTask extends Task {
     
     const clzz = ".class.php";

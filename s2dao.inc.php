@@ -43,7 +43,7 @@ require_once(S2DAO_PHP5 . "/S2DaoClassLoader.class.php");
 if( class_exists("S2ContainerClassLoader") ){
     S2ContainerClassLoader::import(S2DaoClassLoader::export());
 }
-if( class_exists("S2Container_MessageUtil") ){
+if( class_exists("S2ContainerMessageUtil") ){
     S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5."/DaoMessages.properties");
 }
 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author nowel
+ */
 class @@DAO@@ {
     const BEAN = "@@BEAN@@";
 }
