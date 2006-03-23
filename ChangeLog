@@ -12,6 +12,10 @@
         not)
             List_getEmployeeBy(args)
         	    Array_getEmployees(args)
+        	    
+    * 単一カラムの戻り値を変更
+    		'SELECT count(*)' などのように一つだけのカラムが戻り値になった場合は
+    		その結果セットを戻します。 
 
 2006-03-22 nowel
 

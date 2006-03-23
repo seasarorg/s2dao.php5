@@ -75,11 +75,12 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         }
 
         try{
+            $resultSet = $this->createResultSet($stmt);
+            // FIXME
             if($stmt->columnCount() == 1){
-                $this->createResultSet($stmt);
-                return (int)$ps->fetch(PDO::FETCH_NUM);
+                $rs = $stmt->fetch(PDO::FETCH_NUM);
+                return (int)$rs[0];
             } else {
-                $resultSet = $this->createResultSet($stmt);
                 return $this->resultSetHandler_->handle($stmt);
             }
         } catch (S2Container_SQLException $ex) {
