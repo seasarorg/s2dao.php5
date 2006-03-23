@@ -1,3 +1,7 @@
+2006-03-22 nowel
+
+    * s2dao.inc.php にて S2ContainerMessageUtil の指定が間違っていたのを修正しました。
+
 2006-03-21 nowel
 
     * refix: SQLコメントが正しく利用できないバグを修正しました。
