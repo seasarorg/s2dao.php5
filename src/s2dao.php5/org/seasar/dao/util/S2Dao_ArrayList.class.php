@@ -34,7 +34,7 @@ class S2Dao_ArrayList extends ArrayObject {
     }
     	
     public function add($index, $object = null){
-        if( $object == null ){
+        if($object == null){
             $this->append($index);
         } else {
             $this->offsetSet($index, $object);
@@ -42,7 +42,7 @@ class S2Dao_ArrayList extends ArrayObject {
     }
     
     public function addAll(ArrayObject $list){
-        foreach( $list->toArray() as $value ){
+        foreach($list->toArray() as $value){
             $this->append($value);
         }
     }

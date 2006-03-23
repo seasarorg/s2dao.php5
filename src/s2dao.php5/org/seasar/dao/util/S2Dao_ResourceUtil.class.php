@@ -38,7 +38,7 @@ final class S2Dao_ResourceUtil {
     }
     
     public static function getResourceNoException($path, $extension = null) {
-        if( $extension == null ){
+        if($extension == null){
             return $this->getResourceNoException($path, '');
         } else {
             $path = $this->getResourcePath($path, $extension);

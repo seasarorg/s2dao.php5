@@ -1,3 +1,18 @@
+2006-03-23 nowel
+
+    * メソッドの戻り値指定の List_ 及び Array_ の変更
+        - 'List_getEmployee()' to 'getEmployeeList()'
+            - 'EmployeeDao_List_getEmployees.sql' to 'EmployeeDao_getEmployeesList.sql'
+        - 'Array_getDepartment()' to 'getDepartmentArray()'
+            - 'Department_Array_getDepartment.sql' to 'Department_getDepartmentArray.sql'
+        
+        ex)
+            getEmployeeByList(args)
+            getEmployeesArray(args)
+        not)
+            List_getEmployeeBy(args)
+        	    Array_getEmployees(args)
+
 2006-03-22 nowel
 
     * s2dao.inc.php にて S2ContainerMessageUtil の指定が間違っていたのを修正しました。

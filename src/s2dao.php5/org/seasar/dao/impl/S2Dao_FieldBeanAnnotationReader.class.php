@@ -62,7 +62,7 @@ class S2Dao_FieldBeanAnnotationReader implements S2Dao_BeanAnnotationReader {
     public function getNoPersisteneProps() {
         if ($this->beanDesc_->hasConstant(self::NO_PERSISTENT_PROPS)) {
             $s = $this->beanDesc_->getConstant(self::NO_PERSISTENT_PROPS);
-            return S2Dao_FieldAnnotationReader::spacetrim(explode(",", $s));
+            return S2Dao_FieldAnnotationReader::spacetrim(explode(',', $s));
         }
         return null;
     }

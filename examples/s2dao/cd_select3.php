@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . "/example.inc.php";
 $container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container->getComponent("beanCdDao");
 
-$list = $dao->List_getCD3(null);
+$list = $dao->getCD3List(null);
 $cds = $list->toArray();
 for($i = 0; $i < $list->size(); $i++){
     echo "ID: " . $cds[$i]->getId() . PHP_EOL;
@@ -15,7 +15,7 @@ for($i = 0; $i < $list->size(); $i++){
 
 echo "======" . PHP_EOL;
 
-$cds = $dao->Array_getCds();
+$cds = $dao->getCdsArray();
 foreach($cds as $cd){
     echo "ID: " . $cd->getId() . PHP_EOL;
     echo "TITLE: " . $cd->getTitle() . PHP_EOL;

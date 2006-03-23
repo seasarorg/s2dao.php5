@@ -4,17 +4,17 @@ require_once dirname(__FILE__) . "/orign.inc.php";
 $container = S2ContainerFactory::create("./resource/EmployeeAutoDao.dicon");
 $dao = $container->getComponent("EmployeeAutoDao");
 
-$dao->List_getEmployeeByJobDeptno(null, null);
-$dao->List_getEmployeeByJobDeptno("CLERK", null);
-$dao->List_getEmployeeByJobDeptno(null, 20);
-$dao->List_getEmployeeByJobDeptno("CLERK", 20);
+$dao->getEmployeeByJobDeptnoList(null, null);
+$dao->getEmployeeByJobDeptnoList("CLERK", null);
+$dao->getEmployeeByJobDeptnoList(null, 20);
+$dao->getEmployeeByJobDeptnoList("CLERK", 20);
 
-$employees = $dao->List_getEmployeesBySal(0, 1000);
+$employees = $dao->getEmployeesBySalList(0, 1000);
 for ($i = 0; $i < $employees->size(); ++$i) {
     var_dump($employees->get($i)->toString());
 }
 
-$employees = $dao->List_getEmployeeByDname("SALES");
+$employees = $dao->getEmployeeByDnameList("SALES");
 for ($i = 0; $i < $employees->size(); ++$i) {
     var_dump($employees->get($i)->toString());
 }

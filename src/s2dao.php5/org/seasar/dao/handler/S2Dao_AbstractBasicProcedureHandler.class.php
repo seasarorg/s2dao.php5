@@ -4,6 +4,7 @@
  * @author nowel
  */
 abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHandler{
+    
     protected $initialised = false;
     protected $dataSource_;
     protected $procedureName_;
@@ -44,7 +45,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
 
     protected function prepareCallableStatement(PDO $connection) {
         if ($this->sql_ == null) {
-            throw new S2Container_EmptyRuntimeException("sql");
+            throw new S2Container_EmptyRuntimeException('sql');
         }
         return $this->statementFactory_->createCallableStatement(
                         $connection, $this->sql_);
@@ -52,7 +53,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
 
     protected function confirmProcedureName($dmd) {
         $str = S2Dao_DatabaseMetaDataUtil::convertIdentifier($dmd, $this->procedureName_);
-        $names = split("\\.", $str);
+        $names = split('\\.', $str);
         $namesLength = count($names);
         $rs = null;
         try{
@@ -72,11 +73,11 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
                 $len++;
             }
             if($len < 1){
-                throw new S2Container_RuntimeException("EDAO0012",
+                throw new S2Container_RuntimeException('EDAO0012',
                                             array($this->procedureName_));
             }
             if($len > 1){
-                throw new S2Container_RuntimeException("EDAO0013",
+                throw new S2Container_RuntimeException('EDAO0013',
                                             array($this->procedureName_));
             }
             return $names;
@@ -116,7 +117,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
                     $buff .= '?,';
                     $outparameterNum++;
                 }else{
-                    throw new S2Container_RuntimeException("EDAO0010",
+                    throw new S2Container_RuntimeException('EDAO0010',
                                                         array($this->procedureName_));
                 }
             }            
@@ -132,7 +133,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
     }
 
     public function execute() {
-        if(func_num_args() > 1){
+        if(1 < func_num_args()){
             $connection = func_get_arg(0);
             $args = func_get_arg(1);
             
@@ -152,24 +153,24 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         $argPos = 0;
         $c = count($this->columnTypes_);
         for ($i = 0; $i < $c; $i++) {
-            if($this->isOutputColum(intVal($this->columnInOutTypes_[$i]))){
-                $ps->registerOutParameter($i+1, intVal($this->columnTypes_[$i]));
+            if($this->isOutputColum((int)$this->columnInOutTypes_[$i])){
+                $ps->registerOutParameter($i + 1, (int)$this->columnTypes_[$i]);
             }
-            if($this->isInputColum(intVal($this->columnInOutTypes_[$i]))){
-                $ps->setObject($i+1, $args[$argPos++], intVal($this->columnTypes_[$i]));
+            if($this->isInputColum((int)$this->columnInOutTypes_[$i])){
+                $ps->setObject($i + 1, $args[$argPos++], (int)$this->columnTypes_[$i]);
             }
         }
     }
     
     protected function isInputColum($columnInOutType){
         return $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnIn ||
-            $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnInOut;
+                $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnInOut;
     }
     
     protected function isOutputColum($columnInOutType){
         return $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnReturn ||
-            $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnOut ||
-            $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnInOut;
+                $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnOut ||
+                $columnInOutType == S2Dao_DatabaseMetaData::procedureColumnInOut;
     }
 
     protected function getCompleteSql($args = null) {

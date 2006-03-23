@@ -147,11 +147,12 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     protected function push(S2Dao_Node $node) {
-        array_push($this->nodeStack_, $node);
+        $this->nodeStack_[] = $node;
     }
 
     protected function isElseMode() {
-        for ($i = 0; $i < count($this->nodeStack_); ++$i) {
+        $c = count($this->nodeStack_);
+        for ($i = 0; $i < $c; ++$i) {
             if ($this->nodeStack_[$i] instanceof S2Dao_ElseNode) {
                 return true;
             }
@@ -160,8 +161,9 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     private static function isTargetComment($comment = null) {
-        return $comment != null && strlen($comment) > 0
-                && substr($comment,0,1) != null;
+        return $comment != null &&
+               strlen($comment) > 0 && 
+               substr($comment, 0, 1) != null;
     }
 
     private static function isIfComment($comment) {

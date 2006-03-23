@@ -35,7 +35,7 @@ class S2Dao_Oracle extends S2Dao_Standard {
                 $whereBuf .= ' AND ';
             }
         }
-        if (strlen($whereBuf) > 0) {
+        if (0 < strlen($whereBuf)) {
             $whereBuf = preg_replace('/( AND )$/', '', $whereBuf);
             $buf .= ' WHERE ';
             $buf .= $whereBuf;

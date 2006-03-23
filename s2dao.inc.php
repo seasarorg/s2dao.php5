@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2004-2005 the Seasar Foundation and the Others.            |
+// | Copyright 2004-2006 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -25,26 +25,26 @@
  */
 
 /** S2Dao.PHP5 ROOT Directory */
-define("S2DAO_PHP5", dirname(__FILE__) . "/src/s2dao.php5");
+define('S2DAO_PHP5', dirname(__FILE__) . '/src/s2dao.php5');
 
 /** PDO DataSource dicon */
-//define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
+//define('PDO_DICON', dirname(__FILE__) . '/pdo.dicon');
 
 /** Phar Using Sample */
-//define("S2DAO_PHP5_Phar", dirname(__FILE__) . "/build/s2dao.php5-1.0.0-beta3.phar");
+//define('S2DAO_PHP5_Phar', dirname(__FILE__) . '/build/s2dao.php5-1.0.0-beta3.phar');
 //if( file_exists(S2DAO_PHP5_Phar) ){
 //    require_once(S2DAO_PHP5_Phar);
-//    define("S2DAO_PHP5", "phar://s2dao.php5-1.0.0-beta3.phar");
+//    define('S2DAO_PHP5', 'phar://s2dao.php5-1.0.0-beta3.phar');
 //}
 
 /** S2Dao.PHP5 ClassLoader */
-require_once(S2DAO_PHP5 . "/S2DaoClassLoader.class.php");
+require_once S2DAO_PHP5 . '/S2DaoClassLoader.class.php';
 
-if( class_exists("S2ContainerClassLoader") ){
+if( class_exists('S2ContainerClassLoader') ){
     S2ContainerClassLoader::import(S2DaoClassLoader::export());
 }
-if( class_exists("S2ContainerMessageUtil") ){
-    S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5."/DaoMessages.properties");
+if( class_exists('S2ContainerMessageUtil') ){
+    S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5 . '/DaoMessages.properties');
 }
 
 ?>

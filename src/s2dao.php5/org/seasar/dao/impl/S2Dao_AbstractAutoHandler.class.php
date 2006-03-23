@@ -19,7 +19,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
                                 S2Dao_BeanMetaData $beanMetaData,
                                 $propertyTypes) {
 
-        self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
+        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
         $this->setDataSource($dataSource);
         $this->setStatementFactory($statementFactory);
         $this->beanMetaData_ = $beanMetaData;

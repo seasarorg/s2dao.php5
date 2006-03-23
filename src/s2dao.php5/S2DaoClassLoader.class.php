@@ -113,7 +113,7 @@ class S2DaoClassLoader {
 
     public static function load($className){
         if(isset(self::$CLASSES[$className])){
-            require_once(S2DAO_PHP5 . self::$CLASSES[$className]);
+            require_once S2DAO_PHP5 . self::$CLASSES[$className];
             return true;
         } else {
             return false;

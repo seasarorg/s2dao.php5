@@ -8,10 +8,11 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     const INSERT_NAMES = '/^(insert|create|add)/i';
     const UPDATE_NAMES = '/^(update|modify|store)/i';
     const DELETE_NAMES = '/^(delete|remove)/i';
-    const SELECT_ARRAY_NAME = '/^Array_/i';
-    const SELECT_LIST_NAME = '/^List_/i';
+    const SELECT_ARRAY_NAME = '/Array$/i';
+    const SELECT_LIST_NAME = '/List$/i';
+    //const METHOD_SUFFIX = '/(.*)(Array|List)?$/i';
     const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
-    const startWithSelectPattern = '/^select/i';
+    const startWithSelectPattern = '/^SELECT/i';
     const startWithOrderByPattern = '/(\/\*[^\*]+\*\/)*order by/i';
 
     protected $daoClass_;
@@ -28,10 +29,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected $sqlCommands_;
 
     public function __construct($daoClass,
-                                S2Container_DataSource $dataSource,
-                                S2Dao_StatementFactory $statementFactory,
-                                S2Dao_ResultSetFactory $resultSetFactory,
-                                $annotationReaderFactory = null){
+                              S2Container_DataSource $dataSource,
+                              S2Dao_StatementFactory $statementFactory,
+                              S2Dao_ResultSetFactory $resultSetFactory,
+                              $annotationReaderFactory = null){
 
         if(null == $annotationReaderFactory){
             $annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
@@ -74,7 +75,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $this->setupMethodByManual($method, $sql);
             return;
         }
-
+        
         $base = dirname($this->daoInterface_->getFileName()) .
                 DIRECTORY_SEPARATOR .
                 $this->daoInterface_->getName() . '_' . $method->getName();
@@ -122,9 +123,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $query = null) {
         if( $query == null ){
             return new S2Dao_SelectDynamicCommand($this->dataSource_,
-                                                  $this->statementFactory_,
-                                                  $rsh,
-                                                  $this->resultSetFactory_);
+                                                 $this->statementFactory_,
+                                                 $rsh,
+                                                 $this->resultSetFactory_);
         } else {
             $cmd = $this->createSelectDynamicCommand($rsh);
             $buf = '';
@@ -333,12 +334,12 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $cmd = $this->createSelectDynamicCommand($handler);
             $sql = null;
             if (count($argNames) == 0 && count($method->getParameters()) == 1) {
-                $argNames = array("dto");
+                $argNames = array('dto');
 
                 $param = $method->getParameters();
                 $types = $param[0]->getClass();
 
-                if( $types !== null ){
+                if($types !== null){
                     $sql = $this->createAutoSelectSqlByDto($types[0]);
                 } else {
                     $sql = $this->createAutoSelectSql($argNames);
@@ -485,8 +486,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $cmd = $this->sqlCommands_->get($methodName);
         if ($cmd == null) {
             throw new S2Container_MethodNotFoundRuntimeException($this->daoClass_,
-                                                                 $methodName,
-                                                                 null);
+                                                                $methodName,
+                                                                null);
         }
         return $cmd;
     }
@@ -497,17 +498,17 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     public function createFindCommand($query) {
         return $this->createSelectDynamicCommand(
-                new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_), $query);
+               new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_), $query);
     }
 
     public function createFindArrayCommand($query) {
         return $this->createSelectDynamicCommand(
-                new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_), $query);
+               new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_), $query);
     }
 
     public function createFindBeanCommand($query) {
         return $this->createSelectDynamicCommand(
-                new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_), $query);
+               new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_), $query);
     }
 
     public function createFindObjectCommand($query) {

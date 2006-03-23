@@ -9,6 +9,7 @@ final class S2Dao_NumberConversionUtil {
     }
 
     public static function convertNumber($type, $o) {
+        assert("AAAAAAAAA");
         /*
         if ( is_integer($type) ) {
             return IntegerConversionUtil::toInteger($o);
@@ -30,6 +31,7 @@ final class S2Dao_NumberConversionUtil {
     }
     
     public static function convertPrimitiveWrapper($type, $o) {
+        assert("AAAAAAAAA");
         if(is_integer($type)){
             return 0;
         } else if(is_real($type)){

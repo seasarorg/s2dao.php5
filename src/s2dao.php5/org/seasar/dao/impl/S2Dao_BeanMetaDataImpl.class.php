@@ -23,15 +23,15 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                                 S2Dao_AnnotationReaderFactory $annotationReaderFactory = null,
                                 $relation = null) {
 
-        self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
+        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
         $this->propertyTypesByColumnName_ = new S2Dao_HashMap();
         $this->relationPropertyTypes_ = new S2Dao_ArrayList();
         
-        if( $annotationReaderFactory == null ){
+        if($annotationReaderFactory == null){
             $annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
         }
 
-        if( $relation == null ){
+        if($relation == null){
             $relation = false;
         }
 
@@ -169,7 +169,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             for ($i = 0; $i < $this->getRelationPropertyTypeSize(); $i++) {
                 $rpt = $this->relationPropertyTypes_->get($i);
                 if ($rpt != null &&
-                    strcasecmp($rpt->getPropertyName(), $index) == 0 ){
+                    strcasecmp($rpt->getPropertyName(), $index) == 0){
                     return $rpt;
                 }
             }
@@ -202,8 +202,8 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
 
     protected function setupProperty(S2Container_BeanDesc $beanDesc,
-                                     $dbMetaData,
-                                     S2Dao_Dbms $dbms) {
+                                   $dbMetaData,
+                                   S2Dao_Dbms $dbms) {
 
         for ($i = 0; $i < $beanDesc->getPropertyDescSize(); ++$i) {
             $pd = $beanDesc->getPropertyDesc($i);
@@ -233,8 +233,8 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
 
     protected function setupDatabaseMetaData(S2Container_BeanDesc $beanDesc,
-                                             $dbMetaData,
-                                             S2Dao_Dbms $dbms) {
+                                           $dbMetaData,
+                                           S2Dao_Dbms $dbms) {
         $this->setupPropertyPersistentAndColumnName($beanDesc, $dbMetaData);
         $this->setupPrimaryKey($dbMetaData, $dbms);
     }

@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . "/orign.inc.php";
 
 $container = S2ContainerFactory::create("./resource/EmployeeDao.dicon");
 $dao = $container->getComponent("EmployeeDao");
-$employees = $dao->List_getAllEmployees();
+$employees = $dao->getAllEmployeesList();
 for ($i = 0; $i < $employees->size(); ++$i) {
     var_dump($employees->get($i)->toString());
 }
@@ -14,12 +14,12 @@ var_dump($employee->toString());
 $count = $dao->getCount();
 var_dump("count:" . $count);
 
-$dao->List_getEmployeeByJobDeptno(null, null);
-$dao->List_getEmployeeByJobDeptno("CLERK", null);
-$dao->List_getEmployeeByJobDeptno(null, 20);
-$dao->List_getEmployeeByJobDeptno("CLERK", 20);
-$dao->List_getEmployeeByDeptno(20);
-$dao->List_getEmployeeByDeptno(null);
+$dao->getEmployeeByJobDeptnoList(null, null);
+$dao->getEmployeeByJobDeptnoList("CLERK", null);
+$dao->getEmployeeByJobDeptnoList(null, 20);
+$dao->getEmployeeByJobDeptnoList("CLERK", 20);
+$dao->getEmployeeByDeptnoList(20);
+$dao->getEmployeeByDeptnoList(null);
 
 var_dump("updatedRows:" . $dao->update($employee));
 

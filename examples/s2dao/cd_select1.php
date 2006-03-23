@@ -5,7 +5,7 @@ $container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container->getComponent("beanCdDao");
 
 // $cd is array()
-$cd = $dao->Array_getAllCD();
+$cd = $dao->getAllCDArray();
 
 for($i = 0; $i < count($cd); $i++){
     // $cd[$i] instanceof CdBean
@@ -17,7 +17,7 @@ for($i = 0; $i < count($cd); $i++){
 
 echo "=====" . PHP_EOL;
 
-$cd = $dao->Array_getSelectCdById(20);
+$cd = $dao->getSelectCdByIdArray(20);
 foreach($cd as $bean){
     echo "ID: " . $bean->getId() . PHP_EOL;
     echo "TITLE: " . $bean->getTitle() . PHP_EOL;

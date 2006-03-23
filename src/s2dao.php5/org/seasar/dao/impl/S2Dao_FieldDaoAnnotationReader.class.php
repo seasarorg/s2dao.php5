@@ -78,7 +78,7 @@ class S2Dao_FieldDaoAnnotationReader implements S2Dao_DaoAnnotationReader {
     private function getProps(ReflectionMethod $method, $constName){
         if ($this->daoBeanDesc_->hasConstant($constName)) {
             $s = $this->daoBeanDesc_->getConstant($constName);
-            return S2Dao_FieldAnnotationReader::spacetrim(explode(",", $s));
+            return S2Dao_FieldAnnotationReader::spacetrim(explode(',', $s));
         }
         return null;
     }

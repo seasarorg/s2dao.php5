@@ -70,9 +70,9 @@ final class S2Dao_DatabaseMetaDataUtil {
         $convertedTableName = self::convertIdentifier($dbMetaData, $tableName);
         $set = new S2Dao_ArrayList();
         self::addColumns($dbMetaData,
-                          self::convertIdentifier($dbMetaData, $schema),
-                          $convertedTableName,
-                          $set);
+                         self::convertIdentifier($dbMetaData, $schema),
+                         $convertedTableName,
+                         $set);
 
         if ($set->size() == 0) {
             self::addColumns($dbMetaData, $schema, $tableName, $set);
@@ -105,7 +105,7 @@ final class S2Dao_DatabaseMetaDataUtil {
             $lower = strtolower($identifier);
             if (in_array($upper, $tables, true)) {
                 return $upper;
-            } else if( in_array($lower, $tables, true) ){
+            } else if(in_array($lower, $tables, true)){
                 return $lower;
             } else {
                 return $identifier;
@@ -188,7 +188,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         $stmt->execute();
         foreach($retVal as &$value){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if( is_array($row) && $row['pkey'] == $value['name'] ){
+            if(is_array($row) && $row['pkey'] == $value['name']){
                 $value['flags'] = (array)self::PRIMARY_KEY;
             }
         }

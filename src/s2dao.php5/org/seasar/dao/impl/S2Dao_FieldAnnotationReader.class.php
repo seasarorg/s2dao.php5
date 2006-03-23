@@ -23,7 +23,7 @@ class S2Dao_FieldAnnotationReader {
         $argsKey = $methodName . self::ARGS_SUFFIX;
         if ($this->daoBeanDesc_->hasConstant($argsKey)) {
             $argNames = $this->daoBeanDesc_->getConstant($argsKey);
-            return $this->spacetrim(explode(",", $argNames));
+            return $this->spacetrim(explode(',', $argNames));
         } else {
             return array();
         }
@@ -54,7 +54,7 @@ class S2Dao_FieldAnnotationReader {
     private function getProps($methodName, $fieldName){
         if ($this->daoBeanDesc_->hasConstant($fieldName)) {
             $s = $this->daoBeanDesc_->getConstant($fieldName);
-            return $this->spacetrim(explode(",", $s));
+            return $this->spacetrim(explode(',', $s));
         }
         return null;
     }

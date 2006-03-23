@@ -10,13 +10,14 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     protected $beanAnnotationReader_;
 
     public function __construct($beanClass,
-                                S2Dao_BeanAnnotationReader $beanAnnotationReader) {
+                              S2Dao_BeanAnnotationReader $beanAnnotationReader) {
         if(0 == count(func_get_args())){
             $this->beanAnnotationReader_ = $beanAnnotationReader;
             $this->beanClass_ = $beanClass;
             $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
             $this->setupPropertyType($beanDesc);
         } else {
+            assert("AAAAAAAAAAA");
             throw new Exception();
         }
     }

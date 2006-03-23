@@ -12,12 +12,12 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     private $maxRows_ = -1;
 
     public function __construct(S2Container_DataSource $dataSource,
-                                $sql,
-                                S2Dao_ResultSetHandler $resultSetHandler,
-                                S2Dao_StatementFactory $statementFacotry = null,
-                                S2Dao_ResultSetFactory $resultSetFacotry = null) {
+                              $sql,
+                              S2Dao_ResultSetHandler $resultSetHandler,
+                              S2Dao_StatementFactory $statementFacotry = null,
+                              S2Dao_ResultSetFactory $resultSetFacotry = null) {
 
-        self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
+        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
         $this->setDataSource($dataSource);
         $this->setSql($sql);
         $this->setResultSetHandler($resultSetHandler);
@@ -26,8 +26,8 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
             $this->setStatementFactory($statementFactory);
             $this->setResultSetFactory($resultSetFactory);
         } else {
-            $this->setStatementFactory( new S2Dao_BasicStatementFactory );
-            $this->setResultSetFactory( new S2Dao_BasicResultSetFactory );
+            $this->setStatementFactory(new S2Dao_BasicStatementFactory);
+            $this->setResultSetFactory(new S2Dao_BasicResultSetFactory);
         }
     }
 
@@ -64,24 +64,23 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     }
 
     public function execute($element, $args){
-        $ps = $this->prepareStatement($this->getConnection());
-        $ps->setFetchMode(PDO::FETCH_ASSOC);
-        $this->bindArgs($ps, $element, $args);
+        $stmt = $this->prepareStatement($this->getConnection());
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $this->bindArgs($stmt, $element, $args);
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
             self::$logger_->debug($this->getCompleteSql($element));
         }
         if ($this->resultSetHandler_ == null) {
-            throw new S2Container_EmptyRuntimeException("resultSetHandler");
+            throw new S2Container_EmptyRuntimeException('resultSetHandler');
         }
 
         try{
-            // FIXME sql start with "select count|max|min from" string returned integer
-            if(preg_match("/^select\s+(count|max|min)\(.+\)\s+from/i", $this->getSql())){
-                $this->createResultSet($ps);
+            if($stmt->columnCount() == 1){
+                $this->createResultSet($stmt);
                 return (int)$ps->fetch(PDO::FETCH_NUM);
             } else {
-                $resultSet = $this->createResultSet($ps);
-                return $this->resultSetHandler_->handle($ps);
+                $resultSet = $this->createResultSet($stmt);
+                return $this->resultSetHandler_->handle($stmt);
             }
         } catch (S2Container_SQLException $ex) {
             throw new S2Container_SQLRuntimeException($ex);
@@ -99,8 +98,8 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     protected function setupDatabaseMetaData(DatabaseMetaData $dbMetaData) {
     }
 
-    protected function createResultSet(PDOStatement $ps) {
-        return $this->resultSetFactory_->createResultSet($ps);
+    protected function createResultSet(PDOStatement $stmt) {
+        return $this->resultSetFactory_->createResultSet($stmt);
     }
 }
 ?>

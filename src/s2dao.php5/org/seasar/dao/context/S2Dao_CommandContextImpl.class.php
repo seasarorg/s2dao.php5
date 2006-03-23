@@ -5,7 +5,7 @@
  */
 class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
 
-    private static $logger_;
+    private static $logger_ = null;
     private $args_;
     private $argTypes_;
     private $sqlBuf_ = '';
@@ -14,23 +14,15 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
     private $enabled_ = true;
     private $parent_;
 
-    private static $init = false;
-
-    private static function staticConst(){
-        self::$logger_ = S2Container_S2Logger::getLogger(__CLASS__);
-        self::$init = true;
-    }
-
     public function __construct($parent = null){
-        if( !self::$init ){
-            self::staticConst();
+        if(self::$logger_ === null){
+            self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
         }
         $this->args_ = new S2Dao_HashMap();
         $this->argTypes_ = new S2Dao_HashMap();
         $this->sqlBuf_ = '';
         $this->bindVariables_ = new S2Dao_ArrayList();
         $this->bindVariableTypes_ = new S2Dao_ArrayList();
-
         $this->parent_ = $parent;
         $this->enabled_ = false;
     }
@@ -44,7 +36,7 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
             if ($this->args_->size() == 1) {
                 return $this->args_->get(0);
             }
-            self::$logger_->info("WDAO0001", $name);
+            self::$logger_->info('WDAO0001', $name);
             return null;
         }
     }
@@ -81,14 +73,15 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
     }
 
     public function addSql($sql, $bindVariable = null, $bindVariableType = null) {
-        if( is_array($bindVariable) && is_array($bindVariableType) ){
+        if(is_array($bindVariable) && is_array($bindVariableType)){
             $this->sqlBuf_ .= $sql;
-            for ($i = 0; $i < count($bindVariable); ++$i) {
+            $c = count($bindVariable);
+            for ($i = 0; $i < $c; ++$i) {
                 $this->bindVariables_->add($bindVariable[$i]);
                 $this->bindVariableTypes_->add($bindVariableType[$i]);
             }
             return $this;
-        } else if( $bindVariable === null && $bindVariableType === null ){
+        } else if($bindVariable === null && $bindVariableType === null){
             $this->sqlBuf_ .= $sql;
             return $this;
         } else {

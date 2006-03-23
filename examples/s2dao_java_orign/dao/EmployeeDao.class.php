@@ -4,19 +4,19 @@ interface EmployeeDao {
 
     const BEAN = "Employee";
     
-    public function List_getAllEmployees();
+    public function getAllEmployeesList();
 
     public function getEmployee($empno);
 
     public function getCount();
 
-    public function List_getEmployeeByJobDeptno($job, $deptno);
+    public function getEmployeeByJobDeptnoList($job, $deptno);
     
-    const List_getEmployeeByDeptno_QUERY = "
+    const getEmployeeByDeptnoList_QUERY = "
                 /*IF deptno != null*/deptno = /*deptno*/123
                 /*ELSE*/ deptno = 123
                 /*END*/";
-    public function List_getEmployeeByDeptno($deptno);
+    public function getEmployeeByDeptnoList($deptno);
 
     public function update(Employee $employee);
 }
