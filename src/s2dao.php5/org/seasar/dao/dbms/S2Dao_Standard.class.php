@@ -12,7 +12,7 @@ class S2Dao_Standard implements S2Dao_Dbms {
     }
 
     public function getSuffix() {
-        return "";
+        return '';
     }
 
     public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData) {

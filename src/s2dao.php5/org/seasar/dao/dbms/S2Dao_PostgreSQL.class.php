@@ -13,6 +13,12 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
         return 'SELECT nextval (' . $sequenceName . ')';
     }
     
+    // thx blogrammer
+    public function getIdentitySelectString() {
+        // ? 'SELECT version()'
+        return '';
+    }
+    
     public function getTableSql(){
         return 'SELECT c.relname AS NAME ' .
                'FROM pg_class c, pg_user u ' .
