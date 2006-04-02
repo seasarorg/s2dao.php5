@@ -32,7 +32,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                               S2Container_DataSource $dataSource,
                               S2Dao_StatementFactory $statementFactory,
                               S2Dao_ResultSetFactory $resultSetFactory,
-                              $annotationReaderFactory = null){
+                              S2Dao_FieldAnnotationReaderFactory $annotationReaderFactory = null){
 
         if(null == $annotationReaderFactory){
             $annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
@@ -43,15 +43,16 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $this->daoBeanDesc_ = S2Container_BeanDescFactory::getBeanDesc($daoClass);
         $this->daoInterface_ = self::getDaoInterface($daoClass);
         $this->annotationReaderFactory_ = $annotationReaderFactory;
-        $this->annotationReader_ = $annotationReaderFactory->createDaoAnnotationReader($this->daoBeanDesc_);
+        $this->annotationReader_ =
+                    $annotationReaderFactory->createDaoAnnotationReader($this->daoBeanDesc_);
         $this->beanClass_ = $this->annotationReader_->getBeanClass();
         $this->dataSource_ = $dataSource;
         $this->statementFactory_ = $statementFactory;
         $this->resultSetFactory_ = $resultSetFactory;
-        $con = $this->dataSource_->getConnection();
-        $this->dbms_ = S2Dao_DbmsManager::getDbms($con);
+        $conn = $this->dataSource_->getConnection();
+        $this->dbms_ = S2Dao_DbmsManager::getDbms($conn);
         $this->beanMetaData_ = new S2Dao_BeanMetaDataImpl($this->beanClass_,
-                                                          $con,
+                                                          $conn,
                                                           $this->dbms_,
                                                           $annotationReaderFactory);
         $this->setupSqlCommand();

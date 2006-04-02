@@ -34,7 +34,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         if($relation == null){
             $relation = false;
         }
-
+        
         $this->annotationReaderFactory_ = $annotationReaderFactory;
         $this->beanAnnotationReader_ =
                 $annotationReaderFactory->createBeanAnnotationReader($beanClass);
