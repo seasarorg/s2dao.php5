@@ -6,8 +6,19 @@
  */
 class CdBean {
 
+    /**
+     * @COLUMN = "ID"
+     */
     private $id;
+    
+    /**
+     * @COLUMN = "TITLE"
+     */
     private $title;
+    
+    /**
+     * @COLUMN = "CONTENT"
+     */
     private $content;
     
     public function getContent() {

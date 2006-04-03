@@ -12,11 +12,14 @@ abstract class S2Dao_AbstractBeanAnnotationReader {
     }
     
     public function __call($name, $param){
+        if(S2Dao::USE_COMMENT){
+            if(method_exists($this->comment, $name)){
+                return $this->call($this->comment, $name, $param);
+            }
+        }
+
         if(method_exists($this->constant, $name)){
             return $this->call($this->constant, $name, $param);
-        }
-        if(method_exists($this->comment, $name)){
-            return $this->call($this->comment, $name, $param);
         }
     }
     

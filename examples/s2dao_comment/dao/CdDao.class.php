@@ -7,7 +7,7 @@
 interface CdDao {
 
     /**
-     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = id_content)
+     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = "id, content")
      */    
     public function update(CdBean $cd);
     

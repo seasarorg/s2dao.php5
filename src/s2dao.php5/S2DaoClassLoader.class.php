@@ -1,4 +1,19 @@
 <?php
+
+/**
+ * @author nowel
+ */
+final class S2Dao {
+    
+    const HOME = S2DAO_PHP5;
+    const USE_COMMENT = S2DAO_PHP5_USE_COMMENT;
+    const version = '1.1.0-RC1';
+
+}
+
+/**
+ * @author nowel
+ */
 class S2DaoClassLoader {
     
     const ORG_SEASAR = '/org/seasar';
@@ -81,6 +96,7 @@ class S2DaoClassLoader {
         'S2Dao_DataSourceUtil' => '/dao/util/S2Dao_DataSourceUtil.class.php',
         'S2Dao_EntityManager' => '/dao/S2Dao_EntityManager.class.php',
         'S2Dao_EntityManagerImpl' => '/dao/impl/S2Dao_EntityManagerImpl.class.php',
+        'S2DaoAnnotationReader' => '/dao/annotation/S2DaoAnnotationReader.class.php',
         'S2Dao_AbstractBeanAnnotationReader' => '/dao/annotation/S2Dao_AbstractBeanAnnotationReader.class.php',
         'S2Dao_AbstractDaoAnnotationReader' => '/dao/annotation/S2Dao_AbstractDaoAnnotationReader.class.php',
         'S2Dao_BeanAnnotation' => '/dao/annotation/S2Dao_BeanAnnotation.class.php',
@@ -123,7 +139,7 @@ class S2DaoClassLoader {
 
     public static function load($className){
         if(isset(self::$CLASSES[$className])){
-            require_once S2DAO_PHP5 . self::ORG_SEASAR . self::$CLASSES[$className];
+            require_once S2Dao::HOME . self::ORG_SEASAR . self::$CLASSES[$className];
             return true;
         } else {
             return false;
@@ -133,7 +149,7 @@ class S2DaoClassLoader {
     public static function export(){
         $export = array();
         foreach(self::$CLASSES as $key => $value){
-            $export[$key] = S2DAO_PHP5 . self::ORG_SEASAR . $value;
+            $export[$key] = S2Dao::HOME . self::ORG_SEASAR . $value;
         }
         return $export;
     }

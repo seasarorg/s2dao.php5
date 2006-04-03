@@ -270,8 +270,9 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         if ($columnSet->isEmpty()) {
             self::$logger_->log('WDAO0002', (array)$this->tableName_);
         }
-
-        foreach($columnSet->toArray() as $columnName){
+        
+        $cset = $columnSet->toArray();
+        foreach($cset as $columnName){
             $col2 = str_replace('_', '', $columnName);
             for($i = 0; $i < $this->getPropertyTypeSize(); ++$i){
                 $pt = $this->getPropertyType($i);
@@ -299,7 +300,8 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
 
     protected function setupPropertiesByColumnName() {
-        for ($i = 0; $i < $this->getPropertyTypeSize(); ++$i) {
+        $c = $this->getPropertyTypeSize();
+        for ($i = 0; $i < $c; ++$i) {
             $pt = $this->getPropertyType($i);
             $this->propertyTypesByColumnName_->put($pt->getColumnName(), $pt);
         }

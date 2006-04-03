@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author nowel
+ */
 final class S2Dao_BeanAnnotation {
     
     public $TABLE = null;
