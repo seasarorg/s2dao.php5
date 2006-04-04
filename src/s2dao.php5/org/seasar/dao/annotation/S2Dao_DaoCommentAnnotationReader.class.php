@@ -6,9 +6,10 @@
 class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     const SQL_SUFFIX = S2Dao_DaoConstantAnnotationReader::SQL_SUFFIX;
-    const QUERY_SUFFIX = S2Dao_DaoConstantAnnotationReader::QUERY_SUFFIX;
     const NO_PERSISTENT_PROPS = 'NO_PERSISTENT_PROPS';
     const PERSISTENT_PROPS = 'PERSISTENT_PROPS';
+    const SELECT_ARRAY_NAME = '/@return\s*array/i';
+    const SELECT_LIST_NAME = '/@return\s*list/i';
     const Anno = 'S2Dao_DaoAnnotation';
 
     protected $beanClass;
@@ -32,12 +33,15 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
                 if(!$param->isDefaultValueAvailable()){
                     $params[] = $param->getName();
                 } else {
+                    $params[] = $param->getName();
+                    /*
                     $defparam = $param->getDefaultValue();
                     if(is_null($defparam)){
                         return array();
                     } else {
                         $params[] = $param->getName();
                     }
+                    */
                 }
             }
             return $params;
@@ -56,6 +60,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     public function getQuery(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation($method);
+        return $anno->QUERY;
     }
 
     public function getSQL(ReflectionMethod $method, $dbmsSuffix) {
@@ -65,6 +70,16 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
             return $anno->$key;
         }
         return $anno->SQL;
+    }
+    
+    public function isSelectList(ReflectionMethod $method){
+        $comment = $this->getMethodComment($method);
+        return preg_match(self::SELECT_LIST_NAME, $comment);
+    }
+    
+    public function isSelectArray(ReflectionMethod $method){
+        $comment = $this->getMethodComment($method);
+        return preg_match(self::SELECT_ARRAY_NAME, $comment);
     }
 
     private function getProps(S2Dao_DaoAnnotation $anno = null, $annoName){
@@ -83,6 +98,12 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
                                                           $method->getName());
         }
         return null;
+    }
+    
+    private function getMethodComment(ReflectionMethod $method){
+        $method = $this->beanClass->getMethod($method->getName());
+        return $method->getDocComment();
+
     }
 }
 

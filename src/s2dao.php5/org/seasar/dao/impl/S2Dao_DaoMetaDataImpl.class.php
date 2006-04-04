@@ -8,8 +8,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     const INSERT_NAMES = '/^(insert|create|add)/i';
     const UPDATE_NAMES = '/^(update|modify|store)/i';
     const DELETE_NAMES = '/^(delete|remove)/i';
-    const SELECT_ARRAY_NAME = '/Array$/i';
-    const SELECT_LIST_NAME = '/List$/i';
     //const METHOD_SUFFIX = '/(.*)(Array|List)?$/i';
     const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
     const startWithSelectPattern = '/^SELECT/i';
@@ -122,7 +120,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $query = null) {
-        if( $query == null ){
+        if($query == null){
             return new S2Dao_SelectDynamicCommand($this->dataSource_,
                                                  $this->statementFactory_,
                                                  $rsh,
@@ -166,9 +164,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function createResultSetHandler(ReflectionMethod $method) {
-        if( $this->isSelectList($method->getName()) ){
+        if($this->isSelectList($method)){
             return new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_);
-        } else if( $this->isSelectArray($method->getName()) ){
+        } else if( $this->isSelectArray($method) ){
             return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
         } else if( $this->isBeanClassAssignable($method) ){
             return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
@@ -190,9 +188,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
         if($clazz === null){
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     protected function setupUpdateMethodByManual(ReflectionMethod $method, $sql) {
@@ -454,12 +451,12 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         return true;
     }
 
-    protected function isSelectArray($methodName){
-        return preg_match(self::SELECT_ARRAY_NAME, $methodName);
+    protected function isSelectArray(ReflectionMethod $method){
+        return $this->annotationReader_->isSelectArray($method);
     }
 
-    protected function isSelectList($methodName){
-        return preg_match(self::SELECT_LIST_NAME, $methodName);
+    protected function isSelectList(ReflectionMethod $method){
+        return $this->annotationReader_->isSelectList($method);
     }
 
     protected function isInsert($methodName) {

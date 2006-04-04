@@ -8,6 +8,7 @@ final class S2Dao_DaoAnnotation {
     public $BEAN = null;
     public $ARGS = null;
     public $SQL = null;
+    public $QUERY = null;
     public $NO_PERSISTENT_PROPS = null;
     public $PERSISTENT_PROPS = null;
     private $value = null;

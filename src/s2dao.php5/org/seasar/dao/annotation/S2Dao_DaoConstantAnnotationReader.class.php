@@ -11,6 +11,8 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     const QUERY_SUFFIX = '_QUERY';
     const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
     const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
+    const SELECT_ARRAY_NAME = '/Array$/i';
+    const SELECT_LIST_NAME = '/List$/i';
 
     protected $daoBeanDesc;
     
@@ -29,12 +31,15 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
                 if(!$param->isDefaultValueAvailable()){
                     $params[] = $param->getName();
                 } else {
+                    $params[] = $param->getName();
+                    /*
                     $defparam = $param->getDefaultValue();
                     if(is_null($defparam)){
                         return array();
                     } else {
                         $params[] = $param->getName();
                     }
+                    */
                 }
             }
             return $params;
@@ -45,9 +50,8 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         $key = $method->getName() . self::QUERY_SUFFIX;
         if ($this->daoBeanDesc->hasConstant($key)) {
             return $this->daoBeanDesc->getConstant($key);
-        } else {
-            return null;
         }
+        return null;
     }
 
     public function getBeanClass() {
@@ -74,6 +78,14 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         }
         return null;
     }
+    
+    public function isSelectList(ReflectionMethod $method){
+        return preg_match(self::SELECT_LIST_NAME, $method->getName());
+    }
+    
+    public function isSelectArray(ReflectionMethod $method){
+        return preg_match(self::SELECT_ARRAY_NAME, $method->getName());
+    }
 
     private function getProps(ReflectionMethod $method, $constName){
         if ($this->daoBeanDesc->hasConstant($constName)) {
@@ -82,6 +94,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         }
         return null;
     }
+    
 }
 
 ?>

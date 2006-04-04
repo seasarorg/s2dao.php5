@@ -30,11 +30,12 @@ interface CdDao {
 
     /**
      * @return array
-     */
+     */ 
     public function getSelectCdById($id);
 
-    // @S2Dao_DaoAnnotation(QUERY = "ID = /*id*/")    
-    // @return list
+    /**
+     * @return list
+     */
     public function getCD1($id, $title = null);
     
     /**
@@ -45,10 +46,10 @@ interface CdDao {
     /**
      * @return list
      */
-    public function getCD3List($id = null);
+    public function getCD3($id = null);
 
     /**
-     * @@S2Dao_DaoAnnotation(SQL = "SELECT COUNT(*) FROM CD")
+     * @S2Dao_DaoAnnotation(SQL = "SELECT COUNT(*) FROM CD")
      * @return object
      */
     public function getCdCount();

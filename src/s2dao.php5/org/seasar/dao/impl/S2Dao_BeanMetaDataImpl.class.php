@@ -16,6 +16,8 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     private $versionNoPropertyName_ = 'versionNo';
     private $timestampPropertyName_ = 'timestamp';
     private $annotationReaderFactory_;
+    
+    private $casestr = 'strtoupper';
 
     public function __construct($beanClass,
                                 $dbMetaData,
@@ -101,7 +103,10 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
 
     public function hasPropertyTypeByColumnName($columnName) {
-        return $this->propertyTypesByColumnName_->get($columnName) != null;
+        $upperColumnName = strtoupper($columnName);
+        $lowerColumnName = strtolower($columnName);
+        return $this->propertyTypesByColumnName_->get($upperColumnName) != null ||
+                $this->propertyTypesByColumnName_->get($lowerColumnName) != null;
     }
 
     public function hasPropertyTypeByAliasName($alias) {
@@ -303,7 +308,8 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $c = $this->getPropertyTypeSize();
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->getPropertyType($i);
-            $this->propertyTypesByColumnName_->put($pt->getColumnName(), $pt);
+            $columnName = strtoupper($pt->getColumnName());
+            $this->propertyTypesByColumnName_->put($columnName, $pt);
         }
     }
 
