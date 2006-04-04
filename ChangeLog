@@ -15,10 +15,7 @@
              * @return array
              */
             public function getEmployees()
-        - Objectで戻り値を取得する場合
-            /**
-             * @return object
-             */
+        - Object(Entity)で戻り値を取得する場合
             public function getEmployees()
 
         ※ list, array は大文字小文字を判定せず、@return 中に対象の文字列が
