@@ -30,19 +30,19 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         } else {
             $params = array();
             foreach($method->getParameters() as $param){
+                $params[] = $param->getName();
+                /*
                 if(!$param->isDefaultValueAvailable()){
                     $params[] = $param->getName();
                 } else {
-                    $params[] = $param->getName();
-                    /*
                     $defparam = $param->getDefaultValue();
                     if(is_null($defparam)){
                         return array();
                     } else {
                         $params[] = $param->getName();
                     }
-                    */
                 }
+                */
             }
             return $params;
         }

@@ -24,7 +24,6 @@
  * @author nowel
  */
 define('S2DAO_PHP5', dirname(__FILE__) . '/src/s2dao.php5');
-define('S2DAO_PHP5_USE_COMMENT', true);
 
 require_once S2DAO_PHP5 . '/S2DaoClassLoader.class.php';
 
