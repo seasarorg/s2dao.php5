@@ -5,15 +5,15 @@
  */
 class S2Dao_DaoNotFoundRuntimeException extends S2Container_S2RuntimeException {
     
-    private $targetClass_ = null;
+    private $targetClass = null;
     
     public function __construct($targetClass) {
-        parent::__construct("EDAO0008", array($targetClass->getName()));
-        $this->targetClass_ = $targetClass;
+        parent::__construct('EDAO0008', array($targetClass->getName()));
+        $this->targetClass = $targetClass;
     }
     
     public function getTargetClass() {
-        return $this->targetClass_;
+        return $this->targetClass;
     }
 }
 ?>

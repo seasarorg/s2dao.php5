@@ -9,13 +9,13 @@ class S2Dao_ObjectBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHand
                                $procedureName,
                                S2Dao_StatementFactory $statementFactory = null){
         if($statementFactory === null){
-            $statementFactory = new BasicStatementFactory;
+            $statementFactory = new S2Dao_BasicStatementFactory;
         }
 		$this->setDataSource($ds);
 		$this->setProcedureName($procedureName);
 		$this->setStatementFactory($statementFactory);
 		if(1 < $this->initTypes()){
-			throw new S2Container_RuntimeException('EDAO0010');
+			throw new S2Container_S2RuntimeException('EDAO0010');
 		}
 	}
 	protected function execute(PDO $connection, array $args){
@@ -31,8 +31,8 @@ class S2Dao_ObjectBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHand
 				}
 			}
 			return null;
-		} catch (S2Container_SQLException $e) {
-			throw new S2Container_SQLRuntimeException($e);
+		} catch (Exception $e) {
+			throw new S2Dao_SQLRuntimeException($e);
 		}
 	}
 }

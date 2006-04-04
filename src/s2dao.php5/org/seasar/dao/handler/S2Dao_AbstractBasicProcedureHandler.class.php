@@ -73,11 +73,11 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
                 $len++;
             }
             if($len < 1){
-                throw new S2Container_RuntimeException('EDAO0012',
+                throw new S2Container_S2RuntimeException('EDAO0012',
                                             array($this->procedureName_));
             }
             if($len > 1){
-                throw new S2Container_RuntimeException('EDAO0013',
+                throw new S2Container_S2RuntimeException('EDAO0013',
                                             array($this->procedureName_));
             }
             return $names;
@@ -116,13 +116,13 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
                         $columnType == S2Dao_DatabaseMetaData::procedureColumnInOut){
                     $buff .= '?,';
                     $outparameterNum++;
-                }else{
+                } else {
                     throw new S2Container_RuntimeException('EDAO0010',
                                                         array($this->procedureName_));
                 }
             }            
-        } catch (S2Container_SQLException $e) {
-            throw new S2Container_SQLRuntimeException($e);
+        } catch (Exception $e) {
+            throw new S2Dao_SQLRuntimeException($e);
         }
         $buff .= ')}';
         $this->sql_ = $buff;

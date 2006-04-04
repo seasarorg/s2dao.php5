@@ -5,21 +5,21 @@
  */
 class S2Dao_UpdateFailureRuntimeException extends S2Container_S2RuntimeException {
 
-    private $bean_;
-    private $rows_;
+    private $bean;
+    private $rows;
 
     public function __construct($bean, $rows) {
-        parent::__construct("EDAO0005", array((string)$bean, (string)$rows));
-        $this->bean_ = $bean;
-        $this->rows_ = $rows;
+        parent::__construct('EDAO0005', array((string)$bean, (string)$rows));
+        $this->bean = $bean;
+        $this->rows = $rows;
     }
 
     public function getBean() {
-        return $this->bean_;
+        return $this->bean;
     }
     
     public function getRows() {
-        return $this->rows_;
+        return $this->rows;
     }
 }
 ?>

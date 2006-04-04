@@ -51,7 +51,7 @@ final class S2Dao_DatabaseMetaDataUtil {
                 }
             }
         } catch (Exception $ex) {
-            throw new S2Container_SQLRuntimeException($ex);
+            throw new S2Dao_SQLRuntimeException($ex);
         }
     }
 
@@ -93,8 +93,7 @@ final class S2Dao_DatabaseMetaDataUtil {
                 $set->add($col['name']);
             }
         } catch (Exception $ex) {
-            //throw new S2Container_SQLRuntimeException($ex);
-            throw $ex;
+            throw new S2Dao_SQLRuntimeException($ex);
         }
     }
 
@@ -119,8 +118,8 @@ final class S2Dao_DatabaseMetaDataUtil {
         try {
             throw new Exception(__FILE__ . ':' . __METHOD__);
             return $dbMetaData->getDatabaseProductName();
-        } catch (S2Container_SQLException $ex) {
-            throw new S2Container_SQLRuntimeException($ex);
+        } catch (Exception $ex) {
+            throw new S2Dao_SQLRuntimeException($ex);
         }
     }
 

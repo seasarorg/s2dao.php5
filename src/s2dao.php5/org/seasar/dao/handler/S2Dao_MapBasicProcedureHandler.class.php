@@ -6,8 +6,8 @@
 class S2Dao_MapBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHandler {
 
     public function __construct(S2Container_DataSource $ds,
-                              $procedureName,
-                              S2Dao_StatementFactory $statementFactory = null){
+                                $procedureName,
+                                S2Dao_StatementFactory $statementFactory = null){
         if($statementFactory === null){
             $statementFactory = new S2Dao_BasicStatementFactory;
         }
@@ -33,8 +33,8 @@ class S2Dao_MapBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHandler
                 }
             }
             return $result;
-        } catch (S2Container_SQLException $e) {
-            throw new S2Container_SQLRuntimeException($e);
+        } catch (Exception $e) {
+            throw new S2Dao_SQLRuntimeException($e);
         }
     }
 

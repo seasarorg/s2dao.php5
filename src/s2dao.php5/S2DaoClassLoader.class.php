@@ -71,6 +71,7 @@ class S2DaoClassLoader {
         'S2Dao_IllegalSignatureRuntimeException' => '/dao/exception/S2Dao_IllegalSignatureRuntimeException.class.php',
         'S2Dao_NotSingleRowUpdatedRuntimeException' => '/dao/exception/S2Dao_NotSingleRowUpdatedRuntimeException.class.php',
         'S2Dao_PrimaryKeyNotFoundRuntimeException' => '/dao/exception/S2Dao_PrimaryKeyNotFoundRuntimeException.class.php',
+        'S2Dao_SQLRuntimeException' => '/dao/exception/S2Dao_SQLRuntimeException.class.php',
         'S2Dao_UpdateFailureRuntimeException' => '/dao/exception/S2Dao_UpdateFailureRuntimeException.class.php',
         'S2Dao_AbstractAutoHandler' => '/dao/impl/S2Dao_AbstractAutoHandler.class.php',
         'S2Dao_AbstractAutoStaticCommand' => '/dao/impl/S2Dao_AbstractAutoStaticCommand.class.php',
