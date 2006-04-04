@@ -11,7 +11,7 @@ abstract class S2Dao_AbstractDaoAnnotationReader {
     }
     
     public function __call($name, $param){
-        if(S2Dao::USE_COMMENT){
+        if(S2Dao::USE_COMMENT === true){
             if(method_exists($this->comment, $name)){
                 return $this->call($this->comment, $name, $param);
             }
