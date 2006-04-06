@@ -15,7 +15,6 @@ class Employee implements Serializable {
     private $comm;
     private $deptno;
     private $timestamp;
-
     private $department;
 
     public function serialize(){
@@ -114,7 +113,7 @@ class Employee implements Serializable {
         return $this->department;
     }
 
-    public function setDepartment($department) {
+    public function setDepartment(Department $department) {
         $this->department = $department;
     }
 
