@@ -23,7 +23,7 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $this->readerFactory_ = $readerFactory;
     }
 
-    public function getDaoMetaData($daoClass) {
+    public function getDaoMetaData(ReflectionClass $daoClass) {
         $key = $daoClass->getName();
         $dmd = $this->daoMetaDataCache_->get($key);
         if ($dmd !== null) {
@@ -37,6 +37,5 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $this->daoMetaDataCache_->put($key, $dmd);
         return $dmd;
     }
-    
 }
 ?>

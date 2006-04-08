@@ -1,5 +1,5 @@
 SELECT * FROM EMP
 /*BEGIN*/WHERE
-  /*IF job != null*/job = /*job*/'CLERK'/*END*/
-  /*IF deptno != null*/AND deptno = /*deptno*/20/*END*/
+  /*IF job !== null*/EMP.JOB = /*job*/'CLERK'/*END*/
+  /*IF deptno !== null*/AND EMP.DEPTNO = /*deptno*/20/*END*/
 /*END*/

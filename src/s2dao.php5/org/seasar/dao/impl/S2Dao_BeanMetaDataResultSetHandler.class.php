@@ -10,17 +10,34 @@ class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResul
     }
 
     public function handle($resultSet){
-        $rows = $resultSet->fetchAll(PDO::FETCH_ASSOC);
-        $rowCount = count($rows);
-        if($rowCount < 1){
+        // FIXME
+        /*
+        if($resultSet->rowCount() < 1){
             return null;
         }
+        */
+        $row = null;
+        while($result = $resultSet->fetch(PDO::FETCH_ASSOC)){
+            $row = $this->createRow($result);
+            $beanMetaData = $this->getBeanMetaData();
+            $size = $beanMetaData->getRelationPropertyTypeSize();
+            
+            for($i = 0; $i < $size; $i++){
+                $rpt = $beanMetaData->getRelationPropertyType($i);
+                if($rpt === null){
+                    continue;
+                }
 
-        $beanMetaData = $this->getBeanMetaData();
-        $claz = $beanMetaData->getBeanClass()->newInstance(array());
-        for($i = 0; $i < $rowCount; $i++){
-            $columns = array_keys($rows[$i]);
- 
+                $relationRow = $this->createRelationRow($rpt, $result, new S2Dao_HashMap);
+                if ($relationRow !== null) {
+                    $pd = $rpt->getPropertyDesc();
+                    $pd->setValue($row, $relationRow);
+                }
+            }
+        }
+        return $row;
+
+            /*
             foreach($rows[$i] as $column => $value){
                 $pt = $beanMetaData->getPropertyTypeByColumnName($column);
                 if ($pt == null) {
@@ -31,8 +48,8 @@ class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResul
                     $pd->setValue($claz, $value);
                 }
             }
-        }
         return $claz;
+        */
     }
 }
 ?>

@@ -131,7 +131,7 @@ abstract class S2Dao_AbstractAutoStaticCommand extends S2Dao_AbstractStaticComma
             $buf .= $bmd->getPrimaryKey($i);
             $buf .= ' = ? AND ';
         }
-        $buf = preg_replace('/ AND $/', '', $buf);
+        $buf = preg_replace('/( AND )$/', '', $buf);
         if ($bmd->hasVersionNoPropertyType()) {
             $pt = $bmd->getVersionNoPropertyType();
             $buf .= ' AND ';

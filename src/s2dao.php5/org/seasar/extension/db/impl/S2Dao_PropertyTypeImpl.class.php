@@ -17,6 +17,7 @@ class S2Dao_PropertyTypeImpl implements S2Dao_PropertyType {
             $this->propertyDesc_ = $propertyDesc;
             $this->propertyName_ = $propertyDesc->getPropertyName();
             $this->columnName_ = $propertyDesc->getPropertyName();
+            $this->valueType = gettype($propertyDesc->getPropertyType());
         } else if(is_string($propertyDesc)){
             $this->propertyName_ = $propertyDesc;
             $this->columnName_ = $propertyDesc;

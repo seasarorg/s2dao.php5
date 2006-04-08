@@ -12,7 +12,7 @@ abstract class S2Dao_AbstractBeanAnnotationReader {
     }
     
     public function __call($name, $param){
-        if(S2Dao::USE_COMMENT === true){
+        if(S2DAO_PHP5_USE_COMMENT === true){
             if(method_exists($this->comment, $name)){
                 return $this->call($this->comment, $name, $param);
             }

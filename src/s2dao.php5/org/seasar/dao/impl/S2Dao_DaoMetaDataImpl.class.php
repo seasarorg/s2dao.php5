@@ -8,7 +8,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     const INSERT_NAMES = '/^(insert|create|add)/i';
     const UPDATE_NAMES = '/^(update|modify|store)/i';
     const DELETE_NAMES = '/^(delete|remove)/i';
-    //const METHOD_SUFFIX = '/(.*)(Array|List)?$/i';
     const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
     const startWithSelectPattern = '/^SELECT/i';
     const startWithOrderByPattern = '/(\/\*[^\*]+\*\/)*order by/i';
@@ -26,7 +25,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected $beanMetaData_;
     protected $sqlCommands_;
 
-    public function __construct($daoClass,
+    public function __construct(ReflectionClass $daoClass,
                               S2Container_DataSource $dataSource,
                               S2Dao_StatementFactory $statementFactory,
                               S2Dao_ResultSetFactory $resultSetFactory,
@@ -333,13 +332,12 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $sql = null;
 
             // FIXME
-            //$argNames = array();
-            if (count($argNames) == 0 && count($method->getParameters()) == 1) {
-                $argNames = array('dto');
-                $param = $method->getParameters();
+            $param = $method->getParameters();
+            if (count($argNames) == 0 && count($param) == 1) {
                 $sql = $this->createAutoSelectSqlByDto($param[0]->getClass());
             } else {
-                $sql = $this->createAutoSelectSql($argNames);
+                //$sql = $this->createAutoSelectSql($argNames);
+                $sql = $this->createAutoSelectSql(array());
             }
             if ($query != null) {
                 $sql .= ' ' . $query;
@@ -361,7 +359,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 $this->annotationReaderFactory_->createBeanAnnotationReader($dtoClass));
 
         $began = false;
-        if (!(strripos($sql, 'WHERE') > 0)) {
+        if (stripos($sql, 'WHERE') === false) {
             $buf .= '/*BEGIN*/ WHERE ';
             $began = true;
         }
@@ -402,7 +400,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
         if (count($argNames) != 0) {
             $began = false;
-            if (!(strripos($sql, 'WHERE') > 0)) {
+            if (stripos($sql, 'WHERE') === false) {
                 $buf .= '/*BEGIN*/ WHERE ';
                 $began = true;
             }
@@ -514,7 +512,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         return $this->createSelectDynamicCommand(new S2Dao_ObjectResultSetHandler(), $query);
     }
 
-    public static function getDaoInterface($clazz) {
+    public static function getDaoInterface(ReflectionClass $clazz) {
         if ($clazz->isInterface()) {
             return $clazz;
         }

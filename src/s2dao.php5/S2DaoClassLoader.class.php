@@ -3,17 +3,6 @@
 /**
  * @author nowel
  */
-final class S2Dao {
-    
-    const HOME = S2DAO_PHP5;
-    const USE_COMMENT = S2DAO_PHP5_USE_COMMENT;
-    const version = '1.1.0-RC1';
-
-}
-
-/**
- * @author nowel
- */
 class S2DaoClassLoader {
     
     const ORG_SEASAR = '/org/seasar';
@@ -23,9 +12,10 @@ class S2DaoClassLoader {
         'S2ActiveRecordHelper' => '/extension/activerecord/S2ActiveRecordHelper.class.php',
         'S2ActiveRecordCollection' => '/extension/activerecord/S2ActiveRecordCollection.class.php',
         'S2Dao_BasicHandler' => '/extension/db/impl/S2Dao_BasicHandler.class.php',
-        'S2Dao_BasicStatementFactory' => '/extension/db/impl/S2Dao_BasicStatementFactory.class.php',
         'S2Dao_BasicResultSetFactory' => '/extension/db/impl/S2Dao_BasicResultSetFactory.class.php',
-        'S2Dao_BasicSelectHandler' => '/extension/db/impl/S2Dao_BasicSelectHandler.class.php',
+        'S2Dao_BasicStatementFactory' => '/extension/db/impl/S2Dao_BasicStatementFactory.class.php',
+        'S2Dao_BasicSelectHandler' => '/extension/db/impl/S2Dao_BasicSelectHandler.class.php',        
+        'S2Dao_BasicUpdateHandler' => '/extension/db/impl/S2Dao_BasicUpdateHandler.class.php',
         'S2Dao_ResultSetHandler' => '/extension/db/S2Dao_ResultSetHandler.class.php',
         'S2Dao_StatementFactory' => '/extension/db/S2Dao_StatementFactory.class.php',
         'S2Dao_ResultSetFactory' => '/extension/db/S2Dao_ResultSetFactory.class.php',
@@ -140,17 +130,16 @@ class S2DaoClassLoader {
 
     public static function load($className){
         if(isset(self::$CLASSES[$className])){
-            require_once S2Dao::HOME . self::ORG_SEASAR . self::$CLASSES[$className];
+            require_once S2DAO_PHP5 . self::ORG_SEASAR . self::$CLASSES[$className];
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
     
     public static function export(){
         $export = array();
         foreach(self::$CLASSES as $key => $value){
-            $export[$key] = S2Dao::HOME . self::ORG_SEASAR . $value;
+            $export[$key] = S2DAO_PHP5 . self::ORG_SEASAR . $value;
         }
         return $export;
     }

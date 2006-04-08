@@ -27,9 +27,10 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                 $pd = $pt->getPropertyDesc();
                 $pd->setValue($row, $value);
             } else if (!$pt->isPersistent()) {
-                for ($iter = $columnNames->iterator(); $iter->valid(); $iter->next()) {
+                $iter = $columnNames->iterator();
+                for (; $iter->valid(); $iter->next()) {
                     $columnName = $iter->current();
-                    $columnName2 = str_replace("_", "", $columnName);
+                    $columnName2 = str_replace('_', '', $columnName);
                     if (strcasecmp($columnName2, $pt->getColumnName()) == 0 ) {
                         $value = $resultSet[$pt->getColumnName()];
                         $pd = $pt->getPropertyDesc();
@@ -67,9 +68,10 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
             }
             continue;
         }
-        for ($i = 0; $i < $bmd->getPropertyTypeSize(); ++$i) {
+        $c = $bmd->getPropertyTypeSize();
+        for ($i = 0; $i < $c; ++$i) {
             $pt = $bmd->getPropertyType($i);
-            $columnName = $pt->getColumnName() . "_" . $rpt->getRelationNo();
+            $columnName = $pt->getColumnName() . '_' . $rpt->getRelationNo();
             if (!$columnNames->contains($columnName)) {
                 continue;
             }

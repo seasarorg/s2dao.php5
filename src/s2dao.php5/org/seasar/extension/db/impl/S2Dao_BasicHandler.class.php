@@ -10,13 +10,11 @@ class S2Dao_BasicHandler {
     private $statementFactory_ = null;
 
     public function __construct(S2Container_DataSource $ds, $sql, $statementFactory = null) {
+        $this->setDataSource($ds);
+        $this->setSql($sql);
         if(is_null($statementFactory)){
-            $this->setDataSource($ds);
-            $this->setSql($sql);
             $this->setStatementFactory(new S2Dao_BasicStatementFactory);
         } else {
-            $this->setDataSource($ds);
-            $this->setSql($sql);
             $this->setStatementFactory($statementFactory);
         }
     }
@@ -59,7 +57,7 @@ class S2Dao_BasicHandler {
         return $connection->prepare($this->sql_);
     }
 
-    protected function bindArgs(PDOStatement $ps, $args, $argTypes) {
+    protected function bindArgs(PDOStatement $ps, array $args = null, array $argTypes) {
         if ($args === null) {
             return;
         }

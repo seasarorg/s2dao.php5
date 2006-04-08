@@ -12,12 +12,12 @@ class S2Dao_UpdateDynamicCommand extends S2Dao_AbstractDynamicCommand {
 
     public function execute($args) {
         $ctx = $this->apply($args);
-        $updateHandler = new BasicUpdateHandler(
+        $updateHandler = new S2Dao_BasicUpdateHandler(
                                 $this->getDataSource(),
                                 $ctx->getSql(),
                                 $this->getStatementFactory());
 
-        return $updateHandler->execute($ctx->getBindVariables(),
+        return (int)$updateHandler->execute($ctx->getBindVariables(),
                                        $ctx->getBindVariableTypes());
     }
 }

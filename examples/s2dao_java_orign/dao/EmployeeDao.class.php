@@ -13,8 +13,8 @@ interface EmployeeDao {
     public function getEmployeeByJobDeptnoList($job, $deptno);
     
     const getEmployeeByDeptnoList_QUERY = "
-                /*IF deptno != null*/deptno = /*deptno*/123
-                /*ELSE*/ deptno = 123
+                /*IF deptno !== null*/EMP.DEPTNO = /*deptno*/123
+                --ELSE EMP.DEPTNO = 2
                 /*END*/";
     public function getEmployeeByDeptnoList($deptno);
 

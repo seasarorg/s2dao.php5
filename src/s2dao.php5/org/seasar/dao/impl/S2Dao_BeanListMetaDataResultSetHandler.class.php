@@ -3,7 +3,8 @@
 /**
  * @author nowel
  */
-class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResultSetHandler {
+class S2Dao_BeanListMetaDataResultSetHandler
+    extends S2Dao_AbstractBeanMetaDataResultSetHandler {
 
     public function __construct(S2Dao_BeanMetaData $beanMetaData) {
         parent::__construct($beanMetaData);
@@ -50,9 +51,6 @@ class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataR
         $columnNames = new S2Dao_ArrayList(array_keys($resultSet));
         $bmd = $rpt->getBeanMetaData();
         for ($i = 0; $i < $rpt->getKeySize(); ++$i) {
-            //$pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
-            //$valueType = $pt->getValueType();
-            //$columnName = $pt->getColumnName() . "_" . $rpt->getRelationNo();
             $valueType = null;
             $columnName = $rpt->getMyKey($i);
             if ($columnNames->contains($columnName)) {
@@ -60,7 +58,7 @@ class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataR
                 $valueType = $pt->getValueType();
             } else {
                 $pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
-                $columnName = $pt->getColumnName() . "_" . $rpt->getRelationNo();
+                $columnName = $pt->getColumnName() . '_' . $rpt->getRelationNo();
                 if ($columnNames->contains($columnName)) {
                     $valueType = $pt->getValueType();
                 } else {
@@ -77,9 +75,8 @@ class S2Dao_BeanListMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataR
         if ($keyList->size() > 0) {
             $keys = $keyList->toArray();
             return new S2Dao_RelationKey($keys);
-        } else {
-            return null;
         }
+        return null;
     }
 }
 ?>

@@ -1,6 +1,11 @@
+2006-04-08 nowel(S2Dao-1.1.0-RC1)
+
+    * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されないバグを修正しました。
+    * fix: N:1(RELNO)時のRelation Bean値が正しく設定されないバグを修正しました。
+
 2006-04-05 nowel(S2Dao-1.1.0-RC1)
 
-    * いくつかの Exception 及びメッセージを修正しました。
+    * fix: いくつかの Exception 及びメッセージを修正しました。
 
 2006-04-04 nowel(S2Dao-1.1.0-RC1)
 

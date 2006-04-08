@@ -17,9 +17,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     private $timestampPropertyName_ = 'timestamp';
     private $annotationReaderFactory_;
     
-    private $casestr = 'strtoupper';
-
-    public function __construct($beanClass,
+    public function __construct(ReflectionClass $beanClass,
                                 $dbMetaData,
                                 S2Dao_Dbms $dbms,
                                 S2Dao_AnnotationReaderFactory $annotationReaderFactory = null,
@@ -150,7 +148,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         if ($index < 0 || $index === false) {
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
         }
-        $columnName = substr($alias, 0, $index);
+        $columnName = substr($alias, 0, (int)$index);
         $relnoStr = substr($alias, $index + 1);
         $relno = -1;
         try {

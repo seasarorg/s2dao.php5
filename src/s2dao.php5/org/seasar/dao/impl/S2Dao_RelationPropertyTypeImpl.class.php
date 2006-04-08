@@ -3,7 +3,9 @@
 /**
  * @author nowel
  */
-class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S2Dao_RelationPropertyType {
+class S2Dao_RelationPropertyTypeImpl
+    extends S2Dao_PropertyTypeImpl
+    implements S2Dao_RelationPropertyType {
 
     protected $relationNo_;
     protected $myKeys_ = array();
@@ -26,7 +28,7 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
     }
 
     public function getKeySize() {
-        if (count($this->myKeys_) > 0) {
+        if (0 < count($this->myKeys_)) {
             return count($this->myKeys_);
         } else {
             return $this->beanMetaData_->getPrimaryKeySize();
@@ -34,7 +36,7 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
     }
 
     public function getMyKey($index) {
-        if (count($this->myKeys_) > 0) {
+        if (0 < count($this->myKeys_)) {
             return $this->myKeys_[$index];
         } else {
             return $this->beanMetaData_->getPrimaryKey($index);
@@ -42,7 +44,7 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
     }
 
     public function getYourKey($index) {
-        if (count($this->yourKeys_) > 0) {
+        if (0 < count($this->yourKeys_)) {
             return $this->yourKeys_[$index];
         } else {
             return $this->beanMetaData_->getPrimaryKey($index);
@@ -51,7 +53,7 @@ class S2Dao_RelationPropertyTypeImpl extends S2Dao_PropertyTypeImpl implements S
     
     public function isYourKey($columnName) {
         for ($i = 0; $i < $this->getKeySize(); ++$i) {
-            if (strcasecmp($columnName, $this->getYourKey($i)) == 0 ){
+            if (strcasecmp($columnName, $this->getYourKey($i)) == 0){
                 return true;
             }
         }
