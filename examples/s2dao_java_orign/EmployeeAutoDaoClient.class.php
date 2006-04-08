@@ -21,7 +21,7 @@ for ($i = 0; $i < $employees->size(); ++$i) {
 
 $dto = new EmployeeSearchCondition();
 $dto->setDname("RESEARCH");
-$employees = $dao->getEmployeesBySearchCondition($dto);
+$employees = $dao->getEmployeesBySearchConditionList($dto);
 for ($i = 0; $i < $employees->size(); ++$i) {
     var_dump($employees->get($i)->toString());
 }
