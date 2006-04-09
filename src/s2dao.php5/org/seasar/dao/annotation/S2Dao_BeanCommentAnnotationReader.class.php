@@ -9,6 +9,8 @@ class S2Dao_BeanCommentAnnotationReader implements S2Dao_BeanAnnotationReader {
     const RELKEYS_SUFFIX = 'RELKEYS';
     const ID_REGEX = '/@ID\s*=\s*\"(.*)\"/s';
     const COLUMN_REGEX = '/@COLUMN\s*=\s*\"(.*)\"/s';
+    const RELKEY_REGEX = '/@RELKEY\s*=\s*\"(.*)\"/s';
+    const RELNO_REGEX = '/@RELNO\s*=\s*\"(.*)\"/s';
     const NO_PERSISTENT_PROPS = 'NO_PERSISTENT_PROPS';
     const VERSION_NO_PROPERTY = 'VERSION_NO_PROPERTY';
     const TIMESTAMP_PROPERTY = 'TIMESTAMP_PROPERTY';
@@ -67,15 +69,21 @@ class S2Dao_BeanCommentAnnotationReader implements S2Dao_BeanAnnotationReader {
     }
 
     public function getRelationKey(S2Container_PropertyDesc $pd) {
+        if(preg_match(self::RELKEY_REGEX, $this->getComments($pd), $match)){
+            return $match[1];
+        }
         return null;
     }
 
     public function getRelationNo(S2Container_PropertyDesc $pd) {
+        if(preg_match(self::RELNO_REGEX, $this->getComments($pd), $match)){
+            return (int)$match[1];
+        }
         return null;
     }
 
     public function hasRelationNo(S2Container_PropertyDesc $pd) {
-        return null;
+        return preg_match(self::RELNO_REGEX, $this->getComments($pd), $match);
     }
     
     private function getComments(S2Container_PropertyDesc $pd){

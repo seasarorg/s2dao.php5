@@ -28,10 +28,12 @@
             <ul>
                 <li><a href="#EasyExample">S2Dao.PHP5の簡単なExample</a></li>
                 <li><a href="#EntityManagerExample">EntityManagerを使用したExample</a></li>
+                <li><a href="#CommentAnnotationExample">コメントアノテーションを使用したExample</a></li>
             </ul>
         </li>
         <li><a href="#Example2">Example2</a>(Java版S2DaoのExample)
             <ul>
+                <li><a href="#SelectExample">SQL文を記述する場合のExample</a></li>
                 <li><a href="#AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></li>
                 <li><a href="#EntityManagerExample2">EntityManagerを使用したExample2</a></li>
             </ul>
@@ -41,7 +43,7 @@
     <h2><a name="Example">Example</a></h2>
     <p>このExampleは前提条件として以下のテーブル、Beans、dao.diconを使用します。</p>
 
-        テーブル：CD
+        <p>テーブル：CD</p>
         <table border="1" class="main">
             <tr bgcolor="#d1f3f4" align="center">
               <th>カラム名</th>
@@ -126,6 +128,7 @@ class CdBean {
 
     &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
     &lt;component class="S2Dao_BasicStatementFactory" /&gt;
+    &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
 
     &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
     &lt;component name="interceptor" class="S2DaoInterceptor" /&gt;
@@ -170,11 +173,11 @@ mysql&gt; select * from CD order by ID;
 
         <ul>
             <li type="circle">Dao(Cd1Dao.class.php)</li>
-            <li type="circle">SQLファイル(Cd1Dao_List_getCD1.sql, Cd1Dao_List_getCD2.sql, Cd1Dao_List_getCD3.sql)</li>
+            <li type="circle">SQLファイル(Cd1Dao_getCD1List.sql, Cd1Dao_getCD2List.sql, Cd1Dao_getCD3List.sql)</li>
             <li type="circle">diconファイル(example.dicon.xml)</li>
             <li type="circle">共通読み込みファイル(example.inc.php)</li>
-            <li type="circle">実行クラス&lt;検索系&gt;(example_select1.php, example_select2.php, example_select3.php)</li>
-            <li type="circle">実行クラス&lt;更新系&gt;(example_insert.php, example_update.php, example_delete.php)</li>
+            <li type="circle">実行クラス&lt;検索系&gt;(cd_select1.php, cd_select2.php, cd_select3.php)</li>
+            <li type="circle">実行クラス&lt;更新系&gt;(cd_insert.php, cd_update.php, cd_delete.php)</li>
         </ul>
 
         <h4>Daoの作成</h4>
@@ -182,12 +185,12 @@ mysql&gt; select * from CD order by ID;
             <li type="circle">CDテーブルと対応するBeansと関連付けをします。</li>
             <li type="circle">メソッドを定義します。
                 <ul>
-                    <li>全件検索するメソッド(Array_getAllCd()メソッド)</li>
-                    <li>IDが1以上のCDを検索するメソッド(Array_getCds()メソッド)</li>
-                    <li>IDを引数として、一致するCDを検索するメソッド(Array_getSelectCdById($id)メソッド)</li>
-                    <li>IDとタイトルを引数として一致するCDを検索するメソッド(List_getCD1($id, $title = null)メソッド)</li>
-                    <li>IDとタイトル、ジャンルを引数として一致するCDを検索するメソッド(List_getCD2($id, $title, $content)メソッド)</li>
-                    <li>IDを引数として、一致するCDを検索するメソッド(List_getCD3($id = null)メソッド)</li>
+                    <li>全件検索するメソッド(getAllCdArray()メソッド)</li>
+                    <li>IDが1以上のCDを検索するメソッド(getCdsArray()メソッド)</li>
+                    <li>IDを引数として、一致するCDを検索するメソッド(getSelectCdByIdArray($id)メソッド)</li>
+                    <li>IDとタイトルを引数として一致するCDを検索するメソッド(getCD1List($id, $title = null)メソッド)</li>
+                    <li>IDとタイトル、ジャンルを引数として一致するCDを検索するメソッド(getCD2List($id, $title, $content)メソッド)</li>
+                    <li>IDを引数として、一致するCDを検索するメソッド(getCD3List($id = null)メソッド)</li>
                 </ul>
                 <ul>
                     <li>CDの更新を行うメソッド(update(CdBean $cd)メソッド)</li>
@@ -196,8 +199,7 @@ mysql&gt; select * from CD order by ID;
                 </ul>
             </li>
             <li type="circle">SQL文とメソッドの引数を関連付けするには<a href="reference.html#ArgsAnnotation">ARGSアノテーション</a>を使用します。</li>
-            <li type="circle">※List_で始まるメソッドはS2Dao_ArrayList形式、Array_で始まるメソッドの戻り値については
-            <a href="reference.html#DefMethod">メソッドの定義</a>を御覧になってください</li>
+            <li type="circle">※List、Arrayで終わるメソッドの戻り値については<a href="reference.html#DefMethod">メソッドの定義</a>を御覧になってください</li>
         </ul>
 
 <pre>
@@ -210,24 +212,24 @@ interface Cd1Dao {
     const insert_NO_PERSISTENT_PROPS = "content";
     const update_NO_PERSISTENT_PROPS = "id, content";
 
-    const Array_getSelectCdById_ARGS = "id";
-    const List_getCD1_ARGS = "id, title";
-    const List_getCD2_ARGS = "id, title, content";
-    const List_getCD3_ARGS = "id";
+    const getSelectCdByIdArray_ARGS = "id";
+    const getCD1List_ARGS = "id, title";
+    const getCD2List_ARGS = "id, title, content";
+    const getCD3List_ARGS = "id";
 
-    const Array_getCds_SQL = "SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1";
-    const Array_getSelectCdById_QUERY = "ID = /*id*/1";
+    const getCdsArray_SQL = "SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1";
+    const getSelectCdByIdArray_QUERY = "ID = /*id*/1";
 
     public function update(CdBean $cd);
     public function insert(CdBean $cd);
     public function delete(CdBean $cd);
 
-    public function Array_getAllCd();
-    public function Array_getCds();
-    public function Array_getSelectCdById($id);
-    public function List_getCD1($id, $title = null);
-    public function List_getCD2($id, $title, $content);
-    public function List_getCD3($id = null);
+    public function getAllCdArray();
+    public function getCdsArray();
+    public function getSelectCdByIdArray($id);
+    public function getCD1List($id, $title = null);
+    public function getCD2List($id, $title, $content);
+    public function getCD3List($id = null);
 }
 ?&gt;
 </pre>
@@ -239,12 +241,12 @@ interface Cd1Dao {
             <li type="circle">動的なSQLは<a href="reference.html#SQLbind">SQLコメント</a>を使用して作成します。</li>
         </ul>
 
-        <p>Cd1Dao_List_getCD1.sql</p>
+        <p>Cd1Dao_getCD1List.sql</p>
 <pre>
 SELECT * FROM CD WHERE ID = /*id*/16 OR TITLE = /*title*/'18';
 </pre>
 
-        <p>Cd1Dao_List_getCD2.sql</p>
+        <p>Cd1Dao_getCD2List.sql</p>
 
 <pre>
 SELECT *
@@ -256,7 +258,7 @@ FROM CD
 /*END*/
 </pre>
 
-        <p>Cd1Dao_List_getCD3.sql</p>
+        <p>Cd1Dao_getCD3List.sql</p>
 
 <pre>
 SELECT *
@@ -295,7 +297,7 @@ WHERE
 
         <h4>共通読み込みファイル(example.inc.php)の作成</h4>
         <ul>
-            <li type="circle">s2container.inc.phpとs2dao.inc.phpを読み込みます。</li>
+            <li type="circle">S2Container.phpとS2Dao.phpを読み込みます。</li>
             <li type="circle">pdo.diconファイルまでのパスを設定します。(PDO_DICON定数)</li>
             <li type="circle">S2ContainerClassLoader::import()で作成したファイルを読み込ませます。</li>
             <li type="circle">__autoload()関数にS2ContainerClassLoader::load()を設定します。</li>
@@ -303,22 +305,23 @@ WHERE
 
 <pre>
 &lt;?php
-require_once dirname(dirname(dirname(__FILE__))) . "/s2container.inc.php";
-require_once dirname(dirname(dirname(__FILE__))) . "/s2dao.inc.php";
+require_once 'S2Container/S2Container.php';
+require_once dirname(dirname(__FILE__)) . '/S2Dao.php';
 
 define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
+define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
 
 /** __autoload function */
 if( class_exists("S2ContainerClassLoader") ){
-    S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
-    S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
-    S2ContainerClassLoader::import(dirname(__FILE__) . "/impl");
-
     function __autoload($class = null){
         if( S2ContainerClassLoader::load($class) ){
             return;
         }
     }
+
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/impl");
 }
 ?&gt;
 </pre>
@@ -334,7 +337,7 @@ if( class_exists("S2ContainerClassLoader") ){
 
         <h4>検索系のサンプル</h4>
 
-        <h5>example_select1.php</h5>
+        <h5>cd_select1.php</h5>
 
 <pre>
 &lt;?php
@@ -343,7 +346,7 @@ require_once dirname(__FILE__) . "/example.inc.php";
 $container = S2ContainerFactory::create("example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 
-$cd = $dao-&gt;Array_getAllCD();
+$cd = $dao-&gt;getAllCDArray();
 
 for($i = 0; $i &lt; count($cd); $i++){
     echo "ID: " . $cd[$i]-&gt;getId() . PHP_EOL;
@@ -354,7 +357,7 @@ for($i = 0; $i &lt; count($cd); $i++){
 
 echo "=====" . PHP_EOL;
 
-$cd = $dao-&gt;Array_getSelectCdById(20);
+$cd = $dao-&gt;getSelectCdByIdArray(20);
 foreach($cd as $bean){
     echo "ID: " . $bean-&gt;getId() . PHP_EOL;
     echo "TITLE: " . $bean-&gt;getTitle() . PHP_EOL;
@@ -368,7 +371,7 @@ foreach($cd as $bean){
         <h5>実行結果</h5>
 
 <pre>
-&gt; php example_select1.php
+&gt; php cd_select1.php
 [DEBUG]  - SELECT CD.CONTENT, CD.ID, CD.TITLE FROM CD
 ID: 1
 TITLE: HeyJude
@@ -394,7 +397,7 @@ CONTENT:
 -------
 </pre>
 
-        <h5>example_select2.php</h5>
+        <h5>cd_select2.php</h5>
 
 <pre>
 &lt;?php
@@ -403,7 +406,7 @@ require_once dirname(__FILE__) . "/example.inc.php";
 $container = S2ContainerFactory::create("example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 
-$list = $dao-&gt;List_getCD1(2, 'aaa');
+$list = $dao-&gt;getCD1List(2, 'aaa');
 for($i = 0; $i &lt; $list-&gt;size(); $i++){
     $cd = $list-&gt;get($i);
     echo "ID: " . $cd-&gt;getId() . PHP_EOL;
@@ -414,7 +417,7 @@ for($i = 0; $i &lt; $list-&gt;size(); $i++){
 
 echo "=====" . PHP_EOL;
 
-$list = $dao-&gt;List_getCD2(2, 'help!', 'rock');
+$list = $dao-&gt;getCD2List(2, 'help!', 'rock');
 $i = $list-&gt;getIterator();
 while($i-&gt;valid()){
     $cd = $i-&gt;current();
@@ -431,7 +434,7 @@ while($i-&gt;valid()){
         <h5>実行結果</h5>
 
 <pre>
-&gt; php example_select2.php
+&gt; php cd_select2.php
 [DEBUG]  - SELECT * FROM CD WHERE ID = 2 OR TITLE = 'aaa'
 ID: 2
 TITLE: ride on technology
@@ -446,8 +449,7 @@ WHERE
      AND CONTENT = 'blues'
 </pre>
 
-        <h5>example_select3.php</h5>
-
+        <h5>cd_select3.php</h5>
 <pre>
 &lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
@@ -455,7 +457,7 @@ require_once dirname(__FILE__) . "/example.inc.php";
 $container = S2ContainerFactory::create("example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 
-$list = $dao-&gt;List_getCD3(null);
+$list = $dao-&gt;getCD3List(null);
 $cds = $list-&gt;toArray();
 for($i = 0; $i &lt; $list-&gt;size(); $i++){
     echo "ID: " . $cds[$i]-&gt;getId() . PHP_EOL;
@@ -466,7 +468,7 @@ for($i = 0; $i &lt; $list-&gt;size(); $i++){
 
 echo "======" . PHP_EOL;
 
-$cds = $dao-&gt;Array_getCds();
+$cds = $dao-&gt;getCdsArray();
 foreach($cds as $cd){
     echo "ID: " . $cd-&gt;getId() . PHP_EOL;
     echo "TITLE: " . $cd-&gt;getTitle() . PHP_EOL;
@@ -479,7 +481,7 @@ foreach($cds as $cd){
         <h5>実行結果</h5>
 
 <pre>
-&gt; php example_select3.php
+&gt; php cd_select3.php
 [DEBUG]  - SELECT *
 FROM CD
 WHERE
@@ -507,7 +509,7 @@ CONTENT:
 
         <h4>更新系のサンプル</h4>
 
-        <h5>example_insert.php</h5>
+        <h5>cd_insert.php</h5>
 
 <pre>
 &lt;?php
@@ -528,11 +530,11 @@ $dao-&gt;insert($cd);
         <h5>実行結果</h5>
 
 <pre>
-&gt; php example_insert.php
+&gt; php cd_insert.php
 [DEBUG]  - INSERT INTO CD (ID, TITLE) VALUES (4, 'gonna rice')
 </pre>
 
-        <h5>example_update.php</h5>
+        <h5>cd_update.php</h5>
 
 <pre>
 &lt;?php
@@ -552,11 +554,11 @@ $dao-&gt;update($cd);
         <h5>実行結果</h5>
 
 <pre>
-&gt; php example_update.php
+&gt; php cd_update.php
 [DEBUG]  - UPDATE CD SET TITLE = 'ride on technology' WHERE ID = 4
 </pre>
 
-        <h5>example_delete.php</h5>
+        <h5>cd_delete.php</h5>
 
 <pre>
 &lt;?php
@@ -575,11 +577,11 @@ $dao-&gt;delete($cd);
         <h5>実行結果</h5>
 
 <pre>
-&lt; php example_delete.php
+&lt; php cd_delete.php
 [DEBUG]  - DELETE FROM CD WHERE ID = 4
 </pre>
 
-        <p>この演習は、/examples以下に用意されています。</p>
+        <p>この演習は、/examples/s2dao/以下に用意されています。</p>
 
         <h3><a name="EntityManagerExample">EntityManagerを使用したExample</a></h3>
         <p><a href="reference.html#EntityManager">EntityManager</a>を用いる場合の簡単なサンプルです。<br />
@@ -643,7 +645,7 @@ class Cd2DaoImpl extends S2Dao_AbstractDao implements Cd2Dao {
             <li type="circle">先に作成した共通読み込みファイル(example.inc.php)を読み込みます</li>
             <li type="circle">S2Container::create()メソッドの第1引数に作成したdiconファイル(example.dicon.dicon)のパスを指定してコンテナを作成します。</li>
             <li type="circle">S2Container::getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（beanCdDao)を指定してコンポーネントを取得します。</li>
-            <li type="circle">IDが2を指定します。</li>
+            <li type="circle">IDに2を指定します。</li>
             <li type="circle">Daoに定義したメソッドを実行します。</li>
         </ul>
 
@@ -678,7 +680,246 @@ object(S2Dao_ArrayList)#259 (1) {
 }
 </pre>
 
-        <p>この演習は、/examples以下に用意されています。</p>
+        <p>この演習は、/examples/s2dao/以下に用意されています。</p>
+
+    <h3><a name="CommentAnnotationExample">コメントアノテーションを使用したExample</a></h3>
+        <p><a href="#EasyExample">S2Dao.PHP5の簡単なExample</a>を全てコメントアノテーションで実行します。</p>
+
+        <p>コメントアノテーションを行うにあたって変更するファイルは以下です。</p>
+        <ol>
+            <li>共通読み込みファイル(example.inc.php)</li>
+            <li>Dao(CdDao.class.php)</li>
+            <li>Entity(CdBean.class.php)</li>
+            <li>SQLバインド変数によってコメントアノテーションのできないSQLについてはファイル(.sql)化</li>
+        </ol>
+
+    <h4>example.inc.phpの変更</h4>
+
+<pre><code>&lt;?php
+require dirname(dirname(__FILE__)) . "/example.inc.php";
+
+define('S2DAO_PHP5_USE_COMMENT', true);
+
+if(class_exists('S2Container_AnnotationContainer')){
+    S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';
+}
+
+if(class_exists("S2ContainerClassLoader")){
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
+    S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
+}
+
+?&gt;</code></pre>
+
+    <h4>Dao(CdDao.class.php)の変更</h4>
+
+<pre><code>&lt;?php
+
+/**
+ * @S2Dao_DaoAnnotation(BEAN = CdBean)
+ */
+interface CdDao {
+
+    /**
+     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = "id, content")
+     */
+    public function update(CdBean $cd);
+
+    /**
+     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = "content")
+     */
+    public function insert(CdBean $cd);
+    public function delete(CdBean $cd);
+
+    /**
+     * @return array
+     */
+    public function getAll();
+
+    /**
+     * @S2Dao_DaoAnnotation(SQL = "SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1")
+     * @return array
+     */
+    public function getCds();
+
+    /**
+     * @return array
+     */
+    public function getSelectCdById($id);
+
+    /**
+     * @return list
+     */
+    public function getCD1($id, $title = null);
+
+    /**
+     * @return list
+     */
+    public function getCD2($id, $title, $content);
+
+    /**
+     * @return list
+     */
+    public function getCD3($id = null);
+
+    /**
+     * @S2Dao_DaoAnnotation(SQL = "SELECT COUNT(*) FROM CD")
+     * @return object
+     */
+    public function getCdCount();
+}
+?&gt;</code></pre>
+
+        <h4>Entity(CdBean.class.php)の変更</h4>
+
+<pre>&lt;?php
+
+/**
+ * @S2Dao_BeanAnnotation(TABLE = CD)
+ */
+class CdBean {
+
+    /**
+     * @COLUMN = "ID"
+     */
+    private $id;
+
+    /**
+     * @COLUMN = "TITLE"
+     */
+    private $title;
+
+    /**
+     * @COLUMN = "CONTENT"
+     */
+    private $content;
+
+    public function getContent() {
+        return $this-&gt;content;
+    }
+
+    public function setContent($content) {
+        $this-&gt;content = $content;
+    }
+
+    public function getId() {
+        return $this-&gt;id;
+    }
+
+    public function setId($id) {
+        $this-&gt;id = $id;
+    }
+
+    public function getTitle() {
+        return $this-&gt;title;
+    }
+
+    public function setTitle($title) {
+        $this-&gt;title = $title;
+    }
+}
+?&gt;</pre>
+
+    <h4>SQLファイルの追加および変更</h4>
+        <p>SQLコメントにてバインドを行うとPHPコメントと衝突してしまい正しく記述できない場合があります。<br />
+        その場合はSQLファイルにしておくのがよいでしょう</p>
+
+        <p>SQLファイルについてはメソッド名と同一にするため、ファイル名にList、Arrayを付与する必要はありません。</p>
+
+        <ul>
+            <li>CdDao_getCD1.sql</li>
+            <li>CdDao_getCD2.sql</li>
+            <li>CdDao_getCD3.sql</li>
+            <li>CdDao_getSelectCdById.sql</li>
+        </ul>
+
+    <h4>CdDao_getCD1.sql</h4>
+    <pre>SELECT * FROM CD WHERE ID = /*id*/16 OR TITLE = /*title*/'18';</pre>
+
+    <h4>CdDao_getCD2.sql</h4>
+<pre>SELECT * FROM CD
+/*BEGIN*/WHERE
+    /*IF id != null*/ ID = /*id*/'1'/*END*/
+    /*IF title != null*/ AND TITLE = /*title*/'bohemian rhapsody'/*END*/
+    /*IF content == "rock"*/ AND CONTENT = 'blues'/*END*/
+/*END*/</pre>
+
+    <h4>CdDao_getCD3.sql</h4>
+<pre>SELECT *
+FROM CD
+WHERE
+/*IF id != null*/ ID = /*id*/'1'
+--ELSE ID = 1
+/*END*/</pre>
+
+    <h4>CdDao_getSelectCdById.sql</h4>
+    <pre>select * from CD where ID = /*id*/1</pre>
+
+
+        <h3>実行結果</h3>
+
+    <h4>cd_select1.php</h4>
+<pre>[DEBUG]  - SELECT CD.CONTENT, CD.ID, CD.TITLE FROM CD
+ID: 1
+TITLE: S2Dao!!!
+CONTENT: hello!!
+-------
+=====
+[DEBUG]  - select * from CD where ID = 1
+ID: 1
+TITLE: S2Dao!!!
+CONTENT: hello!!
+-------</pre>
+
+    <h4>cd_select2.php</h4>
+<pre>[DEBUG]  - SELECT * FROM CD WHERE ID = 2 OR TITLE = 'aaa'
+=====
+[DEBUG]  - SELECT * FROM CD
+WHERE
+     ID = 2
+     AND TITLE = 'help!'
+     AND CONTENT = 'blues'</pre>
+
+     <h4>cd_select3.php</h4>
+<pre>[DEBUG]  - SELECT *
+FROM CD
+WHERE
+ ID = 1
+
+object(S2Dao_ArrayList)#345 (1) {
+  [0]=>
+  object(CdBean)#348 (3) {
+    ["id:private"]=>
+    string(1) "1"
+    ["title:private"]=>
+    string(8) "S2Dao!!!"
+    ["content:private"]=>
+    string(7) "hello!!"
+}
+}
+ID: 1
+TITLE: S2Dao!!!
+CONTENT: hello!!
+-------
+======</pre>
+
+    <h4>cd_getCount.php</h4>
+<pre>
+[DEBUG]  - SELECT COUNT(*) FROM CD
+int(1)
+</pre>
+
+    <h4>cd_insert.php</h4>
+    <pre>[DEBUG]  - INSERT INTO CD (ID, TITLE) VALUES (2, 'gonna rice')</pre>
+
+    <h4>cd_update.php</h4>
+    <pre>[DEBUG]  - UPDATE CD SET TITLE = 'ride on technology' WHERE ID = 2</pre>
+
+    <h4>cd_delete.php</h4>
+    <pre>[DEBUG]  - DELETE FROM CD WHERE ID = 2</pre>
+
+    <p>定数アノテーション時と同じ結果が取れたことが確認できました。<br />
+    この演習は、/examples/s2dao_comment/以下に用意されています。</p>
 
 <h2><a name="Example2">Example2</a>(Java版S2DaoのExample)</h2>
 
@@ -809,7 +1050,6 @@ class Employee implements Serializable {
     private $comm;
     private $deptno;
     private $timestamp;
-
     private $department;
 
     public function serialize(){
@@ -908,7 +1148,7 @@ class Employee implements Serializable {
         return $this-&gt;department;
     }
 
-    public function setDepartment($department) {
+    public function setDepartment(Department $department) {
         $this-&gt;department = $department;
     }
 
@@ -927,7 +1167,12 @@ class Employee implements Serializable {
         $buf .= $this-&gt;comm . ", ";
         $buf .= $this-&gt;deptno . ", ";
         $buf .= $this-&gt;timestamp . " {";
-        $buf .= $this-&gt;department . "}";
+        if($this-&gt;department != null){
+            $buf .=  $this-&gt;department-&gt;toString();
+        } else {
+            $buf .= "null";
+        }
+        $buf .= "}";
         return $buf;
     }
 
@@ -1019,6 +1264,209 @@ class Department implements Serializable {
 }
 
 ?&gt;</code></pre>
+
+        <h3><a name="SelectExample">SQL文を記述する場合のExample</a></h3>
+        <p>SQLファイルを作成し、Daoから記述したSQL文を実行する演習です。<br />
+        作成するファイルは以下のとおりです。</p>
+
+        <ul>
+            <li type="circle">Dao(EmployeeDao.class.php)</li>
+            <li type="circle">SQLファイル(EmployeeDao_getAllEmployeesList.sql, EmployeeDao_getEmployee.sql, EmployeeDao_getCount.sql, EmployeeDao_getEmployeeByJobDeptnoList.sql, EmployeeDao_update.sql)</li>
+            <li type="circle">diconファイル(EmployeeDao.dicon)</li>
+            <li type="circle">実行クラス(EmployeeDaoClient.class.php)</li>
+        </ul>
+
+        <h5>Daoの作成</h5>
+        <ul>
+            <li type="circle">EMPテーブルと対応するEntity(Bean)と関連付けをします。</li>
+            <li type="circle">メソッドを定義します。<br />
+            全件検索するメソッド(getAllEmployeesList()メソッド)<br />
+            従業員番号を引数として、一致する従業員を検索するメソッド(getEmployee($empno)メソッド)<br />
+            従業員をカウントするメソッド(getCount()メソッド)<br />
+            仕事と部署番号を引数として、一致する従業員を検索するメソッド(getEmployeeByJobDeptnoList($job, $deptno)メソッド)<br />
+            従業員を更新するメソッド(update(Employee $employee)メソッド)
+            </li>
+            <li type="circle">SQL文とメソッドの引数を関連付けするには<a href="reference.html#ArgsAnnotation">ARGSアノテーション</a>を使用します。</li>
+            <li type="circle">EMPテーブルの件数を取得するgetCount()メソッドは、１行でテーブルの件数が返ってくるので戻り値をintとします。</li>
+        </ul>
+
+<pre>&lt;?php
+
+interface EmployeeDao {
+
+    const BEAN = "Employee";
+
+    public function getAllEmployeesList();
+
+    public function getEmployee($empno);
+
+    public function getCount();
+
+    public function getEmployeeByJobDeptnoList($job, $deptno);
+
+    const getEmployeeByDeptnoList_QUERY = "
+                /*IF deptno !== null*/EMP.DEPTNO = /*deptno*/123
+                --ELSE EMP.DEPTNO = 2
+                /*END*/";
+    public function getEmployeeByDeptnoList($deptno);
+
+    public function update(Employee $employee);
+}
+?&gt;</pre>
+
+        <h5>SQLファイルの作成</h5>
+        <ul>
+            <li type="circle">Daoに定義したメソッドに対応するSQLファイルをそれぞれ作成します。</li>
+            <li type="circle">ファイル名は「クラス名_メソッド名.sql」とします。</li>
+            <li type="circle">動的なSQLは<a href="reference.html#SQLbind">SQLコメント</a>を使用して作成します。</li>
+
+        </ul>
+
+        <p>EmployeeDao_getAllEmployeesList.sql</p>
+<pre>
+SELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM EMP as emp, DEPT as dept
+WHERE emp.deptno = dept.deptno ORDER BY emp.empno
+</pre>
+
+        <p>EmployeeDao_getEmployee.sql</p>
+<pre>
+SELECT EMP.*, DEPT.dname dname_0, DEPT.loc loc_0 FROM EMP, DEPT
+WHERE EMP.empno = /*empno*/7788 AND EMP.deptno = DEPT.deptno
+</pre>
+
+        <p>EmployeeDao_getCount.sql</p>
+<pre>
+SELECT count(*) FROM emp
+</pre>
+
+        <p>EmployeeDao_getEmployeeByJobDeptnoList.sql</p>
+<pre>
+SELECT * FROM EMP
+/*BEGIN*/WHERE
+  /*IF job !== null*/EMP.JOB = /*job*/'CLERK'/*END*/
+  /*IF deptno !== null*/AND EMP.DEPTNO = /*deptno*/20/*END*/
+/*END*/
+</pre>
+
+        <p>EmployeeDao_update.sql</p>
+<pre>
+UPDATE EMP SET ename = /*employee.ename*/'SCOTT'
+WHERE empno = /*employee.empno*/7788
+</pre>
+
+        <h5>diconファイルの作成</h5>
+        <ul>
+            <li type="circle">dao.diconをincludeします。</li>
+            <li type="circle">作成したDaoのコンポーネント定義します。</li>
+            <li type="circle">Daoにdao.interceptor(S2DaoInterceptor)を適用します。</li>
+        </ul>
+
+<pre>
+&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd"&gt;
+&lt;components&gt;
+    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;component class="EmployeeDao"&gt;
+        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+
+        <h5>実行ファイルの作成</h5>
+
+        <ul>
+            <li type="circle">org.seasar.framework.container.S2Container#create()メソッドの第1引数に作成したdiconファイル(EmployeeDao.dicon)のパスを指定してコンテナを作成します。</li>
+            <li type="circle">org.seasar.framework.container.S2Container#getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（EmployeeDao)を指定してコンポーネントを取得します。</li>
+            <li type="circle">Daoに定義したメソッドを実行します。</li>
+        </ul>
+<pre>&lt;?php
+require_once dirname(__FILE__) . "/orign.inc.php";
+
+$container = S2ContainerFactory::create("./resource/EmployeeDao.dicon");
+$dao = $container-&gt;getComponent("EmployeeDao");
+$employees = $dao-&gt;getAllEmployeesList();
+for ($i = 0; $i &lt; $employees-&gt;size(); ++$i) {
+    var_dump($employees-&gt;get($i)-&gt;toString());
+}
+
+$employee = $dao-&gt;getEmployee(7788);
+var_dump($employee-&gt;toString());
+
+$count = $dao-&gt;getCount();
+var_dump("count:" . $count);
+
+$dao-&gt;getEmployeeByJobDeptnoList(null, null);
+$dao-&gt;getEmployeeByJobDeptnoList("CLERK", null);
+$dao-&gt;getEmployeeByJobDeptnoList(null, 20);
+$dao-&gt;getEmployeeByJobDeptnoList("CLERK", 20);
+$dao-&gt;getEmployeeByDeptnoList(20);
+$dao-&gt;getEmployeeByDeptnoList(null);
+
+var_dump("updatedRows:" . $dao-&gt;update($employee));
+
+$container-&gt;destroy();
+?&gt;</pre>
+
+        <h5>実行結果</h5>
+<pre>&gt; php EmployeeDaoClient.class.php
+[DEBUG]  - SELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM EMP as emp, DEPT as dept
+WHERE emp.deptno = dept.deptno ORDER BY emp.empno
+string(63) "7369, SMITH, CLERK, 7902, 1980-12-17, 800.00, , 20,  {20, , , }"
+string(73) "7499, ALLEN, SALESMAN, 7698, 1981-02-20, 1600.00, 300.00, 30,  {30, , , }"
+string(72) "7521, WARD, SALESMAN, 7698, 1981-02-22, 1250.00, 500.00, 30,  {30, , , }"
+string(66) "7566, JONES, MANAGER, 7839, 1981-04-02, 2975.00, , 20,  {20, , , }"
+string(75) "7654, MARTIN, SALESMAN, 7698, 1981-09-28, 1250.00, 1400.00, 30,  {30, , , }"
+string(66) "7698, BLAKE, MANAGER, 7839, 1981-05-01, 2850.00, , 30,  {30, , , }"
+string(66) "7782, CLARK, MANAGER, 7839, 1981-06-09, 2450.00, , 10,  {10, , , }"
+string(66) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {20, , , }"
+string(63) "7839, KING, PRESIDENT, , 1981-11-17, 5000.00, , 10,  {10, , , }"
+string(72) "7844, TURNER, SALESMAN, 7698, 1981-09-08, 1500.00, 0.00, 30,  {30, , , }"
+string(64) "7876, ADAMS, CLERK, 7788, 1983-01-12, 1100.00, , 20,  {20, , , }"
+string(63) "7900, JAMES, CLERK, 7698, 1981-12-03, 950.00, , 30,  {30, , , }"
+string(65) "7902, FORD, ANALYST, 7566, 1981-12-03, 3000.00, , 20,  {20, , , }"
+string(65) "7934, MILLER, CLERK, 7782, 1982-01-23, 1300.00, , 10,  {10, , , }"
+[DEBUG]  - SELECT EMP.*, DEPT.dname dname_0, DEPT.loc loc_0 FROM EMP, DEPT
+WHERE EMP.empno = 7788 AND EMP.deptno = DEPT.deptno
+string(64) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {, , , }"
+[DEBUG]  - SELECT count(*) FROM EMP
+string(8) "count:14"
+[DEBUG]  - SELECT * FROM EMP
+
+[DEBUG]  - SELECT * FROM EMP
+WHERE
+  EMP.JOB = 'CLERK'
+
+
+[DEBUG]  - SELECT * FROM EMP
+WHERE
+
+   EMP.DEPTNO = 20
+
+[DEBUG]  - SELECT * FROM EMP
+WHERE
+  EMP.JOB = 'CLERK'
+  AND EMP.DEPTNO = 20
+
+[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
+department.DEPTNO AS DEPTNO_0, department.DNAME AS DNAME_0, department.LOC AS LOC_0,
+department.VERSIONNO AS VERSIONNO_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.DEPTNO = department.DEPTNO WHERE
+                EMP.DEPTNO = 20
+
+[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
+department.DEPTNO AS DEPTNO_0, department.DNAME AS DNAME_0, department.LOC AS LOC_0,
+department.VERSIONNO AS VERSIONNO_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.DEPTNO = department.DEPTNO WHERE
+                 EMP.DEPTNO = 2
+
+[DEBUG]  - UPDATE EMP SET ename = 'SCOTT'
+WHERE empno = '7788'
+string(13) "updatedRows:0"
+</pre>
+
+        <p>"updatedRows"の値から更新された件数を確認することができます。<br />
+        この演習は、/examples/s2dao_java_orign以下に用意されています。</p>
 
     <h3><a name="AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></h3>
 
@@ -1219,16 +1667,17 @@ $container-&gt;destroy();
 
 <pre>
 &gt; php Employee2DaoClient.class.php
+[DEBUG] S2Container_MethodUtil::invoke - eval : [ return $target->getEmployees($args[0]); ]
 [DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
-department.EMPNO AS EMPNO_0, department.ENAME AS ENAME_0, department.JOB AS JOB_0, department.MGR AS MGR_0,
-department.HIREDATE AS HIREDATE_0, department.SAL AS SAL_0, department.COMM AS COMM_0,
-department.DEPTNO AS DEPTNO_0
-FROM EMP LEFT OUTER JOIN EMP department ON EMP.EMPNO = department.EMPNO WHERE EMP.ename LIKE '%CO%'
-string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #348}"
+department.DEPTNO AS DEPTNO_0, department.DNAME AS DNAME_0, department.LOC AS LOC_0,
+department.VERSIONNO AS VERSIONNO_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.DEPTNO = department.DEPTNO WHERE EMP.ename LIKE '%CO%'
+string(74) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {20, 0, DALLAS, 0}"
 [DEBUG]  - SELECT * FROM EMP WHERE EMPNO = 7788
-string(72) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {Object id #350}"
+string(66) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {20, , , }"
 </pre>
 
+        <p>※[DEBUG]表示において不要な部分は削除しています。</p>
         <p>この演習は、/examples/s2dao_java_orign以下に用意されています。</p>
 
 <!-- document end -->
