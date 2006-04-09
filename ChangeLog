@@ -1,3 +1,44 @@
+2006-04-10 nowel(S2Dao-1.1.0-RC1)
+
+================ S2Dao.PHP5-1.1.0-RC1 更新履歴 ===================
+    * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されないバグを修正しました。
+    * fix: N:1(RELNO)時のRelation Bean値が正しく設定されないバグを修正しました。
+    * fix: いくつかの Exception 及びメッセージを修正しました。
+    * fix: s2dao.inc.php にて S2ContainerMessageUtil の指定が間違っていたのを修正しました。
+    * fix: SQLコメントが正しく利用できないバグを修正しました。
+    * add: Dao, Entity の自動生成タスクを作成しました。(alpha)
+    * add:コメントアノテーションに対応しました。
+        - 詳細はドキュメントをご覧になってください。
+        - examples/s2dao_comment にサンプルがあるのでご覧になってください。
+        * コメントアノテーション使用時には戻り値の指定を@return にて指定します。
+            ex)
+            - Listで戻り値を取得する場合
+                /**
+                 * @return list
+                 */
+                public function getEmployees()
+            - array()で戻り値を取得する場合
+                /**
+                 * @return array
+                 */
+                public function getEmployees()
+            - Object(Entity)で戻り値を取得する場合
+                public function getEmployees()
+    * メソッドの戻り値指定の List_ 及び Array_ の変更
+        - 'List_getEmployee()' to 'getEmployeeList()'
+            - 'EmployeeDao_List_getEmployees.sql' to 'EmployeeDao_getEmployeesList.sql'
+        - 'Array_getDepartment()' to 'getDepartmentArray()'
+            - 'Department_Array_getDepartment.sql' to 'Department_getDepartmentArray.sql'
+        new)
+            getEmployeeByList(args)
+            getEmployeesArray(args)
+        old)
+            List_getEmployeeBy(args)
+                Array_getEmployees(args)
+    * 単一カラムの戻り値を変更
+        'SELECT count(*)' などのように一つだけのカラムが戻り値になった場合は
+          その結果セットを戻します。 
+
 2006-04-08 nowel(S2Dao-1.1.0-RC1)
 
     * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されないバグを修正しました。
