@@ -6,6 +6,7 @@
     <include path="%S2DAO_PHP5%/dao.dicon" />
 
     <component class="CdDao">
+    		<aspect>pdo.requiredTx</aspect>
         <aspect>dao.interceptor</aspect>
     </component>
 
