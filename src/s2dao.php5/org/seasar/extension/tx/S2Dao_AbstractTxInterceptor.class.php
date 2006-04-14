@@ -35,7 +35,6 @@ abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodIntercep
         }
         return false;
     }
-    
 
     public final function begin() {
         try {

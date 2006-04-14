@@ -7,10 +7,15 @@
         - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_RequiredInterceptor.class.php
         - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_RequiresNewInterceptor.class.php
         - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_MandatoryInterceptor.class.php
+        - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_NotSupportedInterceptor.class.php
+        - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_NeverInterceptor.class.php
     * modify: pdo.dicon
+    	    <!--
         <component name="requiredTx" class="S2Dao_RequiredInterceptor" />
         <component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" />
         <component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" />
+        <component name="notSupportedTx" class="S2Dao_NotSupportedInterceptor" />
+        -->
 
 2006-04-10 nowel(S2Dao.PHP5-1.1.0-RC1)
 

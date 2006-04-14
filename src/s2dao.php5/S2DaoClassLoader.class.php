@@ -29,6 +29,8 @@ class S2DaoClassLoader {
         'S2Dao_PDOType' => '/extension/db/types/S2Dao_PDOType.class.php',
         'S2Dao_AbstractTxInterceptor' => '/extension/tx/S2Dao_AbstractTxInterceptor.class.php',
         'S2Dao_MandatoryInterceptor' => '/extension/tx/S2Dao_MandatoryInterceptor.class.php',
+        'S2Dao_NotSupportedInterceptor' => '/extension/tx/S2Dao_NotSupportedInterceptor.class.php',
+        'S2Dao_NeverInterceptor' => '/extension/tx/S2Dao_NeverInterceptor.class.php',
         'S2Dao_RequiredInterceptor' => '/extension/tx/S2Dao_RequiredInterceptor.class.php',
         'S2Dao_RequiresNewInterceptor' => '/extension/tx/S2Dao_RequiresNewInterceptor.class.php',
         'S2Dao_TxRule' => '/extension/tx/S2Dao_TxRule.class.php',
