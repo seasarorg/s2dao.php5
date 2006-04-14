@@ -1,4 +1,18 @@
-2006-04-10 nowel(S2Dao-1.1.0-RC1)
+2006-04-14 nowel(S2Dao.PHP5-1.1.0-RC2)
+
+    * pdoのトランザクション機構提供開始(alpha)
+        - 詳細はドキュメントをご覧になってください。
+        - examples/s2dao_selftransaction にサンプルがあるのでご覧になってください。
+        - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_AbstractTxInterceptor.class.php
+        - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_RequiredInterceptor.class.php
+        - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_RequiresNewInterceptor.class.php
+        - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_MandatoryInterceptor.class.php
+    * modify: pdo.dicon
+        <component name="requiredTx" class="S2Dao_RequiredInterceptor" />
+        <component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" />
+        <component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" />
+
+2006-04-10 nowel(S2Dao.PHP5-1.1.0-RC1)
 
 ================ S2Dao.PHP5-1.1.0-RC1 更新履歴 ===================
     * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されないバグを修正しました。
@@ -39,16 +53,16 @@
         'SELECT count(*)' などのように一つだけのカラムが戻り値になった場合は
           その結果セットを戻します。 
 
-2006-04-08 nowel(S2Dao-1.1.0-RC1)
+2006-04-08 nowel(S2Dao.PHP5-1.1.0-RC1)
 
     * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されないバグを修正しました。
     * fix: N:1(RELNO)時のRelation Bean値が正しく設定されないバグを修正しました。
 
-2006-04-05 nowel(S2Dao-1.1.0-RC1)
+2006-04-05 nowel(S2Dao.PHP5-1.1.0-RC1)
 
     * fix: いくつかの Exception 及びメッセージを修正しました。
 
-2006-04-04 nowel(S2Dao-1.1.0-RC1)
+2006-04-04 nowel(S2Dao.PHP5-1.1.0-RC1)
 
     * コメントアノテーションに対応しました。
         - 詳細はドキュメントを御覧になってください。
@@ -72,13 +86,13 @@
         含まれている場合に利用可能です。
         ※戻り値の指定が無い場合はobject(entity)を返します。
 
-2006-04-02 nowel(S2Dao-1.1.0-RC1)
+2006-04-02 nowel(S2Dao.PHP5-1.1.0-RC1)
 
     * 一部のパッケージを移動しました。
 
-2006-03-23 nowel(S2Dao-1.1.0-RC1)
+2006-03-23 nowel(S2Dao.PHP5-1.1.0-RC1)
 
-    * S2Dao-1.1.0-RC1 の開発を開始
+    * S2Dao.PHP5-1.1.0-RC1 の開発を開始
         S2Container.PHP5-1.1.0RC1 での開発
     * メソッドの戻り値指定の List_ 及び Array_ の変更
         - 'List_getEmployee()' to 'getEmployeeList()'

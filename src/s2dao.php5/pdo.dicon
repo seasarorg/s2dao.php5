@@ -45,11 +45,13 @@
     -->
     
     <!--
-	<component name="requiredTx" class="S2Dao_RequiredInterceptor" />
-	-->
+    <component name="requiredTx" class="S2Dao_RequiredInterceptor" />
+    -->
     <!--
     <component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" />
     -->
-
+    <!--
+    <component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" />
+    -->
 
 </components>
