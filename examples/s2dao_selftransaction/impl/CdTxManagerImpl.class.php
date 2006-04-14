@@ -28,6 +28,12 @@ class CdTxManagerImpl implements CdTxManager {
     public function getAll(){
         return $this->dao->getAll();
     }
+    
+    public function delete(){
+        $this->dao->delete(new CdBean(3));
+        $this->dao->delete(new CdBean(4));
+        $this->dao->delete(new CdBean(5));
+    }
 }
 
 ?>

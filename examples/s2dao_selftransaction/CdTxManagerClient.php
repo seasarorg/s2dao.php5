@@ -37,4 +37,10 @@ try{
 }
 echo "getAll end" . PHP_EOL;
 
+try{
+    $manager->delete();
+}catch(Exception $e){
+    var_dump($e->getMessage());
+}
+
 ?>

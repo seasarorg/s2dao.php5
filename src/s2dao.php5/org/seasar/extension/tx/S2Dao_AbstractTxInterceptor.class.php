@@ -67,11 +67,11 @@ abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodIntercep
     }
 
     public final function suspend() {
-        // nop
+        return $this->connection;
     }
 
-    public final function resume($transaction) {
-        // nop
+    public final function resume(PDO $connection) {
+        $this->connection = $connection;
     }
 
     public final function complete(Exception $e) {

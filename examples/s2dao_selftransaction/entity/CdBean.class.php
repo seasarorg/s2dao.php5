@@ -21,6 +21,12 @@ class CdBean {
      */
     private $content;
     
+    public function __construct($id = null, $title = null, $content = null){
+        $this->id = $id;
+        $this->title = $title;
+        $this->content = $content;
+    }
+    
     public function getContent() {
         return $this->content;
     }
