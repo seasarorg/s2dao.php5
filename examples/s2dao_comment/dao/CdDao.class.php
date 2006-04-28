@@ -49,7 +49,7 @@ interface CdDao {
     public function getCD3($id = null);
 
     /**
-     * @Sql("SELECT COUNT(*) FROM CD")
+     * @Sql("SELECT COUNT(*) FROM CD", dbms = mysql)
      */
     public function getCdCount();
 }

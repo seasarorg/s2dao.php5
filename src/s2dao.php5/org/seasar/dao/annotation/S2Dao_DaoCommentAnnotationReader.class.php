@@ -55,13 +55,12 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     }
 
     public function getSQL(ReflectionMethod $method, $dbmsSuffix) {
+        $dbmsSuffix = preg_replace('/^(_)/', '', $dbmsSuffix);
         $anno = $this->getMethodAnnotation('Sql', $method);
         if($anno != null){
-            /*
             if($anno->dbms == $dbmsSuffix){
+                return $anno->value;
             }
-            */
-            return $anno->value;
         }
         return null;
     }

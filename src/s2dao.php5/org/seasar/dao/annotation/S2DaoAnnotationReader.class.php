@@ -69,10 +69,16 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
             $argType = null;
             $args = array();
             
-            if(preg_match('/^\"(.*)\"/s', $matches[2], $match)){
-                $key = 'value';
-                $val = $match[1];
-                $args[$key] = $val;
+            //FIXME
+            if(preg_match('/^\"(.*)\"(.+)?/s', $matches[2], $match)){
+                $args['value'] = trim($match[1]);
+                if(isset($match[2])){
+                    if(preg_match("/,(.+?)=(.+)/s", $match[2], $m)){
+                        $key = $this->removeQuote($m[1]);
+                        $value = $this->removeQuote($m[2]);
+                        $args[$key] = $value;
+                    }
+                }
                 $argType = self::ARGS_TYPE_HASH;
             } else {
                 $items = S2Dao_ArrayUtil::spacetrim(explode(',', $matches[2]));
@@ -80,7 +86,7 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
                     if (preg_match('/^(.+?)=(.+)/s', $item, $matches)) {
                         if ($argType == self::ARGS_TYPE_ARRAY) {
                             throw new S2Container_AnnotationRuntimeException('ERR003',
-                                                        array($line,$item));
+                                                        array($line, $item));
                         }
                         $key = $this->removeQuote($matches[1]);
                         $val = $this->removeQuote($matches[2]);
