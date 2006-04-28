@@ -11,10 +11,10 @@ class S2Dao_IdentityIdentifierGenerator extends S2Dao_AbstractIdentifierGenerato
 
     public function setIdentifier($bean, $value) {
         if($value instanceof S2Container_PDODataSource){
-            $ret = $this->executeSql($value,
+            $retVal = $this->executeSql($value,
                                      $this->getDbms()->getIdentitySelectString(),
                                      null);
-            $this->setIdentifier($bean, $ret);
+            $this->setIdentifier($bean, $retVal);
         }
     }
 

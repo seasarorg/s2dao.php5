@@ -123,13 +123,13 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-    private function getTables(PDO $db){
+    private static function getTables(PDO $db){
         $dbms = self::getDbms($db);
         $stmt = $db->query($dbms->getTableSql());
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    private function getTableInfo(PDO $db, $table, $schema){
+    private static function getTableInfo(PDO $db, $table, $schema){
         $dbms = self::getDbms($db);
 
         // {{{

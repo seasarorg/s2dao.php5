@@ -28,12 +28,12 @@ abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGene
         return $handler->execute($args, null);
     }
     
-    protected function setIdentifier($bean, $value) {
+    public function setIdentifier($bean, $value) {
         if($value instanceof S2Container_DataSource){
-            $val = $this->executeSql($value,
+            $retVal = $this->executeSql($value,
                             $this->getDbms()->getIdentitySelectString(),
                             null);
-            $this->setIdentifier($bean, $val);
+            $this->setIdentifier($bean, $retVal);
         } else {
             if ($this->propertyName_ == null) {
                 throw new S2Container_EmptyRuntimeException('propertyName');
