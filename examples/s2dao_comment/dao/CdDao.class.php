@@ -2,17 +2,17 @@
 
 /**
  * @author nowel
- * @S2Dao_DaoAnnotation(BEAN = CdBean)
+ * @Dao(bean = CdBean)
  */
 interface CdDao {
 
     /**
-     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = "id, content")
+     * @NoPersistentProperty("id, content")
      */    
     public function update(CdBean $cd);
     
     /**
-     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = "content")
+     * @NoPersistentProperty("content")
      */
     public function insert(CdBean $cd);
     public function delete(CdBean $cd);
@@ -23,7 +23,7 @@ interface CdDao {
     public function getAll();
     
     /**
-     * @S2Dao_DaoAnnotation(SQL = "SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1")
+     * @Sql("SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1")
      * @return array
      */
     public function getCds();
@@ -49,8 +49,7 @@ interface CdDao {
     public function getCD3($id = null);
 
     /**
-     * @S2Dao_DaoAnnotation(SQL = "SELECT COUNT(*) FROM CD")
-     * @return object
+     * @Sql("SELECT COUNT(*) FROM CD")
      */
     public function getCdCount();
 }

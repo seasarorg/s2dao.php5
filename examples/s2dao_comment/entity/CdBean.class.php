@@ -2,22 +2,22 @@
 
 /**
  * @author nowel
- * @S2Dao_BeanAnnotation(TABLE = CD)
+ * @Bean(table = CD)
  */
 class CdBean {
 
     /**
-     * @COLUMN = "ID"
+     * @Column("ID")
      */
     private $id;
     
     /**
-     * @COLUMN = "TITLE"
+     * @Column("TITLE")
      */
     private $title;
     
     /**
-     * @COLUMN = "CONTENT"
+     * @Column("CONTENT")
      */
     private $content;
     

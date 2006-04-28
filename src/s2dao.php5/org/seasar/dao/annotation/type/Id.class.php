@@ -5,6 +5,6 @@
  */
 class Id {
     public $value = 'assigned';
-    public $sequenceName = '';
+    public $sequenceName;
 }
 ?>

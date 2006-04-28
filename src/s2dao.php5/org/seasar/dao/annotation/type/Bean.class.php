@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-final class S2Dao_BeanAnnotation {
+final class Bean {
     public $table = '';
     public $noPersistentProperty = array();
     public $versionNoProperty = 'versionNo';

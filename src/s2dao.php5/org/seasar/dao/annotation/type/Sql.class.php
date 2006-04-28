@@ -5,5 +5,6 @@
  */
 class Sql {
     public $value;
+    public $dbms;
 }
 ?>

@@ -14,7 +14,7 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
         if(is_string($methodName)){
             $clazz = $clazz->getMethod($methodName);
         }
-
+        
         $comments = preg_split('/\r?\n/',
                                $clazz->getDocComment(), -1, PREG_SPLIT_NO_EMPTY);
         $inAnno = false;
@@ -69,15 +69,15 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
             $argType = null;
             $args = array();
             
-            if(preg_match('/^(.+?)\s*=\s*\"(.*)\"/s', $matches[2], $match)){
-                $key = $match[1];
-                $val = $match[2];
+            if(preg_match('/^\"(.*)\"/s', $matches[2], $match)){
+                $key = 'value';
+                $val = $match[1];
                 $args[$key] = $val;
                 $argType = self::ARGS_TYPE_HASH;
             } else {
                 $items = S2Dao_ArrayUtil::spacetrim(explode(',', $matches[2]));
                 foreach ($items as $item) {
-                    if (preg_match('/^(.+?)=(.+)/s',$item,$matches)) {
+                    if (preg_match('/^(.+?)=(.+)/s', $item, $matches)) {
                         if ($argType == self::ARGS_TYPE_ARRAY) {
                             throw new S2Container_AnnotationRuntimeException('ERR003',
                                                         array($line,$item));
@@ -114,7 +114,6 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
         $str = preg_replace('/[\"\']$/', '', $str);
         return trim($str);
     }
-
 
     private function removeCommentSlashAster($line){
         $line = trim($line);
