@@ -45,8 +45,12 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
     }
 
     protected function createRelationRow(S2Dao_RelationPropertyType $rpt,
-                                         array $resultSet,
-                                         S2Dao_HashMap $relKeyValues){
+                                         array $resultSet = null,
+                                         S2Dao_HashMap $relKeyValues = null){
+
+        if($resultSet == null && $relKeyValues == null){
+            return $rpt->getPropertyDesc()->getPropertyType()->newInstance();
+        }
 
         $row = null;
         $columnNames = new S2Dao_ArrayList(array_keys($resultSet));
@@ -55,13 +59,13 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
             $columnName = $rpt->getMyKey($i);
             if ($columnNames->contains($columnName)) {
                 if ($row === null) {
-                    $row = $bmd->getBeanClass()->newInstance();
+                    $row = $this->createRelationRow($rpt);
                 }
                 if ($relKeyValues != null && $relKeyValues->containsKey($columnName)) {
                     $value = $relKeyValues->get($columnName);
                     $pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
                     $pd = $pt->getPropertyDesc();
-                    if ($value != null) {
+                    if ($value !== null) {
                         $pd->setValue($row, $value);
                     }
                 }
@@ -76,7 +80,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                 continue;
             }
             if ($row === null) {
-                $row = $bmd->getBeanClass()->newInstance();
+                $row = $this->createRelationRow($rpt);
             }
             $value = null;
             if ($relKeyValues != null && $relKeyValues->containsKey($columnName)) {

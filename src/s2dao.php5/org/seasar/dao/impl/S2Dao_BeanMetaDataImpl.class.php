@@ -89,12 +89,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
         $columnName = substr($alias, 0, $index);
         $relnoStr = substr($alias, $index + 1);
-        $relno = -1;
-        try {
-            $relno = (int)$relnoStr;
-        } catch (Exception $t) {
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
-        }
+        $relno = (int)$relnoStr;
         $rpt = $this->getRelationPropertyType($relno);
         if (!$rpt->getBeanMetaData()->hasPropertyTypeByColumnName($columnName)){
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
@@ -119,12 +114,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
         $columnName = substr($alias, 0, $index);
         $relnoStr = substr($alias, $index + 1);
-        $relno = -1;
-        try {
-            $relno = (int)$relnoStr;
-        } catch (Exception $t) {
-            return false;
-        }
+        $relno = (int)$relnoStr;
         if ($relno >= $this->getRelationPropertyTypeSize()) {
             return false;
         }
@@ -150,12 +140,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
         $columnName = substr($alias, 0, (int)$index);
         $relnoStr = substr($alias, $index + 1);
-        $relno = -1;
-        try {
-            $relno = (int)$relnoStr;
-        } catch (Exception $t) {
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
-        }
+        $relno = (int)$relnoStr;
         $rpt = $this->getRelationPropertyType($relno);
         if (!$rpt->getBeanMetaData()->hasPropertyTypeByColumnName($columnName)) {
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
@@ -171,15 +156,17 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         if(is_integer($index)){
           return $this->relationPropertyTypes_->get($index);
         } else {
-            for ($i = 0; $i < $this->getRelationPropertyTypeSize(); $i++) {
+            $propertyName = $index;
+            $c = $this->getRelationPropertyTypeSize();
+            for ($i = 0; $i < $c; $i++) {
                 $rpt = $this->relationPropertyTypes_->get($i);
-                if ($rpt != null &&
-                    strcasecmp($rpt->getPropertyName(), $index) == 0){
+                if ($rpt !== null &&
+                    strcasecmp($rpt->getPropertyName(), $propertyName) == 0){
                     return $rpt;
                 }
             }
             throw new S2Container_PropertyNotFoundRuntimeException($this->getBeanClass(),
-                                                                   $index);
+                                                                   $propertyName);
         }
     }
 
@@ -251,7 +238,6 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet(
                                                $dbMetaData, $this->tableName_);
 
-            //$c = $primaryKeySet->size();
             $c = $this->getPropertyTypeSize();
             for ($i = 0; $i < $c; ++$i) {
                 $pt = $this->getPropertyType($i);
@@ -280,7 +266,8 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $cset = $columnSet->toArray();
         foreach($cset as $columnName){
             $col2 = str_replace('_', '', $columnName);
-            for($i = 0; $i < $this->getPropertyTypeSize(); ++$i){
+            $c = $this->getPropertyTypeSize();
+            for($i = 0; $i < $c; ++$i){
                 $pt = $this->getPropertyType($i);
                 if(0 == strcasecmp($pt->getColumnName(), $col2)){
                     $pt->setColumnName($columnName);
@@ -331,7 +318,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             while ($st->valid()) {
                 $token = $st->current();
                 $index = strpos($token, ':');
-                if ($index !== false && $index > 0) {
+                if (0 < $index && $index !== false) {
                     $myKeyList->add(substr($token, 0, $index));
                     $yourKeyList->add(substr($token, $index + 1));
                 } else {
@@ -344,17 +331,17 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             $yourKeys = $yourKeyList->toArray();
         }
         
+        $beanClass = $propertyDesc->getPropertyType();
+        
         return new S2Dao_RelationPropertyTypeImpl($propertyDesc,
                     $relno, $myKeys, $yourKeys,
-                    new S2Dao_BeanMetaDataImpl($propertyDesc->getPropertyType(),
-                                        $dbMetaData, $dbms,
+                    new S2Dao_BeanMetaDataImpl($beanClass, $dbMetaData, $dbms,
                                         $this->annotationReaderFactory_, true)
                 );
     }
 
     protected function addRelationPropertyType(S2Dao_RelationPropertyType $rpt) {
-        $relno = $rpt->getRelationNo();
-        for ($i = $this->relationPropertyTypes_->size(); $i <= $relno; ++$i) {
+        for ($i = $this->relationPropertyTypes_->size(); $i <= $rpt->getRelationNo(); ++$i) {
             $this->relationPropertyTypes_->add(null);
         }
         $this->relationPropertyTypes_->set($rpt->getRelationNo(), $rpt);

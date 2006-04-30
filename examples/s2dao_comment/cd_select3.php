@@ -5,7 +5,6 @@ $container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container->getComponent("CdDao");
 
 $list = $dao->getCD3(null);
-var_dump($list);
 $cds = $list->toArray();
 for($i = 0; $i < $list->size(); $i++){
     echo "ID: " . $cds[$i]->getId() . PHP_EOL;

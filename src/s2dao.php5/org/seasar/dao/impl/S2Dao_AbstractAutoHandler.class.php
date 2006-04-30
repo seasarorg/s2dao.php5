@@ -141,16 +141,18 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     protected function setupInsertBindVariables($bean) {
         $varList = new S2Dao_ArrayList();
         $varTypeList = new S2Dao_ArrayList();
+        $bmd = $this->getBeanMetaData();
+        $timestampPropertyName = $bmd->getTimestampPropertyName();
+        $versionNoPropertyName = $bmd->getVersionNoPropertyName();
+        
         $c = count($this->propertyTypes_);
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
             $propName = $pt->getPropertyName();
-            if (strcasecmp($propName,
-                           $this->getBeanMetaData()->getTimestampPropertyName()) == 0) {
+            if (strcasecmp($propName, $timestampPropertyName) == 0) {
                 $this->setTimestamp(time());
                 $varList->add($this->getTimestamp());
-            } else if (strcmp($propName,
-                           $this->getBeanMetaData()->getVersionNoPropertyName()) == 0) {
+            } else if (strcmp($propName, $versionNoPropertyName) == 0) {
                 $this->setVersionNo(0);
                 $varList->add($this->getVersionNo());
             } else {
@@ -165,17 +167,18 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     protected function setupUpdateBindVariables($bean) {
         $varList = new S2Dao_ArrayList();
         $varTypeList = new S2Dao_ArrayList();
+        $bmd = $this->getBeanMetaData();
+        $timestampPropertyName = $bmd->getTimestampPropertyName();
+        $versionNoPropertyName = $bmd->getVersionNoPropertyName();
 
         $c = count($this->propertyTypes_);
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
             $propName = $pt->getPropertyName();
-            if (strcasecmp($propName,
-                    $this->getBeanMetaData()->getTimestampPropertyName()) == 0) {
+            if (strcasecmp($propName, $timestampPropertyName) == 0) {
                 $this->setTimestamp(time());
                 $varList->add($this->getTimestamp());
-            } else if (strcmp($propName,
-                    $this->getBeanMetaData()->getVersionNoPropertyName()) == 0) {
+            } else if (strcmp($propName, $versionNoPropertyName) == 0) {
                 $value = $pt->getPropertyDesc()->getValue($bean);
                 $intValue = (int)$value + 1;
                 $this->setVersionNo($intValue);
@@ -232,6 +235,5 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             $pd->setValue($bean, (int)$this->getVersionNo());
         }
     }
-    
 }
 ?>
