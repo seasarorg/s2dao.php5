@@ -93,7 +93,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         }
         $procedureName = $this->annotationReader_->getStoredProcedureName($method);
         if ($procedureName != null) {
-            $returnType = $this->annotationReader_->getReturnType();
+            $returnType = $this->annotationReader_->getReturnType($method);
             if ($returnType == 'Map') {
                 $this->sqlCommands_->put($method->getName(),
                         new S2Dao_StaticStoredProcedureCommand(

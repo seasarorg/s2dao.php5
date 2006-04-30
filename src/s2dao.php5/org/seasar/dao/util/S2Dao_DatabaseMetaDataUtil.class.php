@@ -113,6 +113,35 @@ final class S2Dao_DatabaseMetaDataUtil {
             return $identifier;
         }
     }
+    
+    public static function getProcedures(PDO $pdo,
+                                         $catalog = null,
+                                         $scheme = null,
+                                         $procedureName = null){
+        $dbms = self::getDbms($pdo);
+        $stmt = $pdo->query($dbms->getProcedureNamesSql());
+        $procedures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $ret = array();
+        foreach($procedures as $procedure){
+            if($procedure['name'] == $procedureName){
+                $ret[] = array(
+                            'Db' => $procedure['db'],
+                            'Name' => $procedure['name'],
+                            'Type' => $procedure['type'],
+                            'Param' => $procedure['param_list'],
+                            );
+            }
+        }
+        return $ret;
+    }
+    
+    public static function getProcedureColumns(PDO $pdo,
+                                         $procedureName){
+        $procs = self::getProcedures($pdo, null, null, $procedureName);
+        $dbms = self::getDbms($pdo);
+        return $dbms->analysProcedureParams($procs[0]['Param']);
+    }
 
     public static function getDatabaseProductName($dbMetaData) {
         try {
@@ -123,9 +152,9 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-    private static function getTables(PDO $db){
-        $dbms = self::getDbms($db);
-        $stmt = $db->query($dbms->getTableSql());
+    private static function getTables(PDO $pdo){
+        $dbms = self::getDbms($pdo);
+        $stmt = $pdo->query($dbms->getTableSql());
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 

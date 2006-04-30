@@ -14,5 +14,7 @@ interface S2Dao_Dbms {
     function getTableSql();
     function getTableInfoSql();
     function getPrimaryKeySql();
+    function getProcedureNamesSql();
+    function analysProcedureParams($params);
 }
 ?>

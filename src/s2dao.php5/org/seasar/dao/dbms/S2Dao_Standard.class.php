@@ -83,5 +83,13 @@ class S2Dao_Standard implements S2Dao_Dbms {
     public function getPrimaryKeySql(){
         return null;
     }
+    
+    public function getProcedureNamesSql(){
+        return null;
+    }
+    
+    public function analysProcedureParams($params){
+        return null;
+    }
 }
 ?>

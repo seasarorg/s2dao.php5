@@ -8,6 +8,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     const SQL_SUFFIX = S2Dao_DaoConstantAnnotationReader::SQL_SUFFIX;
     const SELECT_ARRAY_NAME = '/@return\s*array/i';
     const SELECT_LIST_NAME = '/@return\s*list/i';
+    const RETURN_TYPE_MAP = '/@return\s*map/i';
     protected $beanClass;
     
     public function __construct(S2Container_BeanDesc $beanDesc) {
@@ -74,6 +75,11 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     }
     
     public function getReturnType(ReflectionMethod $method){
+        $comment = $this->getMethodComment($method);
+        // FIXME
+        if(preg_match(self::RETURN_TYPE_MAP, $comment)){
+            return 'Map';
+        }
         return null;
     }
     
