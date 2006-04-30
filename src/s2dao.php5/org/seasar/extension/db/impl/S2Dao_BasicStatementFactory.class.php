@@ -10,6 +10,8 @@ class S2Dao_BasicStatementFactory implements S2Dao_StatementFactory {
     }
     
     public function createCallableStatement(PDO $con, $sql) {
+        // PHP 5.1.3
+        //return $con->prepare($sql, array(PDO::ATTR_EMULATE_PREPARES => true));
         return $con->prepare($sql);
     }
 }
