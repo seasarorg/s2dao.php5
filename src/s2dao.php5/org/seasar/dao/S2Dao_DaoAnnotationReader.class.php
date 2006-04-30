@@ -16,9 +16,14 @@ interface S2Dao_DaoAnnotationReader {
     function getPersistentProps(ReflectionMethod $method);
 
     function getSQL(ReflectionMethod $method, $suffix);
+
+    function getStoredProcedureName(ReflectionMethod $method);
     
     function isSelectList(ReflectionMethod $method);
     
     function isSelectArray(ReflectionMethod $method);
+    
+    function getReturnType(ReflectionMethod $method);
+    
 }
 ?>

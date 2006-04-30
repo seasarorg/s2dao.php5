@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHandler{
+abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHandler {
     
     protected $initialised = false;
     protected $dataSource_;
@@ -136,15 +136,12 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         if(1 < func_num_args()){
             $connection = func_get_arg(0);
             $args = func_get_arg(1);
-            
         } else {
             $args = func_get_arg(0);
             $connection = $this->getConnection();
-            return $this->execute($connection, $args);
         }
+        return $this->execute($connection, $args);
     }
-    
-    protected abstract function execute(PDO $connection, array $args);
     
     protected function bindArgs(PDOStatement $ps, array $args = null) {
         if ($args == null) {

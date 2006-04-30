@@ -24,6 +24,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected $beanClass_;
     protected $beanMetaData_;
     protected $sqlCommands_;
+    protected $daoSuffixes_ = array('Dao');
 
     public function __construct(ReflectionClass $daoClass,
                               S2Container_DataSource $dataSource,
@@ -68,12 +69,49 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function setupMethod(ReflectionMethod $method) {
-        $sql = $this->annotationReader_->getSQL($method, $this->dbms_->getSuffix());
-        if($sql != null){
-            $this->setupMethodByManual($method, $sql);
-            return;
-        }
+        $this->setupMethodByAnnotation($this->daoInterface_, $method);
         
+        if (!$this->completedSetupMethod($method)) {
+            $this->setupMethodBySqlFile($this->daoInterface_, $method);
+        }
+        if (!$this->completedSetupMethod($method)) {
+            $this->setupMethodByInterfaces($this->daoInterface_, $method);
+        }
+        if (!$this->completedSetupMethod($method)) {
+            $this->setupMethodBySuperClass($this->daoInterface_, $method);
+        }
+        if (!$this->completedSetupMethod($method)) {
+            $this->setupMethodByAuto($method);
+        }
+    }
+    
+    protected function setupMethodByAnnotation(ReflectionClass $daoInterface,
+                                               ReflectionMethod $method) {
+        $sql = $this->annotationReader_->getSQL($method, $this->dbms_->getSuffix());
+        if ($sql != null) {
+            $this->setupMethodByManual($method, $sql);
+        }
+        $procedureName = $this->annotationReader_->getStoredProcedureName($method);
+        if ($procedureName != null) {
+            $returnType = $this->annotationReader_->getReturnType();
+            if ($returnType == 'Map') {
+                $this->sqlCommands_->put($method->getName(),
+                        new S2Dao_StaticStoredProcedureCommand(
+                                new S2Dao_MapBasicProcedureHandler(
+                                        $this->dataSource_,
+                                        $procedureName)));
+            } else {
+                $this->sqlCommands_->put($method->getName(),
+                        new S2Dao_StaticStoredProcedureCommand(
+                                new S2Dao_ObjectBasicProcedureHandler(
+                                        $this->dataSource_,
+                                        $procedureName)));
+            }
+        }
+    }
+    
+    protected function setupMethodBySqlFile(ReflectionClass $daoInterface,
+                                            ReflectionMethod $method) {
         $base = dirname($this->daoInterface_->getFileName()) .
                 DIRECTORY_SEPARATOR .
                 $this->daoInterface_->getName() . '_' . $method->getName();
@@ -86,8 +124,51 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         } else if (file_exists($standardPath)) {
             $sql = file_get_contents($standardPath);
             $this->setupMethodByManual($method, $sql);
-        } else {
+        }
+        /*
+        else {
             $this->setupMethodByAuto($method);
+        }
+        */
+    }
+    
+    protected function setupMethodByInterfaces(ReflectionClass $daoInterface,
+                                               ReflectionMethod $method) {
+        $interfaces = $daoInterface->getInterfaces();
+        if ($interfaces == null) {
+            return;
+        }
+        $c = count($interfaces);
+        for ($i = 0; $i < $c; $i++) {
+            $interfaceMethod = $this->getSameSignatureMethod($interfaces[$i],$method);
+            if ($interfaceMethod != null) {
+                $this->setupMethod($interfaces[$i], $interfaceMethod);
+            }
+        }
+    }
+    
+    protected function setupMethodBySuperClass(ReflectionClass $daoInterface,
+                                               ReflectionMethod $method) {
+        
+        $superDaoClass = $this->daoInterface_->getParentclass();
+        if ($superDaoClass != null && !is_object($superDaoClass)) {
+            $superClassMethod = $this->getSameSignatureMethod($superDaoClass, $method);
+            if ($superClassMethod !== null) {
+                $this->setupMethod($superDaoClass, $method);
+            }
+        }
+    }
+    
+    protected function completedSetupMethod(ReflectionMethod $method) {
+        return $this->sqlCommands_->get($method->getName()) !== null;
+    }
+    
+    private function getSameSignatureMethod(ReflectionClass $clazz,
+                                            ReflectionMethod $method) {
+        try {
+            return S2Container_ClassUtil::getMethod($clazz, $method->getName());
+        } catch (S2Container_NoSuchMethodRuntimeException $e) {
+            return null;
         }
     }
 
@@ -156,10 +237,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
      protected static function startsWithOrderBy($query = null) {
-        if ($query != null) {
-            return preg_match(self::startWithOrderByPattern, $query);
+        if ($query == null) {
+            return false;
         }
-        return false;
+        return preg_match(self::startWithOrderByPattern, $query);
     }
 
     protected function createResultSetHandler(ReflectionMethod $method) {
@@ -175,6 +256,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function isBeanClassAssignable($clazz = null) {
+        if($clazz === null){
+            return false;
+        }
         if($clazz instanceof ReflectionClass){
 //            return $this->beanClass_->isSubclassOf($clz->getName()) ||
 //                   $clz->isSubclassOf($this->beanClass_->getName());
@@ -185,9 +269,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             return $this->isBeanClassAssignable($clazz->getClass());
         }
 
-        if($clazz === null){
-            return false;
-        }
         return true;
     }
 
@@ -334,6 +415,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             // FIXME
             $param = $method->getParameters();
             if (count($argNames) == 0 && count($param) == 1) {
+                // $argNames = array('dto');
                 $sql = $this->createAutoSelectSqlByDto($param[0]->getClass());
             } else {
                 //$sql = $this->createAutoSelectSql($argNames);
@@ -370,7 +452,12 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             if (!$this->beanMetaData_->hasPropertyTypeByAliasName($aliasName)) {
                 continue;
             }
+            /*
             if (!is_object($this->beanMetaData_->getPropertyTypeByAliasName($aliasName))){
+                continue;
+            }
+            */
+            if (!$this->beanMetaData_->getPropertyTypeByAliasName($aliasName)->isPersistent()) {
                 continue;
             }
             $columnName = $this->beanMetaData_->convertFullColumnName($aliasName);
@@ -450,18 +537,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         return true;
     }
 
-    protected function isSelectArray(ReflectionMethod $method){
-        return $this->annotationReader_->isSelectArray($method);
-    }
-
-    protected function isSelectList(ReflectionMethod $method){
-        return $this->annotationReader_->isSelectList($method);
-    }
-
     protected function isInsert($methodName) {
         return preg_match(self::INSERT_NAMES,$methodName);
     }
-
+    
     protected function isUpdate($methodName) {
         return preg_match(self::UPDATE_NAMES, $methodName);
     }
@@ -470,6 +549,13 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         return preg_match(self::DELETE_NAMES, $methodName);
     }
 
+    protected function isSelectArray(ReflectionMethod $method){
+        return $this->annotationReader_->isSelectArray($method);
+    }
+
+    protected function isSelectList(ReflectionMethod $method){
+        return $this->annotationReader_->isSelectList($method);
+    }
 
     public function getBeanClass() {
         return $this->daoClass_;
@@ -512,13 +598,19 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         return $this->createSelectDynamicCommand(new S2Dao_ObjectResultSetHandler(), $query);
     }
 
-    public static function getDaoInterface(ReflectionClass $clazz) {
+    public function getDaoInterface(ReflectionClass $clazz) {
         if ($clazz->isInterface()) {
             return $clazz;
         }
-        foreach($clazz->getInterfaces() as $interface){
-            if(ereg('Dao$', $interface->getName())) {
-                return $interface;
+        for($target = $clazz;
+            !($target instanceof S2Dao_AbstractDao); $target = $target->getParentClass()){
+            $interfaces = $target->getInterfaces();
+            foreach($interfaces as $intf) {
+                for($j = 0; $j < count($this->daoSuffixes_); $j++){
+                    if(ereg($this->daoSuffixes_[$j].'$', $intf->getName())) {
+                        return $intf;
+                    }
+                }
             }
         }
         throw new S2Dao_DaoNotFoundRuntimeException($clazz);

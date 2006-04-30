@@ -5,12 +5,12 @@
  */
 class S2Dao_RelationRowCache {
 
-    private $rowMapList_ = null;
+    private $rowMapList = null;
     
     public function __construct($size) {
-        $this->rowMapList_ = new S2Dao_ArrayList();
+        $this->rowMapList = new S2Dao_ArrayList();
         for ($i = 0; $i < $size; ++$i) {
-            $this->rowMapList_->add(new S2Dao_HashMap());
+            $this->rowMapList->add(new S2Dao_HashMap());
         }
     }
     
@@ -23,7 +23,7 @@ class S2Dao_RelationRowCache {
     }
 
     protected function getRowMap($relno) {
-        return $this->rowMapList_->get($relno);
+        return $this->rowMapList->get($relno);
     }
 }
 ?>

@@ -8,11 +8,20 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
     const ARGS_TYPE_ARRAY = S2Container_AnnotationFactory::ARGS_TYPE_ARRAY;
     const ARGS_TYPE_HASH = S2Container_AnnotationFactory::ARGS_TYPE_HASH;
 
-    public function getAnnotations(ReflectionClass $clazz,
-                                   $methodName){
-                                    
-        if(is_string($methodName)){
-            $clazz = $clazz->getMethod($methodName);
+    private function isReflectorCall(array $reflectors, $callName){
+        foreach($reflectors as $reflector){
+            if($reflector->getName() == $callName){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function getAnnotations(ReflectionClass $clazz, $callName){
+        if($this->isReflectorCall($clazz->getMethods(), $callName)){
+            $clazz = $clazz->getMethod($callName);
+        } else if($this->isReflectorCall($clazz->getProperties(), $callName)){
+            $clazz = $clazz->getProperty($callName);
         }
         
         $comments = preg_split('/\r?\n/',

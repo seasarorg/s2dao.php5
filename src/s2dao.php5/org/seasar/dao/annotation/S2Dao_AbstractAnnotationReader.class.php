@@ -1,14 +1,15 @@
 <?php
 
-abstract class S2Dao_AbstractBeanAnnotationReader {
+abstract class S2Dao_AbstractAnnotationReader {
     
     protected $comment = null;
     protected $constant = null;
 
-    public function __construct($beanClass) {
-        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
-        $this->comment = new S2Dao_BeanCommentAnnotationReader($beanDesc);
-        $this->constant = new S2Dao_BeanConstantAnnotationReader($beanDesc);
+    public function __construct(S2Container_BeanDesc $beandesc,
+                                $commentAnnotationReader,
+                                $constantAnnotationReader) {
+        $this->comment = $commentAnnotationReader;
+        $this->constant = $constantAnnotationReader;
     }
     
     public function __call($name, $param){
@@ -21,9 +22,11 @@ abstract class S2Dao_AbstractBeanAnnotationReader {
         if(method_exists($this->constant, $name)){
             return $this->call($this->constant, $name, $param);
         }
+        
+        throw new Exception();
     }
     
-    protected function call(S2Dao_BeanAnnotationReader $claz,
+    protected function call($claz,
                             $methodName,
                             $parameter){
         return call_user_func_array(

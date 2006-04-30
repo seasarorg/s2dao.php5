@@ -65,6 +65,18 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
     
+    public function getStoredProcedureName(ReflectionMethod $method) {
+        $anno = $this->getMethodAnnotation('Procedure', $method);
+        if($anno != null){
+            return $anno->value;
+        }
+        return null;
+    }
+    
+    public function getReturnType(ReflectionMethod $method){
+        return null;
+    }
+    
     public function isSelectList(ReflectionMethod $method){
         $comment = $this->getMethodComment($method);
         return preg_match(self::SELECT_LIST_NAME, $comment);

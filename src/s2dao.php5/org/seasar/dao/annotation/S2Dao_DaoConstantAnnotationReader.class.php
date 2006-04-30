@@ -11,6 +11,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     const QUERY_SUFFIX = '_QUERY';
     const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
     const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
+    const PROCEDURE_SUFFIX = "_PROCEDURE";
     const SELECT_ARRAY_NAME = '/Array$/i';
     const SELECT_LIST_NAME = '/List$/i';
 
@@ -67,6 +68,18 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
     
+    public function getStoredProcedureName(ReflectionMethod $method) {
+        $key = $method->getName() . self::PROCEDURE_SUFFIX;
+        if ($this->daoBeanDesc->hasConstant($key)) {
+            return $this->daoBeanDesc->getConstant($key);
+        }
+        return null;
+    }
+    
+    public function getReturnType(ReflectionMethod $method){
+        return null;
+    }
+    
     public function isSelectList(ReflectionMethod $method){
         return preg_match(self::SELECT_LIST_NAME, $method->getName());
     }
@@ -74,7 +87,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function isSelectArray(ReflectionMethod $method){
         return preg_match(self::SELECT_ARRAY_NAME, $method->getName());
     }
-
+    
     private function getProps(ReflectionMethod $method, $constName){
         if ($this->daoBeanDesc->hasConstant($constName)) {
             $s = $this->daoBeanDesc->getConstant($constName);
@@ -82,7 +95,6 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         }
         return null;
     }
-    
 }
 
 ?>

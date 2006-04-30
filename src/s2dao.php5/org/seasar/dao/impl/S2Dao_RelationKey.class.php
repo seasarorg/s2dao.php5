@@ -10,7 +10,8 @@ final class S2Dao_RelationKey {
     
     public function __construct($values) {
         $this->values_ = $values;
-        for ($i = 0; $i < count($values); ++$i) {
+        $c = count($values);
+        for ($i = 0; $i < $c; ++$i) {
             $this->hashCode_ += crc32($values[$i]);
         }
     }
@@ -27,12 +28,16 @@ final class S2Dao_RelationKey {
         if (!($o instanceof S2Dao_RelationKey)) {
             return false;
         }
+        
         $otherValues = $o->values_;
         if (count($this->values_) != count($otherValues)) {
             return false;
         }
-        for ($i = 0; $i < count($this->values_); ++$i) {
-            if (!$this->values_[$i] === $otherValues[$i]) {
+        
+        $c = count($this->values_);
+        for ($i = 0; $i < $c; ++$i) {
+            //if (!$this->values_[$i] === $otherValues[$i]) {
+            if(!$otherValues[$i]->equals($this->values_[$i])){
                 return false;
             }
         }

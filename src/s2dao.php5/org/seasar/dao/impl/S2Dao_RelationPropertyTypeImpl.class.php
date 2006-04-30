@@ -28,8 +28,9 @@ class S2Dao_RelationPropertyTypeImpl
     }
 
     public function getKeySize() {
-        if (0 < count($this->myKeys_)) {
-            return count($this->myKeys_);
+        $length = count($this->myKeys_);
+        if (0 < $length) {
+            return $length;
         } else {
             return $this->beanMetaData_->getPrimaryKeySize();
         }
