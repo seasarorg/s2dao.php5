@@ -113,7 +113,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
             
             $merge = array_merge($columns['outType'], $columns['inoutType']);
             foreach($merge as $m){
-                $buff .= '?';
+                $buff .= '?,';
                 $inOutTypes->add($m['type']);
                 $dataType->add(array('out', $m['type']));
             }
@@ -143,14 +143,16 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         for($i = 0; $i < count($args); $i++){
             $ps->bindValue($i + 1, $args[$i], $this->getValueType($args[$i]));
         }
+
         /*
         $argPos = 0;
         for ($i = 0; $i < count($this->columnTypes_); $i++) {
             if($this->isOutputColum($this->columnTypes_[$i])){
-                $ps->bindValue($i + 1, '@' . $this->columnTypes_[$i], PDO::PARAM_STR|PDO::PARAM_INPUT_OUTPUT);
+                $ps->bindValue($i + 1, $this->columnInOutTypes_[$i], PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT);
             }
             if($this->isInputColum($this->columnTypes_[$i])){
-                $ps->bindValue($i + 1, $args[$argPos++], $this->getValueType($args[$i]));
+                $ps->bindValue($i + 1, $args[$argPos], $this->getValueType($args[$argPos]));
+                $argPos++;
             }
         }
         */
