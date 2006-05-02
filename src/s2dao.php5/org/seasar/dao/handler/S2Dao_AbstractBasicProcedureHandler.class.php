@@ -4,7 +4,7 @@
  * @author nowel
  */
 abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHandler {
-    
+
     protected $initialised = false;
     protected $dataSource_;
     protected $procedureName_;
@@ -13,7 +13,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
     protected $columnTypes_ = array();
     protected $columnNames_ = array();
     protected $statementFactory_ = null;
-
+    
     public function getDataSource() {
         return $this->dataSource_;
     }
@@ -51,47 +51,40 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
                         $connection, $this->sql_);
     }
 
-    protected function confirmProcedureName($conn) {
+    protected function confirmProcedureName(PDO $conn, S2Dao_ProcedureMetaData $metadata) {
         $str = S2Dao_DatabaseMetaDataUtil::convertIdentifier($conn, $this->procedureName_);
         $names = explode('.', $str);
         $namesLength = count($names);
-        $rs = null;
+        
+        $rs = array();
         if($namesLength == 1){
-            $rs = S2Dao_DatabaseMetaDataUtil::getProcedures($conn, null, null, $names[0]);
+            $rs = $metadata->getProcedures(null, null, $names[0]);
         } else if($namesLength == 2){
-            $rs = S2Dao_DatabaseMetaDataUtil::getProcedures($conn, $names[0], null, $names[1]);
+            $rs = $metadata->getProcedures($names[0], null, $names[1]);
         } else if($namesLength == 3){
-            $rs = S2Dao_DatabaseMetaDataUtil::getProcedures($conn, $names[0], $names[1], $names[2]);
+            $rs = $metadata->getProcedures($names[0], $names[1], $names[2]);
         }
-        return $rs;
-        /*
-        $len = 0;
-        $names = array();
-        foreach($rs as $result){
-            $names[0] = $result['Db'];
-            $names[1] = $result['Name'];
-            $names[2] = $result['Param'];
-            $len++;
-        }
-        if($len < 1){
+        
+        if(count($rs) == 0){
             throw new S2Container_S2RuntimeException('EDAO0012',
                                         array($this->procedureName_));
-        }
-        if($len > 1){
+        } else if(count($rs) > 1){
             throw new S2Container_S2RuntimeException('EDAO0013',
                                         array($this->procedureName_));
+        } else {
+            return $rs[0];
         }
-        return $names;
-        */
+
     }
     
     protected function initTypes(){
         $connection = $this->getConnection();
-        $names = $this->confirmProcedureName($connection);
+        $metadata = S2Dao_ProcedureMetaDataFactory::createProcedureMetaData($connection);
+        $prcInfo = $this->confirmProcedureName($connection, $metadata);
         
         $buff = '';
-        if($names[0]['Type'] == 'PROCEDURE'){
-            $buff .= 'CALL ';
+        if($prcInfo['Type'] == S2Dao_ProcedureMetaData::STORED_PROCEDURE){
+            $buff .= '{CALL ';
         } else {
             $buff .= 'SELECT ';
         }
@@ -101,28 +94,40 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         $dataType = new S2Dao_ArrayList();
         $inOutTypes = new S2Dao_ArrayList();
         $outparameterNum = 0;
+        $throughColumn = false;
         try {
-            $columns = S2Dao_DatabaseMetaDataUtil::getProcedureColumns($connection,
-                                                            $this->procedureName_);
+            $inTypeColumn = $metadata->getProcedureColumnsIn($prcInfo);
+            $outTypeColumn = $metadata->getProcedureColumnsOut($prcInfo);
+            $inoutTypeColumn = $metadata->getProcedureColumnsInOut($prcInfo);
             
-            foreach($columns['inType'] as $inType){
+            foreach($inTypeColumn as $inType){
                 $buff .= '?,';
                 $columnNames->add($inType['name']);
                 $dataType->add(array('in', $inType['type']));
+                $throughColumn = true;
             }
             
-            $merge = array_merge($columns['outType'], $columns['inoutType']);
+            $merge = array_merge($outTypeColumn, $inoutTypeColumn);
             foreach($merge as $m){
                 $buff .= '?,';
                 $inOutTypes->add($m['type']);
                 $dataType->add(array('out', $m['type']));
+                $throughColumn = true;
             }
-            $outparameterNum++;
+            
+            if(!$throughColumn){
+                throw new S2Container_S2RuntimeException('EDAO0010',
+                                            array($this->procedureName_));
+            }
+
             $buff = preg_replace('/(,$)/', '', $buff);
         } catch (Exception $e) {
             throw new S2Dao_SQLRuntimeException($e);
         }
         $buff .= ')';
+        if($prcInfo['Type'] == S2Dao_ProcedureMetaData::STORED_PROCEDURE){
+            $buff .= '}';
+        }
         $this->sql_ = $buff;
         $this->columnNames_ = $columnNames->toArray();
         $this->columnTypes_ = $dataType->toArray();
@@ -139,16 +144,16 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         if ($args == null) {
             return;
         }
-
+        
         for($i = 0; $i < count($args); $i++){
             $ps->bindValue($i + 1, $args[$i], $this->getValueType($args[$i]));
         }
-
+        
         /*
         $argPos = 0;
         for ($i = 0; $i < count($this->columnTypes_); $i++) {
             if($this->isOutputColum($this->columnTypes_[$i])){
-                $ps->bindValue($i + 1, $this->columnInOutTypes_[$i], PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT);
+                $ps->bindParam($i + 1, $param, PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT);
             }
             if($this->isInputColum($this->columnTypes_[$i])){
                 $ps->bindValue($i + 1, $args[$argPos], $this->getValueType($args[$argPos]));

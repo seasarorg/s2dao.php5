@@ -28,8 +28,8 @@ class S2Dao_MapBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHandler
             $c = count($this->columnInOutTypes_);
             for ($i = 0; $i < $c; $i++) {
                 if($this->isOutputColum((int)$this->columnInOutTypes_[$i])){
-                    $result->put($this->columnNames_[$i],
-                                 $stmt->getObject($i + 1));
+                    $row = $stmt->fetch(PDO::FETCH_OBJ, $i + 1);
+                    $result->put($this->columnNames_[$i], $row[0]);
                 }
             }
             return $result;

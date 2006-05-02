@@ -11,6 +11,14 @@ final class S2Dao_DatabaseMetaDataUtil {
 
     private function __construct() {
     }
+    
+    public static function getDbms(PDO $db){
+        $dbms = S2Dao_DbmsManager::getDbms($db);
+        if($dbms === null){
+            throw new Exception('not such dbms case');
+        }
+        return $dbms;
+    }
 
     public static function getPrimaryKeys(PDO $dbMetaData, $tableName) {
         return self::getPrimaryKeySet($dbMetaData, $tableName)->toArray();
@@ -114,35 +122,6 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
     
-    public static function getProcedures(PDO $pdo,
-                                         $catalog = null,
-                                         $scheme = null,
-                                         $procedureName = null){
-        $dbms = self::getDbms($pdo);
-        $stmt = $pdo->query($dbms->getProcedureNamesSql());
-        $procedures = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        $ret = array();
-        foreach($procedures as $procedure){
-            if($procedure['name'] == $procedureName){
-                $ret[] = array(
-                            'Db' => $procedure['db'],
-                            'Name' => $procedure['name'],
-                            'Type' => $procedure['type'],
-                            'Param' => $procedure['param_list'],
-                            );
-            }
-        }
-        return $ret;
-    }
-    
-    public static function getProcedureColumns(PDO $pdo,
-                                         $procedureName){
-        $procs = self::getProcedures($pdo, null, null, $procedureName);
-        $dbms = self::getDbms($pdo);
-        return $dbms->analysProcedureParams($procs[0]['Param']);
-    }
-
     public static function getDatabaseProductName($dbMetaData) {
         try {
             throw new Exception(__FILE__ . ':' . __METHOD__);
@@ -188,14 +167,6 @@ final class S2Dao_DatabaseMetaDataUtil {
         return $retVal;
     }
     
-    private static function getDbms(PDO $db){
-        $dbms = S2Dao_DbmsManager::getDbms($db);
-        if($dbms === null){
-            throw new Exception("not such dbms case");
-        }
-        return $dbms;
-    }
-
     private function sqlite_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getPrimaryKeySql());
         $stmt = $db->prepare($sql);
