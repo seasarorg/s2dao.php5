@@ -6,12 +6,13 @@
     <taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
     
     <target name="init">
+    	    <property name="package.name" value="S2Dao" />
         <property name="project.name" value="${phing.project.name}" />
-        <property name="package.name" value="S2Dao" />
         <property name="project.version" value="1.1.0" />
         <property name="project.state" value="beta" />
         <property name="project.build.dir" value="${project.basedir}/build" />
         <property name="project.src.dir" value="${project.basedir}/src" />
+    	    <property name="skeleton.src.dir" value="${project.build.dir}/skel" />
         <property name="license.file" value="Apache_Software_License_2.0.txt" />
         <property name="release.notes" value="Release Candidate version 2" />
     </target>
@@ -31,11 +32,14 @@
     </target>
 
     <target name="clean" depends="init">
-        <delete dir="${project.build.dir}"/>
+        <delete dir="${project.build.dir}/${package.name}" />
+    	    <delete dir="${skeleton.src.dir}" />
+    	    <delete dir="${project.build.dir}" />
     </target>
 
     <target name="prepare" depends="init">
         <mkdir dir="${project.build.dir}" />
+    	    <mkdir dir="${skeleton.src.dir}" />
         <mkdir dir="${project.build.dir}/${project.name}/${package.name}" />
     </target>
     
@@ -43,11 +47,11 @@
         <property name="dsn" value="mysql:host=localhost; dbname=s2con" />
         <property name="user" value="root" />
         <property name="password" value="pass" />
-        <generate toDir="${project.build.dir}/${project.name}" />
+        <generate toDir="${skeleton.src.dir}" />
     </target>
 
     <target name="build" depends="clean, prepare">
-        <copy2 toDir="${project.build.dir}/${project.name}/S2Dao">
+        <copy2 toDir="${project.build.dir}/${project.name}/${package.name}">
             <fileset dir="${project.src.dir}">
                 <include name="${project.name}/**/*.php"/>
                 <include name="${project.name}/**/*.properties"/>

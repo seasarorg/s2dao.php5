@@ -1,18 +1,24 @@
 <?php
 
 /**
- * @author nowel
+ * @author @@AUTHOR@@
+ * @since @@DATE@@
  */
 class @@BEAN@@ {
-const TABLE = "@@TABLE@@";
 
 // {{{
-// properties 
+// class constant
+const TABLE = "@@TABLE@@";
+@@CONSTANTS@@
+// }}}
+
+// {{{
+// class properties 
 @@PROPS@@
 // }}}
 
 // {{{
-// methods
+// class methods
 @@METHODS@@
 // }}}
 

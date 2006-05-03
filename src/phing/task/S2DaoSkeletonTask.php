@@ -1,34 +1,50 @@
 <?php
 
 /**
- * @author nowel
+ * @author nowel 
  */
-class S2DaoSkeletonTask extends Task {
+interface S2DaoSkelConst {
     
-    const clzz = ".class.php";
-    const ClassLoader = "S2DaoClassLoader";
+    const REP_AUTHOR = '@@AUTHOR@@';
+    const REP_DATE = '@@DATE@@';
+    
+    const REP_DAO = '@@DAO@@';
+    const REP_BEAN = '@@BEAN@@';
+    const REP_DAOIMPL = '@@DAOIMPL@@';
+    
+    const REP_TABLE = '@@TABLE@@';
+    const REP_COLUMN = '@@COLUMN@@';
+    
+    const REP_CONSTANTS = '@@CONSTANTS@@';
+    const REP_PROP = '@@PROP@@';
+    const REP_PROPS = '@@PROPS@@';
+    const REP_METHODS = '@@METHODS@@';
+
+    const REP_QUERY = '@@QUERY@@';
+    
+    const REP_PROPERTY = 'private $@@PROP@@;';
+    const REP_ANNO_COLUMN = 'const @@PROP@@_COLUMN = "@@COLUMN@@";';
+    
+    const ext = ".class.php";
     
     const DaoName = "Dao";
-    const DtoName = "Dto";
     const BeanName = "Entity";
-    
-    const REP_DAO = "@@DAO@@";
-    const REP_BEAN = "@@BEAN@@";
-    const REP_TABLE = "@@TABLE@@";
-    const REP_COLUMN = "@@COLUMN@@";
-    const REP_PROP = "@@PROP@@";
-    const REP_PROPS = "@@PROPS@@";
-    const REP_METHODS = "@@METHODS@@";
+    const DaoImplName = "DaoImpl";
     
     const SEP_CHAR = '_';
     
-    const PROPERTY = 'private $@@PROP@@;';
-    const ANNO_COLUMN = 'const @@PROP@@_COLUMN = "@@COLUMN@@";';
-
     const SkelDir = "/skel";
     const DaoFile = "/Dao.php.skel";
-    const DtoFile = "/Dto.php.skel";
     const EntityFile = "/Bean.php.skel";
+    const DaoImplFile = "/DaoImpl.php.skel";
+    
+    const DateFormat = 'Y/m/d';
+}
+
+/**
+ * @author nowel
+ */
+class S2DaoSkeletonTask extends Task {
     
     private $toDir = "";
     private $skeldir = "";
@@ -46,15 +62,13 @@ class S2DaoSkeletonTask extends Task {
         foreach($dbms->getAllColumns() as $table => $columns){
             $skel->setTableName($table);
             $skel->setColumns($columns);
-            $this->log("[create] [DAO]: " . $table . self::DaoName);
-            $path = $this->toDir . DIRECTORY_SEPARATOR . $table . self::DaoName . self::clzz;
-            file_put_contents($path, $skel->createDao());
-            $this->log("[create] [BEAN]: " . $table . self::BeanName);
-            $path = $this->toDir . DIRECTORY_SEPARATOR . $table . self::BeanName . self::clzz;
-            file_put_contents($path, $skel->createEntity());
+            
+            $this->generateDao($skel);
+            $this->generateBean($skel);
+            $this->generateDaoImpl($skel);
         }
         $this->log("[info] see the files");
-        $files = glob($this->toDir . DIRECTORY_SEPARATOR . '*' . self::clzz);
+        $files = glob($this->toDir . DIRECTORY_SEPARATOR . '*' . S2DaoSkelConst::ext);
         foreach($files as $file){
             $this->log("[file]: " . $file);
         }
@@ -70,14 +84,35 @@ class S2DaoSkeletonTask extends Task {
         $this->dsn = $this->getProject()->getProperty("dsn");
         $this->user = $this->getProject()->getProperty("user");
         $this->pass = $this->getProject()->getProperty("password");
-        $this->skeldir = dirname(__FILE__) . self::SkelDir;
-        
+        $this->skeldir = dirname(__FILE__) . S2DaoSkelConst::SkelDir;
+
         define("S2DAO_PHP5", $srcdir . DIRECTORY_SEPARATOR . $pjname);
+        require_once "S2Dao/S2Dao/S2DaoClassLoader.class.php";
+        if(!class_exists("S2DaoClassLoader")){
+            throw new BuildException(__CLASS__ . "required: S2DaoClassLoader.class.php");
+        }        
         
-        include S2DAO_PHP5 . DIRECTORY_SEPARATOR . self::ClassLoader. self::clzz;
-        if(!class_exists(self::ClassLoader)){
-            throw new BuildException(__CLASS__ . "required:" . self::ClassLoader);
+        function __autoload($class){
+            S2DaoClassLoader::load($class);
         }
+    }
+    
+    private function generateDao(S2DaoSkeletonGen $skel){
+        $this->log("[create] [Dao]: " . $skel->getDaoName());
+        $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getDaoFileName();
+        file_put_contents($path, $skel->createDaoContent());
+    }
+    
+    private function generateBean(S2DaoSkeletonGen $skel){
+        $this->log("[create] [Bean]: " . $skel->getBeanName());
+        $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getEntityFileName();
+        file_put_contents($path, $skel->createEntityContent());
+    }
+    
+    private function generateDaoImpl(S2DaoSkeletonGen $skel){
+        $this->log("[create] [DaoImpl]: " . $skel->getDaoImplName());
+        $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getDaoImplFileName();
+        file_put_contents($path, $skel->createDaoImplContent());
     }
 }
 
@@ -88,12 +123,6 @@ class S2DaoSkeletonDbms {
     private $columns = array();
     
     public function __construct($dsn, $user, $pass){
-        S2DaoClassLoader::load("S2Dao_DatabaseMetaDataUtil");
-        S2DaoClassLoader::load("S2Dao_DbmsManager");
-        S2DaoClassLoader::load("S2Dao_HashMap");
-        S2DaoClassLoader::load("S2Dao_ArrayList");
-        S2DaoClassLoader::load("S2Dao_Dbms");
-        
         $this->pdo = new PDO($dsn, $user, $pass);
         $this->setupTables();
         $this->setupColumns();
@@ -132,43 +161,30 @@ class S2DaoSkeletonDbms {
 class S2DaoSkeletonGen {
     
     private $skelDir = "";
-    private $table;
+    private $table = "";
     private $columns = array();
+    private $className = "";
     
     private $dao = "";
-    private $dto = "";
     private $entity = "";
+    private $daoImpl = "";
     
-    const DaoFile = S2DaoSkeletonTask::DaoFile;
-    const DtoFile = S2DaoSkeletonTask::DtoFile;
-    const EntityFile = S2DaoSkeletonTask::EntityFile;
-    
-    const DaoName = S2DaoSkeletonTask::DaoName;
-    const BeanName = S2DaoSkeletonTask::BeanName;
-
-    const REP_DAO = S2DaoSkeletonTask::REP_DAO;
-    const REP_BEAN = S2DaoSkeletonTask::REP_BEAN;
-    const REP_TABLE = S2DaoSkeletonTask::REP_TABLE;
-    const REP_COLUMN = S2DaoSkeletonTask::REP_COLUMN;
-    const REP_PROP = S2DaoSkeletonTask::REP_PROP;
-    const REP_PROPS = S2DaoSkeletonTask::REP_PROPS;
-    const REP_METHODS = S2DaoSkeletonTask::REP_METHODS;
-    
-    const PROPERTY = S2DaoSkeletonTask::PROPERTY;
-    const ANNO_COLUMN = S2DaoSkeletonTask::ANNO_COLUMN;
-    const SEP_CHAR = S2DaoSkeletonTask::SEP_CHAR;
+    private $author = "";
+    private $date = 0;
     
     public function __construct($skelDir){
         $this->skelDir = $skelDir;
-        if(is_readable($skelDir . self::DaoFile)){
-            $this->dao = file_get_contents($skelDir . self::DaoFile);
+        if(is_readable($skelDir . S2DaoSkelConst::DaoFile)){
+            $this->dao = file_get_contents($skelDir . S2DaoSkelConst::DaoFile);
         }
-        if(is_readable($skelDir . self::DtoFile)){
-            $this->dto = file_get_contents($skelDir . self::DtoFile);
+        if(is_readable($skelDir . S2DaoSkelConst::EntityFile)){
+            $this->entity = file_get_contents($skelDir . S2DaoSkelConst::EntityFile);
         }
-        if(is_readable($skelDir . self::EntityFile)){
-            $this->entity = file_get_contents($skelDir . self::EntityFile);
+        if(is_readable($skelDir . S2DaoSkelConst::DaoImplFile)){
+            $this->daoImpl= file_get_contents($skelDir . S2DaoSkelConst::DaoImplFile);
         }
+        $this->author = getenv('USER');
+        $this->date = date(S2DaoSkelConst::DateFormat, time());
     }
     
     public function setTableName($table){
@@ -179,57 +195,92 @@ class S2DaoSkeletonGen {
         $this->columns = $columns;
     }
     
-    public function createDao(){
-        $copy = $this->dao;
-        $daoName = $this->table . self::DaoName;
-        $beanName = $this->table . self::BeanName;
-        $copy = str_replace(self::REP_DAO, $daoName, $copy);
-        $copy = str_replace(self::REP_BEAN, $beanName, $copy);
+    public function getDaoFileName(){
+        return $this->getDaoName() . S2DaoSkelConst::ext;
+    }
+    
+    public function getEntityFileName(){
+        return  $this->getBeanName() . S2DaoSkelConst::ext;
+    }
+    
+    public function getDaoImplFileName(){
+        return $this->getDaoImplName() . S2DaoSkelConst::ext;
+    }
+    
+    public function getDaoName(){
+        return ucfirst(strtolower($this->table)) . S2DaoSkelConst::DaoName;
+    }
+    
+    public function getBeanName(){
+        return ucfirst(strtolower($this->table)) . S2DaoSkelConst::BeanName;
+    }
+    
+    public function getDaoImplName(){
+        return ucfirst(strtolower($this->table)) . S2DaoSkelConst::DaoImplName;
+    }
+    
+    public function replaceCommon($copy){
+        $copy = str_replace(S2DaoSkelConst::REP_DATE, $this->date, $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_AUTHOR, $this->author, $copy);
         return $copy;
     }
     
-    public function createDto(){
-        return $this->createEntity();
+    public function createDaoContent(){
+        $copy = $this->dao;
+        $copy = str_replace(S2DaoSkelConst::REP_DAO, $this->getDaoName(), $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_BEAN, $this->getBeanName(), $copy);
+        $copy = $this->replaceCommon($copy);
+        return $copy;
     }
     
-    public function createEntity(){
+    public function createEntityContent(){
         $copy = $this->entity;
         $properties = array();
         $annotations = array();
         $methods = array();
-        $annocol = self::ANNO_COLUMN;
         foreach($this->columns as $column){
             $prop = $this->getProperty($column);
-            $anno = str_replace(self::REP_PROP, $prop, $annocol);
+            $anno = str_replace(S2DaoSkelConst::REP_PROP, $prop, S2DaoSkelConst::REP_ANNO_COLUMN);
             
-            $annotations[] = str_replace(self::REP_COLUMN, $column, $anno);
-            $properties[] = str_replace(self::REP_PROP, $prop, self::PROPERTY);
+            $annotations[] = str_replace(S2DaoSkelConst::REP_COLUMN, $column, $anno);
+            $properties[] = str_replace(S2DaoSkelConst::REP_PROP, $prop, S2DaoSkelConst::REP_PROPERTY);
             $methods[] = implode($this->createGetter($prop));
             $methods[] = implode($this->createSetter($prop));
         }
         
-        $field = implode(PHP_EOL, $annotations) . PHP_EOL;
-        $field .= implode(PHP_EOL, $properties);
-        $copy = str_replace(self::REP_PROPS, $field, $copy);
-        $copy = str_replace(self::REP_METHODS, implode(PHP_EOL, $methods), $copy);
-        $copy = str_replace(self::REP_TABLE, $this->table, $copy);
-        $copy = str_replace(self::REP_BEAN, $this->table . self::BeanName, $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_TABLE, $this->table, $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_BEAN, $this->getBeanName(), $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_CONSTANTS, implode(PHP_EOL, $annotations), $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_PROPS, implode(PHP_EOL, $properties), $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_METHODS, implode(PHP_EOL, $methods), $copy);
+        $copy = $this->replaceCommon($copy);
+        return $copy;
+    }
+    
+    public function createDaoImplContent(){
+        $copy = $this->daoImpl;
+        $orderby = 'ORDER BY ' . $this->columns[0] . ' ASC';
+        $copy = str_replace(S2DaoSkelConst::REP_DAOIMPL, $this->getDaoImplName(), $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_DAO, $this->getDaoName(), $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_BEAN, $this->getBeanName(), $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_TABLE, $this->table, $copy);
+        $copy = str_replace(S2DaoSkelConst::REP_QUERY, $orderby, $copy);
+        $copy = $this->replaceCommon($copy);
         return $copy;
     }
     
     private function getProperty($column){
-        $nameArr = str_split($this->getMethodName($column));
+        $nameArr = $this->getMethodName($column);
         $nameArr[0] = strtolower($nameArr[0]);
-        return implode($nameArr);
+        return $nameArr;
     }
     
     private function getMethodName($propName){
         $name = '';
-        $token = strtok($propName, self::SEP_CHAR);
-        while ($token)
-        {
+        $token = strtok($propName, S2DaoSkelConst::SEP_CHAR);
+        while ($token){
             $name .= ucfirst(strtolower($token));
-            $token = strtok(self::SEP_CHAR);
+            $token = strtok(S2DaoSkelConst::SEP_CHAR);
         }
         return $name;
     }

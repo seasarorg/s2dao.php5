@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @author nowel
+ * @author @@AUTHOR@@
+ * @since @@DATE@@
  */
-class @@DAO@@ {
+interface @@DAO@@ {
     const BEAN = "@@BEAN@@";
 }
 
