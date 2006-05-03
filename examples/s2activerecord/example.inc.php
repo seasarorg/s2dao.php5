@@ -8,6 +8,7 @@ define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
 
 if(class_exists('S2ContainerClassLoader')){
     S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+    S2ContainerClassLoader::import(S2DAO_PHP5);
     function __autoload($class = null){
         if(S2ContainerClassLoader::load($class)){
             return;
