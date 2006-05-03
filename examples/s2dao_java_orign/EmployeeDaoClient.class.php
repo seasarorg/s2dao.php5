@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . "/orign.inc.php";
+require_once dirname(__FILE__) . "/example.inc.php";
 
 $container = S2ContainerFactory::create("./resource/EmployeeDao.dicon");
 $dao = $container->getComponent("EmployeeDao");
