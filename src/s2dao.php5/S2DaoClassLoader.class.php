@@ -8,7 +8,6 @@ class S2DaoClassLoader {
     const ORG_SEASAR = '/org/seasar';
     
     public static $CLASSES = array(
-    /*
         'S2ActiveRecord' => '/extension/activerecord/S2ActiveRecord.class.php',
         'S2ActiveRecordHelper' => '/extension/activerecord/S2ActiveRecordHelper.class.php',
         'S2ActiveRecordCollection' => '/extension/activerecord/S2ActiveRecordCollection.class.php',
@@ -176,7 +175,6 @@ class S2DaoClassLoader {
         'S2Dao_OracleProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_OracleProcedureMetaDataImpl.class.php',
         'S2Dao_PostgreSQLProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_PostgreSQLProcedureMetaDataImpl.class.php',
         'S2Dao_ProcedureMetaDataFactory' => '/dao/util/procedure/S2Dao_ProcedureMetaDataFactory.class.php',
-    */
     );
 
     public static function load($className){

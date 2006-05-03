@@ -33,12 +33,11 @@
  *   User could define these definitions.
  *   - S2DAO_PHP5_USE_COMMENT : constant or comment annotation usage
  *     [ boolean: default false ]
- *   needs: sets property S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER
- *     [S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';]
  *
  * Autoload function must be defined
  *   sample : use S2ContainerClassLoader
  *     S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+ *     S2ContainerClassLoader::import(S2DAO_PHP5);
  *     function __autoload($class = null){
  *         S2ContainerClassLoader::load($class);
  *     }
@@ -52,5 +51,5 @@
  * 
  */
 
-require_once('build/s2dao.php5/S2Dao.php');
+require_once 'build/s2dao.php5/S2Dao.php';
 ?>

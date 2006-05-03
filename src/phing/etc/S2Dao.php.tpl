@@ -39,6 +39,7 @@
  * Autoload function must be defined
  *   sample : use S2ContainerClassLoader
  *     S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+ *     S2ContainerClassLoader::import(S2DAO_PHP5);
  *     function __autoload($class = null){
  *         S2ContainerClassLoader::load($class);
  *     }
@@ -71,9 +72,9 @@ ini_set('include_path',
  * S2Dao.PHP5 Core Classes
  */
 require_once 's2dao.core.classes.php';
-if(class_exists('S2ContainerClassLoader')){
-    S2ContainerClassLoader::import(S2DAO_PHP5);
-}
+//if(class_exists('S2ContainerClassLoader')){
+//    S2ContainerClassLoader::import(S2DAO_PHP5);
+//}
 
 /**
  * Messages Resouce File

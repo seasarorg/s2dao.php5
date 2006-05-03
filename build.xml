@@ -2,9 +2,9 @@
 <project name="s2dao.php5" default="info" basedir=".">
 
     <taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
-	<taskdef name="copy2" classname="src.phing.task.CopyFilesToOneDirTask" />
-	<taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
-	
+    <taskdef name="copy2" classname="src.phing.task.CopyFilesToOneDirTask" />
+    <taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
+    
     <target name="init">
         <property name="project.name" value="${phing.project.name}" />
         <property name="package.name" value="S2Dao" />
@@ -15,19 +15,19 @@
         <property name="license.file" value="Apache_Software_License_2.0.txt" />
         <property name="release.notes" value="Release Candidate version 2" />
     </target>
-	
+    
     <target name="info">
-    	    <echo message="" />
-    	    <echo message="S2Dao.PHP5 build script" />
-	    <echo message="----------------------------" />
-        	<echo message="available targets:"/>
-    		<echo message="" />
-    	    <echo message="generate ---> generate Dao,Bean(Entity) files from DBMS" />
-    	    <echo message="build    ---> build all; don't create pear-package" />
-    		<echo message="pear-pkg ---> create pear-package" />
-    		<echo message="clean    ---> remove build directory" />
-	    <echo message="----------------------------" />
-    		<echo message="" />
+        <echo message="" />
+        <echo message="S2Dao.PHP5 build script" />
+        <echo message="----------------------------" />
+        <echo message="available targets:"/>
+        <echo message="" />
+        <echo message="generate ---> generate Dao,Bean(Entity) files from DBMS" />
+        <echo message="build    ---> build all; don't create pear-package" />
+        <echo message="pear-pkg ---> create pear-package" />
+        <echo message="clean    ---> remove build directory" />
+        <echo message="----------------------------" />
+        <echo message="" />
     </target>
 
     <target name="clean" depends="init">
@@ -40,9 +40,9 @@
     </target>
     
     <target name="generate" depends="prepare">
-           <property name="dsn" value="mysql:host=localhost; dbname=s2con" />
-           <property name="user" value="root" />
-           <property name="password" value="pass" />
+        <property name="dsn" value="mysql:host=localhost; dbname=s2con" />
+        <property name="user" value="root" />
+        <property name="password" value="pass" />
         <generate toDir="${project.build.dir}/${project.name}" />
     </target>
 
@@ -51,7 +51,7 @@
             <fileset dir="${project.src.dir}">
                 <include name="${project.name}/**/*.php"/>
                 <include name="${project.name}/**/*.properties"/>
-            		<include name="${project.name}/**/*.dicon"/>
+                <include name="${project.name}/**/*.dicon"/>
             </fileset>
         </copy2>
 

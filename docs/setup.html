@@ -27,7 +27,13 @@
     <li><a href="#Setup">セットアップ</a></li>
     <li>設定
         <ul>
-            <li><a href="#beta2_setting">S2Dao.PHP5の設定</a>
+            <li><a href="#installation">S2Dao.PHP5のインストール</a>
+                <ul>
+                    <li><a href="#pearpkg_installation">PEARパッケージからのインストール</a></li>
+                    <li><a href="#src_installation">ソースからのインストール</a></li>
+                </ul>
+            </li>
+            <li><a href="#setting">S2Dao.PHP5の設定</a>
                 <ul>
                     <li><a href="#dicon">DICONの設定</a></li>
                     <li><a href="#pdo_dicon">PDOの設定</a></li>
@@ -39,50 +45,189 @@
 </ul>
 
 <h2><a name="Setup">セットアップ</a></h2>
-<p>s2dao.php5.version.tar.gz をダウンロード後、解凍してください。以下のようなディレクトリが展開されます。</p>
 
-<pre>
-s2dao.php5/
-  +-- docs/                     ----- ドキュメント ディレクトリ
-  +-- src/                      ----- ソース ディレクトリ
-  +-- s2dao.inc.php             ----- S2Dao.PHP5 設定ファイル
-  +-- Apache_Software_License_2.0.txt
-  +-- ChangeLog
-</pre>
-
-<p><a href="http://s2container.php5.sandbox.seasar.org/">S2Container.PHP5</a>が必要です。<br />
+<p>S2Dao.PHP5には最新版の<a href="http://s2container.php5.sandbox.seasar.org/">S2Container.PHP5</a>が必要です。<br />
 <a href="http://s2container.php5.sandbox.seasar.org/setup.html">S2Container.PHP5のセットアップ</a>を終えてからS2Dao.PHP5の設定をしてください。<br />
 また、S2Dao.PHP5では<a href="http://jp2.php.net/manual/ja/ref.pdo.php">PDO</a>を利用しています。
 利用前に<a href="http://jp2.php.net/manual/ja/ref.pdo.php#pdo.installation">PDOのインストール</a>も終えておいてください。</p>
 
-<h3><a name="beta2_setting">S2Dao.PHP5の設定</a></h3>
-<p>通常 s2dao.inc.php を読み込むだけでS2Dao.PHP5の利用が可能です。</p>
 
-<p>s2dao.inc.php の設定は以下の通りです。</p>
+<h3><a name="installation">S2Dao.PHP5のインストール</a></h3>
+<h4><a name="pearpkg_installation">PEARパッケージからのインストール</a></h4>
+<p>
+S2Dao.version.tgzを取得し、pear install を実施して下さい。
+</p>
 
 <pre>
-/** S2Dao.PHP5 ROOT Directory; 定数S2DAO_PHP5にはS2Dao.PHP5の設置してあるディレクトリを指定してください。 */
-define("S2DAO_PHP5", dirname(__FILE__) . "/src/s2dao.php5");
+% pear install /path/to/S2Dao.{version}.tgz
+install ok: channel://pear.php.net/S2Dao-{version}
 
-/** PDO DataSource dicon; 定数PDO_DICON には pdo.diconへのパスを指定してください(任意) */
-//define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
-
-/** S2Dao.PHP5 ClassLoader */
-require_once(S2DAO_PHP5 . "/S2DaoClassLoader.class.php");
-
-if( class_exists("S2ContainerClassLoader") ){
-    S2ContainerClassLoader::import(S2DaoClassLoader::export());
-}
-if( class_exists("S2Container_MessageUtil") ){
-    S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5."/DaoMessages.properties");
-}
+% pear list
+・・・
+S2Container             {version}       status
+S2Dao                   {version}       status
+・・・
+%
 </pre>
 
-<p>詳細は /example/example.inc.php に記述しているので参考にしてください。</p>
+<p>
+S2Container.php と S2Dao.php を読み込み、__autoload関数を次のように定義して下さい。S2Dao.PHP5が使用可能となります。
+</p>
+
+<pre>&lt;?php
+require_once 'S2Container/S2Container.php';
+require_once 'S2Dao/S2Dao.php';
+
+function __autoload($class = null){
+    if($class != null){
+        include_once("$class.class.php");
+    }
+}
+?&gt;
+</pre>
+
+<p>
+
+S2ContainerClassLoaderを利用する場合は、__autoload関数を次のように定義して下さい。
+</p>
+<pre>&lt;?php
+require_once 'S2Container/S2Container.php';
+require_once 'S2Dao/S2Dao.php';
+
+S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+S2ContainerClassLoader::import(S2DAO_PHP5);
+function __autoload($class = null){
+    S2ContainerClassLoader::load($class);
+}
+?&gt;
+</pre>
+
+<p>開発中のアプリケーションや使用しているフレームワークで既に__autoload関数が定義されている場合は、上記の __autoload関数内容を定義済み __autoload関数に追記して下さい。
+</p>
+
+<p>
+S2Dao.PHP5をアンインストールする場合は、pear uninstall を実施して下さい。
+</p>
+<pre>
+% pear uninstall S2Dao
+uninstall ok: channel://pear.php.net/S2Dao-{version}
+</pre>
+
+
+<h4><a name="src_installation">ソースからのインストール</a></h4>
+
+<p>s2dao.php5.version.tar.gz をダウンロード後、解凍すると以下のようなディレクトリが展開されます。</p>
+
+<pre>
+s2dao.php5/
+  +-- docs/                     ----- ドキュメント ディレクトリ
+  +-- examples/                 ----- examples ディレクトリ
+  +-- src/                      ----- ソース ディレクトリ
+  +-- test/                     ----- test case ディレクトリ
+  +-- s2dao.inc.php             ----- S2Dao.PHP5 設定ファイル
+  +-- S2Dao.php                 ----- S2Dao.PHP5 設定ファイル
+  +-- Apache_Software_License_2.0.txt
+  +-- ChangeLog
+</pre>
+
+<p>
+S2Container.php と S2Dao.php を読み込み、__autoload関数を次のように定義して下さい。S2Dao.PHP5が使用可能となります。
+</p>
+
+<pre>&lt;?php
+require_once '/path/to/s2container.php5/S2Container.php';
+require_once '/path/to/s2dao.php5/S2Dao.php';
+function __autoload($class = null){
+    if($class != null){
+        include_once("$class.class.php");
+    }
+}
+?&gt;</pre>
+
+<p>
+S2ContainerClassLoaderを利用する場合は、__autoload関数を次のように定義して下さい。
+</p>
+<pre>&lt;?php
+require_once('/path/to/s2container.php5/S2Container.php');
+require_once '/path/to/s2dao.php5/S2Dao.php';
+
+S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+S2ContainerClassLoader::import(S2DAO_PHP5);
+function __autoload($class = null){
+    S2ContainerClassLoader::load($class);
+}
+?&gt;
+</pre>
+
+<p>開発中のアプリケーションや使用しているフレームワークで既に__autoload関数が定義されている場合は、上記の __autoload関数内容を定義済み __autoload関数に追記して下さい。</p>
+
+
+<h3><a name="setting">S2Dao.PHP5の設定</a></h3>
+<p>通常 S2Dao.php を読み込むだけでS2Dao.PHP5の利用が可能です。</p>
+
+<p>S2Dao.php の設定は以下の通りです。</p>
+
+<pre>&lt;?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+// +----------------------------------------------------------------------+
+// | PHP version 5                                                        |
+// +----------------------------------------------------------------------+
+// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// +----------------------------------------------------------------------+
+// | Licensed under the Apache License, Version 2.0 (the "License");      |
+// | you may not use this file except in compliance with the License.     |
+// | You may obtain a copy of the License at                              |
+// |                                                                      |
+// |     http://www.apache.org/licenses/LICENSE-2.0                       |
+// |                                                                      |
+// | Unless required by applicable law or agreed to in writing, software  |
+// | distributed under the License is distributed on an "AS IS" BASIS,    |
+// | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,                        |
+// | either express or implied. See the License for the specific language |
+// | governing permissions and limitations under the License.             |
+// +----------------------------------------------------------------------+
+// | Authors: nowel                                                       |
+// +----------------------------------------------------------------------+
+// $Id$
+//
+/**
+ * @author nowel
+ *
+ * S2Dao System Definition
+ *   SDao define these definitions.
+ *   - S2DAO_PHP5 : S2DAO.PHP5 ROOT Directory
+ *     [ string default /src/s2dao.php5 ]
+ *
+ * User Definition
+ *   User could define these definitions.
+ *   - S2DAO_PHP5_USE_COMMENT : constant or comment annotation usage
+ *     [ boolean: default false ]
+ *
+ * Autoload function must be defined
+ *   sample : use S2ContainerClassLoader
+ *     S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+ *     S2ContainerClassLoader::import(S2DAO_PHP5);
+ *     function __autoload($class = null){
+ *         S2ContainerClassLoader::load($class);
+ *     }
+ *
+ *   sample : use include_once directly
+ *     function __autoload($class=null){
+ *         if($class != null){
+ *             include_once("$class.class.php");
+ *         }
+ *     }
+ *
+ */
+
+require_once('build/s2dao.php5/S2Dao.php');
+?&gt;</pre>
+
+<p>詳細は /examples/s2dao/example.inc.php に記述しているので参考にしてください。</p>
 
 <h4><a name="dicon">DICONの設定</a></h4>
 <p>S2Dao.PHP5を利用するには src/s2dao.php5/dao.dicon を読み込んでください。<br />
-事前に<a href="#pdo_dicon">pdo.dicon</a>の設定をしておいてください。</p>
+DataSourceとしてPDOを必要とするので、<a href="#pdo_dicon">pdo.dicon</a>の設定をしておいてください。</p>
 
 <p>dao.diconは以下のように記述されています。</p>
 
@@ -106,7 +251,7 @@ if( class_exists("S2Container_MessageUtil") ){
 <pre>
 &lt;components namespace="example"&gt;
 
-    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;include path="dao.dicon" /&gt;
 
     &lt;component name="beanCdDao" class="Cd1Dao"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
@@ -125,7 +270,7 @@ if( class_exists("S2Container_MessageUtil") ){
 <p> /examples/example.inc.php では 以下のように記述し、複数個生成された dao 及び entity(bean)の読み込みを自動化しています。</p>
 
 <pre>
-if( class_exists("S2ContainerClassLoader") ){
+if(class_exists("S2ContainerClassLoader")){
     S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
     S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
     S2ContainerClassLoader::import(dirname(__FILE__) . "/impl");
@@ -142,14 +287,17 @@ if( class_exists("S2ContainerClassLoader") ){
 
 <h4><a name="pdo_dicon">PDOの設定</a></h4>
 
-<p>S2Dao.PHP5-1.0.0-beta2以降 PDO を利用しています。PDO で利用できる DSN については
-<a href="http://jp2.php.net/manual/en/ref.pdo.php#pdo.drivers">PHP: PDO Functions - Manual</a>を参考に設定してください。<br />
-多くの場合は /examples/s2dao/resource/pdo.dicon が参考になると思います。</p>
+<p>S2Dao.PHP5ではPDOを利用しています。<br />
+PDO で利用できる DSN については、<a href="http://jp2.php.net/manual/en/ref.pdo.php#pdo.drivers">PHP: PDO Functions - Manual</a>を参考に設定してください。<br />
+多くの場合は /examples/pdo.dicon が参考になると思います。</p>
 <p>dao.dicon を読み込む前に pdo.dicon を読み込むように設定してください。</p>
 
-<p>/examples/s2dao/resource/pdo.dicon には以下のように記述されています。</p>
+<p>/examples/pdo.dicon には以下のように記述されています。</p>
 
 <pre>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd"&gt;
 &lt;components namespace="pdo"&gt;
 
     &lt;component name="dataSource" class="S2Container_PDODataSource"&gt;
@@ -191,10 +339,16 @@ if( class_exists("S2ContainerClassLoader") ){
     &lt;/component&gt;
     --&gt;
 
+    &lt;!--
+    &lt;component name="requiredTx" class="S2Dao_RequiredInterceptor" /&gt;
+    &lt;component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" /&gt;
+    &lt;component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" /&gt;
+    --&gt;
+
 &lt;/components&gt;
 </pre>
 
-<p>詳細は src/examples/example.inc.php 及び src/examples/resource/example.dicon.xml を参考にしてください。</p>
+<p>詳細は /examples/s2dao/example.inc.php 及び /examples/s2dao/resource/example.dicon.xml を参考にしてください。</p>
 
 <!-- document end -->
 <!-- don't edit start -->

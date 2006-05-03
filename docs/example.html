@@ -282,7 +282,7 @@ WHERE
 "components21.dtd"&gt;
 &lt;components namespace="example"&gt;
 
-    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;include path="DAO_DICON" /&gt;
 
     &lt;component name="beanCdDao" class="Cd1Dao"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
@@ -306,22 +306,23 @@ WHERE
 <pre>
 &lt;?php
 require_once 'S2Container/S2Container.php';
-require_once dirname(dirname(__FILE__)) . '/S2Dao.php';
+require_once 'S2Dao/S2Dao.php';
 
-define("PDO_DICON", dirname(__FILE__) . "/pdo.dicon");
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
+define('DAO_DICON', dirname(dirname(__FILE__)) . '/dao.dicon');
+define('PDO_DICON', dirname(dirname(__FILE__)) . '/pdo.dicon');
 
-/** __autoload function */
-if( class_exists("S2ContainerClassLoader") ){
-    function __autoload($class = null){
-        if( S2ContainerClassLoader::load($class) ){
-            return;
-        }
-    }
-
+/** class import */
+if(class_exists('S2ContainerClassLoader')){
+    S2ContainerClassLoader::import(S2CONTAINER_PHP5);
     S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
     S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
     S2ContainerClassLoader::import(dirname(__FILE__) . "/impl");
+    function __autoload($class = null){
+        if(S2ContainerClassLoader::load($class)){
+            return;
+        }
+    }
 }
 ?&gt;
 </pre>
@@ -343,7 +344,7 @@ if( class_exists("S2ContainerClassLoader") ){
 &lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
 
-$container = S2ContainerFactory::create("example.dicon.xml");
+$container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 
 $cd = $dao-&gt;getAllCDArray();
@@ -403,7 +404,7 @@ CONTENT:
 &lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
 
-$container = S2ContainerFactory::create("example.dicon.xml");
+$container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 
 $list = $dao-&gt;getCD1List(2, 'aaa');
@@ -454,7 +455,7 @@ WHERE
 &lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
 
-$container = S2ContainerFactory::create("example.dicon.xml");
+$container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 
 $list = $dao-&gt;getCD3List(null);
@@ -515,7 +516,7 @@ CONTENT:
 &lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
 
-$container = S2ContainerFactory::create("example.dicon.xml");
+$container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 $cd = new CdBean();
 
@@ -540,7 +541,7 @@ $dao-&gt;insert($cd);
 &lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
 
-$container = S2ContainerFactory::create("example.dicon.xml");
+$container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 $cd = new CdBean();
 
@@ -564,7 +565,7 @@ $dao-&gt;update($cd);
 &lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
 
-$container = S2ContainerFactory::create("example.dicon.xml");
+$container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container-&gt;getComponent("beanCdDao");
 $cd = new CdBean();
 
@@ -654,7 +655,7 @@ class Cd2DaoImpl extends S2Dao_AbstractDao implements Cd2Dao {
 
 require_once dirname(__FILE__) . "/example.inc.php";
 
-$container = S2ContainerFactory::create("example.dicon.xml");
+$container = S2ContainerFactory::create("./resource/example.dicon.xml");
 $dao = $container-&gt;getComponent("daoImpl");
 
 var_dump($dao-&gt;getCd(2));
@@ -696,19 +697,24 @@ object(S2Dao_ArrayList)#259 (1) {
     <h4>example.inc.phpの変更</h4>
 
 <pre><code>&lt;?php
-require dirname(dirname(__FILE__)) . "/example.inc.php";
+require_once 'S2Container/S2Container.php';
+require_once 'S2Dao/S2Dao.php';
 
+define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
+define('DAO_DICON', dirname(dirname(__FILE__)) . '/dao.dicon');
+define('PDO_DICON', dirname(dirname(__FILE__)) . '/pdo.dicon');
 define('S2DAO_PHP5_USE_COMMENT', true);
 
-if(class_exists('S2Container_AnnotationContainer')){
-    S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';
-}
-
-if(class_exists("S2ContainerClassLoader")){
+if(class_exists('S2ContainerClassLoader')){
+    S2ContainerClassLoader::import(S2CONTAINER_PHP5);
     S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
     S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
+    function __autoload($class = null){
+        if(S2ContainerClassLoader::load($class)){
+            return;
+        }
+    }
 }
-
 ?&gt;</code></pre>
 
     <h4>Dao(CdDao.class.php)の変更</h4>
@@ -716,17 +722,18 @@ if(class_exists("S2ContainerClassLoader")){
 <pre><code>&lt;?php
 
 /**
- * @S2Dao_DaoAnnotation(BEAN = CdBean)
+ * @author nowel
+ * @Dao(bean = CdBean)
  */
 interface CdDao {
 
     /**
-     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = "id, content")
+     * @NoPersistentProperty("id, content")
      */
     public function update(CdBean $cd);
 
     /**
-     * @S2Dao_DaoAnnotation(NO_PERSISTENT_PROPS = "content")
+     * @NoPersistentProperty("content")
      */
     public function insert(CdBean $cd);
     public function delete(CdBean $cd);
@@ -737,7 +744,7 @@ interface CdDao {
     public function getAll();
 
     /**
-     * @S2Dao_DaoAnnotation(SQL = "SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1")
+     * @Sql("SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1")
      * @return array
      */
     public function getCds();
@@ -763,8 +770,7 @@ interface CdDao {
     public function getCD3($id = null);
 
     /**
-     * @S2Dao_DaoAnnotation(SQL = "SELECT COUNT(*) FROM CD")
-     * @return object
+     * @Sql("SELECT COUNT(*) FROM CD", dbms = mysql)
      */
     public function getCdCount();
 }
@@ -775,22 +781,23 @@ interface CdDao {
 <pre>&lt;?php
 
 /**
- * @S2Dao_BeanAnnotation(TABLE = CD)
+ * @author nowel
+ * @Bean(table = CD)
  */
 class CdBean {
 
     /**
-     * @COLUMN = "ID"
+     * @Column("ID")
      */
     private $id;
 
     /**
-     * @COLUMN = "TITLE"
+     * @Column("TITLE")
      */
     private $title;
 
     /**
-     * @COLUMN = "CONTENT"
+     * @Column("CONTENT")
      */
     private $content;
 
@@ -1366,7 +1373,7 @@ WHERE empno = /*employee.empno*/7788
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components.dtd"&gt;
 &lt;components&gt;
-    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;include path="DAO_DICON" /&gt;
     &lt;component class="EmployeeDao"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
@@ -1381,7 +1388,7 @@ WHERE empno = /*employee.empno*/7788
             <li type="circle">Daoに定義したメソッドを実行します。</li>
         </ul>
 <pre>&lt;?php
-require_once dirname(__FILE__) . "/orign.inc.php";
+require_once dirname(__FILE__) . "/example.inc.php";
 
 $container = S2ContainerFactory::create("./resource/EmployeeDao.dicon");
 $dao = $container-&gt;getComponent("EmployeeDao");
@@ -1463,6 +1470,7 @@ FROM EMP LEFT OUTER JOIN DEPT department ON EMP.DEPTNO = department.DEPTNO WHERE
 [DEBUG]  - UPDATE EMP SET ename = 'SCOTT'
 WHERE empno = '7788'
 string(13) "updatedRows:0"
+
 </pre>
 
         <p>"updatedRows"の値から更新された件数を確認することができます。<br />
@@ -1514,7 +1522,7 @@ interface DepartmentDao {
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components.dtd"&gt;
 &lt;components&gt;
-    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;include path="DAO_DICON" /&gt;
     &lt;component class="DepartmentDao"&gt;
             &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
@@ -1529,7 +1537,7 @@ interface DepartmentDao {
         </ul>
 
 <pre>&lt;?php
-require_once dirname(__FILE__) . "/orign.inc.php";
+require_once dirname(__FILE__) . "/example.inc.php";
 
 $container = S2ContainerFactory::create("./resource/DepartmentDao.dicon");
 $dao = $container-&gt;getComponent("DepartmentDao");
@@ -1633,7 +1641,7 @@ class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components.dtd"&gt;
 &lt;components&gt;
-    &lt;include path="%S2DAO_PHP5%/dao.dicon" /&gt;
+    &lt;include path="DAO_DICON" /&gt;
     &lt;component class="Employee2DaoImpl"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
@@ -1649,7 +1657,7 @@ class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
         </ul>
 
 <pre><code>&lt;?php
-require_once dirname(__FILE__) . "/orign.inc.php";
+require_once dirname(__FILE__) . "/example.inc.php";
 
 $container = S2ContainerFactory::create("./resource/Employee2Dao.dicon");
 $dao = $container-&gt;getComponent("Employee2Dao");
@@ -1667,7 +1675,6 @@ $container-&gt;destroy();
 
 <pre>
 &gt; php Employee2DaoClient.class.php
-[DEBUG] S2Container_MethodUtil::invoke - eval : [ return $target->getEmployees($args[0]); ]
 [DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
 department.DEPTNO AS DEPTNO_0, department.DNAME AS DNAME_0, department.LOC AS LOC_0,
 department.VERSIONNO AS VERSIONNO_0
