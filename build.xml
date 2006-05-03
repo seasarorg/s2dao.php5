@@ -1,17 +1,33 @@
 <?xml version="1.0"?>
-<project name="s2dao.php5" default="generate" basedir=".">
+<project name="s2dao.php5" default="info" basedir=".">
 
     <taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
-
+	<taskdef name="copy2" classname="src.phing.task.CopyFilesToOneDirTask" />
+	<taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
+	
     <target name="init">
         <property name="project.name" value="${phing.project.name}" />
         <property name="package.name" value="S2Dao" />
-        <property name="project.version" value="1.0.0" />
+        <property name="project.version" value="1.1.0" />
         <property name="project.state" value="beta" />
         <property name="project.build.dir" value="${project.basedir}/build" />
         <property name="project.src.dir" value="${project.basedir}/src" />
         <property name="license.file" value="Apache_Software_License_2.0.txt" />
-        <property name="release.notes" value="Release Candidate version 1" />
+        <property name="release.notes" value="Release Candidate version 2" />
+    </target>
+	
+    <target name="info">
+    	    <echo message="" />
+    	    <echo message="S2Dao.PHP5 build script" />
+	    <echo message="----------------------------" />
+        	<echo message="available targets:"/>
+    		<echo message="" />
+    	    <echo message="generate ---> generate Dao,Bean(Entity) files from DBMS" />
+    	    <echo message="build    ---> build all; don't create pear-package" />
+    		<echo message="pear-pkg ---> create pear-package" />
+    		<echo message="clean    ---> remove build directory" />
+	    <echo message="----------------------------" />
+    		<echo message="" />
     </target>
 
     <target name="clean" depends="init">
@@ -30,21 +46,21 @@
         <generate toDir="${project.build.dir}/${project.name}" />
     </target>
 
-    <!--
-    <target name="build" depends="prepare">
-        <copy2 toDir="${project.build.dir}/${project.name}/${package.name}">
+    <target name="build" depends="clean, prepare">
+        <copy2 toDir="${project.build.dir}/${project.name}/S2Dao">
             <fileset dir="${project.src.dir}">
                 <include name="${project.name}/**/*.php"/>
                 <include name="${project.name}/**/*.properties"/>
+            		<include name="${project.name}/**/*.dicon"/>
             </fileset>
         </copy2>
 
-        <gcore searchDir="${project.build.dir}/${project.name}/${package.name}"
+        <gcore searchDir="${project.build.dir}/${project.name}/S2Dao"
                coreFile="${project.build.dir}/${project.name}/s2dao.core.classes.php"
-               listFile="${project.basedir}/etc/s2dao.core.files.txt"/>
+               listFile="${project.basedir}/src/phing/etc/s2dao.core.files.txt"/>
 
-        <copy file="${project.basedir}/etc/${package.name}.php.tpl"
-              tofile="${project.build.dir}/${project.name}/${package.name}.php"
+        <copy file="${project.basedir}/src/phing/etc/S2Dao.php.tpl"
+              tofile="${project.build.dir}/${project.name}/S2Dao.php"
               overwrite="true"/>
 
         <copy file="${project.basedir}/${license.file}"
@@ -60,8 +76,8 @@
                 <include name="**/*"/>
             </fileset>
             <option name="notes">${release.notes}</option>
-            <option name="description">S2Container is a lightweight container which supports DI(Dependency Injection) and AOP(Aspect Oriented Programming). The goal of S2Container.PHP5 project is to port Java Seasar2 to PHP5.</option>
-            <option name="summary">S2Container.PHP5, a lightweight container supports DI and AOP.</option>
+            <option name="description">S2Dao is Object Relational Mapping tool: S2Dao does not use XML; and does not require JDBC knowledge. The goal of S2Dao.PHP5 project is to port Java S2Dao to PHP5(using PDO).</option>
+            <option name="summary">S2Dao.PHP5, a Object Relational Mapping tool.</option>
             <option name="version" value="${project.version}"/>
             <option name="state" value="${project.state}"/>
             <option name="baseinstalldir" value="${package.name}"/>
@@ -75,22 +91,10 @@
             </mapping>
             <mapping name="maintainers">
                 <element>
-                    <element key="handle" value="klove"/>
-                    <element key="name" value="klove"/>
+                    <element key="handle" value="nowel"/>
+                    <element key="name" value="hata"/>
                     <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
                     <element key="role" value="lead"/>
-                </element>
-                <element>
-                    <element key="handle" value="nowel"/>
-                    <element key="name" value="nowel"/>
-                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
-                    <element key="role" value="developer"/>
-                </element>
-                <element>
-                    <element key="handle" value="kent"/>
-                    <element key="name" value="kent"/>
-                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
-                    <element key="role" value="developer"/>
                 </element>
             </mapping>
         </pearpkg>
@@ -116,6 +120,5 @@
             </fileset>
         </move>
     </target>
-    -->
     
 </project>

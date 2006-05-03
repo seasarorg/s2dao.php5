@@ -8,6 +8,7 @@ class S2DaoClassLoader {
     const ORG_SEASAR = '/org/seasar';
     
     public static $CLASSES = array(
+    /*
         'S2ActiveRecord' => '/extension/activerecord/S2ActiveRecord.class.php',
         'S2ActiveRecordHelper' => '/extension/activerecord/S2ActiveRecordHelper.class.php',
         'S2ActiveRecordCollection' => '/extension/activerecord/S2ActiveRecordCollection.class.php',
@@ -28,9 +29,9 @@ class S2DaoClassLoader {
         'S2Dao_ObjectResultSetHandler' => '/extension/db/impl/S2Dao_ObjectResultSetHandler.class.php',
         'S2Dao_PropertyTypeImpl' => '/extension/db/impl/S2Dao_PropertyTypeImpl.class.php',
         'S2Dao_ResultSetHandler' => '/extension/db/S2Dao_ResultSetHandler.class.php',
-        'S2Dao_StatementFactory' => '/extension/db/S2Dao_StatementFactory.class.php',
         'S2Dao_ResultSetFactory' => '/extension/db/S2Dao_ResultSetFactory.class.php',
         'S2Dao_SelectHandler' => '/extension/db/S2Dao_SelectHandler.class.php',
+        'S2Dao_StatementFactory' => '/extension/db/S2Dao_StatementFactory.class.php',
         'S2Dao_UpdateHandler' => '/extension/db/S2Dao_UpdateHandler.class.php',
         'S2Dao_PropertyType' => '/extension/db/S2Dao_PropertyType.class.php',
         'S2Dao_ValueType' => '/extension/db/S2Dao_ValueType.class.php',
@@ -83,6 +84,13 @@ class S2DaoClassLoader {
         'Sql' => '/dao/annotation/type/Sql.class.php',
         'S2Dao_CommandContextImpl' => '/dao/context/S2Dao_CommandContextImpl.class.php',
         'S2Dao_DbmsManager' => '/dao/dbms/S2Dao_DbmsManager.class.php',
+        'S2Dao_DB2' => '/dao/dbms/S2Dao_DB2.class.php',
+        'S2Dao_Firebird' => '/dao/dbms/S2Dao_Firebird.class.php',
+        'S2Dao_MSSQLServer' => '/dao/dbms/S2Dao_MSSQLServer.class.php',
+        'S2Dao_MySQL' => '/dao/dbms/S2Dao_MySQL.class.php',
+        'S2Dao_Oracle' => '/dao/dbms/S2Dao_Oracle.class.php',
+        'S2Dao_PostgreSQL' => '/dao/dbms/S2Dao_PostgreSQL.class.php',
+        'S2Dao_SQLite' => '/dao/dbms/S2Dao_SQLite.class.php',
         'S2Dao_Standard' => '/dao/dbms/S2Dao_Standard.class.php',
         'S2Dao_ColumnNotFoundRuntimeException' => '/dao/exception/S2Dao_ColumnNotFoundRuntimeException.class.php',
         'S2Dao_DaoNotFoundRuntimeException' => '/dao/exception/S2Dao_DaoNotFoundRuntimeException.class.php',
@@ -168,6 +176,7 @@ class S2DaoClassLoader {
         'S2Dao_OracleProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_OracleProcedureMetaDataImpl.class.php',
         'S2Dao_PostgreSQLProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_PostgreSQLProcedureMetaDataImpl.class.php',
         'S2Dao_ProcedureMetaDataFactory' => '/dao/util/procedure/S2Dao_ProcedureMetaDataFactory.class.php',
+        */
     );
 
     public static function load($className){

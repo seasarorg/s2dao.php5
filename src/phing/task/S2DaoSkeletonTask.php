@@ -53,7 +53,7 @@ class S2DaoSkeletonTask extends Task {
             $path = $this->toDir . DIRECTORY_SEPARATOR . $table . self::BeanName . self::clzz;
             file_put_contents($path, $skel->createEntity());
         }
-        $this->log("[INFO] see the files");
+        $this->log("[info] see the files");
         $files = glob($this->toDir . DIRECTORY_SEPARATOR . '*' . self::clzz);
         foreach($files as $file){
             $this->log("[file]: " . $file);

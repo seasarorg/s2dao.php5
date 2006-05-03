@@ -139,6 +139,8 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         return $this->execute2($this->getConnection(), $args);
     }
     
+    abstract protected function execute2(PDO $connection, array $args);
+    
     // FIXME
     protected function bindArgs(PDOStatement $ps, array $args = null) {
         if ($args == null) {

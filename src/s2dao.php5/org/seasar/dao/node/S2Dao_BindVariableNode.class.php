@@ -5,7 +5,7 @@
  */
 class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
 
-    private $expression = "";
+    private $expression = '';
     private $names = array();
 
     public function __construct($expression) {
@@ -22,7 +22,7 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
         $clazz = $ctx->getArgType($this->names[0]);
         
         for($pos = 1; $pos < count($this->names); $pos++){
-            if("object" == $clazz){
+            if('object' == $clazz){
                 $beanDesc =
                     S2Container_BeanDescFactory::getBeanDesc(new ReflectionClass($value));
                 $pd = $beanDesc->getPropertyDesc($this->names[$pos]);
@@ -39,7 +39,7 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
         } else {
             //settype($value, 'null');
         }
-        $ctx->addSql("?", $value, $clazz);
+        $ctx->addSql('?', $value, $clazz);
     }
 }
 ?>

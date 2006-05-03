@@ -14,7 +14,7 @@ class S2Dao_InsertAutoDynamicCommand implements S2Dao_SqlCommand {
     public function __construct() {
     }
 
-    public function execute(array $args) {
+    public function execute($args){
         $bean = $args[0];
         $bmd = $this->getBeanMetaData();
         $propertyTypes = $this->createInsertPropertyTypes($bmd,

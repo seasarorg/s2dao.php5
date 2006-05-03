@@ -13,7 +13,7 @@ abstract class S2Dao_AbstractBatchAutoHandler extends S2Dao_AbstractAutoHandler 
         parent::__construct($dataSource, $statementFactory, $beanMetaData, $propertyTypes);
     }
 
-    public function execute(array $args, $arg2 = null) {
+    public function execute($args, $arg2 = null) {
         $connection = $this->getConnection();
         $ps = $this->prepareStatement($connection);
         $ps->setFetchMode(PDO::FETCH_ASSOC);
@@ -24,7 +24,7 @@ abstract class S2Dao_AbstractBatchAutoHandler extends S2Dao_AbstractAutoHandler 
             $beans = (array)$args;
         }
         if ($beans == null) {
-            throw new S2Container_IllegalArgumentException("args[0]");
+            throw new S2Container_IllegalArgumentException('args[0]');
         }
 
         $ret = -1;

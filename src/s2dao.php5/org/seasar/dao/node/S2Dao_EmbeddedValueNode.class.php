@@ -5,13 +5,13 @@
  */
 class S2Dao_EmbeddedValueNode extends S2Dao_AbstractNode {
 
-    private $expression_ = "";
-    private $baseName_ = "";
-    private $propertyName_ = "";
+    private $expression_ = '';
+    private $baseName_ = '';
+    private $propertyName_ = '';
 
     public function __construct($expression) {
         $this->expression_ = $expression;
-        $array = explode(".",$expression);
+        $array = explode('.',$expression);
         $this->baseName_ = $array[0];
         if (1 < count($array)) {
             $this->propertyName_ = $array[1];

@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components.dtd">
 <components>
-    <include path="%S2DAO_PHP5%/dao.dicon" />
+    <include path="%DAO_DICON%" />
     <component class="cd_shelf">
         <aspect>dao.activerecord</aspect>
     </component>

@@ -5,7 +5,7 @@
  */
 class S2Dao_IfNode extends S2Dao_ContainerNode {
 
-    private $expression_ = "";
+    private $expression_ = '';
     private $parsedExpression_ = null;
     private $elseNode_ = null;
 
@@ -27,8 +27,8 @@ class S2Dao_IfNode extends S2Dao_ContainerNode {
     }
 
     public function accept(S2Dao_CommandContext $ctx) {
-        $expression = preg_replace("/^(\w+)(\s+.*)/i",
-                        "\$ctx->getArg(\"\\1\")" . "\\2", $this->parsedExpression_);
+        $expression = preg_replace('/^(\w+)(\s+.*)/i',
+                        '$ctx->getArg("\1")' . '\2', $this->parsedExpression_);
         $expression = S2Container_EvalUtil::getExpression($expression);
         $result = eval($expression);
 

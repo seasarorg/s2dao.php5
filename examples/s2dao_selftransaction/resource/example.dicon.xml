@@ -3,7 +3,7 @@
 "components21.dtd">
 <components namespace="example">
 
-    <include path="%S2DAO_PHP5%/dao.dicon" />
+    <include path="%DAO_DICON%" />
 
     <component class="CdDao">
         <aspect>dao.interceptor</aspect>

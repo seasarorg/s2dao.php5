@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @author nowel
+ */
 abstract class S2Dao_AbstractAnnotationReader {
     
     protected $comment = null;
@@ -13,9 +16,12 @@ abstract class S2Dao_AbstractAnnotationReader {
     }
     
     public function __call($name, $param){
-        if(S2DAO_PHP5_USE_COMMENT === true){
-            if(method_exists($this->comment, $name)){
-                return $this->call($this->comment, $name, $param);
+        if(defined('S2DAO_PHP5_USE_COMMENT')){
+            if(S2DAO_PHP5_USE_COMMENT === true){
+                $this->setCommentAnnotationHandler();
+                if(method_exists($this->comment, $name)){
+                    return $this->call($this->comment, $name, $param);
+                }
             }
         }
 
@@ -33,6 +39,16 @@ abstract class S2Dao_AbstractAnnotationReader {
                     array($claz, $methodName),
                     $parameter);
     }
+    
+    private function setCommentAnnotationHandler(){
+        if(class_exists('S2Container_AnnotationContainer')){
+            if(strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER,
+                      'S2DaoAnnotationReader') != 0){
+               S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';
+            }
+        }
+    }
+
 }
 
 ?>

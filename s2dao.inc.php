@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2004-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -20,31 +20,37 @@
 // | Authors: nowel                                                       |
 // +----------------------------------------------------------------------+
 // $Id$
+//
 /**
  * @author nowel
+ *
+ * S2Dao System Definition
+ *   SDao define these definitions.
+ *   - S2DAO_PHP5 : S2DAO.PHP5 ROOT Directory
+ *     [ string default /src/s2dao.php5 ]
+ * 
+ * User Definition
+ *   User could define these definitions.
+ *   - S2DAO_PHP5_USE_COMMENT : constant or comment annotation usage
+ *     [ boolean: default false ]
+ *   needs: sets property S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER
+ *     [S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';]
+ *
+ * Autoload function must be defined
+ *   sample : use S2ContainerClassLoader
+ *     S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+ *     function __autoload($class = null){
+ *         S2ContainerClassLoader::load($class);
+ *     }
+ * 
+ *   sample : use include_once directly
+ *     function __autoload($class=null){
+ *         if($class != null){
+ *             include_once("$class.class.php");
+ *         }
+ *     }
+ * 
  */
 
-/** S2Dao.PHP5 ROOT Directory */
-define('S2DAO_PHP5', dirname(__FILE__) . '/src/s2dao.php5');
-
-/** PDO DataSource dicon */
-//define('PDO_DICON', dirname(__FILE__) . '/pdo.dicon');
-
-/** Phar Using Sample */
-//define('S2DAO_PHP5_Phar', dirname(__FILE__) . '/build/s2dao.php5-1.0.0-beta3.phar');
-//if( file_exists(S2DAO_PHP5_Phar) ){
-//    require_once(S2DAO_PHP5_Phar);
-//    define('S2DAO_PHP5', 'phar://s2dao.php5-1.0.0-beta3.phar');
-//}
-
-/** S2Dao.PHP5 ClassLoader */
-require_once S2DAO_PHP5 . '/S2DaoClassLoader.class.php';
-
-if( class_exists('S2ContainerClassLoader') ){
-    S2ContainerClassLoader::import(S2DaoClassLoader::export());
-}
-if( class_exists('S2ContainerMessageUtil') ){
-    S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5 . '/DaoMessages.properties');
-}
-
+require_once('build/s2dao.php5/S2Dao.php');
 ?>

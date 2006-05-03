@@ -5,8 +5,8 @@
  */
 class S2Dao_PrefixSqlNode extends S2Dao_AbstractNode {
 
-    private $prefix_ = "";
-    private $sql_ = "";
+    private $prefix_ = '';
+    private $sql_ = '';
     
     public function __construct($prefix, $sql) {
         $this->prefix_ = $prefix;

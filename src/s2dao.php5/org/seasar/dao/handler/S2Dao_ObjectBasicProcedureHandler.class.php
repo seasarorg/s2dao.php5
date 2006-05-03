@@ -18,6 +18,7 @@ class S2Dao_ObjectBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHand
 			throw new S2Container_S2RuntimeException('EDAO0010');
 		}
 	}
+    
 	protected function execute2(PDO $connection, array $args){
 		try {
 			$stmt = $this->prepareCallableStatement($connection);

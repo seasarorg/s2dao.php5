@@ -1,9 +1,10 @@
 <?php
 require_once 'S2Container/S2Container.php';
-require_once dirname(dirname(dirname(__FILE__))) . '/S2Dao.php';
+require_once 'S2Dao/S2Dao.php';
 
-define('PDO_DICON', dirname(__FILE__) . '/resource/pdo.dicon');
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
+define('DAO_DICON', dirname(dirname(__FILE__)) . '/dao.dicon');
+define('PDO_DICON', dirname(__FILE__) . '/resource/pdo.dicon');
 define('S2DAO_PHP5_USE_COMMENT', true);
 
 if(class_exists('S2ContainerClassLoader')){
@@ -17,9 +18,4 @@ if(class_exists('S2ContainerClassLoader')){
         }
     }
 }
-
-if(class_exists('S2Container_AnnotationContainer')){
-    S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';
-}
-
 ?>

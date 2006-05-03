@@ -27,14 +27,14 @@
  * S2Dao System Definition
  *   SDao define these definitions.
  *   - S2DAO_PHP5 : S2DAO.PHP5 ROOT Directory
- *     [ string default /src/s2dao.php5 ]
+ *      [ string default /src/s2dao.php5 ]
  * 
  * User Definition
  *   User could define these definitions.
  *   - S2DAO_PHP5_USE_COMMENT : constant or comment annotation usage
- *     [ boolean: default false ]
+ *      [ boolean: default false ]
  *   needs: sets property S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER
- *     [S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';]
+ *      [S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';]
  *
  * Autoload function must be defined
  *   sample : use S2ContainerClassLoader
@@ -51,6 +51,34 @@
  *     }
  * 
  */
+ 
+/**
+ * PDO load check
+ */
+if(!extension_loaded('pdo')){
+    print("[ERROR] requirement : PDO. exit.\n");
+    exit;
+}
 
-require_once('build/s2dao.php5/S2Dao.php');
+/**
+ * S2Dao.PHP5 ROOT Directory
+ */
+define('S2DAO_PHP5',dirname(__FILE__) . DIRECTORY_SEPARATOR . 'S2Dao');
+ini_set('include_path', 
+        S2DAO_PHP5 . PATH_SEPARATOR . ini_get('include_path'));
+
+/**
+ * S2Dao.PHP5 Core Classes
+ */
+require_once 's2dao.core.classes.php';
+if(class_exists('S2ContainerClassLoader')){
+    S2ContainerClassLoader::import(S2DAO_PHP5);
+}
+
+/**
+ * Messages Resouce File
+ */
+if(class_exists('S2ContainerMessageUtil')){
+    S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5 . '/DaoMessages.properties');
+}
 ?>

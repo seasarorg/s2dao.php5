@@ -3,7 +3,7 @@
 /**
  * @author nowel
  */
-class S2Dao_PostgreProcedureMetaDatImpl implements S2Dao_ProcedureMetaData {
+class S2Dao_OracleProcedureMetaDatImpl implements S2Dao_ProcedureMetaData {
     
     private $connection;
     private $dbms;

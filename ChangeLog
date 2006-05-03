@@ -1,3 +1,15 @@
+2006-05-03 nowel(S2Dao.PHP5-1.1.0-RC2)
+
+    * phar package に対応しました。
+
+2006-04-29 nowel(S2Dao.PHP5-1.1.0-RC2)
+
+    * コメントアノテーションの記法をS2Dao-tigerとあわせました。
+        - 詳細はドキュメントをご覧になってください。
+    * E_STRICT レポートについて修正しました。
+    * PROCEDURE に対応しました。
+        - 現在はMySQLのみStored Functionに対応しています。
+
 2006-04-14 nowel(S2Dao.PHP5-1.1.0-RC2)
 
     * pdoのトランザクション機構提供開始(alpha)

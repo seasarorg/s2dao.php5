@@ -5,7 +5,7 @@
  */
 class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
 
-    private $expression_ = "";
+    private $expression_ = '';
     private $parsedExpression_ = null;
 
     public function __construct($expression) {
@@ -18,8 +18,8 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
     }
 
     public function accept(S2Dao_CommandContext $ctx) {
-        $expression = preg_replace("/^(\w+)(\s+.*)/i",
-                        "\$ctx->getArg(\"\\1\")" . "\\2", $this->parsedExpression_);
+        $expression = preg_replace('/^(\w+)(\s+.*)/i',
+                        '\$ctx->getArg("\1")' . '\2', $this->parsedExpression_);
         $expression = EvalUtil::getExpression($expression);
         $result = eval($expression);
         
@@ -46,12 +46,12 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
                 $clazz = get_class($o);
             }
         }
-        $ctx->addSql("(");
-        $ctx->addSql("?", $array[0], $clazz);
+        $ctx->addSql('(');
+        $ctx->addSql('?', $array[0], $clazz);
         for ($i = 1; $i < $length; ++$i) {
-            $ctx->addSql(", ?", $array[$i], $clazz);
+            $ctx->addSql(', ?', $array[$i], $clazz);
         }
-        $ctx->addSql(")");
+        $ctx->addSql(')');
     }
 }
 ?>
