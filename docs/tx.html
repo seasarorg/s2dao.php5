@@ -287,31 +287,31 @@ mandatoryInsert end
 getAll start
 [DEBUG]  - SELECT CD.CONTENT, CD.ID, CD.TITLE FROM CD
 object(S2Dao_ArrayList)#515 (3) {
-  [0]=>
+  [0]=&gt;
   object(CdBean)#518 (3) {
-    ["id:private"]=>
+    ["id:private"]=&gt;
     string(1) "1"
-    ["title:private"]=>
+    ["title:private"]=&gt;
     string(8) "S2Dao!!!"
-    ["content:private"]=>
+    ["content:private"]=&gt;
     string(7) "hello!!"
   }
-  [1]=>
+  [1]=&gt;
   object(CdBean)#519 (3) {
-    ["id:private"]=>
+    ["id:private"]=&gt;
     string(1) "4"
-    ["title:private"]=>
+    ["title:private"]=&gt;
     string(30) "Crazy Little Thing Called Love"
-    ["content:private"]=>
+    ["content:private"]=&gt;
     string(4) "rock"
   }
-  [2]=>
+  [2]=&gt;
   object(CdBean)#520 (3) {
-    ["id:private"]=>
+    ["id:private"]=&gt;
     string(1) "3"
-    ["title:private"]=>
+    ["title:private"]=&gt;
     string(18) "Staring At The Sun"
-    ["content:private"]=>
+    ["content:private"]=&gt;
     string(4) "rock"
   }
 }
@@ -319,7 +319,6 @@ getAll end
 [DEBUG]  - DELETE FROM CD WHERE ID = 3
 [DEBUG]  - DELETE FROM CD WHERE ID = 4
 [DEBUG]  - DELETE FROM CD WHERE ID = 5
-[DEBUG] S2ContainerMessageUtil::getMessageWithArgs - eval : [ return "Target for update must be single row(actual:{$args[1]}).({$args[0]})"; ]
 string(55) "Target for update must be single row(actual:0).(CdBean)"
 </pre>
 
