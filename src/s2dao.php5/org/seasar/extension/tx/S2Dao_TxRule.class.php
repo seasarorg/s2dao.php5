@@ -19,7 +19,7 @@ final class S2Dao_TxRule {
         $this->commit = $commit;
     }
 
-    public function isAssignableFrom(Exception $t) {
+    public function isAssignableFrom($t) {
         return $t instanceof Exception;
     }
 

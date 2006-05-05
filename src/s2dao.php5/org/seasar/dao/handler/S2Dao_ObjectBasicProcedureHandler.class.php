@@ -26,10 +26,10 @@ class S2Dao_ObjectBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHand
 			$stmt->execute();
             $c = count($this->columnInOutTypes_);
 			for ($i = 0; $i < $c; $i++) {
-				//if($this->isOutputColum($this->columnTypes_[$i])){
+				if($this->isOutputColum($this->columnInOutTypes_[$i])){
                     $row = $stmt->fetch(PDO::FETCH_NUM, $i + 1);
                     return $row[0];
-				//}
+				}
 			}
 			return null;
 		} catch (Exception $e) {

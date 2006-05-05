@@ -8,7 +8,7 @@ class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
     private $connection;
     private $dbms;
     private $procedureParam;
-    private static $analyzed = false;
+    private $analyzed = false;
     
     public function __construct(PDO $connection, S2Dao_Dbms $dbms){
         $this->connection = $connection;
@@ -29,15 +29,13 @@ class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
         $procedures = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $ret = array();
         foreach($procedures as $procedure){
-            $info = array(
-                        'Catalog' => $procedure['db'],
-                        'Scheme' => '',
-                        'Name' => $procedure['name'],
-                    );
-            if(strcasecmp($procedure['type'],'PROCEDURE') == 0){
-                $info['Type'] = self::STORED_PROCEDURE;
+            $info = new S2Dao_ProcedureInfo();
+            $info->setCatalog($procedure['db']);
+            $info->setName($procedure['name']);
+            if(strcasecmp($procedure['type'], 'PROCEDURE') == 0){
+                $info->setType(self::STORED_PROCEDURE);
             } else {
-                $info['Type'] = self::STORED_FUNCTION;
+                $info->setType(self::STORED_FUNCTION);
             }
             $ret[] = $info;
         }
@@ -45,74 +43,75 @@ class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
         return $ret;
     }
 
-    private function analyzeProcedureParams(array $procedureInfo){
-        /*
-        if(!array_key_exists(array('Catalog', 'Scheme', 'Name'), $procedureInfo)){
-            throw new Exception();
-        }
-        */
-        
-        if(self::$analyzed){
+    private function analyzeProcedureParams(S2Dao_ProcedureInfo $procedureInfo){
+        if($this->analyzed){
             return $this->procedureParam;
         }
         
-        $catalog = $procedureInfo['Catalog'];
-        $procedureName = $procedureInfo['Name'];
-        
         $sql = $this->dbms->getProcedureInfoSql();
         $stmt = $this->connection->prepare($sql);
-        $stmt->bindValue(S2Dao_Dbms::BIND_DB, $catalog);
-        $stmt->bindValue(S2Dao_Dbms::BIND_NAME, $procedureName);
+        $stmt->bindValue(S2Dao_Dbms::BIND_DB, $procedureInfo->getCatalog());
+        $stmt->bindValue(S2Dao_Dbms::BIND_NAME, $procedureInfo->getName());
         $stmt->execute();
-
+        
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $this->procedureParam = $result['param_list'];
+        $this->analyzed = true;
     }
     
-    public function getProcedureColumnsIn(array $procedureInfo){
+    public function getProcedureColumnsIn(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
         
         $inType = array();
-        preg_match_all('/(IN\s+?(\S+)\s+?(\S+),?)/i', $this->procedureParam, $match, PREG_SET_ORDER);
-        foreach($match as $m){
-            $in = explode(',', $m[3]);
-            $inType[] = array(
-                            'name' => $m[2],
-                            'type' => trim($in[0])
-                        );
+        $params = explode(',', $this->procedureParam);
+        foreach($params as $param){
+            $param = trim($param);
+            if(preg_match_all('/(^IN\s+?(.+)\s+?(.+))/i', $param, $match, PREG_SET_ORDER)){
+                foreach($match as $m){
+                    $type = new S2Dao_ProcedureType(trim($m[2]), trim($m[3]));
+                    $type->setInout(S2Dao_ProcedureMetaData::INTYPE);
+                    $inType[] = $type;
+                }
+            }
         }
-        
         return $inType;
     }
-    public function getProcedureColumnsOut(array $procedureInfo){
+    public function getProcedureColumnsOut(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
         
         $outType = array();
-        preg_match_all('/(OUT\s+?(\S+)\s+?(\S+),?)/i', $this->procedureParam, $match, PREG_SET_ORDER);
-        foreach($match as $m){
-            $out = explode(',', $m[3]);
-            $outType[] = array(
-                            'name' => $m[2],
-                            'type' => trim($out[0])
-                        );
+        $params = explode(',', $this->procedureParam);
+        foreach($params as $param){
+            $param = trim($param);
+            if(preg_match_all('/(^OUT\s+?(.+)\s+?(.+))/i', $param, $match, PREG_SET_ORDER)){
+                foreach($match as $m){
+                    $type = new S2Dao_ProcedureType(trim($m[2]), trim($m[3]));
+                    $type->setInout(S2Dao_ProcedureMetaData::OUTTYPE);
+                    $outType[] = $type;
+                }
+            }
         }
-        
         return $outType;
     }
-    public function getProcedureColumnsInOut(array $procedureInfo){
+    public function getProcedureColumnsInOut(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
         
         $inoutType = array();
-        preg_match_all('/(^(IN|OUT)?(\S+)\s+?(\S+),?)/i', $this->procedureParam, $match, PREG_SET_ORDER);
-        foreach($match as $m){
-            if(!preg_match('/IN|OUT/i', $m[3])){
-                $inoutType[] = array(
-                                'name' => null,
-                                'type' => null,
-                            );
+        $params = explode(',', $this->procedureParam);
+        
+        foreach($params as $param){
+            $param = trim($param);
+            if(preg_match_all('/((^INOUT\s+)?(.+)\s+?(.+))/i', $param, $match, PREG_SET_ORDER)){
+                foreach($match as $m){
+                   if(preg_match('/^(IN|OUT)\s+?/i', $m[3])){
+                        continue;
+                    }
+                    $type = new S2Dao_ProcedureType(trim($m[3]), trim($m[4]));
+                    $type->setInout(S2Dao_ProcedureMetaData::INOUTTYPE);
+                    $inoutType[] = $type;
+                }
             }
         }
-        
         return $inoutType;
     }
 }

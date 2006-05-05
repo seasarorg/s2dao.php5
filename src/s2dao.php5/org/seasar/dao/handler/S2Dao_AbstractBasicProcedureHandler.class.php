@@ -83,7 +83,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         $prcInfo = $this->confirmProcedureName($connection, $metadata);
         
         $buff = '';
-        if($prcInfo['Type'] == S2Dao_ProcedureMetaData::STORED_PROCEDURE){
+        if($prcInfo->getType() == S2Dao_ProcedureMetaData::STORED_PROCEDURE){
             $buff .= '{CALL ';
         } else {
             $buff .= 'SELECT ';
@@ -94,40 +94,38 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         $dataType = new S2Dao_ArrayList();
         $inOutTypes = new S2Dao_ArrayList();
         $outparameterNum = 0;
-        $throughColumn = false;
+        
         try {
             $inTypeColumn = $metadata->getProcedureColumnsIn($prcInfo);
             $outTypeColumn = $metadata->getProcedureColumnsOut($prcInfo);
             $inoutTypeColumn = $metadata->getProcedureColumnsInOut($prcInfo);
-            
-            foreach($inTypeColumn as $inType){
-                $buff .= '?,';
-                $columnNames->add($inType['name']);
-                $dataType->add(array('in', $inType['type']));
-                $throughColumn = true;
-            }
-            
-            $merge = array_merge($outTypeColumn, $inoutTypeColumn);
-            foreach($merge as $m){
-                $buff .= '?,';
-                $inOutTypes->add($m['type']);
-                $dataType->add(array('out', $m['type']));
-                $throughColumn = true;
-            }
-            
-            if(!$throughColumn){
-                throw new S2Container_S2RuntimeException('EDAO0010',
-                                            array($this->procedureName_));
-            }
 
+            $merge = array_merge($inTypeColumn, $outTypeColumn, $inoutTypeColumn);
+            foreach($merge as $m){
+                $columnNames->add($m->getName());
+                $dataType->add($m->getType());
+                $inOutTypes->add($m->getInout());
+                
+                if($m->getInout() == S2Dao_ProcedureMetaData::INTYPE){
+                    $buff .= '?,';
+                } else if($m->getInout() == S2Dao_ProcedureMetaData::OUTTYPE ||
+                          $m->getInout() == S2Dao_ProcedureMetaData::INOUTTYPE){
+                    $buff .= '?,';
+                    $outparameterNum++;
+                } else {
+                    throw new S2Container_S2RuntimeException('EDAO0010', array($this->procedureName_));
+                }
+            }
+            
             $buff = preg_replace('/(,$)/', '', $buff);
         } catch (Exception $e) {
             throw new S2Dao_SQLRuntimeException($e);
         }
         $buff .= ')';
-        if($prcInfo['Type'] == S2Dao_ProcedureMetaData::STORED_PROCEDURE){
+        if($prcInfo->getType() == S2Dao_ProcedureMetaData::STORED_PROCEDURE){
             $buff .= '}';
         }
+        
         $this->sql_ = $buff;
         $this->columnNames_ = $columnNames->toArray();
         $this->columnTypes_ = $dataType->toArray();
@@ -141,38 +139,32 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
     
     abstract protected function execute2(PDO $connection, array $args);
     
-    // FIXME
     protected function bindArgs(PDOStatement $ps, array $args = null) {
         if ($args == null) {
             return;
         }
         
-        for($i = 0; $i < count($args); $i++){
-            $ps->bindValue($i + 1, $args[$i], $this->getValueType($args[$i]));
-        }
-        
-        /*
         $argPos = 0;
         for ($i = 0; $i < count($this->columnTypes_); $i++) {
-            if($this->isOutputColum($this->columnTypes_[$i])){
-                $ps->bindParam($i + 1, $param, PDO::PARAM_INT|PDO::PARAM_INPUT_OUTPUT);
+            if($this->isOutputColum($this->columnInOutTypes_[$i])){
+                $pdoType = $this->getValueType($args[$argPos]);
+                $param = null;
+                $ps->bindValue($i + 1, $args[$argPos++], $pdoType|PDO::PARAM_INPUT_OUTPUT);
             }
-            if($this->isInputColum($this->columnTypes_[$i])){
-                $ps->bindValue($i + 1, $args[$argPos], $this->getValueType($args[$argPos]));
-                $argPos++;
+            if($this->isInputColum($this->columnInOutTypes_[$i])){
+                $pdoType = $this->getValueType($args[$argPos]);
+                $ps->bindValue($i + 1, $args[$argPos], $pdoType);
             }
         }
-        */
     }
 
-    // FIXME    
-    protected function isInputColum(array $columnInOutType){
-        return $columnInOutType[0] == 'in';
+    protected function isInputColum($columnInOutType){
+        return $columnInOutType == S2Dao_ProcedureMetaData::INTYPE;
     }
     
-    // FIXME
-    protected function isOutputColum(array $columnInOutType){
-        return $columnInOutType[0] == 'out';
+    protected function isOutputColum($columnInOutType){
+        return $columnInOutType == S2Dao_ProcedureMetaData::OUTTYPE ||
+               $columnInOutType == S2Dao_ProcedureMetaData::INOUTTYPE;
     }
 
     protected function getCompleteSql($args = null) {

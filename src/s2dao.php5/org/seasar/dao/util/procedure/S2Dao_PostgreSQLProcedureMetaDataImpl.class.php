@@ -16,13 +16,13 @@ class S2Dao_PostgreProcedureMetaDatImpl implements S2Dao_ProcedureMetaData {
     public function getProcedures($catalog = null, $scheme = null, $procedureName){
     }
 
-    public function getProcedureColumnsIn(array $procedureInfo){
+    public function getProcedureColumnsIn(S2Dao_ProcedureInfo $procedureInfo){
     }
     
-    public function getProcedureColumnsOut(array $procedureInfo){
+    public function getProcedureColumnsOut(S2Dao_ProcedureInfo $procedureInfo){
     }
     
-    public function getProcedureColumnsInOut(array $procedureInfo){
+    public function getProcedureColumnsInOut(S2Dao_ProcedureInfo $procedureInfo){
     }
 }
 

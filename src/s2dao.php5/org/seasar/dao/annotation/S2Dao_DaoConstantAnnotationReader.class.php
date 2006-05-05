@@ -78,7 +78,6 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     }
     
     public function getReturnType(ReflectionMethod $method){
-        // FIXME
         if(preg_match(self::RETURN_TYPE_MAP, $method->getName())){
             return 'Map';
         }

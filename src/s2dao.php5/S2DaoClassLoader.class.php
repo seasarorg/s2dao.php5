@@ -175,6 +175,8 @@ class S2DaoClassLoader {
         'S2Dao_OracleProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_OracleProcedureMetaDataImpl.class.php',
         'S2Dao_PostgreSQLProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_PostgreSQLProcedureMetaDataImpl.class.php',
         'S2Dao_ProcedureMetaDataFactory' => '/dao/util/procedure/S2Dao_ProcedureMetaDataFactory.class.php',
+        'S2Dao_ProcedureInfo' => '/dao/util/procedure/S2Dao_ProcedureInfo.class.php',
+        'S2Dao_ProcedureType' => '/dao/util/procedure/S2Dao_ProcedureType.class.php',
     );
 
     public static function load($className){
