@@ -70,7 +70,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
 
     public function getPropertyTypeByColumnName($columnName) {
-        $columnName = strtoupper($columnName);
+        $columnName = strtolower($columnName);
         $propertyType = $this->propertyTypesByColumnName_->get($columnName);
         if ($propertyType === null) {
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $columnName);
@@ -296,7 +296,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $c = $this->getPropertyTypeSize();
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->getPropertyType($i);
-            $columnName = strtoupper($pt->getColumnName());
+            $columnName = strtolower($pt->getColumnName());
             $this->propertyTypesByColumnName_->put($columnName, $pt);
         }
     }

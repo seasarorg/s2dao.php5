@@ -181,7 +181,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-    private function pg_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
+    private static function pg_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
         $stmt = $db->prepare($dbms->getPrimaryKeySql());
         $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table);
         $stmt->execute();
@@ -193,7 +193,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
     }
 
-    private function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
+    private static function firebird_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
         $retVal = array();
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getTableInfoSql());
         $stmt = $db->query($sql);
@@ -211,7 +211,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         return $retVal;
     }
 
-    private function oracle_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
+    private static function oracle_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
         $retVal = array();
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, '\''.$table.'\'', $dbms->getTableInfoSql());
         $stmt = $db->prepare($sql);

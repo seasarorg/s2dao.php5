@@ -38,5 +38,22 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
                'AND a.attrelid = r.oid AND a.attnum = any (c.conkey) ' .
                'AND r.relname = ' . self::BIND_TABLE . ' AND c.contype = \'p\'';
     }
+    
+    public function getProcedureNamesSql(){
+        return 'SELECT p.proname, ns.nspname AS Scheme' .
+               ' FROM pg_proc p LEFT JOIN pg_namespace ns ON ns.oid = p.pronamespace' .
+               ' WHERE p.proname = lower(' . self::BIND_NAME . ')' .
+               ' AND ns.nspname LIKE lower(' . self::BIND_SCHEME . ')';
+    }
+    
+    public function getProcedureInfoSql(){
+        return 'SELECT format_type(p.prorettype, NULL) AS ArgsTypes,' .
+               ' oidvectortypes(p.proargtypes) AS ResultType, ' .
+               ' p.proargnames as ArgsNames ' .
+               'FROM pg_proc p, pg_namespace ns' .
+               ' WHERE ns.oid = p.pronamespace' .
+               ' AND ns.nspname = ' . self::BIND_SCHEME .
+               ' AND p.proname = ' . self::BIND_NAME;
+    }
 }
 ?>

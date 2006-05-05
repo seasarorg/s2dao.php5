@@ -1,4 +1,5 @@
-CREATE FUNCTION SALES_TAX(IN sales real,OUT tax real) AS $$
+-- testing PostgreSQL 8.1.3 over
+CREATE OR REPLACE FUNCTION SALES_TAX(IN sales real, OUT tax real) AS $$
 BEGIN
     tax := sales * 0.2;
 END;

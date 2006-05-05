@@ -10,8 +10,10 @@ class S2Dao_ProcedureMetaDataFactory {
         
         if($dbms instanceof S2Dao_MySQL){
             return new S2Dao_MySQLProcedureMetaDataImpl($connection, $dbms);
+        } else if($dbms instanceof S2Dao_PostgreSQL){
+            return new S2Dao_PostgreSQLProcedureMetaDataImpl($connection, $dbms);
         } else {
-            throw new Exception('not supported ' . $dbms->getSuffix());
+            throw new Exception('not supported ' . get_class($dbms));
         }
     }
     

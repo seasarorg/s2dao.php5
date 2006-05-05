@@ -22,8 +22,8 @@ class S2Dao_MySQL extends S2Dao_Standard {
     }
     
     public function getProcedureNamesSql(){
-        return 'SELECT * FROM mysql.proc WHERE db LIKE ' . self::BIND_DB .
-               ' AND name = ' . self::BIND_NAME;
+        return 'SELECT p.name, p.db FROM mysql.proc p WHERE p.db LIKE ' . self::BIND_DB .
+               ' AND p.name = ' . self::BIND_NAME;
     }
     
     public function getProcedureInfoSql(){
