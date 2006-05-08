@@ -56,64 +56,37 @@ class S2Dao_PostgreSQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
     public function getProcedureColumnsIn(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
         
-        die;
         $inType = array();
-        $params = explode(',', $this->procedureParam);
-        foreach($params as $param){
-            $param = trim($param);
-            if(preg_match_all('/(^IN\s+?(.+)\s+?(.+))/i', $param, $match, PREG_SET_ORDER)){
-                foreach($match as $m){
-                    $type = new S2Dao_ProcedureType();
-                    $type->setName(trim($m[999]));
-                    $type->setType(trim($m[1000]));
-                    $type->setInout(S2Dao_ProcedureMetaData::INTYPE);
-                    $inType[] = $type;
-                }
-            }
+        $args = explode(',', $this->procedureParam['argstypes']);
+        $names = explode(',', str_replace(array('{', '}'), '', $this->procedureParam['argsnames']));
+
+        $params = array_combine($names, $args);
+        foreach($params as $name => $arg){
+            $type = new S2Dao_ProcedureType();
+            $type->setName(trim($name));
+            $type->setType(trim($arg));
+            $type->setInout(S2Dao_ProcedureMetaData::INTYPE);
+            $inType[] = $type;
         }
+        
         return $inType;
     }
     
     public function getProcedureColumnsOut(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
         
-        die;
         $outType = array();
-        $params = explode(',', $this->procedureParam);
-        foreach($params as $param){
-            $param = trim($param);
-            if(preg_match_all('/(^OUT\s+?(.+)\s+?(.+))/i', $param, $match, PREG_SET_ORDER)){
-                foreach($match as $m){
-                    $type = new S2Dao_ProcedureType(trim($m[2]), trim($m[3]));
-                    $type->setInout(S2Dao_ProcedureMetaData::OUTTYPE);
-                    $outType[] = $type;
-                }
-            }
-        }
         return $outType;
     }
     
     public function getProcedureColumnsInOut(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
-        
-        die;
+
         $inoutType = array();
-        $params = explode(',', $this->procedureParam);
-        
-        foreach($params as $param){
-            $param = trim($param);
-            if(preg_match_all('/((^INOUT\s+)?(.+)\s+?(.+))/i', $param, $match, PREG_SET_ORDER)){
-                foreach($match as $m){
-                   if(preg_match('/^(IN|OUT)\s+?/i', $m[3])){
-                        continue;
-                    }
-                    $type = new S2Dao_ProcedureType(trim($m[3]), trim($m[4]));
-                    $type->setInout(S2Dao_ProcedureMetaData::INOUTTYPE);
-                    $inoutType[] = $type;
-                }
-            }
-        }
         return $inoutType;
+    }
+    
+    public function getProcedureColumnReturn(S2Dao_ProcedureInfo $procedureInfo){
     }
 }
 

@@ -76,6 +76,7 @@ class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
         }
         return $inType;
     }
+    
     public function getProcedureColumnsOut(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
         
@@ -93,6 +94,7 @@ class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
         }
         return $outType;
     }
+    
     public function getProcedureColumnsInOut(S2Dao_ProcedureInfo $procedureInfo){
         $this->analyzeProcedureParams($procedureInfo);
         
@@ -113,6 +115,9 @@ class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
             }
         }
         return $inoutType;
+    }
+    
+    public function getProcedureColumnReturn(S2Dao_ProcedureInfo $procedureInfo){
     }
 }
 

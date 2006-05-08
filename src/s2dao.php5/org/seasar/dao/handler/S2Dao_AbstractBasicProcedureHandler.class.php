@@ -66,11 +66,9 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         }
         
         if(count($rs) == 0){
-            throw new S2Container_S2RuntimeException('EDAO0012',
-                                        array($this->procedureName_));
+            throw new S2Container_S2RuntimeException('EDAO0012', array($this->procedureName_));
         } else if(count($rs) > 1){
-            throw new S2Container_S2RuntimeException('EDAO0013',
-                                        array($this->procedureName_));
+            throw new S2Container_S2RuntimeException('EDAO0013', array($this->procedureName_));
         } else {
             return $rs[0];
         }
@@ -102,14 +100,20 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
 
             $merge = array_merge($inTypeColumn, $outTypeColumn, $inoutTypeColumn);
             foreach($merge as $m){
+                $columnType = $m->getInout();
                 $columnNames->add($m->getName());
                 $dataType->add($m->getType());
-                $inOutTypes->add($m->getInout());
+                $inOutTypes->add($columnType);
                 
-                if($m->getInout() == S2Dao_ProcedureMetaData::INTYPE){
+                if($columnType == S2Dao_ProcedureMetaData::INTYPE){
                     $buff .= '?,';
-                } else if($m->getInout() == S2Dao_ProcedureMetaData::OUTTYPE ||
-                          $m->getInout() == S2Dao_ProcedureMetaData::INOUTTYPE){
+                } else if($columnType == S2Dao_ProcedureMetaData::RETURNTYPE){
+                    $buff = '';
+                    $buff .= '{? = call ';
+                    $buff .= $this->procedureName_;
+                    $buff .= '(';
+                } else if($columnType == S2Dao_ProcedureMetaData::OUTTYPE ||
+                          $columnType == S2Dao_ProcedureMetaData::INOUTTYPE){
                     $buff .= '?,';
                     $outparameterNum++;
                 } else {
@@ -153,7 +157,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
             }
             if($this->isInputColum($this->columnInOutTypes_[$i])){
                 $pdoType = $this->getValueType($args[$argPos]);
-                $ps->bindValue($i + 1, $args[$argPos], $pdoType);
+                $ps->bindValue($i + 1, $args[$argPos++], $pdoType);
             }
         }
     }

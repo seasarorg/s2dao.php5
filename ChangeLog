@@ -1,3 +1,13 @@
+2006-05-08 nowel(S2Dao.PHP5-1.1.0-RC3)
+
+    * S2DaoSkeletonTask を修正しました。
+
+	* PROCEDURE アノテーション
+	    - 現在OUT、INOUTパラメータを必要とするStored Function、Stored Procedureには対応していません。
+	     IN パラメータのみバインドします。
+    * PROCEDURE アノテーション対応DBMSが増えました。
+        - PostgreSQL
+
 2006-05-03 nowel(S2Dao.PHP5-1.1.0-RC2)
 
 ================ S2Dao.PHP5-1.1.0-RC2 更新履歴 ===================

@@ -24,6 +24,9 @@ class S2Dao_OracleProcedureMetaDatImpl implements S2Dao_ProcedureMetaData {
     
     public function getProcedureColumnsInOut(S2Dao_ProcedureInfo $procedureInfo){
     }
+    
+    public function getProcedureColumnReturn(S2Dao_ProcedureInfo $procedureInfo){
+    }
 }
 
 ?>

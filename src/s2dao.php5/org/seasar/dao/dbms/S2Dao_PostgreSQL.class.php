@@ -47,8 +47,8 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
     }
     
     public function getProcedureInfoSql(){
-        return 'SELECT format_type(p.prorettype, NULL) AS ArgsTypes,' .
-               ' oidvectortypes(p.proargtypes) AS ResultType, ' .
+        return 'SELECT format_type(p.prorettype, NULL) AS ResultTypes,' .
+               ' oidvectortypes(p.proargtypes) AS ArgsTypes, ' .
                ' p.proargnames as ArgsNames ' .
                'FROM pg_proc p, pg_namespace ns' .
                ' WHERE ns.oid = p.pronamespace' .
