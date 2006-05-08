@@ -53,6 +53,15 @@ class S2DaoSkeletonTask extends Task {
     private $pass = "";
     
     public function init(){
+        require_once "S2Container/S2Container.php";
+        require_once "S2Dao/S2Dao.php";
+        
+        // require DBMS classes
+        require_once "S2Dao/S2Dao/S2Dao_MySQL.class.php";
+        require_once "S2Dao/S2Dao/S2Dao_PostgreSQL.class.php";
+        require_once "S2Dao/S2Dao/S2Dao_SQLite.class.php";
+        require_once "S2Dao/S2Dao/S2Dao_Firebird.class.php";
+        require_once "S2Dao/S2Dao/S2Dao_Oracle.class.php";
     }
     
     public function main(){
@@ -85,16 +94,6 @@ class S2DaoSkeletonTask extends Task {
         $this->user = $this->getProject()->getProperty("user");
         $this->pass = $this->getProject()->getProperty("password");
         $this->skeldir = dirname(__FILE__) . S2DaoSkelConst::SkelDir;
-
-        define("S2DAO_PHP5", $srcdir . DIRECTORY_SEPARATOR . $pjname);
-        require_once "S2Dao/S2Dao/S2DaoClassLoader.class.php";
-        if(!class_exists("S2DaoClassLoader")){
-            throw new BuildException(__CLASS__ . "required: S2DaoClassLoader.class.php");
-        }        
-        
-        function __autoload($class){
-            S2DaoClassLoader::load($class);
-        }
     }
     
     private function generateDao(S2DaoSkeletonGen $skel){
