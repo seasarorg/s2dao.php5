@@ -15,4 +15,11 @@ interface StoredProcedureTestDao {
 	//const getSalesTax4Map_PROCEDURE = "SALES_TAX4";
 	//public function getSalesTax4Map($subtotal);
 }
+
+// SQLite Stored function:PHP Function
+function SALES_TAX2($sales){
+    return $sales * 0.2;
+}
+// SQLite Stored function
+
 ?>

@@ -7,6 +7,11 @@
 	     IN パラメータのみバインドします。
     * PROCEDURE アノテーション対応DBMSが増えました。
         - PostgreSQL
+        - SQLite
+          - 詳しくはサンプルをご覧になってください。(StoredProcedureTestDao.class.php -> SALES_TAX2)
+          * SQLite の場合 StoredFunction/Procedureに対応していないため
+            PHP Functionを代用します。
+            ref - http://jp.php.net/manual/en/function.pdo-sqlitecreatefunction.php
 
 2006-05-03 nowel(S2Dao.PHP5-1.1.0-RC2)
 

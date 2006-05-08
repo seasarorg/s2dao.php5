@@ -167,7 +167,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         return $retVal;
     }
     
-    private function sqlite_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
+    private static function sqlite_metadata(PDO $db, S2Dao_Dbms $dbms, $table, array &$retVal){
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $dbms->getPrimaryKeySql());
         $stmt = $db->prepare($sql);
         $stmt->execute();
