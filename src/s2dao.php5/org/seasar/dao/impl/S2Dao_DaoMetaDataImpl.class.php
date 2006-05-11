@@ -216,7 +216,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 if ($query != null) {
                     if (self::startsWithOrderBy($query)) {
                         $buf .= ' ';
-                    } else if (stripos($sql, 'WHERE') === false) {
+                    } else if (strripos($sql, 'WHERE') === false) {
                         $buf .= ' WHERE ';
                     } else {
                         $buf .= ' AND ';
@@ -240,7 +240,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if ($query == null) {
             return false;
         }
-        return preg_match(self::startWithOrderByPattern, $query);
+        return preg_match(self::startWithOrderByPattern, trim($query));
     }
 
     protected function createResultSetHandler(ReflectionMethod $method) {
@@ -415,11 +415,18 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             // FIXME
             $param = $method->getParameters();
             if (count($argNames) == 0 && count($param) == 1) {
-                // $argNames = array('dto');
+                $argNames = array('dto');
                 $sql = $this->createAutoSelectSqlByDto($param[0]->getClass());
             } else {
-                //$sql = $this->createAutoSelectSql($argNames);
-                $sql = $this->createAutoSelectSql(array());
+                // FIXME
+                for($i = 0; $i < count($argNames); $i++){
+                    if(!$this->beanMetaData_->hasPropertyTypeByColumnName($argNames[$i])){
+                        //$argNames[$i] = null;
+                        $argNames = array();
+                        break;
+                    }
+                }
+                $sql = $this->createAutoSelectSql($argNames);
             }
             if ($query != null) {
                 $sql .= ' ' . $query;
@@ -437,8 +444,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         }
         
         $buf = $sql;
-        $dmd = new S2Dao_DtoMetaDataImpl($dtoClass,
-                $this->annotationReaderFactory_->createBeanAnnotationReader($dtoClass));
+        $dmd = $this->createDtoMetaData($dtoClass);
 
         $began = false;
         if (stripos($sql, 'WHERE') === false) {
@@ -452,11 +458,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             if (!$this->beanMetaData_->hasPropertyTypeByAliasName($aliasName)) {
                 continue;
             }
-            /*
-            if (!is_object($this->beanMetaData_->getPropertyTypeByAliasName($aliasName))){
-                continue;
-            }
-            */
             if (!$this->beanMetaData_->getPropertyTypeByAliasName($aliasName)->isPersistent()) {
                 continue;
             }
@@ -464,7 +465,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $propertyName = 'dto.' . $pt->getPropertyName();
             $buf .= '/*IF ';
             $buf .= $propertyName;
-            $buf .= ' != null*/';
+            $buf .= ' !== null*/';
             $buf .= ' ';
             if (!$began || $i != 0) {
                 $buf .= 'AND ';
@@ -479,6 +480,13 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $buf .= '/*END*/';
         }
         return $buf;
+    }
+    
+    private function createDtoMetaData($dtoClass) {
+        $dtoMetaData = new S2Dao_DtoMetaDataImpl($dtoClass,
+                    $this->getAnnotationReaderFactory()->createBeanAnnotationReader($dtoClass));
+        $dtoMetaData->initialize();
+        return $dtoMetaData;
     }
 
     protected function createAutoSelectSql(array $argNames) {
@@ -495,7 +503,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 $columnName = $this->beanMetaData_->convertFullColumnName($argName);
                 $buf .= '/*IF ';
                 $buf .= $argName;
-                $buf .= ' != null*/';
+                $buf .= ' !== null*/';
                 $buf .= ' ';
                 if (!$began || $key != 0) {
                     $buf .= 'AND ';

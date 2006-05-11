@@ -52,7 +52,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
             $token = $st->skipToken();
             $st->skipWhitespace();
 
-            if( eregi('AND',$token) || eregi('OR',$token) ){
+            if(eregi('AND', $token) || eregi('OR', $token)){
                 $node->addChild(new S2Dao_PrefixSqlNode($st->getBefore(), $st->getAfter()));
             } else {
                 $node->addChild(new S2Dao_SqlNode($sql));
@@ -125,7 +125,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
         if ($s !== false && ereg('^\(', $s) && ereg('\)$', $s) ) {
             $this->peek()->addChild(new S2Dao_ParenBindVariableNode($expr));
         } else if (ereg('^\$', $expr)) {
-            $this->peek()->addChild(new S2Dao_EmbeddedValueNode(substr($expr,1)));
+            $this->peek()->addChild(new S2Dao_EmbeddedValueNode(substr($expr, 1)));
         } else {
             $this->peek()->addChild(new S2Dao_BindVariableNode($expr));
         }

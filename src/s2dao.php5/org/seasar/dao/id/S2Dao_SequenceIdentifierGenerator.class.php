@@ -29,7 +29,7 @@ class S2Dao_SequenceIdentifierGenerator extends S2Dao_AbstractIdentifierGenerato
     }
 
     public function isSelfGenerate() {
-        return true;
+        return $this->getDbms()->isSelfGenerate();
     }
 }
 ?>

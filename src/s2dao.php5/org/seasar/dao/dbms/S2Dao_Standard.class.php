@@ -5,6 +5,7 @@
  */
 class S2Dao_Standard implements S2Dao_Dbms {
 
+    const baseSqlPattern = '/^.*?(select)/i';
     private $autoSelectFromClauseCache_ = null;
 
     public function __construct(){
@@ -62,6 +63,18 @@ class S2Dao_Standard implements S2Dao_Dbms {
         }
 
         return $buf;
+    }
+    
+    public function isSelfGenerate() {
+        return true;
+    }
+    
+    public function getBaseSql($sql) {
+        if (preg_match(self::baseSqlPattern, $sql, $m)) {
+            return $m[1];
+        } else {
+            return $sql;
+        }
     }
 
     public function getIdentitySelectString() {

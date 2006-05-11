@@ -5,12 +5,11 @@ interface EmployeeAutoDao {
 
     public function getAllEmployeesList();
 
-    public function getEmployeeByJobDeptnoList($job = null, $deptno = null);
+    public function getEmployeeByJobDeptnoList($job = '', $deptno = '');
 
     public function getEmployeeByEmpno($empno);
 
-    // FIXME
-    //const getEmployeesBySalList_QUERY = "EMP.sal BETWEEN ? AND ? ORDER BY empno";
+    const getEmployeesBySalList_QUERY = "WHERE EMP.sal BETWEEN ? AND ? ORDER BY EMP.empno";
 
     public function getEmployeesBySalList($minSal, $maxSal);
 

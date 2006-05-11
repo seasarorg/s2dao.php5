@@ -68,5 +68,10 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     protected function addPropertyType(S2Dao_PropertyType $propertyType) {
         $this->propertyTypes_[$propertyType->getPropertyName()] = $propertyType;
     }
+    
+    public function initialize() {
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($this->getBeanClass());
+        $this->setupPropertyType($beanDesc);
+    }
 }
 ?>
