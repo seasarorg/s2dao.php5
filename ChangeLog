@@ -1,3 +1,8 @@
+2006-05-12 nowel(S2Dao.PHP5-1.1.0-RC3)
+
+    * fix: Dto処理を修正しました。
+    * fix: SQLコメントのバインド変数処理を修正しました。
+
 2006-05-08 nowel(S2Dao.PHP5-1.1.0-RC3)
 
     * S2DaoSkeletonTask を修正しました。

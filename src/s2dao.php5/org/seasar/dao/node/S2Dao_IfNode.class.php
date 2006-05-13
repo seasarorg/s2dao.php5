@@ -12,6 +12,13 @@ class S2Dao_IfNode extends S2Dao_ContainerNode {
     public function __construct($expression) {
         $this->expression_ = $expression;
         $this->parsedExpression_ = quotemeta($expression);
+        $this->parseExpByManual();
+    }
+    
+    private function parseExpByManual(){
+        $exp = $this->parsedExpression_;
+        $exp = str_replace('\.', '.', $exp);
+        $this->parsedExpression_ = $exp;
     }
 
     public function getExpression() {

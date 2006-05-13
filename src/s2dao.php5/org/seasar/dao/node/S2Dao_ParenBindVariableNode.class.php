@@ -30,7 +30,7 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
         } else if (is_array($result)) {
             $this->bindArray($ctx, $result);
         } else {
-            $ctx->addSql("?", $result, get_class($result));
+            $ctx->addSql('?', $result, get_class($result));
         }
     }
 
@@ -44,6 +44,13 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
             $o = $array[$i];
             if ($o != null) {
                 $clazz = get_class($o);
+                /*
+                if(is_object($o)){
+                    $clazz = get_class($o);
+                } else {
+                    $clazz = gettype($o);
+                }
+                */
             }
         }
         $ctx->addSql('(');

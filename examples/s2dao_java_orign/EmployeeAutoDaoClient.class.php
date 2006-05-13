@@ -6,7 +6,7 @@ $dao = $container->getComponent("EmployeeAutoDao");
 
 $dao->getEmployeeByJobDeptnoList(null, null);
 $dao->getEmployeeByJobDeptnoList("CLERK", null);
-//$dao->getEmployeeByJobDeptnoList(null, 20);
+$dao->getEmployeeByJobDeptnoList('', 20);
 $dao->getEmployeeByJobDeptnoList("CLERK", 20);
 
 $employees = $dao->getEmployeesBySalList(0, 1000);

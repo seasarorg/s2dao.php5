@@ -76,8 +76,8 @@ class S2Dao_InsertAutoDynamicCommand implements S2Dao_SqlCommand {
             }
             if ($pt->getPropertyDesc()->getValue($bean) == null) {
                 $propertyName = $pt->getPropertyName();
-                if (!strcasecmp($propertyName, $timestampPropertyName) == 0
-                        && !strcasecmp($propertyName, $versionNoPropertyName) == 0) {
+                if (!(strcasecmp($propertyName, $timestampPropertyName) == 0)
+                        && !(strcasecmp($propertyName, $versionNoPropertyName) == 0)) {
                     continue;
                 }
             } else {
