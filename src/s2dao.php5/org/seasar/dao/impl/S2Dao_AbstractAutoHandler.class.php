@@ -176,7 +176,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             $pt = $this->propertyTypes_[$i];
             $propName = $pt->getPropertyName();
             if (strcasecmp($propName, $timestampPropertyName) == 0) {
-                $this->setTimestamp(time());
+                $this->setTimestamp(date('Y-m-d H:i:s', time()));
                 $varList->add($this->getTimestamp());
             } else if (strcmp($propName, $versionNoPropertyName) == 0) {
                 $value = $pt->getPropertyDesc()->getValue($bean);

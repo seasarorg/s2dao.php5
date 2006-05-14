@@ -62,16 +62,19 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $names = $idbd->getMethodNames();
         $c = count($names);
         for ($i = 0; $i < $c; ++$i) {
-            $method = $this->daoBeanDesc_->getMethods($names[$i]);
-            if (S2Container_MethodUtil::isAbstract($method)) {
-                $this->setupMethod($method);
+            $methods = $this->daoBeanDesc_->getMethods($names[$i]);
+            if (S2Container_MethodUtil::isAbstract($methods)) {
+                $this->setupMethod($methods);
             }
         }
     }
 
     protected function setupMethod(ReflectionMethod $method) {
         $this->setupMethodByAnnotation($this->daoInterface_, $method);
-        
+
+        if (!$this->completedSetupMethod($method)) {
+            $this->setupMethodByAuto($method);
+        }
         if (!$this->completedSetupMethod($method)) {
             $this->setupMethodBySqlFile($this->daoInterface_, $method);
         }
@@ -80,9 +83,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         }
         if (!$this->completedSetupMethod($method)) {
             $this->setupMethodBySuperClass($this->daoInterface_, $method);
-        }
-        if (!$this->completedSetupMethod($method)) {
-            $this->setupMethodByAuto($method);
         }
     }
     
@@ -129,12 +129,12 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected function setupMethodByInterfaces(ReflectionClass $daoInterface,
                                                ReflectionMethod $method) {
         $interfaces = $daoInterface->getInterfaces();
-        if ($interfaces == null) {
+        if ($interfaces === null) {
             return;
         }
         $c = count($interfaces);
         for ($i = 0; $i < $c; $i++) {
-            $interfaceMethod = $this->getSameSignatureMethod($interfaces[$i],$method);
+            $interfaceMethod = $this->getSameSignatureMethod($interfaces[$i], $method);
             if ($interfaceMethod != null) {
                 $this->setupMethod($interfaces[$i], $interfaceMethod);
             }
@@ -287,7 +287,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
     
     protected function completedSetupMethod(ReflectionMethod $method) {
-        return $this->sqlCommands_->get($method->getName()) !== null;
+        return $this->sqlCommands_->get($method->getName()) != null;
     }
     
     protected function getAnnotationReaderFactory() {

@@ -70,7 +70,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     }
     
     public function initialize() {
-        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($this->getBeanClass());
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($this->beanClass_);
         $this->setupPropertyType($beanDesc);
     }
 }

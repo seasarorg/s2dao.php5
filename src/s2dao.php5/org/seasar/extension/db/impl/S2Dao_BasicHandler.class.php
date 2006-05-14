@@ -124,7 +124,7 @@ class S2Dao_BasicHandler {
             return (string)$bindVariable;
         } else if ($bindVariable == null) {
             return "null";
-        } else if (strtotime($bindVariable) !== -1 ) {
+        } else if (strtotime($bindVariable) !== -1) {
             return "'" . date("Y-m-d", strtotime($bindVariable)) . "'";
         } else {
             return "'" . (string)$bindVariable . "'";
