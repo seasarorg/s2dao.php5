@@ -4,7 +4,7 @@ class Employee implements Serializable {
 
     const TABLE = "EMP";
     const department_RELNO = 0;
-    const timestamp_COLUMN = "tstamp";
+    const timestamp_COLUMN = "TSTAMP";
     
     private $empno;
     private $ename;
