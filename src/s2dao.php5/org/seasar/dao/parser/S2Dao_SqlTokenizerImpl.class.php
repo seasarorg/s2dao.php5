@@ -114,8 +114,8 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
     }
 
     protected function getNextStartPos($commentStartPos,
-                                         $elseCommentStartPos,
-                                         $bindVariableStartPos) {
+                                       $elseCommentStartPos,
+                                       $bindVariableStartPos) {
 
         $nextStartPos = -1;
         if ($commentStartPos !== false && $commentStartPos >= 0) {
@@ -212,7 +212,7 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
     }
 
     public function skipWhitespace($position = null) {
-        if($position === null){
+        if(is_integer($position) && $position === null){
             $index = $this->skipWhitespace($this->position_);
             $this->token_ = substr($this->sql_, $this->position_, $index);
             $this->position_ = $index;

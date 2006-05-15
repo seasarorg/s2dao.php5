@@ -1,3 +1,12 @@
+2006-05-15 nowel(S2Dao.PHP5-1.1.0-RC3)
+
+    * fix: PHPtype <-> PDOtype のマッピングの一部が間違えていたので修正しました。
+    * fix: DTO使用時に不必要なパラメータが含まれないように修正しました。
+    * SQLパーサを一部最適化しました。
+    * /examples/s2dao_java_orign/resource/orign*.sqlの内容が古かったので更新しました。
+    * 自動生成されるSQLバインドのコメントを変更しました。
+        - /*IF dto.prop != null*/ -> /*IF dto.prop !== null*/
+
 2006-05-12 nowel(S2Dao.PHP5-1.1.0-RC3)
 
     * fix: Dto処理を修正しました。
@@ -6,6 +15,7 @@
 2006-05-08 nowel(S2Dao.PHP5-1.1.0-RC3)
 
     * S2DaoSkeletonTask を修正しました。
+        - DaoImplを生成するように変更しました。
 
 	* PROCEDURE アノテーション
 	    - 現在OUT、INOUTパラメータを必要とするStored Function、Stored Procedureには対応していません。

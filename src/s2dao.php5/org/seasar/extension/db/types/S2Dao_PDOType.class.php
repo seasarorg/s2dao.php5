@@ -25,7 +25,7 @@ final class S2Dao_PDOType {
             case S2Dao_PHPType::Object:
             case S2Dao_PHPType::Double:
             case S2Dao_PHPType::Float:
-                return PDO::PARAM_STMT||PDO::PARAM_INPUT_OUTPUT;
+                return PDO::PARAM_STMT;
         }
     }
 

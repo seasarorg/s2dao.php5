@@ -73,9 +73,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $this->setupMethodByAnnotation($this->daoInterface_, $method);
 
         if (!$this->completedSetupMethod($method)) {
-            $this->setupMethodByAuto($method);
-        }
-        if (!$this->completedSetupMethod($method)) {
             $this->setupMethodBySqlFile($this->daoInterface_, $method);
         }
         if (!$this->completedSetupMethod($method)) {
@@ -83,6 +80,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         }
         if (!$this->completedSetupMethod($method)) {
             $this->setupMethodBySuperClass($this->daoInterface_, $method);
+        }
+        if (!$this->completedSetupMethod($method)) {
+            $this->setupMethodByAuto($method);
         }
     }
     
@@ -185,9 +185,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $cmd->setSql($sql);
         $argNames = $this->annotationReader_->getArgNames($method);
         if(count($argNames) == 0 && $this->isUpdateSignatureForBean($method)) {
-            $argNames = array(S2Container_StringUtil::decapitalize(
-                                S2Container_ClassUtil::getShortClassName($this->beanClass_))
-                             );
+            $argNames = ucwords(get_class($this->beanClass_));
         }
         $cmd->setArgNames($argNames);
         $cmd->setNotSingleRowUpdatedExceptionClass(
@@ -270,10 +268,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 }
             }
 
-            $param = $method->getParameters();
-            if (count($argNames) == 0 && count($param) == 1) {
+            $params = $method->getParameters();
+            if (count($argNames) == 0 && count($params) == 1) {
                 $argNames = array('dto');
-                $sql = $this->createAutoSelectSqlByDto($param[0]->getClass());
+                $sql = $this->createAutoSelectSqlByDto($params[0]->getClass());
             } else {
                 $sql = $this->createAutoSelectSql($argNames);
             }
@@ -322,7 +320,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     public function setDaoClass(ReflectionClass $daoClass) {
         $this->daoClass_ = $daoClass;
     }
-
 
     public function getBeanClass() {
         return $this->daoClass_;
@@ -390,10 +387,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     public function getSqlCommand($methodName){
         $cmd = $this->sqlCommands_->get($methodName);
-        if ($cmd == null) {
+        if ($cmd === null) {
             throw new S2Container_MethodNotFoundRuntimeException($this->daoClass_,
-                                                                $methodName,
-                                                                null);
+                                                                 $methodName,
+                                                                 null);
         }
         return $cmd;
     }
@@ -407,7 +404,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $interfaces = $target->getInterfaces();
             foreach($interfaces as $intf) {
                 for($j = 0; $j < count($this->daoSuffixes_); $j++){
-                    if(ereg($this->daoSuffixes_[$j].'$', $intf->getName())) {
+                    if(ereg($this->daoSuffixes_[$j] . '$', $intf->getName())) {
                         return $intf;
                     }
                 }
@@ -472,6 +469,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             $buf .= '/*BEGIN*/ WHERE ';
             $began = true;
         }
+        
         $c = $dmd->getPropertyTypeSize();
         for ($i = 0; $i < $c; ++$i) {
             $pt = $dmd->getPropertyType($i);
@@ -480,6 +478,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 continue;
             }
             if (!$this->beanMetaData_->getPropertyTypeByAliasName($aliasName)->isPersistent()) {
+                continue;
+            }
+            if($dmd->hasPropertyType($aliasName)){
                 continue;
             }
             $columnName = $this->beanMetaData_->convertFullColumnName($aliasName);
@@ -503,7 +504,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         return $buf;
     }    
 
-    protected function createAutoSelectSql(array $argNames) {
+    protected function createAutoSelectSql(array $argNames = null) {
         $sql = $this->dbms_->getAutoSelectSql($this->getBeanMetaData());
         $buf = $sql;
 

@@ -5,7 +5,7 @@ interface EmployeeAutoDao {
 
     public function getAllEmployeesList();
 
-    public function getEmployeeByJobDeptnoList($job = '', $deptno = '');
+    public function getEmployeeByJobDeptnoList($job = null, $deptno = null);
 
     public function getEmployeeByEmpno($empno);
 

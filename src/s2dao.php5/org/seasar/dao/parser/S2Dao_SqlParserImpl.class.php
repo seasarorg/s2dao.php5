@@ -52,7 +52,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
             $token = $st->skipToken();
             $st->skipWhitespace();
 
-            if(eregi('AND', $token) || eregi('OR', $token)){
+            if(preg_match('/(AND|OR)/i', $token)){
                 $node->addChild(new S2Dao_PrefixSqlNode($st->getBefore(), $st->getAfter()));
             } else {
                 $node->addChild(new S2Dao_SqlNode($sql));
@@ -161,9 +161,9 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     private static function isTargetComment($comment = null) {
-        return $comment != null &&
-               strlen($comment) > 0 && 
-               substr($comment, 0, 1) != null;
+        return $comment !== null &&
+               0 < strlen($comment) && 
+               substr($comment, 0, 1) !== null;
     }
 
     private static function isIfComment($comment) {
@@ -171,11 +171,11 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     private static function isBeginComment($content = null) {
-        return $content != null && 'BEGIN' == $content;
+        return $content != null && strcmp('BEGIN', $content) == 0;
     }
 
     private static function isEndComment($content = null) {
-        return $content != null && 'END' == $content;
+        return $content != null && strcmp('END', $content) == 0;
     }
 }
 ?>

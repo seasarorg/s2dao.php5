@@ -21,7 +21,7 @@
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
     </component>
-    ->
+    -->
 
     <!--
     <component name="dataSource" class="S2Container_PDODataSource">
