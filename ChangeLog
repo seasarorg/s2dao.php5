@@ -1,3 +1,13 @@
+2006-05-17  yonekawa  <tcgrim@gmail.com>
+
+    * S2Pagerを追加しました。
+	- add: src/s2dao.php5/org/seasar/dao/pager/PagerS2DaoInterceptorWrapper.class.php
+	- add: src/s2dao.php5/org/seasar/dao/pager/PagerResultSetWrapper.class.php
+	- add: src/s2dao.php5/org/seasar/dao/pager/PagerViewHelper.class.php
+	- add: src/s2dao.php5/org/seasar/dao/pager/PagerSupport.class.php
+	- add: src/s2dao.php5/org/seasar/dao/pager/PagerCondition.class.php
+	- add: src/s2dao.php5/org/seasar/dao/pager/DefaultPagerCondition.class.php
+	
 2006-05-16 nowel(S2Dao.PHP5-1.1.0-RC3)
 
 ================ S2Dao.PHP5-1.1.0-RC3 更新履歴 ===================
