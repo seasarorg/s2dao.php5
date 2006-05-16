@@ -49,6 +49,7 @@
                                 <li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
                                 <li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
                                 <li><a href="#SqlAnnotation">SQLアノテーション</a></li>
+                                <li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
                             </ul>
                         <li type="circle"><a href="#diconfile">diconファイル</a></li>
                         <li type="circle"><a href="#SQLfile">SQLファイル</a></li>
@@ -623,6 +624,61 @@ public function getAllEmployees();
             </table>
         </ul>
 
+    <h5><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h5>
+
+    <p>バージョンRC3より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます。
+    PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
+    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>";</p>
+    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシジャ名</span>";</p>
+    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
+
+    <ul>
+        <li>サポートされるStoredProcedureの範囲について</li>
+        <p>PROCEDUREアノテーションでは、戻り値のあるStoredProcedureおよびINパラメータを複数持つプロシジャーをサポートしています。
+        ただし、OUTやINOUTパラメータは現在のところ対応していません。</p>
+        <p>また、DBMSやPDOのバージョンによっては、利用できない場合があります。</p>
+
+        <table class="main" border="1">
+            <tr align="center" bgcolor="#d1f3f4">
+                <th scope="col">DBMS</th>
+                <th scope="col">制限事項</th>
+            </tr>
+            <tr>
+                <td>Oracle</td>
+                <td>現在利用不可です。</td>
+            </tr>
+            <!--
+            <tr>
+                <td>DB2</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>MSSQLServer</td>
+
+                <td>-</td>
+            </tr>
+            -->
+            <tr>
+                <td>MySQL</td>
+                <td>INパラメータをもつStoredFunctionおよびStoredProcedureをサポートしています。</td>
+            </tr>
+            <tr>
+                <td>PostgreSQL</td>
+                <td>INパラメータをもつStoredFunctionおよびStoredProcedureをサポートしています。</td>
+            </tr>
+            <tr>
+                <td>SQLite</td>
+                <td>PDO::sqliteCreateFunctionのみ対応しています。</td>
+            </tr>
+            <!--
+            <tr>
+                <td>Firebird</td>
+                <td>-</td>
+            </tr>
+        -->
+        </table>
+    </ul>
+
     <h4><a name="diconfile">diconファイル</a></h4>
 
         <p>diconファイルはDaoをコンテナにコンポーネント登録します。
@@ -769,14 +825,12 @@ public function getAllEmployees();
         自動的にgetEmployeeListメソッドの引数の値が設定されます。</p>
         <pre>SELECT * FROM emp WHERE empno = /*empno*/7788</pre>
 
-        <!--
         <p>IN句にバインド変数を適用したい場合は以下のようにすることができます。</p>
         <p>-  IN /*<span class="italic">引数名</span>*/(...)</p>
         <pre>IN /*names*/('aaa', 'bbb')</pre>
         <p>引数はjava.util.Listや配列の引数となります。上記のIN句の場合は、以下のように引数を用意します。</p>
-        <pre>String[] names = new String[]{"SCOTT", "SMITH", "JAMES"};</pre>
-        <p>String配列namesが自動的にバインド変数の部分に置換されます。</p>
-        -->
+        <pre>$names = array("SCOTT", "SMITH", "JAMES");</pre>
+        <p>配列namesが自動的にバインド変数の部分に置換されます。</p>
 
         <p>LIKEを使用する場合は、次のようにします。</p>
         <pre>ename LIKE /*ename*/'hoge'</pre>

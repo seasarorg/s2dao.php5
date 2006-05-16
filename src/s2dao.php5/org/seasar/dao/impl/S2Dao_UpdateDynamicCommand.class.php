@@ -17,7 +17,7 @@ class S2Dao_UpdateDynamicCommand extends S2Dao_AbstractDynamicCommand {
                                 $ctx->getSql(),
                                 $this->getStatementFactory());
 
-        return (int)$updateHandler->execute($ctx->getBindVariables(),
+        return $updateHandler->execute($ctx->getBindVariables(),
                                        $ctx->getBindVariableTypes());
     }
 }

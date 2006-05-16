@@ -35,13 +35,14 @@
             <ul>
                 <li><a href="#SelectExample">SQL文を記述する場合のExample</a></li>
                 <li><a href="#AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></li>
+                <li><a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a></li>
                 <li><a href="#EntityManagerExample2">EntityManagerを使用したExample2</a></li>
             </ul>
         </li>
     </ul>
 
     <h2><a name="Example">Example</a></h2>
-    <p>このExampleは前提条件として以下のテーブル、Beans、dao.diconを使用します。</p>
+    <p>このExampleは前提条件として以下のテーブル、Bean、dao.diconを使用します。</p>
 
         <p>テーブル：CD</p>
         <table border="1" class="main">
@@ -75,7 +76,7 @@
             </tr>
         </table>
 
-        <p>CDテーブルに関連付くBeansは次の通りです。</p>
+        <p>CDテーブルに関連付くBeanは次の通りです。</p>
 
 <pre>
 &lt;?php
@@ -182,7 +183,7 @@ mysql&gt; select * from CD order by ID;
 
         <h4>Daoの作成</h4>
         <ul>
-            <li type="circle">CDテーブルと対応するBeansと関連付けをします。</li>
+            <li type="circle">CDテーブルと対応するBeanと関連付けをします。</li>
             <li type="circle">メソッドを定義します。
                 <ul>
                     <li>全件検索するメソッド(getAllCdArray()メソッド)</li>
@@ -597,7 +598,7 @@ $dao-&gt;delete($cd);
         <h4>Daoの作成</h4>
         <ul>
             <li type="circle">インターフェース名は"Dao"で終わらす必要があります</li>
-            <li type="circle">CDテーブルと対応するBeansと関連付けをします。</li>
+            <li type="circle">CDテーブルと対応するBeanと関連付けをします。</li>
             <li type="circle">メソッドを定義します。<br />
                             IDを引数に検索するメソッド(getCd($id))<li>
         </ul>
@@ -930,7 +931,7 @@ int(1)
 
 <h2><a name="Example2">Example2</a>(Java版S2DaoのExample)</h2>
 
-    <p>このExampleは前提条件として以下のテーブル、Beansを使用します。</p>
+    <p>このExampleは前提条件として以下のテーブル、Beanを使用します。</p>
 
     <p>テーブル：EMP</p>
     <table border="1" class="main">
@@ -1038,7 +1039,7 @@ int(1)
             </tr>
         </table>
 
-        <p>EMPテーブルに関連付くBeansは次の通りです。</p>
+        <p>EMPテーブルに関連付くBeanは次の通りです。</p>
 
 <pre><code>&lt;?php
 
@@ -1190,7 +1191,7 @@ class Employee implements Serializable {
 }
 ?&gt;</code></pre>
 
-        <p>DEPTテーブルに関連付くBeansは次の通りです。</p>
+        <p>DEPTテーブルに関連付くBeanは次の通りです。</p>
 
 <pre><code>&lt;?php
 
@@ -1313,8 +1314,9 @@ interface EmployeeDao {
 
     const getEmployeeByDeptnoList_QUERY = "
                 /*IF deptno !== null*/EMP.DEPTNO = /*deptno*/123
-                --ELSE EMP.DEPTNO = 2
+                --ELSE 1 = 1
                 /*END*/";
+
     public function getEmployeeByDeptnoList($deptno);
 
     public function update(Employee $employee);
@@ -1417,33 +1419,31 @@ $container-&gt;destroy();
 
         <h5>実行結果</h5>
 <pre>&gt; php EmployeeDaoClient.class.php
-[DEBUG]  - SELECT emp.*, dept.dname dname_0, dept.loc loc_0 FROM EMP as emp, DEPT as dept
+[DEBUG]  - SELECT emp.*, dept.dname as dname_0, dept.loc as loc_0 FROM EMP as emp, DEPT as dept
 WHERE emp.deptno = dept.deptno ORDER BY emp.empno
-string(63) "7369, SMITH, CLERK, 7902, 1980-12-17, 800.00, , 20,  {20, , , }"
-string(73) "7499, ALLEN, SALESMAN, 7698, 1981-02-20, 1600.00, 300.00, 30,  {30, , , }"
-string(72) "7521, WARD, SALESMAN, 7698, 1981-02-22, 1250.00, 500.00, 30,  {30, , , }"
-string(66) "7566, JONES, MANAGER, 7839, 1981-04-02, 2975.00, , 20,  {20, , , }"
-string(75) "7654, MARTIN, SALESMAN, 7698, 1981-09-28, 1250.00, 1400.00, 30,  {30, , , }"
-string(66) "7698, BLAKE, MANAGER, 7839, 1981-05-01, 2850.00, , 30,  {30, , , }"
-string(66) "7782, CLARK, MANAGER, 7839, 1981-06-09, 2450.00, , 10,  {10, , , }"
-string(66) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {20, , , }"
-string(63) "7839, KING, PRESIDENT, , 1981-11-17, 5000.00, , 10,  {10, , , }"
-string(72) "7844, TURNER, SALESMAN, 7698, 1981-09-08, 1500.00, 0.00, 30,  {30, , , }"
-string(64) "7876, ADAMS, CLERK, 7788, 1983-01-12, 1100.00, , 20,  {20, , , }"
-string(63) "7900, JAMES, CLERK, 7698, 1981-12-03, 950.00, , 30,  {30, , , }"
-string(65) "7902, FORD, ANALYST, 7566, 1981-12-03, 3000.00, , 20,  {20, , , }"
-string(65) "7934, MILLER, CLERK, 7782, 1982-01-23, 1300.00, , 10,  {10, , , }"
-[DEBUG]  - SELECT EMP.*, DEPT.dname dname_0, DEPT.loc loc_0 FROM EMP, DEPT
+string(96) "7369, SMITH, CLERK, 7902, 1980-12-17, 800.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(104) "7499, ALLEN, SALESMAN, 7698, 1981-02-20, 1600.00, 300.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(103) "7521, WARD, SALESMAN, 7698, 1981-02-22, 1250.00, 500.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(99) "7566, JONES, MANAGER, 7839, 1981-04-02, 2975.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(106) "7654, MARTIN, SALESMAN, 7698, 1981-09-28, 1250.00, 1400.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(97) "7698, BLAKE, MANAGER, 7839, 1981-05-01, 2850.00, , 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(103) "7782, CLARK, MANAGER, 7839, 1981-06-09, 2450.00, , 10, 2000-01-01 00:00:00 {10, ACCOUNTING, NEW YORK, }"
+string(99) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20, 2006-05-14 10:30:16 {20, RESEARCH, DALLAS, }"
+string(100) "7839, KING, PRESIDENT, , 1981-11-17, 5000.00, , 10, 2000-01-01 00:00:00 {10, ACCOUNTING, NEW YORK, }"
+string(103) "7844, TURNER, SALESMAN, 7698, 1981-09-08, 1500.00, 0.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(97) "7876, ADAMS, CLERK, 7788, 1983-01-12, 1100.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(94) "7900, JAMES, CLERK, 7698, 1981-12-03, 950.00, , 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(98) "7902, FORD, ANALYST, 7566, 1981-12-03, 3000.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(102) "7934, MILLER, CLERK, 7782, 1982-01-23, 1300.00, , 10, 2000-01-01 00:00:00 {10, ACCOUNTING, NEW YORK, }"
+[DEBUG]  - SELECT EMP.*, DEPT.dname as dname_0, DEPT.loc as loc_0 FROM EMP, DEPT
 WHERE EMP.empno = 7788 AND EMP.deptno = DEPT.deptno
-string(64) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {, , , }"
+tring(97) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20, 2006-05-14 10:30:16 {, RESEARCH, DALLAS, }"
 [DEBUG]  - SELECT count(*) FROM EMP
 string(8) "count:14"
 [DEBUG]  - SELECT * FROM EMP
-
 [DEBUG]  - SELECT * FROM EMP
 WHERE
   EMP.JOB = 'CLERK'
-
 
 [DEBUG]  - SELECT * FROM EMP
 WHERE
@@ -1455,21 +1455,21 @@ WHERE
   EMP.JOB = 'CLERK'
   AND EMP.DEPTNO = 20
 
-[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
-department.DEPTNO AS DEPTNO_0, department.DNAME AS DNAME_0, department.LOC AS LOC_0,
-department.VERSIONNO AS VERSIONNO_0
-FROM EMP LEFT OUTER JOIN DEPT department ON EMP.DEPTNO = department.DEPTNO WHERE
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno,
+    EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0, department.loc AS loc_0,
+    department.versionno AS versionno_0
+    FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE
                 EMP.DEPTNO = 20
 
-[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
-department.DEPTNO AS DEPTNO_0, department.DNAME AS DNAME_0, department.LOC AS LOC_0,
-department.VERSIONNO AS VERSIONNO_0
-FROM EMP LEFT OUTER JOIN DEPT department ON EMP.DEPTNO = department.DEPTNO WHERE
-                 EMP.DEPTNO = 2
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno,
+    EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0, department.loc AS loc_0,
+    department.versionno AS versionno_0
+    FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE
+                 1 = 1
 
 [DEBUG]  - UPDATE EMP SET ename = 'SCOTT'
-WHERE empno = '7788'
-string(13) "updatedRows:0"
+WHERE empno = 7788
+string(13) "updatedRows:1"
 
 </pre>
 
@@ -1489,7 +1489,7 @@ string(13) "updatedRows:0"
 
         <h5>Daoの作成</h5>
         <ul>
-            <li type="circle">DEPTテーブルと対応するJavaBeansと関連付けをします。</li>
+            <li type="circle">DEPTテーブルと対応するBeanと関連付けをします。</li>
             <li type="circle">更新処理を行うメソッドを定義します。<br />
                 部署を追加するメソッド(insert(Department department)メソッド)<br />
                 部署を更新するメソッド(update(Department department)メソッド)<br />
@@ -1567,12 +1567,220 @@ after update versionNo:1
 </pre>
 
         <p>出力結果を見ると、自動的にSQL文が発行されていることが分かります。
-        またBeans(Department)にはint型のプロパティversionNoが定義してあるので、
+        またBean(Department)にはint型のプロパティversionNoが定義してあるので、
         自動でversionNoの値が+1され、この値によって排他制御されていることがわかります。
         updateメソッドを呼ぶ以前では、versionNoの値は0ですが、updateメソッドを呼び出した後では、値が1になります。<br />
 
         <p>この演習は、/examples/s2dao_java_orign以下に用意されています。</p>
 
+    <h3><a name="AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a></h3>
+
+        <p>自動でSELECT文の生成と<a href="reference.html#Timestamp">Timestampによる自動排他制御</a>を行う演習です。
+        SQLファイルの作成は不要です。また引数にDTOを使用するメソッドも定義してみましょう。
+        作成するファイルは以下のとおりです。</p>
+        <ul>
+            <li type="circle">Dao(EmployeeAutoDao.class.php)</li>
+            <li type="circle">DTO(EmployeeSearchCondition.class.php)</li>
+            <li type="circle">diconファイル(EmployeeAutoDao.dicon)</li>
+            <li type="circle">実行クラス(EmployeeAutoDaoClient.php)</li>
+        </ul>
+
+    <h5>Daoの作成</h5>
+        <ul>
+            <li type="circle">EMPテーブルと対応するBeanと関連付けをします。</li>
+            <li type="circle">メソッドを定義します。<br />
+                全件検索するメソッド(getAllEmployees()メソッド)<br />
+                仕事と部署番号を引数として、一致する従業員を検索するメソッド(getEmployeeByJobDeptno($job = null, $deptno = null)メソッド)<br />
+                従業員番号を引数として、一致する従業員を検索するメソッド(getEmployeeByEmpno($empno)メソッド)<br />
+                指定した給料の間に含まれる従業員を検索するメソッド(getEmployeesBySal($minSal, $maxSal)メソッド)<br />
+                指定した部署と一致する従業員を検索するメソッド(getEmployeeByDname($dname)メソッド)<br />
+                DTOを引数とした従業員の検索をするメソッド(getEmployeesBySearchCondition(EmployeeSearchCondition $dto)メソッド)<br />
+                従業員を更新するメソッド(update(Employee $employee)メソッド)
+            </li>
+        </ul>
+
+<pre>&lt;?php
+
+interface EmployeeAutoDao {
+
+    const BEAN = "Employee";
+
+    public function getAllEmployeesList();
+
+    public function getEmployeeByJobDeptnoList($job = null, $deptno = null);
+
+    public function getEmployeeByEmpno($empno);
+
+    const getEmployeesBySalList_QUERY = "EMP.sal BETWEEN ? AND ? ORDER BY EMP.empno";
+
+    public function getEmployeesBySalList($minSal, $maxSal);
+
+    public function getEmployeeByDnameList($dname_0);
+
+    public function getEmployeesBySearchConditionList(EmployeeSearchCondition $dto);
+
+    public function update(Employee $employee);
+}
+?&gt;</pre>
+
+        <h5>DTOの作成</h5>
+        <ul>
+            <li type="circle"><a href="reference.html#COLUMNAnnotation">COLUMNアノテーション</a>でカラムとdnameプロパティを関連付けします。</li>
+            <li type="circle">プロパティの宣言をします。</li>
+        </ul>
+<pre>&lt;?php
+
+class EmployeeSearchCondition {
+
+    const dname_COLUMN = "dname_0";
+
+    private $job;
+    private $dname;
+
+    public function getDname() {
+        return $this-&gt;dname;
+    }
+
+    public function setDname($dname) {
+        $this-&gt;dname = $dname;
+    }
+
+    public function getJob() {
+        return $this-&gt;job;
+    }
+
+    public function setJob($job) {
+        $this-&gt;job = $job;
+    }
+}
+?&gt;</pre>
+
+        <h5>diconファイルの作成</h5>
+        <ul>
+            <li type="circle">dao.diconをincludeします。</li>
+            <li type="circle">作成したDaoのコンポーネント定義します。</li>
+            <li type="circle">Daoにdao.interceptor(S2DaoInterceptor)を適用します。</li>
+        </ul>
+
+<pre>&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd"&gt;
+&lt;components&gt;
+    &lt;include path="%DAO_DICON%" /&gt;
+    &lt;component class="EmployeeAutoDao"&gt;
+        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+
+        <h5>実行ファイルの作成</h5>
+        <ul>
+            <li type="circle">S2Container#create()メソッドの第1引数に作成したdiconファイル(EmployeeAutoDao.dicon)のパスを指定してコンテナを作成します。</li>
+            <li type="circle">S2Container#getComponent()メソッドの第1引数にコンポーネントに登録したクラス名（EmployeeAutoDao)を指定してコンポーネントを取得します。</li>
+            <li type="circle">Daoに定義したメソッドを実行します。</li>
+        </ul>
+
+<pre>&lt;?php
+require_once dirname(__FILE__) . "/example.inc.php";
+
+$container = S2ContainerFactory::create("./resource/EmployeeAutoDao.dicon");
+$dao = $container-&gt;getComponent("EmployeeAutoDao");
+
+$dao-&gt;getEmployeeByJobDeptnoList(null, null);
+$dao-&gt;getEmployeeByJobDeptnoList("CLERK", null);
+$dao-&gt;getEmployeeByJobDeptnoList(null, 20);
+$dao-&gt;getEmployeeByJobDeptnoList("CLERK", 20);
+
+$employees = $dao-&gt;getEmployeesBySalList(0, 1000);
+for ($i = 0; $i &lt; $employees-&gt;size(); ++$i) {
+    var_dump($employees-&gt;get($i)-&gt;toString());
+}
+
+$employees = $dao-&gt;getEmployeeByDnameList("SALES");
+for ($i = 0; $i &lt; $employees-&gt;size(); ++$i) {
+    var_dump($employees-&gt;get($i)-&gt;toString());
+}
+
+$dto = new EmployeeSearchCondition();
+$dto-&gt;setDname("RESEARCH");
+$employees = $dao-&gt;getEmployeesBySearchConditionList($dto);
+for ($i = 0; $i &lt; $employees-&gt;size(); ++$i) {
+    var_dump($employees-&gt;get($i)-&gt;toString());
+}
+
+$employee = $dao-&gt;getEmployeeByEmpno(7788);
+var_dump("before timestamp:" . $employee-&gt;getTimestamp());
+$dao-&gt;update($employee);
+var_dump("after timestamp:" . $employee-&gt;getTimestamp());
+
+$container->destroy();
+?&gt;</pre>
+
+        <h5>実行結果</h5>
+<pre>[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm,
+EMP.deptno, EMP.tstamp, department.deptno AS deptno_0,
+department.dname AS dname_0, department.loc AS loc_0, department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm,
+EMP.deptno, EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0, department.loc AS loc_0,
+department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE  EMP.job = 'CLERK'
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm,
+EMP.deptno, EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0, department.loc AS loc_0,
+department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE  EMP.job = '' AND EMP.deptno = 20
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm,
+EMP.deptno, EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0, department.loc AS loc_0,
+department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE  EMP.job = 'CLERK' AND EMP.deptno = 20
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal,
+EMP.comm, EMP.deptno, EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0,
+department.loc AS loc_0, department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno
+WHERE EMP.sal BETWEEN 0 AND 1000 ORDER BY EMP.empno
+string(96) "7369, SMITH, CLERK, 7902, 1980-12-17, 800.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(94) "7900, JAMES, CLERK, 7698, 1981-12-03, 950.00, , 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal,
+EMP.comm, EMP.deptno, EMP.tstamp, department.deptno AS deptno_0,
+department.dname AS dname_0, department.loc AS loc_0, department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno
+string(96) "7369, SMITH, CLERK, 7902, 1980-12-17, 800.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(104) "7499, ALLEN, SALESMAN, 7698, 1981-02-20, 1600.00, 300.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(103) "7521, WARD, SALESMAN, 7698, 1981-02-22, 1250.00, 500.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(99) "7566, JONES, MANAGER, 7839, 1981-04-02, 2975.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(106) "7654, MARTIN, SALESMAN, 7698, 1981-09-28, 1250.00, 1400.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(97) "7698, BLAKE, MANAGER, 7839, 1981-05-01, 2850.00, , 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(103) "7782, CLARK, MANAGER, 7839, 1981-06-09, 2450.00, , 10, 2000-01-01 00:00:00 {10, ACCOUNTING, NEW YORK, }"
+string(100) "7839, KING, PRESIDENT, , 1981-11-17, 5000.00, , 10, 2000-01-01 00:00:00 {10, ACCOUNTING, NEW YORK, }"
+string(103) "7844, TURNER, SALESMAN, 7698, 1981-09-08, 1500.00, 0.00, 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(97) "7876, ADAMS, CLERK, 7788, 1983-01-12, 1100.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(94) "7900, JAMES, CLERK, 7698, 1981-12-03, 950.00, , 30, 2000-01-01 00:00:00 {30, SALES, CHICAGO, }"
+string(98) "7902, FORD, ANALYST, 7566, 1981-12-03, 3000.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(102) "7934, MILLER, CLERK, 7782, 1982-01-23, 1300.00, , 10, 2000-01-01 00:00:00 {10, ACCOUNTING, NEW YORK, }"
+string(99) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20, 2006-05-14 10:30:16 {20, RESEARCH, DALLAS, }"
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm,
+EMP.deptno, EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0,
+department.loc AS loc_0, department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE  department.dname = 'RESEARCH'
+string(96) "7369, SMITH, CLERK, 7902, 1980-12-17, 800.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(99) "7566, JONES, MANAGER, 7839, 1981-04-02, 2975.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(97) "7876, ADAMS, CLERK, 7788, 1983-01-12, 1100.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(98) "7902, FORD, ANALYST, 7566, 1981-12-03, 3000.00, , 20, 2000-01-01 00:00:00 {20, RESEARCH, DALLAS, }"
+string(99) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20, 2006-05-16 23:38:39 {20, RESEARCH, DALLAS, }"
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm,
+EMP.deptno, EMP.tstamp, department.deptno AS deptno_0, department.dname AS dname_0,
+department.loc AS loc_0, department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE  EMP.empno = 7788
+string(36) "before timestamp:2006-05-16 23:58:48"
+[DEBUG]  - UPDATE EMP SET ename = 'SCOTT', job = 'ANALYST', mgr = 7566,
+hiredate = '1982-12-09', sal = '3000.00', comm = null, deptno = 20,
+tstamp = '2006-05-17 00:00:41' WHERE empno = 7788 AND tstamp = '2006-05-16 23:58:48'
+string(35) "after timestamp:2006-05-17 00:00:41"
+</pre>
+
+    <p>出力されているログからSQL文が自動的に生成されていることがわかります。<br />
+        また更新前と更新後ではTimestampの値が変化していることに気付くと思います。この値で排他制御を行っていることがわかります。<br />
+        この演習は、/examples/s2dao_java_orign以下に用意されています。</p>
 
     <h3><a name="EntityManagerExample2">EntityManagerを使用したExample2</a></h3>
 
@@ -1590,7 +1798,7 @@ after update versionNo:1
 
         <ul>
             <li type="circle">なお、インターフェース名は"Dao"で終わらす必要があります。</li>
-            <li type="circle">EMPテーブルと対応するJavaBeansと関連付けをします。</li>
+            <li type="circle">EMPテーブルと対応するBeanと関連付けをします。</li>
             <li type="circle">検索処理を行うメソッドを定義します。<br />従業員を検索するメソッド(getEmployees(String ename))</li>
         </ul>
 
@@ -1675,13 +1883,13 @@ $container-&gt;destroy();
 
 <pre>
 &gt; php Employee2DaoClient.class.php
-[DEBUG]  - SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM, EMP.DEPTNO,
-department.DEPTNO AS DEPTNO_0, department.DNAME AS DNAME_0, department.LOC AS LOC_0,
-department.VERSIONNO AS VERSIONNO_0
-FROM EMP LEFT OUTER JOIN DEPT department ON EMP.DEPTNO = department.DEPTNO WHERE EMP.ename LIKE '%CO%'
-string(74) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {20, 0, DALLAS, 0}"
+[DEBUG]  - SELECT EMP.empno, EMP.ename, EMP.job, EMP.mgr, EMP.hiredate, EMP.sal, EMP.comm, EMP.deptno, EMP.tstamp,
+department.deptno AS deptno_0, department.dname AS dname_0,
+department.loc AS loc_0, department.versionno AS versionno_0
+FROM EMP LEFT OUTER JOIN DEPT department ON EMP.deptno = department.deptno WHERE EMP.ename LIKE '%CO%'
+string(99) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20, 2006-05-14 10:30:16 {20, RESEARCH, DALLAS, }"
 [DEBUG]  - SELECT * FROM EMP WHERE EMPNO = 7788
-string(66) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20,  {20, , , }"
+string(85) "7788, SCOTT, ANALYST, 7566, 1982-12-09, 3000.00, , 20, 2006-05-14 10:30:16 {20, , , }"
 </pre>
 
         <p>※[DEBUG]表示において不要な部分は削除しています。</p>

@@ -1,3 +1,28 @@
+2006-05-16 nowel(S2Dao.PHP5-1.1.0-RC3)
+
+================ S2Dao.PHP5-1.1.0-RC3 更新履歴 ===================
+
+    * QUERYアノテーション時にWHERE句が正しく挿入されない不具合を修正しました。
+    * fix: BEANに代入されるtimestampの値が常にIntegerになる不具合を修正しました。
+    * fix: 不正な値がBindされるバグを修正しました。
+    * fix: DTO使用時に不必要なパラメータが含まれないように修正しました。
+    * fix: PHPtype <-> PDOtype のマッピングの一部の修正しました。
+    * fix: Dto処理を修正しました。
+    * fix: SQLコメントのバインド変数処理を修正しました。   
+    * SQLパーサを一部最適化しました。
+    * /examples/s2dao_java_orign/resource/orign*.sqlの内容が古かったので更新しました。
+    * 自動生成されるSQLバインドのコメントを変更しました。
+        - /*IF dto.prop != null*/ -> /*IF dto.prop !== null*/
+    * S2DaoSkeletonTask を修正しました。
+        - DaoImplを生成するように変更しました。
+    * PROCEDURE アノテーション対応DBMSが増えました。
+        - PostgreSQL
+        - SQLite
+          - 詳しくはサンプルをご覧になってください。(StoredProcedureTestDao.class.php -> SALES_TAX2)
+          * SQLite の場合 StoredFunction/Procedureに対応していないため
+            PHP Functionを代用します。
+            ref - http://jp.php.net/manual/en/function.pdo-sqlitecreatefunction.php
+
 2006-05-15 nowel(S2Dao.PHP5-1.1.0-RC3)
 
     * fix: PHPtype <-> PDOtype のマッピングの一部が間違えていたので修正しました。

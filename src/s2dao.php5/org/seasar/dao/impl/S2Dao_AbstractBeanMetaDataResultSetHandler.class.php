@@ -31,7 +31,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                 for (; $iter->valid(); $iter->next()) {
                     $columnName = $iter->current();
                     $columnName2 = str_replace('_', '', $columnName);
-                    if (strcasecmp($columnName2, $pt->getColumnName()) == 0 ) {
+                    if (strcasecmp($columnName2, $pt->getColumnName()) == 0) {
                         $value = $resultSet[$pt->getColumnName()];
                         $pd = $pt->getPropertyDesc();
                         $pd->setValue($row, $value);

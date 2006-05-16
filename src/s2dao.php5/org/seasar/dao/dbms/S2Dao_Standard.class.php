@@ -72,9 +72,8 @@ class S2Dao_Standard implements S2Dao_Dbms {
     public function getBaseSql($sql) {
         if (preg_match(self::baseSqlPattern, $sql, $m)) {
             return $m[1];
-        } else {
-            return $sql;
         }
+        return $sql;
     }
 
     public function getIdentitySelectString() {

@@ -225,7 +225,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
     protected function updateTimestampIfNeed($bean) {
         if ($this->getTimestamp() !== null) {
             $pd = $this->getBeanMetaData()->getTimestampPropertyType()->getPropertyDesc();
-            $pd->setValue($bean, (int)$this->getTimestamp());
+            $pd->setValue($bean, $this->getTimestamp());
         }
     }
 

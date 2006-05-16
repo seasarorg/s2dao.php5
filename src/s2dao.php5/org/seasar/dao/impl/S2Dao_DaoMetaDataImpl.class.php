@@ -276,6 +276,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 $sql = $this->createAutoSelectSql($argNames);
             }
             if ($query != null) {
+                if(strripos($sql, 'WHERE') === false){
+                    $query = ' WHERE ' . $query;
+                }
                 $sql .= ' ' . $query;
             }
             $cmd->setSql($sql);
@@ -485,17 +488,12 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             }
             $columnName = $this->beanMetaData_->convertFullColumnName($aliasName);
             $propertyName = 'dto.' . $pt->getPropertyName();
-            $buf .= '/*IF ';
-            $buf .= $propertyName;
-            $buf .= ' !== null*/';
+            $buf .= '/*IF ' . $propertyName . ' !== null*/';
             $buf .= ' ';
             if (!$began || $i != 0) {
                 $buf .= 'AND ';
             }
-            $buf .= $columnName;
-            $buf .= ' = /*';
-            $buf .= $propertyName;
-            $buf .= '*/null';
+            $buf .= $columnName . ' = /*' . $propertyName . '*/null';
             $buf .= '/*END*/';
         }
         if ($began) {
@@ -504,7 +502,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         return $buf;
     }    
 
-    protected function createAutoSelectSql(array $argNames = null) {
+    protected function createAutoSelectSql(array $argNames) {
         $sql = $this->dbms_->getAutoSelectSql($this->getBeanMetaData());
         $buf = $sql;
 
@@ -514,19 +512,15 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 $buf .= '/*BEGIN*/ WHERE ';
                 $began = true;
             }
-            foreach($argNames as $key => $argName){
-                $columnName = $this->beanMetaData_->convertFullColumnName($argName);
-                $buf .= '/*IF ';
-                $buf .= $argName;
-                $buf .= ' !== null*/';
+            $c = count($argNames);
+            for($i = 0; $i < $c; $i++){
+                $columnName = $this->beanMetaData_->convertFullColumnName($argNames[$i]);
+                $buf .= '/*IF ' . $argNames[$i] . ' !== null*/';
                 $buf .= ' ';
-                if (!$began || $key != 0) {
+                if (!$began || $i != 0) {
                     $buf .= 'AND ';
                 }
-                $buf .= $columnName;
-                $buf .= ' = /*';
-                $buf .= $argName;
-                $buf .= '*/null';
+                $buf .= $columnName . ' = /*' . $argNames[$i] . '*/null';
                 $buf .= '/*END*/';
             }
             if ($began) {
