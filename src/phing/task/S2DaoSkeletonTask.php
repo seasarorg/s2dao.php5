@@ -53,15 +53,15 @@ class S2DaoSkeletonTask extends Task {
     private $pass = "";
     
     public function init(){
-        require_once "S2Container/S2Container.php";
-        require_once "S2Dao/S2Dao.php";
+        include_once "S2Container/S2Container.php";
+        include_once "S2Dao/S2Dao.php";
         
-        // require DBMS classes
-        require_once "S2Dao/S2Dao/S2Dao_MySQL.class.php";
-        require_once "S2Dao/S2Dao/S2Dao_PostgreSQL.class.php";
-        require_once "S2Dao/S2Dao/S2Dao_SQLite.class.php";
-        require_once "S2Dao/S2Dao/S2Dao_Firebird.class.php";
-        require_once "S2Dao/S2Dao/S2Dao_Oracle.class.php";
+        // include DBMS classes
+        include_once "S2Dao/S2Dao/S2Dao_MySQL.class.php";
+        include_once "S2Dao/S2Dao/S2Dao_PostgreSQL.class.php";
+        include_once "S2Dao/S2Dao/S2Dao_SQLite.class.php";
+        include_once "S2Dao/S2Dao/S2Dao_Firebird.class.php";
+        include_once "S2Dao/S2Dao/S2Dao_Oracle.class.php";
     }
     
     public function main(){
