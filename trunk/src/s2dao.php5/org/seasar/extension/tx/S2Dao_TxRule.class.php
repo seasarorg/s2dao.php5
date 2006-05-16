@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @author nowel
+ */
+final class S2Dao_TxRule {
+    
+    private $tx = null;
+    private $exceptionClass;
+    private $commit;
+
+    public function __construct(S2Dao_AbstractTxInterceptor $tx,
+                                Exception $exceptionClass, $commit) {
+//        throw new S2Dao_SIllegalArgumentException('ESSR0365',
+//                                           array($exceptionClass->getName()));
+
+        $this->tx = $tx;
+        $this->exceptionClass = $exceptionClass;
+        $this->commit = $commit;
+    }
+
+    public function isAssignableFrom($t) {
+        return $t instanceof Exception;
+    }
+
+    public function complete() {
+        if ($this->commit) {
+            $this->tx->commit();
+        } else {
+            $this->tx->rollback();
+        }
+        return $this->commit;
+    }
+}
+?>
