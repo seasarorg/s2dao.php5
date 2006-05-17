@@ -10,26 +10,27 @@ class PagerResultSetWrapper
      * @param result S2Daoの結果
      * @param condition DTO
      */
-    public static function create( $result, $condition )
+    public static function create($result, $condition)
     {
-        $resultSet = new S2Dao_ArrayList();
+        $retValue = new S2Dao_ArrayList();
+        if(!($result instanceof S2Dao_ArrayList)){
+            $result = new S2Dao_ArrayList(new ArrayObject($result));
+            $returnArray = true;
+        }
         
-        $condition->setCount( sizeof( $result ) );
+        $condition->setCount($result->size());
      
-        for ( $i = $condition->getOffset(); 
-              ($i < ( $condition->getOffset() + $condition->getLimit() ) ) 
-                  && ( $i < $condition->getCount() ); 
-              $i++ ) {
-
-            $resultSet->add( $result[ $i ] );
-        
+        $limit = $condition->getOffset() + $condition->getLimit();
+        $count = $condition->getCount();
+        $start = $condition->getOffset() == null ? 0 : $condition->getOffset();
+        for($i = $start; $i < $limit && $i < $count; $i++){
+            $retValue->add($result->get($i));
         }
 
-        if ( !( $result instanceof S2Dao_ArrayList ) ) {
-            $resultSet = $resultSet->toArray();
+        if($returnArray){
+            return $retValue->toArray();
         }
-        
-        return $resultSet;    
+        return $retValue;
     }
 
 }
