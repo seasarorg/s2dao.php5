@@ -3,7 +3,7 @@ require_once 'S2Container/S2Container.php';
 //require_once 'S2Dao/S2Dao.php';
 
 // debug
-define('HOME', '/home/nowel/workspace/s2dao.php5-pager/S2Dao.PHP5-Pager');
+define('HOME', '/path/to/S2Dao.PHP5-Pager');
 define('S2DAO_PHP5', HOME . '/src/s2dao.php5');
 define('S2CONTAINER_PHP5_DOM_VALIDATE', false);
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
