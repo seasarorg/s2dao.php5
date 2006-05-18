@@ -1,5 +1,0 @@
-components:
-    include: %DAO_DICON%
-    conponent:
-        - class: cd
-        - aspect: dao.activerecord

@@ -1,4 +1,0 @@
-components:
-    component:
-        - class: cd_shelf
-        - aspect: dao.activerecord
