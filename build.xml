@@ -14,7 +14,7 @@
         <property name="project.src.dir" value="${project.basedir}/src" />
     	    <property name="skeleton.src.dir" value="${project.build.dir}/skel" />
         <property name="license.file" value="Apache_Software_License_2.0.txt" />
-        <property name="release.notes" value="Release Candidate version 3" />
+        <property name="release.notes" value="Release Candidate version 4" />
     </target>
     
     <target name="info">

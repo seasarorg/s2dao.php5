@@ -1,5 +1,26 @@
 <?php
-
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+// +----------------------------------------------------------------------+
+// | PHP version 5                                                        |
+// +----------------------------------------------------------------------+
+// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// +----------------------------------------------------------------------+
+// | Licensed under the Apache License, Version 2.0 (the "License");      |
+// | you may not use this file except in compliance with the License.     |
+// | You may obtain a copy of the License at                              |
+// |                                                                      |
+// |     http://www.apache.org/licenses/LICENSE-2.0                       |
+// |                                                                      |
+// | Unless required by applicable law or agreed to in writing, software  |
+// | distributed under the License is distributed on an "AS IS" BASIS,    |
+// | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,                        |
+// | either express or implied. See the License for the specific language |
+// | governing permissions and limitations under the License.             |
+// +----------------------------------------------------------------------+
+// | Authors: nowel                                                       |
+// +----------------------------------------------------------------------+
+// $Id$
+//
 /**
  * @author nowel
  */
@@ -173,8 +194,8 @@ final class S2Dao_DatabaseMetaDataUtil {
         $stmt->execute();
         foreach($retVal as &$value){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if( is_array($row) && $row['name'] == $value['name'] ){
-                if( $row['pk'] == '1' ){
+            if(is_array($row) && $row['name'] == $value['name']){
+                if($row['pk'] == '1'){
                     $value['flags'] = (array)self::PRIMARY_KEY;
                 }
             }
@@ -213,18 +234,18 @@ final class S2Dao_DatabaseMetaDataUtil {
 
     private static function oracle_metadata(PDO $db, S2Dao_Dbms $dbms, $table){
         $retVal = array();
-        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, '\''.$table.'\'', $dbms->getTableInfoSql());
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, '\'' . $table . '\'', $dbms->getTableInfoSql());
         $stmt = $db->prepare($sql);
         $stmt->execute();
 
         // FIXME
         $colsql = $dbms->getPrimaryKeySql();
-        $colsql = str_replace(S2Dao_Dbms::BIND_TABLE, '\''.$table.'\'', $colsql);
+        $colsql = str_replace(S2Dao_Dbms::BIND_TABLE, '\'' . $table . '\'', $colsql);
 
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach($rows as $row){
             // FIXME
-            $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\''.$row['COLUMN_NAME'].'\'', $colsql);
+            $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\'' . $row['COLUMN_NAME'] . '\'', $colsql);
             $stcol = $db->query($sql);
             $col = $stcol->fetch(PDO::FETCH_ASSOC);
 

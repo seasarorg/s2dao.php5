@@ -1,3 +1,9 @@
+2006-05-19 nowel(S2Dao.PHP5-1.1.0-RC4)
+
+    * fix: AnnotationReader の処理を最適化しました。
+    * Licenses 表記をパッケージ全てに適用しました。
+    * remove: S2ActiveRecord のパッケージを削除しました。
+
 2006-05-16 nowel(S2Dao.PHP5-1.1.0-RC3)
 
 ================ S2Dao.PHP5-1.1.0-RC3 更新履歴 ===================

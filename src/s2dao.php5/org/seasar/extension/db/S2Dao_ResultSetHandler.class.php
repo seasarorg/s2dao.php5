@@ -17,12 +17,11 @@
 // | either express or implied. See the License for the specific language |
 // | governing permissions and limitations under the License.             |
 // +----------------------------------------------------------------------+
-// | Authors: klove                                                       |
+// | Authors: klove, nowel                                                       |
 // +----------------------------------------------------------------------+
 //
 // $Id$
 /**
- * @package org.seasar.extension.db
  * @author klove, nowel
  */
 interface S2Dao_ResultSetHandler {
