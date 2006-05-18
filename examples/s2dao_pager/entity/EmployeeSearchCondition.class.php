@@ -1,6 +1,6 @@
 <?php
 
-class EmployeeSearchCondition extends DefaultPagerCondition {
+class EmployeeSearchCondition extends S2Dao_DefaultPagerCondition {
 
     const dname_COLUMN = "dname_0";
 

@@ -15,7 +15,7 @@
         <arg>annotationReaderFactory</arg>
     </component>
     
-    <component name="interceptor" class="PagerS2DaoInterceptorWrapper">
+    <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
         <arg>
             <component class="S2DaoInterceptor" />
         </arg>
