@@ -19,5 +19,7 @@
 	  <component class="S2DaoInterceptor" />
 	</arg>
     </component>
-    
+    <!--
+    <component name="interceptor" class="S2Dao_LimitOffsetS2DaoInterceptor"/> 
+    -->
 </components>
