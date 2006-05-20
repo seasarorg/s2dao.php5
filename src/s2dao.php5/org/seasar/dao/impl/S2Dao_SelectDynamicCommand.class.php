@@ -21,6 +21,9 @@ class S2Dao_SelectDynamicCommand extends S2Dao_AbstractDynamicCommand {
     public function getResultSetHandler() {
         return $this->resultSetHandler_;
     }
+    public function getResultSetFactory(){
+        return $this->resultSetFactory_;
+    }
 
     public function execute($args) {
         $ctx = $this->apply($args);
