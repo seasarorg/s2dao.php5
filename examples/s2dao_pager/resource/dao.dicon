@@ -14,11 +14,12 @@
         <arg><component class="S2Dao_BasicResultSetFactory" /></arg>
         <arg>annotationReaderFactory</arg>
     </component>
-    
     <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
         <arg>
             <component class="S2DaoInterceptor" />
         </arg>
     </component>
-    
+    <!--
+    <component name="interceptor" class="S2Dao_LimitOffsetS2DaoInterceptor"/>
+    -->
 </components>
