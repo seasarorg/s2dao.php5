@@ -12,6 +12,7 @@ class S2Dao_PagerResultSetWrapper
      */
     public static function create($result, $condition)
     {
+        $returnArray = false;
         $retValue = new S2Dao_ArrayList();
         if(!($result instanceof S2Dao_ArrayList)){
             $result = new S2Dao_ArrayList(new ArrayObject($result));
