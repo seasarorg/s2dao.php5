@@ -8,6 +8,8 @@
 	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerCondition.class.php
 	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_DefaultPagerCondition.class.php
 	- add: /src/s2dao.php5/dao-pager.dicon
+    
+    * add: example/s2dao_pagerを追加しました
 
 2006-05-21 nowel(S2Dao.PHP5-1.1.0-RC4)
 
