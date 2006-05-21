@@ -28,30 +28,24 @@ abstract class S2Dao_AbstractAnnotationReader {
     
     protected $reader = null;
 
-    public function __construct(S2Container_BeanDesc $beandesc,
-                                $annotationReader) {
-        $this->reader = $annotationReader;
-    }
-    
-    public function __call($name, $param){
+    public function __construct(S2Container_BeanDesc $beandesc) {
         if(defined('S2DAO_PHP5_USE_COMMENT')){
             if(S2DAO_PHP5_USE_COMMENT === true){
                 $this->setCommentAnnotationHandler();
+                $this->reader = $this->createCommentAnnotationReader($beandesc);
             }
         }
-        if(method_exists($this->reader, $name)){
-            return $this->call($this->reader, $name, $param);
-        }
         
-        throw new Exception();
+        if($this->reader === null){
+            $this->reader = $this->createConstantAnnotationReader($beandesc);
+        }
     }
     
-    protected function call($claz,
-                            $methodName,
-                            $parameter){
-        return call_user_func_array(
-                    array($claz, $methodName),
-                    $parameter);
+    abstract protected function createConstantAnnotationReader($beandesc);
+    abstract protected function createCommentAnnotationReader($beandesc);
+    
+    public function __call($name, $param){
+        return call_user_func_array(array($this->reader, $name), $param);
     }
     
     private function setCommentAnnotationHandler(){

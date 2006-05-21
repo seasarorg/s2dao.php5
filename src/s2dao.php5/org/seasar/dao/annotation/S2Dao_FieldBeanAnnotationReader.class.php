@@ -28,17 +28,15 @@ class S2Dao_FieldBeanAnnotationReader extends S2Dao_AbstractAnnotationReader {
     
     public function __construct($beanClass){
         $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
-        
-        $reader = null;
-        if(defined('S2DAO_PHP5_USE_COMMENT')){
-            if(S2DAO_PHP5_USE_COMMENT === true){
-                $reader = new S2Dao_BeanCommentAnnotationReader($beanDesc);
-            }
-        }
-        if($reader === null) {
-            $reader = new S2Dao_BeanConstantAnnotationReader($beanDesc);
-        }
-        parent::__construct($beanDesc, $reader);
+        parent::__construct($beanDesc);
+    }
+    
+    protected function createConstantAnnotationReader($beanDesc){
+        return new S2Dao_BeanConstantAnnotationReader($beanDesc);
+    }
+    
+    protected function createCommentAnnotationReader($beanDesc){
+        return new S2Dao_BeanCommentAnnotationReader($beanDesc);
     }
     
 }
