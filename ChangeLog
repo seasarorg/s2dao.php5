@@ -1,7 +1,11 @@
+2006-05-21 nowel(S2Dao.PHP5-1.1.0-RC4)
+
+    * add: S2Dao_SelectDynamicCommand::getResultSetFactory()を追加しました。
+
 2006-05-19 nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * fix: AnnotationReader の処理を最適化しました。
-    * Licenses 表記をパッケージ全てに適用しました。
+    * Licenses 表記を全てのファイルに適用しました。
     * remove: S2ActiveRecord のパッケージを削除しました。
 
 2006-05-16 nowel(S2Dao.PHP5-1.1.0-RC3)
@@ -361,7 +365,7 @@
 
 2005-12-05 nowel
 
-    * fix - dbms/S2Dao_pgsql.class.php
+    * fix: dbms/S2Dao_pgsql.class.php
             プライマリーキー取得のSQLを変更しました。
     * S2Dao_Dbms のインタフェースに以下を設定しました。
         - function getTableSql();
@@ -373,7 +377,7 @@
 
 2005-12-02 nowel
 
-    * fix - S2Dao_DaoMetaDataImpl
+    * fix: S2Dao_DaoMetaDataImpl
     * PDO 上での SQLite, PostgreSQL の動作を確認しました。
     * PostgreSQL の プレフィックスを postgre から pgsql へ変更しました。
     * S2Dao_PDODataSource を S2Container.PHP5 へ移動し、今後の管理はS2Container.PHP5で行うことになりました。
@@ -412,8 +416,8 @@
 
 2005-11-27 nowel
 
-    * fix - SQL Comment に関する処理を修正しました。
-    * fix - Improved Performance; Premared Statement.
+    * fix: SQL Comment に関する処理を修正しました。
+    * fix: Improved Performance; Premared Statement.
             プリペアステートメントに関する処理を修正しました。
     * PDO update PDOの処理を更新しました。
         - support サポートされているDBMSは以下です。
