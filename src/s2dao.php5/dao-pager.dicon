@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"examples/resource/components21.dtd">
+<components namespace="dao">
+
+    <include path="%PDO_DICON%" />
+
+    <component name="annotationReaderFactory"
+               class="S2Dao_FieldAnnotationReaderFactory" />
+               
+    <component class="S2Dao_DaoMetaDataFactoryImpl">
+        <arg>pdo.dataSource</arg>
+        <arg><component class="S2Dao_BasicStatementFactory" /></arg>
+        <arg><component class="S2Dao_BasicResultSetFactory" /></arg>
+        <arg>annotationReaderFactory</arg>
+    </component>
+    <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
+	<arg>
+	  <component class="S2DaoInterceptor" />
+	</arg>
+    </component>
+    <!--
+    <component name="interceptor" class="S2Dao_LimitOffsetS2DaoInterceptor"/> 
+    -->
+</components>

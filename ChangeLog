@@ -1,3 +1,14 @@
+2006-05-21 yonekawa(S2Dao.PHP5-1.1.0-RC4)
+
+    * S2Pagerを追加しました
+	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapper.class.php
+	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerResultSetWrapper.class.php
+	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerSupport.class.php
+	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerViewHelper.class.php
+	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerCondition.class.php
+	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_DefaultPagerCondition.class.php
+	- add: /src/s2dao.php5/dao-pager.dicon
+
 2006-05-21 nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * add: S2Dao_SelectDynamicCommand::getResultSetFactory()を追加しました。
