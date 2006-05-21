@@ -1,7 +1,7 @@
 <?php
 
 /**
- * S2DaoInterceptor(Limit句をつける)
+ * S2DaoInterceptor(Limit��)
  * @author yonekawa
  */
 class S2Dao_LimitOffsetS2DaoInterceptor extends S2DaoInterceptor {
@@ -24,9 +24,8 @@ class S2Dao_LimitOffsetS2DaoInterceptor extends S2DaoInterceptor {
             $cmd = $dmd->getSqlCommand($method->getName());
 
             $args = $invocation->getArguments();
-            print_r($args);
+
             if (sizeof($args)) {
-                print_r($args);
                 if ($args[0] instanceof S2Dao_PagerCondition) {
                     $cmd = S2Dao_SelectDynamicCommandLimitOffsetWrapperFactory::create($cmd);
                 }

@@ -1,11 +1,16 @@
 <?php
   
 /**
- * SelectDynamicCommand縺檎函謌舌＠縺欖QL縺ｫlimit蜿･繧偵▽縺代ｋ繝ｩ繝�繝代け繝ｩ繧ｹ
+ * SelectDynamicCommandをラップしてlimit句をつけるラッパクラス
  * @author yonekawa
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamicCommand
 {
+    const DSN_MYSQL = 0;
+    const DSN_PGSQL = 1;
+    const DSN_OTHER = 9;
+    
+    private $dsn = self::DSN_OTHER;
     private $selectDynamicCommand_ = null;
 
     public function __construct(S2Dao_SelectDynamicCommand $selectDynamicCommand)
@@ -24,7 +29,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
                                 $this->selectDynamicCommand_->getResultSetHandler(),
                                 $this->selectDynamicCommand_->getStatementFactory(),
                                 $this->selectDynamicCommand_->getResultSetFactory());
-
+        
         $bindVariables = $this->createBindVariables($ctx->getBindVariables(), $args);
         $bindVariableTypes = $this->createBindVariableTypes($ctx->getBindVariableTypes(),$args);
 
@@ -33,20 +38,39 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
 
     private function createSqlWithLimit($sql)
     {
-        return $sql . " LIMIT ?,?";
+        $datasource = $this->selectDynamicCommand_->getDataSource();
+
+        if (strpos($datasource->__toString(), 'dsn = pgsql')) { 
+            $this->dsn = self::DSN_PGSQL;
+            return $sql . " OFFSET ? LIMIT ?";
+        }
+        else if (strpos($datasource->__toString(), 'dsn = mysql')) {
+            $this->dsn = self::DSN_MYSQL;
+            return $sql . " LIMIT ?,?";
+        }
+        else {
+            $this->dsn = self::DSN_OTHER;
+            return $sql;
+        }
     }
 
     private function createBindVariables($bindVariables, $args)
     {
-        $condition = $args[0];
-        array_push($bindVariables, $condition->getOffset());
-        array_push($bindVariables, $condition->getLimit());
-        
+        if (!($this->dsn === self::DSN_OTHER)) {
+            $condition = $args[0];
+            array_push($bindVariables, $condition->getOffset());
+            array_push($bindVariables, $condition->getLimit());
+        }
         return $bindVariables;
     }
 
     private function createBindVariableTypes($bindVariableTypes, $args)
     {
+        if (!($this->dsn === self::DSN_OTHER)) {
+            array_push($bindVariableTypes, S2Dao_PHPType::Integer);
+            array_push($bindVariableTypes, S2Dao_PHPType::Integer);
+        }
+        print_r($bindVariableTypes);
         return $bindVariableTypes;
     }
 }

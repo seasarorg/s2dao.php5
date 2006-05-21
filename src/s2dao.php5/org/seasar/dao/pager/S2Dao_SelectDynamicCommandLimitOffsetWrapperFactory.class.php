@@ -1,7 +1,7 @@
 <?php
   
 /**
- * SelectDynamicCommandLimitOffsetWrapperã‚’ç”Ÿæˆã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * SelectDynamicCommandLimitOffsetWrapper‚ð¶¬‚·‚éƒNƒ‰ƒX
  * @author yonekawa
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapperFactory
