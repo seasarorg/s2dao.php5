@@ -24,30 +24,34 @@
 /**
  * @author nowel
  */
-class S2Dao_OracleProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
-    
-    private $connection;
-    private $dbms;
-    
-    public function __construct(PDO $connection, S2Dao_Dbms $dbms){
-        $this->connection = $connection;
-        $this->dbms = $dbms;
-    }
-    
-    public function getProcedures($catalog = null, $scheme = null, $procedureName){
+class S2Dao_NotExactlyOneRowUpdatedRuntimeExceptionTest extends PHPUnit2_Framework_TestCase {
+    /**
+     * Runs the test methods of this class.
+     *
+     * @access public
+     * @static
+     */
+    public static function main() {
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_NotExactlyOneRowUpdatedRuntimeExceptionTest");
+        $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    public function getProcedureColumnsIn(S2Dao_ProcedureInfo $procedureInfo){
+    /**
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
+     *
+     * @access protected
+     */
+    protected function setUp() {
     }
-    
-    public function getProcedureColumnsOut(S2Dao_ProcedureInfo $procedureInfo){
-    }
-    
-    public function getProcedureColumnsInOut(S2Dao_ProcedureInfo $procedureInfo){
-    }
-    
-    public function getProcedureColumnReturn(S2Dao_ProcedureInfo $procedureInfo){
+
+    /**
+     * Tears down the fixture, for example, close a network connection.
+     * This method is called after a test is executed.
+     *
+     * @access protected
+     */
+    protected function tearDown() {
     }
 }
-
 ?>

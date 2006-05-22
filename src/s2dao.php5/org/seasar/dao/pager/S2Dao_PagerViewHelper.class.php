@@ -137,7 +137,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
         if ($limit == 0) {
             return 0;
         } else {
-            return floor(($count() - 1 ) / $limit());
+            return floor(($count - 1) / $limit);
         }
     }
 

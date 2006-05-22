@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2DaoTestCase extends S2TestCase {
+class S2DaoTestCase extends S2Container_S2PHPUnit2TestCase {
 
     public function __construct($name = null) {
         if($name != null){

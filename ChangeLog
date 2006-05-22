@@ -1,18 +1,18 @@
-2006-05-21 yonekawa(S2Dao.PHP5-1.1.0-RC4)
+2006-05-22 nowel(S2Dao.PHP5-1.1.0-RC4)
+
+    * S2DaoTestCaseをS2Container_S2PHPUnit2TestCaseから継承するように変更しました。
+
+2006-05-21 yonekawa, nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * S2Pagerを追加しました
-	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapper.class.php
-	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerResultSetWrapper.class.php
-	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerSupport.class.php
-	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerViewHelper.class.php
-	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerCondition.class.php
-	- add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_DefaultPagerCondition.class.php
-	- add: /src/s2dao.php5/dao-pager.dicon
-    
+        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapper.class.php
+        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerResultSetWrapper.class.php
+        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerSupport.class.php
+        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerViewHelper.class.php
+        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerCondition.class.php
+        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_DefaultPagerCondition.class.php
+        - add: /src/s2dao.php5/dao-pager.dicon
     * add: example/s2dao_pagerを追加しました
-
-2006-05-21 nowel(S2Dao.PHP5-1.1.0-RC4)
-
     * add: S2Dao_SelectDynamicCommand::getResultSetFactory()を追加しました。
 
 2006-05-19 nowel(S2Dao.PHP5-1.1.0-RC4)
@@ -65,9 +65,9 @@
     * S2DaoSkeletonTask を修正しました。
         - DaoImplを生成するように変更しました。
 
-	* PROCEDURE アノテーション
-	    - 現在OUT、INOUTパラメータを必要とするStored Function、Stored Procedureには対応していません。
-	     IN パラメータのみバインドします。
+    * PROCEDURE アノテーション
+        - 現在OUT、INOUTパラメータを必要とするStored Function、Stored Procedureには対応していません。
+         IN パラメータのみバインドします。
     * PROCEDURE アノテーション対応DBMSが増えました。
         - PostgreSQL
         - SQLite
@@ -106,8 +106,9 @@
         - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_MandatoryInterceptor.class.php
         - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_NotSupportedInterceptor.class.php
         - add: src/s2dao.php5/org/seasar/extension/tx/S2Dao_NeverInterceptor.class.php
+        
     * modify: pdo.dicon
-    	    <!--
+        <!--
         <component name="requiredTx" class="S2Dao_RequiredInterceptor" />
         <component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" />
         <component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" />
