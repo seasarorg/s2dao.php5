@@ -1,24 +1,24 @@
 <?php
 
 /**
- * S2DaoInterceptor�㉃b�v����C���^�[�Z�v�^
+ * S2DaoInterceptorラップするインターセプタ
  * @author yonekawa
  */
 class S2Dao_PagerS2DaoInterceptorWrapper extends S2Container_AbstractInterceptor
 {
 
-    /** �I���W�i����S2DaoInteceptor */
+    /** オリジナルのS2DaoInteceptor */
     private $interceptor_;
 
-    /** @param interceptor �I���W�i����S2DaoInterceptor */
+    /** @param interceptor オリジナルのS2DaoInterceptor */
     public function __construct(S2DaoInterceptor $interceptor) 
     {
         $this->interceptor_ = $interceptor;
     }
 
     /**
-     * �C���^�[�Z�v�g�������\�b�h�̈�PagerCondition�̎��N���X���B���
-     * S2DaoInterceptor�̌��ʂ�PagerCondition�Ń��b�v�������ʂ�Ԃ��܂�
+     * インターセプトしたメソッドの引数がPagerConditionの実装クラスだったら
+     * S2DaoInterceptorの結果をPagerConditionでラップした結果を返します
      */
     public function invoke(S2Container_MethodInvocation $invocation) 
     {
