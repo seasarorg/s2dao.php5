@@ -57,11 +57,11 @@ class S2DaoSkeletonTask extends Task {
         include_once "S2Dao/S2Dao.php";
         
         // include DBMS classes
-        include_once "S2Dao/S2Dao/S2Dao_MySQL.class.php";
-        include_once "S2Dao/S2Dao/S2Dao_PostgreSQL.class.php";
-        include_once "S2Dao/S2Dao/S2Dao_SQLite.class.php";
-        include_once "S2Dao/S2Dao/S2Dao_Firebird.class.php";
-        include_once "S2Dao/S2Dao/S2Dao_Oracle.class.php";
+        include_once "S2Dao_MySQL.class.php";
+        include_once "S2Dao_PostgreSQL.class.php";
+        include_once "S2Dao_SQLite.class.php";
+        include_once "S2Dao_Firebird.class.php";
+        include_once "S2Dao_Oracle.class.php";
     }
     
     public function main(){
@@ -99,19 +99,23 @@ class S2DaoSkeletonTask extends Task {
     private function generateDao(S2DaoSkeletonGen $skel){
         $this->log("[create] [Dao]: " . $skel->getDaoName());
         $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getDaoFileName();
-        file_put_contents($path, $skel->createDaoContent());
+        $this->write($path, $skel->createDaoContent());
     }
     
     private function generateBean(S2DaoSkeletonGen $skel){
         $this->log("[create] [Bean]: " . $skel->getBeanName());
         $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getEntityFileName();
-        file_put_contents($path, $skel->createEntityContent());
+        $this->write($path, $skel->createEntityContent());
     }
     
     private function generateDaoImpl(S2DaoSkeletonGen $skel){
         $this->log("[create] [DaoImpl]: " . $skel->getDaoImplName());
         $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getDaoImplFileName();
-        file_put_contents($path, $skel->createDaoImplContent());
+        $this->write($path, $skel->createDaoImplContent());
+    }
+    
+    private function write($path, $content){
+        @file_put_contents($path, $content);
     }
 }
 

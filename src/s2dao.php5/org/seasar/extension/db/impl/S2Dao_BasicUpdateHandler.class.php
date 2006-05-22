@@ -37,7 +37,7 @@ class S2Dao_BasicUpdateHandler
         parent::__construct($dataSource, $sql, $statementFactory);
     }
     
-    public function execute($args, $argsTypes){
+    public function execute($args, $argsTypes = null){
         $stmt = $this->prepareStatement($this->getConnection());
         $this->bindArgs($stmt, $args, $argsTypes);
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
