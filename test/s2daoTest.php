@@ -16,9 +16,20 @@ S2ContainerClassLoader::import(PACKAGE_DIR . "/dao/unit");
 S2ContainerClassLoader::import(PACKAGE_DIR . "/dao/util");
 S2ContainerClassLoader::import(PACKAGE_DIR . "/dao/util/procedure");
 
-$suites = new PHPUnit2_Framework_TestSuite("All S2DAO_PHP5 tests");
-$suites->addTest(AnnotationAllTest::suite());
-PHPUnit2_TextUI_TestRunner::run($suites);
+class s2daoTests {
+    function __construct(){}
+    
+    public static function main(){
+        PHPUnit2_TextUI_TestRunner::run(self::suite());
+    }
+    
+    public static function suite(){
+        $suites = new PHPUnit2_Framework_TestSuite("All S2DAO_PHP5 tests");
+        $suites->addTest(AnnotationAllTest::suite());
+        return $suites;
+    }
+}
 
+s2daoTests::main();
 echo PHP_EOL;
 ?>
