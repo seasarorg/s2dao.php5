@@ -39,6 +39,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     {
         return $this->condition->getLimit();
     }
+    
     public function setLimit($limit)
     {
         $this->condition->setLimit($limit);
@@ -48,6 +49,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     {
         return $this->condition->getOffset();
     }
+    
     public function setOffset($offset)
     {
         $this->condition->setOffset($offset);
@@ -58,7 +60,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function isPrev() 
     {
-        return $this->condition->getOffset() > 0;
+        return 0 < $this->condition->getOffset();
     }
 
     /**
@@ -69,7 +71,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
         $count = $this->condition->getCount();
         $nextOffset = $this->condition->getOffset() + $this->condition->getLimit();
         
-        return $count > 0 && $nextOffset < $count;
+        return 0 < $count && $nextOffset < $count;
     }
 
     /**
@@ -82,7 +84,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
         if ($nextOffset <= 0 || $this->condition->getCount() <= 0) {
             return 0;
         } else {
-            return $nextOffset < $count ? $nextOffset - 1 : $count() - 1;
+            return $nextOffset < $count ? $nextOffset - 1 : $count - 1;
         }
     }
 
@@ -113,7 +115,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
         if ($limit == 0) {
             return 1;
         } else {
-            return $offset() / $limit();
+            return $offset / $limit;
         }
     }
 
@@ -149,7 +151,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
             return 0;
         } else {
             $currentPageIndex = $this->getPageIndex();
-            $displayPageIndexBegin = $currentPageIndex - (floor($displayPageMax / 2));
+            $displayPageIndexBegin = $currentPageIndex - (floor($this->displayPageMax / 2));
             return $displayPageIndexBegin < 0 ? 0 : $displayPageIndexBegin;
         }
     }

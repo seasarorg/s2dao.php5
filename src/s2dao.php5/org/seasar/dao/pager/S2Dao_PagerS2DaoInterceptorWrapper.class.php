@@ -1,37 +1,35 @@
 <?php
 
 /**
- * S2DaoInterceptor‚ðƒ‰ƒbƒv‚·‚éƒCƒ“ƒ^[ƒZƒvƒ^
+ * S2DaoInterceptorï¿½ã‰ƒbï¿½vï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½^ï¿½[ï¿½Zï¿½vï¿½^
  * @author yonekawa
  */
 class S2Dao_PagerS2DaoInterceptorWrapper extends S2Container_AbstractInterceptor
 {
 
-    /** ƒIƒŠƒWƒiƒ‹‚ÌS2DaoInteceptor */
+    /** ï¿½Iï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½ï¿½S2DaoInteceptor */
     private $interceptor_;
 
-    /** @param interceptor ƒIƒŠƒWƒiƒ‹‚ÌS2DaoInterceptor */
+    /** @param interceptor ï¿½Iï¿½ï¿½ï¿½Wï¿½iï¿½ï¿½ï¿½ï¿½S2DaoInterceptor */
     public function __construct(S2DaoInterceptor $interceptor) 
     {
         $this->interceptor_ = $interceptor;
     }
 
     /**
-     * ƒCƒ“ƒ^[ƒZƒvƒg‚µ‚½ƒƒ\ƒbƒh‚Ìˆø”‚ªPagerCondition‚ÌŽÀ‘•ƒNƒ‰ƒX‚¾‚Á‚½‚ç
-     * S2DaoInterceptor‚ÌŒ‹‰Ê‚ðPagerCondition‚Åƒ‰ƒbƒv‚µ‚½Œ‹‰Ê‚ð•Ô‚µ‚Ü‚·
+     * ï¿½Cï¿½ï¿½ï¿½^ï¿½[ï¿½Zï¿½vï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Ìˆï¿½PagerConditionï¿½ÌŽï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Bï¿½ï¿½ï¿½
+     * S2DaoInterceptorï¿½ÌŒï¿½ï¿½Ê‚ï¿½PagerConditionï¿½Åƒï¿½ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½
      */
     public function invoke(S2Container_MethodInvocation $invocation) 
     {
         $args = $invocation->getArguments();
-
         $result = $this->interceptor_->invoke($invocation);
 
-        if (!sizeof($args)) {
+        if (count($args) == 1) {
             return $result;
         }
 
-        if ( is_array( $result ) || $result instanceof S2Dao_ArrayList) {
-            
+        if (is_array($result) || $result instanceof S2Dao_ArrayList) {
             if ($args[0] instanceof S2Dao_PagerCondition) {
                 $dto = $args[0];
                 return S2Dao_PagerResultSetWrapper::create($result, $dto);
