@@ -1,3 +1,20 @@
+2006-05-23 nowel(S2Dao.PHP5-1.1.0-RC4)
+
+    * fix: コメントアノテーション時にN:1マッピングの取得がドキュメントと違っていたのを修正しました。
+    * fix: コメントアノテーション時にNoPersistentPropertyが正しく取得されないのを修正しました。
+    * add: TimestampProperty, VersionNoProperty アノテーションを追加しました。
+        ex)
+        /**
+         * @TimestampProperty(aa)
+         * @VersionNoProperty(bb)
+         */
+        class FooBean {
+            private $aa;
+            private $bb;
+                :
+                :
+        }
+
 2006-05-22 nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * S2DaoTestCaseをS2Container_S2PHPUnit2TestCaseから継承するように変更しました。

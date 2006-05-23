@@ -57,6 +57,8 @@ class S2DaoSkeletonTask extends Task {
         include_once "S2Dao/S2Dao.php";
         
         // include DBMS classes
+        include_once "S2Dao_Dbms.class.php";
+        include_once "S2Dao_Standard.class.php";
         include_once "S2Dao_MySQL.class.php";
         include_once "S2Dao_PostgreSQL.class.php";
         include_once "S2Dao_SQLite.class.php";

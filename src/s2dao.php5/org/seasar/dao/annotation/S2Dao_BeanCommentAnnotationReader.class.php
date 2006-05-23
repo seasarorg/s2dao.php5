@@ -58,25 +58,25 @@ class S2Dao_BeanCommentAnnotationReader implements S2Dao_BeanAnnotationReader {
     }
 
     public function getNoPersisteneProps() {
-        $anno = $this->getAnnotation();
-        if(isset($anno->noPersistentProperty)){
-            return $anno->noPersistentProperty;
+        $anno = $this->getAnnotation('NoPersistentProperty');
+        if(isset($anno->value)){
+            return $anno->value;
         }
         return null;
     }
 
     public function getVersionNoPropertyNameAnnotation() {
-        $anno = $this->getAnnotation();
-        if(isset($anno->versionNoProperty)){
-            return $anno->versionNoProperty;
+        $anno = $this->getAnnotation('VersionNoProperty');
+        if(isset($anno->value)){
+            return $anno->value;
         }
         return null;
     }
 
     public function getTimestampPropertyName() {
-        $anno = $this->getAnnotation();
-        if(isset($anno->timeStampProperty)){
-            return $anno->timeStampProperty;
+        $anno = $this->getAnnotation('TimestampProperty');
+        if(isset($anno->value)){
+            return $anno->value;
         }
         return null;
     }
@@ -113,8 +113,8 @@ class S2Dao_BeanCommentAnnotationReader implements S2Dao_BeanAnnotationReader {
         return null;
     }
     
-    private function getAnnotation(){
-        return S2Container_Annotations::getAnnotation(self::Anno,
+    private function getAnnotation($anno = self::Anno){
+        return S2Container_Annotations::getAnnotation($anno,
                                    $this->beanClass->getName());
     }
     

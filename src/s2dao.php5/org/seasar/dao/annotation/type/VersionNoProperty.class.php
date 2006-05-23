@@ -24,17 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_FieldDaoAnnotationReaderTest extends PHPUnit2_Framework_TestCase {
-
-    public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_FieldDaoAnnotationReaderTest");
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
-    }
-
-    protected function setUp() {
-    }
-
-    protected function tearDown() {
-    }
+class VersionNoPersistentProperty {
+    public $value = null;
 }
 ?>

@@ -25,113 +25,46 @@
  * @author nowel
  */
 class S2Dao_DaoCommentAnnotationReaderTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DaoCommentAnnotationReaderTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testGetBeanClass().
-     */
     public function testGetBeanClass() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetArgNames().
-     */
     public function testGetArgNames() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetNoPersistentProps().
-     */
     public function testGetNoPersistentProps() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetPersistentProps().
-     */
     public function testGetPersistentProps() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetQuery().
-     */
     public function testGetQuery() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetSQL().
-     */
     public function testGetSQL() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetStoredProcedureName().
-     */
     public function testGetStoredProcedureName() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetReturnType().
-     */
     public function testGetReturnType() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testIsSelectList().
-     */
     public function testIsSelectList() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testIsSelectArray().
-     */
     public function testIsSelectArray() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 }
 ?>

@@ -17,6 +17,4 @@ class ExtensionTests {
     }
 }
 
-ExtensionTests::main();
-
 ?>

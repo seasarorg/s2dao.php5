@@ -21,45 +21,58 @@
 // +----------------------------------------------------------------------+
 // $Id$
 //
+
+require_once dirname(__FILE__) . "/Dao.php";
+require_once dirname(__FILE__) . "/Bean.php";
+
 /**
  * @author nowel
  */
 class S2Dao_AbstractAnnotationReaderTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $beanAnnotation = null;
+    private $daoAnnotation = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_AbstractAnnotationReaderTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $factory = new S2Dao_FieldAnnotationReaderFactory();
+        $beanClass = new ReflectionClass("HogeBean");
+        $daoClass = new ReflectionClass("HogeDao");
+        $daoDesc = S2Container_BeanDescFactory::getBeanDesc($daoClass);
+
+        $this->daoAnnotationReader = $factory->createDaoAnnotationReader($daoDesc);
+        $this->beanAnnotationReader = $factory->createBeanAnnotationReader($beanClass);
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->beanAnnotationReader = null;
+        $this->daoAnnotationReader = null;
     }
 
-    /**
-     * @todo Implement test__call().
-     */
-    public function test__call() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testEachClassExtendsAbstractAnnotationReader(){
+        $this->assertTrue($this->beanAnnotationReader instanceof S2Dao_AbstractAnnotationReader);
+        $this->assertTrue($this->daoAnnotationReader instanceof S2Dao_AbstractAnnotationReader);
+        $this->assertNotEquals($tis->beanAnnotationReader, $this->daoAnnotationReader);
     }
+    
+    public function testBeanAnnotationNormalCall(){
+        $this->assertNull($this->beanAnnotationReader->getVersionNoPropertyNameAnnotation());
+        $table = $this->beanAnnotationReader->getTableAnnotation();
+        $this->assertNotNull($table);
+        $this->assertSame("HogeTable", $table);
+    }
+    
+    public function testDaoAnnotationNormalCall(){
+        $bean = $this->daoAnnotationReader->getBeanClass();
+        $this->assertNotNull($bean);
+        $this->assertTrue($bean == new ReflectionClass("HogeBean"));
+        $this->assertNotSame($bean, new ReflectionClass("HogeBean"));
+    }
+    
 }
+
 ?>

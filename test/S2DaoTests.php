@@ -30,6 +30,4 @@ class S2DaoTests {
     }
 }
 
-S2DaoTests::main();
-echo PHP_EOL;
 ?>

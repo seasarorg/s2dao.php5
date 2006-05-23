@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . "/test.condition.php";
 //require_once dirname(__FILE__) . "/setup.php";
 
-class sampleTests {
+class SampleTests {
     function __construct(){}
     
     public static function main(){
@@ -14,7 +14,5 @@ class sampleTests {
         return $suites;
     }
 }
-
-sampleTests::main();
 
 ?>
