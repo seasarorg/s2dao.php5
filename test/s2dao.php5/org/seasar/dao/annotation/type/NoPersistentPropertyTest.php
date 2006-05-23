@@ -25,33 +25,24 @@
  * @author nowel
  */
 class NoPersistentPropertyTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $nop = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("NoPersistentPropertyTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->nop = new NoPersistentProperty();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->nop = null;
+    }
+    
+    public function testDefaultValue(){
+        $this->assertTrue(is_array($this->nop->value));
     }
 }
 ?>

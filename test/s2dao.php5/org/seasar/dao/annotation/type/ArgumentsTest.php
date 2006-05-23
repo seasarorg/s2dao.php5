@@ -25,34 +25,27 @@
  * @author nowel
  */
 class ArgumentsTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $arg = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("ArgumentsTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->arg = new Arguments();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->arg = null;
     }
+    
+    public function testDefaultValue(){
+        $this->assertNotNull($this->arg->value);
+        $this->assertTrue(is_array($this->arg->value));
+    }
+    
 }
 
 ?>

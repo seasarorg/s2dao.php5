@@ -24,25 +24,26 @@
 /**
  * @author nowel
  */
-class PersistentPropertyTest extends PHPUnit2_Framework_TestCase {
-
-    private $prop = null;
-
-    public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("PersistentPropertyTest");
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
-    }
-
-    protected function setUp() {
-        $this->prop = new PersistentProperty();
-    }
-
-    protected function tearDown() {
-        $this->prop = null;
+class DbmsAllTest {
+    
+    public function __construct(){
     }
     
-    public function testDefaultValue(){
-        $this->assertTrue(is_array($this->prop->value));
+    public static function main(){
+        PHPUnit2_TextUI_TestRunner::run(self::suite());
+    }
+    
+    public static function suite() {
+        $suite = new PHPUnit2_Framework_TestSuite("Dbms All Test");
+        $suite->addTestSuite('S2Dao_DbmsManagerTest');
+        $suite->addTestSuite('S2Dao_FirebirdTest');
+        $suite->addTestSuite('S2Dao_MySQLTest');
+        $suite->addTestSuite('S2Dao_OracleTest');
+        $suite->addTestSuite('S2Dao_PostgreSQLTest');
+        $suite->addTestSuite('S2Dao_SQLiteTest');
+        $suite->addTestSuite('S2Dao_StandardTest');
+        return $suite;
     }
 }
+
 ?>

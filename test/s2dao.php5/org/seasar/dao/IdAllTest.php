@@ -24,25 +24,24 @@
 /**
  * @author nowel
  */
-class PersistentPropertyTest extends PHPUnit2_Framework_TestCase {
-
-    private $prop = null;
-
-    public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("PersistentPropertyTest");
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
-    }
-
-    protected function setUp() {
-        $this->prop = new PersistentProperty();
-    }
-
-    protected function tearDown() {
-        $this->prop = null;
+class IdAllTest {
+    
+    public function __construct(){
     }
     
-    public function testDefaultValue(){
-        $this->assertTrue(is_array($this->prop->value));
+    public static function main(){
+        PHPUnit2_TextUI_TestRunner::run(self::suite());
+    }
+    
+    public static function suite() {
+        $suite = new PHPUnit2_Framework_TestSuite("Id All Test");
+        $suite->addTestSuite('S2Dao_AbstractIdentifierGeneratorTest');
+        $suite->addTestSuite('S2Dao_AssignedIdentifierGeneratorTest');
+        $suite->addTestSuite('S2Dao_AssignedIdentifierGeneratorTest');
+        $suite->addTestSuite('S2Dao_IdentityIdentifierGeneratorTest');
+        $suite->addTestSuite('S2Dao_SequenceIdentifierGeneratorTest');
+        return $suite;
     }
 }
+
 ?>

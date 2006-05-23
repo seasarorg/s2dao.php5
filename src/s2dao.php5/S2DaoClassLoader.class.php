@@ -102,6 +102,8 @@ class S2DaoClassLoader {
         'Query' => '/dao/annotation/type/Query.class.php',
         'Relation' => '/dao/annotation/type/Relation.class.php',
         'Sql' => '/dao/annotation/type/Sql.class.php',
+        'TimestampProperty' => '/dao/annotation/type/TimestampProperty.class.php',
+        'VersionNoProperty' => '/dao/annotation/type/VersionNoProperty.class.php',
         'S2Dao_CommandContextImpl' => '/dao/context/S2Dao_CommandContextImpl.class.php',
         'S2Dao_DbmsManager' => '/dao/dbms/S2Dao_DbmsManager.class.php',
         'S2Dao_DB2' => '/dao/dbms/S2Dao_DB2.class.php',

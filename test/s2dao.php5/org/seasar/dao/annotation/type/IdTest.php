@@ -25,33 +25,25 @@
  * @author nowel
  */
 class IdTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $id = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("IdTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->id = new Id();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->id = null;
+    }
+    
+    public function testDefultValue(){
+        $this->assertEquals('assigned', $this->id->value);
+        $this->assertNull($this->id->sequenceName);
     }
 }
 ?>

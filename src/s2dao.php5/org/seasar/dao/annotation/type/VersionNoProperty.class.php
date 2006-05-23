@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class VersionNoPersistentProperty {
+class VersionNoProperty {
     public $value = null;
 }
 ?>

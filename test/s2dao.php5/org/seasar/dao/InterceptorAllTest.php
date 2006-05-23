@@ -24,17 +24,22 @@
 /**
  * @author nowel
  */
-class S2Dao_FieldBeanAnnotationReaderTest extends PHPUnit2_Framework_TestCase {
-
-    public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_FieldBeanAnnotationReaderTest");
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
+class InterceptorAllTest {
+    
+    public function __construct(){
     }
-
-    protected function setUp() {
+    
+    public static function main(){
+        PHPUnit2_TextUI_TestRunner::run(self::suite());
     }
-
-    protected function tearDown() {
+    
+    public static function suite() {
+        $suite = new PHPUnit2_Framework_TestSuite("Interceptor All Test");
+        $suite->addTestSuite('S2DaoAssertAtLeastOneRowInterceptorTest');
+        $suite->addTestSuite('S2DaoAssertExactlyOneRowInterceptorTest');
+        $suite->addTestSuite('S2DaoInterceptorTest');
+        return $suite;
     }
 }
+
 ?>

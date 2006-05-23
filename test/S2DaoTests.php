@@ -26,6 +26,11 @@ class S2DaoTests {
     public static function suite(){
         $suites = new PHPUnit2_Framework_TestSuite("All S2DAO_PHP5 tests");
         $suites->addTest(AnnotationAllTest::suite());
+        $suites->addTest(DbmsAllTest::suite());
+        $suites->addTest(IdAllTest::suite());
+        $suites->addTest(InterceptorAllTest::suite());
+        $suites->addTest(ParserAllTest::suite());
+        $suites->addTest(UtilAllTest::suite());
         return $suites;
     }
 }

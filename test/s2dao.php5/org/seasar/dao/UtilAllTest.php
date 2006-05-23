@@ -24,25 +24,31 @@
 /**
  * @author nowel
  */
-class PersistentPropertyTest extends PHPUnit2_Framework_TestCase {
-
-    private $prop = null;
-
-    public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("PersistentPropertyTest");
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
-    }
-
-    protected function setUp() {
-        $this->prop = new PersistentProperty();
-    }
-
-    protected function tearDown() {
-        $this->prop = null;
+class UtilAllTest {
+    
+    public function __construct(){
     }
     
-    public function testDefaultValue(){
-        $this->assertTrue(is_array($this->prop->value));
+    public static function main(){
+        PHPUnit2_TextUI_TestRunner::run(self::suite());
+    }
+    
+    public static function suite() {
+        $suite = new PHPUnit2_Framework_TestSuite("Util All Test");
+        $suite->addTestSuite('S2Dao_ArrayListTest');
+        $suite->addTestSuite('S2Dao_ArrayUtilTest');
+        $suite->addTestSuite('S2Dao_DatabaseMetaDataUtilTest');
+        $suite->addTestSuite('S2Dao_DataSourceUtilTest');
+        $suite->addTestSuite('S2Dao_HashMapTest');
+        $suite->addTestSuite('S2Dao_MySQLProcedureMetaDataImplTest');
+        $suite->addTestSuite('S2Dao_OracleProcedureMetaDataImplTest');
+        $suite->addTestSuite('S2Dao_PostgreSQLProcedureMetaDataImplTest');
+        $suite->addTestSuite('S2Dao_ProcedureInfoTest');
+        $suite->addTestSuite('S2Dao_ProcedureMetaDataFactoryTest');
+        $suite->addTestSuite('S2Dao_ProcedureTypeTest');
+        $suite->addTestSuite('S2Dao_SQLiteProcedureMetaDataImplTest');
+        return $suite;
     }
 }
+
 ?>

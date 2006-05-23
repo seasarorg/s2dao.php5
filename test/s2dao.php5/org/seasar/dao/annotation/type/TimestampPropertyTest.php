@@ -24,25 +24,25 @@
 /**
  * @author nowel
  */
-class PersistentPropertyTest extends PHPUnit2_Framework_TestCase {
+class TimestampPropertyTest extends PHPUnit2_Framework_TestCase {
 
-    private $prop = null;
+    private $tsmp = null;
 
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("PersistentPropertyTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("NoPersistentPropertyTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
     protected function setUp() {
-        $this->prop = new PersistentProperty();
+        $this->tsmp = new TimestampProperty();
     }
 
     protected function tearDown() {
-        $this->prop = null;
+        $this->tsmp = null;
     }
     
     public function testDefaultValue(){
-        $this->assertTrue(is_array($this->prop->value));
+        $this->assertNull($this->tsmp->value);
     }
 }
 ?>

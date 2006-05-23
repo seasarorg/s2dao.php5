@@ -25,33 +25,24 @@
  * @author nowel
  */
 class QueryTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $que = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("QueryTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->que = new Query();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->que = null;
+    }
+    
+    public function testDefaultValue(){
+        $this->assertNull($this->value);
     }
 }
 ?>

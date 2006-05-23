@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class TimestampPersistentProperty {
+class TimestampProperty {
     public $value = null;
 }
 ?>
