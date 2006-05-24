@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Test class for {className}Tests.
+ * Test class for {className}.
  */
-class {className}AllTests {
+class {className} {
 
     public function function __construct(){
     }

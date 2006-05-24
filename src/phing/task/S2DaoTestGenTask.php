@@ -73,6 +73,7 @@ class S2DaoTestGenTask extends Task {
         $allHeader = $skeldir . self::AllTestHeaderFile;
         $allFooter = $skeldir . self::AllTestFooterFile;
         $allContent = $skeldir . self::AllTestContentFile;
+        
         $testAll = new TestAllClassGen($makedFilePath);
         $testAll->setTemplates($allHeader, $allFooter, $allContent);
         $allTestsPath = $testAll->write($srcdir);
@@ -213,8 +214,7 @@ class TestAllClassGen {
     
     private function generate(){
         foreach($this->dirs as $dir){
-            $dirname = dirname($dir);
-            $className = ucfirst(basename($dirname)) . S2DaoTestGenTask::all_test_class_prefix;
+            $className = ucfirst(basename($dir)) . S2DaoTestGenTask::all_test_class_prefix;
             $source = $this->generateHeader($className);
             $source .= $this->generateContent($dir);
             $source .= $this->generateFooter();
