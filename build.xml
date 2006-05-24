@@ -4,15 +4,17 @@
     <taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
     <taskdef name="copy2" classname="src.phing.task.CopyFilesToOneDirTask" />
     <taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
+    <taskdef name="testgen" classname="src.phing.task.S2DaoTestGenTask" />
     
     <target name="init">
-    	    <property name="package.name" value="S2Dao" />
+            <property name="package.name" value="S2Dao" />
         <property name="project.name" value="${phing.project.name}" />
         <property name="project.version" value="1.1.0" />
         <property name="project.state" value="beta" />
         <property name="project.build.dir" value="${project.basedir}/build" />
         <property name="project.src.dir" value="${project.basedir}/src" />
-    	    <property name="skeleton.src.dir" value="${project.build.dir}/skel" />
+            <property name="skeleton.src.dir" value="${project.build.dir}/skel" />
+            <property name="test.src.dir" value="${project.build.dir}/test" />
         <property name="license.file" value="Apache_Software_License_2.0.txt" />
         <property name="release.notes" value="Release Candidate version 4" />
     </target>
@@ -26,6 +28,7 @@
         <echo message="generate ---> generate Dao,Bean(Entity) files from DBMS" />
         <echo message="build    ---> build all; don't create pear-package" />
         <echo message="pear-pkg ---> create pear-package" />
+            <echo message="testgen  ---> generate PHPUnit2 TestCase" />
         <echo message="clean    ---> remove build directory" />
         <echo message="----------------------------" />
         <echo message="" />
@@ -33,13 +36,15 @@
 
     <target name="clean" depends="init">
         <delete dir="${project.build.dir}/${package.name}" />
-    	    <delete dir="${skeleton.src.dir}" />
-    	    <delete dir="${project.build.dir}" />
+            <delete dir="${skeleton.src.dir}" />
+            <delete dir="${test.src.dir}" />
+            <delete dir="${project.build.dir}" />
     </target>
 
     <target name="prepare" depends="init">
         <mkdir dir="${project.build.dir}" />
-    	    <mkdir dir="${skeleton.src.dir}" />
+            <mkdir dir="${skeleton.src.dir}" />
+            <mkdir dir="${test.src.dir}" />
         <mkdir dir="${project.build.dir}/${project.name}/${package.name}" />
     </target>
     
@@ -123,6 +128,17 @@
                 <include name="package*.xml"/>
             </fileset>
         </move>
+    </target>
+    
+    <target name="testgen" depends="prepare">
+        <testgen>
+            <fileset dir="${project.src.dir}">
+                <include name="${project.name}/**/*.php"/>
+                    <exclude name="${project.name}/**/*.properties"/>
+                    <exclude name="${project.name}/**/*.dicon"/>
+                <exclude name="${project.name}/*"/>
+            </fileset>
+        </testgen>
     </target>
     
 </project>
