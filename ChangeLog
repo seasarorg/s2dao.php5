@@ -1,3 +1,9 @@
+2006-05-25 nowel(S2Dao.PHP5-1.1.0-RC4)
+
+    * add: PhingTask S2DaoTestGenTaskを追加しました。
+        - 現在はPHPUnit2のテストコードをPHPUnit2のSkeletonから自動生成します。
+        - /test と同様のテストコードを自動生成します。
+
 2006-05-23 nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * fix: コメントアノテーション時にN:1マッピングの取得がドキュメントと違っていたのを修正しました。

@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Test class for {className}Tests.
+ */
+class {className}AllTests {
+
+    public function function __construct(){
+    }
+
+    public static function main(){
+        PHPUnit2_TextUI_TestRunner::run(self::suite());
+    }
+
+    public static function suite(){
+        $suites = new PHPUnit2_Framework_TestSuite("{className} All Tests");

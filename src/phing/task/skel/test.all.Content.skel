@@ -1,0 +1,1 @@
+        $suite->addTestSuite('{testClass}');
