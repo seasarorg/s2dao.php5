@@ -25,113 +25,101 @@
  * @author nowel
  */
 class S2Dao_ArrayListTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $list = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_ArrayListTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->list = new S2Dao_ArrayList(
+                array(
+                    "a", "b", "c", "d", "e",
+                    "hoge" => "hoge",
+                    "foo" => "bar",
+                )
+        );
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->list = null;
+    }
+    
+    public function testS2Dao_ArrayList(){
+        $this->assertTrue($this->list instanceof S2Dao_ArrayList);
     }
 
-    /**
-     * @todo Implement testSize().
-     */
     public function testSize() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals(7, $this->list->size());
     }
 
-    /**
-     * @todo Implement testIsEmpty().
-     */
     public function testIsEmpty() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertFalse($this->list->isEmpty());
     }
 
-    /**
-     * @todo Implement testContains().
-     */
     public function testContains() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertTrue($this->list->contains("a"));
+        $this->assertTrue($this->list->contains("hoge"));
+        $this->assertTrue($this->list->contains("bar"));
+        $this->assertFalse($this->list->contains(array("hoge" => "hoge")));
+        $this->assertFalse($this->list->contains(array("foo" => "bar")));
     }
 
-    /**
-     * @todo Implement testGet().
-     */
     public function testGet() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals("a", $this->list->get(0));
+        $this->assertEquals("e", $this->list->get(4));
+        $this->assertSame("hoge", $this->list->get("hoge"));
     }
 
-    /**
-     * @todo Implement testSet().
-     */
     public function testSet() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->list->set(5, "hello");
+        $this->assertEquals("hello", $this->list->get(5));
+        $this->assertEquals(8, $this->list->size());
+        $this->assertTrue($this->list->contains("hello"));
     }
 
-    /**
-     * @todo Implement testAdd().
-     */
     public function testAdd() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->list->add("hello");
+        $this->list->add(6, "world");
+        $this->assertEquals("hello", $this->list->get(5));
+        $this->assertEquals("world", $this->list->get(6));
+        $this->assertEquals(9, $this->list->size());
+        $this->assertTrue($this->list->contains("hello"));
     }
 
-    /**
-     * @todo Implement testAddAll().
-     */
     public function testAddAll() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $aryObj = new ArrayObject(array("a", "b", "c", "d", "e"));
+        $this->list->addAll($aryObj);
+        $this->assertEquals(12, $this->list->size());
+        $this->assertEquals($this->list->get(0), $this->list->get(5));
+        $this->assertEquals($this->list->get(4), $this->list->get(9));
     }
 
-    /**
-     * @todo Implement testRemove().
-     */
     public function testRemove() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->list->remove(0);
+        $this->list->remove("hoge");
+        $this->assertEquals(5, $this->list->size());
+        $this->assertFalse($this->list->contains("hoge"));
+        $this->assertEquals("b", $this->list->get(1));
     }
 
-    /**
-     * @todo Implement testIterator().
-     */
     public function testIterator() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $itor = $this->list->iterator();
+        $this->assertTrue($itor instanceof Iterator);
+        $this->assertEquals("a", $itor->current());
+        $itor->next();
+        $this->assertTrue($itor->valid());
+        $this->assertEquals("b", $itor->current());
     }
 
-    /**
-     * @todo Implement testToArray().
-     */
     public function testToArray() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $array = $this->list->toArray();
+        $this->assertEquals($array, array("a", "b", "c", "d", "e",
+                                            "hoge" => "hoge", "foo" => "bar"));
+                                            
+        $this->assertEquals(count($array), $this->list->size());
     }
 }
 ?>

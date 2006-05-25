@@ -1,5 +1,6 @@
 2006-05-25 yonekawa,nowel(S2Dao.PHP5-1.1.0-RC4)
 
+    * fix: S2Dao_ArrayList::addAllメソッドでArrayObjectが正しく追加されないバグを修正しました。
     * add: S2Pager S2Dao_LimitOffsetInterceptorを追加しました。
 	- MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
 	- 使用する場合はdao-pager.diconの設定を書き換えます。

@@ -25,89 +25,77 @@
  * @author nowel
  */
 class S2Dao_HashMapTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $map = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_HashMapTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->map = new S2Dao_HashMap();
+        $this->map->put("a", array("aa", "aaa", "aaaa"));
+        $this->map->put("b", "b");
+        $this->map->put("c", new ArrayObject(array("cc", "ccc")));
+        $this->map->put("d", true);
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->map = null;
     }
 
-    /**
-     * @todo Implement testSize().
-     */
     public function testSize() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals(4, $this->map->size());
     }
 
-    /**
-     * @todo Implement testIsEmpty().
-     */
     public function testIsEmpty() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertFalse($this->map->isEmpty());
     }
 
-    /**
-     * @todo Implement testGet().
-     */
     public function testGet() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->map->put("a", array("aa", "aaa", "aaaa"));
+        $this->map->put("b", "b");
+        $this->map->put("c", new ArrayObject(array("cc", "ccc")));
+        $this->map->put("d", true);
+
+        $this->assertEquals(array("aa", "aaa", "aaaa"), $this->map->get("a"));
+        $this->assertEquals("b", $this->map->get("b"));
+        $this->assertEquals(new ArrayObject(array("cc", "ccc")), $this->map->get("c"));
+        $this->assertTrue($this->map->get("d"));
+        $this->assertNull($this->map->get("e"));
     }
 
-    /**
-     * @todo Implement testPut().
-     */
     public function testPut() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->map->put("a", "hoge");
+        $this->assertEquals("hoge", $this->map->get("a"));
+        $this->assertEquals(4, $this->map->size());
     }
 
-    /**
-     * @todo Implement testRemove().
-     */
     public function testRemove() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->map->remove("a");
+        $this->map->remove("b");
+        $this->assertEquals(2, $this->map->size());
+        $this->assertNull($this->map->get("a"));
+        $this->assertNull($this->map->get("b"));
     }
 
-    /**
-     * @todo Implement testContainsKey().
-     */
     public function testContainsKey() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertTrue($this->map->containsKey("a"));
+        $this->assertTrue($this->map->containsKey("c"));
+        $this->assertFalse($this->map->containsKey("hoge"));
     }
 
-    /**
-     * @todo Implement testToArray().
-     */
     public function testToArray() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $test = array(
+                    "a" => array("aa", "aaa", "aaaa"),
+                    "b" => "b",
+                    "c" => new ArrayObject(array("cc", "ccc")),
+                    "d" => true,
+                );
+                
+        $this->assertEquals($test, $this->map->toArray());
+        $this->assertEquals(count($test), count($this->map->toArray()));
     }
 }
 ?>
