@@ -42,5 +42,6 @@ interface S2Dao_Dbms {
     function getPrimaryKeySql();
     function getProcedureNamesSql();
     function getProcedureInfoSql();
+    function getLimitOffsetSql();
 }
 ?>
