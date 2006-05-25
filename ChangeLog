@@ -1,5 +1,19 @@
-2006-05-25 nowel(S2Dao.PHP5-1.1.0-RC4)
+2006-05-25 yonekawa,nowel(S2Dao.PHP5-1.1.0-RC4)
 
+    * add: S2Pager S2Dao_LimitOffsetInterceptorを追加しました。
+	- MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
+	- 使用する場合はdao-pager.diconの設定を書き換えます。
+	  
+	  ex)
+	  <!-- S2Dao_PagerS2DaoInterceptorWrapperをコメントアウト
+	  <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
+	    <arg>
+	      <component class="S2DaoInterceptor" />
+	    </arg>
+	  </component>
+	  -->
+	  <component name="inteceptor class="S2Dao_LimitOffsetS2DaoInterceptor"/>
+	
     * add: PhingTask S2DaoTestGenTaskを追加しました。
         - 現在はPHPUnit2のテストコードをPHPUnit2のSkeletonから自動生成します。
         - /test と同様のテストコードを自動生成します。

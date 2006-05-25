@@ -75,5 +75,9 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
                ' AND ns.nspname = ' . self::BIND_SCHEME .
                ' AND p.proname = ' . self::BIND_NAME;
     }
+    
+    public function getLimitOffset(){
+        return 'OFFSET ? LIMIT ?';
+    }
 }
 ?>

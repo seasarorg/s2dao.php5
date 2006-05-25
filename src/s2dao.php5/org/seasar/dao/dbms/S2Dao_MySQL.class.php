@@ -52,5 +52,10 @@ class S2Dao_MySQL extends S2Dao_Standard {
                ' WHERE db = ' . self::BIND_DB . 
                ' AND name = ' . self::BIND_NAME;
     }
+    
+    public function getLimitOffsetSql(){
+        return 'LIMIT ?,?';
+    }
+
 }
 ?>
