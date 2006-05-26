@@ -21,45 +21,46 @@
 // +----------------------------------------------------------------------+
 // $Id$
 //
-
-require_once dirname(__FILE__) . "/Dao.php";
-require_once dirname(__FILE__) . "/Bean.php";
-
 /**
  * @author nowel
  */
-class AnnotationAllTest {
-    
-    public function __construct(){
+class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framework_TestCase {
+
+    /**
+     * Runs the test methods of this class.
+     *
+     * @access public
+     * @static
+     */
+    public static function main() {
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_SelectDynamicCommandLimitOffsetWrapperTest");
+        $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
-    
-    public static function main(){
-        PHPUnit2_TextUI_TestRunner::run(self::suite());
+
+    /**
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
+     *
+     * @access protected
+     */
+    protected function setUp() {
     }
-    
-    public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite("Annotation All Test");
-        $suite->addTestSuite('S2Dao_AbstractAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_BeanCommentAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_BeanConstantAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_DaoCommentAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_DaoConstantAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_FieldAnnotationReaderFactoryTest');
-        $suite->addTestSuite('S2DaoAnnotationReaderTest');
-        $suite->addTestSuite('ArgumentsTest');
-        $suite->addTestSuite('BeanTest');
-        $suite->addTestSuite('ColumnTest');
-        $suite->addTestSuite('DaoTest');
-        $suite->addTestSuite('IdTest');
-        $suite->addTestSuite('NoPersistentPropertyTest');
-        $suite->addTestSuite('PersistentPropertyTest');
-        $suite->addTestSuite('ProcedureTest');
-        $suite->addTestSuite('QueryTest');
-        $suite->addTestSuite('RelationTest');
-        $suite->addTestSuite('SqlTest');
-        $suite->addTestSuite('TimestampPropertyTest');
-        $suite->addTestSuite('VersionNoPropertyTest');
-        return $suite;
+
+    /**
+     * Tears down the fixture, for example, close a network connection.
+     * This method is called after a test is executed.
+     *
+     * @access protected
+     */
+    protected function tearDown() {
+    }
+
+    /**
+     * @todo Implement testExecute().
+     */
+    public function testExecute() {
+        // Remove the following line when you implement this test.
+        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 }
 

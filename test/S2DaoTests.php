@@ -27,9 +27,14 @@ class S2DaoTests {
         $suites = new PHPUnit2_Framework_TestSuite("All S2DAO_PHP5 tests");
         $suites->addTest(AnnotationAllTest::suite());
         $suites->addTest(DbmsAllTest::suite());
+        $suites->addTest(ExceptionAllTest::suite());
+        $suites->addTest(HandlerAllTest::suite());
         $suites->addTest(IdAllTest::suite());
         $suites->addTest(InterceptorAllTest::suite());
+        $suites->addTest(NodeAllTest::suite());
+        $suites->addTest(PagerAllTest::suite());
         $suites->addTest(ParserAllTest::suite());
+        $suites->addTest(UnitAllTest::suite());
         $suites->addTest(UtilAllTest::suite());
         return $suites;
     }

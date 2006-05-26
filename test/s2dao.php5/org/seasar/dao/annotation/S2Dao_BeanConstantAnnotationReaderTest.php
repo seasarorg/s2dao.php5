@@ -25,105 +25,101 @@
  * @author nowel
  */
 class S2Dao_BeanConstantAnnotationReaderTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $readerFactory = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_BeanConstantAnnotationReaderTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->readerFactory = new S2Dao_FieldAnnotationReaderFactory();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->readerFactory = null;
     }
 
-    /**
-     * @todo Implement testGetColumnAnnotation().
-     */
     public function testGetColumnAnnotation() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $clazz = new ReflectionClass("AnnotationTestBean1");
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($clazz);
+        $reader = $this->readerFactory->createBeanAnnotationReader($clazz);
+        
+        $pd = $reader->getColumnAnnotation($beanDesc->getPropertyDesc("prop1"));
+        $this->assertEquals("Cprop1", $pd);
+        $pd = $reader->getColumnAnnotation($beanDesc->getPropertyDesc("prop2"));
+        $this->assertEquals("prop2", $pd);
     }
 
-    /**
-     * @todo Implement testGetTableAnnotation().
-     */
     public function testGetTableAnnotation() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $clazz1 = new ReflectionClass("AnnotationTestBean1");
+        $reader1 = $this->readerFactory->createBeanAnnotationReader($clazz1);
+        $this->assertEquals("TABLE", $reader1->getTableAnnotation());
+        
+        $clazz2 = new ReflectionClass("AnnotationTestBean2");
+        $reader2 = $this->readerFactory->createBeanAnnotationReader($clazz2);
+        $this->assertNull($reader2->getTableAnnotation());
     }
 
-    /**
-     * @todo Implement testGetVersionNoPropertyNameAnnotation().
-     */
     public function testGetVersionNoPropertyNameAnnotation() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $clazz1 = new ReflectionClass("AnnotationTestBean1");
+        $reader1 = $this->readerFactory->createBeanAnnotationReader($clazz1);
+        $str1 = $reader1->getVersionNoPropertyNameAnnotation();
+        $this->assertEquals("myVersionNo", $str1);
+
+        $clazz2 = new ReflectionClass("AnnotationTestBean2");
+        $reader2 = $this->readerFactory->createBeanAnnotationReader($clazz2);
+        $str2 = $reader2->getVersionNoPropertyNameAnnotation();
+        $this->assertNull($str2);
     }
 
-    /**
-     * @todo Implement testGetTimestampPropertyName().
-     */
     public function testGetTimestampPropertyName() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $clazz1 = new ReflectionClass("AnnotationTestBean1");
+        $reader1 = $this->readerFactory->createBeanAnnotationReader($clazz1);
+        $str1 = $reader1->getTimestampPropertyName();
+        $this->assertEquals("myTimestamp", $str1);
+        
+        $clazz2 = new ReflectionClass("AnnotationTestBean2");
+        $reader2 = $this->readerFactory->createBeanAnnotationReader($clazz2);
+        $str2 = $reader2->getTimestampPropertyName();
+        $this->assertNull($str2);
     }
 
-    /**
-     * @todo Implement testGetId().
-     */
     public function testGetId() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $clazz1 = new ReflectionClass("AnnotationTestBean1");
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($clazz1);
+        $reader1 = $this->readerFactory->createBeanAnnotationReader($clazz1);
+        
+        $str1 = $reader1->getId($beanDesc->getPropertyDesc("prop1"));
+        $this->assertEquals("sequence, sequenceName=myseq", $str1);
+        
+        $str2 = $reader1->getId($beanDesc->getPropertyDesc("prop2"));
+        $this->assertNull($str2);
     }
 
-    /**
-     * @todo Implement testGetNoPersisteneProps().
-     */
     public function testGetNoPersisteneProps() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $clazz1 = new ReflectionClass("AnnotationTestBean1");
+        $reader1 = $this->readerFactory->createBeanAnnotationReader($clazz1);
+        $strings1 = $reader1->getNoPersisteneProps();
+        $this->assertEquals("prop2", $strings1[0]);
+        
+        $clazz2 = new ReflectionClass("AnnotationTestBean2");
+        $reader2 = $this->readerFactory->createBeanAnnotationReader($clazz2);
+        $strings2 = $reader2->getNoPersisteneProps();
+        $this->assertNull($strings2);
     }
 
-    /**
-     * @todo Implement testGetRelationKey().
-     */
     public function testGetRelationKey() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $clazz1 = new ReflectionClass("AnnotationTestBean1");
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($clazz1);
+        $reader1 = $this->readerFactory->createBeanAnnotationReader($clazz1);
+        $pd = $beanDesc->getPropertyDesc("department");
+        $this->assertTrue($reader1->hasRelationNo($pd));
+        $this->assertEquals(0, $reader1->getRelationNo($pd));
+        $this->assertEquals("DEPTNUM:DEPTNO", $reader1->getRelationKey($pd));
+        $this->assertFalse($reader1->hasRelationNo($beanDesc->getPropertyDesc("prop2")));
     }
 
-    /**
-     * @todo Implement testGetRelationNo().
-     */
-    public function testGetRelationNo() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testHasRelationNo().
-     */
-    public function testHasRelationNo() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
 }
 ?>

@@ -25,33 +25,24 @@
  * @author nowel
  */
 class S2DaoTestCaseTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $test = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2DaoTestCaseTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->test = new S2DaoTestCase();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->test = null;
+    }
+    
+    public function testCorrectInstance(){
+        $this->assertTrue($this->test instanceof S2DaoTestCase);
     }
 }
 ?>

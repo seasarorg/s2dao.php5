@@ -21,44 +21,28 @@
 // +----------------------------------------------------------------------+
 // $Id$
 //
-
-require_once dirname(__FILE__) . "/Dao.php";
-require_once dirname(__FILE__) . "/Bean.php";
-
 /**
  * @author nowel
  */
-class AnnotationAllTest {
-    
+class PagerAllTest {
+
     public function __construct(){
     }
-    
+
     public static function main(){
         PHPUnit2_TextUI_TestRunner::run(self::suite());
     }
-    
-    public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite("Annotation All Test");
-        $suite->addTestSuite('S2Dao_AbstractAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_BeanCommentAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_BeanConstantAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_DaoCommentAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_DaoConstantAnnotationReaderTest');
-        $suite->addTestSuite('S2Dao_FieldAnnotationReaderFactoryTest');
-        $suite->addTestSuite('S2DaoAnnotationReaderTest');
-        $suite->addTestSuite('ArgumentsTest');
-        $suite->addTestSuite('BeanTest');
-        $suite->addTestSuite('ColumnTest');
-        $suite->addTestSuite('DaoTest');
-        $suite->addTestSuite('IdTest');
-        $suite->addTestSuite('NoPersistentPropertyTest');
-        $suite->addTestSuite('PersistentPropertyTest');
-        $suite->addTestSuite('ProcedureTest');
-        $suite->addTestSuite('QueryTest');
-        $suite->addTestSuite('RelationTest');
-        $suite->addTestSuite('SqlTest');
-        $suite->addTestSuite('TimestampPropertyTest');
-        $suite->addTestSuite('VersionNoPropertyTest');
+
+    public static function suite(){
+        $suite = new PHPUnit2_Framework_TestSuite("Pager All Test");
+        $suite->addTestSuite('S2Dao_DefaultPagerConditionTest');
+        $suite->addTestSuite('S2Dao_LimitOffsetS2DaoInterceptorTest');
+        $suite->addTestSuite('S2Dao_PagerResultSetWrapperTest');
+        $suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperTest');
+        $suite->addTestSuite('S2Dao_PagerSupportTest');
+        $suite->addTestSuite('S2Dao_PagerViewHelperTest');
+        $suite->addTestSuite('S2Dao_SelectDynamicCommandLimitOffsetWrapperFactoryTest');
+        $suite->addTestSuite('S2Dao_SelectDynamicCommandLimitOffsetWrapperTest');
         return $suite;
     }
 }

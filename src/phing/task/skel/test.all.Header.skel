@@ -5,7 +5,7 @@
  */
 class {className} {
 
-    public function function __construct(){
+    public function __construct(){
     }
 
     public static function main(){
@@ -13,4 +13,4 @@ class {className} {
     }
 
     public static function suite(){
-        $suites = new PHPUnit2_Framework_TestSuite("{className} All Tests");
+        $suite = new PHPUnit2_Framework_TestSuite("{className} All Tests");

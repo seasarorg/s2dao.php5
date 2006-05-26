@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . "/test.condition.php";
 //require_once dirname(__FILE__) . "/setup.php";
 
+S2ContainerClassLoader::import(PACKAGE_DIR . "/extension");
 S2ContainerClassLoader::import(PACKAGE_DIR . "/extension/dataset");
 S2ContainerClassLoader::import(PACKAGE_DIR . "/extension/db");
 S2ContainerClassLoader::import(PACKAGE_DIR . "/extension/tx");
@@ -13,6 +14,9 @@ class ExtensionTests {
     }
     public static function suite(){
         $suites = new PHPUnit2_Framework_TestSuite("All S2DAO_PHP5 Extensions tests");
+        $suites->addTest(ExDatasetAllTest::suite());
+        $suites->addTest(ExDbAllTest::suite());
+        $suites->addTest(ExTxAllTest::suite());
         return $suites;
     }
 }

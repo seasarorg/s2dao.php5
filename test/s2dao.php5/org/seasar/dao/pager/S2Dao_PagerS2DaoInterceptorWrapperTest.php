@@ -25,6 +25,7 @@
  * @author nowel
  */
 class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase {
+
     /**
      * Runs the test methods of this class.
      *
@@ -62,4 +63,5 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
         throw new PHPUnit2_Framework_IncompleteTestError;
     }
 }
+
 ?>
