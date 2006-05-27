@@ -26,81 +26,52 @@
  */
 class S2Dao_DefaultPagerConditionTest extends PHPUnit2_Framework_TestCase {
 
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+    private $condition_;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DefaultPagerConditionTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->condition_ = new S2Dao_DefaultPagerCondition();
+        $this->condition_->setOffset(5);
+        $this->condition_->setLimit(10);
+        $this->condition_->setCount(100);
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->condition_ = null;
     }
 
     /**
      * @todo Implement testGetCount().
      */
     public function testGetCount() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->condition_->getCount(), 100);
     }
 
-    /**
-     * @todo Implement testSetCount().
-     */
     public function testSetCount() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->condition_->setCount(50);
+        $this->assertEquals($this->condition_->getCount(), 50);
     }
 
-    /**
-     * @todo Implement testGetLimit().
-     */
     public function testGetLimit() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->condition_->getLimit(), 10);
     }
 
-    /**
-     * @todo Implement testSetLimit().
-     */
     public function testSetLimit() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->condition_->setLimit(20);
+        $this->assertEquals($this->condition_->getLimit(), 20);
     }
 
-    /**
-     * @todo Implement testGetOffset().
-     */
     public function testGetOffset() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->condition_->getOffset(), 5);
     }
 
-    /**
-     * @todo Implement testSetOffset().
-     */
     public function testSetOffset() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->condition_->setOffset(3);
+        $this->assertEquals($this->condition_->getOffset(), 3);
     }
 }
 

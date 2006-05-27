@@ -25,7 +25,7 @@
  * @author nowel
  */
 class S2Dao_PagerResultSetWrapperTest extends PHPUnit2_Framework_TestCase {
-
+    
     /**
      * Runs the test methods of this class.
      *
@@ -56,11 +56,22 @@ class S2Dao_PagerResultSetWrapperTest extends PHPUnit2_Framework_TestCase {
     }
 
     /**
-     * @todo Implement testCreate().
+     * 
      */
     public function testCreate() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        
+        $array = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+        $array_part = array("3", "4", "5");
+        $dto = new S2Dao_DefaultPagerCondition();
+
+        $dto->setLimit(3);
+        $dto->setOffset(3);
+        
+        $this->assertEquals(S2Dao_PagerResultSetWrapper::create($array, $dto), 
+                            $array_part);
+
+        $this->assertEquals($dto->getCount(), 10);
+        
     }
 }
 

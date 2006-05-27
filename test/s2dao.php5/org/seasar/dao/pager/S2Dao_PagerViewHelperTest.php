@@ -26,32 +26,22 @@
  */
 class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
 
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+    private $helper_ = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerViewHelperTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $dto = new S2Dao_DefaultPagerCondition();
+        $dto->setCount(50);
+        $dto->setOffset(5);
+        $dto->setLimit(10);
+        
+        $this->helper_ = new S2Dao_PagerViewHelper($dto);
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
@@ -59,128 +49,109 @@ class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
      * @todo Implement testGetCount().
      */
     public function testGetCount() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->helper_->getCount(), 50);
     }
 
     /**
      * @todo Implement testSetCount().
      */
     public function testSetCount() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setCount(100);
+        $this->assertEquals($this->helper_->getCount(), 100);
     }
 
-    /**
-     * @todo Implement testGetLimit().
-     */
     public function testGetLimit() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->helper_->getLimit(), 10);
     }
 
     /**
      * @todo Implement testSetLimit().
      */
     public function testSetLimit() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setLimit(20);
+        $this->assertEquals($this->helper_->getLimit(), 20);
     }
 
     /**
      * @todo Implement testGetOffset().
      */
     public function testGetOffset() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->helper_->getOffset(), 5);
     }
 
     /**
      * @todo Implement testSetOffset().
      */
     public function testSetOffset() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setOffset(3);
+        $this->assertEquals($this->helper_->getOffset(), 3);
     }
 
-    /**
-     * @todo Implement testIsPrev().
-     */
-    public function testIsPrev() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testIsPrevTrue() {
+        $this->assertEquals($this->helper_->isPrev(), true);
+    }
+    
+    public function testIsPrevFalse() {
+        $this->helper_->setOffset(0);
+        $this->assertEquals($this->helper_->isPrev(), false);
     }
 
-    /**
-     * @todo Implement testIsNext().
-     */
-    public function testIsNext() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testIsNextTrue() {
+        $this->assertEquals($this->helper_->isNext(), true);
     }
 
-    /**
-     * @todo Implement testGetCurrentLastOffset().
-     */
+    public function testIsNextFalse() {
+        $lastIndex = $this->helper_->getCount() - 1;
+        $this->helper_->setOffset($lastIndex);
+        $this->assertEquals($this->helper_->isNext(), false);
+    }
+
     public function testGetCurrentLastOffset() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->helper_->getCurrentLastOffset(), 14);
     }
 
-    /**
-     * @todo Implement testGetNextOffset().
-     */
+    public function testGetCurrentLastOffsetNextOffsetNotExists() {
+        $this->helper_->setOffset($this->helper_->getCount() - 1);
+        $this->assertEquals($this->helper_->getCurrentLastOffset(), $this->helper_->getCount() - 1);
+    }
+
     public function testGetNextOffset() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->helper_->getNextOffset(), 15);
     }
 
-    /**
-     * @todo Implement testGetPrevOffset().
-     */
     public function testGetPrevOffset() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setOffset(10);
+        $this->helper_->setLimit(5);
+        $this->assertEquals($this->helper_->getPrevOffset(), 5);
+    }
+    public function testGetPrevOffsetNotExists() {
+        $this->assertEquals($this->helper_->getPrevOffset(), 0);
     }
 
-    /**
-     * @todo Implement testGetPageIndex().
-     */
     public function testGetPageIndex() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setOffset(10);
+        $this->assertEquals($this->helper_->getPageIndex(), 1);
     }
 
-    /**
-     * @todo Implement testGetPageCount().
-     */
     public function testGetPageCount() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setOffset(10);
+        $this->assertEquals($this->helper_->getPageCount(), 2);
     }
 
-    /**
-     * @todo Implement testGetLastPageIndex().
-     */
     public function testGetLastPageIndex() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->helper_->getLastPageIndex(), 4);
     }
 
-    /**
-     * @todo Implement testGetDisplayPageIndexBegin().
-     */
     public function testGetDisplayPageIndexBegin() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setCount(20);
+        $this->helper_->setOffset(5);
+        $this->helper_->setLimit(1);
+        $this->assertEquals($this->helper_->getDisplayPageIndexBegin(), 1);
     }
 
-    /**
-     * @todo Implement testGetDisplayPageIndexEnd().
-     */
     public function testGetDisplayPageIndexEnd() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->helper_->setCount(150);
+        $this->assertEquals($this->helper_->getDisplayPageIndexEnd(), 8);
     }
 }
 
