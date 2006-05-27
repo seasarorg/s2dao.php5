@@ -38,7 +38,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
 
     private function createSqlWithLimit($sql)
     {
-        $connection = $this->selectDynamicCommand_->getConnection();
+        $connection = $this->selectDynamicCommand_->getDataSource()->getConnection();
         $dbms = S2Dao_DbmsManager::getDbms($connection);
 
         if ($dbms instanceof S2Dao_PostgreSQL) { 

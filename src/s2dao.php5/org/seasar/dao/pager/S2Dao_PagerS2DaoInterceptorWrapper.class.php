@@ -24,19 +24,15 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2Container_AbstractInterceptor
     {
         $args = $invocation->getArguments();
         $result = $this->interceptor_->invoke($invocation);
-
-        if (count($args) == 1) {
+        
+        if ((count($args) < 1) || (!is_array($result) && !($result instanceof S2Dao_ArrayList))) {
             return $result;
         }
 
-        if (is_array($result) || $result instanceof S2Dao_ArrayList) {
-            if ($args[0] instanceof S2Dao_PagerCondition) {
-                $dto = $args[0];
-                return S2Dao_PagerResultSetWrapper::create($result, $dto);
-            }
+        if ($args[0] instanceof S2Dao_PagerCondition) {
+            $condition = $args[0];
+            return S2Dao_PagerResultSetWrapper::create($result, $condition);
         }
-        
-        return $result;
     }
     
 }
