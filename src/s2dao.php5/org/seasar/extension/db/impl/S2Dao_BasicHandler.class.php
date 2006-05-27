@@ -68,7 +68,7 @@ class S2Dao_BasicHandler {
         if ($this->dataSource_ == null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
         }
-        return S2Dao_DataSourceUtil::getConnection($this->dataSource_);
+        return $this->dataSource_->getConnection();
     }
 
     protected function prepareStatement(PDO $connection) {

@@ -49,10 +49,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected $daoSuffixes_ = array('Dao');
 
     public function __construct(ReflectionClass $daoClass,
-                              S2Container_DataSource $dataSource,
-                              S2Dao_StatementFactory $statementFactory,
-                              S2Dao_ResultSetFactory $resultSetFactory,
-                              S2Dao_FieldAnnotationReaderFactory $annotationReaderFactory = null){
+                                S2Container_DataSource $dataSource,
+                                S2Dao_StatementFactory $statementFactory,
+                                S2Dao_ResultSetFactory $resultSetFactory,
+                                S2Dao_FieldAnnotationReaderFactory $annotationReaderFactory = null){
 
         if(null == $annotationReaderFactory){
             $annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
@@ -218,54 +218,30 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected function setupInsertMethodByAuto(ReflectionMethod $method) {
         $this->checkAutoUpdateMethod($method);
         $propertyNames = $this->getPersistentPropertyNames($method);
-        $cmd = null;
-        if ($this->isUpdateSignatureForBean($method)) {
-            $cmd = new S2Dao_InsertAutoStaticCommand($this->dataSource_,
-                                               $this->statementFactory_,
-                                               $this->beanMetaData_,
-                                               $propertyNames);
-        } else {
-            $cmd = new S2Dao_InsertBatchAutoStaticCommand($this->dataSource_,
-                                                    $this->statementFactory_,
-                                                    $this->beanMetaData_,
-                                                    $propertyNames);
-        }
+        $cmd = new S2Dao_InsertAutoStaticCommand($this->dataSource_,
+                                           $this->statementFactory_,
+                                           $this->beanMetaData_,
+                                           $propertyNames);
         $this->sqlCommands_->put($method->getName(), $cmd);
     }
 
     protected function setupUpdateMethodByAuto(ReflectionMethod $method) {
         $this->checkAutoUpdateMethod($method);
         $propertyNames = $this->getPersistentPropertyNames($method);
-        $cmd = null;
-        if ($this->isUpdateSignatureForBean($method)) {
-            $cmd = new S2Dao_UpdateAutoStaticCommand($this->dataSource_,
-                                               $this->statementFactory_,
-                                               $this->beanMetaData_,
-                                               $propertyNames);
-        } else {
-            $cmd = new S2Dao_UpdateBatchAutoStaticCommand($this->dataSource_,
-                                                    $this->statementFactory_,
-                                                    $this->beanMetaData_,
-                                                    $propertyNames);
-        }
+        $cmd = new S2Dao_UpdateAutoStaticCommand($this->dataSource_,
+                                           $this->statementFactory_,
+                                           $this->beanMetaData_,
+                                           $propertyNames);
         $this->sqlCommands_->put($method->getName(), $cmd);
     }
 
     protected function setupDeleteMethodByAuto(ReflectionMethod $method) {
         $this->checkAutoUpdateMethod($method);
         $propertyNames = $this->getPersistentPropertyNames($method);
-        $cmd = null;
-        if ($this->isUpdateSignatureForBean($method)) {
-            $cmd = new S2Dao_DeleteAutoStaticCommand($this->dataSource_,
-                                               $this->statementFactory_,
-                                               $this->beanMetaData_,
-                                               $propertyNames);
-        } else {
-            $cmd = new S2Dao_DeleteBatchAutoStaticCommand($this->dataSource_,
-                                                    $this->statementFactory_,
-                                                    $this->beanMetaData_,
-                                                    $propertyNames);
-        }
+        $cmd = new S2Dao_DeleteAutoStaticCommand($this->dataSource_,
+                                           $this->statementFactory_,
+                                           $this->beanMetaData_,
+                                           $propertyNames);
         $this->sqlCommands_->put($method->getName(), $cmd);
     }
     

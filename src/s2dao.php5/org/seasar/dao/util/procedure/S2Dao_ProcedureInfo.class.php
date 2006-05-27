@@ -31,7 +31,7 @@ class S2Dao_ProcedureInfo {
     private $name = '';
     private $type = '';
     
-    public function __construc($catalog, $scheme, $name, $type){
+    public function __construct($catalog, $scheme, $name, $type){
         $this->catalog = $catalog;
         $this->scheme = $scheme;
         $this->name = $name;

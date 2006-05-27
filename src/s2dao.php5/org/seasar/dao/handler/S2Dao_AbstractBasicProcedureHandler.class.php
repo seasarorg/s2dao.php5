@@ -61,7 +61,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         if ($this->dataSource_ === null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
         }
-        return S2Dao_DataSourceUtil::getConnection($this->dataSource_);
+        return $this->dataSource_->getConnection();
     }
 
     protected function prepareCallableStatement(PDO $connection) {
