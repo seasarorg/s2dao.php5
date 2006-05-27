@@ -25,49 +25,33 @@
  * @author nowel
  */
 class S2Dao_IdentityIdentifierGeneratorTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $datasource = null;
+    
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_IdentityIdentifierGeneratorTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->datasource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testSetIdentifier().
-     */
-    public function testSetIdentifier() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
+    public function testGetGeneratedValueTx() {
+        $sql = "insert into identitytable(id, id_name) values(0, 'hoge')";
+        $updateHandler = new S2Dao_BasicUpdateHandler($this->datasource, $sql);
+        $updateHandler->execute(null);
 
-    /**
-     * @todo Implement testIsSelfGenerate().
-     */
-    public function testIsSelfGenerate() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $generator = new S2Dao_IdentityIdentifierGenerator("id", new S2Dao_SQLite());
+        $hoge = new Hoge2Bean();
+        $generator->setIdentifier($hoge, $this->datasource);
+        
+        var_dump($hoge->getId());
+        $this->assertTrue(0 <= $hoge->getId());
     }
 }
 ?>

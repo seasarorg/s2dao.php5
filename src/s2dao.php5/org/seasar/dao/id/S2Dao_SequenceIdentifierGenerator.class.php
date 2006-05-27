@@ -43,9 +43,9 @@ class S2Dao_SequenceIdentifierGenerator extends S2Dao_AbstractIdentifierGenerato
     public function setIdentifier($bean, $value) {
         if($value instanceof S2Container_PDODataSource){
             $retVal = $this->executeSql($value,
-                    $this->getDbms()->getSequenceNextValString(
-                    $this->sequenceName_),null);
-            $this->setIdentifier($bean, $retVal);
+                    $this->getDbms()->getSequenceNextValString($this->sequenceName_),
+                    null);
+            parent::setIdentifier($bean, $retVal);
         }
     }
 

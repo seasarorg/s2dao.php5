@@ -34,27 +34,21 @@ class S2DaoImplAllTest {
     }
 
     public static function suite(){
-        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
+        $suite = new PHPUnit2_Framework_TestSuite("All Implementation Tests");
         $suite->addTestSuite('S2Dao_BeanArrayMetaDataResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_BeanListMetaDataResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_BeanMetaDataImplTest');
         $suite->addTestSuite('S2Dao_BeanMetaDataResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_DaoMetaDataFactoryImplTest');
         $suite->addTestSuite('S2Dao_DaoMetaDataImplTest');
-        $suite->addTestSuite('S2Dao_DeleteAutoHandlerTest');
-        $suite->addTestSuite('S2Dao_DeleteAutoStaticCommandTest');
         $suite->addTestSuite('S2Dao_DtoMetaDataImplTest');
         $suite->addTestSuite('S2Dao_EntityManagerImplTest');
         $suite->addTestSuite('S2Dao_InsertAutoDynamicCommandTest');
-        $suite->addTestSuite('S2Dao_InsertAutoHandlerTest');
-        $suite->addTestSuite('S2Dao_InsertAutoStaticCommandTest');
         $suite->addTestSuite('S2Dao_RelationKeyTest');
         $suite->addTestSuite('S2Dao_RelationPropertyTypeImplTest');
         $suite->addTestSuite('S2Dao_RelationRowCacheTest');
         $suite->addTestSuite('S2Dao_SelectDynamicCommandTest');
         $suite->addTestSuite('S2Dao_StaticStoredProcedureCommandTest');
-        $suite->addTestSuite('S2Dao_UpdateAutoHandlerTest');
-        $suite->addTestSuite('S2Dao_UpdateAutoStaticCommandTest');
         $suite->addTestSuite('S2Dao_UpdateDynamicCommandTest');
         return $suite;
     }

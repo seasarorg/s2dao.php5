@@ -34,7 +34,7 @@ class NodeAllTest {
     }
 
     public static function suite(){
-        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
+        $suite = new PHPUnit2_Framework_TestSuite("All Node Tests");
         $suite->addTestSuite('S2Dao_AddWhereIfNodeTest');
         $suite->addTestSuite('S2Dao_BeginNodeTest');
         $suite->addTestSuite('S2Dao_BindVariableNodeTest');

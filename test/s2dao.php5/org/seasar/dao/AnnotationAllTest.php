@@ -38,7 +38,7 @@ class AnnotationAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
+        $suite = new PHPUnit2_Framework_TestSuite("All Annotation Tests");
         $suite->addTestSuite('S2Dao_AbstractAnnotationReaderTest');
         $suite->addTestSuite('S2Dao_BeanCommentAnnotationReaderTest');
         $suite->addTestSuite('S2Dao_BeanConstantAnnotationReaderTest');

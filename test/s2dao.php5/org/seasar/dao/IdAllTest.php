@@ -38,7 +38,7 @@ class IdAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
+        $suite = new PHPUnit2_Framework_TestSuite("All Id Tests");
         $suite->addTestSuite('S2Dao_AbstractIdentifierGeneratorTest');
         $suite->addTestSuite('S2Dao_AssignedIdentifierGeneratorTest');
         $suite->addTestSuite('S2Dao_IdentifierGeneratorFactoryTest');

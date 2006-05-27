@@ -34,7 +34,7 @@ class UtilAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
+        $suite = new PHPUnit2_Framework_TestSuite("All Util Tests");
         $suite->addTestSuite('S2Dao_ArrayListTest');
         $suite->addTestSuite('S2Dao_ArrayUtilTest');
         $suite->addTestSuite('S2Dao_DatabaseMetaDataUtilTest');

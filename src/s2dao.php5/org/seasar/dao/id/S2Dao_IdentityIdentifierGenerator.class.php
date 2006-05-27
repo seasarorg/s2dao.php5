@@ -35,7 +35,7 @@ class S2Dao_IdentityIdentifierGenerator extends S2Dao_AbstractIdentifierGenerato
             $retVal = $this->executeSql($value,
                                      $this->getDbms()->getIdentitySelectString(),
                                      null);
-            $this->setIdentifier($bean, $retVal);
+            parent::setIdentifier($bean, $retVal);
         }
     }
 

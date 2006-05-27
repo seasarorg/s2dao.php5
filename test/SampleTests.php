@@ -1,9 +1,10 @@
 <?php
-require_once dirname(__FILE__) . "/test.condition.php";
-//require_once dirname(__FILE__) . "/setup.php";
+require_once dirname(__FILE__) . "/test.environment.php";
+require_once dirname(__FILE__) . "/setup.php";
 
 class SampleTests {
-    function __construct(){}
+    
+    public function __construct(){}
     
     public static function main(){
         PHPUnit2_TextUI_TestRunner::run(self::suite());

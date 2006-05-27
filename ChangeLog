@@ -10,6 +10,7 @@
         - S2Dao_UpdateBatchAutoHandler.class.php
         - S2Dao_UpdateBatchAutoStaticCommand.class.php
     * remove: S2Dao_DataSourceUtilを削除しました。
+    * fix: IDアノテーションが正しく行えばいバグを修正しました。
 
 2006-05-25 yonekawa,nowel(S2Dao.PHP5-1.1.0-RC4)
 

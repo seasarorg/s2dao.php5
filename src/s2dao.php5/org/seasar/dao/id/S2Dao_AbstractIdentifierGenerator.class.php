@@ -59,7 +59,8 @@ abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGene
             if ($this->propertyName_ == null) {
                 throw new S2Container_EmptyRuntimeException('propertyName');
             }
-            $beanDesc = S2Container_BeanDescFactory::getBeanDesc(get_class($bean));
+            $class = new ReflectionClass(get_class($bean));
+            $beanDesc = S2Container_BeanDescFactory::getBeanDesc($class);
             $pd = $beanDesc->getPropertyDesc($this->propertyName_);
             $pd->setValue($bean, $value);
         }

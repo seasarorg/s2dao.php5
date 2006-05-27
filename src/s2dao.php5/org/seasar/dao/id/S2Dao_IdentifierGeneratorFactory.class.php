@@ -57,7 +57,7 @@ class S2Dao_IdentifierGeneratorFactory {
             return new S2Dao_AssignedIdentifierGenerator($propertyName, $dbms);
         }
         
-        $array = explode('=, ', $annotation);
+        $array = S2Dao_ArrayUtil::spacetrim(preg_split("/(=|,)/", $annotation));
         $clazz = self::getGeneratorClass($array[0]);
         
         $refCls = new ReflectionClass($clazz);
@@ -71,7 +71,8 @@ class S2Dao_IdentifierGeneratorFactory {
     }
     
     protected static function setProperty($generator, $propertyName, $value) {
-        $beanDesc = S2Container_BeanDescFactory::getBeanDesc(get_class($generator));
+        $class = new ReflectionClass(get_class($generator));
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($class);
         $pd = $beanDesc->getPropertyDesc($propertyName);
         $pd->setValue($generator, $value);
     }

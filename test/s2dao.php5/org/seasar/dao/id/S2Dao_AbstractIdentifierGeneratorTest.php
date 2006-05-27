@@ -25,57 +25,31 @@
  * @author nowel
  */
 class S2Dao_AbstractIdentifierGeneratorTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $datasource = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_AbstractIdentifierGeneratorTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->datasource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->datasource = null;
     }
 
-    /**
-     * @todo Implement testGetPropertyName().
-     */
     public function testGetPropertyName() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $generator = new S2Dao_IdentityIdentifierGenerator("id", new S2Dao_SQLite());
+        $this->assertEquals("id", $generator->getPropertyName());
     }
 
-    /**
-     * @todo Implement testGetDbms().
-     */
     public function testGetDbms() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testSetIdentifier().
-     */
-    public function testSetIdentifier() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $generator = new S2Dao_AssignedIdentifierGenerator("id", new S2Dao_SQLite());
+        $this->assertTrue($generator->getDbms() instanceof S2Dao_SQLite);
     }
 }
 ?>

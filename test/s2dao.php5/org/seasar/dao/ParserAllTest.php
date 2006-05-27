@@ -34,7 +34,7 @@ class ParserAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
+        $suite = new PHPUnit2_Framework_TestSuite("All Parser Tests");
         $suite->addTestSuite('S2Dao_SqlParserImplTest');
         $suite->addTestSuite('S2Dao_SqlTokenizerImplTest');
         return $suite;

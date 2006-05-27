@@ -1,5 +1,5 @@
 <?php
-$container = S2ContainerFactory::create(RESOURCE_DIR . "/pdo.dicon");
+$container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
 $ds = $container->getComponent("pdo.dataSource");
 $pdo = $ds->getConnection();
 $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);

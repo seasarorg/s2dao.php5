@@ -10,9 +10,6 @@ define('RESOURCE_DIR', TEST_DIR . '/resource');
 require_once "S2Container/S2Container.php";
 require_once HOME_DIR . '/S2Dao.php';
 //require_once "S2Dao/S2Dao.php";
-require_once "PHPUnit2/Framework/TestCase.php";
-require_once "PHPUnit2/Framework/TestSuite.php";
-require_once 'PHPUnit2/TextUI/TestRunner.php';
 require_once "PHPUnit2/Framework/IncompleteTestError.php";
 
 define('PHPUnit2_MAIN_METHOD', '');

@@ -5,6 +5,7 @@
 
     <component name="dataSource" class="S2Container_PDODataSource">
         <property name="dsn">"sqlite::memory:"</property>
+        <property name="option">array(PDO::ATTR_PERSISTENT => true)</property>
     </component>
 
     <!--
