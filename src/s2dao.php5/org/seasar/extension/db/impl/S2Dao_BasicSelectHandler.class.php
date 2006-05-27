@@ -35,8 +35,8 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     public function __construct(S2Container_DataSource $dataSource,
                               $sql,
                               S2Dao_ResultSetHandler $resultSetHandler,
-                              S2Dao_StatementFactory $statementFacotry = null,
-                              S2Dao_ResultSetFactory $resultSetFacotry = null) {
+                              S2Dao_StatementFactory $statementFactory = null,
+                              S2Dao_ResultSetFactory $resultSetFactory = null) {
 
         self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
         $this->setDataSource($dataSource);
