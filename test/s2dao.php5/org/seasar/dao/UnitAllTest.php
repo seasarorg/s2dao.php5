@@ -34,7 +34,7 @@ class UnitAllTest {
     }
 
     public static function suite(){
-        $suite = new PHPUnit2_Framework_TestSuite("Unit All Test");
+        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suite->addTestSuite('S2DaoBeanListReaderTest');
         $suite->addTestSuite('S2DaoBeanReaderTest');
         $suite->addTestSuite('S2DaoTestCaseTest');

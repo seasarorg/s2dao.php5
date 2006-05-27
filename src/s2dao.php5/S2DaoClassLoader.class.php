@@ -193,7 +193,6 @@ class S2DaoClassLoader {
         'S2Dao_ArrayList' => '/dao/util/S2Dao_ArrayList.class.php',
         'S2Dao_ArrayUtil' => '/dao/util/S2Dao_ArrayUtil.class.php',
         'S2Dao_DatabaseMetaDataUtil' => '/dao/util/S2Dao_DatabaseMetaDataUtil.class.php',
-        'S2Dao_DataSourceUtil' => '/dao/util/S2Dao_DataSourceUtil.class.php',
         'S2Dao_HashMap' => '/dao/util/S2Dao_HashMap.class.php',
         'S2Dao_MySQLProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_MySQLProcedureMetaDataImpl.class.php',
         'S2Dao_OracleProcedureMetaDataImpl' => '/dao/util/procedure/S2Dao_OracleProcedureMetaDataImpl.class.php',

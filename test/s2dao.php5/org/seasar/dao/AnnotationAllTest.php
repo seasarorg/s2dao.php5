@@ -22,8 +22,8 @@
 // $Id$
 //
 
-require_once dirname(__FILE__) . "/Dao.php";
-require_once dirname(__FILE__) . "/Bean.php";
+require_once dirname(__FILE__) . "/DaoTest.php";
+require_once dirname(__FILE__) . "/BeanTest.php";
 
 /**
  * @author nowel
@@ -38,7 +38,7 @@ class AnnotationAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite("Annotation All Test");
+        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suite->addTestSuite('S2Dao_AbstractAnnotationReaderTest');
         $suite->addTestSuite('S2Dao_BeanCommentAnnotationReaderTest');
         $suite->addTestSuite('S2Dao_BeanConstantAnnotationReaderTest');

@@ -64,7 +64,7 @@ if(!extension_loaded('pdo')){
 /**
  * S2Dao.PHP5 ROOT Directory
  */
-define('S2DAO_PHP5',dirname(__FILE__) . DIRECTORY_SEPARATOR . 'S2Dao');
+define('S2DAO_PHP5', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'S2Dao');
 ini_set('include_path', 
         S2DAO_PHP5 . PATH_SEPARATOR . ini_get('include_path'));
 

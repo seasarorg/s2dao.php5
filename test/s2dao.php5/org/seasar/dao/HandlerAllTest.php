@@ -34,7 +34,7 @@ class HandlerAllTest {
     }
 
     public static function suite(){
-        $suite = new PHPUnit2_Framework_TestSuite("Handler All Test");
+        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suite->addTestSuite('S2Dao_MapBasicProcedureHandlerTest');
         $suite->addTestSuite('S2Dao_ObjectBasicProcedureHandlerTest');
         return $suite;

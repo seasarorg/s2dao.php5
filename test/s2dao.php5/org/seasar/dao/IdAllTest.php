@@ -21,6 +21,10 @@
 // +----------------------------------------------------------------------+
 // $Id$
 //
+
+require_once dirname(__FILE__) . "/BeanTest.php";
+require_once dirname(__FILE__) . "/DaoTest.php";
+
 /**
  * @author nowel
  */
@@ -34,10 +38,10 @@ class IdAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite("Id All Test");
+        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suite->addTestSuite('S2Dao_AbstractIdentifierGeneratorTest');
         $suite->addTestSuite('S2Dao_AssignedIdentifierGeneratorTest');
-        $suite->addTestSuite('S2Dao_AssignedIdentifierGeneratorTest');
+        $suite->addTestSuite('S2Dao_IdentifierGeneratorFactoryTest');
         $suite->addTestSuite('S2Dao_IdentityIdentifierGeneratorTest');
         $suite->addTestSuite('S2Dao_SequenceIdentifierGeneratorTest');
         return $suite;

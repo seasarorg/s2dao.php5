@@ -34,7 +34,7 @@ class DbmsAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite("Dbms All Test");
+        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suite->addTestSuite('S2Dao_DbmsManagerTest');
         $suite->addTestSuite('S2Dao_FirebirdTest');
         $suite->addTestSuite('S2Dao_MySQLTest');

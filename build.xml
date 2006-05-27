@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
 <project name="s2dao.php5" default="info" basedir=".">
 
-    <taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
     <taskdef name="copy2" classname="src.phing.task.CopyFilesToOneDirTask" />
     <taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
-    <taskdef name="testgen" classname="src.phing.task.S2DaoTestGenTask" />
     
     <target name="init">
             <property name="package.name" value="S2Dao" />
@@ -49,6 +47,7 @@
     </target>
     
     <target name="generate" depends="prepare">
+    		<taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
         <property name="dsn" value="mysql:host=localhost; dbname=s2con" />
         <property name="user" value="root" />
         <property name="password" value="pass" />
@@ -105,6 +104,12 @@
                     <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
                     <element key="role" value="lead"/>
                 </element>
+                <element>
+                    <element key="handle" value="yonekawa"/>
+                    <element key="name" value="yonekawa"/>
+                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
+                    <element key="role" value="developer"/>
+                </element>
             </mapping>
         </pearpkg>
 
@@ -131,6 +136,7 @@
     </target>
     
     <target name="testgen" depends="prepare">
+        <taskdef name="testgen" classname="src.phing.task.S2DaoTestGenTask" />
         <testgen>
             <fileset dir="${project.src.dir}">
                 <include name="${project.name}/**/*.php"/>

@@ -25,57 +25,30 @@
  * @author nowel
  */
 class S2Dao_IdentifierGeneratorFactoryTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_IdentifierGeneratorFactoryTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testStaticConst().
-     */
-    public function testStaticConst() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testAddIdentifierGeneratorClass().
-     */
-    public function testAddIdentifierGeneratorClass() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testCreateIdentifierGenerator().
-     */
     public function testCreateIdentifierGenerator() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $dbms = new S2Dao_SQLite();
+        $hoge = new Hoge2Bean();
+        $hoge->setId(1);
+        $generator = S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator("id", $dbms, null);
+        $this->assertTrue($generator instanceof S2Dao_AssignedIdentifierGenerator);
+        
+        $generator = S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator("id", $dbms, "identity");
+        $this->assertTrue($generator instanceof S2Dao_IdentityIdentifierGenerator);
+        
+        $generator = S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator("id", $dbms, "sequence, sequenceName = myseq");
+        $this->assertEquals("myseq", $generator->getSequenceName());
     }
 }
 ?>

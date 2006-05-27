@@ -12,7 +12,7 @@ class AllTests {
     }
     
     public static function suite(){
-        $suites = new PHPUnit2_Framework_TestSuite("All Tests");
+        $suites = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suites->addTest(S2DaoTests::suite());
         $suites->addTest(ExtensionTests::suite());
         $suites->addTest(SampleTests::suite());

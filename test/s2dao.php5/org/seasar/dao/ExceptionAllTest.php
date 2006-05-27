@@ -34,7 +34,7 @@ class ExceptionAllTest {
     }
 
     public static function suite(){
-        $suite = new PHPUnit2_Framework_TestSuite("Exception All Test");
+        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suite->addTestSuite('S2Dao_ColumnNotFoundRuntimeExceptionTest');
         $suite->addTestSuite('S2Dao_DaoNotFoundRuntimeExceptionTest');
         $suite->addTestSuite('S2Dao_EndCommentNotFoundRuntimeExceptionTest');

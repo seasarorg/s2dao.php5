@@ -36,8 +36,12 @@ class S2DaoTestGenTask extends Task {
         
         S2ContainerClassLoader::import(S2CONTAINER_PHP5);
         function __autoload($class = null){
-            //S2ContainerClassLoader::load($class);
-            include_once "{$class}.class.php";
+            S2ContainerClassLoader::load($class);
+            /*
+            if($class != null){
+                include_once "{$class}.class.php";
+            }
+            */
         }
     }
     
@@ -111,8 +115,8 @@ class S2DaoTestGenTask extends Task {
     private function iniset(array $files){
         $path = $this->getPackage($files);
         foreach($path as $pkg){
-            //S2ContainerClassLoader::import($pkg);
-            ini_set('include_path', $pkg . PATH_SEPARATOR . ini_get('include_path'));
+            S2ContainerClassLoader::import($pkg);
+            //ini_set('include_path', $pkg . PATH_SEPARATOR . ini_get('include_path'));
         }
     }
     

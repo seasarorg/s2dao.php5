@@ -34,7 +34,7 @@ class InterceptorAllTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite("Interceptor All Test");
+        $suite = new PHPUnit2_Framework_TestSuite(__CLASS__);
         $suite->addTestSuite('S2DaoAssertAtLeastOneRowInterceptorTest');
         $suite->addTestSuite('S2DaoAssertExactlyOneRowInterceptorTest');
         $suite->addTestSuite('S2DaoInterceptorTest');
