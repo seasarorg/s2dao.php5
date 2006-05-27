@@ -1,20 +1,33 @@
+2006-05-27 nowel(S2Dao.PHP5-1.1.0-RC4)
+
+    * remove: Batch処理のパッケージを削除しました。
+        - S2Dao_AbstractBatchAutoHandler.class.php
+        - S2Dao_AbstractBatchAutoStaticCommand.class.php
+        - S2Dao_DeleteBatchAutoHandler.class.php
+        - S2Dao_DeleteBatchAutoStaticCommand.class.php
+        - S2Dao_InsertBatchAutoHandler.class.php
+        - S2Dao_InsertBatchAutoStaticCommand.class.php
+        - S2Dao_UpdateBatchAutoHandler.class.php
+        - S2Dao_UpdateBatchAutoStaticCommand.class.php
+    * remove: S2Dao_DataSourceUtilを削除しました。
+
 2006-05-25 yonekawa,nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * fix: S2Dao_ArrayList::addAllメソッドでArrayObjectが正しく追加されないバグを修正しました。
     * add: S2Pager S2Dao_LimitOffsetInterceptorを追加しました。
-	- MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
-	- 使用する場合はdao-pager.diconの設定を書き換えます。
-	  
-	  ex)
-	  <!-- S2Dao_PagerS2DaoInterceptorWrapperをコメントアウト
-	  <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
-	    <arg>
-	      <component class="S2DaoInterceptor" />
-	    </arg>
-	  </component>
-	  -->
-	  <component name="inteceptor class="S2Dao_LimitOffsetS2DaoInterceptor"/>
-	
+    - MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
+    - 使用する場合はdao-pager.diconの設定を書き換えます。
+      
+      ex)
+      <!-- S2Dao_PagerS2DaoInterceptorWrapperをコメントアウト
+      <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
+        <arg>
+          <component class="S2DaoInterceptor" />
+        </arg>
+      </component>
+      -->
+      <component name="inteceptor class="S2Dao_LimitOffsetS2DaoInterceptor"/>
+    
     * add: PhingTask S2DaoTestGenTaskを追加しました。
         - 現在はPHPUnit2のテストコードをPHPUnit2のSkeletonから自動生成します。
         - /test と同様のテストコードを自動生成します。
@@ -23,7 +36,7 @@
 
     * fix: コメントアノテーション時にN:1マッピングの取得がドキュメントと違っていたのを修正しました。
     * fix: コメントアノテーション時にNoPersistentPropertyが正しく取得されないのを修正しました。
-    * add: TimestampProperty, VersionNoProperty アノテーションを追加しました。
+    * add: コメントアノテーションTimestampProperty, VersionNoProperty アノテーションを追加しました。
         ex)
         /**
          * @TimestampProperty(aa)

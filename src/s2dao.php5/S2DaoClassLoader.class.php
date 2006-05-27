@@ -22,7 +22,7 @@
 // $Id$
 //
 /**
- * @author nowel
+ * @author nowel, yonekawa
  */
 class S2DaoClassLoader {
     
@@ -138,8 +138,6 @@ class S2DaoClassLoader {
         'S2Dao_AbstractAutoHandler' => '/dao/impl/S2Dao_AbstractAutoHandler.class.php',
         'S2Dao_AbstractAutoStaticCommand' => '/dao/impl/S2Dao_AbstractAutoStaticCommand.class.php',
         'S2Dao_AbstractBeanMetaDataResultSetHandler' => '/dao/impl/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php',
-        'S2Dao_AbstractBatchAutoHandler' => '/dao/impl/S2Dao_AbstractBatchAutoHandler.class.php',
-        'S2Dao_AbstractBatchAutoStaticCommand' => '/dao/impl/S2Dao_AbstractBatchAutoStaticCommand.class.php',
         'S2Dao_AbstractDao' => '/dao/impl/S2Dao_AbstractDao.class.php',
         'S2Dao_AbstractDynamicCommand' => '/dao/impl/S2Dao_AbstractDynamicCommand.class.php',
         'S2Dao_AbstractStaticCommand' => '/dao/impl/S2Dao_AbstractStaticCommand.class.php',
@@ -154,13 +152,9 @@ class S2DaoClassLoader {
         'S2Dao_DaoMetaDataImpl' => '/dao/impl/S2Dao_DaoMetaDataImpl.class.php',
         'S2Dao_DeleteAutoHandler' => '/dao/impl/S2Dao_DeleteAutoHandler.class.php',
         'S2Dao_DeleteAutoStaticCommand' => '/dao/impl/S2Dao_DeleteAutoStaticCommand.class.php',
-        'S2Dao_DeleteBatchAutoStaticCommand' => '/dao/impl/S2Dao_DeleteBatchAutoStaticCommand.class.php',
-        'S2Dao_DeleteBatchAutoHandler' => '/dao/impl/S2Dao_DeleteBatchAutoHandler.class.php',
         'S2Dao_InsertAutoHandler' => '/dao/impl/S2Dao_InsertAutoHandler.class.php',
         'S2Dao_InsertAutoDynamicCommand' => '/dao/impl/S2Dao_InsertAutoDynamicCommand.class.php',
         'S2Dao_InsertAutoStaticCommand' => '/dao/impl/S2Dao_InsertAutoStaticCommand.class.php',
-        'S2Dao_InsertBatchAutoHandler' => '/dao/impl/S2Dao_InsertBatchAutoHandler.class.php',
-        'S2Dao_InsertBatchAutoStaticCommand' => '/dao/impl/S2Dao_InsertBatchAutoStaticCommand.class.php',
         'S2Dao_RelationRowCache' => '/dao/impl/S2Dao_RelationRowCache.class.php',
         'S2Dao_RelationKey' => '/dao/impl/S2Dao_RelationKey.class.php',
         'S2Dao_RelationPropertyTypeImpl' => '/dao/impl/S2Dao_RelationPropertyTypeImpl.class.php',
@@ -168,8 +162,6 @@ class S2DaoClassLoader {
         'S2Dao_StaticStoredProcedureCommand' => '/dao/impl/S2Dao_StaticStoredProcedureCommand.class.php',
         'S2Dao_UpdateAutoHandler' => '/dao/impl/S2Dao_UpdateAutoHandler.class.php',
         'S2Dao_UpdateAutoStaticCommand' => '/dao/impl/S2Dao_UpdateAutoStaticCommand.class.php',
-        'S2Dao_UpdateBatchAutoHandler' => '/dao/impl/S2Dao_UpdateBatchAutoHandler.class.php',
-        'S2Dao_UpdateBatchAutoStaticCommand' => '/dao/impl/S2Dao_UpdateBatchAutoStaticCommand.class.php',
         'S2Dao_UpdateDynamicCommand' => '/dao/impl/S2Dao_UpdateDynamicCommand.class.php',
         'S2DaoAssertAtLeastOneRowInterceptor' => '/dao/interceptors/S2DaoAssertAtLeastOneRowInterceptor.class.php',
         'S2DaoAssertExactlyOneRowInterceptor' => '/dao/interceptors/S2DaoAssertExactlyOneRowInterceptor.class.php',
