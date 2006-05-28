@@ -11,7 +11,7 @@
         <property name="project.state" value="beta" />
         <property name="project.build.dir" value="${project.basedir}/build" />
         <property name="project.src.dir" value="${project.basedir}/src" />
-            <property name="project.test.dir" value="${project.basedir}/test" />
+        <property name="project.test.dir" value="${project.basedir}/test" />
         <property name="skeleton.src.dir" value="${project.build.dir}/skel" />
         <property name="test.src.dir" value="${project.build.dir}/test" />
         <property name="license.file" value="Apache_Software_License_2.0.txt" />
@@ -151,7 +151,7 @@
     
     <target name="test" depends="prepare">
         <!-- // FIXME -->
-    	    <php expression="require_once '${project.test.dir}' . '/test.environment.php'"/>
+        <php expression="require_once '${project.test.dir}' . '/test.environment.php'"/>
         <php expression="require_once '${project.test.dir}' . '/setup.php'"/>
         <phpunit2 haltonfailure="false" printsummary="true">
             <batchtest>
