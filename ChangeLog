@@ -1,4 +1,8 @@
-2006-05-30  yonekawa  <tcgrim@gmail.com>
+2006-05-31 nowel(S2Dao.PHP5-1.1.0-RC4)
+
+    * fix: S2Dao_ParenBindVariableNodeで古いクラスを参照していたのを修正しました。
+
+2006-05-30 yonekawa <tcgrim@gmail.com>
 
     * remove: S2Dao_LimitOffsetS2DaoInterceptorを削除しました。
 	-Limit,Offset句を使用する場合はdao-pager.diconのinterceptorの
@@ -23,7 +27,7 @@
     * remove: S2Dao_DataSourceUtilを削除しました。
     * fix: IDアノテーションが正しく行えばいバグを修正しました。
 
-2006-05-25 yonekawa,nowel(S2Dao.PHP5-1.1.0-RC4)
+2006-05-25 yonekawa, nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * fix: S2Dao_ArrayList::addAllメソッドでArrayObjectが正しく追加されないバグを修正しました。
     * add: S2Pager S2Dao_LimitOffsetS2DaoInterceptorを追加しました。
