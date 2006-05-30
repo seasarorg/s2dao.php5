@@ -25,41 +25,395 @@
  * @author nowel
  */
 class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_SqlParserImplTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testParse().
-     */
     public function testParse() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $sql = "SELECT * FROM emp2";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $node = $parser->parse();
+        $node->accept($ctx);
+        $this->assertEquals($sql, $ctx->getSql());
+    }
+
+    public function testParseEndSemicolon() {
+        $this->testParseEndSemicolon2(";");
+        $this->testParseEndSemicolon2(";\t");
+        $this->testParseEndSemicolon2("; ");
+    }
+    
+    private function testParseEndSemicolon2($endChar) {
+        $sql = "SELECT * FROM emp2";
+        $parser = new S2Dao_SqlParserImpl($sql . $endChar);
+        $ctx = new S2Dao_CommandContextImpl();
+        $node = $parser->parse();
+        $node->accept($ctx);
+        $this->assertEquals($sql, $ctx->getSql());
+    }
+        
+    public function testCommentEndNotFound() {
+        $sql = "SELECT * FROM emp2/*hoge";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        try {
+            $parser->parse();
+            $this->fail("1");
+        } catch (S2Dao_TokenNotClosedRuntimeException $ex) {
+            echo $ex . PHP_EOL;
+        }
+    }
+    public function testParseBindVariable4() {
+        $sql = "SELECT * FROM emp2 WHERE job = #*job*#'CLERK' AND deptno = #*deptno*#20";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $job = "CLERK";
+        $deptno = 20;
+        $ctx->addArg("job", $job, gettype($job));
+        $ctx->addArg("deptno", $deptno, gettype($deptno));
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+    }
+    
+    public function testParseBindVariable() {
+        $sql = "SELECT * FROM emp2 WHERE job = /*job*/'CLERK' AND deptno = /*deptno*/20";
+        $sql2 = "SELECT * FROM emp2 WHERE job = ? AND deptno = ?";
+        $sql3 = "SELECT * FROM emp2 WHERE job = ";
+        $sql4 = " AND deptno = ";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $job = "CLERK";
+        $deptno = 20;
+        $ctx->addArg("job", $job, gettype($job));
+        $ctx->addArg("deptno", $deptno, gettype($deptno));
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(2, count($vars));
+        $this->assertEquals($job, $vars[0]);
+        $this->assertEquals($deptno, $vars[1]);
+        $this->assertEquals(4, $root->getChildSize());
+        $sqlNode = $root->getChild(0);
+        $this->assertEquals($sql3, $sqlNode->getSql());
+        $varNode = $root->getChild(1);
+        $this->assertEquals("job", $varNode->getExpression());
+        $sqlNode2 = $root->getChild(2);
+        $this->assertEquals($sql4, $sqlNode2->getSql());
+        $varNode2 = $root->getChild(3);
+        $this->assertEquals("deptno", $varNode2->getExpression());
+    }
+    
+    public function testParseBindVariable2() {
+        $sql = "SELECT * FROM emp2 WHERE job = /* job*/'CLERK'";
+        $sql2 = "SELECT * FROM emp2 WHERE job = 'CLERK'";
+        $sql3 = "SELECT * FROM emp2 WHERE job = ";
+        $sql4 = "'CLERK'";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $this->assertEquals(2, $root->getChildSize());
+        $sqlNode = $root->getChild(0);
+        $this->assertEquals($sql3, $sqlNode->getSql());
+        $sqlNode2 = $root->getChild(1);
+        $this->assertEquals($sql4, $sqlNode2->getSql());
+    }
+    
+    public function testParseWhiteSpace() {
+        $sql = "SELECT * FROM emp2 WHERE emp2no = /*emp2no*/1 AND 1 = 1";
+        $sql2 = "SELECT * FROM emp2 WHERE emp2no = ? AND 1 = 1";
+        $sql3 = " AND 1 = 1";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $emp2no = 7788;
+        $ctx->addArg("emp2no", $emp2no, gettype($emp2no));
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $sqlNode = $root->getChild(2);
+        $this->assertEquals($sql3, $sqlNode->getSql());
+    }
+    
+    public function testParseIf() {
+        $sql = "SELECT * FROM emp2/*IF job != null*/ WHERE job = /*job*/'CLERK'/*END*/";
+        $sql2 = "SELECT * FROM emp2 WHERE job = ?";
+        $sql3 = "SELECT * FROM emp2";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $job = "CLERK";
+        $ctx->addArg("job", $job, gettype($job));
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(1, count($vars));
+        $this->assertEquals($job, $vars[0]);
+        $this->assertEquals(2, $root->getChildSize());
+        $sqlNode = $root->getChild(0);
+        $this->assertEquals($sql3, $sqlNode->getSql());
+        $ifNode = $root->getChild(1);
+        $this->assertEquals("job != null", $ifNode->getExpression());
+        $this->assertEquals(2, $ifNode->getChildSize());
+        $sqlNode2 = $ifNode->getChild(0);
+        $this->assertEquals(" WHERE job = ", $sqlNode2->getSql());
+        $varNode = $ifNode->getChild(1);
+        $this->assertEquals("job", $varNode->getExpression());
+        $ctx2 = new S2Dao_CommandContextImpl();
+        $root->accept($ctx2);
+        echo $ctx2->getSql() . PHP_EOL;
+        $this->assertEquals($sql3, $ctx2->getSql());
+    }
+    
+    public function testParseIf2() {
+        $sql = "/*IF aaa != null*/aaa/*IF bbb != null*/bbb/*END*//*END*/";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        $this->assertEquals("", $ctx->getSql());
+        $ctx->addArg("aaa", null, gettype(""));
+        $ctx->addArg("bbb", "hoge",gettype(""));
+        $root->accept($ctx);
+        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        $this->assertEquals("", $ctx->getSql());
+        $ctx->addArg("aaa", "hoge", gettype(""));
+        $root->accept($ctx);
+        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        $this->assertEquals("aaabbb", $ctx->getSql());
+        $ctx2 = new S2Dao_CommandContextImpl();
+        $ctx2->addArg("aaa", "hoge", gettype(""));
+        $ctx2->addArg("bbb", null, gettype(""));
+        $root->accept($ctx2);
+        echo "[" . $ctx2->getSql() . "]" . PHP_EOL;
+        $this->assertEquals("aaa", $ctx2->getSql());
+    }
+    
+    public function testParseElse() {
+        $sql = "SELECT * FROM emp2 WHERE /*IF job != null*/job = /*job*/'CLERK'-- ELSE job is null/*END*/";
+        $sql2 = "SELECT * FROM emp2 WHERE job = ?";
+        $sql3 = "SELECT * FROM emp2 WHERE job is null";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $job = "CLERK";
+        $ctx->addArg("job", $job, gettype($job));
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(1, count($vars));
+        $this->assertEquals($job, $vars[0]);
+        $ctx2 = new S2Dao_CommandContextImpl();
+        $root->accept($ctx2);
+        echo "[" . $ctx2->getSql() . "]" . PHP_EOL;
+        $this->assertEquals($sql3, $ctx2->getSql());
+    }
+    
+    public function testParseElse2() {
+        $sql = "/*IF false*/aaa--ELSE bbb = /*bbb*/123/*END*/";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $bbb = 123;
+        $ctx->addArg("bbb", $bbb, gettype($bbb));
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        $this->assertEquals("bbb = ?", $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(1, count($vars));
+        $this->assertEquals($bbb, $vars[0]);
+    }
+    
+    public function testParseElse3() {
+        $sql = "/*IF false*/aaa--ELSE bbb/*IF false*/ccc--ELSE ddd/*END*//*END*/";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $ctx = new S2Dao_CommandContextImpl();
+        $root = $parser->parse();
+        $root->accept($ctx);
+        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        $this->assertEquals("1", "bbbddd", $ctx->getSql());
+    }
+    
+    public function testElse4() {
+        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF false*/aaa-- ELSE AND deptno = 10/*END*//*END*/";
+        $sql2 = "SELECT * FROM emp2 WHERE deptno = 10";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+    }
+    
+    public function testBegin() {
+        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF job != null*/job = /*job*/'CLERK'/*END*//*IF deptno != null*/ AND deptno = /*deptno*/20/*END*//*END*/";
+        $sql2 = "SELECT * FROM emp2";
+        $sql3 = "SELECT * FROM emp2 WHERE job = ?";
+        $sql4 = "SELECT * FROM emp2 WHERE job = ? AND deptno = ?";
+        $sql5 = "SELECT * FROM emp2 WHERE deptno = ?";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        
+        $ctx2 = new S2Dao_CommandContextImpl();
+        $ctx2->addArg("job", "CLERK", gettype(""));
+        $ctx2->addArg("deptno", null, gettype(0));
+        $root->accept($ctx2);
+        echo $ctx2->getSql() . PHP_EOL;
+        $this->assertEquals($sql3, $ctx2->getSql());
+        
+        $ctx3 = new S2Dao_CommandContextImpl();
+        $ctx3->addArg("job", "CLERK", gettype(""));
+        $ctx3->addArg("deptno", 20, gettype(20));
+        $root->accept($ctx3);
+        echo $ctx3->getSql() . PHP_EOL;
+        $this->assertEquals($sql4, $ctx3->getSql());
+        
+        $ctx4 = new S2Dao_CommandContextImpl();
+        $ctx4->addArg("deptno", 20, gettype(20));
+        $ctx4->addArg("job", null, gettype(""));
+        $root->accept($ctx4);
+        echo $ctx4->getSql() . PHP_EOL;
+        $this->assertEquals($sql5, $ctx4->getSql());
+    }
+    
+    public function testBeginAnd() {
+        $sql = "/*BEGIN*/WHERE /*IF true*/aaa BETWEEN /*bbb*/111 AND /*ccc*/123/*END*//*END*/";
+        $sql2 = "WHERE aaa BETWEEN ? AND ?";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $ctx->addArg("bbb", "111", gettype(""));
+        $ctx->addArg("ccc", "222", gettype(""));
+        $root->accept($ctx);
+        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        $this->assertEquals("1", $sql2, $ctx->getSql());
+    }
+    
+    public function testIn() {
+        $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
+        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $deptnoList = new S2Dao_ArrayList();
+        $deptnoList->add(10);
+        $deptnoList->add(20);
+        $ctx->addArg("deptnoList", $deptnoList, gettype($deptnoList));
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(2, count($vars));
+        $this->assertEquals(10, $vars[0]);
+        $this->assertEquals(20, $vars[1]);
+    }
+    
+    public function testIn2() {
+        $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
+        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $deptnoArray = array(10, 20);
+        $ctx->addArg("deptnoList", $deptnoArray, gettype($deptnoArray));
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(2, count($vars));
+        $this->assertEquals(10, $vars[0]);
+        $this->assertEquals(20, $vars[1]);
+    }
+    
+    public function testIn3() {
+        $sql = "SELECT * FROM emp2 WHERE ename IN /*enames*/('SCOTT','MARY') AND job IN /*jobs*/('ANALYST', 'FREE')";
+        $sql2 = "SELECT * FROM emp2 WHERE ename IN (?, ?) AND job IN (?, ?)";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $enames = array("SCOTT", "MARY");
+        $jobs = array("ANALYST", "FREE");
+        $ctx->addArg("enames", $enames, gettype($enames));
+        $ctx->addArg("jobs", $jobs, gettype($jobs));
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql2, $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(4, count($vars));
+        $this->assertEquals("SCOTT", $vars[0]);
+        $this->assertEquals("MARY", $vars[1]);
+        $this->assertEquals("ANALYST", $vars[2]);
+        $this->assertEquals("FREE", $vars[3]);
+    }
+    
+    public function testParseBindVariable3() {
+        $sql = "BETWEEN sal ? AND ?";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $ctx->addArg('$1', 0, gettype(0));
+        $ctx->addArg('$2', 1000, gettype(1000));
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals($sql, $ctx->getSql());
+        $vars = $ctx->getBindVariables();
+        $this->assertEquals(2, count($vars));
+        $this->assertEquals(0, $vars[0]);
+        $this->assertEquals(1000, $vars[1]);
+    }
+    
+    public function testEndNotFound() {
+        $sql = "/*BEGIN*/";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        try {
+            $parser->parse();
+            $this->fail("1");
+        } catch (S2Dao_EndCommentNotFoundRuntimeException $ex) {
+            echo $ex . PHP_EOL;
+        }
+    }
+    
+    public function testEndParent() {
+        $sql = "INSERT INTO ITEM (ID, NUM) VALUES (/*id*/1, /*num*/20)";
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $ctx->addArg("id", 0, gettype(0));
+        $ctx->addArg("num", 1, gettype(1));
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals(true, preg_match("/)$/", $ctx->getSql()));
+    }
+    
+    public function testEmbeddedValue() {
+        $sql = '/*$aaa*/';
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        $ctx = new S2Dao_CommandContextImpl();
+        $ctx->addArg("aaa", 0, gettype(0));
+        $root->accept($ctx);
+        echo $ctx->getSql() . PHP_EOL;
+        $this->assertEquals("0", $ctx->getSql());
     }
 }
 ?>
