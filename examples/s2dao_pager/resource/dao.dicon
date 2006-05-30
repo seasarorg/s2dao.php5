@@ -5,24 +5,12 @@
 
     <include path="%PDO_DICON%" />
 
-    <component name="annotationReaderFactory"
-               class="S2Dao_FieldAnnotationReaderFactory" />
-               
-    <component class="S2Dao_DaoMetaDataFactoryImpl">
-        <arg>pdo.dataSource</arg>
-        <arg><component class="S2Dao_BasicStatementFactory" /></arg>
-        <arg><component class="S2Dao_BasicResultSetFactory" /></arg>
-        <arg>annotationReaderFactory</arg>
-    </component>
-
+    <component class="S2Dao_BasicResultSetFactory" />
+    <component class="S2Dao_BasicStatementFactory" />
+    <component class="S2Dao_FieldAnnotationReaderFactory" />   
+    <component class="S2Dao_DaoMetaDataFactoryImpl" />
     <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
-        <arg>
-            <component class="S2DaoInterceptor" />
-        </arg>
+      <property name="useLimitOffsetQuery">false</property>
     </component>
-
-    <!--    
-    <component name="interceptor" class="S2Dao_LimitOffsetS2DaoInterceptor"/>
-    -->
-
+    
 </components>

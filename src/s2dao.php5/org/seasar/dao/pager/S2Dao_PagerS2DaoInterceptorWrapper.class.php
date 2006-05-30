@@ -4,16 +4,23 @@
  * S2DaoInterceptorラップするインターセプタ
  * @author yonekawa
  */
-class S2Dao_PagerS2DaoInterceptorWrapper extends S2Container_AbstractInterceptor
+class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
 {
+    /** Limit,Offset句を使用する true/false  */
+    private $useLimitOffsetQuery = false;
 
-    /** オリジナルのS2DaoInteceptor */
-    private $interceptor_;
-
-    /** @param interceptor オリジナルのS2DaoInterceptor */
-    public function __construct(S2DaoInterceptor $interceptor) 
+    private $daoMetaDataFactory_;
+ 
+    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory) {
+        parent::__construct($daoMetaDataFactory);
+        $this->daoMetaDataFactory_ = $daoMetaDataFactory;
+    }
+    /**
+     * @param useLimitOffsetQuery Limit,Offset句を使用する true/false
+     */
+    public function setUseLimitOffsetQuery($useLimitOffsetQuery)
     {
-        $this->interceptor_ = $interceptor;
+        $this->useLimitOffsetQuery = $useLimitOffsetQuery;
     }
 
     /**
@@ -22,19 +29,60 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2Container_AbstractInterceptor
      */
     public function invoke(S2Container_MethodInvocation $invocation) 
     {
-        $args = $invocation->getArguments();
-        $result = $this->interceptor_->invoke($invocation);
-        
-        if ((count($args) < 1) || (!is_array($result) && !($result instanceof S2Dao_ArrayList))) {
-            return $result;
-        }
-
-        if ($args[0] instanceof S2Dao_PagerCondition) {
-            $condition = $args[0];
-            return S2Dao_PagerResultSetWrapper::create($result, $condition);
+        if ($this->useLimitOffsetQuery) {
+            return $this->invokePagerWithLimitOffsetQuery($invocation);
+        } else {
+            return $this->invokePagerWithoutLimitOffsetQuery($invocation);
         }
     }
-    
+
+    private function invokePagerWithLimitOffsetQuery($invocation)
+    {
+        try{
+            $method = $invocation->getMethod();
+            if (!S2Container_MethodUtil::isAbstract($method)) {
+                return $invocation->proceed();
+            }
+
+            $targetClass = $this->getTargetClass($invocation);
+            $dmd = $this->daoMetaDataFactory_->getDaoMetaData($targetClass);
+            $cmd = $dmd->getSqlCommand($method->getName());
+
+            $args = $invocation->getArguments();
+
+            if (count($args) >= 1) {
+                if ($args[0] instanceof S2Dao_PagerCondition) {
+                    $cmd = S2Dao_SelectDynamicCommandLimitOffsetWrapperFactory::create($cmd);
+                }
+            }
+
+            $ret = $cmd->execute($invocation->getArguments());
+
+            return $ret;
+        } catch (Exception $e){
+            throw $e;
+        }
+    }
+
+    private function invokePagerWithoutLimitOffsetQuery($invocation)
+    {
+        try{
+            $args = $invocation->getArguments();
+            $result = parent::invoke($invocation);
+            
+            if ((count($args) < 1) || (!is_array($result) && !($result instanceof S2Dao_ArrayList))) {
+                return $result;
+            }
+
+            if ($args[0] instanceof S2Dao_PagerCondition) {
+                $condition = $args[0];
+                return S2Dao_PagerResultSetWrapper::create($result, $condition);
+            }
+
+        } catch(Exception $e) {
+            throw $e;
+        }    
+    }
 }
 
 ?>

@@ -1,3 +1,14 @@
+2006-05-30  yonekawa  <tcgrim@gmail.com>
+
+    * remove: S2Dao_LimitOffsetS2DaoInterceptorを削除しました。
+	-Limit,Offset句を使用する場合はdao-pager.diconのinterceptorの
+	 useLimitOffsetQueryプロパティ(初期値false)にtrueを指定することで可能です。
+
+	ex)
+	<component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
+            <property name="useLimitOffsetQuery">true</property>
+        </component>
+
 2006-05-27 nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * remove: Batch処理のパッケージを削除しました。
@@ -15,7 +26,7 @@
 2006-05-25 yonekawa,nowel(S2Dao.PHP5-1.1.0-RC4)
 
     * fix: S2Dao_ArrayList::addAllメソッドでArrayObjectが正しく追加されないバグを修正しました。
-    * add: S2Pager S2Dao_LimitOffsetInterceptorを追加しました。
+    * add: S2Pager S2Dao_LimitOffsetS2DaoInterceptorを追加しました。
     - MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
     - 使用する場合はdao-pager.diconの設定を書き換えます。
       
