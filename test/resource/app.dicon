@@ -2,6 +2,9 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="test">
-    <include path="%RESOURCE_DIR%/pdo.dicon" />
-    <include path="%RESOURCE_DIR%/dao.dicon" />
+    <include path="%PDO_DICON%" />
+    <include
+    		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertAtLeastOneRowInterceptorTest.dicon" />
+    	<include
+    		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertExactlyOneRowInterceptorTest.dicon" />
 </components>

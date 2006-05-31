@@ -25,41 +25,35 @@
  * @author nowel
  */
 class S2DaoAssertAtLeastOneRowInterceptorTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $employeeDao = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2DaoAssertAtLeastOneRowInterceptorTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->employeeDao = $container->getComponent("atleast.Employee2Dao");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->employeeDao = null;
     }
 
-    /**
-     * @todo Implement testInvoke().
-     */
-    public function testInvoke() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testMoreThanOneRowTx(){
+        $ret = $this->employeeDao->updateSal("A%");
+        $this->assertEquals(2, $ret);
+    }
+
+    public function testNoRowTx() {
+        try {
+            $ret = $this->employeeDao->updateSal("ZZ%");
+            $this->fail("count: " . $ret);
+        } catch (S2Dao_NoRowsUpdatedRuntimeException $e) {
+            $this->assertTrue(preg_match("/No rows were updated/", $e->getMessage()) == 1);
+        }
     }
 }
 ?>

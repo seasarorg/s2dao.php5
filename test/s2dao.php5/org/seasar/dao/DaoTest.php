@@ -88,4 +88,10 @@ interface BarDao {
     public function getFoo10();
 }
 
+interface Employee2Dao {
+    const BEAN = "Employee2";
+    const updateSal_SQL = "update EMP2 set SAL = SAL * 2 where ENAME LIKE /*ename*/'ABC'";
+    public function updateSal($ename);
+}
+
 ?>
