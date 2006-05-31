@@ -41,7 +41,7 @@ final class S2Dao_DbmsManager {
         self::$staticConst = true;
     }
 
-    public static function getDbms($ds) {
+    public static function getDbms(PDO $ds) {
         if(!self::$staticConst){
             self::staticConst();
         }

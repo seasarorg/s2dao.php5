@@ -41,7 +41,7 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
         $sql = 'SELECT * FROM emp';
         $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
         $this->assertEquals('1', S2Dao_SqlTokenizer::SQL, $tokenizer->next());
-        $this->assertEquals('2', sql, $tokenizer->getToken());
+        $this->assertEquals('2', $sql, $tokenizer->getToken());
         $this->assertEquals('3', S2Dao_SqlTokenizer::EOF, $tokenizer->next());
         $this->assertEquals('4', null, $tokenizer->getToken());
     }

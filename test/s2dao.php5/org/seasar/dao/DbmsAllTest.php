@@ -36,11 +36,11 @@ class DbmsAllTest {
     public static function suite() {
         $suite = new PHPUnit2_Framework_TestSuite("All DBMS Tests");
         $suite->addTestSuite('S2Dao_DbmsManagerTest');
-        $suite->addTestSuite('S2Dao_FirebirdTest');
-        $suite->addTestSuite('S2Dao_MySQLTest');
-        $suite->addTestSuite('S2Dao_OracleTest');
-        $suite->addTestSuite('S2Dao_PostgreSQLTest');
-        $suite->addTestSuite('S2Dao_SQLiteTest');
+        //$suite->addTestSuite('S2Dao_FirebirdTest');
+        //$suite->addTestSuite('S2Dao_MySQLTest');
+        //$suite->addTestSuite('S2Dao_OracleTest');
+        //$suite->addTestSuite('S2Dao_PostgreSQLTest');
+        //$suite->addTestSuite('S2Dao_SQLiteTest');
         $suite->addTestSuite('S2Dao_StandardTest');
         return $suite;
     }

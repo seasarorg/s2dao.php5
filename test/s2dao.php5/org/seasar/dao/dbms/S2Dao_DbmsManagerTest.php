@@ -25,41 +25,22 @@
  * @author nowel
  */
 class S2Dao_DbmsManagerTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DbmsManagerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testGetDbms().
-     */
     public function testGetDbms() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $ds = $container->getComponent("pdo.dataSource");
+        $this->assertNotNull(S2Dao_DbmsManager::getDbms($ds->getConnection()));
     }
 }
 ?>

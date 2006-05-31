@@ -402,7 +402,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("num", 1, gettype(1));
         $root->accept($ctx);
         echo $ctx->getSql() . PHP_EOL;
-        $this->assertEquals(true, preg_match("/)$/", $ctx->getSql()));
+        $this->assertEquals(true, preg_match('/\)$/', $ctx->getSql()) == 1);
     }
     
     public function testEmbeddedValue() {

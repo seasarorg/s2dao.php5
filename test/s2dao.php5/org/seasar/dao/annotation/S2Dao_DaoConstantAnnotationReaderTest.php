@@ -25,113 +25,94 @@
  * @author nowel
  */
 class S2Dao_DaoConstantAnnotationReaderTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $daoClass = null;
+    private $reader = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DaoConstantAnnotationReaderTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->daoClass = new ReflectionClass("BarDao");
+        $daoDesc = S2Container_BeanDescFactory::getBeanDesc($this->daoClass);
+        $this->reader = new S2Dao_DaoConstantAnnotationReader($daoDesc);
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->daoClass = null;
+        $this->reader = null;
     }
 
-    /**
-     * @todo Implement testGetArgNames().
-     */
-    public function testGetArgNames() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetQuery().
-     */
-    public function testGetQuery() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetBeanClass().
-     */
     public function testGetBeanClass() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertEquals($this->reader->getBeanClass(), new ReflectionClass("FooBean"));
     }
 
-    /**
-     * @todo Implement testGetNoPersistentProps().
-     */
+    public function testGetArgNames() {
+        $args = array("id", "num", "desc");
+        $method1 = $this->daoClass->getMethod("getFoo");
+        $this->assertEquals($args, $this->reader->getArgNames($method1));
+
+        $method2 = $this->daoClass->getMethod("getFoo2");
+        $this->assertEquals($args, $this->reader->getArgNames($method2));
+    }
+
     public function testGetNoPersistentProps() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $props = array("sal", "comm");
+        $method = $this->daoClass->getMethod("getFoo3");
+        $this->assertEquals($props, $this->reader->getNoPersistentProps($method));
     }
 
-    /**
-     * @todo Implement testGetPersistentProps().
-     */
     public function testGetPersistentProps() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $props = array("sal", "comm");
+        $method = $this->daoClass->getMethod("getFoo4");
+        $this->assertEquals($props, $this->reader->getPersistentProps($method));
     }
 
-    /**
-     * @todo Implement testGetSQL().
-     */
+    public function testGetQuery() {
+        $query = "WHERE id = ? and sal = ?";
+        $method1 = $this->daoClass->getMethod("getFoo5");
+        $this->assertEquals($query, $this->reader->getQuery($method1));
+        
+        $method2 = $this->daoClass->getMethod("getFoo2");
+        $this->assertNull($this->reader->getQuery($method2));
+    }
+
     public function testGetSQL() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $sql = "SELECT * FROM EMP2";
+        $method = $this->daoClass->getMethod("getFoo6");
+        $this->assertEquals($sql, $this->reader->getSql($method, 'sqlite'));
     }
 
-    /**
-     * @todo Implement testGetStoredProcedureName().
-     */
     public function testGetStoredProcedureName() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $procedure = "SALES2";
+        $method = $this->daoClass->getMethod("getFoo10");
+        $this->assertEquals($procedure, $this->reader->getStoredProcedureName($method));
     }
 
-    /**
-     * @todo Implement testGetReturnType().
-     */
     public function testGetReturnType() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $method1 = $this->daoClass->getMethod("getFoo7Map");
+        $this->assertEquals("Map", $this->reader->getReturnType($method1));
+
+        $method2 = $this->daoClass->getMethod("getFoo8List");
+        $this->assertNull($this->reader->getReturnType($method2));
     }
 
-    /**
-     * @todo Implement testIsSelectList().
-     */
     public function testIsSelectList() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $method1 = $this->daoClass->getMethod("getFoo8List");
+        $this->assertTrue($this->reader->isSelectList($method1) == 1);
+
+        $method2 = $this->daoClass->getMethod("getFoo9Array");
+        $this->assertFalse($this->reader->isSelectList($method2) == 1);
     }
 
-    /**
-     * @todo Implement testIsSelectArray().
-     */
     public function testIsSelectArray() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $method1 = $this->daoClass->getMethod("getFoo8List");
+        $this->assertFalse($this->reader->isSelectArray($method1) == 1);
+
+        $method2 = $this->daoClass->getMethod("getFoo9Array");
+        $this->assertTrue($this->reader->isSelectArray($method2) == 1);
     }
 }
 ?>

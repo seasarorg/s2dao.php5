@@ -45,7 +45,6 @@ class AnnotationAllTest {
         $suite->addTestSuite('S2Dao_DaoCommentAnnotationReaderTest');
         $suite->addTestSuite('S2Dao_DaoConstantAnnotationReaderTest');
         $suite->addTestSuite('S2Dao_FieldAnnotationReaderFactoryTest');
-        $suite->addTestSuite('S2DaoAnnotationReaderTest');
         $suite->addTestSuite('ArgumentsTest');
         $suite->addTestSuite('BeanTest');
         $suite->addTestSuite('ColumnTest');

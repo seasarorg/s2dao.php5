@@ -44,8 +44,8 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     public function getArgNames(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('Arguments', $method);
-        if (0 < count($anno->value)) {
-            return S2Dao_ArrayUtil::spacetrim(explode(',', $anno->value));
+        if ($anno != null && 0 < count($anno->value)) {
+            return $anno->value;
         } else {
             $params = array();
             foreach($method->getParameters() as $param){
@@ -57,16 +57,16 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     public function getNoPersistentProps(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('NoPersistentProperty', $method);
-        if($anno !== null){
-            return S2Dao_ArrayUtil::spacetrim(explode(',', $anno->value));
+        if($anno != null && 0 < count($anno->value)){
+            return $anno->value;
         }
         return null;
     }
 
     public function getPersistentProps(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('PersistentProperty', $method);
-        if($anno !== null){
-            return S2Dao_ArrayUtil::spacetrim(explode(',', $anno->value));
+        if($anno != null && 0 < count($anno->value)){
+            return $anno->value;
         }
         return null;
     }
@@ -79,17 +79,15 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function getSQL(ReflectionMethod $method, $dbmsSuffix) {
         $dbmsSuffix = preg_replace('/^(_)/', '', $dbmsSuffix);
         $anno = $this->getMethodAnnotation('Sql', $method);
-        if($anno != null){
-            if($anno->dbms == $dbmsSuffix){
-                return $anno->value;
-            }
+        if($anno != null && $anno->value != null){
+            return $anno->value;
         }
         return null;
     }
     
     public function getStoredProcedureName(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('Procedure', $method);
-        if($anno != null){
+        if($anno != null && $anno->value != null){
             return $anno->value;
         }
         return null;

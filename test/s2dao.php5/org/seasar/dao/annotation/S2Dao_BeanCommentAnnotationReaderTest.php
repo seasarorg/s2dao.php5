@@ -43,6 +43,7 @@ class S2Dao_BeanCommentAnnotationReaderTest extends PHPUnit2_Framework_TestCase 
     }
 
     protected function tearDown() {
+        $this->beanDesc = null;
         $this->beanAnnotationReader = null;
     }
     

@@ -25,121 +25,33 @@
  * @author nowel
  */
 class S2Dao_StandardTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_StandardTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testGetSuffix().
-     */
-    public function testGetSuffix() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testCreateAutoSelectList() {
+        $dbms = new S2Dao_Standard();
+        $emp = new ReflectionClass("Employee2");
+        $bmd = $this->createBeanMetaData($emp, $dbms);
+        $sql = $dbms->getAutoSelectSql($bmd);
+        echo $sql . PHP_EOL;
     }
 
-    /**
-     * @todo Implement testGetAutoSelectSql().
-     */
-    public function testGetAutoSelectSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testIsSelfGenerate().
-     */
-    public function testIsSelfGenerate() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetBaseSql().
-     */
-    public function testGetBaseSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetIdentitySelectString().
-     */
-    public function testGetIdentitySelectString() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetSequenceNextValString().
-     */
-    public function testGetSequenceNextValString() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetTableSql().
-     */
-    public function testGetTableSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetTableInfoSql().
-     */
-    public function testGetTableInfoSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetPrimaryKeySql().
-     */
-    public function testGetPrimaryKeySql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetProcedureNamesSql().
-     */
-    public function testGetProcedureNamesSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetProcedureInfoSql().
-     */
-    public function testGetProcedureInfoSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    private function createBeanMetaData(ReflectionClass $beanClass, S2Dao_Dbms $dbms) {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $ds = $container->getComponent("pdo.dataSource");
+        $beanMetaData = new S2Dao_BeanMetaDataImpl($beanClass,
+                                                    $ds->getConnection(),
+                                                    $dbms);
+        return $beanMetaData;
     }
 }
 ?>
