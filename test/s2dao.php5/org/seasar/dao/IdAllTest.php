@@ -21,10 +21,6 @@
 // +----------------------------------------------------------------------+
 // $Id$
 //
-
-require_once dirname(__FILE__) . "/BeanTest.php";
-require_once dirname(__FILE__) . "/DaoTest.php";
-
 /**
  * @author nowel
  */

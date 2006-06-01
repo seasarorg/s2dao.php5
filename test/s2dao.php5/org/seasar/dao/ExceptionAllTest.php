@@ -35,20 +35,20 @@ class ExceptionAllTest {
 
     public static function suite(){
         $suite = new PHPUnit2_Framework_TestSuite("All Exception Tests");
-        $suite->addTestSuite('S2Dao_ColumnNotFoundRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_DaoNotFoundRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_EndCommentNotFoundRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_IfConditionNotFoundRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_IllegalBoolExpressionRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_IllegalSignatureRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_NoRowsUpdatedRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_NotExactlyOneRowUpdatedRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_NotSingleRowUpdatedRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_PrimaryKeyNotFoundRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_SIllegalStateExceptionTest');
-        $suite->addTestSuite('S2Dao_SQLRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_TokenNotClosedRuntimeExceptionTest');
-        $suite->addTestSuite('S2Dao_UpdateFailureRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_ColumnNotFoundRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_DaoNotFoundRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_EndCommentNotFoundRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_IfConditionNotFoundRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_IllegalBoolExpressionRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_IllegalSignatureRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_NoRowsUpdatedRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_NotExactlyOneRowUpdatedRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_NotSingleRowUpdatedRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_PrimaryKeyNotFoundRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_SIllegalStateExceptionTest');
+//        $suite->addTestSuite('S2Dao_SQLRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_TokenNotClosedRuntimeExceptionTest');
+//        $suite->addTestSuite('S2Dao_UpdateFailureRuntimeExceptionTest');
         return $suite;
     }
 }

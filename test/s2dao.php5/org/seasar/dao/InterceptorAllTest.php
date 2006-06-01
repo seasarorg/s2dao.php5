@@ -38,6 +38,8 @@ class InterceptorAllTest {
         $suite->addTestSuite('S2DaoAssertAtLeastOneRowInterceptorTest');
         $suite->addTestSuite('S2DaoAssertExactlyOneRowInterceptorTest');
         $suite->addTestSuite('S2DaoInterceptorTest');
+        $suite->addTestSuite('S2DaoInterceptor2Test');
+        $suite->addTestSuite('S2DaoInterceptor3Test');
         return $suite;
     }
 }

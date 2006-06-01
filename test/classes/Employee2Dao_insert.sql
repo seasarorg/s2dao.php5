@@ -1,0 +1,1 @@
+INSERT INTO emp2 (empno, ename) VALUES (/*empno*/7788, /*ename*/'SCOTT')

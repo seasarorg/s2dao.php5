@@ -24,61 +24,36 @@
 /**
  * @author nowel
  */
-class S2DaoInterceptorTest extends PHPUnit2_Framework_TestCase {
+class S2DaoInterceptor3Test extends PHPUnit2_Framework_TestCase {
 
     private $dao = null;
 
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2DaoInterceptorTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("S2DaoInterceptor3Test");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
-        $this->dao = $container->getComponent("it.Employee2DaoImpl");
+        $this->dao = $container->getComponent("it3.DepartmentAutoDao");
     }
 
     protected function tearDown() {
         $this->dao = null;
     }
 
-    public function testSelectBeanList() {
-        $employees = $this->dao->getAllEmployeesList();
-        for ($i = 0; $i < $employees->size(); ++$i) {
-            var_dump($employees->get($i));
-        }
-        $this->assertEquals(true, $employees->size() > 0);
-    }
-    
-    public function testSelectBean() {
-        $employee = $this->dao->getEmployee(7788);
-        var_dump($employee);
-        $this->assertEquals("SCOTT", $employee->getEname());
-    }
-    
-    public function testSelectObject() {
-        $count = $this->dao->getCount();
-        var_dump("count:" . $count);
-        $this->assertEquals(true, $count > 0);
-    }
-
     public function testUpdateTx() {
-        $employee = $this->dao->getEmployee(7788);
-        $this->assertEquals(1, $this->dao->update($employee));
-    }
-
-    public function testEntityManager() {
-        /*
-         *  S2Container.PHP5 not supporte 'abstract class'
-        $employees = $this->dao->getEmployeesByDeptnoArray(10);
-        $this->assertTrue(is_array($employees));
-        $this->assertEquals(3, count($employees));
-        */
+        $dept = new Department2();
+        $dept->setDeptno(10);
+        $dept->setVersionNo(0);
+        $this->assertEquals(1, $this->dao->update($dept));
     }
     
-    public function testInsertTx() {
-        $this->dao->insert(9999, "hoge");
+    public function testDeleteTx() {
+        $dept = new Department2();
+        $dept->setDeptno(10);
+        $dept->setVersionNo(1);
+        $this->assertEquals(1, $this->dao->delete($dept));
     }
-
 }
 ?>

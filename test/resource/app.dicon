@@ -7,4 +7,10 @@
     		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertAtLeastOneRowInterceptorTest.dicon" />
     	<include
     		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertExactlyOneRowInterceptorTest.dicon" />
+    	<include
+    		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptorTest.dicon" />
+    	<include
+    		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptor2Test.dicon" />
+    	<include
+    		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptor3Test.dicon" />
 </components>

@@ -24,61 +24,50 @@
 /**
  * @author nowel
  */
-class S2DaoInterceptorTest extends PHPUnit2_Framework_TestCase {
+class S2DaoInterceptor2Test extends PHPUnit2_Framework_TestCase {
 
     private $dao = null;
 
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2DaoInterceptorTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("S2DaoInterceptor2Test");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
-        $this->dao = $container->getComponent("it.Employee2DaoImpl");
+        $this->dao = $container->getComponent("it2.EmployeeAutoDao");
     }
 
     protected function tearDown() {
         $this->dao = null;
     }
 
-    public function testSelectBeanList() {
-        $employees = $this->dao->getAllEmployeesList();
-        for ($i = 0; $i < $employees->size(); ++$i) {
-            var_dump($employees->get($i));
-        }
-        $this->assertEquals(true, $employees->size() > 0);
-    }
-    
-    public function testSelectBean() {
-        $employee = $this->dao->getEmployee(7788);
-        var_dump($employee);
-        $this->assertEquals("SCOTT", $employee->getEname());
-    }
-    
-    public function testSelectObject() {
-        $count = $this->dao->getCount();
-        var_dump("count:" . $count);
-        $this->assertEquals(true, $count > 0);
-    }
-
-    public function testUpdateTx() {
-        $employee = $this->dao->getEmployee(7788);
-        $this->assertEquals(1, $this->dao->update($employee));
-    }
-
-    public function testEntityManager() {
-        /*
-         *  S2Container.PHP5 not supporte 'abstract class'
-        $employees = $this->dao->getEmployeesByDeptnoArray(10);
-        $this->assertTrue(is_array($employees));
-        $this->assertEquals(3, count($employees));
-        */
-    }
-    
     public function testInsertTx() {
-        $this->dao->insert(9999, "hoge");
+        $emp = new Employee2();
+        $emp->setEmpno(99);
+        $emp->setEname("hoge");
+        $this->assertEquals(1, $this->dao->insert($emp));
     }
 
+    public function testSelect() {
+        $emp = $this->dao->getEmployee(7788);
+        var_dump($emp);
+        $this->assertEquals(7788, (int)$emp->getEmpno());
+    }
+    
+    public function testSelectQuery() {
+        $employees = $this->dao->getEmployeesBySalList(0, 1000);
+        var_dump($employees);
+        $this->assertEquals(2, $employees->size());
+    }
+
+    public function testFullWidthTildaTx() {
+        $emp = new Employee2();
+        $emp->setEmpno(199);
+        $emp->setEname("foo");
+        $this->dao->insert($emp);
+        $emp2 = $this->dao->getEmployee(199);
+        $this->assertEquals($emp->getEname(), $emp2->getEname());
+    }
 }
 ?>
