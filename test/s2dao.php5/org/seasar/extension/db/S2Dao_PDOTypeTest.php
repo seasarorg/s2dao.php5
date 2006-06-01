@@ -25,41 +25,45 @@
  * @author nowel
  */
 class S2Dao_PDOTypeTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PDOTypeTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testGettype().
-     */
-    public function testGettype() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testGettypeNull() {
+        $this->assertEquals(S2Dao_PDOType::gettype(null), PDO::PARAM_NULL);
+        $this->assertEquals(S2Dao_PDOType::gettype(), PDO::PARAM_NULL);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype(null)), PDO::PARAM_NULL);
+    }
+    
+    public function testGettypeString() {
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype("")), PDO::PARAM_STR);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype("null")), PDO::PARAM_STR);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype('')), PDO::PARAM_STR);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype("0")), PDO::PARAM_STR);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype("\0")), PDO::PARAM_STR);
+    }
+    
+    public function testGettypeInteger() {
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype(1)), PDO::PARAM_INT);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype(0)), PDO::PARAM_INT);
+    }
+    
+    public function testGettypeBoolean() {
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype(true)), PDO::PARAM_BOOL);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype(false)), PDO::PARAM_BOOL);
+    }
+    
+    public function testGettypeOther() {
+        $this->assertEquals(S2Dao_PDOType::gettype(new stdClass), PDO::PARAM_STMT);
+        $this->assertEquals(S2Dao_PDOType::gettype(gettype(1.0001112 * 0.123)), PDO::PARAM_STMT);
     }
 }
 ?>

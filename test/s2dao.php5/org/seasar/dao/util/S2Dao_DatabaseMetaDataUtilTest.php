@@ -25,89 +25,52 @@
  * @author nowel
  */
 class S2Dao_DatabaseMetaDataUtilTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $connection = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DatabaseMetaDataUtilTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $datasource = $container->getComponent("pdo.dataSource");
+        $this->connection = $datasource->getConnection();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->connection = null;
     }
 
-    /**
-     * @todo Implement testGetDbms().
-     */
     public function testGetDbms() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $dbms = S2Dao_DatabaseMetaDataUtil::getDbms($this->connection);
+        $this->assertTrue($dbms instanceof S2Dao_SQLite);
     }
 
-    /**
-     * @todo Implement testGetPrimaryKeys().
-     */
     public function testGetPrimaryKeys() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $deptPk = array("DEPTNO");
+        $pks = S2Dao_DatabaseMetaDataUtil::getPrimaryKeys($this->connection, "DEPT2");
+        $this->assertEquals($pks, $deptPk);
     }
 
-    /**
-     * @todo Implement testGetPrimaryKeySet().
-     */
     public function testGetPrimaryKeySet() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $deptPKList = new S2Dao_ArrayList(array("DEPTNO"));
+        $pset = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet($this->connection, "DEPT2");
+        $this->assertEquals($pset, $deptPKList);
     }
 
-    /**
-     * @todo Implement testGetColumns().
-     */
     public function testGetColumns() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $col = array("DEPTNO", "DNAME", "LOC", "VERSIONNO", "ACTIVE");
+        $columns = S2Dao_DatabaseMetaDataUtil::getColumns($this->connection, "DEPT2");
+        $this->assertEquals($col, $columns);
     }
 
-    /**
-     * @todo Implement testGetColumnSet().
-     */
     public function testGetColumnSet() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $col = new S2Dao_ArrayList(array("DEPTNO", "DNAME", "LOC", "VERSIONNO", "ACTIVE"));
+        $columnSet = S2Dao_DatabaseMetaDataUtil::getColumnSet($this->connection, "DEPT2");
+        $this->assertEquals($col, $columnSet);
     }
 
-    /**
-     * @todo Implement testConvertIdentifier().
-     */
-    public function testConvertIdentifier() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetDatabaseProductName().
-     */
-    public function testGetDatabaseProductName() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
 }
 ?>

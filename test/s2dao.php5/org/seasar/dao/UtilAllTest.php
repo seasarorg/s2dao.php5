@@ -42,9 +42,9 @@ class UtilAllTest {
         //$suite->addTestSuite('S2Dao_MySQLProcedureMetaDataImplTest');
         //$suite->addTestSuite('S2Dao_OracleProcedureMetaDataImplTest');
         //$suite->addTestSuite('S2Dao_PostgreSQLProcedureMetaDataImplTest');
-        $suite->addTestSuite('S2Dao_ProcedureInfoTest');
-        $suite->addTestSuite('S2Dao_ProcedureMetaDataFactoryTest');
-        $suite->addTestSuite('S2Dao_ProcedureTypeTest');
+        //$suite->addTestSuite('S2Dao_ProcedureInfoTest');
+        //$suite->addTestSuite('S2Dao_ProcedureMetaDataFactoryTest');
+        //$suite->addTestSuite('S2Dao_ProcedureTypeTest');
         //$suite->addTestSuite('S2Dao_SQLiteProcedureMetaDataImplTest');
         return $suite;
     }
