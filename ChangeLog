@@ -2,16 +2,15 @@
 
     * fix: S2Dao_ParenBindVariableNodeで古いクラスを参照していたのを修正しました。
 
-2006-05-30 yonekawa <tcgrim@gmail.com>
+2006-05-30 yonekawa(S2Dao.PHP5-1.1.0-RC4)
 
     * remove: S2Dao_LimitOffsetS2DaoInterceptorを削除しました。
-	-Limit,Offset句を使用する場合はdao-pager.diconのinterceptorの
-	 useLimitOffsetQueryプロパティ(初期値false)にtrueを指定することで可能です。
-
-	ex)
-	<component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
-            <property name="useLimitOffsetQuery">true</property>
-        </component>
+        - Limit,Offset句を使用する場合はdao-pager.diconのinterceptorの
+          useLimitOffsetQueryプロパティ(初期値false)にtrueを指定することで可能です。
+       ex)
+       <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
+           <property name="useLimitOffsetQuery">true</property>
+       </component>
 
 2006-05-27 nowel(S2Dao.PHP5-1.1.0-RC4)
 
@@ -33,7 +32,6 @@
     * add: S2Pager S2Dao_LimitOffsetS2DaoInterceptorを追加しました。
     - MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
     - 使用する場合はdao-pager.diconの設定を書き換えます。
-      
       ex)
       <!-- S2Dao_PagerS2DaoInterceptorWrapperをコメントアウト
       <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
@@ -43,7 +41,6 @@
       </component>
       -->
       <component name="inteceptor class="S2Dao_LimitOffsetS2DaoInterceptor"/>
-    
     * add: PhingTask S2DaoTestGenTaskを追加しました。
         - 現在はPHPUnit2のテストコードをPHPUnit2のSkeletonから自動生成します。
         - /test と同様のテストコードを自動生成します。
