@@ -153,6 +153,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if ($interfaces === null) {
             return;
         }
+        
+        $interfaces = array_values($interfaces);
         $c = count($interfaces);
         for ($i = 0; $i < $c; $i++) {
             $interfaceMethod = $this->getSameSignatureMethod($interfaces[$i], $method);
