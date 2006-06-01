@@ -24,23 +24,23 @@
         - S2Dao_UpdateBatchAutoHandler.class.php
         - S2Dao_UpdateBatchAutoStaticCommand.class.php
     * remove: S2Dao_DataSourceUtilを削除しました。
-    * fix: IDアノテーションが正しく行えばいバグを修正しました。
+    * fix: IDアノテーションが正しく行えばい不具合を修正しました。
 
 2006-05-25 yonekawa, nowel(S2Dao.PHP5-1.1.0-RC4)
 
-    * fix: S2Dao_ArrayList::addAllメソッドでArrayObjectが正しく追加されないバグを修正しました。
+    * fix: S2Dao_ArrayList::addAllメソッドでArrayObjectが正しく追加されない不具合を修正しました。
     * add: S2Pager S2Dao_LimitOffsetS2DaoInterceptorを追加しました。
-    - MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
-    - 使用する場合はdao-pager.diconの設定を書き換えます。
-      ex)
-      <!-- S2Dao_PagerS2DaoInterceptorWrapperをコメントアウト
-      <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
-        <arg>
-          <component class="S2DaoInterceptor" />
-        </arg>
-      </component>
-      -->
-      <component name="inteceptor class="S2Dao_LimitOffsetS2DaoInterceptor"/>
+        - MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
+        - 使用する場合はdao-pager.diconの設定を書き換えます。
+          ex)
+          <!-- S2Dao_PagerS2DaoInterceptorWrapperをコメントアウト
+          <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
+              <arg>
+                  <component class="S2DaoInterceptor" />
+              </arg>
+          </component>
+          -->
+         <component name="inteceptor class="S2Dao_LimitOffsetS2DaoInterceptor"/>
     * add: PhingTask S2DaoTestGenTaskを追加しました。
         - 現在はPHPUnit2のテストコードをPHPUnit2のSkeletonから自動生成します。
         - /test と同様のテストコードを自動生成します。
@@ -91,7 +91,7 @@
 
     * fix: QUERYアノテーション時にWHERE句が正しく挿入されない不具合を修正しました。
     * fix: BEANに代入されるtimestampの値が常にIntegerになる不具合を修正しました。
-    * fix: 不正な値がBindされるバグを修正しました。
+    * fix: 不正な値がBindされる不具合を修正しました。
     * fix: DTO使用時に不必要なパラメータが含まれないように修正しました。
     * fix: PHPtype <-> PDOtype のマッピングの一部の修正しました。
     * fix: Dto処理を修正しました。
@@ -128,7 +128,6 @@
 
     * S2DaoSkeletonTask を修正しました。
         - DaoImplを生成するように変更しました。
-
     * PROCEDURE アノテーション
         - 現在OUT、INOUTパラメータを必要とするStored Function、Stored Procedureには対応していません。
          IN パラメータのみバインドします。
@@ -182,11 +181,11 @@
 2006-04-10 nowel(S2Dao.PHP5-1.1.0-RC1)
 
 ================ S2Dao.PHP5-1.1.0-RC1 更新履歴 ===================
-    * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されないバグを修正しました。
-    * fix: N:1(RELNO)時のRelation Bean値が正しく設定されないバグを修正しました。
+    * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されない不具合を修正しました。
+    * fix: N:1(RELNO)時のRelation Bean値が正しく設定されない不具合を修正しました。
     * fix: いくつかの Exception 及びメッセージを修正しました。
     * fix: s2dao.inc.php にて S2ContainerMessageUtil の指定が間違っていたのを修正しました。
-    * fix: SQLコメントが正しく利用できないバグを修正しました。
+    * fix: SQLコメントが正しく利用できない不具合を修正しました。
     * add: Dao, Entity の自動生成タスクを作成しました。(alpha)
     * add:コメントアノテーションに対応しました。
         - 詳細はドキュメントをご覧になってください。
@@ -222,8 +221,8 @@
 
 2006-04-08 nowel(S2Dao.PHP5-1.1.0-RC1)
 
-    * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されないバグを修正しました。
-    * fix: N:1(RELNO)時のRelation Bean値が正しく設定されないバグを修正しました。
+    * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されない不具合を修正しました。
+    * fix: N:1(RELNO)時のRelation Bean値が正しく設定されない不具合を修正しました。
 
 2006-04-05 nowel(S2Dao.PHP5-1.1.0-RC1)
 
@@ -284,7 +283,7 @@
 
 2006-03-21 nowel
 
-    * refix: SQLコメントが正しく利用できないバグを修正しました。
+    * refix: SQLコメントが正しく利用できない不具合を修正しました。
     * add: Dao, Entity の自動生成タスクを作成しました。(alpha)
 
 2006-03-18 nowel
@@ -293,15 +292,15 @@
     * S2ActiveRecordを提供開始しました。(alpha)
     * 埋め込み変数コメントでのプロパティ参照に対応しました。
     * /src/examples を /examples に移動しました。
-    * fix: IDアノテーション使用時のバグを修正しました。
-    * fix: SQLコメントが正しく利用できないバグを修正しました。
+    * fix: IDアノテーション使用時の不具合を修正しました。
+    * fix: SQLコメントが正しく利用できない不具合を修正しました。
 
 2006-03-17 nowel
 
     * 埋め込み変数コメントに対応しました。SQLコメント内で以下のコメントが利用可能です。
         - /*Entity名.プロパティ名*/
         - /*引数名.プロパティ名*/
-    * SQLコメントが正しく動作しないバグを修正しました。
+    * SQLコメントが正しく動作しない不具合を修正しました。
 
 2006-03-05 nowel
 
@@ -357,7 +356,7 @@
     * S2Dao_PropertyTypeImpl を修正しました。
     * S2Dao_AbstractAutoHandler を修正しました。(Oracle対応)
     * Array_***, find*** メソッド利用時の結果セットを正しく返すように修正しました。
-    * Oracle 使用時のバグを修正しました。
+    * Oracle 使用時の不具合を修正しました。
         - Oracle での Null の扱いについては pdo.dicon の optionで設定してください
 
 2006-01-12 nowel
