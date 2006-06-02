@@ -25,41 +25,78 @@
  * @author nowel
  */
 class S2Dao_BeanListMetaDataResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+    
+    private $dataSource = null;
+    private $bmd = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_BeanListMetaDataResultSetHandlerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
+        $this->bmd = $this->createBeanMetaData(new ReflectionClass("Employee2"));
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
+        $this->bmd = null;
     }
 
-    /**
-     * @todo Implement testHandle().
-     */
     public function testHandle() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $handler = new S2Dao_BeanListMetaDataResultSetHandler($this->bmd);
+        $sql = "select * from emp2";
+        $conn = $this->getConnection();
+        $ps = $conn->prepare($sql);
+        $ps->execute();
+        $ret = $handler->handle($ps);
+        $this->assertNotNull($ret);
+        for ($i = 0; $i < count($ret); ++$i) {
+            $emp = $ret[$i];
+            var_dump($emp->getEmpno() . "," . $emp->getEname());
+        }
+    }
+    
+    public function testHandle2() {
+        $handler = new S2Dao_BeanListMetaDataResultSetHandler($this->bmd);
+        $sql = "select emp2.*, dept2.dname as dname_0 from emp2, dept2 where emp2.deptno = dept2.deptno and emp2.deptno = 20";
+        $conn = $this->getConnection();
+        $ps = $conn->prepare($sql);
+        $ps->execute();
+        $ret = $handler->handle($ps);
+        $this->assertNotNull($ret);
+        for ($i = 0; $i < $ret->size(); ++$i) {
+            $emp = $ret->get($i);
+            var_dump($emp);
+            $dept = $emp->getDepartment();
+            $this->assertNotNull($dept);
+            $this->assertEquals($emp->getDeptno(), $dept->getDeptno());
+            $this->assertNotNull($dept);
+        }
+    }
+
+    public function testHandle3() {
+        $handler = new S2Dao_BeanListMetaDataResultSetHandler($this->bmd);
+        $sql = "select emp2.*, dept2.deptno as deptno_0, dept2.dname as dname_0 from emp2, dept2 where dept2.deptno = 20 and emp2.deptno = dept2.deptno";
+        $conn = $this->getConnection();
+        $ps = $conn->prepare($sql);
+        $ps->execute();
+        $ret = $handler->handle($ps);
+        $emp = $ret->get(0);
+        $emp2 = $ret->get(1);
+        $this->assertSame($emp->getDepartment(), $emp2->getDepartment());
+    }
+
+    private function getConnection(){
+        return $this->dataSource->getConnection();
+    }
+    
+    private function createBeanMetaData(ReflectionClass $class){
+        $conn = $this->getConnection();
+        $dbms = new S2Dao_SQLite();
+        return new S2Dao_BeanMetaDataImpl($class, $conn, $dbms);
     }
 }
 ?>

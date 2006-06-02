@@ -25,41 +25,46 @@
  * @author nowel
  */
 class S2Dao_BeanArrayMetaDataResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $dataSource = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_BeanArrayMetaDataResultSetHandlerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
     }
 
-    /**
-     * @todo Implement testHandle().
-     */
     public function testHandle() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $emp2 = new ReflectionClass("Employee2");
+        $handler = new S2Dao_BeanArrayMetaDataResultSetHandler($this->createBeanMetaData($emp2));
+        $sql = "select * from emp2";
+        $conn = $this->getConnection();
+        $ps = $conn->prepare($sql);
+        $ps->execute();
+        $ret = $handler->handle($ps);
+        $this->assertNotNull($ret);
+        for ($i = 0; $i < count($ret); ++$i) {
+            $emp = $ret[$i];
+            var_dump($emp->getEmpno() . "," . $emp->getEname());
+        }
+    }
+    
+    private function getConnection(){
+        return $this->dataSource->getConnection();
+    }
+    
+    private function createBeanMetaData(ReflectionClass $class){
+        $conn = $this->getConnection();
+        $dbms = new S2Dao_SQLite();
+        return new S2Dao_BeanMetaDataImpl($class, $conn, $dbms);
     }
 }
 ?>

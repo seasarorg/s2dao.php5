@@ -159,7 +159,7 @@
                     <include name="**/**Test.php"/>
                 </fileset>
             </batchtest>
-            <formatter type="plain" usefile="file" />
+            <formatter type="plain" usefile="false" />
         </phpunit2>
     </target>
     
