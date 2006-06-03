@@ -13,4 +13,6 @@
     		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptor2Test.dicon" />
     	<include
     		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptor3Test.dicon" />
+	<include
+	        path="%RESOURCE_DIR%/org/seasar/dao/pager/S2Dao_PagerS2DaoInteceptorWrapperTest.dicon" />
 </components>

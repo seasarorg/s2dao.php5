@@ -26,6 +26,9 @@
  */
 class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase {
 
+    private $dao;
+    private $dto;
+
     /**
      * Runs the test methods of this class.
      *
@@ -44,6 +47,9 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
      * @access protected
      */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dao = $container->getComponent("pager.Employee2DaoImpl");
+        $this->dto = new S2Dao_DefaultPagerCondition():
     }
 
     /**
@@ -53,14 +59,34 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
      * @access protected
      */
     protected function tearDown() {
+        $this->dao = null;
     }
 
     /**
      * @todo Implement testInvoke().
      */
-    public function testInvoke() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testSelectLimit5() {
+        $this->dto->setLimit(5);
+        $emp = $this->dao->getEmployeeByPagerCondition($this->dto);
+        $this->assertEquals(count($emp), 5);
+    }
+
+    public function testSelectLimit5Offset2() {
+        $this->dto->setLimit(5);
+        $this->dto->setOffset(2);
+        $empPager = $this->dao->getEmployeeByPagerCondition($this->dao);
+        $empOrigin = $this->dao->getAllEmployeesList();
+        
+        $this->assertEquals(count($empPager), 5);
+        
+        $empPager = $empPager[0];
+        $empOrigin = $empOrigin[2];
+        $this->assertEquals($empPager->getId(), $empOrigin->getId());
+    }
+
+    public function testSettingCount()
+    {
+        
     }
 }
 
