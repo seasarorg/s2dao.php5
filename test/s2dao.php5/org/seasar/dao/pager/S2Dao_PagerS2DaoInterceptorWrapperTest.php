@@ -22,49 +22,29 @@
 // $Id$
 //
 /**
- * @author nowel
+ * @author yonekawa
+
  */
 class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase {
 
     private $dao;
     private $dto;
 
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerS2DaoInterceptorWrapperTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $this->dao = $container->getComponent("pager.Employee2DaoImpl");
         $this->dto = new S2Dao_DefaultPagerCondition():
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
         $this->dao = null;
     }
 
-    /**
-     * @todo Implement testInvoke().
-     */
     public function testSelectLimit5() {
         $this->dto->setLimit(5);
         $emp = $this->dao->getEmployeeByPagerCondition($this->dto);
@@ -74,7 +54,7 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
     public function testSelectLimit5Offset2() {
         $this->dto->setLimit(5);
         $this->dto->setOffset(2);
-        $empPager = $this->dao->getEmployeeByPagerCondition($this->dao);
+        $empPager = $this->dao->getEmployeeByPagerCondition($this->dto);
         $empOrigin = $this->dao->getAllEmployeesList();
         
         $this->assertEquals(count($empPager), 5);
@@ -86,8 +66,14 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
 
     public function testSettingCount()
     {
-        
+        $this->dto->setLimit(5);
+        $this->dto->setOffset(10);
+
+        $empPager = $this->dao->getEmployeeByPagerCondition($this->dto);
+        $empOrigin = $this->dao->getAllEmployeesList();        
+        $this->assertEquals(count($empOrigin), $dto->getCount());
     }
+
 }
 
 ?>

@@ -22,7 +22,7 @@
 // $Id$
 //
 /**
- * @author nowel
+ * @author yonekawa
  */
 class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
 
