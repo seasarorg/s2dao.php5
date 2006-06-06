@@ -36,9 +36,9 @@ class PagerAllTest {
     public static function suite(){
         $suite = new PHPUnit2_Framework_TestSuite("All Pager Tests");
         $suite->addTestSuite('S2Dao_DefaultPagerConditionTest');
-        $suite->addTestSuite('S2Dao_LimitOffsetS2DaoInterceptorTest');
         $suite->addTestSuite('S2Dao_PagerResultSetWrapperTest');
         $suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperTest');
+        $suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperLimitOffsetQueryTest');
         $suite->addTestSuite('S2Dao_PagerSupportTest');
         $suite->addTestSuite('S2Dao_PagerViewHelperTest');
         $suite->addTestSuite('S2Dao_SelectDynamicCommandLimitOffsetWrapperFactoryTest');

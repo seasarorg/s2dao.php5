@@ -38,7 +38,7 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $this->dao = $container->getComponent("pager.Employee2DaoImpl");
-        $this->dto = new S2Dao_DefaultPagerCondition():
+        $this->dto = new S2Dao_DefaultPagerCondition();
     }
 
     protected function tearDown() {
