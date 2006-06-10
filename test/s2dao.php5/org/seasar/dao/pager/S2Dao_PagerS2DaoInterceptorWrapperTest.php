@@ -47,21 +47,21 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
 
     public function testSelectLimit5() {
         $this->dto->setLimit(5);
-        $emp = $this->dao->getEmployeeByPagerCondition($this->dto);
+        $emp = $this->dao->getEmployeeByPagerConditionList($this->dto);
         $this->assertEquals(count($emp), 5);
     }
 
     public function testSelectLimit5Offset2() {
         $this->dto->setLimit(5);
         $this->dto->setOffset(2);
-        $empPager = $this->dao->getEmployeeByPagerCondition($this->dto);
+        $empPager = $this->dao->getEmployeeByPagerConditionList($this->dto);
         $empOrigin = $this->dao->getAllEmployeesList();
         
         $this->assertEquals(count($empPager), 5);
         
         $empPager = $empPager[0];
         $empOrigin = $empOrigin[2];
-        $this->assertEquals($empPager->getId(), $empOrigin->getId());
+        $this->assertEquals($empPager->getEmpno(), $empOrigin->getEmpno());
     }
 
     public function testSettingCount()
@@ -69,9 +69,10 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
         $this->dto->setLimit(5);
         $this->dto->setOffset(10);
 
-        $empPager = $this->dao->getEmployeeByPagerCondition($this->dto);
-        $empOrigin = $this->dao->getAllEmployeesList();        
-        $this->assertEquals(count($empOrigin), $dto->getCount());
+        $empPager = $this->dao->getEmployeeByPagerConditionList($this->dto);
+        $empOriginCount = $this->dao->getCount();
+        
+        $this->assertEquals($empOriginCount, $this->dto->getCount());
     }
 
 }

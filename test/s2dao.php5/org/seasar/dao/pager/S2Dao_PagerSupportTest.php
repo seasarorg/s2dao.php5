@@ -39,23 +39,34 @@ class S2Dao_PagerSupportTest extends PHPUnit2_Framework_TestCase {
 
     protected function tearDown() {
         $this->pager_ = null;
-        session_unset();
     }
 
+    public function testGetPagerCondition() {
+        $dto = $this->pager_->getPagerCondition();
+        
+        $isPagerCondition = ($dto instanceof S2Dao_DefaultPagerCondition);
+        $this->assertEquals($isPagerCondition, true);
+
+        $this->assertEquals($dto->getLimit(), 10);
+        $this->assertEquals($dto->getOffset(), 0);
+        $this->assertEquals($dto->getCount(), 0);
+    }
+    
     public function testUpdateOffset() {
         $this->pager_->updateOffset(20);
         $dto = $this->pager_->getPagerCondition();
         $this->assertEquals($dto->getOffset(), 20);
+        
     }
 
-    public function testGetPagerCondition() {
+    public function testGetPagerConditionAfter() {
         $dto = $this->pager_->getPagerCondition();
 
         $isPagerCondition = ($dto instanceof S2Dao_DefaultPagerCondition);
         $this->assertEquals($isPagerCondition, true);
 
         $this->assertEquals($dto->getLimit(), 10);
-        $this->assertEquals($dto->getOffset(), 0);
+        $this->assertEquals($dto->getOffset(), 20);
         $this->assertEquals($dto->getCount(), 0);
     }
 }

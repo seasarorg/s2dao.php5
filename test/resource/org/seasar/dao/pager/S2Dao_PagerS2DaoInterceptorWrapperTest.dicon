@@ -4,6 +4,6 @@
 <components namespace="pager">
 	<include path="%DAO_PAGER_DICON%" />
 	<component class="Employee2DaoImpl">
-		<aspect>dao.interceptor</aspect>
+		<aspect>dao2.interceptor</aspect>
 	</component>
 </components>

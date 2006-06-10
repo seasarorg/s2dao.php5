@@ -13,10 +13,7 @@ interface Employee2Dao {
     
     public function getEmployeesByDeptnoArray($deptno);
 
-    /**
-     * @return list
-     */
-    public function getEmployeeByPagerCondition(S2Dao_DefaultPagerCondition $dto);
+    public function getEmployeeByPagerConditionList(S2Dao_DefaultPagerCondition $dto);
     
     public function getCount();
     
