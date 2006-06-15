@@ -3,9 +3,9 @@
 ================ S2Dao.PHP5-1.1.0-RC4 更新履歴 ===================
 
     * fix: AnnotationReader の処理を最適化しました。(nowel)
-    * Licenses 表記を全てのファイルに適用しました。(nowel)
+    * info: Licenses 表記を全てのファイルに適用しました。(nowel)
     * remove: S2ActiveRecord のパッケージを削除しました。(nowel)
-    * S2Pagerを追加しました(yonekawa)
+    * add: S2Pagerを追加しました(yonekawa)
         - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapper.class.php
         - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerResultSetWrapper.class.php
         - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerSupport.class.php
@@ -15,7 +15,7 @@
         - add: /src/s2dao.php5/dao-pager.dicon
     * add: example/s2dao_pagerを追加しました(yonekawa)
     * add: S2Dao_SelectDynamicCommand::getResultSetFactory()を追加しました。(yonekawa)
-    * S2DaoTestCaseをS2Container_S2PHPUnit2TestCaseから継承するように変更しました。(nowel)
+    * fix: S2DaoTestCaseをS2Container_S2PHPUnit2TestCaseから継承するように変更しました。(nowel)
     * fix: コメントアノテーション時にN:1マッピングの取得がドキュメントと違っていたのを修正しました。(nowel)
     * fix: コメントアノテーション時にNoPersistentPropertyが正しく取得されないのを修正しました。(nowel)
     * add: コメントアノテーションTimestampProperty, VersionNoProperty アノテーションを追加しました。(nowel)
@@ -65,7 +65,6 @@
            <property name="useLimitOffsetQuery">true</property>
        </component>
     * fix: SQLバインド時に古いクラスを参照していたのを修正しました。(nowel)
-
 
 2006-05-31 nowel(S2Dao.PHP5-1.1.0-RC4)
 
