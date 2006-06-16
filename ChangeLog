@@ -1,3 +1,24 @@
+2006-06-17 nowel(S2Dao.PHP5-1.1.0-RC5)
+
+    * move: procedure パッケージを移動しました。
+        - /dao/util/procedure to /dao/dbms/proceudre
+    * add: DBMataData パッケージの追加
+        - /dao/dbms/dbmeta/S2Dao_DBMetaDataFactory.class.php
+        - /dao/dbms/dbmeta/S2Dao_Firebird_DBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_Oracle_DBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_PostgreSQL_DBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_SQLite_DBMataData.class.php
+        - /dao/dbms/dbmeta/S2Dao_Standard_DBMetaData.class.php
+    * add: ResultSet パッケージの追加、ResultSet クラスの移動
+        - /dao/impl/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
+        - /dao/impl/S2Dao_BeanListMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_BeanListMetaDataResultSetHandler.class.php
+        - /dao/impl/S2Dao_BeanMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_BeanMetaDataResultSetHandler.class.php
+        - /dao/resultset/S2Dao_BeanJsonMetaDataResultSetHandler.class.php
+        - /dao/resultset/S2Dao_BeanYamlMetaDataResultSetHandler.class.php
+
 2006-06-16 nowel(S2Dao.PHP5-1.1.0-RC4)
 
 ================ S2Dao.PHP5-1.1.0-RC4 更新履歴 ===================
