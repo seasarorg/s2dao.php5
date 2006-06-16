@@ -1,5 +1,7 @@
 2006-06-17 nowel(S2Dao.PHP5-1.1.0-RC5)
 
+    * move: context パッケージを移動しました。
+        - /dao/context/S2Dao_CommandContextImpl.class.php to /dao/impl/S2Dao_CommandContextImpl.class.php
     * move: procedure パッケージを移動しました。
         - /dao/util/procedure to /dao/dbms/proceudre
     * add: DBMataData パッケージの追加
