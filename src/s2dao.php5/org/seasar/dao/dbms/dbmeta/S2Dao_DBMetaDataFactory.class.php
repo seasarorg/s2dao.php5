@@ -26,16 +26,11 @@
  */
 class S2Dao_DBMetaDataFactory {
     
-    private static $classes = array(
-                    'S2Dao_Firebird' => 'S2Dao_Firebird_DBMetaData',
-                    'S2Dao_Oracle' => 'S2Dao_Oracle_DBMetaData',
-                    'S2Dao_SQLite' => 'S2Dao_SQLite_DBMataData',
-                    'S2Dao_PostgreSQL' => 'S2Dao_PostgreSQL_DBMetaData');
+    const DBMetaData_Suffix = 'DBMetaData';
     
     public static function create(PDO $db, S2Dao_Dbms $dbms){
-        $dbmsClass = get_class($dbms);
-        if(isset(self::$classes[$dbmsClass])){
-            $dbmd = self::$classes[$dbmsClass];
+        $dbmd = get_class($dbms) . self::DBMetaData_Suffix;
+        if(class_exists($dbmd)){
             return new $dbmd($db, $dbms);
         }
         return new S2Dao_Standard_DBMetaData($db, $dbms);

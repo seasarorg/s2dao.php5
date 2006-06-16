@@ -6,11 +6,11 @@
         - /dao/util/procedure to /dao/dbms/proceudre
     * add: DBMataData パッケージの追加
         - /dao/dbms/dbmeta/S2Dao_DBMetaDataFactory.class.php
-        - /dao/dbms/dbmeta/S2Dao_Firebird_DBMetaData.class.php
-        - /dao/dbms/dbmeta/S2Dao_Oracle_DBMetaData.class.php
-        - /dao/dbms/dbmeta/S2Dao_PostgreSQL_DBMetaData.class.php
-        - /dao/dbms/dbmeta/S2Dao_SQLite_DBMataData.class.php
-        - /dao/dbms/dbmeta/S2Dao_Standard_DBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_FirebirdDBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_OracleDBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_PostgreSQLDBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_SQLiteDBMataData.class.php
+        - /dao/dbms/dbmeta/S2Dao_StandardDBMetaData.class.php
     * add: ResultSet パッケージの追加、ResultSet クラスの移動
         - /dao/impl/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
             to /dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler.class.php

@@ -26,23 +26,16 @@
  */
 class S2Dao_ProcedureMetaDataFactory {
     
-    private static $classes = array(
-                    'S2Dao_MySQL' => 'S2Dao_MySQLProcedureMetaDataImpl',
-                    'S2Dao_PostgreSQL' => 'S2Dao_PostgreSQLProcedureMetaDataImpl',
-                    'S2Dao_SQLite' => 'S2Dao_SQLiteProcedureMetaDataImpl',
-                    'S2Dao_Oracle' => 'S2Dao_OracleProcedureMetaDataImpl',
-                );
+    const ProcedureMetaData_Suffix = 'ProcedureMetaDataImpl';
     
     public static function createProcedureMetaData(PDO $connection){
-        $dbms = S2Dao_DatabaseMetaDataUtil::getDbms($connection);
-        $dbmsClass = get_class($dbms);
+        $dbms = S2Dao_DbmsManager::getDbms($connection);
+        $pmd = get_class($dbms) . self::ProcedureMetaData_Suffix;
         
-        if(isset(self::$classes[$dbmsClass])){
-            $pmd = self::$classes[$dbmsClass];
-            return new $pmd($connection, $dbms);
-        } else {
+        if(!class_exists($pmd)){
             throw new Exception('not supported ' . get_class($dbms));
         }
+        return new $pmd($connection, $dbms);
     }
     
 }
