@@ -24,22 +24,35 @@
 /**
  * @author nowel
  */
-class S2Dao_ProcedureMetaDataFactory {
+class S2Dao_Firebird_DBMetaData implements S2Dao_DBMetaData {
     
-    public static function createProcedureMetaData(PDO $connection){
-        $dbms = S2Dao_DatabaseMetaDataUtil::getDbms($connection);
-        
-        if($dbms instanceof S2Dao_MySQL){
-            return new S2Dao_MySQLProcedureMetaDataImpl($connection, $dbms);
-        } else if($dbms instanceof S2Dao_PostgreSQL){
-            return new S2Dao_PostgreSQLProcedureMetaDataImpl($connection, $dbms);
-        } else if($dbms instanceof S2Dao_SQLite){
-            return new S2Dao_SQLiteProcedureMetaDataImpl($connection, $dbms);
-        } else {
-            throw new Exception('not supported ' . get_class($dbms));
-        }
+    private $pdo;
+    private $dbms;
+    private $tableInfoSql = null;
+    
+    public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
+        $this->pdo = $pdo;
+        $this->dbms = $dbms;
+        $this->tableInfoSql = $dbms->getTableInfoSql();
     }
     
+    public function getTableInfo($table){
+        $retVal = array();
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->tableInfoSql);
+        $stmt = $this->pdo->query($sql);
+        $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($columns as $key => $column){
+            $retVal[] = array(
+                            'name' => $key,
+                            'native_type' => array(),
+                            'flags' => null,
+                            'len' => -1,
+                            'precision' => 0,
+                            'pdo_type' => null,
+                        );
+        }
+        return $retVal;
+    }
 }
 
 ?>
