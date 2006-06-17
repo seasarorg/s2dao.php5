@@ -35,7 +35,7 @@ class S2Dao_BeanYamlMetaDataResultSetHandler extends S2Dao_BeanArrayMetaDataResu
     public function handle($rs){
         $spyc = new Spyc;
         $result = parent::handle($rs);
-        return $spyc->YAMLDump($result, self::YAML_Indent);
+        return $spyc->dump($result, self::YAML_Indent);
     }
     
 }
