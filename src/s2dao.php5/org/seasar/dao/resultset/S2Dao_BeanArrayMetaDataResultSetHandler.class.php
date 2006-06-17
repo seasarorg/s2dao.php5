@@ -53,7 +53,13 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
         $c = $bd->getPropertyDescSize();
         for($i = 0; $i < $c; $i++){
             $pd = $bd->getPropertyDesc($i);
-            $retVal[$pd->getPropertyName()] = $pd->getValue($bean);
+            $propName = $pd->getPropertyName();
+            $propValue = $pd->getValue($bean);
+            if(is_object($propValue)){
+                $retVal[$propName] = current($this->dump_class($propValue));
+                continue;
+            }
+            $retVal[$propName] = $propValue;
         }
         return $assoc;
     }
