@@ -114,8 +114,12 @@ class S2Dao_BeanCommentAnnotationReader implements S2Dao_BeanAnnotationReader {
     }
     
     private function getAnnotation($anno = self::Anno){
-        return S2Container_Annotations::getAnnotation($anno,
-                                   $this->beanClass->getName());
+        if(S2Container_Annotations::isAnnotationPresent($anno,
+                                                      $this->beanClass->getName())){
+            return S2Container_Annotations::getAnnotation($anno,
+                                       $this->beanClass->getName());
+        }
+        return null;
     }
     
 }

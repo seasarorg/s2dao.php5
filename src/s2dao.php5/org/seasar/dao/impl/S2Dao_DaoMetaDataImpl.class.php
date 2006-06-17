@@ -416,11 +416,16 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function createResultSetHandler(ReflectionMethod $method) {
-        if($this->isSelectList($method)){
+        $reader = $this->annotationReader_;
+        if($reader->isSelectList($method)){
             return new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_);
-        } else if( $this->isSelectArray($method) ){
+        } else if($reader->isSelectArray($method)){
             return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
-        } else if( $this->isBeanClassAssignable($method) ){
+        } else if($reader->isSelectYaml($method)){
+            return new S2Dao_BeanYamlMetaDataResultSetHandler($this->beanMetaData_);
+        } else if($reader->isSelectJson($method)){
+            return new S2Dao_BeanJsonMetaDataResultSetHandler($this->beanMetaData_);
+        } else if($this->isBeanClassAssignable($method)){
             return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
         } else {
             return new S2Dao_ObjectResultSetHandler();
@@ -640,14 +645,6 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     protected function isDelete($methodName) {
         return preg_match(self::DELETE_NAMES, $methodName);
-    }
-
-    protected function isSelectArray(ReflectionMethod $method){
-        return $this->annotationReader_->isSelectArray($method);
-    }
-
-    protected function isSelectList(ReflectionMethod $method){
-        return $this->annotationReader_->isSelectList($method);
     }
 
     public function hasSqlCommand($methodName) {

@@ -1,5 +1,7 @@
 2006-06-17 nowel(S2Dao.PHP5-1.1.0-RC5)
 
+    * fix: コメントアノテーション時に正しくアノテーションクラスが読み込めない不具合を修正しました。
+    * fix: S2Dao_ClassLoaderが不要なパッケージを参照していたのを修正しました。
     * move: context パッケージを移動しました。
         - /dao/context/S2Dao_CommandContextImpl.class.php to /dao/impl/S2Dao_CommandContextImpl.class.php
     * move: procedure パッケージを移動しました。
@@ -12,6 +14,8 @@
         - /dao/dbms/dbmeta/S2Dao_SQLiteDBMataData.class.php
         - /dao/dbms/dbmeta/S2Dao_StandardDBMetaData.class.php
     * add: ResultSet パッケージの追加、ResultSet クラスの移動
+        - /dao/impl/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php
         - /dao/impl/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
             to /dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
         - /dao/impl/S2Dao_BeanListMetaDataResultSetHandler.class.php

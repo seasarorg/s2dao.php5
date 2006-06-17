@@ -29,6 +29,8 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     const SQL_SUFFIX = S2Dao_DaoConstantAnnotationReader::SQL_SUFFIX;
     const SELECT_ARRAY_NAME = '/@return\s*array/i';
     const SELECT_LIST_NAME = '/@return\s*list/i';
+    const SELECT_YAML_NAME = '/@return\s*yaml/i';
+    const SELECT_JSON_NAME = '/@return\s*json/i';
     const RETURN_TYPE_MAP = '/@return\s*map/i';
     protected $beanClass;
     
@@ -110,6 +112,16 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function isSelectArray(ReflectionMethod $method){
         $comment = $this->getMethodComment($method);
         return preg_match(self::SELECT_ARRAY_NAME, $comment);
+    }
+    
+    public function isSelectYaml(ReflectionMethod $method){
+        $comment = $this->getMethodComment($method);
+        return preg_match(self::SELECT_YAML_NAME, $comment);
+    }
+    
+    public function isSelectJson(ReflectionMethod $method){
+        $comment = $this->getMethodComment($method);
+        return preg_match(self::SELECT_JSON_NAME, $comment);
     }
     
     private function getMethodAnnotation($annoType, ReflectionMethod $method){

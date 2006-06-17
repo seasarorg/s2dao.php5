@@ -44,6 +44,10 @@ interface S2Dao_DaoAnnotationReader {
     
     function isSelectArray(ReflectionMethod $method);
     
+    function isSelectYaml(ReflectionMethod $method);
+    
+    function isSelectJson(ReflectionMethod $method);
+    
     function getReturnType(ReflectionMethod $method);
     
 }

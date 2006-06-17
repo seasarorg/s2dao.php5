@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_PostgreSQL_DBMetaData implements S2Dao_DBMetaData {
+class S2Dao_PostgreSQLDBMetaData implements S2Dao_DBMetaData {
     
     private $pdo;
     private $dbms;

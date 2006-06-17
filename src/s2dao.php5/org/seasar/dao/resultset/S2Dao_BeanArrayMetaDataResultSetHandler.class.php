@@ -31,7 +31,31 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
     }
 
     public function handle($rs){
-        return parent::handle($rs)->toArray();
+        $result = parent::handle($rs);
+        $arrays = array();
+        $c = $result->size();
+        for($i = 0; $i < $c; $i++){
+            $bean = $result->get($i);
+            $arrays[] = $this->dump_class($bean);
+        }
+        return $arrays;
+    }
+    
+    private function dump_class($bean){
+        $refClass = new ReflectionClass($bean);
+        $className = $refClass->getName();
+        
+        $assoc = array();
+        $assoc[$className] = array();
+        $retVal =& $assoc[$className];
+        
+        $bd = S2Container_BeanDescFactory::getBeanDesc($refClass);
+        $c = $bd->getPropertyDescSize();
+        for($i = 0; $i < $c; $i++){
+            $pd = $bd->getPropertyDesc($i);
+            $retVal[$pd->getPropertyName()] = $pd->getValue($bean);
+        }
+        return $assoc;
     }
 }
 ?>

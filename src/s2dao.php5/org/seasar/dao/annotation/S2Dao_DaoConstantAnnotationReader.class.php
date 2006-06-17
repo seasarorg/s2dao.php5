@@ -35,6 +35,8 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     const PROCEDURE_SUFFIX = "_PROCEDURE";
     const SELECT_ARRAY_NAME = '/Array$/i';
     const SELECT_LIST_NAME = '/List$/i';
+    const SELECT_YAML_NAME = '/Yaml$/i';
+    const SELECT_JSON_NAME = '/Json$/i';
     const RETURN_TYPE_MAP = '/Map$/i';
 
     protected $daoBeanDesc;
@@ -111,6 +113,14 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     public function isSelectArray(ReflectionMethod $method){
         return preg_match(self::SELECT_ARRAY_NAME, $method->getName());
+    }
+    
+    public function isSelectYaml(ReflectionMethod $method){
+        return preg_match(self::SELECT_YAML_NAME, $method->getName());
+    }
+    
+    public function isSelectJson(ReflectionMethod $method){
+        return preg_match(self::SELECT_JSON_NAME, $method->getName());
     }
     
     private function getProps(ReflectionMethod $method, $constName){

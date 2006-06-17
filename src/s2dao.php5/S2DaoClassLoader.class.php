@@ -29,9 +29,6 @@ class S2DaoClassLoader {
     const ORG_SEASAR = '/org/seasar';
     
     public static $CLASSES = array(
-        'S2ActiveRecord' => '/extension/activerecord/S2ActiveRecord.class.php',
-        'S2ActiveRecordHelper' => '/extension/activerecord/S2ActiveRecordHelper.class.php',
-        'S2ActiveRecordCollection' => '/extension/activerecord/S2ActiveRecordCollection.class.php',
         'S2Dao_DataSetImpl' => '/extension/dataset/impl/S2Dao_DataSetImpl.class.php',
         'S2Dao_ColumnType' => '/extenstion/dataset/S2Dao_ColumnType.class.php',
         'S2Dao_DataColumn' => '/extension/dataset/S2Dao_DataColumn.class.php',
@@ -151,7 +148,6 @@ class S2DaoClassLoader {
         'S2Dao_CommandContextImpl' => '/dao/impl/S2Dao_CommandContextImpl.class.php',
         'S2Dao_AbstractAutoHandler' => '/dao/impl/S2Dao_AbstractAutoHandler.class.php',
         'S2Dao_AbstractAutoStaticCommand' => '/dao/impl/S2Dao_AbstractAutoStaticCommand.class.php',
-        'S2Dao_AbstractBeanMetaDataResultSetHandler' => '/dao/impl/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php',
         'S2Dao_AbstractDao' => '/dao/impl/S2Dao_AbstractDao.class.php',
         'S2Dao_AbstractDynamicCommand' => '/dao/impl/S2Dao_AbstractDynamicCommand.class.php',
         'S2Dao_AbstractStaticCommand' => '/dao/impl/S2Dao_AbstractStaticCommand.class.php',
@@ -205,6 +201,7 @@ class S2DaoClassLoader {
         'S2Dao_ArrayUtil' => '/dao/util/S2Dao_ArrayUtil.class.php',
         'S2Dao_DatabaseMetaDataUtil' => '/dao/util/S2Dao_DatabaseMetaDataUtil.class.php',
         'S2Dao_HashMap' => '/dao/util/S2Dao_HashMap.class.php',
+        'S2Dao_AbstractBeanMetaDataResultSetHandler' => '/dao/resultset/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php',
         'S2Dao_BeanMetaDataResultSetHandler' => '/dao/resultset/S2Dao_BeanMetaDataResultSetHandler.class.php',
         'S2Dao_BeanArrayMetaDataResultSetHandler' => '/dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler.class.php',
         'S2Dao_BeanListMetaDataResultSetHandler' => '/dao/resultset/S2Dao_BeanListMetaDataResultSetHandler.class.php',

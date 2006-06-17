@@ -33,7 +33,7 @@ class S2Dao_DBMetaDataFactory {
         if(class_exists($dbmd)){
             return new $dbmd($db, $dbms);
         }
-        return new S2Dao_Standard_DBMetaData($db, $dbms);
+        return new S2Dao_StandardDBMetaData($db, $dbms);
     }
 }
 

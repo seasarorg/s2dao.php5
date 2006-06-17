@@ -24,14 +24,19 @@
 /**
  * @author nowel
  */
-class S2Dao_BeanYamlMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResultSetHandler {
+class S2Dao_BeanYamlMetaDataResultSetHandler extends S2Dao_BeanArrayMetaDataResultSetHandler {
+
+    const YAML_Indent = 4;
 
     public function __construct(S2Dao_BeanMetaData $beanMetaData) {
         parent::__construct($beanMetaData);
     }
 
     public function handle($rs){
-        return parent::handle($rs)->toArray();
+        $spyc = new Spyc;
+        $result = parent::handle($rs);
+        return $spyc->YAMLDump($result, self::YAML_Indent);
     }
+    
 }
 ?>

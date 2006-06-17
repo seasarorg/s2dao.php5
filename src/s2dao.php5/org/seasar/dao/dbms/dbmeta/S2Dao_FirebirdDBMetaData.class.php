@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_Firebird_DBMetaData implements S2Dao_DBMetaData {
+class S2Dao_FirebirdDBMetaData implements S2Dao_DBMetaData {
     
     private $pdo;
     private $dbms;
