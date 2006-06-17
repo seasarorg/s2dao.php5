@@ -355,7 +355,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             for ($i = 0; $i < $this->beanMetaData_->getPropertyTypeSize(); ++$i) {
                 $pt = $this->beanMetaData_->getPropertyType($i);
                 if ($pt->isPersistent()
-                      && !$this->isPropertyExist($props, $pt->getPropertyName())) {
+                      && !$this->isPropertyExist((array)$props, $pt->getPropertyName())) {
                     $names->add($pt->getPropertyName());
                 }
             }
