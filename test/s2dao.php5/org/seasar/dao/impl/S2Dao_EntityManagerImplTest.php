@@ -25,73 +25,49 @@
  * @author nowel
  */
 class S2Dao_EntityManagerImplTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $entityManager = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_EntityManagerImplTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $factory = $container->getComponent("S2Dao_DaoMetaDataFactory");
+        $daoMetaData = $factory->getDaoMetaData(new ReflectionClass("Employee2Dao"));
+        $this->entityManager = new S2Dao_EntityManagerImpl($daoMetaData);
     }
-
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
+    
     protected function tearDown() {
+        $this->entityManager = null;
     }
-
-    /**
-     * @todo Implement testGetDaoMetaData().
-     */
-    public function testGetDaoMetaData() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testFind().
-     */
+    
     public function testFind() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $employees = $this->entityManager->find("empno = ?", 7788);
+        $this->assertEquals(1, $employees->size());
     }
 
-    /**
-     * @todo Implement testFindArray().
-     */
+    public function testFind_BTS6491() {
+        $employees = $this->entityManager->find("\n SELECT * FROM EMP2 WHERE empno = ?", 7788);
+        var_dump($employees);
+        $this->assertEquals(1, $employees->size());
+    }
+
     public function testFindArray() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $employees = $this->entityManager->findArray("empno = ?", 7788);
+        $this->assertEquals(1, count($employees));
     }
 
-    /**
-     * @todo Implement testFindBean().
-     */
     public function testFindBean() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $employee = $this->entityManager->findBean("empno = ?", 7788);
+        $this->assertEquals("SCOTT", $employee->getEname());
     }
 
-    /**
-     * @todo Implement testFindObject().
-     */
     public function testFindObject() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $count = $this->entityManager->findObject("select count(*) from emp2");
+        $this->assertEquals(14, $count);
     }
 }
 ?>
