@@ -1,4 +1,4 @@
-delimiter /
+delimiter /
 CREATE PROCEDURE SALES_TAX(IN sales INTEGER, OUT tax INTEGER)
 begin
 	set tax = sales * 0.2;

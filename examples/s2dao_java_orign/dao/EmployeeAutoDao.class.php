@@ -17,6 +17,7 @@ interface EmployeeAutoDao {
     public function getEmployeeByDnameList($dname_0);
 
     public function getEmployeesBySearchConditionList(EmployeeSearchCondition $dto);
+    public function getEmployeesBySearchConditionArray(EmployeeSearchCondition $dto);
 
     public function update(Employee $employee);
 }

@@ -19,7 +19,7 @@ class Employee implements Serializable {
 
     public function serialize(){
         $prop = array();
-        foreach(get_class_vars(__CLASS__) as $key => $value){
+        foreach($this as $key => $value){
             $prop[$key] = $value;
         }
         return serialize($prop);
