@@ -10,6 +10,7 @@ define('S2DAO_PHP5_USE_COMMENT', true);
 if(class_exists('S2ContainerClassLoader')){
     S2ContainerClassLoader::import(S2CONTAINER_PHP5);
     S2ContainerClassLoader::import(S2DAO_PHP5);
+    
     S2ContainerClassLoader::import(dirname(__FILE__) . "/dao");
     S2ContainerClassLoader::import(dirname(__FILE__) . "/entity");
     function __autoload($class = null){

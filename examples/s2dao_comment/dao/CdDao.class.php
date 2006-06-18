@@ -7,12 +7,12 @@
 interface CdDao {
 
     /**
-     * @NoPersistentProperty("id, content")
+     * @NoPersistentProperty(id, content)
      */    
     public function update(CdBean $cd);
     
     /**
-     * @NoPersistentProperty("content")
+     * @NoPersistentProperty(content)
      */
     public function insert(CdBean $cd);
     public function delete(CdBean $cd);

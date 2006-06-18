@@ -29,7 +29,7 @@ interface Cd1Dao {
     public function delete(CdBean $cd);
     public function remove(CdBean $cd);
     
-    public function getAllCdArray();
+    public function getAllCdList();
     public function getCdsArray();
     public function getSelectCdByIdArray($id);
     public function getCD1List($id, $title = null);

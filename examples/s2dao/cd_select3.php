@@ -17,9 +17,10 @@ echo "======" . PHP_EOL;
 
 $cds = $dao->getCdsArray();
 foreach($cds as $cd){
-    echo "ID: " . $cd->getId() . PHP_EOL;
-    echo "TITLE: " . $cd->getTitle() . PHP_EOL;
-    echo "CONTENT: " . $cd->getContent() . PHP_EOL;
+    $cd = current($cd);
+    echo "ID: " . $cd["id"] . PHP_EOL;
+    echo "TITLE: " . $cd["title"] . PHP_EOL;
+    echo "CONTENT: " . $cd["content"] . PHP_EOL;
     echo "-------" . PHP_EOL;
 }
 ?>
