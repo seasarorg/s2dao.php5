@@ -113,12 +113,6 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         return $args;
     }
 
-    /*
-    protected function prepareStatement($connection) {
-        return parent::prepareStatement($connection);
-    }
-    */
-
     protected function setupDatabaseMetaData(DatabaseMetaData $dbMetaData) {
     }
 

@@ -27,25 +27,17 @@ class S2DaoTestGenTask extends Task {
     
     public function init(){
         include_once "S2Container/S2Container.php";
+        include_once "S2Dao/S2Dao.php";
         if(!class_exists("S2ContainerClassLoader")){
             throw new BuildException("S2Container...orz");
         }
         if(function_exists("__autoload")){
             throw new BuildException("function __autoload already exists...orz");
         }
-        
-        S2ContainerClassLoader::import(S2CONTAINER_PHP5);
-        function __autoload($class = null){
-            S2ContainerClassLoader::load($class);
-            /*
-            if($class != null){
-                include_once "{$class}.class.php";
-            }
-            */
-        }
     }
     
     public function main(){
+        $this->setupTask();
         $skeldir = dirname(__FILE__) . self::skelDir;
         $srcdir = $this->getProject()->getProperty("test.src.dir");
         
@@ -95,6 +87,14 @@ class S2DaoTestGenTask extends Task {
         return $fs;
     }
     
+    private function setupTask(){
+        S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+        S2ContainerClassLoader::import(S2DAO_PHP5);
+        function __autoload($class = null){
+            S2ContainerClassLoader::load($class);
+        }
+    }
+    
     private function getFiles(FileSet $fileset){
         $ds = $fileset->getDirectoryScanner($this->project);
         $files = $ds->getIncludedFiles();
@@ -116,7 +116,6 @@ class S2DaoTestGenTask extends Task {
         $path = $this->getPackage($files);
         foreach($path as $pkg){
             S2ContainerClassLoader::import($pkg);
-            //ini_set('include_path', $pkg . PATH_SEPARATOR . ini_get('include_path'));
         }
     }
     

@@ -55,15 +55,6 @@ class S2DaoSkeletonTask extends Task {
     public function init(){
         include_once "S2Container/S2Container.php";
         include_once "S2Dao/S2Dao.php";
-        
-        // include DBMS classes
-        include_once "S2Dao_Dbms.class.php";
-        include_once "S2Dao_Standard.class.php";
-        include_once "S2Dao_MySQL.class.php";
-        include_once "S2Dao_PostgreSQL.class.php";
-        include_once "S2Dao_SQLite.class.php";
-        include_once "S2Dao_Firebird.class.php";
-        include_once "S2Dao_Oracle.class.php";
     }
     
     public function main(){
@@ -90,6 +81,11 @@ class S2DaoSkeletonTask extends Task {
     }
     
     protected function setupTask(){
+        S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+        S2ContainerClassLoader::import(S2DAO_PHP5);
+        function __autoload($class = null){
+            S2ContainerClassLoader::load($class);
+        }
         $srcdir = $this->getProject()->getProperty("project.src.dir");
         $pjname = $this->getProject()->getProperty("project.name");
         $this->dsn = $this->getProject()->getProperty("dsn");
