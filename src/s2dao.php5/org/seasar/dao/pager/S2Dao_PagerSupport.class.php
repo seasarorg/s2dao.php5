@@ -46,7 +46,7 @@ class S2Dao_PagerSupport
      */
     public function __construct($limit, $pagerConditionClass, $pagerConditionName)
     {
-        if (!headers_sent()) {
+        if (!headers_sent() && session_id() == '') {
             session_start();
         }
         $this->limit = $limit;
