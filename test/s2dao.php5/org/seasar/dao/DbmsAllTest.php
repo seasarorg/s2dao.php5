@@ -36,12 +36,25 @@ class DbmsAllTest {
     public static function suite() {
         $suite = new PHPUnit2_Framework_TestSuite("All DBMS Tests");
         $suite->addTestSuite('S2Dao_DbmsManagerTest');
+        $suite->addTestSuite('S2Dao_StandardTest');
         //$suite->addTestSuite('S2Dao_FirebirdTest');
         //$suite->addTestSuite('S2Dao_MySQLTest');
         //$suite->addTestSuite('S2Dao_OracleTest');
         //$suite->addTestSuite('S2Dao_PostgreSQLTest');
         //$suite->addTestSuite('S2Dao_SQLiteTest');
-        $suite->addTestSuite('S2Dao_StandardTest');
+        //$suite->addTestSuite('S2Dao_DBMetaDataFactoryTest');
+        //$suite->addTestSuite('S2Dao_FirebirdDBMetaDataTest');
+        //$suite->addTestSuite('S2Dao_OracleDBMetaDataTest');
+        //$suite->addTestSuite('S2Dao_PostgreSQLDBMetaDataTest');
+        //$suite->addTestSuite('S2Dao_SQLiteDBMetaDataTest');
+        //$suite->addTestSuite('S2Dao_StandardDBMetaDataTest');
+        //$suite->addTestSuite('S2Dao_MySQLProcedureMetaDataImplTest');
+        //$suite->addTestSuite('S2Dao_OracleProcedureMetaDataImplTest');
+        //$suite->addTestSuite('S2Dao_PostgreSQLProcedureMetaDataImplTest');
+        //$suite->addTestSuite('S2Dao_ProcedureInfoTest');
+        //$suite->addTestSuite('S2Dao_ProcedureMetaDataFactoryTest');
+        //$suite->addTestSuite('S2Dao_ProcedureTypeTest');
+        //$suite->addTestSuite('S2Dao_SQLiteProcedureMetaDataImplTest');
         return $suite;
     }
 }

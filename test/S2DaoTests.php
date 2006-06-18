@@ -37,6 +37,7 @@ class S2DaoTests {
         $suites->addTest(PagerAllTest::suite());
         $suites->addTest(ParserAllTest::suite());
         $suites->addTest(S2DaoImplAllTest::suite());
+        $suites->addTest(ResultSetAllTest::suite());
         $suites->addTest(UnitAllTest::suite());
         $suites->addTest(UtilAllTest::suite());
         return $suites;

@@ -51,9 +51,9 @@ class S2Dao_BeanArrayMetaDataResultSetHandlerTest extends PHPUnit2_Framework_Tes
         $ps->execute();
         $ret = $handler->handle($ps);
         $this->assertNotNull($ret);
-        for ($i = 0; $i < count($ret); ++$i) {
-            $emp = $ret[$i];
-            var_dump($emp->getEmpno() . "," . $emp->getEname());
+        foreach($ret as $row){
+            $emp = current($row);
+            var_dump($emp["empno"] . "," . $emp["ename"]);
         }
     }
     

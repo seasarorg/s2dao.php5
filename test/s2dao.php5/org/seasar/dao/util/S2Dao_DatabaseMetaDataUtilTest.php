@@ -43,11 +43,6 @@ class S2Dao_DatabaseMetaDataUtilTest extends PHPUnit2_Framework_TestCase {
         $this->connection = null;
     }
 
-    public function testGetDbms() {
-        $dbms = S2Dao_DatabaseMetaDataUtil::getDbms($this->connection);
-        $this->assertTrue($dbms instanceof S2Dao_SQLite);
-    }
-
     public function testGetPrimaryKeys() {
         $deptPk = array("DEPTNO");
         $pks = S2Dao_DatabaseMetaDataUtil::getPrimaryKeys($this->connection, "DEPT2");
