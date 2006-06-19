@@ -82,7 +82,6 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         return $propertyDesc->getValue($obj);
     }
 
-
     public function testSelectBeanList() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee2Dao"));
         $cmd = $dmd->getSqlCommand("getAllEmployees");

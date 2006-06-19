@@ -1,5 +1,9 @@
 2006-06-19 nowel(S2Dao.PHP5-1.1.0-RC5)
 
+    * add: extenstion/dataset
+        - S2Dao_DataColumnImpl.class.php
+        - S2Dao_DataRowImpl.class.php
+        - S2Dao_DataTableImpl.class.php
     * fix: PhingTaskで正常に実行されない不具合を修正しました。
 
 2006-06-18  yonekawa(S2Dao.PHP5-1.1.0-RC5)

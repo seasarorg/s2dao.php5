@@ -47,9 +47,7 @@ class S2Dao_BeanMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         return new S2Dao_BeanMetaDataImpl(
                         $class,
                         $this->connection,
-                        new S2Dao_SQLite(),
-                        new S2Dao_FieldAnnotationReaderFactory()
-                    );
+                        S2Dao_DbmsManager::getDbms($this->connection));
     }
     
     private function getBeanClass($class){

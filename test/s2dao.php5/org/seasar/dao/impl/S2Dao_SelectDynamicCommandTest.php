@@ -25,57 +25,41 @@
  * @author nowel
  */
 class S2Dao_SelectDynamicCommandTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $dataSource;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_SelectDynamicCommandTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
     }
-
-    /**
-     * @todo Implement testGetResultSetHandler().
-     */
-    public function testGetResultSetHandler() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    
+    private function createBeanMetaData($class){
+        $conn = $this->dataSource->getConnection();
+        return new S2Dao_BeanMetaDataImpl(
+                        new ReflectionClass($class),
+                        $conn,
+                        S2Dao_DbmsManager::getDbms($conn));
     }
-
-    /**
-     * @todo Implement testGetResultSetFactory().
-     */
-    public function testGetResultSetFactory() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testExecute().
-     */
+    
     public function testExecute() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $cmd = new S2Dao_SelectDynamicCommand($this->dataSource,
+                new S2Dao_BasicStatementFactory,
+                new S2Dao_BeanMetaDataResultSetHandler(
+                        $this->createBeanMetaData("Employee2")),
+                new S2Dao_BasicResultSetFactory);
+        $cmd->setSql("SELECT * FROM emp2 WHERE empno = /*empno*/1234");
+        $emp = $cmd->execute(array(7788));
+        var_dump($emp);
+        $this->assertNotNull($emp);
     }
 }
 ?>

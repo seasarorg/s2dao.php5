@@ -25,57 +25,32 @@
  * @author nowel
  */
 class S2Dao_RelationKeyTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_RelationKeyTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testGetValues().
-     */
-    public function testGetValues() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testHashCode().
-     */
-    public function testHashCode() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testEquals().
-     */
     public function testEquals() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $values = array("1", "2");
+        $pk = new S2Dao_RelationKey($values);
+        $this->assertEquals($pk, $pk);
+        $this->assertEquals($pk, new S2Dao_RelationKey($values));
+        $pks = new S2Dao_RelationKey(array("1"));
+        $this->assertFalse($pks->equals($pk));
     }
+
+    public function testHashCode() {
+        $values = array("1", "2");
+        $pk = new S2Dao_RelationKey($values);
+        $this->assertNotNull($pk->hashCode());
+    }
+
 }
 ?>
