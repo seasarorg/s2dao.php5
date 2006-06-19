@@ -29,6 +29,9 @@ class S2DaoClassLoader {
     const ORG_SEASAR = '/org/seasar';
     
     public static $CLASSES = array(
+        'S2Dao_DataColumnImpl' => '/extension/dataset/impl/S2Dao_DataColumnImpl.class.php',
+        'S2Dao_DataRowImpl' => '/extension/dataset/impl/S2Dao_DataRowImpl.class.php',
+        'S2Dao_DataTableImpl' => '/extension/dataset/impl/S2Dao_DataTableImpl.class.php',
         'S2Dao_DataSetImpl' => '/extension/dataset/impl/S2Dao_DataSetImpl.class.php',
         'S2Dao_ColumnType' => '/extenstion/dataset/S2Dao_ColumnType.class.php',
         'S2Dao_DataColumn' => '/extension/dataset/S2Dao_DataColumn.class.php',
