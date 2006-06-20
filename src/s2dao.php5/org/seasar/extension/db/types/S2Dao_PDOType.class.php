@@ -45,7 +45,6 @@ final class S2Dao_PDOType {
                 return PDO::PARAM_LOB;
             default:
             case S2Dao_PHPType::Object:
-            case S2Dao_PHPType::Float:
                 return PDO::PARAM_STMT;
         }
     }

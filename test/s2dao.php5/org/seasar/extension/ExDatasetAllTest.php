@@ -36,7 +36,6 @@ class ExDatasetAllTest {
     public static function suite(){
         $suite = new PHPUnit2_Framework_TestSuite("All Dataset Extension Tests");
         $suite->addTestSuite('S2Dao_DataSetImplTest');
-        $suite->addTestSuite('S2Dao_TableNotFoundRuntimeExceptionTest');
         return $suite;
     }
 }

@@ -45,38 +45,38 @@ class S2DaoTestCaseTest extends PHPUnit2_Framework_TestCase {
         $this->assertTrue($this->test instanceof S2DaoTestCase);
     }
     
-//   public function testAssertBeanEquals() {
-//        $expected = new S2Dao_DataSetImpl();
-//        $table = $expected->addTable("emp");
-//        $table->addColumn("aaa");
-//        $table->addColumn("bbb_0");
-//        $row = $table->addRow();
-//        $row->setValue("aaa", "111");
-//        $row->setValue("bbb_0", "222");
-//        $bean = new Hoge();
-//        $bean->setAaa("111");
-//        $foo = new Foo();
-//        $foo->setBbb("222");
-//        $bean->setFoo($foo);
-//        $this->assertEquals($expected, $bean);
-//    }
-//
-//    public function testAssertBeanListEquals() {
-//        $expected = new S2Dao_DataSetImpl();
-//        $table = $expected->addTable("emp");
-//        $table->addColumn("aaa");
-//        $table->addColumn("bbb_0");
-//        $row = $table->addRow();
-//        $row->setValue("aaa", "111");
-//        $row->setValue("bbb_0", "222");
-//        $bean = new Hoge();
-//        $bean->setAaa("111");
-//        $foo = new Foo();
-//        $foo->setBbb("222");
-//        $bean->setFoo($foo);
-//        $list = new S2Dao_ArrayList();
-//        $list->add($bean);
-//        $this->assertEquals($expected, $list);
-//    }
+   public function testAssertBeanEquals() {
+        $expected = new S2Dao_DataSetImpl();
+        $table = $expected->addTable("emp");
+        $table->addColumn("aaa");
+        $table->addColumn("bbb_0");
+        $row = $table->addRow();
+        $row->setValue("aaa", "111");
+        $row->setValue("bbb_0", "222");
+        $bean = new Hoge();
+        $bean->setAaa("111");
+        $foo = new Foo();
+        $foo->setBbb("222");
+        $bean->setFoo($foo);
+        $this->assertEquals($expected, $bean);
+    }
+
+    public function testAssertBeanListEquals() {
+        $expected = new S2Dao_DataSetImpl();
+        $table = $expected->addTable("emp");
+        $table->addColumn("aaa");
+        $table->addColumn("bbb_0");
+        $row = $table->addRow();
+        $row->setValue("aaa", "111");
+        $row->setValue("bbb_0", "222");
+        $bean = new Hoge();
+        $bean->setAaa("111");
+        $foo = new Foo();
+        $foo->setBbb("222");
+        $bean->setFoo($foo);
+        $list = new S2Dao_ArrayList();
+        $list->add($bean);
+        $this->assertEquals($expected, $list);
+    }
 }
 ?>

@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_S2Dao_DataRowImpl implements S2Dao_S2Dao_DataRow {
+class S2Dao_DataRowImpl implements S2Dao_DataRow {
 
     private $table_;
 
@@ -33,7 +33,7 @@ class S2Dao_S2Dao_DataRowImpl implements S2Dao_S2Dao_DataRow {
     private $state_ = S2Dao_RowStates::UNCHANGED;
 
     public function __construct(S2Dao_DataTable $table) {
-        $this->values_ = new S2Dao_HashS2Dao_HashMap();
+        $this->values_ = new S2Dao_HashMap();
         $this->table_ = $table;
         $this->initValues();
     }
@@ -45,24 +45,23 @@ class S2Dao_S2Dao_DataRowImpl implements S2Dao_S2Dao_DataRow {
     }
 
     public function getValue($index) {
-        return $this->values_->get($index);
-    }
-
-    public function getValue($columnName) {
-        $column = $this->table_->getColumn($columnName);
+        if(is_integer($index)){
+            return $this->values_->get($index);
+        }
+        $column = $this->table_->getColumn($index);
         return $this->values_->get($column->getColumnIndex());
     }
 
     public function setValue($columnName, $value) {
-        $column = $this->table_->getColumn($columnName);
-        $this->values_->put($columnName, $column->convert($value));
-        $this->modify();
-    }
-
-    public function setValue($index, $value) {
-        $column = $this->table_->getColumn($index);
-        $this->values_->set($index, $column->convert($value));
-        $this->modify();
+        if(is_integer($columnName)){
+            $column = $this->table_->getColumn($columnName);
+            $this->values_->set($columnName, $column->convert($value));
+            $this->modify();
+        } else {
+            $column = $this->table_->getColumn($columnName);
+            $this->values_->put($columnName, $column->convert($value));
+            $this->modify();
+        }
     }
 
     private function modify() {
@@ -83,7 +82,7 @@ class S2Dao_S2Dao_DataRowImpl implements S2Dao_S2Dao_DataRow {
         return $this->state_;
     }
 
-    public function setState(S2Dao_RowState $state) {
+    public function setState($state) {
         $this->state_ = $state;
     }
 
@@ -141,7 +140,7 @@ class S2Dao_S2Dao_DataRowImpl implements S2Dao_S2Dao_DataRow {
         }
     }
 
-    private function copyFromRow(S2Dao_DataRow $source) {
+    private function copyFromRow($source) {
         for ($i = 0; $i < $source->getTable()->getColumnSize(); ++$i) {
             $columnName = $source->getTable()->getColumnName($i);
             if ($this->table_->hasColumn($columnName)) {

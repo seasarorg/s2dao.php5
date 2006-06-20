@@ -33,7 +33,7 @@ class S2Dao_DataColumnImpl implements S2Dao_DataColumn {
     private $writable = true;
     private $formatPattern;
 
-    public function __construct($columnName, S2Dao_ColumnType $columnType, $columnIndex) {
+    public function __construct($columnName, $columnType, $columnIndex) {
         $this->setColumnName($columnName);
         $this->setColumnType($columnType);
         $this->setColumnIndex($columnIndex);
@@ -51,7 +51,7 @@ class S2Dao_DataColumnImpl implements S2Dao_DataColumn {
         return $this->columnType;
     }
 
-    public function setColumnType(S2Dao_ColumnType $columnType) {
+    public function setColumnType($columnType) {
         $this->columnType = $columnType;
     }
 
@@ -88,6 +88,7 @@ class S2Dao_DataColumnImpl implements S2Dao_DataColumn {
     }
 
     public function convert($value) {
-        return $this->columnType->convert($value, $this->formatPattern);
+        return $value;
+        //return $this->columnType->convert($value, $this->formatPattern);
     }
 }

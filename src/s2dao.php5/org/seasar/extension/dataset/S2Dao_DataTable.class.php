@@ -52,7 +52,7 @@ interface S2Dao_DataTable {
     
     public function getColumnType($column);
     
-    public function addColumn($columnName, S2Dao_ColumnType $columnType);
+    public function addColumn($columnName, $columnType = null);
 
     public function hasMetaData();
     

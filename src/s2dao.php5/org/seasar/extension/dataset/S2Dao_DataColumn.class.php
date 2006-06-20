@@ -32,7 +32,7 @@ interface S2Dao_DataColumn {
     
     public function getColumnType();
     
-    public function setColumnType(S2Dao_ColumnType $columnType);
+    public function setColumnType($columnType);
     
     public function isPrimaryKey();
     

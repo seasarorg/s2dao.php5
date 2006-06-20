@@ -43,7 +43,6 @@ class ExDbAllTest {
         $suite->addTestSuite('S2Dao_ObjectResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_PDOTypeTest');
         $suite->addTestSuite('S2Dao_PropertyTypeImplTest');
-        $suite->addTestSuite('S2Dao_TableNotFoundRuntimeExceptionTest');
         return $suite;
     }
 }

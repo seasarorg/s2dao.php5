@@ -57,7 +57,7 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
 
     public function addRow() {
         $row = new S2Dao_DataRowImpl($this);
-        $rows->add($row);
+        $this->rows->add($row);
         $row->setState(S2Dao_RowStates::CREATED);
         return $row;
     }
@@ -88,13 +88,13 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
     }
 
     public function getColumn($index) {
-        return $this->columns->get($index);
-    }
-
-    public function getColumn($columnName) {
-        $column = $this->getColumn0($columnName);
+        if(is_integer($index)){
+            $columns = array_values($this->columns->toArray());
+            return $columns[$index];
+        }
+        $column = $this->getColumn0($index);
         if ($column == null) {
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $columnName);
+            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $index);
         }
         return $column;
     }
@@ -127,14 +127,13 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
     }
 
     public function getColumnType($index) {
+        if(is_integer($index)){
+            return $this->getColumn($index)->getColumnType();
+        }
         return $this->getColumn($index)->getColumnType();
     }
 
-    public function getColumnType($columnName) {
-        return $this->getColumn($columnName)->getColumnType();
-    }
-
-    public function addColumn($columnName, S2Dao_ColumnType $columnType = null) {
+    public function addColumn($columnName, $columnType = null) {
         if($columnType === null){
             return $this->addColumn($columnName, S2Dao_ColumnTypes::OBJECT);
         }            
@@ -147,9 +146,9 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
         return $this->hasMetaData;
     }
 
-    public function setupMetaData($dbMetaData) {
-        $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet($dbMetaData, $this->tableName);
-        $columnMap = S2Dao_DatabaseMetaDataUtil::getColumnMap($dbMetaData, $this->tableName);
+    public function setupMetaData(PDO $pdo) {
+        $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet($pdo, $this->tableName);
+        $columnMap = S2Dao_DatabaseMetaDataUtil::getColumnMap($pdo, $this->tableName);
         for ($i = 0; $i < $this->getColumnSize(); ++$i) {
             $column = $this->getColumn($i);
             if ($primaryKeySet->contains($column->getColumnName())) {

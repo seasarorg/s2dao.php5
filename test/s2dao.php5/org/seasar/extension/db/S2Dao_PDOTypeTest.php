@@ -63,7 +63,6 @@ class S2Dao_PDOTypeTest extends PHPUnit2_Framework_TestCase {
     
     public function testGettypeOther() {
         $this->assertEquals(S2Dao_PDOType::gettype(new stdClass), PDO::PARAM_STMT);
-        $this->assertEquals(S2Dao_PDOType::gettype(gettype(1.0001112 * 0.123)), PDO::PARAM_STMT);
     }
 }
 ?>
