@@ -24,21 +24,24 @@
 /**
  * @author nowel
  */
-class S2Dao_MSSQLServer extends S2Dao_Standard {
+class S2Dao_Sybase extends S2Dao_Standard {
 
     public function getSuffix() {
-        return '_mssql';
+        return '_sybase';
     }
     
     public function getIdentitySelectString() {
-        return 'select @@identity';
+        return 'SELECT @@identity';
     }
 
     public function getTableSql(){
+        return 'SELECT name FROM sysobjects WHERE type = \'U\'';
     }
-
+    
     public function getTableInfoSql(){
+        return 'sp_columns' . self::BIND_TABLE;
     }
+    
 }
 
 ?>

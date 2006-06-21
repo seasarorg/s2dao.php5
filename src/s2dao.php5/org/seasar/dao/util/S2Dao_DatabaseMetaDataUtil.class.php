@@ -36,6 +36,10 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
         return $dbms;
     }
+    
+    public static function getDbMeta(PDO $pdo){
+        return S2Dao_DBMetaDataFactory::create($pdo, self::getDbms($pdo));
+    }
 
     public static function getPrimaryKeys(PDO $dbMetaData, $tableName) {
         return self::getPrimaryKeySet($dbMetaData, $tableName)->toArray();
@@ -112,9 +116,9 @@ final class S2Dao_DatabaseMetaDataUtil {
         return $set;
     }
     
-    private static function addColumns($dbMetaData, $schema, $tableName, $set) {
+    private static function addColumns(PDO $pdo, $schema, $tableName, $set) {
         try {
-            $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
+            $rs = self::getTableInfo($pdo, $tableName, $schema);
             foreach($rs as $col){
                 $set->add($col['name']);
             }
@@ -135,29 +139,17 @@ final class S2Dao_DatabaseMetaDataUtil {
             } else {
                 return $identifier;
             }
-        } else {
-            return $identifier;
         }
+        return $identifier;
     }
     
-    public static function getDatabaseProductName($dbMetaData) {
-        try {
-            throw new Exception(__FILE__ . ':' . __METHOD__);
-            return $dbMetaData->getDatabaseProductName();
-        } catch (Exception $ex) {
-            throw new S2Dao_SQLRuntimeException($ex);
-        }
-    }
-
     private static function getTables(PDO $pdo){
-        $dbms = self::getDbms($pdo);
-        $stmt = $pdo->query($dbms->getTableSql());
+        $stmt = $pdo->query(self::getDbms($pdo)->getTableSql());
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
     private static function getTableInfo(PDO $pdo, $table, $schema){
-        $dbmd = S2Dao_DBMetaDataFactory::create($pdo, self::getDbms($pdo));
-        return $dbmd->getTableInfo($table);
+        return self::getDbMeta($pdo)->getTableInfo($table);
     }
 }
 ?>
