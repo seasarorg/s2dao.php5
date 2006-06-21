@@ -39,7 +39,11 @@ class S2Dao_Sybase extends S2Dao_Standard {
     }
     
     public function getTableInfoSql(){
-        return 'sp_columns' . self::BIND_TABLE;
+        return 'sp_columns ' . self::BIND_TABLE;
+    }
+    
+    public function getPrimaryKeySql(){
+        return 'sp_helpconstrant ' . self::BIND_TABLE;
     }
     
 }
