@@ -1,6 +1,8 @@
 2006-06-22 nowel(S2Dao.PHP5-1.1.0-RC5)
 
-    * add: S2Dao_Sybase
+    * add: DBMSにSybase(ASE-15.0)のサポートをしました。
+    * add: ResultSetの形式にJSONを追加しました。
+    * modify: BasicHandlerでPDOの型とPHPの型のマッピングを必ず行うように変更しました。
 
 2006-06-19 nowel(S2Dao.PHP5-1.1.0-RC5)
 
@@ -254,19 +256,19 @@
 
 ================ S2Dao.PHP5-1.1.0-RC2 更新履歴 ===================
 
-    * pear package に対応しました。
-    * コメントアノテーションの記法をS2Dao-tiger風に変更しました。
-    * E_STRICT レポートについて修正しました。
-    * PROCEDURE アノテーションに対応しました。
+    * add: pear package に対応しました。
+    * info: コメントアノテーションの記法をS2Dao-tiger風に変更しました。
+    * add: E_STRICT レポートについて修正しました。
+    * add: PROCEDURE アノテーションに対応しました。
         - 現在はMySQLのみStored Functionに対応しています。
-    * PDOトランザクションの自動制御を提供しました。
+    * add: PDOトランザクションの自動制御を提供しました。
     
 2006-04-29 nowel(S2Dao.PHP5-1.1.0-RC2)
 
-    * コメントアノテーションの記法をS2Dao-tigerとあわせました。
+    * info: コメントアノテーションの記法をS2Dao-tigerとあわせました。
         - 詳細はドキュメントをご覧になってください。
-    * E_STRICT レポートについて修正しました。
-    * PROCEDURE に対応しました。
+    * add: E_STRICT レポートについて修正しました。
+    * add: PROCEDURE に対応しました。
         - 現在はMySQLのみStored Functionに対応しています。
 
 2006-04-14 nowel(S2Dao.PHP5-1.1.0-RC2)
