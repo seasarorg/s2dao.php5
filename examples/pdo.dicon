@@ -7,11 +7,17 @@
         <property name="dsn">"mysql:host=localhost; dbname=s2con"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
+        <property name="option">
+            array(PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING);
+        </property>
     </component>
 
     <!--
     <component name="dataSource" class="S2Container_PDODataSource">
         <property name="dsn">"sqlite:/path/to/s2con.db"</property>
+        <property name="option">
+            array(PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING);
+        </property>
     </component>
     -->
 
@@ -20,6 +26,9 @@
         <property name="dsn">"pgsql:host=localhost; dbname=s2con"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
+        <property name="option">
+            array(PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING);
+        </property>
     </component>
     -->
 
@@ -28,6 +37,9 @@
         <property name="dsn">"firebird:host=localhost; dbname=/path/to/s2con.fdb"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
+        <property name="option">
+            array(PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING);
+        </property>
     </component>
     -->
 
@@ -36,6 +48,17 @@
         <property name="dsn">"oci:dbname=//localhost/s2con"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
+        <property name="option">
+            array(PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING);
+        </property>
+    </component>
+    -->
+    
+    <!-- freetds dsn sybase|mssql
+    <component name="dataSource" class="S2Container_PDODataSource">
+        <property name="dsn">"dblib:host=localhost; dbname=s2con"</property>
+        <property name="user">"root"</property>
+        <property name="password">"passpass"</property>
         <property name="option">
             array(PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING);
         </property>

@@ -59,9 +59,9 @@
     </component>
     -->
     
+    <!-- freetds dsn sybase|mssql -->
     <!--
     <component name="dataSource" class="S2Container_PDODataSource">
-        <!-- freetds dsn sybase|mssql -->
         <property name="dsn">"dblib:host=localhost; dbname=s2con"</property>
         <property name="user">"root"</property>
         <property name="password">"passpass"</property>

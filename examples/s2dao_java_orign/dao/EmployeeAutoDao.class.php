@@ -9,7 +9,7 @@ interface EmployeeAutoDao {
 
     public function getEmployeeByEmpno($empno);
 
-    const getEmployeesBySalList_QUERY = "EMP.sal BETWEEN ? AND ? ORDER BY EMP.empno";
+    const getEmployeesBySalList_QUERY = "EMP.SAL BETWEEN ? AND ? ORDER BY EMP.EMPNO";
 
     public function getEmployeesBySalList($minSal, $maxSal);
 

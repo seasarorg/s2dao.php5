@@ -24,14 +24,18 @@
 /**
  * @author nowel
  */
-class S2Dao_BeanJsonMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResultSetHandler {
+class S2Dao_BeanJsonMetaDataResultSetHandler extends S2Dao_BeanArrayMetaDataResultSetHandler {
 
     public function __construct(S2Dao_BeanMetaData $beanMetaData) {
         parent::__construct($beanMetaData);
+        if (!extension_loaded('json')){
+            throw new Exception('resultset json reqiores php_json extension');
+        }
     }
 
     public function handle($rs){
-        return parent::handle($rs)->toArray();
+        // json_decode requires php_json extension
+        return json_encode(parent::handle($rs));
     }
 }
 ?>

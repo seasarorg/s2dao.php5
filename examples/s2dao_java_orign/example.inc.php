@@ -4,7 +4,6 @@ require_once 'S2Dao/S2Dao.php';
 
 // debug
 define('S2CONTAINER_PHP5_DOM_VALIDATE', false);
-//
 
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
 define('DAO_DICON', dirname(dirname(__FILE__)) . '/dao.dicon');

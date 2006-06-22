@@ -28,16 +28,14 @@ class S2Dao_StandardDBMetaData implements S2Dao_DBMetaData {
     
     private $pdo;
     private $dbms;
-    private $tableInfoSql = null;
     
     public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
         $this->pdo = $pdo;
         $this->dbms = $dbms;
-        $this->tableInfoSql = $dbms->getTableInfoSql();
     }
     
     public function getTableInfo($table){
-        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->tableInfoSql);
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->dbms->getTableInfoSql());
         $stmt = $this->pdo->query($sql);
 
         $retVal = array();

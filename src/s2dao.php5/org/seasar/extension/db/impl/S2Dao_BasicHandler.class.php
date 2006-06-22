@@ -91,7 +91,8 @@ class S2Dao_BasicHandler {
                 if($argTypes[$i] !== null){
                     $ps->bindValue($i + 1, $args[$i], $this->getBindParamTypes($argTypes[$i]));
                 } else {
-                    $ps->bindValue($i + 1, $args[$i]);
+                    $phptype = gettype($args[$i]);
+                    $ps->bindValue($i + 1, $args[$i], $this->getBindParamTypes($phptype));
                 }
             } catch (Exception $ex) {
                 throw new S2Container_SQLRuntimeException($ex);

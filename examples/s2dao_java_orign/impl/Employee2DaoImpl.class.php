@@ -8,7 +8,7 @@ class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
     }
 
     public function getEmployees($ename) {
-        return $this->getEntityManager()->find("EMP.ename LIKE ? ", "%" . $ename . "%");
+        return $this->getEntityManager()->find("EMP.ENAME LIKE ? ", "%" . $ename . "%");
     }
 
     public function getEmployee($eno){

@@ -12,7 +12,7 @@ interface CdDao {
     public function getAll();
     
     /**
-     * @Sql("SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1")
+     * @Sql("SELECT CD.ID, CD.TITLE FROM CD")
      * @return json
      */
     public function getCds();
