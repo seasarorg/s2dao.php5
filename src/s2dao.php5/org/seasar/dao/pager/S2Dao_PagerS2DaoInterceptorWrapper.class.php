@@ -102,7 +102,9 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
 
         } catch(Exception $e) {
             throw $e;
-        }    
+        } 
+        
+        return $result;
     }
 }
 
