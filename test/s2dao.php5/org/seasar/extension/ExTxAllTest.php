@@ -35,6 +35,7 @@ class ExTxAllTest {
 
     public static function suite(){
         $suite = new PHPUnit2_Framework_TestSuite("All Transaction Extenstion Tests");
+        $suite->addTestSuite('S2Dao_AbstractTxInterceptorTest');
         $suite->addTestSuite('S2Dao_MandatoryInterceptorTest');
         $suite->addTestSuite('S2Dao_NeverInterceptorTest');
         $suite->addTestSuite('S2Dao_NotSupportedInterceptorTest');

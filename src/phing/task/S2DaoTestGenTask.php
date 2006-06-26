@@ -26,14 +26,6 @@ class S2DaoTestGenTask extends Task {
     private $filesets = array();
     
     public function init(){
-        include_once "S2Container/S2Container.php";
-        include_once "S2Dao/S2Dao.php";
-        if(!class_exists("S2ContainerClassLoader")){
-            throw new BuildException("S2Container...orz");
-        }
-        if(function_exists("__autoload")){
-            throw new BuildException("function __autoload already exists...orz");
-        }
     }
     
     public function main(){
@@ -88,6 +80,14 @@ class S2DaoTestGenTask extends Task {
     }
     
     private function setupTask(){
+        include_once "S2Container/S2Container.php";
+        include_once "S2Dao/S2Dao.php";
+        if(!class_exists("S2ContainerClassLoader")){
+            throw new BuildException("S2Container...orz");
+        }
+        if(function_exists("__autoload")){
+            throw new BuildException("function __autoload already exists...orz");
+        }
         S2ContainerClassLoader::import(S2CONTAINER_PHP5);
         S2ContainerClassLoader::import(S2DAO_PHP5);
         function __autoload($class = null){

@@ -25,41 +25,44 @@
  * @author nowel
  */
 class S2Dao_NotSupportedInterceptorTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $txBean_ = null;
+    private $exBean_ = null;
+    private $tm_ = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_NotSupportedInterceptorTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->tm_ = $container->getComponent("pdo.dataSource");
+        $this->txBean_ = $container->getComponent("notSupportTx.TxBeanImpl");
+        $this->exBean_ = $container->getComponent("notSupportTx.ExceptionBeanImpl");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->tm_ = null;
+        $this->txBean_ = null;
+        $this->exBean_ = null;
     }
 
-    /**
-     * @todo Implement testInvoke().
-     */
     public function testInvoke() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertFalse($this->txBean_->hasTransaction());
+    }
+
+    public function testInvokeTx() {
+        $this->assertFalse($this->txBean_->hasTransaction());
+    }
+
+    public function testInvokeExceptionTx() {
+        try {
+            $this->exBean_->invoke();
+            $this->fail("1");
+        } catch (Exception $e) {
+            var_dump($e->getTraceAsString());
+        }
     }
 }
 ?>

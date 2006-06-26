@@ -4,9 +4,9 @@ class TxBeanImpl implements TxBean {
 
 	private $tm_;
 
-	public function __construct(S2Container_DataSource $tm) {
-		$this->tm_ = $tm;
-	}
+    public function __construct(S2Container_DataSource $datasource) {
+        $this->tm_ = $datasource;
+    }
 
 	public function hasTransaction() {
         try {

@@ -74,6 +74,7 @@
     <component name="requiredTx" class="S2Dao_RequiredInterceptor" />
     <component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" />
     <component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" />
+    <component name="neverTx" class="S2Dao_NeverInterceptor" />
     <component name="notSupportedTx" class="S2Dao_NotSupportedInterceptor" />
 
 </components>

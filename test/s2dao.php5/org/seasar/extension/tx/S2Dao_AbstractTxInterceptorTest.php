@@ -51,11 +51,11 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
     public function testType() {
         try {
             $this->testTx_->addCommitRule(new Exception());
-            $this->testTx_->addCommitRule(new S2Container_S2RuntimeException());
+            $this->testTx_->addCommitRule(new S2Container_S2RuntimeException(array()));
             $this->testTx_->addCommitRule(new stdClass());
             $this->fail("1");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
 
         try {
@@ -64,7 +64,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
             $this->testTx_->addRollbackRule("");
             $this->fail("2");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
     }
 
@@ -73,7 +73,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
             $this->exBean_->invoke();
             $this->fail("1");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
         $this->assertFalse($this->testTx_->result);
     }
@@ -85,31 +85,31 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
             $this->exBean_->invoke(new Exception());
             $this->fail("1");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
         $this->assertTrue($this->testTx_->result);
     }
 
     public function testRollbackRule1() {
         $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
-        $this->testTx_->addCommitRule(new Exception());
+        $this->testTx_->addCommitRule(new PDOException());
         try {
             $this->exBean_->invoke(new Exception());
             $this->fail("1");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
         $this->assertFalse($this->testTx_->result);
     }
 
     public function testRollbackRule2() {
         $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
-        $this->testTx_->addCommitRule(new Exception());
+        $this->testTx_->addCommitRule(new PDOException());
         try {
             $this->exBean_->invoke(new Exception(""));
             $this->fail("1");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
         $this->assertFalse($this->testTx_->result);
     }
@@ -121,7 +121,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
             $this->exBean_->invoke(new PDOException());
             $this->fail("1");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
         $this->assertFalse($this->testTx_->result);
     }
@@ -133,7 +133,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
             $this->exBean_->invoke(new PDOException());
             $this->fail("1");
         } catch (Exception $expected) {
-            var_dump($expected);
+            var_dump($expected->getTraceAsString());
         }
         $this->assertFalse($this->testTx_->result);
     }

@@ -2,7 +2,7 @@
 
 class TestInterceptor extends S2Dao_AbstractTxInterceptor {
     
-    private $result;
+    public $result;
 
     public function __construct(S2Container_DataSource $datasource) {
         parent::__construct($datasource);

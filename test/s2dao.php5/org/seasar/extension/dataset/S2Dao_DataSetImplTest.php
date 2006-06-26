@@ -25,89 +25,37 @@
  * @author nowel
  */
 class S2Dao_DataSetImplTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DataSetImplTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testGetTableSize().
-     */
     public function testGetTableSize() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetTableName().
-     */
     public function testGetTableName() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testGetTable().
-     */
     public function testGetTable() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testAddTable().
-     */
     public function testAddTable() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testRemoveTable().
-     */
     public function testRemoveTable() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testToString().
-     */
     public function testToString() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 
-    /**
-     * @todo Implement testEquals().
-     */
     public function testEquals() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 }
 ?>

@@ -25,41 +25,49 @@
  * @author nowel
  */
 class S2Dao_RequiresNewInterceptorTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $txBean_ = null;
+    private $exBean_ = null;
+    private $tm_ = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_RequiresNewInterceptorTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->tm_ = $container->getComponent("pdo.dataSource");
+        $this->txBean_ = $container->getComponent("reqNewTx.TxBeanImpl");
+        $this->exBean_ = $container->getComponent("reqNewTx.ExceptionBeanImpl");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->tm_ = null;
+        $this->txBean_ = null;
+        $this->exBean_ = null;
     }
 
-    /**
-     * @todo Implement testInvoke().
-     */
     public function testInvoke() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $this->assertTrue($this->txBean_->hasTransaction());
+    }
+    
+    public function testInvoke2() {
+        $this->tm_->getConnection()->beginTransaction();
+        $tx = $this->tm_->getConnection()->beginTransaction();
+        var_dump("preTx:", $tx);
+        $this->assertTrue($this->txBean_->hasTransaction());
+        $this->assertEquals($tx, $this->tm_->getConnection()->beginTransaction());
+        $this->tm_->getConnection()->commit();
+    }
+    
+    public function testInvokeException() {
+        try {
+            $this->exBean_->invoke();
+            $this->fail("1");
+        } catch (Exception $ex) {
+            var_dump($ex->getTraceAsString());
+        }
     }
 }
 ?>

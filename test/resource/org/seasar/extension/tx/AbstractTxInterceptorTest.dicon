@@ -2,7 +2,8 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 	"http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<component name="testTx" class="TestInterceptor"/>
+	<include path="%PDO_DICON%" />
+	<component name="testTx" class="TestInterceptor" />
 	<component class="ExceptionBeanImpl">
 		<aspect>testTx</aspect>
 	</component>
