@@ -25,113 +25,117 @@
  * @author nowel
  */
 class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $exBean_ = null;
+    private $tm_ = null;
+    private $testTx_ = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_AbstractTxInterceptorTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->tm_ = $container->getComponent("pdo.dataSource");
+        $this->testTx_ = $container->getComponent("testTx");
+        $this->exBean_ = $container->getComponent("ExceptionBeanImpl");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->testTx_ = null;
+        $this->tm_ = null;
+        $this->exBean_ = null;
     }
 
-    /**
-     * @todo Implement testGetConnection().
-     */
-    public function testGetConnection() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testType() {
+        try {
+            $this->testTx_->addCommitRule(new Exception());
+            $this->testTx_->addCommitRule(new S2Container_S2RuntimeException());
+            $this->testTx_->addCommitRule(new stdClass());
+            $this->fail("1");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
+
+        try {
+            $this->testTx_->addRollbackRule(new Exception());
+            $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
+            $this->testTx_->addRollbackRule("");
+            $this->fail("2");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
     }
 
-    /**
-     * @todo Implement testHasTransaction().
-     */
-    public function testHasTransaction() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testNoRule() {
+        try {
+            $this->exBean_->invoke();
+            $this->fail("1");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
+        $this->assertFalse($this->testTx_->result);
     }
 
-    /**
-     * @todo Implement testBegin().
-     */
-    public function testBegin() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testCommitRule() {
+        $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
+        $this->testTx_->addCommitRule(new Exception());
+        try {
+            $this->exBean_->invoke(new Exception());
+            $this->fail("1");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
+        $this->assertTrue($this->testTx_->result);
     }
 
-    /**
-     * @todo Implement testCommit().
-     */
-    public function testCommit() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testRollbackRule1() {
+        $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
+        $this->testTx_->addCommitRule(new Exception());
+        try {
+            $this->exBean_->invoke(new Exception());
+            $this->fail("1");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
+        $this->assertFalse($this->testTx_->result);
     }
 
-    /**
-     * @todo Implement testRollback().
-     */
-    public function testRollback() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testRollbackRule2() {
+        $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
+        $this->testTx_->addCommitRule(new Exception());
+        try {
+            $this->exBean_->invoke(new Exception(""));
+            $this->fail("1");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
+        $this->assertFalse($this->testTx_->result);
     }
 
-    /**
-     * @todo Implement testSuspend().
-     */
-    public function testSuspend() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testRollbackRule3() {
+        $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
+        $this->testTx_->addCommitRule(new Exception());
+        try {
+            $this->exBean_->invoke(new PDOException());
+            $this->fail("1");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
+        $this->assertFalse($this->testTx_->result);
     }
 
-    /**
-     * @todo Implement testResume().
-     */
-    public function testResume() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testComplete().
-     */
-    public function testComplete() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testAddCommitRule().
-     */
-    public function testAddCommitRule() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testAddRollbackRule().
-     */
-    public function testAddRollbackRule() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testRollbackRule4() {
+        $this->testTx_->addRollbackRule(new S2Container_S2RuntimeException());
+        $this->testTx_->addCommitRule(new Exception());
+        try {
+            $this->exBean_->invoke(new PDOException());
+            $this->fail("1");
+        } catch (Exception $expected) {
+            var_dump($expected);
+        }
+        $this->assertFalse($this->testTx_->result);
     }
 }
 ?>

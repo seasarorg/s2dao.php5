@@ -22,7 +22,11 @@ define('PDO_DICON', RESOURCE_DIR . '/pdo.dicon');
 
 S2ContainerClassLoader::import(S2CONTAINER_PHP5);
 S2ContainerClassLoader::import(S2DAO_PHP5);
-S2ContainerClassLoader::import(TEST_DIR . "/classes");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/dao");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/db");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/dataset");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/tx");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/sample");
 
 function __autoload($class = null){
     S2ContainerClassLoader::load($class);

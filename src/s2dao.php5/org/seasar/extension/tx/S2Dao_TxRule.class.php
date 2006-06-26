@@ -32,9 +32,6 @@ final class S2Dao_TxRule {
 
     public function __construct(S2Dao_AbstractTxInterceptor $tx,
                                 Exception $exceptionClass, $commit) {
-//        throw new S2Dao_SIllegalArgumentException('ESSR0365',
-//                                           array($exceptionClass->getName()));
-
         $this->tx = $tx;
         $this->exceptionClass = $exceptionClass;
         $this->commit = $commit;
