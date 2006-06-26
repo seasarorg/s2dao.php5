@@ -56,6 +56,10 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         return new $class;
     }
     
+    private function getBeanClass($class){
+        return $this->getBean($class);
+    }
+    
     private function createDaoMetaData(ReflectionClass $daoClass){
         return new S2Dao_DaoMetaDataImpl(
                         $daoClass,
@@ -84,7 +88,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testSelectBeanList() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee2Dao"));
-        $cmd = $dmd->getSqlCommand("getAllEmployees");
+        $cmd = $dmd->getSqlCommand("getAllEmployeesList");
         $this->assertNotNull($cmd);
         $this->assertEquals("SELECT * FROM emp", $cmd->getSql());
         $rsh = $cmd->getResultSetHandler();
@@ -94,7 +98,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testSelectBeanArray() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee2Dao"));
-        $cmd = $dmd->getSqlCommand("getAllEmployeeArray");
+        $cmd = $dmd->getSqlCommand("getAllEmployeesArray");
         $this->assertNotNull($cmd);
         $rsh = $cmd->getResultSetHandler();
         $this->assertEquals($this->getBeanClass("Employee2"),
@@ -115,7 +119,8 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee2Dao"));
         $cmd = $dmd->getSqlCommand("getCount");
         $this->assertNotNull($cmd);
-        $this->assertEquals("S2Dao_ObjectResultSetHandler", get_class($cmd->getResultSetHandler()));
+        $this->assertEquals("S2Dao_ObjectResultSetHandler",
+                            get_class($cmd->getResultSetHandler()));
         $this->assertEquals("SELECT COUNT(*) FROM emp", $cmd->getSql());
     }
 
@@ -132,7 +137,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $cmd = $dmd->getSqlCommand("insert");
         $this->assertNotNull($cmd);
         $emp = $this->getBean("Employee2");
-        $this->setProperty($emp, "empno", 99);
+        $this->setProperty($emp, "empno", 991);
         $this->setProperty($emp, "ename", "hoge");
         $cmd->execute(array($emp));
     }
@@ -167,27 +172,10 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testSelectAuto() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("getEmployeeByDeptno");
+        $cmd = $dmd->getSqlCommand("getEmployeeByDeptnoList");
         echo $cmd->getSql();
     }
 
-    public function testInsertBatchAuto() {
-        $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("insertBatch");
-        $this->assertNotNull($cmd);
-    }
-
-    public function testUpdateBatchAuto() {
-        $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("updateBatch");
-        $this->assertNotNull($cmd);
-    }
-
-    public function testDeleteBatchAuto() {
-        $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("deleteBatch");
-        $this->assertNotNull($cmd);
-    }
 //
 //    public function testCreateFindCommand() {
 //        $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
@@ -239,14 +227,14 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testCreateObjectBeanCommand() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->createFindObjectCommand("select count(*) from emp");
+        $cmd = $dmd->createFindObjectCommand("select count(*) from emp2");
         $count = $cmd->execute(null);
         $this->assertEquals(14, (int)$count);
     }
 
     public function testSelectAutoByQuery() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("getEmployeesBySal");
+        $cmd = $dmd->getSqlCommand("getEmployeesBySalList");
         $employees =  $cmd->execute(array(0, 1000));
         var_dump($employees);
         $this->assertEquals(2, $employees->size());
@@ -254,7 +242,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testSelectAutoByQueryMultiIn() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("getEmployeesByEnameJob");
+        $cmd = $dmd->getSqlCommand("getEmployeesByEnameJobList");
         echo $cmd->getSql();
         $enames = new S2Dao_ArrayList();
         $enames->add("SCOTT");
@@ -268,7 +256,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testRelation() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee2Dao"));
-        $cmd = $dmd->getSqlCommand("getAllEmployees");
+        $cmd = $dmd->getSqlCommand("getAllEmployeesList");
         $emps =  $cmd->execute(null);
         var_dump($emps);
         $this->assertTrue($emps->size() > 0);
@@ -284,7 +272,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testAutoSelectSqlByDto() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("getEmployeesBySearchCondition");
+        $cmd = $dmd->getSqlCommand("getEmployeesBySearchConditionList");
         $this->assertNotNull($cmd);
         echo $cmd->getSql();
         $dto = new EmployeeSearchCondition();
@@ -295,7 +283,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testAutoSelectSqlByDto2() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("getEmployeesByEmployee");
+        $cmd = $dmd->getSqlCommand("getEmployeesByEmployeeList");
         $this->assertNotNull($cmd);
         echo $cmd->getSql();
         $dto = $this->getBean("Employee2");
@@ -328,11 +316,11 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testAutoSelectSqlByDto5() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("getEmployeesBySearchCondition2");
+        $cmd = $dmd->getSqlCommand("getEmployeesBySearchCondition2List");
         $this->assertNotNull($cmd);
         echo $cmd->getSql();
         $dto = $this->getBean("EmployeeSearchCondition");
-        $department = $this->getBean("Department");
+        $department = $this->getBean("Department2");
         $this->setProperty($department, "dname", "RESEARCH");
         $this->setProperty($dto, "department", $department);
         $employees =  $cmd->execute(array($dto));
@@ -341,7 +329,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testAutoSelectSqlByDto6() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("getEmployeesBySearchCondition2");
+        $cmd = $dmd->getSqlCommand("getEmployeesBySearchCondition2List");
         $this->assertNotNull($cmd);
         echo $cmd->getSql();
         $dto = $this->getBean("EmployeeSearchCondition");
@@ -370,7 +358,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testNotHavePrimaryKey() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("DepartmentTotalSalaryDao"));
-        $cmd = $dmd->getSqlCommand("getTotalSalaries");
+        $cmd = $dmd->getSqlCommand("getTotalSalariesList");
         $this->assertNotNull($cmd);
         echo $cmd->getSql();
         $result =  $cmd->execute(null);
@@ -387,7 +375,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee6Dao"));
         $condition = $this->getBean("EmployeeSearchCondition");
         $this->setProperty($condition, "dname", "RESEARCH");
-        $cmd = $dmd->getSqlCommand("getEmployees");
+        $cmd = $dmd->getSqlCommand("getEmployeesArray");
         echo $cmd->getSql();
         $results = $cmd->execute(array($condition));
         $this->setProperty($condition, "orderByString", "ENAME");
@@ -396,7 +384,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testStartsWithBeginComment() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee8Dao"));
-        $cmd = $dmd->getSqlCommand("getEmployees");
+        $cmd = $dmd->getSqlCommand("getEmployeesList");
         echo $cmd->getSql();
         {
             $emp = new Employee2();

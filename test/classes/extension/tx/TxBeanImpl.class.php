@@ -10,9 +10,11 @@ class TxBeanImpl implements TxBean {
 
 	public function hasTransaction() {
         try {
-        		var_dump($this->tm_->beginTransaction());
+        		var_dump($this->tm_->getConnection()->beginTransaction());
         } catch(PDOException $e){
-            var_dump($e);die;
+            if(strcmp($e->getMessage(), "There is already an active transaction") == 0){
+                return true;
+            }
         }
 		return false;
 	}

@@ -9,6 +9,8 @@ interface Employee2Dao {
     
     public function getAllEmployeesList();
     
+    public function getAllEmployeesArray();
+    
     public function getEmployee($empno);
     
     public function getEmployeesByDeptnoArray($deptno);
