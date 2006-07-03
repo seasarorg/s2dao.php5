@@ -24,13 +24,17 @@
 /**
  * @author yonekawa
  */
-interface S2Dao_PagerResultSetWrapper
+class S2Dao_PagerYamlResultSetWrapper implements S2Dao_PagerResultSetWrapper
 {
     /**
-     * @param result S2Daoの結果
-     * @param condition DTO
+     * S2Daoの結果(YAML)をDTOの条件でラップして返します
+     * @param $result S2Daoの結果(YAML)
+     * @param $condition DTO
      */
-    public function filter($result, $condition);
+    public function filter($result, $condition)
+    {
+        
+    }
 }
 
 ?>

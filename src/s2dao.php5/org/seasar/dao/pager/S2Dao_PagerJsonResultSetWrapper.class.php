@@ -24,13 +24,19 @@
 /**
  * @author yonekawa
  */
-interface S2Dao_PagerResultSetWrapper
+class S2Dao_PagerJsonResultSetWrapper implements S2Dao_PagerResultSetWrapper
 {
     /**
-     * @param result S2Daoの結果
-     * @param condition DTO
+     * S2Daoの結果(JSON)をDTOの条件でラップして返します
+     * @param $result S2Daoの結果(JSON)
+     * @param $condition DTO
      */
-    public function filter($result, $condition);
+    public function filter($result, $condition)
+    {
+        $match = array();
+        
+        if (preg_match("\{*\}", $result, $match)) {
+            var_dump($match);
+        }
+    }
 }
-
-?>

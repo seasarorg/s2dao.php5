@@ -22,15 +22,27 @@
 // $Id$
 //
 /**
+ * PagerResultSetWrapperのファクトリクラス
  * @author yonekawa
  */
-interface S2Dao_PagerResultSetWrapper
+class S2Dao_PagerResultSetWrapperFactory
 {
     /**
-     * @param result S2Daoの結果
-     * @param condition DTO
+     * コメントアノテーションからDaoの結果のタイプを取得して、それに応じたResultSetWrapperを返す
      */
-    public function filter($result, $condition);
+    public static function create(S2Container_MethodInvocation $invocation)
+    {
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($invocation->getTargetClass());
+        $reader = new S2Dao_DaoCommentAnnotationReader($beanDesc);
+        
+        if ($reader->isSelectYaml($invocation->getMethod())) {
+            return new S2Dao_PagerYamlResultSetWrapper();
+        } else if ($reader->isSelectJson($invocation->getMethod())) {
+            return new S2Dao_PagerJsonResultSetWrapper();
+        } else {
+            return new S2Dao_PagerResultSetWrapperImpl();
+        }
+    }
 }
 
 ?>

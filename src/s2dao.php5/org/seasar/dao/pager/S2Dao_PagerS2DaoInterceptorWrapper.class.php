@@ -49,7 +49,7 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
      * S2DaoInterceptorの結果をPagerConditionでラップした結果を返します
      */
     public function invoke(S2Container_MethodInvocation $invocation) 
-    {
+    {   
         if ($this->useLimitOffsetQuery) {
             return $this->invokePagerWithLimitOffsetQuery($invocation);
         } else {
@@ -57,7 +57,10 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
         }
     }
 
-    private function invokePagerWithLimitOffsetQuery($invocation)
+    /**
+     * Limit,Offset句を使用してページャを実行する
+     */
+    private function invokePagerWithLimitOffsetQuery(S2Container_MethodInvocation $invocation)
     {
         try{
             $method = $invocation->getMethod();
@@ -76,7 +79,6 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
                     $cmd = S2Dao_SelectDynamicCommandLimitOffsetWrapperFactory::create($cmd);
                 }
             }
-
             $ret = $cmd->execute($invocation->getArguments());
 
             return $ret;
@@ -85,21 +87,24 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
         }
     }
 
-    private function invokePagerWithoutLimitOffsetQuery($invocation)
+    /**
+     * Limit,Offset句を使用せずにページャを実行する
+     */
+    private function invokePagerWithoutLimitOffsetQuery(S2Container_MethodInvocation $invocation)
     {
         try{
             $args = $invocation->getArguments();
             $result = parent::invoke($invocation);
             
-            if ((count($args) < 1) || (!is_array($result) && !($result instanceof S2Dao_ArrayList))) {
+            if ((count($args) < 1) || (!is_array($result) && !($result instanceof S2Dao_ArrayList) && (!is_string($result)))) {
                 return $result;
             }
 
             if ($args[0] instanceof S2Dao_PagerCondition) {
                 $condition = $args[0];
-                return S2Dao_PagerResultSetWrapper::create($result, $condition);
+                $wrapper = S2Dao_PagerResultSetWrapperFactory::create($invocation);
+                return $wrapper->filter($result, $condition);
             }
-
         } catch(Exception $e) {
             throw $e;
         } 
