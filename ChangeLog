@@ -1,6 +1,6 @@
 2006-07-02 nowel(S2Dao.PHP5-1.1.0)
 
-    * fix: S2Dao_BasicSelectHandlerでカラム数が0の場合に正しく結果を取得できない不具合を修正しました。
+    * fix[DAOPHP-4]: S2Dao_BasicSelectHandlerでカラム数が0の場合に正しく結果を取得できない不具合を修正しました。
         - modify: カラム数が0またはnullの場合はS2Dao_BasicSelectHandlerはnullを返すように変更しました。
     * modify: S2Dao_ObjectResultSetHandlerで指定したクラスのオブジェクトマッピングが正しく行えない不具合を修正しました。
 
@@ -28,7 +28,7 @@
 
 2006-06-18  yonekawa(S2Dao.PHP5-1.1.0-RC5)
 
-    * fix: S2Dao_PagerSupportにて、session_startの重複エラーが起きるのを修正しました。[DAOPHP-2]
+    * fix[DAOPHP-2]: S2Dao_PagerSupportにて、session_startの重複エラーが起きるのを修正しました。[DAOPHP-2]
 
 2006-06-17 nowel(S2Dao.PHP5-1.1.0-RC5)
 
