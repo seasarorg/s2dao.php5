@@ -94,10 +94,38 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     public function testExecute6(){
         $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
         // if null columnset
-        if(!($dbms instanceof S2Dao_PostgreSQL)){
+        if(!($dbms instanceof S2Dao_MySQL)){
             return;
-        } 
-        $sql = "select null from emp2 where empno = ?";
+        }
+        $sql = "select * into outfile '/tmp/hoge.txt' from EMP2 where empno = ?";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        var_dump($ret);
+        $this->assertNull($ret);
+    }
+
+    public function testExecute7(){
+        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        // if null columnset
+        if(!($dbms instanceof S2Dao_MySQL)){
+            return;
+        }
+        $sql = "select null, EMP2.* into outfile '/tmp/foo.txt' from EMP2 where empno = ?";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        var_dump($ret);
+        $this->assertNull($ret);
+    }
+
+    public function testExecute8(){
+        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        // if null columnset
+        if(!($dbms instanceof S2Dao_MySQL)){
+            return;
+        }
+        $sql = "select 'hoge' as Hoge, EMP2.* into outfile '/tmp/bar.txt' from EMP2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(array(7788), (array)gettype(7788));
