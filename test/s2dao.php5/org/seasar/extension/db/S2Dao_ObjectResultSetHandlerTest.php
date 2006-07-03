@@ -25,41 +25,71 @@
  * @author nowel
  */
 class S2Dao_ObjectResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $dataSource = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_ObjectResultSetHandlerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
+    }
+    
+    private function getDataSource(){
+        return $this->dataSource;
     }
 
-    /**
-     * @todo Implement testHandle().
-     */
     public function testHandle() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $handler = new S2Dao_ObjectResultSetHandler();
+        $sql = "select ename from emp2 where empno = 7788";
+        $conn = $this->getDataSource()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $ret = null;
+        $stmt->execute();
+        $ret = $handler->handle($stmt);
+        
+        $this->assertTrue(is_array($ret));
+        $this->assertEquals(get_class($ret[0]), "stdClass");
+    }
+    
+    public function testHandle2() {
+        $handler = new S2Dao_ObjectResultSetHandler();
+        $sql = "select ename from emp2 where empno = 7788";
+        $conn = $this->getDataSource()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $ret = null;
+        $stmt->execute();
+        $ret = $handler->handle($stmt);
+        
+        $stdClass = new stdClass();
+        $stdClass->ENAME = "SCOTT";
+        var_dump($ret);
+        $this->assertEquals($ret[0], $stdClass);
+    }
+    
+    public function testHandle3() {
+        $handler = new S2Dao_ObjectResultSetHandler(new Aaa());
+        $sql = "select ename from emp2 where empno = 7788";
+        $conn = $this->getDataSource()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $ret = null;
+        $stmt->execute();
+        $ret = $handler->handle($stmt);
+        
+        $array = array();
+        $aaa = new Aaa();
+        $aaa->ENAME = "SCOTT";
+        $array[0] = $aaa;
+        
+        $this->assertEquals($ret, $array);
+        $this->assertEquals($ret[0], $aaa);
     }
 }
 ?>

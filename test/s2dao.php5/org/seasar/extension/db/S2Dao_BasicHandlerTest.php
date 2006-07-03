@@ -25,81 +25,57 @@
  * @author nowel
  */
 class S2Dao_BasicHandlerTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $dataSource = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_BasicHandlerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
+    }
+    
+    private function getDataSource(){
+        return $this->dataSource;
     }
 
-    /**
-     * @todo Implement testGetDataSource().
-     */
     public function testGetDataSource() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $sql = "select * from emp2, dept2";
+        $handler = new S2Dao_BasicHandler($this->getDataSource(),
+                        $sql, new S2Dao_BasicStatementFactory());
+                        
+        $this->assertNotNull($handler);
+        $this->assertEquals($this->getDataSource(), $handler->getDataSource());
     }
-
-    /**
-     * @todo Implement testSetDataSource().
-     */
-    public function testSetDataSource() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetSql().
-     */
+    
     public function testGetSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $sql = "select * from emp2, dept2";
+        $handler = new S2Dao_BasicHandler($this->getDataSource(),
+                        $sql, new S2Dao_BasicStatementFactory());
+                        
+        $this->assertNotNull($handler);
+        $this->assertEquals($sql, $handler->getSql());
+        
+        $sql2 = "select * from emp2";
+        $handler->setSql($sql2);
+        $this->assertNotEquals($sql, $handler->getSql());
     }
-
-    /**
-     * @todo Implement testSetSql().
-     */
-    public function testSetSql() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetStatementFactory().
-     */
+    
     public function testGetStatementFactory() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testSetStatementFactory().
-     */
-    public function testSetStatementFactory() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $sql = "select * from emp2, dept2";
+        $handler1 = new S2Dao_BasicHandler($this->getDataSource(),
+                        $sql, new S2Dao_BasicStatementFactory());
+        $handler2 = new S2Dao_BasicHandler($this->getDataSource(),
+                        $sql, null);
+                        
+        $this->assertEquals($handler1, $handler2);
     }
 }
 ?>

@@ -1,3 +1,13 @@
+2006-07-02 nowel(S2Dao.PHP5-1.1.0)
+
+    * fix: S2Dao_BasicSelectHandlerでカラム数が0の場合に正しく結果を取得できない不具合を修正しました。
+        - modify: カラム数が0またはnullの場合はS2Dao_BasicSelectHandlerはnullを返すように変更しました。
+    * modify: S2Dao_ObjectResultSetHandlerで指定したクラスのオブジェクトマッピングが正しく行えない不具合を修正しました。
+
+2006-07-01 nowel(S2Dao.PHP5-1.1.0)
+
+    * merge: S2Dao.PHP5-1.1.0-RC5 and S2Dao.PHP5-1.1.0(stable)
+
 2006-06-25  yonekawa  <tcgrim@gmail.com>
 
     * fix: S2Pagerを使用して検索結果が１件だった時にNULLが返る不具合を修正しました。 

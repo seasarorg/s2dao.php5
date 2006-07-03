@@ -36,9 +36,7 @@ class ExDbAllTest {
     public static function suite(){
         $suite = new PHPUnit2_Framework_TestSuite("All DB Extension Tests");
         $suite->addTestSuite('S2Dao_BasicHandlerTest');
-        $suite->addTestSuite('S2Dao_BasicResultSetFactoryTest');
         $suite->addTestSuite('S2Dao_BasicSelectHandlerTest');
-        $suite->addTestSuite('S2Dao_BasicStatementFactoryTest');
         $suite->addTestSuite('S2Dao_BasicUpdateHandlerTest');
         $suite->addTestSuite('S2Dao_ObjectResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_PDOTypeTest');

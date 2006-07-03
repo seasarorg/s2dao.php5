@@ -25,105 +25,85 @@
  * @author nowel
  */
 class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $dataSource = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_BasicSelectHandlerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
+    }
+    
+    private function getDataSource(){
+        return $this->dataSource;
     }
 
-    /**
-     * @todo Implement testGetResultSetFactory().
-     */
-    public function testGetResultSetFactory() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testSetResultSetFactory().
-     */
-    public function testSetResultSetFactory() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetResultSetHandler().
-     */
-    public function testGetResultSetHandler() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testSetResultSetHandler().
-     */
-    public function testSetResultSetHandler() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetFetchSize().
-     */
-    public function testGetFetchSize() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testSetFetchSize().
-     */
-    public function testSetFetchSize() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testGetMaxRows().
-     */
-    public function testGetMaxRows() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testSetMaxRows().
-     */
-    public function testSetMaxRows() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
-
-    /**
-     * @todo Implement testExecute().
-     */
     public function testExecute() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $sql = "select * from emp2 where empno = ?";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        var_dump($ret);
+        $this->assertNotNull($ret);
     }
+    
+    public function testExecute2(){
+        $sql = "select count(*) from emp2 where empno = ?";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        var_dump($ret);
+        $this->assertEquals($ret, 1);
+    }
+    
+    public function testExecute3(){
+        $sql = "select count(*), emp2.* from emp2 where empno = ?";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        var_dump($ret);
+        $this->assertNotNull($ret);
+    }
+    
+    public function testExecute4(){
+        $sql = "select null from emp2 where empno = ?";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        var_dump($ret);
+        $this->assertNotNull($ret);
+    }
+    
+    public function testExecute5(){
+        $sql = "select null from emp2";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(null, null);
+        var_dump($ret);
+        $this->assertNotNull($ret);
+    }
+    
+    public function testExecute6(){
+        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        // if null columnset
+        if(!($dbms instanceof S2Dao_PostgreSQL)){
+            return;
+        } 
+        $sql = "select null from emp2 where empno = ?";
+        $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
+                $sql, new S2Dao_ObjectResultSetHandler());
+        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        var_dump($ret);
+        $this->assertNull($ret);
+    }
+
 }
 ?>

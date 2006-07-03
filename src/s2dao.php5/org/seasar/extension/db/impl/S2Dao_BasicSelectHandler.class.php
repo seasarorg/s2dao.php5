@@ -84,12 +84,12 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $this->maxRows_ = $maxRows;
     }
 
-    public function execute($element, $args){
+    public function execute($args1, $args2){
         $stmt = $this->prepareStatement($this->getConnection());
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $this->bindArgs($stmt, $element, $args);
+        $this->bindArgs($stmt, $args1, $args2);
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
-            self::$logger_->debug($this->getCompleteSql($element));
+            self::$logger_->debug($this->getCompleteSql($args1));
         }
         if ($this->resultSetHandler_ == null) {
             throw new S2Container_EmptyRuntimeException('resultSetHandler');
@@ -97,10 +97,12 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
 
         try{
             $resultSet = $this->createResultSet($stmt);
-            // FIXME
-            if($stmt->columnCount() == 1){
+            $columnCount = $stmt->columnCount();
+            if($columnCount == 1){
                 $rs = $stmt->fetch(PDO::FETCH_NUM);
                 return (int)$rs[0];
+            } else if($columnCount === null || $columnCount <= 0){
+                return null;
             } else {
                 return $this->resultSetHandler_->handle($stmt);
             }

@@ -36,7 +36,7 @@ class S2Dao_ObjectResultSetHandler implements S2Dao_ResultSetHandler {
         if($this->beanClass === null){
             return $rs->fetchAll(PDO::FETCH_OBJ);
         } else {
-            return $rs->fetchAll(PDO::FETCH_INTO, $this->beanClass);
+            return $rs->fetchAll(PDO::FETCH_CLASS, get_class($this->beanClass));
         }
     }
 }
