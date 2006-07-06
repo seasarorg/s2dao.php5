@@ -23,6 +23,7 @@
 //
 /**
  * @author yonekawa
+ * @author nowel
  */
 class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
 
@@ -45,16 +46,10 @@ class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testGetCount().
-     */
     public function testGetCount() {
         $this->assertEquals($this->helper_->getCount(), 50);
     }
 
-    /**
-     * @todo Implement testSetCount().
-     */
     public function testSetCount() {
         $this->helper_->setCount(100);
         $this->assertEquals($this->helper_->getCount(), 100);
@@ -64,24 +59,15 @@ class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($this->helper_->getLimit(), 10);
     }
 
-    /**
-     * @todo Implement testSetLimit().
-     */
     public function testSetLimit() {
         $this->helper_->setLimit(20);
         $this->assertEquals($this->helper_->getLimit(), 20);
     }
 
-    /**
-     * @todo Implement testGetOffset().
-     */
     public function testGetOffset() {
         $this->assertEquals($this->helper_->getOffset(), 5);
     }
 
-    /**
-     * @todo Implement testSetOffset().
-     */
     public function testSetOffset() {
         $this->helper_->setOffset(3);
         $this->assertEquals($this->helper_->getOffset(), 3);
@@ -130,23 +116,23 @@ class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
 
     public function testGetPageIndex() {
         $this->helper_->setOffset(10);
-        $this->assertEquals($this->helper_->getPageIndex(), 1);
+        $this->assertEquals((int)$this->helper_->getPageIndex(), 1);
     }
 
     public function testGetPageCount() {
         $this->helper_->setOffset(10);
-        $this->assertEquals($this->helper_->getPageCount(), 2);
+        $this->assertEquals((int)$this->helper_->getPageCount(), 2);
     }
 
     public function testGetLastPageIndex() {
-        $this->assertEquals($this->helper_->getLastPageIndex(), 4);
+        $this->assertEquals((int)$this->helper_->getLastPageIndex(), 4);
     }
 
     public function testGetDisplayPageIndexBegin() {
         $this->helper_->setCount(20);
         $this->helper_->setOffset(5);
         $this->helper_->setLimit(1);
-        $this->assertEquals($this->helper_->getDisplayPageIndexBegin(), 1);
+        $this->assertEquals((int)$this->helper_->getDisplayPageIndexBegin(), 1);
     }
 
     public function testGetDisplayPageIndexEnd() {

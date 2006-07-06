@@ -323,7 +323,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $department = $this->getBean("Department2");
         $this->setProperty($department, "dname", "RESEARCH");
         $this->setProperty($dto, "department", $department);
-        $employees =  $cmd->execute(array($dto));
+        $employees =  $cmd->execute((array)$dto);
         $this->assertTrue($employees->size() > 0);
     }
 

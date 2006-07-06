@@ -37,12 +37,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
     protected function tearDown() {
     }
 
-    /**
-     * @todo Implement testExecute().
-     */
     public function testExecute() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
     }
 }
 

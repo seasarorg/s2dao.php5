@@ -23,7 +23,6 @@
 //
 /**
  * @author yonekawa
-
  */
 class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase {
 

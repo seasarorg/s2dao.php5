@@ -47,12 +47,12 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testParseEndSemicolon() {
-        $this->testParseEndSemicolon2(";");
-        $this->testParseEndSemicolon2(";\t");
-        $this->testParseEndSemicolon2("; ");
+        $this->parseEndSemicolon2(";");
+        $this->parseEndSemicolon2(";\t");
+        $this->parseEndSemicolon2("; ");
     }
     
-    private function testParseEndSemicolon2($endChar) {
+    private function parseEndSemicolon2($endChar) {
         $sql = "SELECT * FROM emp2";
         $parser = new S2Dao_SqlParserImpl($sql . $endChar);
         $ctx = new S2Dao_CommandContextImpl();
@@ -117,19 +117,20 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     public function testParseBindVariable2() {
         $sql = "SELECT * FROM emp2 WHERE job = /* job*/'CLERK'";
         $sql2 = "SELECT * FROM emp2 WHERE job = 'CLERK'";
+        $sql2_parsed = "SELECT * FROM emp2 WHERE job = ?";
         $sql3 = "SELECT * FROM emp2 WHERE job = ";
-        $sql4 = "'CLERK'";
+        $sql4 = " job";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
         $root = $parser->parse();
         $root->accept($ctx);
         echo $ctx->getSql() . PHP_EOL;
-        $this->assertEquals($sql2, $ctx->getSql());
+        $this->assertEquals($sql2_parsed, $ctx->getSql());
         $this->assertEquals(2, $root->getChildSize());
         $sqlNode = $root->getChild(0);
         $this->assertEquals($sql3, $sqlNode->getSql());
         $sqlNode2 = $root->getChild(1);
-        $this->assertEquals($sql4, $sqlNode2->getSql());
+        $this->assertEquals($sql4, $sqlNode2->getExpression());
     }
     
     public function testParseWhiteSpace() {
@@ -205,7 +206,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseElse() {
-        $sql = "SELECT * FROM emp2 WHERE /*IF job != null*/job = /*job*/'CLERK'-- ELSE job is null/*END*/";
+        $sql = "SELECT * FROM emp2 WHERE /*IF job != null*/job = /*job*/'CLERK'--ELSE job is null/*END*/";
         $sql2 = "SELECT * FROM emp2 WHERE job = ?";
         $sql3 = "SELECT * FROM emp2 WHERE job is null";
         $parser = new S2Dao_SqlParserImpl($sql);
@@ -247,12 +248,12 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $root = $parser->parse();
         $root->accept($ctx);
         echo "[" . $ctx->getSql() . "]" . PHP_EOL;
-        $this->assertEquals("1", "bbbddd", $ctx->getSql());
+        $this->assertEquals("bbbddd", $ctx->getSql());
     }
     
     public function testElse4() {
-        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF false*/aaa-- ELSE AND deptno = 10/*END*//*END*/";
-        $sql2 = "SELECT * FROM emp2 WHERE deptno = 10";
+        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF false*/aaa--ELSE AND deptno = 10/*END*//*END*/";
+        $sql2 = "SELECT * FROM emp2 WHERE  deptno = 10";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -262,11 +263,11 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testBegin() {
-        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF job != null*/job = /*job*/'CLERK'/*END*//*IF deptno != null*/ AND deptno = /*deptno*/20/*END*//*END*/";
+        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF job !== null*/job = /*job*/'CLERK'/*END*//*IF deptno !== null*/ AND deptno = /*deptno*/20/*END*//*END*/";
         $sql2 = "SELECT * FROM emp2";
         $sql3 = "SELECT * FROM emp2 WHERE job = ?";
         $sql4 = "SELECT * FROM emp2 WHERE job = ? AND deptno = ?";
-        $sql5 = "SELECT * FROM emp2 WHERE deptno = ?";
+        $sql5 = "SELECT * FROM emp2 WHERE  AND deptno = ?";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -306,64 +307,60 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("ccc", "222", gettype(""));
         $root->accept($ctx);
         echo "[" . $ctx->getSql() . "]" . PHP_EOL;
-        $this->assertEquals("1", $sql2, $ctx->getSql());
+        $this->assertEquals($sql2, $ctx->getSql());
     }
     
     public function testIn() {
         $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
-        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
+        $sql2 = "SELECT * FROM emp2 WHERE deptno IN ? ORDER BY ename";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
         $deptnoList = new S2Dao_ArrayList();
         $deptnoList->add(10);
         $deptnoList->add(20);
-        $ctx->addArg("deptnoList", $deptnoList, gettype($deptnoList));
+        $ctx->addArg("deptnoList", $deptnoList, gettype($deptnoList->toArray()));
         $root->accept($ctx);
         echo $ctx->getSql() . PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
-        $this->assertEquals(2, count($vars));
-        $this->assertEquals(10, $vars[0]);
-        $this->assertEquals(20, $vars[1]);
+        $this->assertEquals(1, count($vars[0]));
+        $this->assertEquals("deptnoList", $vars[0]);
     }
     
     public function testIn2() {
         $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
-        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
+        $sql2 = "SELECT * FROM emp2 WHERE deptno IN ? ORDER BY ename";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
-        $deptnoArray = array(10, 20);
+        $deptnoArray = new S2Dao_ArrayList(array(10, 20));
         $ctx->addArg("deptnoList", $deptnoArray, gettype($deptnoArray));
         $root->accept($ctx);
         echo $ctx->getSql() . PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
-        $this->assertEquals(2, count($vars));
-        $this->assertEquals(10, $vars[0]);
-        $this->assertEquals(20, $vars[1]);
+        $this->assertEquals(1, count($vars[0]));
+        $this->assertEquals('deptnoList', $vars[0]);
     }
     
     public function testIn3() {
         $sql = "SELECT * FROM emp2 WHERE ename IN /*enames*/('SCOTT','MARY') AND job IN /*jobs*/('ANALYST', 'FREE')";
-        $sql2 = "SELECT * FROM emp2 WHERE ename IN (?, ?) AND job IN (?, ?)";
+        $sql2 = "SELECT * FROM emp2 WHERE ename IN ? AND job IN ?";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
-        $enames = array("SCOTT", "MARY");
-        $jobs = array("ANALYST", "FREE");
+        $enames = new S2Dao_ArrayList(array("SCOTT", "MARY"));
+        $jobs = new S2Dao_ArrayList(array("ANALYST", "FREE"));
         $ctx->addArg("enames", $enames, gettype($enames));
         $ctx->addArg("jobs", $jobs, gettype($jobs));
         $root->accept($ctx);
         echo $ctx->getSql() . PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
-        $this->assertEquals(4, count($vars));
-        $this->assertEquals("SCOTT", $vars[0]);
-        $this->assertEquals("MARY", $vars[1]);
-        $this->assertEquals("ANALYST", $vars[2]);
-        $this->assertEquals("FREE", $vars[3]);
+        $this->assertEquals(1, count($vars[0]));
+        $this->assertEquals("enames", $vars[0]);
+        $this->assertEquals("jobs", $vars[1]);
     }
     
     public function testParseBindVariable3() {
@@ -413,7 +410,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("aaa", 0, gettype(0));
         $root->accept($ctx);
         echo $ctx->getSql() . PHP_EOL;
-        $this->assertEquals("0", $ctx->getSql());
+        $this->assertEquals("", $ctx->getSql());
     }
 }
 ?>

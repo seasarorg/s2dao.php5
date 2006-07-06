@@ -3,20 +3,17 @@
 /**
  * PDO::exec problem two or more lines SQL are not recognized...orz
  */
-function query_liner(PDO $pdo, array $contents){
+function sql_liner(PDO $pdo, $filePath){
+    if(!file_exists($filePath)){
+        return null;
+    }
+    $contents = file($filePath);
     foreach($contents as $sql){
         if(preg_match('/^(\r?\n|\s)+$/s', $sql) || $sql == PHP_EOL){
             continue;
         }
         $pdo->exec($sql);
     }
-}
-
-function sql_liner(PDO $pdo, $filePath){
-    if(!file_exists($filePath)){
-        return null;
-    }
-    query_liner($pdo, file($filePath));
 }
 
 $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
@@ -30,7 +27,7 @@ try {
     $dbms = strtolower($driver);
     
     sql_liner($pdo, RESOURCE_DIR . "/test-" . $dbms . ".sql");
-    // FIXME
+    // FIXME self-execute test-procedure-{dbms}.sql
     //sql_liner($pdo, RESOURCE_DIR . "/test-procedure-" . $dbms . ".sql");
     
     $pdo->commit();

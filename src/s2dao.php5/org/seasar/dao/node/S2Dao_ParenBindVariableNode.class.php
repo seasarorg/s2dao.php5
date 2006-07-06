@@ -46,7 +46,7 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
         
         if ($result instanceof S2Dao_ArrayList) {
             $this->bindArray($ctx, $value->toArray());
-        } else if ($result == null) {
+        } else if ($result === null) {
             return;
         } else if (is_array($result)) {
             $this->bindArray($ctx, $result);
@@ -55,7 +55,7 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
         }
     }
 
-    private function bindArray(S2Dao_CommandContext $ctx, $array) {
+    private function bindArray(S2Dao_CommandContext $ctx, array $array) {
         $length = count($array);
         if ($length == 0) {
             return;
@@ -65,13 +65,6 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
             $o = $array[$i];
             if ($o !== null) {
                 $clazz = get_class($o);
-                /*
-                if(is_object($o)){
-                    $clazz = get_class($o);
-                } else {
-                    $clazz = gettype($o);
-                }
-                */
             }
         }
         $ctx->addSql('(');

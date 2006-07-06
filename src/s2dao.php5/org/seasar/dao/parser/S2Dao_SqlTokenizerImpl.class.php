@@ -122,7 +122,7 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
                 $this->position_ = $commentStartPos + 2;
             } else if ($nextStartPos == $elseCommentStartPos) {
                 $this->nextTokenType_ = self::ELSE_;
-                $this->position_ = $elseCommentStartPos + $elseCommentLength;
+                $this->position_ = $elseCommentStartPos + $elseCommentLength + 1;
             } else if ($bindVariableStartPos !== false && 
                         $nextStartPos == $bindVariableStartPos) {
                 $this->nextTokenType_ = self::BIND_VARIABLE;
@@ -193,7 +193,7 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
     public function skipToken() {
         $index = strlen($this->sql_);
         $quote = $this->position_ < strlen($this->sql_) ?
-             substr($this->sql_, $this->position_, 1) : "\0";
+             substr($this->sql_, $this->position_, 1) : '';
         $quoting = $quote === '\'' || $quote === '(';
         if ($quote === '(') {
             $quote = ')';
@@ -203,19 +203,19 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
         for (; $i < $len; ++$i) {
             $c = substr($this->sql_, $i, 1);
             
-            if ((preg_match("/(\s|,|\)|\()/", $c) > 0 ) && !$quoting) {
+            if (preg_match('/(\s|,|\)|\()/', $c) && !$quoting) {
                 $index = $i;
                 break;
-            } else if ($c == '/' && ($i + 1) < strlen($this->sql_)
+            } else if ($c == '/' && ($i + 1) < $len
                         && substr($this->sql_, ($i + 1), 1) == '*') {
                 $index = $i;
                 break;
-            } else if ($c == '-' && ($i + 1) < strlen($this->sql_)
+            } else if ($c == '-' && ($i + 1) < $len
                         && substr($this->sql_, ($i + 1), 1) == '-') {
                 $index = $i;
                 break;
             } else if ($quoting && $quote == '\'' && $c == '\''
-                        && ( ($i + 1) >= strlen($this->sql_) ||
+                        && ($len <= ($i + 1) ||
                             substr($this->sql_, ($i + 1), 1) != '\'') ) {
                 $index = $i + 1;
                 break;

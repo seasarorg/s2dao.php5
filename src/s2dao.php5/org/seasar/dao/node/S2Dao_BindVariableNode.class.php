@@ -42,8 +42,9 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
         $value = $ctx->getArg($this->names[0]);
         $clazz = $ctx->getArgType($this->names[0]);
         
-        for($pos = 1; $pos < count($this->names); $pos++){
-            if('object' == $clazz){
+        $c = count($this->names);
+        for($pos = 1; $pos < $c; $pos++){
+            if(gettype(new stdClass) == $clazz){
                 $beanDesc =
                     S2Container_BeanDescFactory::getBeanDesc(new ReflectionClass($value));
                 $pd = $beanDesc->getPropertyDesc($this->names[$pos]);
@@ -55,12 +56,16 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
             }
         }
 
-        if($value != null && $clazz != null){
+        if($value != null && !$this->isNull($clazz)){
             settype($value, $clazz);
         } else {
             //settype($value, 'null');
         }
         $ctx->addSql('?', $value, $clazz);
+    }
+    
+    private function isNull($clazz = null){
+        return $clazz === null || $clazz == gettype(null);
     }
 }
 ?>

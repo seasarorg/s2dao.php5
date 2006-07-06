@@ -32,7 +32,7 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
     private $sqlBuf_ = '';
     private $bindVariables_;
     private $bindVariableTypes_;
-    private $enabled_ = true;
+    private $enabled_ = false;
     private $parent_;
 
     public function __construct($parent = null){
@@ -65,7 +65,7 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
     public function getArgType($name) {
         if ($this->argTypes_->containsKey($name)) {
             return $this->argTypes_->get($name);
-        } else if ($this->parent_ != null) {
+        } else if ($this->parent_ !== null) {
             return $this->parent_->getArgType($name);
         } else {
             if ($this->argTypes_->size() == 1) {
@@ -102,7 +102,7 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
                 $this->bindVariableTypes_->add($bindVariableType[$i]);
             }
             return $this;
-        } else if($bindVariable === null && $bindVariableType === null){
+        } else if($bindVariable === null && $this->isNull($bindVariableType)){
             $this->sqlBuf_ .= $sql;
             return $this;
         } else {
@@ -119,6 +119,10 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
 
     public function setEnabled($enabled) {
         $this->enabled_ = $enabled;
+    }
+    
+    private function isNull($valueType = null){
+        return $valueType === null || $valueType == gettype(null);
     }
 }
 ?>

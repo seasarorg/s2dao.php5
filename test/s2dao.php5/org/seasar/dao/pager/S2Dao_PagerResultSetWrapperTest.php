@@ -22,57 +22,35 @@
 // $Id$
 //
 /**
+ * @author yonekawa
  * @author nowel
  */
 class S2Dao_PagerResultSetWrapperTest extends PHPUnit2_Framework_TestCase {
     
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerResultSetWrapperTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
     }
 
-    /**
-     * 
-     */
-    public function testCreate() {
-        
-        $array = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-        $array_part = array("3", "4", "5");
-        $dto = new S2Dao_DefaultPagerCondition();
-
-        $dto->setLimit(3);
-        $dto->setOffset(3);
-        
-        $this->assertEquals(S2Dao_PagerResultSetWrapper::create($array, $dto), 
-                            $array_part);
-
-        $this->assertEquals($dto->getCount(), 10);
-        
-    }
+//    public function testCreate() {
+//        $array = array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+//        $array_part = array("3", "4", "5");
+//        $dto = new S2Dao_DefaultPagerCondition();
+//
+//        $dto->setLimit(3);
+//        $dto->setOffset(3);
+//        
+//        $this->assertEquals(S2Dao_PagerResultSetWrapper::create($array, $dto), 
+//                            $array_part);
+//
+//        $this->assertEquals($dto->getCount(), 10);
+//    }
 }
 
 ?>

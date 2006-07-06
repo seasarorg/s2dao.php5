@@ -40,22 +40,22 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
     public function testNext() {
         $sql = 'SELECT * FROM emp';
         $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
-        $this->assertEquals('1', S2Dao_SqlTokenizer::SQL, $tokenizer->next());
-        $this->assertEquals('2', $sql, $tokenizer->getToken());
-        $this->assertEquals('3', S2Dao_SqlTokenizer::EOF, $tokenizer->next());
-        $this->assertEquals('4', null, $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals($sql, $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::EOF, $tokenizer->next());
+        $this->assertEquals(null, $tokenizer->getToken());
     }
 
     public function testCommentEndNotFound() {
         $sql = 'SELECT * FROM emp/*hoge';
         $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
-        $this->assertEquals('1', S2Dao_SqlTokenizer::SQL, $tokenizer->next());
-        $this->assertEquals('2', 'SELECT * FROM emp', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('SELECT * FROM emp', $tokenizer->getToken());
         try {
             $tokenizer->next();
-            fail('3');
-        } catch (TokenNotClosedRuntimeException $ex) {
-            echo $ex . PHP_EOL;
+            $this->fail('3');
+        } catch (S2Dao_TokenNotClosedRuntimeException $ex) {
+            var_dump($ex->getMessage());
         }
     }
 
@@ -100,7 +100,7 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseElse() {
-        $sql = "SELECT * FROM emp WHERE /*IF job != null*/job = /*job*/'CLERK'-- ELSE job is null/*END*/";
+        $sql = "SELECT * FROM emp WHERE /*IF job != null*/job = /*job*/'CLERK'--ELSE job is null/*END*/";
         $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
         $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
         $this->assertEquals('SELECT * FROM emp WHERE ', $tokenizer->getToken());
@@ -121,7 +121,7 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseElse2() {
-        $sql = "/*IF false*/aaa -- ELSE bbb = /*bbb*/123/*END*/";
+        $sql = "/*IF false*/aaa --ELSE bbb = /*bbb*/123/*END*/";
         $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
         $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
         $this->assertEquals('IF false', $tokenizer->getToken());
@@ -140,11 +140,12 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testAnd() {
-        $sql = " AND bbb";
+        $sql = "AND bbb";
         $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
-        $this->assertEquals(' ', $tokenizer->skipWhitespace());
+        $whiteSpace = $tokenizer->skipWhitespace();
+        $this->assertTrue(empty($whiteSpace));
         $this->assertEquals('AND', $tokenizer->skipToken());
-        $this->assertEquals(' AND', $tokenizer->getBefore());
+        $this->assertEquals('AND', $tokenizer->getBefore());
         $this->assertEquals(' bbb', $tokenizer->getAfter());
     }
     
@@ -188,7 +189,7 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals('aaa', $tokenizer->getToken());
         $this->assertEquals(S2Dao_SqlTokenizer::ELSE_, $tokenizer->next());
         $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
-        $this->assertEquals(' bbb = ', $tokenizer->getToken());
+        $this->assertEquals('bbb = ', $tokenizer->getToken());
         $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
         $this->assertEquals('bbb', $tokenizer->getToken());
     }

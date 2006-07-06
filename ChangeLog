@@ -1,3 +1,7 @@
+2006-07-06 nowel(S2Dao.PHP5-1.1.0)
+
+    * fix: SQLコメントのELSEが正しく動作しない不具合を修正しました。
+
 2006-07-02 nowel(S2Dao.PHP5-1.1.0)
 
     * fix[DAOPHP-4]: S2Dao_BasicSelectHandlerでカラム数が0の場合に正しく結果を取得できない不具合を修正しました。
