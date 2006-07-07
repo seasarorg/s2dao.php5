@@ -567,7 +567,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 && !$types[0] instanceof S2Dao_ArrayList
                 && !is_array($types)) {
             throw new S2Dao_IllegalSignatureRuntimeException('EDAO0006',
-                                            (string)$method->toString());
+                                            (string)$method->__toString());
         }
     }
     
