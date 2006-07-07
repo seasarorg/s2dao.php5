@@ -51,6 +51,26 @@ interface FooDao {
      * @Procedure(SALES2)
      */
     public function getFoo10();
+    
+    /**
+     * @return object
+     */
+    public function getFoo11();
+    
+    /**
+     * @return yaml
+     */
+    public function getFoo12();
+    
+    /**
+     * @return json
+     */
+    public function getFoo13();
+    
+    /**
+     * @return obj
+     */
+    public function getFoo14();
 }
 
 ?>

@@ -93,26 +93,59 @@ class S2Dao_DaoConstantAnnotationReaderTest extends PHPUnit2_Framework_TestCase 
 
     public function testGetReturnType() {
         $method1 = $this->daoClass->getMethod("getFoo7Map");
-        $this->assertEquals("Map", $this->reader->getReturnType($method1));
+        $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_MAP);
 
         $method2 = $this->daoClass->getMethod("getFoo8List");
         $this->assertNull($this->reader->getReturnType($method2));
     }
 
-    public function testIsSelectList() {
+    public function testIsList() {
         $method1 = $this->daoClass->getMethod("getFoo8List");
-        $this->assertTrue($this->reader->isSelectList($method1) == 1);
+        $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_LIST);
 
         $method2 = $this->daoClass->getMethod("getFoo9Array");
-        $this->assertFalse($this->reader->isSelectList($method2) == 1);
+        $this->assertNotEquals($this->reader->getReturnType($method2), S2Dao_DaoAnnotationReader::RETURN_LIST);
     }
 
-    public function testIsSelectArray() {
+    public function testIsArray() {
         $method1 = $this->daoClass->getMethod("getFoo8List");
-        $this->assertFalse($this->reader->isSelectArray($method1) == 1);
+        $this->assertNotEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_ARRAY);
 
         $method2 = $this->daoClass->getMethod("getFoo9Array");
-        $this->assertTrue($this->reader->isSelectArray($method2) == 1);
+        $this->assertEquals($this->reader->getReturnType($method2), S2Dao_DaoAnnotationReader::RETURN_ARRAY);
+    }
+    
+    public function testIsYaml(){
+        $method1 = $this->daoClass->getMethod("getFoo12Yaml");
+        $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_YAML);
+
+        $method2 = $this->daoClass->getMethod("getFoo11Obj");
+        $this->assertNotEquals($this->reader->getReturnType($method2), S2Dao_DaoAnnotationReader::RETURN_YAML);
+    }
+
+    public function testIsJson(){
+        $method1 = $this->daoClass->getMethod("getFoo13Json");
+        $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_JSON);
+
+        $method2 = $this->daoClass->getMethod("getFoo11Obj");
+        $this->assertNotEquals($this->reader->getReturnType($method2), S2Dao_DaoAnnotationReader::RETURN_JSON);
+    }
+
+    public function testIsObject(){
+        $method1 = $this->daoClass->getMethod("getFoo11Obj");
+        $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_OBJ);
+
+        $method2 = $this->daoClass->getMethod("getFoo11Object");
+        $this->assertNull($this->reader->getReturnType($method2));
+    }
+    
+    public function testIsMap(){
+        $method1 = $this->daoClass->getMethod("getFoo14Map");
+        $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_MAP);
+
+        $method2 = $this->daoClass->getMethod("getFoo11Obj");
+        $this->assertNotEquals($this->reader->getReturnType($method2), S2Dao_DaoAnnotationReader::RETURN_MAP);
+
     }
 }
 ?>

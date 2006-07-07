@@ -47,8 +47,8 @@ class S2Dao_BasicUpdateHandler
         try {
             $stmt->execute();
             return $stmt->rowCount();
-        } catch (S2Container_SQLException $e) {
-            throw new S2Container_SQLRuntimeException($e);
+        } catch (PDOException $e) {
+            throw new S2Dao_SQLRuntimeException($e);
         }
 
     }

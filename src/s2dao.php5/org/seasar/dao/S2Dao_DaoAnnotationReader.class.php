@@ -25,30 +25,21 @@
  * @author nowel
  */
 interface S2Dao_DaoAnnotationReader {
-
-    function getBeanClass();
-
-    function getQuery(ReflectionMethod $method);
-
-    function getArgNames(ReflectionMethod $method);
-
-    function getNoPersistentProps(ReflectionMethod $method);
-
-    function getPersistentProps(ReflectionMethod $method);
-
-    function getSQL(ReflectionMethod $method, $suffix);
-
-    function getStoredProcedureName(ReflectionMethod $method);
     
-    function isSelectList(ReflectionMethod $method);
-    
-    function isSelectArray(ReflectionMethod $method);
-    
-    function isSelectYaml(ReflectionMethod $method);
-    
-    function isSelectJson(ReflectionMethod $method);
-    
-    function getReturnType(ReflectionMethod $method);
-    
+    const RETURN_OBJ = 0;
+    const RETURN_LIST = 1;
+    const RETURN_ARRAY = 2;
+    const RETURN_YAML = 3;
+    const RETURN_JSON = 4;
+    const RETURN_MAP = 5;
+
+    public function getBeanClass();
+    public function getQuery(ReflectionMethod $method);
+    public function getArgNames(ReflectionMethod $method);
+    public function getNoPersistentProps(ReflectionMethod $method);
+    public function getPersistentProps(ReflectionMethod $method);
+    public function getSQL(ReflectionMethod $method, $suffix);
+    public function getStoredProcedureName(ReflectionMethod $method);
+    public function getReturnType(ReflectionMethod $method);
 }
 ?>

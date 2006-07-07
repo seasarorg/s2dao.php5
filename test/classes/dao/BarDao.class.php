@@ -22,13 +22,17 @@ interface BarDao {
     public function getFoo6();
 
     public function getFoo7Map();
-
     public function getFoo8List();
-    
     public function getFoo9Array();
     
     const getFoo10_PROCEDURE = "SALES2";
     public function getFoo10();
+    
+    public function getFoo11Object();
+    public function getFoo11Obj();
+    public function getFoo12Yaml();
+    public function getFoo13Json();
+    public function getFoo14Map();
 }
 
 ?>

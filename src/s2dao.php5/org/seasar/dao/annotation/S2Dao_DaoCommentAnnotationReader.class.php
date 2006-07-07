@@ -26,11 +26,11 @@
  */
 class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
-    const SQL_SUFFIX = S2Dao_DaoConstantAnnotationReader::SQL_SUFFIX;
-    const SELECT_ARRAY_NAME = '/@return\s*array/i';
-    const SELECT_LIST_NAME = '/@return\s*list/i';
-    const SELECT_YAML_NAME = '/@return\s*yaml/i';
-    const SELECT_JSON_NAME = '/@return\s*json/i';
+    const RETURN_TYPE_OBJ = '/@return\s*object/i';
+    const RETURN_TYPE_ARRAY = '/@return\s*array/i';
+    const RETURN_TYPE_LIST = '/@return\s*list/i';
+    const RETURN_TYPE_YAML = '/@return\s*yaml/i';
+    const RETURN_TYPE_JSON = '/@return\s*json/i';
     const RETURN_TYPE_MAP = '/@return\s*map/i';
     protected $beanClass;
     
@@ -97,31 +97,25 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     public function getReturnType(ReflectionMethod $method){
         $comment = $this->getMethodComment($method);
-        // FIXME
+        if(preg_match(self::RETURN_TYPE_LIST, $comment)){
+            return S2Dao_DaoAnnotationReader::RETURN_LIST;
+        }
+        if(preg_match(self::RETURN_TYPE_ARRAY, $comment)){
+            return S2Dao_DaoAnnotationReader::RETURN_ARRAY;
+        }
+        if(preg_match(self::RETURN_TYPE_YAML, $comment)){
+            return S2Dao_DaoAnnotationReader::RETURN_YAML;
+        }
+        if(preg_match(self::RETURN_TYPE_JSON, $comment)){
+            return S2Dao_DaoAnnotationReader::RETURN_JSON;
+        }
         if(preg_match(self::RETURN_TYPE_MAP, $comment)){
-            return 'Map';
+            return S2Dao_DaoAnnotationReader::RETURN_MAP;
+        }
+        if(preg_match(self::RETURN_TYPE_OBJ, $comment)){
+            return S2Dao_DaoAnnotationReader::RETURN_OBJ;
         }
         return null;
-    }
-    
-    public function isSelectList(ReflectionMethod $method){
-        $comment = $this->getMethodComment($method);
-        return preg_match(self::SELECT_LIST_NAME, $comment);
-    }
-    
-    public function isSelectArray(ReflectionMethod $method){
-        $comment = $this->getMethodComment($method);
-        return preg_match(self::SELECT_ARRAY_NAME, $comment);
-    }
-    
-    public function isSelectYaml(ReflectionMethod $method){
-        $comment = $this->getMethodComment($method);
-        return preg_match(self::SELECT_YAML_NAME, $comment);
-    }
-    
-    public function isSelectJson(ReflectionMethod $method){
-        $comment = $this->getMethodComment($method);
-        return preg_match(self::SELECT_JSON_NAME, $comment);
     }
     
     private function getMethodAnnotation($annoType, ReflectionMethod $method){

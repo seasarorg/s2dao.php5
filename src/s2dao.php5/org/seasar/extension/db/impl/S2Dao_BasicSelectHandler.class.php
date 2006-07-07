@@ -106,8 +106,8 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
             } else {
                 return $this->resultSetHandler_->handle($stmt);
             }
-        } catch (S2Container_SQLException $ex) {
-            throw new S2Container_SQLRuntimeException($ex);
+        } catch (PDOException $ex) {
+            throw new S2Dao_SQLRuntimeException($ex);
         }
     }
 

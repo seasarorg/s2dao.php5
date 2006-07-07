@@ -24,6 +24,7 @@
 /**
  * PagerResultSetWrapperのファクトリクラス
  * @author yonekawa
+ * @author nowel
  */
 class S2Dao_PagerResultSetWrapperFactory
 {
@@ -35,9 +36,13 @@ class S2Dao_PagerResultSetWrapperFactory
         $beanDesc = S2Container_BeanDescFactory::getBeanDesc($invocation->getTargetClass());
         $reader = new S2Dao_DaoCommentAnnotationReader($beanDesc);
         
-        if ($reader->isSelectYaml($invocation->getMethod())) {
+        // メソッド
+        $method = $invocation->getMethod();
+        // 戻り値の型を取得する
+        $type = $reader->getReturnType($method);
+        if($type == S2Dao_DaoAnnotationReader::RETURN_YAML){
             return new S2Dao_PagerYamlResultSetWrapper();
-        } else if ($reader->isSelectJson($invocation->getMethod())) {
+        } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
             return new S2Dao_PagerJsonResultSetWrapper();
         } else {
             return new S2Dao_PagerResultSetWrapperImpl();

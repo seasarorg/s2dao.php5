@@ -22,8 +22,9 @@
 // $Id$
 //  
 /**
- * SelectDynamicCommand‚ðƒ‰ƒbƒv‚µ‚Älimit‹å‚ð‚Â‚¯‚éƒ‰ƒbƒpƒNƒ‰ƒX
+ * SelectDynamicCommandï¿½ã‰ƒbï¿½vï¿½ï¿½ï¿½ï¿½limitï¿½ï¿½ï¿½Â‚ï¿½ï¿½éƒ‰ï¿½bï¿½pï¿½Nï¿½ï¿½ï¿½X
  * @author yonekawa
+ * @author nowel
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamicCommand
 {
@@ -69,15 +70,15 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
             $this->dsn = self::DSN_MYSQL;
         }
         
-        return $sql . " " . $dbms->getLimitOffsetSql();
+        return $sql . ' ' . $dbms->getLimitOffsetSql();
     }
 
     private function createBindVariables($bindVariables, $args)
     {
         if (!($this->dsn === self::DSN_OTHER)) {
             $condition = $args[0];
-            array_push($bindVariables, $condition->getOffset());
-            array_push($bindVariables, $condition->getLimit());
+            $bindVariables[] = $condition->getOffset();
+            $bindVariables[] = $condition->getLimit();
         }
         return $bindVariables;
     }
@@ -85,8 +86,8 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
     private function createBindVariableTypes($bindVariableTypes, $args)
     {
         if (!($this->dsn === self::DSN_OTHER)) {
-            array_push($bindVariableTypes, S2Dao_PHPType::Integer);
-            array_push($bindVariableTypes, S2Dao_PHPType::Integer);
+            $bindVariableTypes[] = S2Dao_PHPType::Integer;
+            $bindVariableTypes[] = S2Dao_PHPType::Integer;
         }
         print_r($bindVariableTypes);
         return $bindVariableTypes;

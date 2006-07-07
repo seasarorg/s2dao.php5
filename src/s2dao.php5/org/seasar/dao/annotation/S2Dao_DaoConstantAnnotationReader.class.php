@@ -33,10 +33,11 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
     const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
     const PROCEDURE_SUFFIX = "_PROCEDURE";
-    const SELECT_ARRAY_NAME = '/Array$/i';
-    const SELECT_LIST_NAME = '/List$/i';
-    const SELECT_YAML_NAME = '/Yaml$/i';
-    const SELECT_JSON_NAME = '/Json$/i';
+    const RETURN_TYPE_OBJ = '/Obj$/i';
+    const RETURN_TYPE_ARRAY = '/Array$/i';
+    const RETURN_TYPE_LIST = '/List$/i';
+    const RETURN_TYPE_YAML = '/Yaml$/i';
+    const RETURN_TYPE_JSON = '/Json$/i';
     const RETURN_TYPE_MAP = '/Map$/i';
 
     protected $daoBeanDesc;
@@ -101,26 +102,26 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     }
     
     public function getReturnType(ReflectionMethod $method){
-        if(preg_match(self::RETURN_TYPE_MAP, $method->getName())){
-            return 'Map';
+        $methodName = $method->getName();
+        if(preg_match(self::RETURN_TYPE_LIST, $methodName)){
+            return self::RETURN_LIST;
+        }
+        if(preg_match(self::RETURN_TYPE_ARRAY, $methodName)){
+            return self::RETURN_ARRAY;
+        }
+        if(preg_match(self::RETURN_TYPE_YAML, $methodName)){
+            return self::RETURN_YAML;
+        }
+        if(preg_match(self::RETURN_TYPE_JSON, $methodName)){
+            return self::RETURN_JSON;
+        }
+        if(preg_match(self::RETURN_TYPE_MAP, $methodName)){
+            return self::RETURN_MAP;
+        }
+        if(preg_match(self::RETURN_TYPE_OBJ, $methodName)){
+            return self::RETURN_OBJ;
         }
         return null;
-    }
-    
-    public function isSelectList(ReflectionMethod $method){
-        return preg_match(self::SELECT_LIST_NAME, $method->getName());
-    }
-    
-    public function isSelectArray(ReflectionMethod $method){
-        return preg_match(self::SELECT_ARRAY_NAME, $method->getName());
-    }
-    
-    public function isSelectYaml(ReflectionMethod $method){
-        return preg_match(self::SELECT_YAML_NAME, $method->getName());
-    }
-    
-    public function isSelectJson(ReflectionMethod $method){
-        return preg_match(self::SELECT_JSON_NAME, $method->getName());
     }
     
     private function getProps(ReflectionMethod $method, $constName){

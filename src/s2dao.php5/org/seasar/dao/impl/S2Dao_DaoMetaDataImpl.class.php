@@ -117,7 +117,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if ($procedureName != null) {
             $returnType = $this->annotationReader_->getReturnType($method);
             $procedureHandler = null;
-            if ($returnType == 'Map') {
+            if ($returnType == S2Dao_DaoAnnotationReader::RETURN_MAP) {
                 $procedureHandler = new S2Dao_MapBasicProcedureHandler($this->dataSource_,
                                                                        $procedureName);
             } else {
@@ -416,19 +416,21 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     protected function createResultSetHandler(ReflectionMethod $method) {
-        $reader = $this->annotationReader_;
-        if($reader->isSelectList($method)){
-            return new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_);
-        } else if($reader->isSelectArray($method)){
-            return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
-        } else if($reader->isSelectYaml($method)){
-            return new S2Dao_BeanYamlMetaDataResultSetHandler($this->beanMetaData_);
-        } else if($reader->isSelectJson($method)){
-            return new S2Dao_BeanJsonMetaDataResultSetHandler($this->beanMetaData_);
-        } else if($this->isBeanClassAssignable($method)){
-            return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
-        } else {
-            return new S2Dao_ObjectResultSetHandler();
+        $type = $this->annotationReader_->getReturnType($method);
+        switch($type){
+            case S2Dao_DaoAnnotationReader::RETURN_LIST:
+                return new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData_);
+            case S2Dao_DaoAnnotationReader::RETURN_ARRAY:
+                return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData_);
+            case S2Dao_DaoAnnotationReader::RETURN_YAML:
+                return new S2Dao_BeanYamlMetaDataResultSetHandler($this->beanMetaData_);
+            case S2Dao_DaoAnnotationReader::RETURN_JSON:
+                return new S2Dao_BeanJsonMetaDataResultSetHandler($this->beanMetaData_);
+            default:
+                if($this->isBeanClassAssignable($method)){
+                    return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData_);
+                }
+                return new S2Dao_ObjectResultSetHandler();
         }
     }
 
