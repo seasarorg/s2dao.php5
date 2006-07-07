@@ -96,7 +96,7 @@ class S2Dao_DaoCommentAnnotationReaderTest extends PHPUnit2_Framework_TestCase {
         $method1 = $this->daoClass->getMethod("getFoo7");
         $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_MAP);
 
-        $method2 = $this->daoClass->getMethod("getFoo8");
+        $method2 = $this->daoClass->getMethod("getFoo14");
         $this->assertNull($this->reader->getReturnType($method2));
     }
 

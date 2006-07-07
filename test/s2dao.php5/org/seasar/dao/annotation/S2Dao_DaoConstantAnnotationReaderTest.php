@@ -95,7 +95,7 @@ class S2Dao_DaoConstantAnnotationReaderTest extends PHPUnit2_Framework_TestCase 
         $method1 = $this->daoClass->getMethod("getFoo7Map");
         $this->assertEquals($this->reader->getReturnType($method1), S2Dao_DaoAnnotationReader::RETURN_MAP);
 
-        $method2 = $this->daoClass->getMethod("getFoo8List");
+        $method2 = $this->daoClass->getMethod("getFoo6");
         $this->assertNull($this->reader->getReturnType($method2));
     }
 

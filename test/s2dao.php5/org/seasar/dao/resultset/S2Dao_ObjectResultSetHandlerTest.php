@@ -48,7 +48,7 @@ class S2Dao_ObjectResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
 
     public function testHandle() {
         $handler = new S2Dao_ObjectResultSetHandler();
-        $sql = "select ename from emp2 where empno = 7788";
+        $sql = "select ename from emp2 where empno = 7900";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
         $ret = null;
@@ -61,7 +61,7 @@ class S2Dao_ObjectResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
     
     public function testHandle2() {
         $handler = new S2Dao_ObjectResultSetHandler();
-        $sql = "select ename from emp2 where empno = 7788";
+        $sql = "select ename from emp2 where empno = 7900";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
         $ret = null;
@@ -69,14 +69,14 @@ class S2Dao_ObjectResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
         $ret = $handler->handle($stmt);
         
         $stdClass = new stdClass();
-        $stdClass->ENAME = "SCOTT";
+        $stdClass->ENAME = "JAMES";
         var_dump($ret);
         $this->assertEquals($ret[0], $stdClass);
     }
     
     public function testHandle3() {
         $handler = new S2Dao_ObjectResultSetHandler(new Aaa());
-        $sql = "select ename from emp2 where empno = 7788";
+        $sql = "select ename from emp2 where empno = 7900";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
         $ret = null;
@@ -85,7 +85,7 @@ class S2Dao_ObjectResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
         
         $array = array();
         $aaa = new Aaa();
-        $aaa->ENAME = "SCOTT";
+        $aaa->ENAME = "JAMES";
         $array[0] = $aaa;
         
         $this->assertEquals($ret, $array);

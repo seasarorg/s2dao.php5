@@ -3,9 +3,7 @@
 class DepartmentTotalSalary {
     
     const TABLE = "DEPT2";
-
     private $deptno;
-
     private $totalSalary;
 
     public function getDeptno() {
