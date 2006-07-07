@@ -38,6 +38,10 @@ class ResultSetAllTest {
         $suite->addTestSuite('S2Dao_BeanArrayMetaDataResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_BeanListMetaDataResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_BeanMetaDataResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_BeanYamlMetaDataResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_BeanJsonMetaDataResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_ObjectResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_MapResultSetHandlerTest');
         return $suite;
     }
 }
