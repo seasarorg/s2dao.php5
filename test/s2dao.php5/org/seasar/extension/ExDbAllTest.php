@@ -39,6 +39,7 @@ class ExDbAllTest {
         $suite->addTestSuite('S2Dao_BasicSelectHandlerTest');
         $suite->addTestSuite('S2Dao_BasicUpdateHandlerTest');
         $suite->addTestSuite('S2Dao_ObjectResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_MapResultSetHandlerTest');
         $suite->addTestSuite('S2Dao_PDOTypeTest');
         $suite->addTestSuite('S2Dao_PropertyTypeImplTest');
         return $suite;

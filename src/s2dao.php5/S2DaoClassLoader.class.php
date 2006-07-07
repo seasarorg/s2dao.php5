@@ -46,6 +46,7 @@ class S2DaoClassLoader {
         'S2Dao_BasicStatementFactory' => '/extension/db/impl/S2Dao_BasicStatementFactory.class.php',
         'S2Dao_BasicSelectHandler' => '/extension/db/impl/S2Dao_BasicSelectHandler.class.php',
         'S2Dao_BasicUpdateHandler' => '/extension/db/impl/S2Dao_BasicUpdateHandler.class.php',
+        'S2Dao_MapResultSetHandler' => '/extension/db/impl/S2Dao_MapResultSetHandler.class.php',
         'S2Dao_ObjectResultSetHandler' => '/extension/db/impl/S2Dao_ObjectResultSetHandler.class.php',
         'S2Dao_PropertyTypeImpl' => '/extension/db/impl/S2Dao_PropertyTypeImpl.class.php',
         'S2Dao_ResultSetHandler' => '/extension/db/S2Dao_ResultSetHandler.class.php',

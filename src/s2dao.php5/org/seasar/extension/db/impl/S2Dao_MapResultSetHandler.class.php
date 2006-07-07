@@ -24,18 +24,20 @@
 /**
  * @author nowel
  */
-class S2Dao_ObjectResultSetHandler implements S2Dao_ResultSetHandler {
-
-    private $beanClass;
-
-    public function __construct($beanClass = null) {
-        $this->beanClass = $beanClass;
+class S2Dao_MapResultSetHandler implements S2Dao_ResultSetHandler {
+    
+    public function __construct() {
     }
-
+    
     public function handle($rs) {
-        if($this->beanClass === null){
-            return $rs->fetchAll(PDO::FETCH_OBJ);
+        $returnValue = array();
+        while($rows = $rs->fetch(PDO::FETCH_ASSOC)){
+            $lower = array_change_key_case($rows, CASE_LOWE);
+            $upper = array_change_key_case($rows, CASE_UPPER);
+            $returnValue[] = array_merge($lower, $upper, $rows);
         }
-        return $rs->fetchAll(PDO::FETCH_CLASS, get_class($this->beanClass));
+        return $returnValue;
     }
 }
+
+?>
