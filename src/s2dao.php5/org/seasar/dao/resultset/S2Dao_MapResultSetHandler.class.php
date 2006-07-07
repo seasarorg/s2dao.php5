@@ -34,7 +34,13 @@ class S2Dao_MapResultSetHandler implements S2Dao_ResultSetHandler {
         while($rows = $rs->fetch(PDO::FETCH_ASSOC)){
             $lower = array_change_key_case($rows, CASE_LOWE);
             $upper = array_change_key_case($rows, CASE_UPPER);
-            $returnValue[] = array_merge($lower, $upper, $rows);
+            $merged = array_merge($lower, $upper, $rows);
+            
+            $map = new S2Dao_HashMap();
+            foreach($merged as $key => $value){
+                $map->put($key, $value);
+            }
+            $returnValue[] = $map;
         }
         return $returnValue;
     }
