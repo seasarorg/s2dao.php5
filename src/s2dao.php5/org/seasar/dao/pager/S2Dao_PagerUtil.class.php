@@ -22,32 +22,55 @@
 // $Id$
 //
 /**
- * PagerResultSetWrapperのファクトリクラス
+ * ページャResultSetのユーティリティクラス
  * @author yonekawa
- * @author nowel
  */
-class S2Dao_PagerResultSetWrapperFactory
+class S2Dao_PagerUtil
 {
     /**
-     * コメントアノテーションからDaoの結果のタイプを取得して、それに応じたResultSetWrapperを返す
+     * listの内容をPagerConditionの条件でフィルタリングする。
+     * @param List フィルタリング前の配列
+     * @param condition 条件
+     * @return フィルタリング後の配列
      */
-    public static function create(S2Container_MethodInvocation $invocation)
+    public function filter($result, $condition)
     {
-        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($invocation->getTargetClass());
-        $reader = new S2Dao_DaoCommentAnnotationReader($beanDesc);
-
-        // 戻り値の型を取得する
-        $method = $invocation->getMethod();
-        $type = $reader->getReturnType($method);
-        
-        if($type == S2Dao_DaoAnnotationReader::RETURN_YAML){
-            return new S2Dao_PagerYamlResultSetWrapper();
-        } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
-            return new S2Dao_PagerJsonResultSetWrapper();
-        } else {
-            return new S2Dao_PagerResultSetWrapperImpl();
+        $returnArray = false;
+        $retValue = new S2Dao_ArrayList();
+        if(!($result instanceof S2Dao_ArrayList)){
+            $result = new S2Dao_ArrayList(new ArrayObject($result));
+            $returnArray = true;
         }
+        
+        $condition->setCount($result->size());
+     
+        $limit = $condition->getOffset() + $condition->getLimit();
+        $count = $condition->getCount();
+        $start = $condition->getOffset() == null ? 0 : $condition->getOffset();
+        for($i = $start; $i < $limit && $i < $count; $i++){
+            $retValue->add($result->get($i));
+        }
+
+        if($returnArray){
+            return $retValue->toArray();
+        }
+        return $retValue;
     }
+
+    public static function filterJson($json, $condition)
+    {
+        $result = json_decode($json);
+        $result = self::filter($result, $condition);
+        return json_encode($result);
+    }
+    
+    public static function filterYaml($yaml, $condition)
+    {
+        $result = Spyc::YAMLLoad($yaml);
+        $result = self::filter($result, $condition);
+        return Spyc::YAMLdump($result);
+    }
+
 }
 
 ?>

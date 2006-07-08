@@ -1,3 +1,15 @@
+2006-07-08  yonekawa(S2Dao.PHP5-1.1.0)
+
+    * add: Json,YAML形式のResultに対応しました。
+	   S2Dao_PagerResultSetWrapperImpl
+	   S2Dao_PagerJsonResultSetWrapper
+	   S2Dao_PagerYamlResultSetWrapper
+	   S2Dao_PagerResultSetWrapperFactory
+           S2Dao_PagerUtil
+    * delete: S2Dao_PagerResultSetWrapper::create -> S2Dao_PagerResultSetWrapper::filter
+    * modify: S2Dao_PagerResultSetWrapper -> S2Dao_PagerResultSetWrapperImpl
+    * modify: class S2Dao_PagerResultSetWrapper -> interface S2Dao_PagerResultSetWrapper
+
 2006-07-08 nowel(S2Dao.PHP5-1.1.0)
 
     * add: S2Dao_MapResultSetHandller

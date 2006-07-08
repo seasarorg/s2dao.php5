@@ -33,7 +33,7 @@ class S2Dao_PagerYamlResultSetWrapper implements S2Dao_PagerResultSetWrapper
      */
     public function filter($result, $condition)
     {
-        
+        return S2Dao_PagerUtil::filterYaml($result, $condition);
     }
 }
 

@@ -33,10 +33,6 @@ class S2Dao_PagerJsonResultSetWrapper implements S2Dao_PagerResultSetWrapper
      */
     public function filter($result, $condition)
     {
-        $match = array();
-        
-        if (preg_match("\{*\}", $result, $match)) {
-            var_dump($match);
-        }
+        return S2Dao_PagerUtil::filterJson($result, $condition);
     }
 }
