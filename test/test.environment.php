@@ -5,6 +5,7 @@ define('HOME_DIR',  dirname(dirname(__FILE__)));
 define('SRC_DIR', HOME_DIR . '/src');
 define('TEST_DIR', HOME_DIR . '/test');
 define('PACKAGE_DIR', TEST_DIR . '/s2dao.php5/org/seasar');
+define('SAMPLE_DIR', TEST_DIR . '/sample');
 define('RESOURCE_DIR', TEST_DIR . '/resource');
 
 require_once "S2Container/S2Container.php";

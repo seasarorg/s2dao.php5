@@ -17,6 +17,9 @@ S2ContainerClassLoader::import(PACKAGE_DIR . "/dao/resultset");
 S2ContainerClassLoader::import(PACKAGE_DIR . "/dao/unit");
 S2ContainerClassLoader::import(PACKAGE_DIR . "/dao/util");
 
+/**
+ * @author nowel
+ */
 class S2DaoTests {
     
     public function __construct(){}

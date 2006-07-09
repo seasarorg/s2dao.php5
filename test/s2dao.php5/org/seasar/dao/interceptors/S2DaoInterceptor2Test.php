@@ -50,9 +50,9 @@ class S2DaoInterceptor2Test extends PHPUnit2_Framework_TestCase {
     }
 
     public function testSelect() {
-        $emp = $this->dao->getEmployee(7788);
+        $emp = $this->dao->getEmployee(7902);
         var_dump($emp);
-        $this->assertEquals(7788, (int)$emp->getEmpno());
+        $this->assertEquals(7902, (int)$emp->getEmpno());
     }
     
     public function testSelectQuery() {

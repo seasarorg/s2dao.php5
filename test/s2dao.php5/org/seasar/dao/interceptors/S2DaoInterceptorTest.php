@@ -51,9 +51,9 @@ class S2DaoInterceptorTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testSelectBean() {
-        $employee = $this->dao->getEmployee(7788);
+        $employee = $this->dao->getEmployee(7902);
         var_dump($employee);
-        $this->assertEquals("SCOTT", $employee->getEname());
+        $this->assertEquals("FORD", $employee->getEname());
     }
     
     public function testSelectObject() {
@@ -63,17 +63,16 @@ class S2DaoInterceptorTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testUpdateTx() {
-        $employee = $this->dao->getEmployee(7788);
+        $employee = $this->dao->getEmployee(7902);
         $this->assertEquals(1, $this->dao->update($employee));
     }
 
-//    public function testEntityManager() {
-//        // S2Container.PHP5 not supporte 'abstract class'
-//        $employees = $this->dao->getEmployeesByDeptnoArray(10);
-//        var_dump($employees);
-//        $this->assertTrue(is_array($employees));
-//        $this->assertEquals(3, count($employees));
-//    }
+    public function testEntityManager() {
+        $employees = $this->dao->getEmployeesByDeptnoArray(10);
+        var_dump($employees);
+        $this->assertTrue(is_array($employees));
+        $this->assertEquals(3, count($employees));
+    }
     
     public function testInsertTx() {
         $this->dao->insert(9999, "hoge");
