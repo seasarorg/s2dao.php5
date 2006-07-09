@@ -30,5 +30,7 @@ interface S2Dao_EntityManager {
     public function findArray($query, $arg1 = null, $arg2 = null, $arg3 = null);
     public function findBean($query, $arg1 = null, $arg2 = null, $arg3 = null);
     public function findObject($query, $arg1 = null, $arg2 = null, $arg3 = null);
+    public function findYaml($query, $arg1 = null, $arg2 = null, $arg3 = null);
+    public function findJson($query, $arg1 = null, $arg2 = null, $arg3 = null);
 }
 ?>

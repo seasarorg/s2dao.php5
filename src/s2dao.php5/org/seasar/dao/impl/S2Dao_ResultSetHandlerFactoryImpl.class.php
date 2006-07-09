@@ -24,9 +24,36 @@
 /**
  * @author nowel
  */
-class S2Dao_BasicResultSetFactory implements S2Dao_ResultSetFactory {
-    public function createResultSet(PDOStatement $ps) {
-        return new S2Dao_ObjectResultSetHandler();
+class S2Dao_ResultSetHandlerFactoryImpl implements S2Dao_ResultSetHandlerFactory {
+    
+    private $beanMetaData;
+    private $annotationReader;
+    
+    public function __construct(S2Dao_BeanMetaData $bmd,
+                                S2Dao_FieldDaoAnnotationReader $reader){
+        $this->beanMetaData = $bmd;
+        $this->annotationReader = $reader;
+    }
+    
+    public function createResultSetHandler(ReflectionMethod $method) {
+        $type = $this->annotationReader->getReturnType($method);
+        switch($type){
+            case S2Dao_DaoAnnotationReader::RETURN_LIST:
+                return new S2Dao_BeanListMetaDataResultSetHandler($this->beanMetaData);
+            case S2Dao_DaoAnnotationReader::RETURN_ARRAY:
+                return new S2Dao_BeanArrayMetaDataResultSetHandler($this->beanMetaData);
+            case S2Dao_DaoAnnotationReader::RETURN_YAML:
+                return new S2Dao_BeanYamlMetaDataResultSetHandler($this->beanMetaData);
+            case S2Dao_DaoAnnotationReader::RETURN_JSON:
+                return new S2Dao_BeanJsonMetaDataResultSetHandler($this->beanMetaData);
+            case S2Dao_DaoAnnotationReader::RETURN_OBJ:
+            default:
+                if($type === null){
+                    return new S2Dao_BeanMetaDataResultSetHandler($this->beanMetaData);
+                }
+                return new S2Dao_ObjectResultSetHandler();
+        }
     }
 }
+
 ?>

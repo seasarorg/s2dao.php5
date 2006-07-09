@@ -1,4 +1,12 @@
-2006-07-08  yonekawa(S2Dao.PHP5-1.1.0)
+2006-07-09 nowel(S2Dao.PHP5-1.1.0)
+
+    * add: S2Dao_ResultSetHandlerFactory, S2Dao_ResultSetHandlerFactoryImpl
+    * add: S2Dao_EntityManager methods
+    	    - findYaml
+    	    - findJson
+    * remove: S2Dao_ValueType
+
+2006-07-08 yonekawa(S2Dao.PHP5-1.1.0)
 
     * add: Json,YAML形式のResultに対応しました。
 	   S2Dao_PagerResultSetWrapperImpl

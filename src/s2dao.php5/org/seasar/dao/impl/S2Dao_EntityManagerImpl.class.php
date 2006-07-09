@@ -39,16 +39,15 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     }
 
     public function find($query, $args = null, $arg2 = null, $arg3 = null) {
-        switch(count(func_get_args())){
+        switch(func_num_args()){
             case 1:
                 return $this->find($query, self::$EMPTY_ARGS);
             case 2:
                 if(is_array($args)){
                     $cmd = $this->daoMetaData_->createFindCommand($query);
                     return $cmd->execute($args);
-                } else {
-                    return $this->find($query, array($args));
                 }
+                return $this->find($query, array($args));
             case 3:
                 return $this->find($query, array($args, $arg2));
             case 4:
@@ -57,16 +56,15 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     }
 
     public function findArray($query, $args = null, $arg2 = null, $arg3 = null) {
-        switch(count(func_get_args())){
+        switch(func_num_args()){
             case 1:
                 return $this->findArray($query, self::$EMPTY_ARGS);
             case 2:
                 if(is_array($args)){
                     $cmd = $this->daoMetaData_->createFindArrayCommand($query);
                     return $cmd->execute($args);
-                } else {
-                    return $this->findArray($query, array($args));
                 }
+                return $this->findArray($query, array($args));
             case 3:
                 return $this->findArray($query, array($args, $arg2));
             case 4:
@@ -82,13 +80,46 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
                 if(is_array($args)){
                     $cmd = $this->daoMetaData_->createFindBeanCommand($query);
                     return $cmd->execute($args);
-                } else {
-                    return $this->findBean($query, array($args));
                 }
+                return $this->findBean($query, array($args));
             case 3:
                 return $this->findBean($query, array($args, $arg2));
             case 4:
                 return $this->findBean($query, array($args, $arg2, $arg3));
+        }
+    }
+    
+    public function findYaml($query, $args = null, $arg2 = null, $arg3 = null) {
+       switch(func_num_args()){
+            case 1:
+                return $this->findYaml($query, self::$EMPTY_ARGS);
+            case 2:
+                if(is_array($args)){
+                    $cmd = $this->daoMetaData_->createFindYamlCommand($query);
+                    return $cmd->execute($args);
+                }
+                return $this->findYaml($query, array($args));
+            case 3:
+                return $this->findYaml($query, array($args, $arg2));
+            case 4:
+                return $this->findYaml($query, array($args, $arg2, $arg3));
+        }
+    }
+    
+    public function findJson($query, $args = null, $arg2 = null, $arg3 = null) {
+       switch(func_num_args()){
+            case 1:
+                return $this->findJson($query, self::$EMPTY_ARGS);
+            case 2:
+                if(is_array($args)){
+                    $cmd = $this->daoMetaData_->createFindJsonCommand($query);
+                    return $cmd->execute($args);
+                }
+                return $this->findJson($query, array($args));
+            case 3:
+                return $this->findJson($query, array($args, $arg2));
+            case 4:
+                return $this->findJson($query, array($args, $arg2, $arg3));
         }
     }
 

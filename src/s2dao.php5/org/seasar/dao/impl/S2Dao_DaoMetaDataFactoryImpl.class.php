@@ -26,36 +26,50 @@
  */
 class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
 
-    protected $daoMetaDataCache_ = null;
-    protected $dataSource_ = null;
-    protected $statementFactory_ = null;
-    protected $resultSetFactory_ = null;
-    protected $readerFactory_ = null;
+    protected $daoMetaDataCache;
+    protected $dataSource;
+    protected $statementFactory;
+    protected $resultSetFactory;
+    protected $readerFactory;
 
     public function __construct(S2Container_DataSource $dataSource,
                                 S2Dao_StatementFactory $statementFactory = null,
                                 S2Dao_ResultSetFactory $resultSetFactory = null,
                                 S2Dao_AnnotationReaderFactory $readerFactory) {
 
-        $this->daoMetaDataCache_ = new S2Dao_HashMap();
-        $this->dataSource_ = $dataSource;
-        $this->statementFactory_ = $statementFactory;
-        $this->resultSetFactory_ = $resultSetFactory;
-        $this->readerFactory_ = $readerFactory;
+        $this->daoMetaDataCache = new S2Dao_HashMap();
+        $this->dataSource = $dataSource;
+        $this->statementFactory = $this->createStatementFactory($statementFactory);
+        $this->resultSetFactory = $this->createResultSetFactory($resultSetFactory);
+        $this->readerFactory = $readerFactory;
+    }
+    
+    public function createStatementFactory(S2Dao_StatementFactory $statementFactory = null){
+        if($statementFactory === null){
+            return new S2Dao_BasicStatementFactory;
+        }
+        return $statementFactory;
+    }
+    
+    public function createResultSetFactory(S2Dao_ResultSetFactory $resultSetFactory = null){
+        if($resultSetFactory === null){
+            return new S2Dao_BasicResultSetFactory;
+        }
+        return $resultSetFactory;
     }
 
     public function getDaoMetaData(ReflectionClass $daoClass) {
         $key = $daoClass->getName();
-        $dmd = $this->daoMetaDataCache_->get($key);
+        $dmd = $this->daoMetaDataCache->get($key);
         if ($dmd !== null) {
             return $dmd;
         }
         $dmd = new S2Dao_DaoMetaDataImpl($daoClass,
-                                         $this->dataSource_,
-                                         $this->statementFactory_,
-                                         $this->resultSetFactory_,
-                                         $this->readerFactory_);
-        $this->daoMetaDataCache_->put($key, $dmd);
+                                         $this->dataSource,
+                                         $this->statementFactory,
+                                         $this->resultSetFactory,
+                                         $this->readerFactory);
+        $this->daoMetaDataCache->put($key, $dmd);
         return $dmd;
     }
 }

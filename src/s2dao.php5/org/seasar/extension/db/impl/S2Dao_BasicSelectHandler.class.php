@@ -96,6 +96,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         }
 
         try{
+            $stmt->execute();
             $resultSet = $this->createResultSet($stmt);
             $columnCount = $stmt->columnCount();
             if($columnCount == 1){

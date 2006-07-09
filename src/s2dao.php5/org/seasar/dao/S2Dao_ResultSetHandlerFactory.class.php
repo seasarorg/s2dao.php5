@@ -24,7 +24,8 @@
 /**
  * @author nowel
  */
-interface S2Dao_ValueType {
-    public function getValue($object = null);
+interface S2Dao_ResultSetHandlerFactory {
+    public function createResultSetHandler(ReflectionMethod $daoMethod);
 }
+
 ?>

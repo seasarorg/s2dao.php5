@@ -22,7 +22,8 @@
 // $Id$
 //
 /**
- * @author nowel, yonekawa
+ * @author nowel
+ * @author yonekawa
  */
 class S2DaoClassLoader {
     
@@ -53,7 +54,6 @@ class S2DaoClassLoader {
         'S2Dao_StatementFactory' => '/extension/db/S2Dao_StatementFactory.class.php',
         'S2Dao_UpdateHandler' => '/extension/db/S2Dao_UpdateHandler.class.php',
         'S2Dao_PropertyType' => '/extension/db/S2Dao_PropertyType.class.php',
-        'S2Dao_ValueType' => '/extension/db/S2Dao_ValueType.class.php',
         'S2Dao_PHPType' => '/extension/db/S2Dao_PHPType.class.php',
         'S2Dao_PDOType' => '/extension/db/types/S2Dao_PDOType.class.php',
         'S2Dao_AbstractTxInterceptor' => '/extension/tx/S2Dao_AbstractTxInterceptor.class.php',
@@ -81,6 +81,7 @@ class S2DaoClassLoader {
         'S2Dao_SqlParser' => '/dao/S2Dao_SqlParser.class.php',
         'S2Dao_SqlTokenizer' => '/dao/S2Dao_SqlTokenizer.class.php',
         'S2Dao_ProcedureMetaData' => '/dao/S2Dao_ProcedureMetaData.class.php',
+        'S2Dao_ResultSetHandlerFactory' => '/dao/S2Dao_ResultSetHandlerFactory.class.php',
         'S2Dao_RelationPropertyType' => '/dao/S2Dao_RelationPropertyType.class.php',
         'S2DaoAnnotationReader' => '/dao/annotation/S2DaoAnnotationReader.class.php',
         'S2Dao_AbstractAnnotationReader' => '/dao/annotation/S2Dao_AbstractAnnotationReader.class.php',
@@ -169,6 +170,7 @@ class S2DaoClassLoader {
         'S2Dao_RelationRowCache' => '/dao/impl/S2Dao_RelationRowCache.class.php',
         'S2Dao_RelationKey' => '/dao/impl/S2Dao_RelationKey.class.php',
         'S2Dao_RelationPropertyTypeImpl' => '/dao/impl/S2Dao_RelationPropertyTypeImpl.class.php',
+        'S2Dao_ResultSetHandlerFactoryImpl' => '/dao/impl/S2Dao_ResultSetHandlerFactoryImpl.class.php',
         'S2Dao_SelectDynamicCommand' => '/dao/impl/S2Dao_SelectDynamicCommand.class.php',
         'S2Dao_StaticStoredProcedureCommand' => '/dao/impl/S2Dao_StaticStoredProcedureCommand.class.php',
         'S2Dao_UpdateAutoHandler' => '/dao/impl/S2Dao_UpdateAutoHandler.class.php',

@@ -25,6 +25,7 @@
  * @author nowel
  */
 interface S2Dao_StatementFactory {
+    public function createStatement(PDO $conn, $sql);
     public function createPreparedStatement(PDO $conn, $sql);
     public function createCallableStatement(PDO $conn, $sql);
 }

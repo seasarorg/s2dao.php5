@@ -64,7 +64,7 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
         return $assoc;
     }
     
-    private function setValue(array &$source, $caseInsensitiveKey, &$value){
+    private function setValue(array &$source, $caseInsensitiveKey, $value){
         $lower = strtolower($caseInsensitiveKey);
         $upper = strtoupper($caseInsensitiveKey);
         $source[$lower] = $value;

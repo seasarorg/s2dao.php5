@@ -26,6 +26,10 @@
  */
 class S2Dao_BasicStatementFactory implements S2Dao_StatementFactory {
     
+    public function createStatement(PDO $conn, $sql){
+        return $conn->query($sql);
+    }
+    
     public function createPreparedStatement(PDO $conn, $sql) {
         return $conn->prepare($sql);
     }
