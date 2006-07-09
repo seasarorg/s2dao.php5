@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
-<components namespace="pager2">
+<components namespace="pager_query">
 	<include path="%DAO_PAGER_LIMIT_OFFSET_QUERY_DICON%" />
-	<component class="Employee2DaoImpl">
-		<aspect>dao.interceptor</aspect>
+	<component class="EmployeePagerDao">
+		<aspect>dao3.interceptor</aspect>
 	</component>
 </components>

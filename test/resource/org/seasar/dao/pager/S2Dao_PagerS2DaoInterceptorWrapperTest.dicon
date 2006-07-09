@@ -3,7 +3,7 @@
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="pager">
 	<include path="%DAO_PAGER_DICON%" />
-	<component class="Employee2DaoImpl">
+	<component class="EmployeePagerDao">
 		<aspect>dao2.interceptor</aspect>
 	</component>
 </components>
