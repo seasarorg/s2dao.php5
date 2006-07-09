@@ -29,7 +29,7 @@ class S2Dao_BeanJsonMetaDataResultSetHandler extends S2Dao_BeanArrayMetaDataResu
     public function __construct(S2Dao_BeanMetaData $beanMetaData) {
         parent::__construct($beanMetaData);
         if (!extension_loaded('json')){
-            throw new Exception('resultset json reqiores php_json extension');
+            throw new Exception('resultset json reqiored php_json extension');
         }
     }
 

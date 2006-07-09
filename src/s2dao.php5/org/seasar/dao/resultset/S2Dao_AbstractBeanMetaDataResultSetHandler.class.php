@@ -61,7 +61,6 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                 }
             }
         }
-
         return $row;
     }
 

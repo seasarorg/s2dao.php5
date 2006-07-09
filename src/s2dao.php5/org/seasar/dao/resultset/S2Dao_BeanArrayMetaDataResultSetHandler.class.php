@@ -36,12 +36,12 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
         $c = $result->size();
         for($i = 0; $i < $c; $i++){
             $bean = $result->get($i);
-            $arrays[] = $this->dump_class($bean);
+            $arrays[] = $this->dumpBean($bean);
         }
         return $arrays;
     }
     
-    private function dump_class($bean){
+    private function dumpBean($bean){
         $refClass = new ReflectionClass($bean);
         $className = $refClass->getName();
         
@@ -56,7 +56,7 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
             $propName = $pd->getPropertyName();
             $propValue = $pd->getValue($bean);
             if(is_object($propValue)){
-                $this->setValue($retVal, $propName, $this->dump_class($propValue));
+                $this->setValue($retVal, $propName, $this->dumpBean($propValue));
                 continue;
             }
             $this->setValue($retVal, $propName, $propValue);
@@ -64,7 +64,7 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
         return $assoc;
     }
     
-    private function setValue(&$source, $caseInsensitiveKey, &$value){
+    private function setValue(array &$source, $caseInsensitiveKey, &$value){
         $lower = strtolower($caseInsensitiveKey);
         $upper = strtoupper($caseInsensitiveKey);
         $source[$lower] = $value;
