@@ -33,7 +33,7 @@ class S2Dao_PagerUtil
      * @param condition 条件
      * @return フィルタリング後の配列
      */
-    public function filter($result, $condition)
+    public static function filter($result, $condition)
     {
         $returnArray = false;
         $retValue = new S2Dao_ArrayList();
