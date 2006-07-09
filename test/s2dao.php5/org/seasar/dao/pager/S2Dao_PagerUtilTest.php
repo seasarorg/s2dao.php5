@@ -6,57 +6,69 @@
  */
 class S2Dao_PagerUtilTest extends PHPUnit2_Framework_TestCase {
 
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+    private $condition = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerUtilTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $this->condition = new S2Dao_DefaultPagerCondition();
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->condition = null;
     }
 
-    /**
-     * @todo Implement testFilter().
-     */
     public function testFilter() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $array = array('aaa', 'bbb', 'ccc', 'ddd', 'eee');
+        $filter_array = arrary('ccc', 'ddd', 'eee');
+        
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+        
+        $array = S2Dao_PagerUtil::filter($array, $this->condition);
+        
+        $this->assertEquals($array, $filter_array);
     }
 
-    /**
-     * @todo Implement testFilterJson().
-     */
+    public function testFilterS2Dao_ArrayList() {
+        $array_data = array('aaa', 'bbb', 'ccc', 'ddd', 'eee');
+        $filter_array_data = arrary('ccc', 'ddd', 'eee');
+        $list = new S2Dao_ArrayList(new ArrayObject($array_data));
+        $filter_list = new S2Dao_ArrayList(new ArrayObject($filter_array_data));
+
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+        
+        $list = S2Dao_PagerUtil::filter($list, $this->condition);
+        
+        $this->assertEquals($list, $filter_list);
+    }
+
     public function testFilterJson() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $json = '["aaa", "bbb", "ccc", "ddd", "eee"]';
+        $filter_json = '["ccc", "ddd", "eee"]';
+        
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+
+        $json = S2Dao_PagerUtil::filterJson($json, $this->condition);
+
+        $this->assertEquals($json, $filter_json);
     }
 
-    /**
-     * @todo Implement testFilterYaml().
-     */
     public function testFilterYaml() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $yaml = '';
+        $filter_yaml = '';
+
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+
+        $yaml = S2Dao_PagerUtil::filterYaml($yaml, $this->condition);
+
+        $this->assertEquals($yaml, $filter_yaml);
     }
 }
 

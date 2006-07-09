@@ -26,18 +26,34 @@
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framework_TestCase {
 
+    private $dataSource;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_SelectDynamicCommandLimitOffsetWrapperTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
     protected function tearDown() {
+        $this->dataSource = null;
     }
 
     public function testExecute() {
+        $cmd = new S2Dao_SelectDynamicCommand($this->dataSource,
+                new S2Dao_BasicStatementFactory,
+                new S2Dao_BeanMetaDataResultSetHandler(
+                        $this->createBeanMetaData("Employee2")),
+                new S2Dao_BasicResultSetFactory);
+        $cmd->setSql("SELECT * FROM emp2 WHERE empno = /*empno*/1234");
+        
+        $wrapper = new S2Dao_SelectDynamicCommandLimitOffsetWrapper($cmd);
+        $emp = $wrapper->execute();
+        var_dump($emp);
+        $this->assertNotNull($emp);
     }
 }
 

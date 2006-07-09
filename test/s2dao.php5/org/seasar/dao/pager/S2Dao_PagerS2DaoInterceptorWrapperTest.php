@@ -42,6 +42,7 @@ class S2Dao_PagerS2DaoInterceptorWrapperTest extends PHPUnit2_Framework_TestCase
 
     protected function tearDown() {
         $this->dao = null;
+        $this->dto = null;
     }
 
     public function testSelectLimit5() {

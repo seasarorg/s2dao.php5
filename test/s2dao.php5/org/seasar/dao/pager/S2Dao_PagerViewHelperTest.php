@@ -44,6 +44,7 @@ class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
     }
 
     protected function tearDown() {
+        $this->helper_ = null;
     }
 
     public function testGetCount() {
