@@ -88,17 +88,16 @@ class S2Dao_BeanMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $bmd2 = $this->createBeanMetaData($this->getBeanClass("Employee2"));
         $sql = $bmd->getAutoSelectList();
         $sql2 = $bmd2->getAutoSelectList();
-        var_dump($sql);
-        var_dump($sql2);
-
-        $this->assertTrue(strpos("EMP.deptno", $sql2) > 0);
-        $this->assertTrue(strpos("department.deptno AS deptno_0", $sql2) > 0);
-        $this->assertTrue(strpos("dummy_0", $sql2) < 0);
+        var_dump($sql, $sql2);
+        
+        $this->assertTrue(stripos($sql2, "emp2.deptno") > 0);
+        $this->assertTrue(stripos($sql2, "department.deptno AS deptno_0") > 0);
+        $this->assertTrue(stripos($sql2, "dummy_0") < 0);
     }
 
     public function testConvertFullColumnName() {
         $bmd = $this->createBeanMetaData($this->getBeanClass("Employee2"));
-        $this->assertEquals("EMP.empno", $bmd->convertFullColumnName("empno"));
+        $this->assertEquals("EMP2.empno", $bmd->convertFullColumnName("empno"));
         $this->assertEquals("department.dname", $bmd->convertFullColumnName("dname_0"));
     }
 

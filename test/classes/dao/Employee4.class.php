@@ -84,7 +84,7 @@ class Employee4 {
             return $this->department;
     }
     
-    public function setDepartment($department) {
+    public function setDepartment(Department2 $department) {
            $this->department = $department;
     }
 

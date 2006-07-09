@@ -84,7 +84,7 @@ class Employee3 {
             return $this->department;
     }
     
-    public function setDepartment($department) {
+    public function setDepartment(Department2 $department) {
            $this->department = $department;
     }
 
@@ -106,3 +106,5 @@ class Employee3 {
         return $buf;
     }
 }
+
+?>
