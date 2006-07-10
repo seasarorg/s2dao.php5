@@ -17,13 +17,12 @@
 // | either express or implied. See the License for the specific language |
 // | governing permissions and limitations under the License.             |
 // +----------------------------------------------------------------------+
-// | Authors: nowel                                                       |
+// | Authors: yonekawa                                                       |
 // +----------------------------------------------------------------------+
 // $Id$
 //
 /**
  * @author yonekawa
- * @author nowel
  */
 class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
 

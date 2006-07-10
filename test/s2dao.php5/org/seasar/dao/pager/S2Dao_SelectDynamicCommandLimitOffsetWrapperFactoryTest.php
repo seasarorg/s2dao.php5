@@ -17,12 +17,12 @@
 // | either express or implied. See the License for the specific language |
 // | governing permissions and limitations under the License.             |
 // +----------------------------------------------------------------------+
-// | Authors: nowel                                                       |
+// | Authors: yonekawa                                                       |
 // +----------------------------------------------------------------------+
 // $Id$
 //
 /**
- * @author nowel
+ * @author yonekawa
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapperFactoryTest extends PHPUnit2_Framework_TestCase {
 
