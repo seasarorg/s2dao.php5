@@ -33,7 +33,6 @@ try {
     $pdo->commit();
 } catch (Exception $e){
     var_dump($e);
-    $e->rollback();
     die("setup failure" . PHP_EOL);
 }
 

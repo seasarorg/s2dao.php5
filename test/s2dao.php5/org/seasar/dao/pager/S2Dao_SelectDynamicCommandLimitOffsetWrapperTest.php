@@ -41,6 +41,14 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
     protected function tearDown() {
         $this->dataSource = null;
     }
+    
+    private function createBeanMetaData($class){
+        $conn = $this->dataSource->getConnection();
+        return new S2Dao_BeanMetaDataImpl(
+                        new ReflectionClass($class),
+                        $conn,
+                        S2Dao_DbmsManager::getDbms($conn));
+    }
 
     public function testExecute() {
         $cmd = new S2Dao_SelectDynamicCommand($this->dataSource,

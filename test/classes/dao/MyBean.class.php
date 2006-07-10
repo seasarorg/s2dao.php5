@@ -31,7 +31,7 @@ class MyBean {
         return $this->ccc;
     }
 
-    public function setCcc(MyBean $ccc) {
+    public function setCcc(Ccc $ccc) {
         $this->ccc = $ccc;
     }
 

@@ -4,6 +4,8 @@
 <components namespace="test">
     <include path="%PDO_DICON%" />
     <include
+    		path="%RESOURCE_DIR%/org/seasar/dao/impl/DefaultTest.dicon" />
+    <include
     		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertAtLeastOneRowInterceptorTest.dicon" />
     	<include
     		path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertExactlyOneRowInterceptorTest.dicon" />

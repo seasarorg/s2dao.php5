@@ -25,41 +25,32 @@
  * @author nowel
  */
 class S2Dao_UpdateDynamicCommandTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $dataSource = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_UpdateDynamicCommandTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
     }
 
-    /**
-     * @todo Implement testExecute().
-     */
-    public function testExecute() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testExecuteTx() {
+        $cmd = new S2Dao_UpdateDynamicCommand($this->dataSource, new S2Dao_BasicStatementFactory);
+        $cmd->setSql("UPDATE emp2 SET ename = /*employee.ename*/'HOGE' WHERE empno = /*employee.empno*/1234");
+        $cmd->setArgNames(array("employee"));
+        $emp = new Employee2();
+        $emp->setEmpno(7788);
+        $emp->setEname("SCOTT");
+        $count = $cmd->execute(array($emp));
+        $this->assertEquals(1, $count);
     }
 }
 ?>

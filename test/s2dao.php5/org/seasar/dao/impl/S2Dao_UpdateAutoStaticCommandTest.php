@@ -24,12 +24,12 @@
 /**
  * @author nowel
  */
-class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
+class S2Dao_UpdateAutoStaticCommandTest extends PHPUnit2_Framework_TestCase {
 
     private $dataSource = null;
 
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_InsertAutoDynamicCommandTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_UpdateAutoStaticCommandTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
@@ -53,80 +53,54 @@ class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
                         $this->statementFactory,
                         $this->resultSetFactory);
     }
-    
+
     public function testExecuteTx() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("insert");
-        $this->assertTrue($cmd instanceof S2Dao_InsertAutoStaticCommand);
-        $emp = new Employee2();
-        $emp->setEmpno(991);
-        $emp->setEname("hoge");
+        $cmd = $dmd->getSqlCommand("update");
+        $cmd2 = $dmd->getSqlCommand("getEmployee");
+        $emp = $cmd2->execute(array(7788));
         $count = $cmd->execute(array($emp));
         $this->assertEquals(1, $count);
     }
 
     public function testExecute2Tx() {
-        $dmd = $this->createDaoMetaData($this->getDaoClass("IdentityTableAutoDao"));
-        $cmd = $dmd->getSqlCommand("insert");
-        $table = new IdentityTable();
-        $table->setIdName("hoge");
-        $count1 = $cmd->execute(array($table));
-        $this->assertEquals(1, $count1);
-        $id1 = $table->getMyid();
-        var_dump($id1);
-        $count2 = $cmd->execute(array($table));
-        $this->assertEquals(1, $count2);
-        $id2 = $table->getMyid();
-        var_dump($id2);
-
-        $this->assertEquals(1, $id2 - $id1);
+        $dmd = $this->createDaoMetaData($this->getDaoClass("DepartmentAutoDao"));
+        $cmd = $dmd->getSqlCommand("update");
+        $dept = new Department2();
+        $dept->setDeptno(10);
+        $count = $cmd->execute(array($dept));
+        $this->assertEquals(1, $count);
+        $this->assertEquals(1, $dept->getVersionNo());
     }
 
-    public function testExecute3_1Tx() {
-        $dmd = $this->createDaoMetaData($this->getDaoClass("SeqTableAutoDao"));
-        $cmd = $dmd->getSqlCommand("insert");
-        $table1 = new SeqTable();
-        $table1->setName("hoge");
-        $count = $cmd->execute(array($table1));
-        $this->assertEquals(1, $count);
-        var_dump($table1->getId());
-        $this->assertTrue($table1->getId() > 0);
-    }
-
-    public function testExecute3_2Tx() {
-        $dmd = $this->createDaoMetaData($this->getDaoClass("SeqTableAuto2Dao"));
-        $cmd = $dmd->getSqlCommand("insert");
-        $table1 = new SeqTable2();
-        $table1->setName("hoge");
-        $count = $cmd->execute(array($table1));
-        $this->assertEquals(1, $count);
-        var_dump($table1->getId());
-        $this->assertTrue((int)$table1->getId() > 0);
-
-        $table2 = new SeqTable2();
-        $table2->setName("foo");
-        $cmd->execute(array($table2));
-        var_dump($table2->getId());
-        $this->assertEquals((int)$table2->getId() > (int)$table1->getId());
+    public function testExecute3Tx() {
+        $dmd = $this->createDaoMetaData($this->getDaoClass("DepartmentAutoDao"));
+        $cmd = $dmd->getSqlCommand("update");
+        $dept = new Department2();
+        $dept->setDeptno(10);
+        $dept->setVersionNo(-1);
+        try {
+            $cmd->execute(array($dept));
+            $this->fail("1");
+        } catch (S2Dao_UpdateFailureRuntimeException $ex) {
+            echo $ex->getMessage();
+        }
     }
 
     public function testExecute4Tx() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("insert2");
-        $emp = new Employee2();
-        $emp->setEmpno(992);
-        $emp->setEname("hoge");
+        $cmd = $dmd->getSqlCommand("update2");
+        $cmd2 = $dmd->getSqlCommand("getEmployee");
+        $emp = $cmd2->execute(array(7788));
         $count = $cmd->execute(array($emp));
         $this->assertEquals(1, $count);
     }
 
     public function testExecute5Tx() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
-        $cmd = $dmd->getSqlCommand("insert3");
-        $emp = new Employee2();
-        $emp->setEmpno(993);
-        $emp->setEname("hoge");
-        $emp->setDeptno(10);
+        $cmd = $dmd->getSqlCommand("update3");
+        $cmd2 = $dmd->getSqlCommand("getEmployee");
+        $emp = $cmd2->execute(array(7788));
         $count = $cmd->execute(array($emp));
         $this->assertEquals(1, $count);
     }
