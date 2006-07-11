@@ -2,13 +2,10 @@
 
 class Fff {
     const VERSION_NO_PROPERTY = "version";
-
     const TIMESTAMP_PROPERTY = "updated";
 
-    private $version;
-
     private $id;
-
+    private $version;
     private $updated;
 
     public function getId() {
