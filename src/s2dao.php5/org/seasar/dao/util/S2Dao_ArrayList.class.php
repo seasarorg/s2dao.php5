@@ -27,7 +27,7 @@
 class S2Dao_ArrayList extends ArrayObject {
 
     public function __construct($object = null){
-        if($object == null){
+        if($object === null){
             parent::__construct();
         } else {
             parent::__construct($object);
@@ -63,7 +63,8 @@ class S2Dao_ArrayList extends ArrayObject {
     }
     
     public function addAll(ArrayObject $list){
-        foreach($list->getArrayCopy() as $value){
+        $arrays = $list->getArrayCopy();
+        foreach($arrays as $value){
             $this->append($value);
         }
     }

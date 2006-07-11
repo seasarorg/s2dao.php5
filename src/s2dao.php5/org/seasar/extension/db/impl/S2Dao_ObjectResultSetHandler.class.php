@@ -24,33 +24,19 @@
 /**
  * @author nowel
  */
-class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResultSetHandler {
+class S2Dao_ObjectResultSetHandler implements S2Dao_ResultSetHandler {
 
-    public function __construct(S2Dao_BeanMetaData $beanMetaData) {
-        parent::__construct($beanMetaData);
+    private $beanClass;
+
+    public function __construct($beanClass = null) {
+        $this->beanClass = $beanClass;
     }
 
-    public function handle(PDOStatement $resultSet){
-        $row = null;
-        while($result = $resultSet->fetch(PDO::FETCH_ASSOC)){
-            $row = $this->createRow($result);
-            $beanMetaData = $this->getBeanMetaData();
-            $size = $beanMetaData->getRelationPropertyTypeSize();
-            
-            for($i = 0; $i < $size; $i++){
-                $rpt = $beanMetaData->getRelationPropertyType($i);
-                if($rpt === null){
-                    continue;
-                }
-
-                $relationRow = $this->createRelationRow($rpt, $result, new S2Dao_HashMap);
-                if ($relationRow !== null) {
-                    $pd = $rpt->getPropertyDesc();
-                    $pd->setValue($row, $relationRow);
-                }
-            }
+    public function handle(PDOStatement $rs) {
+        if($this->beanClass === null){
+            return $rs->fetchObject();
         }
-        return $row;
+        $rows = $rs->fetchAll(PDO::FETCH_CLASS, get_class($this->beanClass));
+        return $rows[0];
     }
 }
-?>

@@ -24,18 +24,42 @@
 /**
  * @author nowel
  */
-class S2Dao_ObjectResultSetHandler implements S2Dao_ResultSetHandler {
+class S2Dao_BeanListResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
 
-    private $beanClass;
+    private $dataSource = null;
 
-    public function __construct($beanClass = null) {
-        $this->beanClass = $beanClass;
+    public static function main() {
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_BeanListResultSetHandlerTest");
+        $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    public function handle($rs) {
-        if($this->beanClass === null){
-            return $rs->fetchAll(PDO::FETCH_OBJ);
-        }
-        return $rs->fetchAll(PDO::FETCH_CLASS, get_class($this->beanClass));
+    protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
+    }
+
+    protected function tearDown() {
+        $this->dataSource = null;
+    }
+    
+    private function getDataSource(){
+        return $this->dataSource;
+    }
+
+    public function testHandle() {
+        $refClass = new ReflectionClass("Employee2");
+        $handler = new S2Dao_BeanListResultSetHandler($refClass);
+        $sql = "select * from emp2 where empno = 7369";
+        $conn = $this->getDataSource()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $ret = $handler->handle($stmt);
+        
+        $this->assertTrue($ret instanceof S2Dao_ArrayList);
+        $this->assertTrue($ret->get(0) instanceof Employee2);
+        $value = $ret->get(0);
+        $this->assertEquals($value->getEmpno(), "7369");
+        $this->assertEquals($value->getEname(), "SMITH");
     }
 }
+?>

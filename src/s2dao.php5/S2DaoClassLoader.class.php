@@ -43,10 +43,17 @@ class S2DaoClassLoader {
         'S2Dao_RowStates' => '/extension/dataset/S2Dao_RowStates.class.php',
         'S2Dao_ColumnTypes' => '/extension/dataset/types/S2Dao_ColumnTypes.class.php',
         'S2Dao_BasicHandler' => '/extension/db/impl/S2Dao_BasicHandler.class.php',
+        'S2Dao_AbstractBeanResultSetHandler' => '/extension/db/impl/S2Dao_AbstractBeanResultSetHandler.class.php',
+        'S2Dao_AbstractMapResultSetHandler' => '/extension/db/impl/S2Dao_AbstractMapResultSetHandler.class.php',
         'S2Dao_BasicResultSetFactory' => '/extension/db/impl/S2Dao_BasicResultSetFactory.class.php',
         'S2Dao_BasicStatementFactory' => '/extension/db/impl/S2Dao_BasicStatementFactory.class.php',
         'S2Dao_BasicSelectHandler' => '/extension/db/impl/S2Dao_BasicSelectHandler.class.php',
         'S2Dao_BasicUpdateHandler' => '/extension/db/impl/S2Dao_BasicUpdateHandler.class.php',
+        'S2Dao_BeanResultSetHandler' => '/extension/db/impl/S2Dao_BeanResultSetHandler.class.php',
+        'S2Dao_BeanListResultSetHandler' => '/extension/db/impl/S2Dao_BeanListResultSetHandler.class.php',
+        'S2Dao_MapResultSetHandler' => '/extension/db/impl/S2Dao_MapResultSetHandler.class.php',
+        'S2Dao_MapListResultSetHandler' => '/extension/db/impl/S2Dao_MapListResultSetHandler.class.php',
+        'S2Dao_ObjectResultSetHandler' => '/extension/db/impl/S2Dao_ObjectResultSetHandler.class.php',
         'S2Dao_PropertyTypeImpl' => '/extension/db/impl/S2Dao_PropertyTypeImpl.class.php',
         'S2Dao_ResultSetHandler' => '/extension/db/S2Dao_ResultSetHandler.class.php',
         'S2Dao_ResultSetFactory' => '/extension/db/S2Dao_ResultSetFactory.class.php',
@@ -217,8 +224,6 @@ class S2DaoClassLoader {
         'S2Dao_BeanListMetaDataResultSetHandler' => '/dao/resultset/S2Dao_BeanListMetaDataResultSetHandler.class.php',
         'S2Dao_BeanYamlMetaDataResultSetHandler' => '/dao/resultset/S2Dao_BeanYamlMetaDataResultSetHandler.class.php',
         'S2Dao_BeanJsonMetaDataResultSetHandler' => '/dao/resultset/S2Dao_BeanJsonMetaDataResultSetHandler.class.php',
-        'S2Dao_MapResultSetHandler' => '/dao/resultset/S2Dao_MapResultSetHandler.class.php',
-        'S2Dao_ObjectResultSetHandler' => '/dao/resultset/S2Dao_ObjectResultSetHandler.class.php',
     );
 
     public static function load($className){

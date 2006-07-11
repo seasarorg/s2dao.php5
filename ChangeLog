@@ -1,3 +1,13 @@
+2006-07-11 nowel(S2Dao.PHP5-1.1.0)
+
+    * add: ResultSetHandler
+        - extension/db/impl/S2Dao_AbstractBeanResultSetHandler
+        - extension/db/impl/S2Dao_AbstractMapResultSetHandler
+    	    - extension/db/impl/S2Dao_MapResultSetHandller
+        - extension/db/impl/S2Dao_MapListResultSetHandler
+        - extension/db/impl/S2Dao_BeanResultSetHandler
+        - extension/db/impl/S2Dao_BeanListResultSetHandler
+
 2006-07-09 nowel(S2Dao.PHP5-1.1.0)
 
     * add: S2Dao_ResultSetHandlerFactory, S2Dao_ResultSetHandlerFactoryImpl
@@ -17,12 +27,6 @@
     * delete: S2Dao_PagerResultSetWrapper::create -> S2Dao_PagerResultSetWrapper::filter
     * modify: S2Dao_PagerResultSetWrapper -> S2Dao_PagerResultSetWrapperImpl
     * modify: class S2Dao_PagerResultSetWrapper -> interface S2Dao_PagerResultSetWrapper
-
-2006-07-08 nowel(S2Dao.PHP5-1.1.0)
-
-    * add: S2Dao_MapResultSetHandller
-    * move: /extension/db/S2Dao_ObjectResultSetHandler
-            to /dao/resultset/S2Dao_ObjectResultSetHandler
 
 2006-07-06 nowel(S2Dao.PHP5-1.1.0)
 

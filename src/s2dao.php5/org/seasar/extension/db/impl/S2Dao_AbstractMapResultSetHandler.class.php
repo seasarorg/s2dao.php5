@@ -24,25 +24,21 @@
 /**
  * @author nowel
  */
-class S2Dao_MapResultSetHandler implements S2Dao_ResultSetHandler {
-    
+abstract class S2Dao_AbstractMapResultSetHandler implements S2Dao_ResultSetHandler {
+
     public function __construct() {
     }
-    
-    public function handle($rs) {
-        $returnValue = array();
-        while($rows = $rs->fetch(PDO::FETCH_ASSOC)){
-            $lower = array_change_key_case($rows, CASE_LOWE);
-            $upper = array_change_key_case($rows, CASE_UPPER);
-            $merged = array_merge($lower, $upper, $rows);
+
+    protected function createRow(array $rs) {
+        $lower = array_change_key_case($rs, CASE_LOWE);
+        $upper = array_change_key_case($rs, CASE_UPPER);
+        $merged = array_merge($lower, $upper, $rs);
             
-            $map = new S2Dao_HashMap();
-            foreach($merged as $key => $value){
-                $map->put($key, $value);
-            }
-            $returnValue[] = $map;
+        $map = new S2Dao_HashMap();
+        foreach($merged as $key => $value){
+            $map->put($key, $value);
         }
-        return $returnValue;
+        return $map;
     }
 }
 

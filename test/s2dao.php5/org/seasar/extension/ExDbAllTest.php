@@ -40,6 +40,11 @@ class ExDbAllTest {
         $suite->addTestSuite('S2Dao_BasicUpdateHandlerTest');
         $suite->addTestSuite('S2Dao_PDOTypeTest');
         $suite->addTestSuite('S2Dao_PropertyTypeImplTest');
+        $suite->addTestSuite('S2Dao_BeanResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_BeanListResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_ObjectResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_MapResultSetHandlerTest');
+        $suite->addTestSuite('S2Dao_MapListResultSetHandlerTest');
         return $suite;
     }
 }

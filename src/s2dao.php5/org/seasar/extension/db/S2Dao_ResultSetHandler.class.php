@@ -25,6 +25,6 @@
  * @author klove, nowel
  */
 interface S2Dao_ResultSetHandler {
-    public function handle($resultSet);
+    public function handle(PDOStatement $resultSet);
 }
 ?>

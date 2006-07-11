@@ -31,7 +31,7 @@ class S2Dao_BeanListMetaDataResultSetHandler
         parent::__construct($beanMetaData);
     }
 
-    public function handle($rs){
+    public function handle(PDOStatement $rs){
         $list = new S2Dao_ArrayList();
         $relSize = $this->getBeanMetaData()->getRelationPropertyTypeSize();
         $relRowCache = new S2Dao_RelationRowCache($relSize);

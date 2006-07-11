@@ -24,12 +24,12 @@
 /**
  * @author nowel
  */
-class S2Dao_ObjectResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
+class S2Dao_MapListResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
 
     private $dataSource = null;
 
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_ObjectResultSetHandlerTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_MapListResultSetHandlerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
@@ -47,49 +47,35 @@ class S2Dao_ObjectResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testHandle() {
-        $handler = new S2Dao_ObjectResultSetHandler();
-        $sql = "select ename from emp2 where empno = 7900";
+        $handler = new S2Dao_MapListResultSetHandler();
+        $sql = "select ename, empno from emp2 where empno = 7900";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
-        $ret = null;
         $stmt->execute();
         $ret = $handler->handle($stmt);
         
-        $this->assertTrue(is_array($ret));
-        $this->assertEquals(get_class($ret[0]), "stdClass");
+        $this->assertTrue($ret instanceof S2Dao_ArrayList);
+        $this->assertTrue($ret->get(0) instanceof S2Dao_HashMap);
+        
+        $map = $ret->get(0);
+        $this->assertEquals($map->get("ename"), "JAMES");
+        $this->assertEquals($map->get("ENAME"), "JAMES");
     }
     
     public function testHandle2() {
-        $handler = new S2Dao_ObjectResultSetHandler();
+        $handler = new S2Dao_MapListResultSetHandler();
         $sql = "select ename from emp2 where empno = 7900";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
-        $ret = null;
         $stmt->execute();
         $ret = $handler->handle($stmt);
         
-        $stdClass = new stdClass();
-        $stdClass->ENAME = "JAMES";
-        var_dump($ret);
-        $this->assertEquals($ret[0], $stdClass);
-    }
-    
-    public function testHandle3() {
-        $handler = new S2Dao_ObjectResultSetHandler(new Aaa());
-        $sql = "select ename from emp2 where empno = 7900";
-        $conn = $this->getDataSource()->getConnection();
-        $stmt = $conn->prepare($sql);
-        $ret = null;
-        $stmt->execute();
-        $ret = $handler->handle($stmt);
-        
-        $array = array();
-        $aaa = new Aaa();
-        $aaa->ENAME = "JAMES";
-        $array[0] = $aaa;
-        
-        $this->assertEquals($ret, $array);
-        $this->assertEquals($ret[0], $aaa);
+        $map = new S2Dao_HashMap();
+        $map->put("ename", "JAMES");
+        $map->put("ENAME", "JAMES");
+        $list = new S2Dao_ArrayList(new ArrayObject(array($map)));
+        var_dump($ret, $list);
+        $this->assertEquals($ret, $list);
     }
 }
 ?>

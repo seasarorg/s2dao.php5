@@ -24,33 +24,40 @@
 /**
  * @author nowel
  */
-class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResultSetHandler {
+class S2Dao_BeanResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
 
-    public function __construct(S2Dao_BeanMetaData $beanMetaData) {
-        parent::__construct($beanMetaData);
+    private $dataSource = null;
+
+    public static function main() {
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_BeanResultSetHandlerTest");
+        $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    public function handle(PDOStatement $resultSet){
-        $row = null;
-        while($result = $resultSet->fetch(PDO::FETCH_ASSOC)){
-            $row = $this->createRow($result);
-            $beanMetaData = $this->getBeanMetaData();
-            $size = $beanMetaData->getRelationPropertyTypeSize();
-            
-            for($i = 0; $i < $size; $i++){
-                $rpt = $beanMetaData->getRelationPropertyType($i);
-                if($rpt === null){
-                    continue;
-                }
+    protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
+    }
 
-                $relationRow = $this->createRelationRow($rpt, $result, new S2Dao_HashMap);
-                if ($relationRow !== null) {
-                    $pd = $rpt->getPropertyDesc();
-                    $pd->setValue($row, $relationRow);
-                }
-            }
-        }
-        return $row;
+    protected function tearDown() {
+        $this->dataSource = null;
+    }
+    
+    private function getDataSource(){
+        return $this->dataSource;
+    }
+
+    public function testHandle() {
+        $refClass = new ReflectionClass("Employee2");
+        $handler = new S2Dao_BeanResultSetHandler($refClass);
+        $sql = "select * from emp2 where empno = 7369";
+        $conn = $this->getDataSource()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $ret = $handler->handle($stmt);
+        
+        $this->assertTrue($ret instanceof Employee2);
+        $this->assertEquals($ret->getEmpno(), "7369");
+        $this->assertEquals($ret->getEname(), "SMITH");
     }
 }
 ?>

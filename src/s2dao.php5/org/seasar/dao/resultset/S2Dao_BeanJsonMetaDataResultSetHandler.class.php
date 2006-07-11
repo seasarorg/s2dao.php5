@@ -33,7 +33,7 @@ class S2Dao_BeanJsonMetaDataResultSetHandler extends S2Dao_BeanArrayMetaDataResu
         }
     }
 
-    public function handle($rs){
+    public function handle(PDOStatement $rs){
         // json_decode requires php_json extension
         return json_encode(parent::handle($rs));
     }

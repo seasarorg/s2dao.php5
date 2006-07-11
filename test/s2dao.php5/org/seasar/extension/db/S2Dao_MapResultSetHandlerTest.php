@@ -24,52 +24,53 @@
 /**
  * @author nowel
  */
-class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResultSetHandler {
+class S2Dao_MapResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
 
-    public function __construct(S2Dao_BeanMetaData $beanMetaData) {
-        parent::__construct($beanMetaData);
+    private $dataSource = null;
+
+    public static function main() {
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_MapResultSetHandlerTest");
+        $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    public function handle(PDOStatement $rs){
-        $result = parent::handle($rs);
-        $arrays = array();
-        $c = $result->size();
-        for($i = 0; $i < $c; $i++){
-            $bean = $result->get($i);
-            $arrays[] = $this->dumpBean($bean);
-        }
-        return $arrays;
+    protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
+    }
+
+    protected function tearDown() {
+        $this->dataSource = null;
     }
     
-    private function dumpBean($bean){
-        $refClass = new ReflectionClass($bean);
-        $className = $refClass->getName();
+    private function getDataSource(){
+        return $this->dataSource;
+    }
+
+    public function testHandle() {
+        $handler = new S2Dao_MapResultSetHandler();
+        $sql = "select ename, empno from emp2 where empno = 7900";
+        $conn = $this->getDataSource()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $ret = $handler->handle($stmt);
         
-        $assoc = array();
-        $assoc[$className] = array();
-        $retVal =& $assoc[$className];
-        
-        $bd = S2Container_BeanDescFactory::getBeanDesc($refClass);
-        $c = $bd->getPropertyDescSize();
-        for($i = 0; $i < $c; $i++){
-            $pd = $bd->getPropertyDesc($i);
-            $propName = $pd->getPropertyName();
-            $propValue = $pd->getValue($bean);
-            if(is_object($propValue)){
-                $this->setValue($retVal, $propName, $this->dumpBean($propValue));
-                continue;
-            }
-            $this->setValue($retVal, $propName, $propValue);
-        }
-        return $assoc;
+        $this->assertTrue($ret instanceof S2Dao_HashMap);
+        $this->assertEquals($ret->get("ename"), "JAMES");
+        $this->assertEquals($ret->get("ENAME"), "JAMES");
     }
     
-    private function setValue(array &$source, $caseInsensitiveKey, $value){
-        $lower = strtolower($caseInsensitiveKey);
-        $upper = strtoupper($caseInsensitiveKey);
-        $source[$lower] = $value;
-        $source[$upper] = $value;
-        $source[$caseInsensitiveKey] = $value;
+    public function testHandle2() {
+        $handler = new S2Dao_MapResultSetHandler();
+        $sql = "select ename from emp2 where empno = 7900";
+        $conn = $this->getDataSource()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $ret = $handler->handle($stmt);
+        
+        $map = new S2Dao_HashMap();
+        $map->put("ename", "JAMES");
+        $map->put("ENAME", "JAMES");
+        $this->assertEquals($ret, $map);
     }
 }
 ?>
