@@ -7,6 +7,15 @@
         - extension/db/impl/S2Dao_MapListResultSetHandler
         - extension/db/impl/S2Dao_BeanResultSetHandler
         - extension/db/impl/S2Dao_BeanListResultSetHandler
+    * add: S2Dao_BasicStatementFactory::createStatement return PDOStatement of PDO::query()
+    * modify: S2Dao_BasicResultSetFactory::create returns S2Dao_ObjectResultSetHandler
+    * modify: S2Dao_ResultSetHandler::handler(PDOStatement $resultset)
+        - dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanListMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanJsonMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanYamlMetaDataResultSetHandler
+        - extension/db/impl/S2Dao_ObjectResultSetHandler
 
 2006-07-09 nowel(S2Dao.PHP5-1.1.0)
 

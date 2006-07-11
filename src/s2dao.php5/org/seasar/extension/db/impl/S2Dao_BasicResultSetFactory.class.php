@@ -26,6 +26,7 @@
  */
 class S2Dao_BasicResultSetFactory implements S2Dao_ResultSetFactory {
     public function createResultSet(PDOStatement $ps) {
+        // FIXME
         return new S2Dao_ObjectResultSetHandler();
     }
 }
