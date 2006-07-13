@@ -27,6 +27,9 @@ S2ContainerClassLoader::import(TEST_DIR . "/classes/dao");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/db");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/dataset");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/tx");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/transaction");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/transaction/dao");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/transaction/entity");
 
 function __autoload($class = null){
     S2ContainerClassLoader::load($class);
