@@ -22,18 +22,15 @@
 // $Id$
 //  
 /**
- * SelectDynamicCommand�㉃b�v����limit�����郉�b�p�N���X
+ * SelectDynamicCommandをLimit,Offset句を使って実行する
  * @author yonekawa
  * @author nowel
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamicCommand
 {
-    const DSN_MYSQL = 0;
-    const DSN_PGSQL = 1;
-    const DSN_OTHER = 9;
-    
-    private $dsn = self::DSN_OTHER;
     private $selectDynamicCommand_ = null;
+    private $bindVariables = array();
+    private $bindVariableTypes = array();
 
     public function __construct(S2Dao_SelectDynamicCommand $selectDynamicCommand)
     {
@@ -42,8 +39,14 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
 
     public function execute($args) 
     {
+        $condition = $args[0];
         $ctx = $this->selectDynamicCommand_->apply($args);
-        $sqlWithLimit = $this->createSqlWithLimit($ctx->getSql());
+
+        $this->bindVariables = $ctx->getBindVariables();
+        $this->bindVariableTypes = $ctx->getBindVariableTypes();
+        $sqlWithLimit = $this->createSqlWithLimit($ctx->getSql(), $condition);
+
+        print_r('\n\n\n\n\n\n');
         
         $selectHandler = new S2Dao_BasicSelectHandler(
                                 $this->selectDynamicCommand_->getDataSource(),
@@ -51,46 +54,42 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
                                 $this->selectDynamicCommand_->getResultSetHandler(),
                                 $this->selectDynamicCommand_->getStatementFactory(),
                                 $this->selectDynamicCommand_->getResultSetFactory());
-        
-        $bindVariables = $this->createBindVariables($ctx->getBindVariables(), $args);
-        $bindVariableTypes = $this->createBindVariableTypes($ctx->getBindVariableTypes(),$args);
 
-        return $selectHandler->execute($bindVariables,$bindVariableTypes);
+        $condition->setCount($this->getCount($ctx->getSql()));
+        return $selectHandler->execute($this->bindVariables, $this->bindVariableTypes);
     }
 
-    private function createSqlWithLimit($sql)
+    private function createSqlWithLimit($sql, $condition)
     {
         $connection = $this->selectDynamicCommand_->getDataSource()->getConnection();
         $dbms = S2Dao_DbmsManager::getDbms($connection);
 
-        if ($dbms instanceof S2Dao_PostgreSQL) { 
-            $this->dsn = self::DSN_PGSQL;
+        $sql = $sql . ' ' . $dbms->getLimitOffsetSql();
+
+        if (!($dbms instanceof S2Dao_PostgreSQL) && !($dbms instanceof S2Dao_MySQL)) {
+            return $sql;
         }
-        else if ($dbms instanceof S2Dao_MySQL) {
-            $this->dsn = self::DSN_MYSQL;
-        }
+
+        $this->bindVariables[] = $condition->getOffset();
+        $this->bindVariableTypes[] = S2Dao_PHPType::Integer;
+        $this->bindVariables[] = $condition->getLimit();
+        $this->bindVariableTypes[] = S2Dao_PHPType::Integer;
         
-        return $sql . ' ' . $dbms->getLimitOffsetSql();
+        return $sql;
     }
 
-    private function createBindVariables($bindVariables, $args)
+    private function getCount($baseSql)
     {
-        if (!($this->dsn === self::DSN_OTHER)) {
-            $condition = $args[0];
-            $bindVariables[] = $condition->getOffset();
-            $bindVariables[] = $condition->getLimit();
-        }
-        return $bindVariables;
-    }
+        $getCountSql = 'SELECT COUNT(*) FROM (' . $baseSql . ') AS total';
 
-    private function createBindVariableTypes($bindVariableTypes, $args)
-    {
-        if (!($this->dsn === self::DSN_OTHER)) {
-            $bindVariableTypes[] = S2Dao_PHPType::Integer;
-            $bindVariableTypes[] = S2Dao_PHPType::Integer;
-        }
-        print_r($bindVariableTypes);
-        return $bindVariableTypes;
+        $selectHandler = new S2Dao_BasicSelectHandler(
+                                $this->selectDynamicCommand_->getDataSource(),
+                                $getCountSql,
+                                $this->selectDynamicCommand_->getResultSetHandler(),
+                                $this->selectDynamicCommand_->getStatementFactory(),
+                                $this->selectDynamicCommand_->getResultSetFactory());
+
+        return $selectHandler->execute();
     }
 }
 ?>
