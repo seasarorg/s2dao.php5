@@ -53,8 +53,11 @@ class S2Dao_RequiresNewInterceptorTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testInvoke2() {
-        $this->tm_->getConnection()->beginTransaction();
-        $tx = $this->tm_->getConnection()->beginTransaction();
+        try {
+            $tx = $this->tm_->getConnection()->beginTransaction();
+        } catch(PDOException $e){
+            $tx = false;
+        }
         var_dump("preTx:", $tx);
         $this->assertTrue($this->txBean_->hasTransaction());
         $this->assertEquals($tx, $this->tm_->getConnection()->beginTransaction());

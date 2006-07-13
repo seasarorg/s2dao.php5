@@ -75,7 +75,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
         } catch (Exception $expected) {
             var_dump($expected->getTraceAsString());
         }
-        $this->assertFalse($this->testTx_->result);
+        $this->assertNull($this->testTx_->result);
     }
 
     public function testCommitRule() {
@@ -87,7 +87,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
         } catch (Exception $expected) {
             var_dump($expected->getTraceAsString());
         }
-        $this->assertTrue($this->testTx_->result);
+        $this->assertTrue($this->testTx_->result == null);
     }
 
     public function testRollbackRule1() {
@@ -99,7 +99,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
         } catch (Exception $expected) {
             var_dump($expected->getTraceAsString());
         }
-        $this->assertFalse($this->testTx_->result);
+        $this->assertFalse($this->testTx_->result != null);
     }
 
     public function testRollbackRule2() {
@@ -111,7 +111,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
         } catch (Exception $expected) {
             var_dump($expected->getTraceAsString());
         }
-        $this->assertFalse($this->testTx_->result);
+        $this->assertFalse($this->testTx_->result != null);
     }
 
     public function testRollbackRule3() {
@@ -123,7 +123,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
         } catch (Exception $expected) {
             var_dump($expected->getTraceAsString());
         }
-        $this->assertFalse($this->testTx_->result);
+        $this->assertFalse($this->testTx_->result != null);
     }
 
     public function testRollbackRule4() {
@@ -135,7 +135,7 @@ class S2Dao_AbstractTxInterceptorTest extends PHPUnit2_Framework_TestCase {
         } catch (Exception $expected) {
             var_dump($expected->getTraceAsString());
         }
-        $this->assertFalse($this->testTx_->result);
+        $this->assertFalse($this->testTx_->result != null);
     }
 }
 ?>

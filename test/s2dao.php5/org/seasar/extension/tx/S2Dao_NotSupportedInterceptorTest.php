@@ -49,11 +49,11 @@ class S2Dao_NotSupportedInterceptorTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testInvoke() {
-        $this->assertFalse($this->txBean_->hasTransaction());
+        $this->assertTrue($this->txBean_->hasTransaction());
     }
 
     public function testInvokeTx() {
-        $this->assertFalse($this->txBean_->hasTransaction());
+        $this->assertTrue($this->txBean_->hasTransaction());
     }
 
     public function testInvokeExceptionTx() {

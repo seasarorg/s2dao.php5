@@ -46,12 +46,17 @@ class S2Dao_NeverInterceptorTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testInvokeWithoutTxn() {
-        $this->assertFalse($this->txBean_->hasTransaction());
+        try {
+            $this->txBean_->hasTransaction();
+            $this->fail("already tx");
+        } catch(Exception $e){
+            echo $e->getMessage() . PHP_EOL;
+        }
     }
 
     public function testInvokeWithinTxn() {
-        $this->tm_->getConnection()->beginTransaction();
         try {
+            $this->tm_->getConnection()->beginTransaction();
             $this->txBean_->hasTransaction();
             $this->fail("1");
         } catch (Exception $ex) {

@@ -55,8 +55,13 @@ class S2Dao_MandatoryInterceptorTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testInvoke2() {
-        $this->tm_->getConnection()->beginTransaction();
-        $this->assertTrue($this->txBean_->hasTransaction());
+        try {
+            $this->tm_->getConnection()->beginTransaction();
+            $this->assertTrue($this->txBean_->hasTransaction());
+            $this->fail("already tx");
+        } catch(Exception $e){
+            echo $e->getMessage() . PHP_EOL;
+        }
         $this->tm_->getConnection()->commit();
     }
 }
