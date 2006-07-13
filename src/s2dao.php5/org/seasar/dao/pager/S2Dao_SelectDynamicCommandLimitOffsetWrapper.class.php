@@ -45,8 +45,6 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
         $this->bindVariables = $ctx->getBindVariables();
         $this->bindVariableTypes = $ctx->getBindVariableTypes();
         $sqlWithLimit = $this->createSqlWithLimit($ctx->getSql(), $condition);
-
-        print_r('\n\n\n\n\n\n');
         
         $selectHandler = new S2Dao_BasicSelectHandler(
                                 $this->selectDynamicCommand_->getDataSource(),
@@ -55,7 +53,9 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
                                 $this->selectDynamicCommand_->getStatementFactory(),
                                 $this->selectDynamicCommand_->getResultSetFactory());
 
-        $condition->setCount($this->getCount($ctx->getSql()));
+        $condition->setCount($this->getCount($ctx->getSql()), 
+                             $ctx->getBindVariables(), 
+                             $ctx->getBindVariableTypes());
         return $selectHandler->execute($this->bindVariables, $this->bindVariableTypes);
     }
 
@@ -78,7 +78,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
         return $sql;
     }
 
-    private function getCount($baseSql)
+    private function getCount($baseSql, $variables, $variableTypes)
     {
         $getCountSql = 'SELECT COUNT(*) FROM (' . $baseSql . ') AS total';
 
@@ -89,7 +89,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
                                 $this->selectDynamicCommand_->getStatementFactory(),
                                 $this->selectDynamicCommand_->getResultSetFactory());
 
-        return $selectHandler->execute();
+        return $selectHandler->execute($variables, $variableTypes);
     }
 }
 ?>
