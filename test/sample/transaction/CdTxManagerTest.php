@@ -45,7 +45,7 @@ class CdTxManagerTest extends PHPUnit2_Framework_TestCase {
     public function testRequiredInsert(){
         echo "requiredInsert start" . PHP_EOL;
         try{
-            $manager->requiredInsert();
+            $this->manager->requiredInsert();
         }catch(Exception $e){
             var_dump($e->getMessage());
         }
@@ -55,7 +55,7 @@ class CdTxManagerTest extends PHPUnit2_Framework_TestCase {
     public function testRequiredNewInsert(){
         echo "requiresNewInsert start" . PHP_EOL;
         try{
-            $manager->requiresNewInsert();
+            $this->manager->requiresNewInsert();
         }catch(Exception $e){
             var_dump($e->getMessage());
         }
@@ -65,7 +65,7 @@ class CdTxManagerTest extends PHPUnit2_Framework_TestCase {
     public function testMandatoryInsert(){
         echo "mandatoryInsert start" . PHP_EOL;
         try{
-            $manager->mandatoryInsert();
+            $this->manager->mandatoryInsert();
         }catch(Exception $e){
             var_dump($e->getMessage());
         }
@@ -75,7 +75,7 @@ class CdTxManagerTest extends PHPUnit2_Framework_TestCase {
     public function testGetAll(){
         echo "getAll start" . PHP_EOL;
         try{
-            var_dump($manager->getAll());
+            var_dump($this->manager->getAll());
         }catch(Exception $e){
             var_dump($e->getMessage());
         }
@@ -84,7 +84,7 @@ class CdTxManagerTest extends PHPUnit2_Framework_TestCase {
     
     public function testDelete(){
         try{
-            $manager->delete();
+            $this->manager->delete();
         }catch(Exception $e){
             var_dump($e->getMessage());
         }

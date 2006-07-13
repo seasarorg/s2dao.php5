@@ -51,5 +51,5 @@
  * 
  */
 
-require_once 'build/s2dao.php5/S2Dao.php';
+require_once dirname(__FILE__) . '/build/s2dao.php5/S2Dao.php';
 ?>
