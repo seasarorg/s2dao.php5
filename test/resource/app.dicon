@@ -31,4 +31,6 @@
 	    path="%RESOURCE_DIR%/org/seasar/extension/tx/RequiredInterceptorTest.dicon" />
 	<include
 	    path="%RESOURCE_DIR%/org/seasar/extension/tx/RequiresNewInterceptorTest.dicon" />
+	<include
+	    path="%RESOURCE_DIR%/sample/transaction/transactionTest.dicon" />
 </components>
