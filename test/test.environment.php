@@ -13,6 +13,9 @@ require_once HOME_DIR . '/S2Dao.php';
 //require_once "S2Dao/S2Dao.php";
 require_once "PHPUnit2/Framework/IncompleteTestError.php";
 
+// Spyc use
+include_once 'spyc.php';
+
 define('S2CONTAINER_PHP5_APP_DICON', RESOURCE_DIR . '/app.dicon');
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::FATAL);
 define('S2CONTAINER_PHP5_DOM_VALIDATE', false);

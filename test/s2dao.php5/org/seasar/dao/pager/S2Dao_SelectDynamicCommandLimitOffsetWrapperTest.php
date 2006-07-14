@@ -52,10 +52,10 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
 
     public function testExecute() {
         $cmd = new S2Dao_SelectDynamicCommand($this->dataSource,
-                new S2Dao_BasicStatementFactory,
+                new S2Dao_BasicStatementFactory(),
                 new S2Dao_BeanMetaDataResultSetHandler(
                         $this->createBeanMetaData("Employee2")),
-                new S2Dao_BasicResultSetFactory);
+                new S2Dao_BasicResultSetFactory());
         $cmd->setSql("SELECT * FROM emp2 WHERE empno = /*empno*/1234");
         
         $wrapper = new S2Dao_SelectDynamicCommandLimitOffsetWrapper($cmd);

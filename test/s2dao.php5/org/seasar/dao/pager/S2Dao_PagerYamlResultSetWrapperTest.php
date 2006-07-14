@@ -28,6 +28,7 @@
 class S2Dao_PagerYamlResultSetWrapperTest extends PHPUnit2_Framework_TestCase {
 
     private $wrapper = null;
+    private $condition = null;
 
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerYamlResultSetWrapperTest");
@@ -36,10 +37,12 @@ class S2Dao_PagerYamlResultSetWrapperTest extends PHPUnit2_Framework_TestCase {
 
     protected function setUp() {
         $this->wrapper = new S2Dao_PagerYamlResultSetWrapper();
+        $this->condition = new S2Dao_DefaultPagerCondition();
     }
 
     protected function tearDown() {
         $this->wrapper = null;
+        $this->condition = null;
     }
 
     public function testFilter() {

@@ -36,6 +36,7 @@ class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $this->dataSource = $container->getComponent("pdo.dataSource");
+        
     }
 
     protected function tearDown() {
@@ -50,8 +51,8 @@ class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
         return new S2Dao_DaoMetaDataImpl(
                         $daoClass,
                         $this->dataSource,
-                        $this->statementFactory,
-                        $this->resultSetFactory);
+                        new S2Dao_BasicStatementFactory(),
+                        new S2Dao_BasicResultSetFactory());
     }
     
     public function testExecuteTx() {

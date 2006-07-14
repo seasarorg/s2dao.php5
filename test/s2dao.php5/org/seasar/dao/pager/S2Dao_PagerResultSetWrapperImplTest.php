@@ -53,6 +53,7 @@
 class S2Dao_PagerResultSetWrapperImplTest extends PHPUnit2_Framework_TestCase {
 
     private $wrapper = null;
+    private $condition = null;
 
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerResultSetWrapperImplTest");
@@ -61,15 +62,17 @@ class S2Dao_PagerResultSetWrapperImplTest extends PHPUnit2_Framework_TestCase {
 
     protected function setUp() {
         $this->wrapper = new S2Dao_PagerResultSetWrapperImpl();
+        $this->condition = new S2Dao_DefaultPagerCondition();
     }
 
     protected function tearDown() {
         $this->wrapper = null;
+        $this->condition = null;
     }
 
     public function testFilter() {
         $array = array('aaa', 'bbb', 'ccc', 'ddd', 'eee');
-        $filter_array = arrary('ccc', 'ddd', 'eee');
+        $filter_array = array('ccc', 'ddd', 'eee');
         
         $this->condition->setLimit(3);
         $this->condition->setOffset(2);
@@ -81,7 +84,7 @@ class S2Dao_PagerResultSetWrapperImplTest extends PHPUnit2_Framework_TestCase {
     
     function testFilterS2Dao_ArrayList() {
         $array_data = array('aaa', 'bbb', 'ccc', 'ddd', 'eee');
-        $filter_array_data = arrary('ccc', 'ddd', 'eee');
+        $filter_array_data = array('ccc', 'ddd', 'eee');
         $list = new S2Dao_ArrayList(new ArrayObject($array_data));
         $filter_list = new S2Dao_ArrayList(new ArrayObject($filter_array_data));
         

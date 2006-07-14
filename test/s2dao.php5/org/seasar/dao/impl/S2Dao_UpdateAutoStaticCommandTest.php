@@ -50,8 +50,8 @@ class S2Dao_UpdateAutoStaticCommandTest extends PHPUnit2_Framework_TestCase {
         return new S2Dao_DaoMetaDataImpl(
                         $daoClass,
                         $this->dataSource,
-                        $this->statementFactory,
-                        $this->resultSetFactory);
+                        new S2Dao_BasicStatementFactory(),
+                        new S2Dao_BasicResultSetFactory());
     }
 
     public function testExecuteTx() {

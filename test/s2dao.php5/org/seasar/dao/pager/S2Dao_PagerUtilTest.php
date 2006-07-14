@@ -43,7 +43,7 @@ class S2Dao_PagerUtilTest extends PHPUnit2_Framework_TestCase {
 
     public function testFilter() {
         $array = array('aaa', 'bbb', 'ccc', 'ddd', 'eee');
-        $filter_array = arrary('ccc', 'ddd', 'eee');
+        $filter_array = array('ccc', 'ddd', 'eee');
         
         $this->condition->setLimit(3);
         $this->condition->setOffset(2);
@@ -55,7 +55,7 @@ class S2Dao_PagerUtilTest extends PHPUnit2_Framework_TestCase {
 
     public function testFilterS2Dao_ArrayList() {
         $array_data = array('aaa', 'bbb', 'ccc', 'ddd', 'eee');
-        $filter_array_data = arrary('ccc', 'ddd', 'eee');
+        $filter_array_data = array('ccc', 'ddd', 'eee');
         $list = new S2Dao_ArrayList(new ArrayObject($array_data));
         $filter_list = new S2Dao_ArrayList(new ArrayObject($filter_array_data));
 
