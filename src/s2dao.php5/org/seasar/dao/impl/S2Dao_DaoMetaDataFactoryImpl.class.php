@@ -46,14 +46,14 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
     
     public function createStatementFactory(S2Dao_StatementFactory $statementFactory = null){
         if($statementFactory === null){
-            return new S2Dao_BasicStatementFactory;
+            return new S2Dao_BasicStatementFactory();
         }
         return $statementFactory;
     }
     
     public function createResultSetFactory(S2Dao_ResultSetFactory $resultSetFactory = null){
         if($resultSetFactory === null){
-            return new S2Dao_BasicResultSetFactory;
+            return new S2Dao_BasicResultSetFactory();
         }
         return $resultSetFactory;
     }

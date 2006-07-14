@@ -33,8 +33,8 @@ class S2Dao_BasicUpdateHandler
     public function __construct(S2Container_DataSource $dataSource,
                                 $sql,
                                 S2Dao_StatementFactory $statementFactory = null) {
-        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
         parent::__construct($dataSource, $sql, $statementFactory);
+        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
     }
     
     public function execute($args, $argsTypes = null){

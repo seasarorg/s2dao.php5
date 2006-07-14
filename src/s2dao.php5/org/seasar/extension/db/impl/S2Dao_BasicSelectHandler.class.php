@@ -43,12 +43,16 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $this->setSql($sql);
         $this->setResultSetHandler($resultSetHandler);
         
-        if(isset($statementFactory, $resultSetFactory)){
-            $this->setStatementFactory($statementFactory);
-            $this->setResultSetFactory($resultSetFactory);
+        if($statementFactory == null){
+            $this->setStatementFactory(new S2Dao_BasicStatementFactory());
         } else {
-            $this->setStatementFactory(new S2Dao_BasicStatementFactory);
-            $this->setResultSetFactory(new S2Dao_BasicResultSetFactory);
+            $this->setStatementFactory($statementFactory);
+        }
+        
+        if($resultSetFactory == null){
+            $this->setResultSetFactory(new S2Dao_BasicResultSetFactory());
+        } else {
+            $this->setResultSetFactory($resultSetFactory);
         }
     }
 

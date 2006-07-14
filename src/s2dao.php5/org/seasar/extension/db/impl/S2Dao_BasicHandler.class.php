@@ -30,16 +30,18 @@ class S2Dao_BasicHandler {
     private $sql_;
     private $statementFactory_ = null;
 
-    public function __construct(S2Container_DataSource $ds, $sql, $statementFactory = null) {
+    public function __construct(S2Container_DataSource $ds,
+                                $sql,
+                                S2Dao_StatementFactory $statementFactory = null) {
         $this->setDataSource($ds);
         $this->setSql($sql);
-        if(is_null($statementFactory)){
-            $this->setStatementFactory(new S2Dao_BasicStatementFactory);
+        if($statementFactory == null){
+            $this->setStatementFactory(new S2Dao_BasicStatementFactory());
         } else {
             $this->setStatementFactory($statementFactory);
         }
     }
-
+    
     public function getDataSource() {
         return $this->dataSource_;
     }
@@ -63,21 +65,36 @@ class S2Dao_BasicHandler {
     public function setStatementFactory($statementFactory) {
         $this->statementFactory_ = $statementFactory;
     }
+    
+    private function setAttributes(PDO $connection){
+        // php 5.1.3 or later
+        if(!version_compare(phpversion(), "5.1.3", ">=")){
+            return;
+        }
+        // FIXME pdo version 1.0.3 higher
+        $refPdo = new ReflectionExtension("PDO");
+        if(!version_compare($refPdo->getVersion(), "1.0.3", ">=")){
+            return;
+        }
+        $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+    }
 
     protected function getConnection() {
         if ($this->dataSource_ == null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
         }
-        return $this->dataSource_->getConnection();
+        $conn = $this->dataSource_->getConnection();
+        $this->setAttributes($conn);
+        return $conn;
     }
 
     protected function prepareStatement(PDO $connection) {
         if ($this->sql_ == null) {
             throw new S2Container_EmptyRuntimeException('sql');
         }
-        return $connection->prepare($this->sql_);
+        return $this->statementFactory_->createPreparedStatement($connection, $this->sql_);
     }
-
+    
     protected function bindArgs(PDOStatement $ps,
                                 array $args = null,
                                 array $argTypes = null) {
@@ -105,7 +122,8 @@ class S2Dao_BasicHandler {
             return null;
         }
         $argTypes = array();
-        for ($i = 0; $i < count($args); ++$i) {
+        $c = count($args);
+        for ($i = 0; $i < $c; ++$i) {
             $arg = $args[$i];
             if ($arg != null) {
                 $argTypes[$i] = get_class($arg);

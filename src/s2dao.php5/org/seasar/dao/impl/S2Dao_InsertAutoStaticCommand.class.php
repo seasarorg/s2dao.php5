@@ -30,7 +30,6 @@ class S2Dao_InsertAutoStaticCommand extends S2Dao_AbstractAutoStaticCommand {
                                 S2Dao_StatementFactory $statementFactory = null,
                                 S2Dao_BeanMetaData $beanMetaData,
                                 $propertyNames) {
-
         parent::__construct($dataSource, $statementFactory, $beanMetaData, $propertyNames);
     }
 
