@@ -44,7 +44,7 @@ class S2DaoInterceptor2Test extends PHPUnit2_Framework_TestCase {
 
     public function testInsertTx() {
         $emp = new Employee2();
-        $emp->setEmpno(99);
+        $emp->setEmpno(199);
         $emp->setEname("hoge");
         $this->assertEquals(1, $this->dao->insert($emp));
     }

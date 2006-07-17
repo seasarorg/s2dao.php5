@@ -6,20 +6,17 @@
  */
 class CdBean {
     
-    /**
-     * @Column("ID")
-     * @Id(assigned)
-     */
+    const TABLE = "CD";
+    
+    const id_COLUMN = "ID";
+    const id_ID = "assigned";
+
     private $id;
     
-    /**
-     * @Column("TITLE")
-     */
+    const title_COLUMN = "TITLE";
     private $title;
     
-    /**
-     * @Column("CONTENT")
-     */
+    const content_COLUMN = "CONTENT";
     private $content;
     
     public function __construct($id = null, $title = null, $content = null){

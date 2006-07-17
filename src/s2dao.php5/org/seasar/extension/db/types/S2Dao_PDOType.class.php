@@ -26,26 +26,35 @@
  */
 final class S2Dao_PDOType {
     
+    const Boolean = PDO::PARAM_BOOL;
+    const Integer = PDO::PARAM_INT;
+    const Double = PDO::PARAM_INT;
+    const String = PDO::PARAM_STR;
+    const Object = PDO::PARAM_STMT;
+    const Resource = PDO::PARAM_LOB;
+    const Null = PDO::PARAM_NULL;
+    const Unkwown = PDO::PARAM_STMT;
+    
     public static function gettype($phpType = null){
         if($phpType === null){
-            return PDO::PARAM_NULL;
+            return self::Null;
         }
         
         switch($phpType){
             case S2Dao_PHPType::String:
-                return PDO::PARAM_STR;
+                return self::String;
             case S2Dao_PHPType::Integer:
             case S2Dao_PHPType::Double;
-                return PDO::PARAM_INT;
+                return self::Integer;
             case S2Dao_PHPType::Boolean:
-                return PDO::PARAM_BOOL;
+                return self::Boolean;
             case S2Dao_PHPType::Null:
-                return PDO::PARAM_NULL;
+                return self::Null;
             case S2Dao_PHPType::Resource:
-                return PDO::PARAM_LOB;
+                return self::Resource;
             default:
             case S2Dao_PHPType::Object:
-                return PDO::PARAM_STMT;
+                return self::Object;
         }
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-define('S2DAO_PHP5_USE_COMMENT', true);
-
 /**
  * @author nowel
  */
@@ -34,7 +32,7 @@ class CdTxManagerImpl implements CdTxManager {
     }
     
     public function getAll(){
-        return $this->dao->getAll();
+        return $this->dao->getAllList();
     }
 }
 

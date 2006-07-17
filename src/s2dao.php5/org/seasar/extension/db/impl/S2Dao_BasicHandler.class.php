@@ -105,12 +105,26 @@ class S2Dao_BasicHandler {
         $c = count($args);
         for ($i = 0; $i < $c; $i++) {
             try {
-                if($argTypes[$i] !== null){
-                    $ps->bindValue($i + 1, $args[$i], $this->getBindParamTypes($argTypes[$i]));
+                $arg = $args[$i];
+                $argType = $argTypes[$i];
+                
+                // TODO: argTypes check value
+                $phptype = gettype($arg);
+                $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phptype));
+                
+                // FIXME: null check null value
+                /*
+                if($argType !== null){
+                    if($this->isNullEquals($arg, $argType)){
+                        $ps->bindValue($i + 1, $arg, S2Dao_PDOType::Null);
+                    } else {
+                        $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($argType));
+                    }
                 } else {
-                    $phptype = gettype($args[$i]);
-                    $ps->bindValue($i + 1, $args[$i], $this->getBindParamTypes($phptype));
+                    $phptype = gettype($arg);
+                    $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phptype));
                 }
+                */
             } catch (Exception $ex) {
                 throw new S2Container_SQLRuntimeException($ex);
             }
@@ -169,6 +183,14 @@ class S2Dao_BasicHandler {
         } else {
             return "'" . (string)$bindVariable . "'";
         }
+    }
+    
+    private function isNullEquals($value = null, $type = null){
+        $null = gettype(null);
+        if($type == $null && gettype($value) == $null){
+            return true;
+        }
+        return false;
     }
 }
 ?>
