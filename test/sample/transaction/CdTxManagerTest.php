@@ -43,51 +43,24 @@ class CdTxManagerTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testRequiredInsert(){
-        echo "requiredInsert start" . PHP_EOL;
-        try{
-            $this->manager->requiredInsert();
-        }catch(Exception $e){
-            var_dump($e->getMessage());
-        }
-        echo "requiredInsert end" . PHP_EOL;
+        $this->assertEquals(1, $this->manager->requiredInsert());
     }
     
     public function testRequiredNewInsert(){
-        echo "requiresNewInsert start" . PHP_EOL;
-        try{
-            $this->manager->requiresNewInsert();
-        }catch(Exception $e){
-            var_dump($e->getMessage());
-        }
-        echo "requiresNewInsert end" . PHP_EOL;
+        $this->assertEquals(1, $this->manager->requiresNewInsert());
     }
 
     public function testMandatoryInsert(){
-        echo "mandatoryInsert start" . PHP_EOL;
         try{
-            $this->manager->mandatoryInsert();
+            $a = $this->manager->mandatoryInsert();
+            $this->fail("1");
         }catch(Exception $e){
             var_dump($e->getMessage());
         }
-        echo "mandatoryInsert end" . PHP_EOL;
     }
 
     public function testGetAll(){
-        echo "getAll start" . PHP_EOL;
-        try{
-            var_dump($this->manager->getAll());
-        }catch(Exception $e){
-            var_dump($e->getMessage());
-        }
-        echo "getAll end" . PHP_EOL;
-    }
-    
-    public function testDelete(){
-        try{
-            $this->manager->delete();
-        }catch(Exception $e){
-            var_dump($e->getMessage());
-        }
+        $this->assertEquals(3, $this->manager->getAll()->size());
     }
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+define('S2DAO_PHP5_USE_COMMENT', true);
+
 /**
  * @author nowel
  */
@@ -11,28 +13,28 @@ class CdTxManagerImpl implements CdTxManager {
         $this->dao = $dao;
     }
     
+    private function createCdBean($id, $title, $content){
+        $bean = new CdBean();
+        $bean->setId($id);
+        $bean->setTitle($title);
+        $bean->setContent($content);
+        return $bean;
+    }
+    
     public function requiredInsert(){
-        $this->dao->insert(new CdBean(3, "amanda", "newage"));
-        $this->dao->insert(new CdBean(4, "rat race", "metal"));
+        return $this->dao->insert($this->createCdBean(1, "rat race", "metal"));
     }
     
     public function requiresNewInsert(){
-        $this->dao->insert(new CdBean(4, "Crazy Little Thing Called Love", "rock"));
-        $this->dao->insert(new CdBean(3, "Staring At The Sun", "rock"));
+        return $this->dao->insert($this->createCdBean(2, "Staring At The Sun", "rock"));
     }
     
     public function mandatoryInsert(){
-        $this->dao->insert(new CdBean(5, "Prophecy", "metal"));
+        return $this->dao->insert($this->createCdBean(3, "Crazy Little Thing Called Love", "rock"));
     }
     
     public function getAll(){
         return $this->dao->getAll();
-    }
-    
-    public function delete(){
-        $this->dao->delete(new CdBean(3));
-        $this->dao->delete(new CdBean(4));
-        $this->dao->delete(new CdBean(5));
     }
 }
 

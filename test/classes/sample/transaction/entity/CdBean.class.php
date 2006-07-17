@@ -8,6 +8,7 @@ class CdBean {
     
     /**
      * @Column("ID")
+     * @Id(assigned)
      */
     private $id;
     

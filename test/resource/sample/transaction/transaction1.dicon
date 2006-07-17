@@ -11,6 +11,5 @@
     	    <aspect pointcut="requiresNewInsert">pdo.requiresNewTx</aspect>
     	    <aspect pointcut="mandatoryInsert">pdo.mandatoryTx</aspect>
     	    <aspect pointcut="getAll">pdo.requiredTx</aspect>
-    	    <aspect pointcut="delete">pdo.requiresNewTx</aspect>
     </component>
 </components>

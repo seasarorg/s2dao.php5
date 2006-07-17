@@ -43,11 +43,6 @@ abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodIntercep
         if($this->begin){
             return $this->begin;
         }
-        //TODO
-//        if($this->connection->getAttribute(PDO::ATTR_AUTOCOMMIT)){
-//            $this->begin = true;
-//            return true;
-//        }
         try {
             $this->connection->beginTransaction();
         } catch(Exception $e){
@@ -63,7 +58,7 @@ abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodIntercep
                 $this->connection->beginTransaction();
             }
         } catch(Exception $e){
-            throw $e;
+            // TODO: No Operation
         }
     }
 
