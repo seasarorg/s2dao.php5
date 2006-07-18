@@ -55,21 +55,21 @@ class S2Dao_BeanMetaDataImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testSetup() {
-        $bmd = $this->createBeanMetaData($this->getBeanClass("MyBean"));
-        $this->assertEquals("MyBean", $bmd->getTableName());
-        $this->assertEquals(3, $bmd->getPropertyTypeSize());
-        $aaa = $bmd->getPropertyType("aaa");
-        $this->assertEquals("aaa", $aaa->getColumnName());
-        $bbb = $bmd->getPropertyType("bbb");
-        $this->assertEquals("myBbb", $bbb->getColumnName());
-        $this->assertEquals(1, $bmd->getRelationPropertyTypeSize());
+        $bmd = $this->createBeanMetaData($this->getBeanClass("Employee2"));
+        $this->assertEquals("EMP2", $bmd->getTableName());
+        $this->assertEquals(10, $bmd->getPropertyTypeSize());
+        $aaa = $bmd->getPropertyType("empno");
+        $this->assertEquals("EMPNO", $aaa->getColumnName());
+        $bbb = $bmd->getPropertyType("ename");
+        $this->assertEquals("ENAME", $bbb->getColumnName());
+        $this->assertEquals(2, $bmd->getRelationPropertyTypeSize());
         $rpt = $bmd->getRelationPropertyType(0);
         $this->assertEquals(1, $rpt->getKeySize());
-        $this->assertEquals("ddd", $rpt->getMyKey(0));
-        $this->assertEquals("id", $rpt->getYourKey(0));
+        $this->assertEquals("DEPTNO", $rpt->getMyKey(0));
+        $this->assertEquals("DEPTNO", $rpt->getYourKey(0));
         $this->assertNotNull($bmd->getIdentifierGenerator());
         $this->assertEquals(1, $bmd->getPrimaryKeySize());
-        $this->assertEquals("aaa", $bmd->getPrimaryKey(0));
+        $this->assertEquals("EMPNO", $bmd->getPrimaryKey(0));
     }
 
     public function testSetupDatabaseMetaData() {
@@ -92,7 +92,7 @@ class S2Dao_BeanMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         
         $this->assertTrue(stripos($sql2, "emp2.deptno") > 0);
         $this->assertTrue(stripos($sql2, "department.deptno AS deptno_0") > 0);
-        $this->assertTrue(stripos($sql2, "dummy_0") < 0);
+        $this->assertTrue(stripos($sql2, "dummy_0")  === false);
     }
 
     public function testConvertFullColumnName() {
@@ -118,14 +118,19 @@ class S2Dao_BeanMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testSelfReference() {
         $bmd = $this->createBeanMetaData($this->getBeanClass("Employee4"));
-        $rpt = $bmd->getRelationPropertyType("parent");
-        $this->assertEquals($this->getBeanClass("Employee4"), $rpt->getBeanMetaData()->getBeanClass());
+        $rpt = $bmd->getRelationPropertyType("department");
+        $this->assertEquals($this->getBeanClass("Department2"), $rpt->getBeanMetaData()->getBeanClass());
     }
 
     public function testNoPersistentPropsEmpty() {
-        $bmd = $this->createBeanMetaData($this->getBeanClass("Ddd"));
-        $pt = $bmd->getPropertyType("name");
-        $this->assertFalse($pt->isPersistent());
+        try {
+            $bmd = $this->createBeanMetaData($this->getBeanClass("Ddd"));
+            $pt = $bmd->getPropertyType("name");
+            $this->assertFalse($pt->isPersistent());
+            $this->fail("1");
+        } catch(S2Container_PropertyNotFoundRuntimeException $e){
+            var_dump($e->getMessage());
+        }
     }
 
     public function testNoPersistentPropsDefined() {

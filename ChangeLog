@@ -1,3 +1,8 @@
+2006-07-18 nowel(S2Dao.PHP5-1.1.0)
+
+    * fix: S2Dao_AbstractBeanMetaDataResultSetHandler, S2Dao_BeanMetaDataResultSetHandler
+        - 一部のプロパティとSQL分の大小文字判別にstrcasecmpを使うようにしました。
+
 2006-07-17 nowel(S2Dao.PHP5-1.1.0)
 
     * fix[DAOPHP-3]: PDOトランザクションが正しく発行されない不具合を修正しました。

@@ -47,6 +47,10 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                 $value = $resultSet[$pt->getColumnName()];
                 $pd = $pt->getPropertyDesc();
                 $pd->setValue($row, $value);
+            } else if ($columnNames->contains($pt->getPropertyName())) {
+                $value = $resultSet[$pt->getPropertyName()];
+                $pd = $pt->getPropertyDesc();
+                $pd->setValue($row, $value);
             } else if (!$pt->isPersistent()) {
                 $iter = $columnNames->iterator();
                 for (; $iter->valid(); $iter->next()) {
@@ -77,7 +81,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
         $bmd = $rpt->getBeanMetaData();
         for ($i = 0; $i < $rpt->getKeySize(); ++$i) {
             $columnName = $rpt->getMyKey($i);
-            if ($columnNames->contains($columnName)) {
+            if($this->columnContains($columnNames, $columnName)) {
                 if ($row === null) {
                     $row = $this->createRelationRow($rpt);
                 }
@@ -93,27 +97,48 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
             continue;
         }
         $c = $bmd->getPropertyTypeSize();
+        $existColumn = 0;
         for ($i = 0; $i < $c; ++$i) {
             $pt = $bmd->getPropertyType($i);
             $columnName = $pt->getColumnName() . '_' . $rpt->getRelationNo();
-            if (!$columnNames->contains($columnName)) {
+            if(!$this->columnContains($columnNames, $columnName)){
                 continue;
             }
+            $existColumn++;
             if ($row === null) {
                 $row = $this->createRelationRow($rpt);
             }
             $value = null;
-            if ($relKeyValues != null && $relKeyValues->containsKey($columnName)) {
+            if ($relKeyValues !== null && $relKeyValues->containsKey($columnName)) {
                 $value = $relKeyValues->get($columnName);
             } else {
                 $value = $resultSet[$columnName];
             }
             $pd = $pt->getPropertyDesc();
-            if ($value != null) {
+            if ($value !== null) {
                 $pd->setValue($row, $value);
             }
         }
+        if($existColumn == 0){
+            return null;
+        }
         return $row;
+    }
+    
+    private function columnContains($columnNames, $column){
+        if(is_string($columnNames)){
+            if(strcasecmp($columnNames, $column) == 0){
+                return true;
+            }
+            return false;
+        }
+        $c = count($columnNames);
+        for($i = 0; $i < $c; $i++){
+            if($this->columnContains($columnNames[$i], $column)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

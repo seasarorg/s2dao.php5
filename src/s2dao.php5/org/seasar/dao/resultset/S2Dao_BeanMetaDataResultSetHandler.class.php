@@ -32,21 +32,23 @@ class S2Dao_BeanMetaDataResultSetHandler extends S2Dao_AbstractBeanMetaDataResul
 
     public function handle(PDOStatement $resultSet){
         $row = null;
+        $beanMetaData = $this->getBeanMetaData();
+        $size = $beanMetaData->getRelationPropertyTypeSize();
+        
         while($result = $resultSet->fetch(PDO::FETCH_ASSOC)){
             $row = $this->createRow($result);
-            $beanMetaData = $this->getBeanMetaData();
-            $size = $beanMetaData->getRelationPropertyTypeSize();
-            
             for($i = 0; $i < $size; $i++){
                 $rpt = $beanMetaData->getRelationPropertyType($i);
                 if($rpt === null){
                     continue;
                 }
 
-                $relationRow = $this->createRelationRow($rpt, $result, new S2Dao_HashMap);
-                if ($relationRow !== null) {
+                $relRow = null;
+                $relKeyValues = new S2Dao_HashMap();
+                $relRow = $this->createRelationRow($rpt, $result, $relKeyValues);
+                if ($relRow !== null) {
                     $pd = $rpt->getPropertyDesc();
-                    $pd->setValue($row, $relationRow);
+                    $pd->setValue($row, $relRow);
                 }
             }
         }

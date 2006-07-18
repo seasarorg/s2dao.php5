@@ -343,7 +343,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         echo $cmd->getSql();
         $employee = $cmd->execute(array(7788));
         var_dump($employee);
-        $parent = $this->getProperty($employee, "parent");
+        $parent = $this->getProperty($employee, "department");
         $this->assertEquals(7566, $this->getProperty($parent, "empno"));
     }
 

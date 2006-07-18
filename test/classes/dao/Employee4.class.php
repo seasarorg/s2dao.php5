@@ -3,8 +3,8 @@
 class Employee4 {
     
     const TABLE = "EMP2";
-    const parent_RELNO = 0;
-    const parent_RELKEYS = "mgr:empno";
+    const department_RELNO = 0;
+    const department_RELKEYS = "mgr:empno";
 
     private $empno;
     private $ename;
@@ -15,7 +15,7 @@ class Employee4 {
     private $comm;
     private $deptno;
     private $department;
-
+    
     public function getEmpno() {
         return $this->empno;
     }

@@ -63,10 +63,10 @@ class S2DaoInterceptor2Test extends PHPUnit2_Framework_TestCase {
 
     public function testFullWidthTildaTx() {
         $emp = new Employee2();
-        $emp->setEmpno(199);
+        $emp->setEmpno(299);
         $emp->setEname("foo");
         $this->dao->insert($emp);
-        $emp2 = $this->dao->getEmployee(199);
+        $emp2 = $this->dao->getEmployee(299);
         $this->assertEquals($emp->getEname(), $emp2->getEname());
     }
 }
