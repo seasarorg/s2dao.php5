@@ -46,13 +46,15 @@ class S2Dao_PagerYamlResultSetWrapperTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testFilter() {
-        $yaml = '';
-        $filter_yaml = '';
+        $array1 = array("aaa", "bbb", "ccc", "ddd", "eee");
+        $array2 = array("ccc", "ddd", "eee");
+        $yaml = Spyc::YAMLLoad($array1);
+        $yaml = Spyc::YAMLLoad($array2);
 
         $this->condition->setLimit(3);
         $this->condition->setOffset(2);
 
-        $yaml = S2Dao_PagerUtil::filterYaml($yaml, $this->condition);
+        $yaml = $this->wrapper->filter($yaml, $this->condition);
 
         $this->assertEquals($yaml, $filter_yaml);
     }
