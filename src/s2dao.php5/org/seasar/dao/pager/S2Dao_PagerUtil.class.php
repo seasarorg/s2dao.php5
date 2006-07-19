@@ -35,6 +35,10 @@ class S2Dao_PagerUtil
      */
     public static function filter($result, $condition)
     {
+        if (empty($result)) {
+            return $result;
+        }
+
         $returnArray = false;
         $retValue = new S2Dao_ArrayList();
         if(!($result instanceof S2Dao_ArrayList)){
@@ -60,15 +64,22 @@ class S2Dao_PagerUtil
     public static function filterJson($json, $condition)
     {
         $result = json_decode($json);
+        if (empty($result)) {
+            return $json;
+        }
         $result = self::filter($result, $condition);
         return json_encode($result);
     }
     
     public static function filterYaml($yaml, $condition)
     {
-        $result = Spyc::YAMLLoad($yaml);
+        $spyc = new Spyc();
+        $result = $spyc->YAMLLoad($yaml);
+        if (empty($result)) {
+            return $yaml;
+        }
         $result = self::filter($result, $condition);
-        return Spyc::YAMLdump($result);
+        return $spyc->YAMLdump($result);
     }
 
 }

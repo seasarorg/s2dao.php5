@@ -68,11 +68,14 @@ class S2Dao_PagerUtilTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testFilterJson() {
-        $json = '["aaa", "bbb", "ccc", "ddd", "eee"]';
-        $filter_json = '["ccc", "ddd", "eee"]';
+        $array1 = array("aaa", "bbb", "ccc", "ddd", "eee");
+        $array2 = array("ccc", "ddd", "eee");
         
         $this->condition->setLimit(3);
         $this->condition->setOffset(2);
+
+        $json = json_encode($array1);
+        $filter_json = json_encode($array2);
 
         $json = S2Dao_PagerUtil::filterJson($json, $this->condition);
 
@@ -80,11 +83,16 @@ class S2Dao_PagerUtilTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testFilterYaml() {
-        $yaml = '';
-        $filter_yaml = '';
+        $array1 = array("aaa", "bbb", "ccc", "ddd", "eee");
+        $array2 = array("ccc", "ddd", "eee");
 
         $this->condition->setLimit(3);
         $this->condition->setOffset(2);
+        
+        $spyc = new Spyc();
+
+        $yaml = $spyc->YAMLLoad($array1);
+        $filter_yaml = $spyc->YAMLLoad($array2);
 
         $yaml = S2Dao_PagerUtil::filterYaml($yaml, $this->condition);
 

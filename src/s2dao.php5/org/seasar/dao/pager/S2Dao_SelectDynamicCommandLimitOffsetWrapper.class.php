@@ -41,9 +41,12 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
     {
         $condition = $args[0];
         $ctx = $this->selectDynamicCommand_->apply($args);
+        
+        $variables = $ctx->getBindVariables();
+        $variableTypes = $ctx->getBindVariableTypes();
 
-        $this->bindVariables = $ctx->getBindVariables();
-        $this->bindVariableTypes = $ctx->getBindVariableTypes();
+        $this->bindVariables = $variables;
+        $this->bindVariableTypes = $variableTypes;
         $sqlWithLimit = $this->createSqlWithLimit($ctx->getSql(), $condition);
         
         $selectHandler = new S2Dao_BasicSelectHandler(
@@ -53,9 +56,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
                                 $this->selectDynamicCommand_->getStatementFactory(),
                                 $this->selectDynamicCommand_->getResultSetFactory());
 
-        $condition->setCount($this->getCount($ctx->getSql()), 
-                             $ctx->getBindVariables(), 
-                             $ctx->getBindVariableTypes());
+        $condition->setCount($this->getCount($ctx->getSql(),$variables, $variableTypes));
         return $selectHandler->execute($this->bindVariables, $this->bindVariableTypes);
     }
 
