@@ -50,6 +50,9 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
                         S2Dao_DbmsManager::getDbms($conn));
     }
 
+    /**
+     * @todo yonekawa
+     */
     public function testExecute() {
         $cmd = new S2Dao_SelectDynamicCommand($this->dataSource,
                 new S2Dao_BasicStatementFactory(),
@@ -58,14 +61,14 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
                 new S2Dao_BasicResultSetFactory());
         $cmd->setSql("SELECT * FROM emp2");
 
+        $empAll = $cmd->execute();
+        
         $args = array();
         $condition = new S2Dao_DefaultPagerCondition();
         $condition->setLimit(5);
         $condition->setOffset(2);
         $args[] = $condition;
-        
-        $empAll = $cmd->execute($args);
-        
+
         $cmdWrapper = new S2Dao_SelectDynamicCommandLimitOffsetWrapper($cmd);
         $emp = $cmdWrapper->execute($args);
         

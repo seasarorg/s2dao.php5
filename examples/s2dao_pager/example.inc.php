@@ -1,6 +1,6 @@
 <?php
 require_once 'S2Container/S2Container.php';
-require_once 'S2Dao/S2Dao.php';
+require_once dirname(__FILE__) . '/../../S2Dao.php';
 
 define('S2CONTAINER_PHP5_DOM_VALIDATE', false);
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
