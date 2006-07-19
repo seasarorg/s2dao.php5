@@ -1,7 +1,7 @@
 <?php
 
 class Search {
-    const TABLE = "DEPT2";
+    const TABLE = "SEARCH";
     
     private $deptno;
     private $dname;
