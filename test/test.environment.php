@@ -33,6 +33,9 @@ S2ContainerClassLoader::import(TEST_DIR . "/classes/extension/tx");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/transaction");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/transaction/dao");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/transaction/entity");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/search/dao");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/search/impl");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/search/entity");
 
 function __autoload($class = null){
     S2ContainerClassLoader::load($class);

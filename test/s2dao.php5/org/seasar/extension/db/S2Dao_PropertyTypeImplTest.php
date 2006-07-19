@@ -171,12 +171,12 @@ class S2Dao_PropertyTypeImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testGetValueType() {
-        $this->assertEquals($this->pt1->getValueType(), null);
-        $this->assertEquals($this->pt2->getValueType(), null);
-        $this->assertEquals($this->pt3->getValueType(), null);
-        $this->assertEquals($this->pt4->getValueType(), null);
-        $this->assertEquals($this->pt5->getValueType(), null);
-        $this->assertEquals($this->pt6->getValueType(), null);
+        $this->assertEquals($this->pt1->getValueType(), gettype(null));
+        $this->assertEquals($this->pt2->getValueType(), gettype(null));
+        $this->assertEquals($this->pt3->getValueType(), gettype(new stdClass));
+        $this->assertEquals($this->pt4->getValueType(), gettype(new stdClass));
+        $this->assertEquals($this->pt5->getValueType(), gettype(null));
+        $this->assertEquals($this->pt6->getValueType(), gettype(null));
         $this->assertEquals($this->pt7->getValueType(), "foo");
         $this->assertEquals($this->pt8->getValueType(), null);
         $this->assertEquals($this->pt9->getValueType(), null);

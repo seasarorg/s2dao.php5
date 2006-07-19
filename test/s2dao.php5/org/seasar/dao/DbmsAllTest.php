@@ -64,6 +64,7 @@ class DbmsAllTest {
             $suite->addTestSuite('S2Dao_PostgreSQLProcedureMetaDataImplTest');
         }
         if($dbms instanceof S2Dao_SQLite){
+            require_once TEST_DIR . '/classes/dao/pdo_sqlite/procedure.php';
             $suite->addTestSuite('S2Dao_SQLiteTest');
             $suite->addTestSuite('S2Dao_SQLiteDBMetaDataTest');
             $suite->addTestSuite('S2Dao_SQLiteProcedureMetaDataImplTest');

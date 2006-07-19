@@ -1,3 +1,8 @@
+2006-07-19 nowel(S2Dao.PHP5-1.1.0)
+
+    * fix: QUERYアノテーション時に"order by"句を先頭に指定するとPDOExceptionが発生する不具合を修正しました。
+    * fix: findコマンド使用時とQUERYアノテーションの動作がマッチしていない不具合を修正しました。
+
 2006-07-18 nowel(S2Dao.PHP5-1.1.0)
 
     * fix: S2Dao_AbstractBeanMetaDataResultSetHandler, S2Dao_BeanMetaDataResultSetHandler

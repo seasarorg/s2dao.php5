@@ -31,8 +31,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     const DELETE_NAMES = '/^(delete|remove)/i';
     const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
     const startWithSelectPattern = '/^\s*SELECT/i';
-    const startWithBeginCommentPattern = '/\/\*BEGIN\*\/\s*WHERE .+/i';
-    const startWithOrderByPattern = '/(\/\*[^\*]+\*\/)*order by/i';
+    const startWithBeginCommentPattern = '/^\/\*BEGIN\*\/\s*WHERE .+/i';
+    const startWithOrderByPattern = '/^(\/\*[^\*]+\*\/)*order by/i';
 
     protected $daoClass_;
     protected $daoInterface_;
@@ -273,7 +273,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 $sql = $this->createAutoSelectSql($argNames);
             }
             if ($query != null) {
-                if(strripos($sql, 'WHERE') === false){
+                if(stripos($sql, 'WHERE') === false && !self::startsWithOrderBy($query)){
                     $query = ' WHERE ' . $query;
                 }
                 $sql .= ' ' . $query;
