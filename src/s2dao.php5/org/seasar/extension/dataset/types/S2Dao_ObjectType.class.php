@@ -24,47 +24,38 @@
 /**
  * @author nowel
  */
-class S2DaoBeanListReaderTest extends PHPUnit2_Framework_TestCase {
+class S2Dao_ObjectType implements S2Dao_ColumnType {
 
-    private $dataSource = null;
-
-    public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2DaoBeanListReaderTest");
-        $result = PHPUnit2_TextUI_TestRunner::run($suite);
-    }
-
-    protected function setUp() {
-        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
-        $this->dataSource = $container->getComponent("pdo.dataSource");
-    }
-
-    protected function tearDown() {
-        $this->dataSource = null;
+    function __construct() {
     }
     
-    private function getConnection(){
-        return $this->dataSource->getConnection();
+    public function convert($value, $formatPattern) {
+        return $value;
     }
     
-    public function testRead(){
-        $emp = new Employee2();
-        $emp->setEmpno(7788);
-        $emp->setEname("SCOTT");
-        $emp->setDeptno(10);
-        $dept = new Department2();
-        $dept->setDeptno(10);
-        $dept->setDname("HOGE");
-        $emp->setDepartment($dept);
-        $list = new S2Dao_ArrayList();
-        $list->add($emp);
-        $reader = new S2DaoBeanListReader($list, $this->getConnection());
-        $ds = $reader->read();
-        $table = $ds->getTable(0);
-        $row = $table->getRow(0);
-        $this->assertEquals(7788, $row->getValue("EMPNO"));
-        $this->assertEquals("SCOTT", $row->getValue("ENAME"));
-        $this->assertEquals(10, $row->getValue("DEPTNO"));
-        $this->assertEquals("HOGE", $row->getValue("DNAME_0"));
+    public function equals($arg1, $arg2) {
+        if ($arg1 === null) {
+            return $arg2 === null;
+        }
+        return $this->doEquals($arg1, $arg2);
+    }
+    
+    protected function doEquals($arg1, $arg2) {
+        try {
+            $arg1 = $this->convert($arg1, null);
+        } catch (Exception $t) {
+            return false;
+        }
+        try {
+            $arg2 = $this->convert($arg2, null);
+        } catch (Exception $t) {
+            return false;
+        }
+        return $arg1->equals($arg2);
+    }
+    
+    public function getType() {
+        return gettype(get_class($this));
     }
 }
 ?>

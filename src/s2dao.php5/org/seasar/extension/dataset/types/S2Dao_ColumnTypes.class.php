@@ -30,8 +30,8 @@ class S2Dao_ColumnTypes {
     const OBJECT = 9;
 
     public static function getColumnType($value = null) {
-        if ($value == null) {
-            return self::OBJECT;
+        if ($value === null) {
+            return new S2Dao_ObjectType();
         } else {
             self::getColumnType(new ReflectionClass($value));
         }
@@ -41,7 +41,7 @@ class S2Dao_ColumnTypes {
                 return $columnType;
             }
         }
-        return self::OBJECT;
+        return new S2Dao_ObjectType();
     }
 
     private static function getColumnType0(ReflectionClass $clazz) {

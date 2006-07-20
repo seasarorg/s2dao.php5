@@ -106,7 +106,8 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
             $column = $this->columns->get($name);
             if ($column == null) {
                 for ($i = 0; $i < $this->columns->size(); ++$i) {
-                    $key = $this->columns->getKey($i);
+                    $values = array_values($this->columns->toArray());
+                    $key = key($values[$i]);
                     $key2 = str_replace('_', '', $key);
                     if (strcasecmp($key2, $name) == 0) {
                         $column = $this->columns->get($i);

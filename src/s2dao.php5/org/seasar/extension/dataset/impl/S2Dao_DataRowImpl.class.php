@@ -48,6 +48,9 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
         if(is_integer($index)){
             return $this->values_->get($index);
         }
+        if($this->values_->containsKey($index)){
+            return $this->values_->get($index);
+        }
         $column = $this->table_->getColumn($index);
         return $this->values_->get($column->getColumnIndex());
     }

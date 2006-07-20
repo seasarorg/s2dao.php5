@@ -42,6 +42,7 @@ class S2DaoClassLoader {
         'S2Dao_DataTable' => '/extension/dataset/S2Dao_DataTable.class.php',
         'S2Dao_RowStates' => '/extension/dataset/S2Dao_RowStates.class.php',
         'S2Dao_ColumnTypes' => '/extension/dataset/types/S2Dao_ColumnTypes.class.php',
+        'S2Dao_ObjectType' => '/extension/dataset/types/S2Dao_ObjectType.class.php',
         'S2Dao_BasicHandler' => '/extension/db/impl/S2Dao_BasicHandler.class.php',
         'S2Dao_AbstractBeanResultSetHandler' => '/extension/db/impl/S2Dao_AbstractBeanResultSetHandler.class.php',
         'S2Dao_AbstractMapResultSetHandler' => '/extension/db/impl/S2Dao_AbstractMapResultSetHandler.class.php',

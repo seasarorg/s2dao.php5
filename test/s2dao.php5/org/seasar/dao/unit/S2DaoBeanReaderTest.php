@@ -25,41 +25,68 @@
  * @author nowel
  */
 class S2DaoBeanReaderTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+    
+    private $dataSource = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2DaoBeanReaderTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dataSource = null;
+    }
+    
+    private function createBeanMetaData(ReflectionClass $class){
+        $conn = $this->dataSource->getConnection();
+        return new S2Dao_BeanMetaDataImpl(
+                        $class,
+                        $conn,
+                        S2Dao_DbmsManager::getDbms($conn));
+    }
+    
+    private function getBeanClass($class){
+        return new ReflectionClass($class);
     }
 
-    /**
-     * @todo Implement testRead().
-     */
-    public function testRead() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+    public function testRead(){
+        $emp = new Employee2();
+        $emp->setEmpno(7788);
+        $emp->setEname("SCOTT");
+        $emp->setDeptno(10);
+        $dept = new Department2();
+        $dept->setDeptno(10);
+        $dept->setDname("HOGE");
+        $emp->setDepartment($dept);
+        $reader = new S2DaoBeanReader($emp, $this->dataSource->getConnection());
+        $ds = $reader->read();
+        $table = $ds->getTable(0);
+        $row = $table->getRow(0);
+        $this->assertEquals(7788, $row->getValue("EMPNO"));
+        $this->assertEquals("SCOTT", $row->getValue("ENAME"));
+        $this->assertEquals(10, $row->getValue("DEPTNO"));
+        $this->assertEquals("HOGE", $row->getValue("DNAME_0"));
+        $this->assertEquals(S2Dao_RowStates::UNCHANGED, $row->getState());
+    }
+
+    public function testRead2() {
+        $emp = new Employee2();
+        $emp->setEmpno(7788);
+        $emp->setEname("SCOTT");
+        $ts = time();
+        $emp->setHiredate($ts);
+        $reader = new S2DaoBeanReader($emp, $this->dataSource->getConnection());
+        $ds = $reader->read();
+        $table = $ds->getTable(0);
+        $row = $table->getRow(0);
+        $this->assertEquals(7788, $row->getValue("EMPNO"));
+        $this->assertEquals("SCOTT", $row->getValue("ENAME"));
+        $this->assertEquals($ts, $row->getValue("HIREDATE"));
     }
 }
 ?>

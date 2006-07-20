@@ -42,7 +42,8 @@ class S2Dao_DataSetImpl implements S2Dao_DataSet {
 
     public function getTable($table) {
         if(is_integer($table)){
-            return $this->tables_->get($table);
+            $values = array_values($this->tables_->toArray());
+            return $values[$table];
         } else {
             $table = $this->tables_->get($table);
             if ($table == null) {

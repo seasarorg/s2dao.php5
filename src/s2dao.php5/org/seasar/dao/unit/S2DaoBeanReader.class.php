@@ -26,15 +26,16 @@
  */
 class S2DaoBeanReader implements S2Dao_DataReader {
 
-    private $dataSet_;
-    private $table_;
+    protected $dataSet_;
+    protected $table_;
 
-    public function __construct(ReflectionClass $bean, PDO $connection) {
+    public function __construct($bean, PDO $connection) {
         $this->dataSet_ = new S2Dao_DataSetImpl();
         $this->table_ = $this->dataSet_->addTable('S2DaoBean');
 
         $dbms = S2Dao_DbmsManager::getDbms($connection);
-        $beanMetaData = new S2Dao_BeanMetaDataImpl($bean, $connection, $dbms);
+        $clazz = new ReflectionClass($bean);
+        $beanMetaData = new S2Dao_BeanMetaDataImpl($clazz, $connection, $dbms);
         $this->setupColumns($beanMetaData);
         $this->setupRow($beanMetaData, $bean);
     }
@@ -82,11 +83,15 @@ class S2DaoBeanReader implements S2Dao_DataReader {
                 $row->setValue($columnName, $ct->convert($value, null));
             }
         }
-        $row->setState(RowStates::UNCHANGED);
+        $row->setState(S2Dao_RowStates::UNCHANGED);
     }
 
     public function read() {
         return $this->dataSet_;
+    }
+
+    public function getTable(){
+        return $this->table_;
     }
 
 }
