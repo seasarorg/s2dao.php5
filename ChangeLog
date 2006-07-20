@@ -1,3 +1,7 @@
+2006-07-20 nowel(S2Dao.PHP5-1.1.0)
+
+    * fix: IN句を含むSQLコメントが正しく処理されない不具合を修正しました。
+
 2006-07-19 nowel(S2Dao.PHP5-1.1.0)
 
     * fix: QUERYアノテーション時に"order by"句を先頭に指定するとPDOExceptionが発生する不具合を修正しました。

@@ -31,7 +31,9 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
 
     public function __construct($expression) {
         $this->expression_ = $expression;
-        $this->parsedExpression_ = quotemeta($expression);
+        $expression = quotemeta($expression);
+        $expression = str_replace('\.', '.', $expression);
+        $this->parsedExpression_ = $expression;
     }
 
     public function getExpression() {
@@ -39,13 +41,13 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
     }
 
     public function accept(S2Dao_CommandContext $ctx) {
-        $expression = preg_replace('/^(\w+)(\s+.*)/i',
-                        '\$ctx->getArg("\1")' . '\2', $this->parsedExpression_);
+        $expression = preg_replace('/^(\w+)(\s+.*)?/i',
+                        '$ctx->getArg("\1")' . '\2', $this->parsedExpression_);
         $expression = S2Container_EvalUtil::getExpression($expression);
         $result = eval($expression);
         
         if ($result instanceof S2Dao_ArrayList) {
-            $this->bindArray($ctx, $value->toArray());
+            $this->bindArray($ctx, $result->toArray());
         } else if ($result === null) {
             return;
         } else if (is_array($result)) {
