@@ -45,7 +45,7 @@ class S2Dao_PagerResultSetWrapperFactory
         } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
             return new S2Dao_PagerJsonResultSetWrapper();
         } else {
-            return new S2Dao_PagerResultSetWrapperImpl();
+            return new S2Dao_PagerBasicResultSetWrapper();
         }
     }
 }

@@ -24,7 +24,7 @@
 /**
  * @author yonekawa
  */
-class S2Dao_PagerResultSetWrapperImplTest extends PHPUnit2_Framework_TestCase {
+class S2Dao_PagerBasicResultSetWrapperTest extends PHPUnit2_Framework_TestCase {
 
     private $wrapper = null;
     private $condition = null;
@@ -35,7 +35,7 @@ class S2Dao_PagerResultSetWrapperImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     protected function setUp() {
-        $this->wrapper = new S2Dao_PagerResultSetWrapperImpl();
+        $this->wrapper = new S2Dao_PagerBasicResultSetWrapper();
         $this->condition = new S2Dao_DefaultPagerCondition();
     }
 

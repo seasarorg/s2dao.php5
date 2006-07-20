@@ -201,7 +201,7 @@ class S2DaoClassLoader {
         'S2Dao_PagerS2DaoInterceptorWrapper' => '/dao/pager/S2Dao_PagerS2DaoInterceptorWrapper.class.php',
         'S2Dao_PagerResultSetWrapperFactory' => '/dao/pager/S2Dao_PagerResultSetWrapperFactory.class.php',
         'S2Dao_PagerResultSetWrapper' => '/dao/pager/S2Dao_PagerResultSetWrapper.class.php',
-        'S2Dao_PagerResultSetWrapperImpl' => '/dao/pager/S2Dao_PagerResultSetWrapperImpl.class.php',
+        'S2Dao_PagerBasicResultSetWrapper' => '/dao/pager/S2Dao_PagerBasicResultSetWrapper.class.php',
         'S2Dao_PagerYamlResultSetWrapper' => '/dao/pager/S2Dao_PagerYamlResultSetWrapper.class.php',
         'S2Dao_PagerJsonResultSetWrapper' => '/dao/pager/S2Dao_PagerJsonResultSetWrapper.class.php',
         'S2Dao_PagerUtil' => '/dao/pager/S2Dao_PagerJsonResultSetUtil.class.php',

@@ -65,12 +65,10 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
         $connection = $this->selectDynamicCommand_->getDataSource()->getConnection();
         $dbms = S2Dao_DbmsManager::getDbms($connection);
 
-        $sql = $sql . ' ' . $dbms->getLimitOffsetSql();
-
         if (!$dbms->usableLimitOffsetQuery()) {
             return $sql;
         }
-
+        $sql = $sql . ' ' . $dbms->getLimitOffsetSql();
         $this->bindVariables[] = $condition->getOffset();
         $this->bindVariableTypes[] = S2Dao_PHPType::Integer;
         $this->bindVariables[] = $condition->getLimit();

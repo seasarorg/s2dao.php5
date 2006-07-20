@@ -36,7 +36,7 @@ class PagerAllTest {
     public static function suite(){
         $suite = new PHPUnit2_Framework_TestSuite("All Pager Tests");
         $suite->addTestSuite('S2Dao_DefaultPagerConditionTest');
-        $suite->addTestSuite('S2Dao_PagerResultSetWrapperImplTest');
+        $suite->addTestSuite('S2Dao_PagerBasicResultSetWrapperTest');
         $suite->addTestSuite('S2Dao_PagerJsonResultSetWrapperTest');
         $suite->addTestSuite('S2Dao_PagerYamlResultSetWrapperTest');
         $suite->addTestSuite('S2Dao_PagerUtilTest');
