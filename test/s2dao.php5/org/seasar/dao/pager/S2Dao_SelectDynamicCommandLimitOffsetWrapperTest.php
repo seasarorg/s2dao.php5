@@ -61,7 +61,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
                 new S2Dao_BasicResultSetFactory());
         $cmd->setSql("SELECT * FROM emp2");
 
-        $empAll = $cmd->execute();
+        $empAll = $cmd->execute(array());
         
         $args = array();
         $condition = new S2Dao_DefaultPagerCondition();

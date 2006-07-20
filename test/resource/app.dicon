@@ -18,8 +18,6 @@
     <include
         path="%RESOURCE_DIR%/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapperTest.dicon" />
     <include
-        path="%RESOURCE_DIR%/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapperLimitOffsetQueryTest.dicon" />
-    <include
         path="%RESOURCE_DIR%/org/seasar/extension/tx/AbstractTxInterceptorTest.dicon" />
     <include
         path="%RESOURCE_DIR%/org/seasar/extension/tx/MandatoryInterceptorTest.dicon" />

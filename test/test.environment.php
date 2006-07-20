@@ -20,8 +20,6 @@ define('S2CONTAINER_PHP5_APP_DICON', RESOURCE_DIR . '/app.dicon');
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::FATAL);
 define('S2CONTAINER_PHP5_DOM_VALIDATE', false);
 define('DAO_DICON', RESOURCE_DIR . '/dao.dicon');
-define('DAO_PAGER_DICON', RESOURCE_DIR . '/dao-pager.dicon');
-define('DAO_PAGER_LIMIT_OFFSET_QUERY_DICON', RESOURCE_DIR . '/dao-pager-limit-offset-query.dicon');
 define('PDO_DICON', RESOURCE_DIR . '/pdo.dicon');
 
 S2ContainerClassLoader::import(S2CONTAINER_PHP5);

@@ -2,8 +2,11 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="pager">
-	<include path="%DAO_PAGER_DICON%" />
-	<component class="EmployeePagerDao">
-		<aspect>dao2.interceptor</aspect>
+	<include path="%DAO_DICON%" />
+	<component name="empPager" class="EmployeePagerDao">
+		<aspect>dao.interceptor2</aspect>
+	</component>
+	<component name="empPagerLimitOffsetQuery" class="EmployeePagerDao">
+		<aspect>dao.interceptor3</aspect>
 	</component>
 </components>

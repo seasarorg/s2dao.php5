@@ -79,5 +79,9 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
     public function getLimitOffset(){
         return 'OFFSET ? LIMIT ?';
     }
+
+    public function usableLimitOffsetQuery() {
+        return true;
+    }
 }
 ?>

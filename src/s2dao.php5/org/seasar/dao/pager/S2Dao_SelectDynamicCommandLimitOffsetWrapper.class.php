@@ -67,7 +67,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamic
 
         $sql = $sql . ' ' . $dbms->getLimitOffsetSql();
 
-        if (!($dbms instanceof S2Dao_PostgreSQL) && !($dbms instanceof S2Dao_MySQL)) {
+        if (!$dbms->usableLimitOffsetQuery()) {
             return $sql;
         }
 

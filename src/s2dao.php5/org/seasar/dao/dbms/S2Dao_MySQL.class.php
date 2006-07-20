@@ -57,5 +57,8 @@ class S2Dao_MySQL extends S2Dao_Standard {
         return 'LIMIT ?,?';
     }
 
+    public function usableLimitOffsetQuery() {
+        return true;
+    }
 }
 ?>

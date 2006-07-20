@@ -36,7 +36,7 @@ class S2Dao_PagerResultSetWrapperFactoryTest extends PHPUnit2_Framework_TestCase
 
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
-        $this->dao = $container->getComponent('pager.EmployeePagerDao');
+        $this->dao = $container->getComponent('pager.empPager');
         $this->dto = new S2Dao_DefaultPagerCondition();
         $this->dto->setLimit(3);
     }

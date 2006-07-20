@@ -1,5 +1,9 @@
-2006-07-20 nowel(S2Dao.PHP5-1.1.0)
-
+2006-07-20 nowel, yonekawa(S2Dao.PHP5-1.1.0)
+    
+    * add: S2Dao_Standard::usableLimitOffsetQuery() 
+           S2Dao_MySQL::usableLimitOffsetQuery() 
+           S2Dao_PostgresSQL::usableLimitOffsetQuery() 
+        -  DBMSでLimit,Offset句が使用可能かを返します
     * fix: IN句を含むSQLコメントが正しく処理されない不具合を修正しました。
 
 2006-07-19 nowel(S2Dao.PHP5-1.1.0)
@@ -23,7 +27,7 @@
     * fix: S2Dao_BasicSelectHandler
         - S2Dao_BasicStatementFactoryが正しくセットされない不具合を修正しました。
 
-2006-07-13  yonekawa  <tcgrim@gmail.com>
+2006-07-13  yonekawa(S2Dao.PHP5-1.1.0)
 
     * fix: S2PagerでuseLimitOffsetQueryプロパティをtrueにした時に、Countが取得できない不具合を修正しました。
 

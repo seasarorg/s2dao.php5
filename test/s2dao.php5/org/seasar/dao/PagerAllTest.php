@@ -42,7 +42,7 @@ class PagerAllTest {
         $suite->addTestSuite('S2Dao_PagerUtilTest');
         $suite->addTestSuite('S2Dao_PagerResultSetWrapperFactoryTest');
         $suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperTest');
-        //$suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperLimitOffsetQueryTest');
+        $suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperLimitOffsetQueryTest');
         $suite->addTestSuite('S2Dao_PagerSupportTest');
         $suite->addTestSuite('S2Dao_PagerViewHelperTest');
         $suite->addTestSuite('S2Dao_SelectDynamicCommandLimitOffsetWrapperFactoryTest');

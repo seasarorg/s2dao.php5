@@ -129,5 +129,9 @@ class S2Dao_Standard implements S2Dao_Dbms {
         return null;
     }
     
+    public function usableLimitOffsetQuery() {
+        return false;
+    }
+    
 }
 ?>

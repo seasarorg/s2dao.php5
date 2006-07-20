@@ -6,4 +6,10 @@
     <component class="S2Dao_FieldAnnotationReaderFactory" />   
     <component class="S2Dao_DaoMetaDataFactoryImpl" />
     <component name="interceptor" class="S2DaoInterceptor" />
+    <component name="interceptor2" class="S2Dao_PagerS2DaoInterceptorWrapper">
+      <property name="useLimitOffsetQuery">false</property>
+    </component>
+    <component name="interceptor3" class="S2Dao_PagerS2DaoInterceptorWrapper">
+      <property name="useLimitOffsetQuery">true</property>
+    </component>
 </components>
