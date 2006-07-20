@@ -27,6 +27,8 @@
 class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framework_TestCase {
 
     private $dataSource;
+    private $limit = S2Dao_PagerCondition::NONE_LIMIT;
+    private $offset = 0;
 
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_SelectDynamicCommandLimitOffsetWrapperTest");
@@ -36,6 +38,11 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $this->dataSource = $container->getComponent("pdo.dataSource");
+        $dbms = S2Dao_DbmsManager::getDbms($this->dataSource->getConnection());
+        if ($dbms->usableLimitOffsetQuery()) {
+            $this->limit = 5;
+            $this->offset = 2;
+        }
     }
 
     protected function tearDown() {
@@ -50,39 +57,34 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
                         S2Dao_DbmsManager::getDbms($conn));
     }
 
-    /**
-     * @todo yonekawa
-     */
     public function testExecute() {
         $cmd = new S2Dao_SelectDynamicCommand($this->dataSource,
                 new S2Dao_BasicStatementFactory(),
-                new S2Dao_BeanMetaDataResultSetHandler(
+                new S2Dao_BeanListMetaDataResultSetHandler(
                         $this->createBeanMetaData("Employee2")),
                 new S2Dao_BasicResultSetFactory());
         $cmd->setSql("SELECT * FROM emp2");
 
-        $empAll = $cmd->execute(array());
-        
         $args = array();
+        $empAll = $cmd->execute($args);
+
         $condition = new S2Dao_DefaultPagerCondition();
-        $condition->setLimit(5);
-        $condition->setOffset(2);
+        $condition->setLimit($this->limit);
+        $condition->setOffset($this->offset);
         $args[] = $condition;
 
         $cmdWrapper = new S2Dao_SelectDynamicCommandLimitOffsetWrapper($cmd);
         $emp = $cmdWrapper->execute($args);
-        
-        var_dump($emp);
+
         var_dump($empAll);
+        var_dump($emp);
 
         $this->assertEquals(count($empAll), $condition->getCount());
-        $this->assertEquals(count($emp), $condition->getLimit());
 
-// FIXME: please fix testcase this; yonekawa
-//        $wrapper = new S2Dao_SelectDynamicCommandLimitOffsetWrapper($cmd);
-//        $emp = $wrapper->execute();
-//        var_dump($emp);
-//        $this->assertNotNull($emp);
+        if ($this->limit < 0) {
+            $condition->setLimit(count($empAll));
+        }
+        $this->assertEquals(count($emp), $condition->getLimit());
     }
 }
 
