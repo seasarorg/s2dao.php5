@@ -312,7 +312,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     
     public function testIn() {
         $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
-        $sql2 = "SELECT * FROM emp2 WHERE deptno IN ? ORDER BY ename";
+        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -325,12 +325,12 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars[0]));
-        $this->assertEquals("deptnoList", $vars[0]);
+        $this->assertEquals(10, $vars[0]);
     }
     
     public function testIn2() {
         $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
-        $sql2 = "SELECT * FROM emp2 WHERE deptno IN ? ORDER BY ename";
+        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -341,12 +341,12 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars[0]));
-        $this->assertEquals('deptnoList', $vars[0]);
+        $this->assertEquals(10, $vars[0]);
     }
     
     public function testIn3() {
         $sql = "SELECT * FROM emp2 WHERE ename IN /*enames*/('SCOTT','MARY') AND job IN /*jobs*/('ANALYST', 'FREE')";
-        $sql2 = "SELECT * FROM emp2 WHERE ename IN ? AND job IN ?";
+        $sql2 = "SELECT * FROM emp2 WHERE ename IN (?, ?) AND job IN (?, ?)";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -359,8 +359,8 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars[0]));
-        $this->assertEquals("enames", $vars[0]);
-        $this->assertEquals("jobs", $vars[1]);
+        $this->assertEquals("SCOTT", $vars[0]);
+        $this->assertEquals("MARY", $vars[1]);
     }
     
     public function testParseBindVariable3() {

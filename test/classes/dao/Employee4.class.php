@@ -3,8 +3,8 @@
 class Employee4 {
     
     const TABLE = "EMP2";
-    const department_RELNO = 0;
-    const department_RELKEYS = "mgr:empno";
+    const department2_RELNO = 0;
+    const department2_RELKEYS = "mgr:empno";
 
     private $empno;
     private $ename;
@@ -14,7 +14,7 @@ class Employee4 {
     private $sal;
     private $comm;
     private $deptno;
-    private $department;
+    private $department2;
     
     public function getEmpno() {
         return $this->empno;
@@ -80,12 +80,12 @@ class Employee4 {
         $this->deptno = $deptno;
     }
     
-    public function getDepartment() {
-            return $this->department;
+    public function getDepartment2() {
+            return $this->department2;
     }
     
-    public function setDepartment(Department2 $department) {
-           $this->department = $department;
+    public function setDepartment2(Department2 $department) {
+           $this->department2 = $department;
     }
 
     public function hashCode() {

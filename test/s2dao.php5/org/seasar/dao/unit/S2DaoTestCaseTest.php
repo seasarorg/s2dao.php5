@@ -58,7 +58,8 @@ class S2DaoTestCaseTest extends PHPUnit2_Framework_TestCase {
         $foo = new Foo();
         $foo->setBbb("222");
         $bean->setFoo($foo);
-        //$this->assertEquals($expected, $bean);
+        var_dump($expected);
+        var_dump($bean);
     }
 
     public function testAssertBeanListEquals() {
@@ -76,7 +77,8 @@ class S2DaoTestCaseTest extends PHPUnit2_Framework_TestCase {
         $bean->setFoo($foo);
         $list = new S2Dao_ArrayList();
         $list->add($bean);
-        //$this->assertEquals($expected, $list);
+        var_dump($expected);
+        var_dump($list);
     }
 }
 ?>

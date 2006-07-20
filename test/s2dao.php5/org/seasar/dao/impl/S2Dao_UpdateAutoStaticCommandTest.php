@@ -68,6 +68,7 @@ class S2Dao_UpdateAutoStaticCommandTest extends PHPUnit2_Framework_TestCase {
         $cmd = $dmd->getSqlCommand("update");
         $dept = new Department2();
         $dept->setDeptno(10);
+        $dept->setVersionNo(0);
         $count = $cmd->execute(array($dept));
         $this->assertEquals(1, $count);
         $this->assertEquals(1, $dept->getVersionNo());

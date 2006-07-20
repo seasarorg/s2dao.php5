@@ -12,7 +12,7 @@ class EmployeeSearchCondition {
 		return $this->department;
 	}
 
-	public function setDepartment($department) {
+	public function setDepartment(Department2 $department = null) {
 		$this->department = $department;
 	}
 

@@ -52,13 +52,12 @@ class S2Dao_SelectDynamicCommandTest extends PHPUnit2_Framework_TestCase {
     
     public function testExecute() {
         $cmd = new S2Dao_SelectDynamicCommand($this->dataSource,
-                new S2Dao_BasicStatementFactory(),
-                new S2Dao_BeanMetaDataResultSetHandler(
-                        $this->createBeanMetaData("Employee2")),
-                new S2Dao_BasicResultSetFactory());
-        $cmd->setSql("SELECT * FROM emp2 WHERE empno = /*empno*/1234");
-        $emp = $cmd->execute(array(7788));
-        var_dump($emp);
+                    new S2Dao_BasicStatementFactory(),
+                    new S2Dao_BeanMetaDataResultSetHandler(
+                        $this->createBeanMetaData("Employee3")),
+                    new S2Dao_BasicResultSetFactory());
+        $cmd->setSql('SELECT * FROM EMP3 WHERE EMPNO = ?');
+        $emp = $cmd->execute(array(7902));
         $this->assertNotNull($emp);
     }
 }

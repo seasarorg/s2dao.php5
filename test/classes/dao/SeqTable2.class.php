@@ -2,7 +2,8 @@
 
 class SeqTable2 {
     const TABLE = "SEQTABLE";
-    const id_ID = "sequence, sequenceName=myseq";
+    //const id_ID = "sequence, sequenceName=myseq";
+    const id_ID = "identity";
 
     private $id;
     private $name;

@@ -6,6 +6,7 @@
            S2Dao_PostgresSQL::usableLimitOffsetQuery() 
         -  DBMSでLimit,Offset句が使用可能かを返します
     * fix: IN句を含むSQLコメントが正しく処理されない不具合を修正しました。
+    * fix: SQLコメントに埋め込まれたバインド変数のネスト時に値が正しくならない不具合を修正しました。
 
 2006-07-19 nowel(S2Dao.PHP5-1.1.0)
 

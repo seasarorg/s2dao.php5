@@ -108,7 +108,7 @@ class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
         $table2->setName("foo");
         $cmd->execute(array($table2));
         var_dump($table2->getId());
-        $this->assertEquals((int)$table2->getId() > (int)$table1->getId());
+        $this->assertTrue((int)$table2->getId() > (int)$table1->getId());
     }
 
     public function testExecute4Tx() {

@@ -118,7 +118,7 @@ class S2Dao_BeanMetaDataImplTest extends PHPUnit2_Framework_TestCase {
 
     public function testSelfReference() {
         $bmd = $this->createBeanMetaData($this->getBeanClass("Employee4"));
-        $rpt = $bmd->getRelationPropertyType("department");
+        $rpt = $bmd->getRelationPropertyType("department2");
         $this->assertEquals($this->getBeanClass("Department2"), $rpt->getBeanMetaData()->getBeanClass());
     }
 

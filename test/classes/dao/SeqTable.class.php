@@ -1,7 +1,8 @@
 <?php
 
 class SeqTable {
-    const id_ID = "sequence, sequenceName=myseq";
+    //const id_ID = "sequence, sequenceName=myseq";
+    const id_ID = "identity";
     private $id;
     private $name;
 

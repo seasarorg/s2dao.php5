@@ -251,7 +251,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $cmd = null;
         $argNames = $this->annotationReader_->getArgNames($method);
         
-        if ($query != null && !self::startsWithOrderBy($query)) {
+        if ($query !== null && !self::startsWithOrderBy($query)) {
             $cmd = $this->createSelectDynamicCommand($handler, $query);
         } else {
             $cmd = $this->createSelectDynamicCommand($handler);
@@ -272,7 +272,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             } else {
                 $sql = $this->createAutoSelectSql($argNames);
             }
-            if ($query != null) {
+            if ($query !== null) {
                 if(stripos($sql, 'WHERE') === false && !self::startsWithOrderBy($query)){
                     $query = ' WHERE ' . $query;
                 }
@@ -415,7 +415,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
     
     protected function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $query = null) {
-        if($query == null){
+        if($query === null){
             return new S2Dao_SelectDynamicCommand($this->dataSource_,
                                                  $this->statementFactory_,
                                                  $rsh,
@@ -432,7 +432,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                     $buf .= ' ';
                 } else if (self::startsWithBeginComment($query)) {
                     $buf .= ' ';
-                } else if (strripos($sql, 'WHERE') === false) {
+                } else if (stripos($sql, 'WHERE') === false) {
                     $buf .= ' WHERE ';
                 } else {
                     $buf .= ' AND ';
