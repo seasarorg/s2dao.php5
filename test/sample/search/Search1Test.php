@@ -29,7 +29,7 @@ class Search1Test extends PHPUnit2_Framework_TestCase {
     private $dao = null;
     
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_AbstractAnnotationReaderTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("Search1Test");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 

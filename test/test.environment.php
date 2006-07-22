@@ -16,6 +16,8 @@ require_once "PHPUnit2/Framework/IncompleteTestError.php";
 
 // Spyc use
 include_once 'spyc.php';
+// sqlite_procedure funcions
+include_once TEST_DIR . "/classes/pdo_sqlite/procedure.php";
 
 define('S2CONTAINER_PHP5_APP_DICON', RESOURCE_DIR . '/app.dicon');
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::FATAL);
@@ -40,6 +42,8 @@ S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/transaction/entity");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/search/dao");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/search/impl");
 S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/search/entity");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/procedure/dao");
+S2ContainerClassLoader::import(TEST_DIR . "/classes/sample/procedure/entity");
 
 function __autoload($class = null){
     S2ContainerClassLoader::load($class);

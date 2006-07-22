@@ -35,4 +35,6 @@
         path="%RESOURCE_DIR%/sample/search/search1.dicon" />
     <include
         path="%RESOURCE_DIR%/sample/search/search2.dicon" />
+    <include
+        path="%RESOURCE_DIR%/sample/procedure/SampleProcedureDao.dicon" />
 </components>

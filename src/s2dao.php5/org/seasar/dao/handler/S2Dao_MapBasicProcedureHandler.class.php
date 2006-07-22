@@ -30,7 +30,7 @@ class S2Dao_MapBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHandler
                                 $procedureName,
                                 S2Dao_StatementFactory $statementFactory = null){
         if($statementFactory === null){
-            $statementFactory = new S2Dao_BasicStatementFactory;
+            $statementFactory = new S2Dao_BasicStatementFactory();
         }
         $this->setDataSource($ds);
         $this->setProcedureName($procedureName);

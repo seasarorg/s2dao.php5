@@ -24,42 +24,47 @@
 /**
  * @author nowel
  */
-class S2Dao_StaticStoredProcedureCommandTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+class SqliteProcedureCallTest extends PHPUnit2_Framework_TestCase {
+    
+    private $dao = null;
+    
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_StaticStoredProcedureCommandTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("SqliteProcedureCallTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dao = $container->getComponent("procedure.SampleProcedureDao");
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->dao = null;
+    }
+    
+    public function testSalesTax(){
+        var_dump($this->dao->getSalesTax(200));
+        $this->assertEquals(40, (int)$this->dao->getSalesTax(200));
+    }
+    
+    public function testSalesTax2(){
+        $this->assertEquals(40, (int)$this->dao->getSalesTax2(200));
+    }
+    
+    public function testSalesTax3(){
+        $sales = 200;
+        $ret = $this->dao->getSalesTax3($sales);
+        var_dump($ret);
+        $this->assertEquals(40, $sales);
+    }
+    
+    public function testSalesTax4(){
+        $tax = null;
+        $total = null;
+        $map = $this->dao->getSalesTax4Map(200, $tax, $total);
+        $this->assertEquals(40, $tax);
     }
 
-    /**
-     * @todo Implement testExecute().
-     */
-    public function testExecute() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
-    }
 }
+
 ?>

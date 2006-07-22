@@ -53,7 +53,6 @@ class S2Dao_SQLiteProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
         $inType = array();
         $function = new ReflectionFunction($procedureInfo->getName());
         $params = $function->getParameters();
-        
         foreach($params as $param){
             $type = new S2Dao_ProcedureType();
             $type->setName($param->getName());
@@ -61,18 +60,29 @@ class S2Dao_SQLiteProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
             $type->setInout(S2Dao_ProcedureMetaData::INTYPE);
             $inType[] = $type;
         }
-        
         return $inType;
     }
     
     public function getProcedureColumnsOut(S2Dao_ProcedureInfo $procedureInfo){
         $outType = array();
+        $function = new ReflectionFunction($procedureInfo->getName());
+        $params = $function->getParameters();
+        foreach($params as $param){
+            $type = new S2Dao_ProcedureType();
+            $type->setName($param->getName());
+            $type->setType(null);
+            if($param->isPassedByReference()){
+                $type->setInout(S2Dao_ProcedureMetaData::INOUTTYPE);
+            } else {
+                $type->setInout(S2Dao_ProcedureMetaData::INTYPE);
+            }
+            $outType[] = $type;
+        }
         return $outType; 
     }
     
     public function getProcedureColumnsInOut(S2Dao_ProcedureInfo $procedureInfo){
-        $inoutType = array();
-        return $inoutType;
+        return $this->getProcedureColumnsOut($procedureInfo);
     }
     
     public function getProcedureColumnReturn(S2Dao_ProcedureInfo $procedureInfo){

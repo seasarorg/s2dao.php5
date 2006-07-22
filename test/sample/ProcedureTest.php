@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class SearchTest {
+class ProcedureTest {
     
     public function __construct(){
     }
@@ -34,9 +34,8 @@ class SearchTest {
     }
     
     public static function suite() {
-        $suite = new PHPUnit2_Framework_TestSuite("Simple Search Test");
-        $suite->addTestSuite('Search1Test');
-        $suite->addTestSuite('Search2Test');
+        $suite = new PHPUnit2_Framework_TestSuite("Procedure All Test");
+        $suite->addTestSuite("SqliteProcedureCallTest");
         return $suite;
     }
 }
