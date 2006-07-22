@@ -38,6 +38,12 @@ class S2Dao_PagerUtil
         if (empty($result)) {
             return $result;
         }
+        if (!($condition instanceof S2Dao_PagerCondition)) {
+            return $result;
+        }
+        if ($condition->getLimit() == S2Dao_PagerCondition::NONE_LIMIT) {
+            return $result;
+        }
 
         $returnArray = false;
         $retValue = new S2Dao_ArrayList();
