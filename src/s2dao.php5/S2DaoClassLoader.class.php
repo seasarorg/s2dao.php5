@@ -34,6 +34,7 @@ class S2DaoClassLoader {
         'S2Dao_DataRowImpl' => '/extension/dataset/impl/S2Dao_DataRowImpl.class.php',
         'S2Dao_DataTableImpl' => '/extension/dataset/impl/S2Dao_DataTableImpl.class.php',
         'S2Dao_DataSetImpl' => '/extension/dataset/impl/S2Dao_DataSetImpl.class.php',
+        'S2Dao_DataTableResultSetHandler' => '/extension/dataset/impl/S2Dao_DataTableResultSetHandler.class.php',
         'S2Dao_ColumnType' => '/extenstion/dataset/S2Dao_ColumnType.class.php',
         'S2Dao_DataColumn' => '/extension/dataset/S2Dao_DataColumn.class.php',
         'S2Dao_DataReader' => '/extension/dataset/S2Dao_DataReader.class.php',
