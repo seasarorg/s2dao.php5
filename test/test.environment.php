@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE | E_STRICT);
+ini_set('memory_limit', '300M');
 
 define('HOME_DIR',  dirname(dirname(__FILE__)));
 define('SRC_DIR', HOME_DIR . '/src');
@@ -20,7 +21,12 @@ define('S2CONTAINER_PHP5_APP_DICON', RESOURCE_DIR . '/app.dicon');
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::FATAL);
 define('S2CONTAINER_PHP5_DOM_VALIDATE', false);
 define('DAO_DICON', RESOURCE_DIR . '/dao.dicon');
-define('PDO_DICON', RESOURCE_DIR . '/pdo.dicon');
+define('PDO_DICON', RESOURCE_DIR . '/pdo-sqlite.dicon');
+//define('PDO_DICON', RESOURCE_DIR . '/pdo-mysql.dicon');
+//define('PDO_DICON', RESOURCE_DIR . '/pdo-pgsql.dicon');
+//define('PDO_DICON', RESOURCE_DIR . '/pdo-oracle.dicon');
+//define('PDO_DICON', RESOURCE_DIR . '/pdo-firebird.dicon');
+//define('PDO_DICON', RESOURCE_DIR . '/pdo-sybase.dicon');
 
 S2ContainerClassLoader::import(S2CONTAINER_PHP5);
 S2ContainerClassLoader::import(S2DAO_PHP5);

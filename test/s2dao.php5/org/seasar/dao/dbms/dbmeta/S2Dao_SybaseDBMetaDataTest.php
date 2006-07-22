@@ -24,34 +24,29 @@
 /**
  * @author nowel
  */
-class S2Dao_StandardTest extends PHPUnit2_Framework_TestCase {
+class S2Dao_SybaseDBMetaDataTest extends PHPUnit2_Framework_TestCase {
+    
+    private $dataSource;
 
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_StandardTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_SybaseDBMetaDataTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
     protected function tearDown() {
+        $this->dataSource = null;
     }
 
-    public function testCreateAutoSelectList() {
-        $dbms = new S2Dao_Standard();
-        $emp = new ReflectionClass("Employee2");
-        $bmd = $this->createBeanMetaData($emp, $dbms);
-        $sql = $dbms->getAutoSelectSql($bmd);
-        echo $sql . PHP_EOL;
-    }
-
-    private function createBeanMetaData(ReflectionClass $beanClass, S2Dao_Dbms $dbms) {
-        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
-        $ds = $container->getComponent("pdo.dataSource");
-        $beanMetaData = new S2Dao_BeanMetaDataImpl($beanClass,
-                                                    $ds->getConnection(),
-                                                    $dbms);
-        return $beanMetaData;
+    public function testGetTableInfo() {
+        $dbmeta = new S2Dao_SybaseDBMetaData($this->dataSource->getConnection(),
+                                            new S2Dao_Sybase());
+        var_dump($dbmeta->getTableInfo("EMP2"));
     }
 }
+
 ?>

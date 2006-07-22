@@ -66,8 +66,8 @@ class S2Dao_EntityManagerImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testFindObject() {
-        $count = $this->entityManager->findObject("select count(*) from emp2");
-        $this->assertEquals(14, $count);
+        $count = $this->entityManager->findObject("select count(*) from SEARCH");
+        $this->assertEquals(4, $count);
     }
 }
 ?>

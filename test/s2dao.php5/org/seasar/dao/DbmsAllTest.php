@@ -39,38 +39,27 @@ class DbmsAllTest {
         $dbms = S2Dao_DbmsManager::getDbms($dataSource->getConnection());
         $suite = new PHPUnit2_Framework_TestSuite("All DBMS Tests");
         $suite->addTestSuite('S2Dao_DbmsManagerTest');
-        $suite->addTestSuite('S2Dao_StandardTest');
-        $suite->addTestSuite('S2Dao_DBMetaDataFactoryTest');
-        $suite->addTestSuite('S2Dao_ProcedureInfoTest');
-        $suite->addTestSuite('S2Dao_ProcedureMetaDataFactoryTest');
-        $suite->addTestSuite('S2Dao_ProcedureTypeTest');
         if($dbms instanceof S2Dao_Firebird){
-            $suite->addTestSuite('S2Dao_FirebirdTest');
             $suite->addTestSuite('S2Dao_FirebirdDBMetaDataTest');
         }
         if($dbms instanceof S2Dao_MySQL){
-            $suite->addTestSuite('S2Dao_MySQLTest');
             $suite->addTestSuite('S2Dao_StandardDBMetaDataTest');
             $suite->addTestSuite('S2Dao_MySQLProcedureMetaDataImplTest');
         }
         if($dbms instanceof S2Dao_Oracle){
-            $suite->addTestSuite('S2Dao_OracleTest');
             $suite->addTestSuite('S2Dao_OracleDBMetaDataTest');
             $suite->addTestSuite('S2Dao_OracleProcedureMetaDataImplTest');
         }
         if($dbms instanceof S2Dao_PostgreSQL){
-            $suite->addTestSuite('S2Dao_PostgreSQLTest');
             $suite->addTestSuite('S2Dao_PostgreSQLDBMetaDataTest');
             $suite->addTestSuite('S2Dao_PostgreSQLProcedureMetaDataImplTest');
         }
         if($dbms instanceof S2Dao_SQLite){
             require_once TEST_DIR . '/classes/dao/pdo_sqlite/procedure.php';
-            $suite->addTestSuite('S2Dao_SQLiteTest');
             $suite->addTestSuite('S2Dao_SQLiteDBMetaDataTest');
             $suite->addTestSuite('S2Dao_SQLiteProcedureMetaDataImplTest');
         }
         if($dbms instanceof S2Dao_Sybase){
-            $suite->addTestSuite('S2Dao_SybaseTest');
             $suite->addTestSuite('S2Dao_SybaseDBMetaDataTest');
         }
         return $suite;
