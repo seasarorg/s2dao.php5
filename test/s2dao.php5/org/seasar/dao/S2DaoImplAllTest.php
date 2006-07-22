@@ -43,7 +43,7 @@ class S2DaoImplAllTest {
         $suite->addTestSuite('S2Dao_InsertAutoDynamicCommandTest');
         $suite->addTestSuite('S2Dao_RelationKeyTest');
         $suite->addTestSuite('S2Dao_SelectDynamicCommandTest');
-//        $suite->addTestSuite('S2Dao_StaticStoredProcedureCommandTest');
+        $suite->addTestSuite('S2Dao_StaticStoredProcedureCommandTest');
         $suite->addTestSuite('S2Dao_UpdateDynamicCommandTest');
         $suite->addTestSuite('S2Dao_UpdateAutoStaticCommandTest');
         return $suite;

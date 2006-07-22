@@ -1,2 +1,2 @@
-UPDATE emp2 SET ename = /*employee.ename*/'SCOTT'
-WHERE empno = /*employee.empno*/7788
+UPDATE EMP2 SET ENAME = /*employee.ename*/'SCOTT'
+WHERE EMPNO = /*employee.empno*/7788

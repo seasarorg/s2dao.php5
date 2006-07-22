@@ -73,7 +73,7 @@ class S2Dao_BeanMetaDataResultSetHandlerTest extends PHPUnit2_Framework_TestCase
 
     public function testHandle2() {
         $handler = new S2Dao_BeanMetaDataResultSetHandler($this->bmd);
-        $sql = "select ename, job from emp2 where empno = 7902";
+        $sql = "select ename, job from EMP2 emp2 where empno = 7902";
         $con = $this->getConnection();
         $ps = $con->prepare($sql);
         $ret = null;
@@ -88,7 +88,7 @@ class S2Dao_BeanMetaDataResultSetHandlerTest extends PHPUnit2_Framework_TestCase
     public function testHandle3() {
         $handler = new S2Dao_BeanMetaDataResultSetHandler($this->bmd);
         $sql = "select emp2.ename, dept2.deptno as DEPTNO_0, dept2.dname as DNAME_0 " .
-                "from emp2, dept2 where emp2.empno = 7788 and emp2.deptno = dept2.deptno";
+                "from EMP2 emp2, DEPT2 dept2 where emp2.empno = 7788 and emp2.deptno = dept2.deptno";
         $con = $this->getConnection();
         $ps = $con->prepare($sql);
         $ps->execute();

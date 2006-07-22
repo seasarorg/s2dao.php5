@@ -68,16 +68,17 @@ class S2Dao_BasicHandler {
     
     private function setAttributes(PDO $connection){
         // php 5.1.3 or later
-        if(!version_compare(phpversion(), "5.1.3", ">=")){
+        if(!version_compare(phpversion(), '5.1.3', '>=')){
             return;
         }
         // FIXME pdo version 1.0.3 higher
-        $refPdo = new ReflectionExtension("PDO");
-        if(!version_compare($refPdo->getVersion(), "1.0.3", ">=")){
+        $refPdo = new ReflectionExtension('PDO');
+        if(!version_compare($refPdo->getVersion(), '1.0.3', '>=')){
             return;
         }
         if(S2Dao_DbmsManager::getDbms($connection) instanceof S2Dao_MySQL){
             $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+            $connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         }
     }
 
@@ -109,13 +110,12 @@ class S2Dao_BasicHandler {
             try {
                 $arg = $args[$i];
                 $argType = $argTypes[$i];
+                $phptype = gettype($arg);
                 
                 // TODO: argTypes check value
-                $phptype = gettype($arg);
-                $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phptype));
+                //$ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phptype));
                 
                 // FIXME: null check null value
-                /*
                 if($argType !== null){
                     if($this->isNullEquals($arg, $argType)){
                         $ps->bindValue($i + 1, $arg, S2Dao_PDOType::Null);
@@ -126,7 +126,6 @@ class S2Dao_BasicHandler {
                     $phptype = gettype($arg);
                     $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phptype));
                 }
-                */
             } catch (Exception $ex) {
                 throw new S2Container_SQLRuntimeException($ex);
             }
@@ -188,8 +187,8 @@ class S2Dao_BasicHandler {
     }
     
     private function isNullEquals($value = null, $type = null){
-        $null = gettype(null);
-        if($type == $null && gettype($value) == $null){
+        $nullString = gettype(null);
+        if($type == $nullString && gettype($value) == $nullString){
             return true;
         }
         return false;

@@ -44,12 +44,12 @@ class S2Dao_UpdateDynamicCommandTest extends PHPUnit2_Framework_TestCase {
 
     public function testExecuteTx() {
         $cmd = new S2Dao_UpdateDynamicCommand($this->dataSource, new S2Dao_BasicStatementFactory);
-        $cmd->setSql("UPDATE emp2 SET ename = /*employee.ename*/'HOGE' WHERE empno = /*employee.empno*/1234");
+        $cmd->setSql("UPDATE EMP2 SET ename = /*employee.ename*/'HOGE' WHERE empno = /*employee.empno*/1234");
         $cmd->setArgNames(array("employee"));
-        $emp = new Employee2();
-        $emp->setEmpno(7788);
-        $emp->setEname("SCOTT");
-        $count = $cmd->execute(array($emp));
+        $employee = new Employee2();
+        $employee->setEmpno(7839);
+        $employee->setEname("KINGS");
+        $count = $cmd->execute(array($employee));
         $this->assertEquals(1, $count);
     }
 }

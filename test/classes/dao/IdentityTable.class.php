@@ -2,6 +2,7 @@
 
 class IdentityTable {
 
+    const TABLE = "IDENTITYTABLE";
 	const myid_ID = "identity";
 	const myid_COLUMN = "id";
 

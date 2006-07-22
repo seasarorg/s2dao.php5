@@ -48,7 +48,7 @@ class S2Dao_MapListResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
 
     public function testHandle() {
         $handler = new S2Dao_MapListResultSetHandler();
-        $sql = "select ename, empno from emp2 where empno = 7900";
+        $sql = "select ename, empno from EMP2 emp2 where empno = 7900";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -64,7 +64,7 @@ class S2Dao_MapListResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
     
     public function testHandle2() {
         $handler = new S2Dao_MapListResultSetHandler();
-        $sql = "select ename from emp2 where empno = 7900";
+        $sql = "select ename from EMP2 emp2 where empno = 7900";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->execute();

@@ -49,7 +49,7 @@ class S2Dao_BeanResultSetHandlerTest extends PHPUnit2_Framework_TestCase {
     public function testHandle() {
         $refClass = new ReflectionClass("Employee2");
         $handler = new S2Dao_BeanResultSetHandler($refClass);
-        $sql = "select * from emp2 where empno = 7369";
+        $sql = "select * from EMP2 emp2 where empno = 7369";
         $conn = $this->getDataSource()->getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->execute();

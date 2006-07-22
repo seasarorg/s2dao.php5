@@ -43,7 +43,7 @@ class S2Dao_DataTableImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testHandle() {
-        $sql = "select * from EMP2";
+        $sql = "select * from EMP2 emp2";
         $handler = new S2Dao_BasicSelectHandler($this->dataSource, $sql,
                 new S2Dao_DataTableResultSetHandler("EMP2", $this->dataSource));
         $ret = $handler->execute(null, null);

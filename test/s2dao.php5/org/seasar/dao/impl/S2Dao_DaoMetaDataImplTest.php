@@ -94,7 +94,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $dmd = $this->createDaoMetaData($this->getDaoClass("Employee2Dao"));
         $cmd = $dmd->getSqlCommand("getAllEmployeesList");
         $this->assertNotNull($cmd);
-        $this->assertFalse(stripos("SELECT * FROM emp2", $cmd->getSql()));
+        $this->assertFalse(stripos("SELECT * FROM EMP2 emp2", $cmd->getSql()));
         $rsh = $cmd->getResultSetHandler();
         $this->assertEquals($this->getReflection("Employee2"),
                             $rsh->getBeanMetaData()->getBeanClass());
@@ -124,7 +124,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertNotNull($cmd);
         $this->assertEquals("S2Dao_BeanMetaDataResultSetHandler",
                             get_class($cmd->getResultSetHandler()));
-        $this->assertTrue(strcasecmp("SELECT COUNT(*) FROM emp2", $cmd->getSql()) == 0);
+        $this->assertTrue(strcasecmp("SELECT COUNT(*) FROM EMP2 emp2", $cmd->getSql()) == 0);
     }
 
     public function testUpdate() {
@@ -346,7 +346,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         echo $cmd->getSql();
         {
             $emp = new Employee8();
-            $results =  $cmd->execute(array($emp));
+            $results =  $cmd->execute(null);
             $this->assertEquals(0, $results->size());
         }
         {

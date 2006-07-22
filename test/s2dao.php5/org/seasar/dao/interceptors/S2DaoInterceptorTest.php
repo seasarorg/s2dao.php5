@@ -67,14 +67,6 @@ class S2DaoInterceptorTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(1, $this->dao->update($employee));
     }
 
-    public function testEntityManager() {
-        // TODO: S2Container.PHP5-1.1.1 not support Abstract Class
-//        $employees = $this->dao->getEmployeesByDeptnoArray(10);
-//        var_dump($employees);
-//        $this->assertTrue(is_array($employees));
-//        $this->assertEquals(3, count($employees));
-    }
-    
     public function testInsertTx() {
         $this->dao->insert(9999, "hoge");
     }

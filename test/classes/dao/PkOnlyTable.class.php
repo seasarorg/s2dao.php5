@@ -3,9 +3,7 @@
 class PkOnlyTable {
 
     const TABLE = "PK_ONLY_TABLE";
-
     private $aaa;
-
     private $bbb;
 
     public function getAaa() {

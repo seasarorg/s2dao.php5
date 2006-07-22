@@ -47,7 +47,7 @@ class S2Dao_BasicHandlerTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testGetDataSource() {
-        $sql = "select * from emp2, dept2";
+        $sql = "select * from EMP2 emp2, DEPT2 dept2";
         $handler = new S2Dao_BasicHandler($this->getDataSource(),
                         $sql, new S2Dao_BasicStatementFactory());
                         
@@ -56,20 +56,20 @@ class S2Dao_BasicHandlerTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testGetSql() {
-        $sql = "select * from emp2, dept2";
+        $sql = "select * from EMP2 emp2, dept2 dept2";
         $handler = new S2Dao_BasicHandler($this->getDataSource(),
                         $sql, new S2Dao_BasicStatementFactory());
                         
         $this->assertNotNull($handler);
         $this->assertEquals($sql, $handler->getSql());
         
-        $sql2 = "select * from emp2";
+        $sql2 = "select * from EMP2 emp2";
         $handler->setSql($sql2);
         $this->assertNotEquals($sql, $handler->getSql());
     }
     
     public function testGetStatementFactory() {
-        $sql = "select * from emp2, dept2";
+        $sql = "select * from EMP2 emp2, DEPT2 dept2";
         $handler1 = new S2Dao_BasicHandler($this->getDataSource(),
                         $sql, new S2Dao_BasicStatementFactory());
         $handler2 = new S2Dao_BasicHandler($this->getDataSource(),

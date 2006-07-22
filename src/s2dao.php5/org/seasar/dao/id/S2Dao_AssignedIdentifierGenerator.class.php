@@ -30,7 +30,7 @@ class S2Dao_AssignedIdentifierGenerator extends S2Dao_AbstractIdentifierGenerato
         parent::__construct($propertyName, $dbms);
     }
 
-    public function setIdentifier($bean, $value) {
+    public function setIdentifier($bean, S2Container_DataSource $value) {
     }
 
     public function isSelfGenerate() {

@@ -45,7 +45,7 @@ class S2Dao_BeanArrayMetaDataResultSetHandlerTest extends PHPUnit2_Framework_Tes
     public function testHandle() {
         $emp2 = new ReflectionClass("Employee2");
         $handler = new S2Dao_BeanArrayMetaDataResultSetHandler($this->createBeanMetaData($emp2));
-        $sql = "select * from emp2";
+        $sql = "select * from EMP2 emp2";
         $conn = $this->getConnection();
         $ps = $conn->prepare($sql);
         $ps->execute();

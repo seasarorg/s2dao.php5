@@ -47,7 +47,7 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testExecute() {
-        $sql = "select * from emp2 where empno = ?";
+        $sql = "select * from EMP2 emp2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(array(7788), (array)gettype(7788));
@@ -56,7 +56,7 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testExecute2(){
-        $sql = "select count(*) from emp2 where empno = ?";
+        $sql = "select count(*) from EMP2 emp2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(array(7788), (array)gettype(7788));
@@ -65,16 +65,20 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testExecute3(){
-        $sql = "select count(*), emp2.* from emp2 where empno = ?";
+        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        if($dbms instanceof S2Dao_MySQL){
+            return;
+        }
+        $sql = "select count(*), emp2.* from EMP2 emp2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
-        $ret = $handler->execute(array(7788), (array)gettype(7788));
+        $ret = $handler->execute(array(7788), array(gettype(7788)));
         var_dump($ret);
         $this->assertNotNull($ret);
     }
     
     public function testExecute4(){
-        $sql = "select null from emp2 where empno = ?";
+        $sql = "select null from EMP2 emp2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(array(7788), (array)gettype(7788));
@@ -83,7 +87,7 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testExecute5(){
-        $sql = "select null from emp2";
+        $sql = "select null from EMP2 emp2";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(null, null);
@@ -97,7 +101,8 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
         if(!($dbms instanceof S2Dao_MySQL)){
             return;
         }
-        $sql = "select * into outfile '/tmp/hoge.txt' from EMP2 where empno = ?";
+        $file = "/tmp/" . uniqid(time()) . ".txt";
+        $sql = "select * into outfile '" . $file . "' from EMP2 emp2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(array(7788), (array)gettype(7788));
@@ -111,7 +116,8 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
         if(!($dbms instanceof S2Dao_MySQL)){
             return;
         }
-        $sql = "select null, EMP2.* into outfile '/tmp/foo.txt' from EMP2 where empno = ?";
+        $file = "/tmp/" . uniqid(time()) . ".txt";
+        $sql = "select null, emp2.* into outfile '" . $file . "' from EMP2 emp2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(array(7788), (array)gettype(7788));
@@ -125,7 +131,8 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
         if(!($dbms instanceof S2Dao_MySQL)){
             return;
         }
-        $sql = "select 'hoge' as Hoge, EMP2.* into outfile '/tmp/bar.txt' from EMP2 where empno = ?";
+        $file = "/tmp/" . uniqid(time()) . ".txt";
+        $sql = "select 'hoge' as Hoge, emp2.* into outfile '" . $file . "' from EMP2 emp2 where empno = ?";
         $handler = new S2Dao_BasicSelectHandler($this->getDataSource(),
                 $sql, new S2Dao_ObjectResultSetHandler());
         $ret = $handler->execute(array(7788), (array)gettype(7788));

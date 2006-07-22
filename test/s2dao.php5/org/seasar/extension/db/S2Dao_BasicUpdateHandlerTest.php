@@ -47,9 +47,9 @@ class S2Dao_BasicUpdateHandlerTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testExecuteTx() {
-        $sql = "update emp2 set ename = ?, comm = ? where empno = ?";
+        $sql = "update EMP2 set ename = ?, comm = ? where empno = ?";
         $handler = new S2Dao_BasicUpdateHandler($this->getDataSource(), $sql);
-        $ret = $handler->execute(array("SCOTT", null, 7788));
+        $ret = $handler->execute(array("SCOTT", null, 7902));
         $this->assertEquals(1, $ret);
     }
 }

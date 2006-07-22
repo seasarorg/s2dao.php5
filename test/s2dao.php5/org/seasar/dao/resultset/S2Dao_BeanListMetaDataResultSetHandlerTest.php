@@ -47,7 +47,7 @@ class S2Dao_BeanListMetaDataResultSetHandlerTest extends PHPUnit2_Framework_Test
 
     public function testHandle() {
         $handler = new S2Dao_BeanListMetaDataResultSetHandler($this->bmd);
-        $sql = "select * from emp2";
+        $sql = "select * from EMP2 emp2";
         $conn = $this->getConnection();
         $ps = $conn->prepare($sql);
         $ps->execute();
@@ -61,7 +61,7 @@ class S2Dao_BeanListMetaDataResultSetHandlerTest extends PHPUnit2_Framework_Test
     
     public function testHandle2() {
         $handler = new S2Dao_BeanListMetaDataResultSetHandler($this->bmd);
-        $sql = "select emp2.*, dept2.dname as dname_0 from emp2, dept2 where emp2.deptno = dept2.deptno and emp2.deptno = 20";
+        $sql = "select emp2.*, dept2.dname as dname_0 from EMP2 emp2, DEPT2 dept2 where emp2.deptno = dept2.deptno and emp2.deptno = 20";
         $conn = $this->getConnection();
         $ps = $conn->prepare($sql);
         $ps->execute();
@@ -79,7 +79,7 @@ class S2Dao_BeanListMetaDataResultSetHandlerTest extends PHPUnit2_Framework_Test
 
     public function testHandle3() {
         $handler = new S2Dao_BeanListMetaDataResultSetHandler($this->bmd);
-        $sql = "select emp2.*, dept2.deptno as deptno_0, dept2.dname as dname_0 from emp2, dept2 where dept2.deptno = 20 and emp2.deptno = dept2.deptno";
+        $sql = "select emp2.*, dept2.deptno as deptno_0, dept2.dname as dname_0 from EMP2 emp2, DEPT2 dept2 where dept2.deptno = 20 and emp2.deptno = dept2.deptno";
         $conn = $this->getConnection();
         $ps = $conn->prepare($sql);
         $ps->execute();

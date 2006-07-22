@@ -76,6 +76,7 @@ class S2Dao_DefaultImplTest  extends PHPUnit2_Framework_TestCase {
             $bean->setAaa("ABC");
             $bean->setBbb("bbbb");
             $this->defaultTableDao->insert($bean);
+            var_dump($bean->getId());
             $id = $bean->getId();
         }
         {
@@ -102,7 +103,8 @@ class S2Dao_DefaultImplTest  extends PHPUnit2_Framework_TestCase {
         {
             $bean = new DefaultTable();
             $bean->setAaa("foooo");
-            $this->defaultTableDao->insertBySql($bean);
+            $this->defaultTableDao->insert($bean);
+            var_dump($bean);
             $id = $bean->getId();
         }
         {
@@ -136,6 +138,7 @@ class S2Dao_DefaultImplTest  extends PHPUnit2_Framework_TestCase {
         $bean->setBbb(456);
         $this->pkOnlyTableDao->insert($bean);
         $list = $this->pkOnlyTableDao->findAllList();
+        var_dump($list);
         $this->assertEquals(2, $list->size());
     }
 }

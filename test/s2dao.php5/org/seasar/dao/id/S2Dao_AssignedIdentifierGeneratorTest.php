@@ -43,7 +43,7 @@ class S2Dao_AssignedIdentifierGeneratorTest extends PHPUnit2_Framework_TestCase 
     }
     
     public function testGetGeneratedValueTx() {
-        $sql = "insert into identitytable(id_name) values('hoge')";
+        $sql = "insert into IDENTITYTABLE(id_name) values('hoge')";
         $updateHandler = new S2Dao_BasicUpdateHandler($this->datasource, $sql);
         $updateHandler->execute(null);
 

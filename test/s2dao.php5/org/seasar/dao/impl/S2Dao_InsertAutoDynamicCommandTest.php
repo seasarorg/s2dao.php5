@@ -70,7 +70,7 @@ class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
         $dmd = $this->createDaoMetaData($this->getDaoClass("IdentityTableAutoDao"));
         $cmd = $dmd->getSqlCommand("insert");
         $table = new IdentityTable();
-        $table->setIdName("hoge");
+        $table->setIdName("hogem");
         $count1 = $cmd->execute(array($table));
         $this->assertEquals(1, $count1);
         $id1 = $table->getMyid();
@@ -79,7 +79,6 @@ class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(1, $count2);
         $id2 = $table->getMyid();
         var_dump($id2);
-
         $this->assertEquals(1, $id2 - $id1);
     }
 
@@ -98,14 +97,14 @@ class S2Dao_InsertAutoDynamicCommandTest extends PHPUnit2_Framework_TestCase {
         $dmd = $this->createDaoMetaData($this->getDaoClass("SeqTableAuto2Dao"));
         $cmd = $dmd->getSqlCommand("insert");
         $table1 = new SeqTable2();
-        $table1->setName("hoge");
+        $table1->setName("hoger");
         $count = $cmd->execute(array($table1));
         $this->assertEquals(1, $count);
         var_dump($table1->getId());
         $this->assertTrue((int)$table1->getId() > 0);
 
         $table2 = new SeqTable2();
-        $table2->setName("foo");
+        $table2->setName("foor");
         $cmd->execute(array($table2));
         var_dump($table2->getId());
         $this->assertTrue((int)$table2->getId() > (int)$table1->getId());

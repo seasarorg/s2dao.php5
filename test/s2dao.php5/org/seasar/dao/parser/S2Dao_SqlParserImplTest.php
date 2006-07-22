@@ -38,7 +38,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testParse() {
-        $sql = "SELECT * FROM emp2";
+        $sql = "SELECT * FROM EMP2 emp2";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
         $node = $parser->parse();
@@ -53,7 +53,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     private function parseEndSemicolon2($endChar) {
-        $sql = "SELECT * FROM emp2";
+        $sql = "SELECT * FROM EMP2 emp2";
         $parser = new S2Dao_SqlParserImpl($sql . $endChar);
         $ctx = new S2Dao_CommandContextImpl();
         $node = $parser->parse();
@@ -62,7 +62,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
         
     public function testCommentEndNotFound() {
-        $sql = "SELECT * FROM emp2/*hoge";
+        $sql = "SELECT * FROM EMP2 emp2/*hoge";
         $parser = new S2Dao_SqlParserImpl($sql);
         try {
             $parser->parse();
@@ -72,7 +72,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         }
     }
     public function testParseBindVariable4() {
-        $sql = "SELECT * FROM emp2 WHERE job = #*job*#'CLERK' AND deptno = #*deptno*#20";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE job = #*job*#'CLERK' AND deptno = #*deptno*#20";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
         $job = "CLERK";
@@ -85,9 +85,9 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseBindVariable() {
-        $sql = "SELECT * FROM emp2 WHERE job = /*job*/'CLERK' AND deptno = /*deptno*/20";
-        $sql2 = "SELECT * FROM emp2 WHERE job = ? AND deptno = ?";
-        $sql3 = "SELECT * FROM emp2 WHERE job = ";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE job = /*job*/'CLERK' AND deptno = /*deptno*/20";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE job = ? AND deptno = ?";
+        $sql3 = "SELECT * FROM EMP2 emp2 WHERE job = ";
         $sql4 = " AND deptno = ";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
@@ -115,10 +115,10 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseBindVariable2() {
-        $sql = "SELECT * FROM emp2 WHERE job = /* job*/'CLERK'";
-        $sql2 = "SELECT * FROM emp2 WHERE job = 'CLERK'";
-        $sql2_parsed = "SELECT * FROM emp2 WHERE job = ?";
-        $sql3 = "SELECT * FROM emp2 WHERE job = ";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE job = /* job*/'CLERK'";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE job = 'CLERK'";
+        $sql2_parsed = "SELECT * FROM EMP2 emp2 WHERE job = ?";
+        $sql3 = "SELECT * FROM EMP2 emp2 WHERE job = ";
         $sql4 = " job";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
@@ -134,8 +134,8 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseWhiteSpace() {
-        $sql = "SELECT * FROM emp2 WHERE emp2no = /*emp2no*/1 AND 1 = 1";
-        $sql2 = "SELECT * FROM emp2 WHERE emp2no = ? AND 1 = 1";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE emp2no = /*emp2no*/1 AND 1 = 1";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE emp2no = ? AND 1 = 1";
         $sql3 = " AND 1 = 1";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
@@ -150,9 +150,9 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseIf() {
-        $sql = "SELECT * FROM emp2/*IF job != null*/ WHERE job = /*job*/'CLERK'/*END*/";
-        $sql2 = "SELECT * FROM emp2 WHERE job = ?";
-        $sql3 = "SELECT * FROM emp2";
+        $sql = "SELECT * FROM EMP2 emp2/*IF job != null*/ WHERE job = /*job*/'CLERK'/*END*/";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE job = ?";
+        $sql3 = "SELECT * FROM EMP2 emp2";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
         $job = "CLERK";
@@ -206,9 +206,9 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testParseElse() {
-        $sql = "SELECT * FROM emp2 WHERE /*IF job != null*/job = /*job*/'CLERK'--ELSE job is null/*END*/";
-        $sql2 = "SELECT * FROM emp2 WHERE job = ?";
-        $sql3 = "SELECT * FROM emp2 WHERE job is null";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE /*IF job != null*/job = /*job*/'CLERK'--ELSE job is null/*END*/";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE job = ?";
+        $sql3 = "SELECT * FROM EMP2 emp2 WHERE job is null";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
         $job = "CLERK";
@@ -252,8 +252,8 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testElse4() {
-        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF false*/aaa--ELSE AND deptno = 10/*END*//*END*/";
-        $sql2 = "SELECT * FROM emp2 WHERE  deptno = 10";
+        $sql = "SELECT * FROM EMP2 emp2/*BEGIN*/ WHERE /*IF false*/aaa--ELSE AND deptno = 10/*END*//*END*/";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE  deptno = 10";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -263,11 +263,11 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testBegin() {
-        $sql = "SELECT * FROM emp2/*BEGIN*/ WHERE /*IF job !== null*/job = /*job*/'CLERK'/*END*//*IF deptno !== null*/ AND deptno = /*deptno*/20/*END*//*END*/";
-        $sql2 = "SELECT * FROM emp2";
-        $sql3 = "SELECT * FROM emp2 WHERE job = ?";
-        $sql4 = "SELECT * FROM emp2 WHERE job = ? AND deptno = ?";
-        $sql5 = "SELECT * FROM emp2 WHERE  AND deptno = ?";
+        $sql = "SELECT * FROM EMP2 emp2/*BEGIN*/ WHERE /*IF job !== null*/job = /*job*/'CLERK'/*END*//*IF deptno !== null*/ AND deptno = /*deptno*/20/*END*//*END*/";
+        $sql2 = "SELECT * FROM EMP2 emp2";
+        $sql3 = "SELECT * FROM EMP2 emp2 WHERE job = ?";
+        $sql4 = "SELECT * FROM EMP2 emp2 WHERE job = ? AND deptno = ?";
+        $sql5 = "SELECT * FROM EMP2 emp2 WHERE  AND deptno = ?";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -311,8 +311,8 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testIn() {
-        $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
-        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE deptno IN (?, ?) ORDER BY ename";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -329,8 +329,8 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testIn2() {
-        $sql = "SELECT * FROM emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
-        $sql2 = "SELECT * FROM emp2 WHERE deptno IN (?, ?) ORDER BY ename";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE deptno IN /*deptnoList*/(10, 20) ORDER BY ename";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE deptno IN (?, ?) ORDER BY ename";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
@@ -345,8 +345,8 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testIn3() {
-        $sql = "SELECT * FROM emp2 WHERE ename IN /*enames*/('SCOTT','MARY') AND job IN /*jobs*/('ANALYST', 'FREE')";
-        $sql2 = "SELECT * FROM emp2 WHERE ename IN (?, ?) AND job IN (?, ?)";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE ename IN /*enames*/('SCOTT','MARY') AND job IN /*jobs*/('ANALYST', 'FREE')";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE ename IN (?, ?) AND job IN (?, ?)";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();

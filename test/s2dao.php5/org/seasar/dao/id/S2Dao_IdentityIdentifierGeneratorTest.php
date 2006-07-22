@@ -42,11 +42,12 @@ class S2Dao_IdentityIdentifierGeneratorTest extends PHPUnit2_Framework_TestCase 
     }
 
     public function testGetGeneratedValueTx() {
-        $sql = "insert into identitytable(id, id_name) values(0, 'hoge')";
+        $dbms = S2Dao_DbmsManager::getDbms($this->datasource->getConnection());
+        $sql = "insert into IDENTITYTABLE(id, id_name) values(1, 'hoge')";
         $updateHandler = new S2Dao_BasicUpdateHandler($this->datasource, $sql);
         $updateHandler->execute(null);
 
-        $generator = new S2Dao_IdentityIdentifierGenerator("id", new S2Dao_SQLite());
+        $generator = new S2Dao_IdentityIdentifierGenerator("id", $dbms);
         $hoge = new Hoge2Bean();
         $generator->setIdentifier($hoge, $this->datasource);
         

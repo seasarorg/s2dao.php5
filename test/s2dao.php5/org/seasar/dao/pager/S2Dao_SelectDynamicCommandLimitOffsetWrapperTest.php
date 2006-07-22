@@ -63,7 +63,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
                 new S2Dao_BeanListMetaDataResultSetHandler(
                         $this->createBeanMetaData("Employee2")),
                 new S2Dao_BasicResultSetFactory());
-        $cmd->setSql("SELECT * FROM emp2");
+        $cmd->setSql("SELECT * FROM EMP2 emp2");
 
         $args = array();
         $empAll = $cmd->execute($args);
