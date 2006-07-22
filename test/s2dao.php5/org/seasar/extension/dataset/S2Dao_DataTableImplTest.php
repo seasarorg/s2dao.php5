@@ -25,6 +25,8 @@
  * @author nowel
  */
 class S2Dao_DataTableImplTest extends PHPUnit2_Framework_TestCase {
+    
+    private $dataSource = null;
 
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DataTableImplTest");
@@ -32,70 +34,35 @@ class S2Dao_DataTableImplTest extends PHPUnit2_Framework_TestCase {
     }
 
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
     protected function tearDown() {
+        $this->dataSource = null;
     }
 
-    public function testGetTableName() {
+    public function testHandle() {
+        $sql = "select * from EMP2";
+        $handler = new S2Dao_BasicSelectHandler($this->dataSource, $sql,
+                new S2Dao_DataTableResultSetHandler("EMP2", $this->dataSource));
+        $ret = $handler->execute(null, null);
+        var_dump($ret);
+        $this->assertNotNull($ret);
+        $this->assertTrue($ret->getColumn("EMPNO")->isPrimaryKey());
     }
 
-    public function testSetTableName() {
+    public function testHandle2() {
+        $sql = "select emp2.ename, dept2.dname from EMP2 emp2, DEPT2 dept2 where emp2.deptno = dept2.deptno";
+        $handler = new S2Dao_BasicSelectHandler($this->dataSource, $sql,
+                new S2Dao_DataTableResultSetHandler("EMP2", $this->dataSource));
+        $ret = $handler->execute(null, null);
+        var_dump($ret);
+        $this->assertNotNull($ret);
+        $this->assertTrue($ret->getColumn("ENAME")->isWritable());
+        $this->assertFalse($ret->getColumn("DNAME")->isWritable());
     }
 
-    public function testGetRowSize() {
-    }
-
-    public function testGetRow() {
-    }
-
-    public function testAddRow() {
-    }
-
-    public function testGetRemovedRowSize() {
-    }
-
-    public function testGetRemovedRow() {
-    }
-
-    public function testRemoveRows() {
-    }
-
-    public function testGetColumnSize() {
-    }
-
-    public function testGetColumn() {
-    }
-
-    public function testHasColumn() {
-    }
-
-    public function testGetColumnName() {
-    }
-
-    public function testGetColumnType() {
-    }
-
-    public function testAddColumn() {
-    }
-
-    public function testHasMetaData() {
-    }
-
-    public function testSetupMetaData() {
-    }
-
-    public function testSetupColumns() {
-    }
-
-    public function testCopyFrom() {
-    }
-
-    public function testToString() {
-    }
-
-    public function testEquals() {
-    }
 }
 
 ?>

@@ -58,13 +58,12 @@ class S2Dao_DataTableResultSetHandler implements S2Dao_ResultSetHandler {
         $columnNames = array_keys($rsmd);
         $propertyTypes = array();
         for($i = 0; $i < $count; ++$i){
-            $propertyName = str_replace('_', '', $columnNames[$i]);
-            $propertyDesc = $this->getPropertyDesc($propertyName);
-            $propertyTypes[] = new S2Dao_PropertyTypeImpl($propertyDesc, null, $columnNames[$i]);
+            $propertyName = $columnNames[$i];
+            $propertyTypes[] = new S2Dao_PropertyTypeImpl($propertyName, null, $columnNames[$i]);
         }
         return $propertyTypes;
     }
-
+    
     private function addRow(array $rset, array $propertyTypes, S2Dao_DataTable $table) {
         $row = $table->addRow();
         $length = count($propertyTypes);

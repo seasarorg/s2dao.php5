@@ -89,6 +89,21 @@ final class S2Dao_DatabaseMetaDataUtil {
         return self::getColumnSet($dbMetaData, $tableName)->toArray();
     }
     
+    public static function getColumnMap(PDO $dbMetaData, $tableName) {
+        $map = new S2Dao_HashMap();
+        $set = self::getColumnSet($dbMetaData, $tableName);
+        $c = $set->size();
+        for($i = 0; $i < $c; ++$i){
+            $column = $set->get($i);
+            $lower = strtolower($column);
+            $upper = strtoupper($column);
+            $map->put($lower, null);
+            $map->put($upper, null);
+            $map->put($column, null);
+        }
+        return $map;
+    }
+    
     public static function getColumnSet(PDO $dbMetaData, $tableName) {
         $schema = null;
         $index = strpos('.', $tableName);

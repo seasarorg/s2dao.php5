@@ -27,9 +27,7 @@
 class S2Dao_DataRowImpl implements S2Dao_DataRow {
 
     private $table_;
-
     private $values_;
-
     private $state_ = S2Dao_RowStates::UNCHANGED;
 
     public function __construct(S2Dao_DataTable $table) {
@@ -46,7 +44,8 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
 
     public function getValue($index) {
         if(is_integer($index)){
-            return $this->values_->get($index);
+            $keys = array_keys($this->values_->toArray());
+            return $this->values_->get($keys[$index]);
         }
         if($this->values_->containsKey($index)){
             return $this->values_->get($index);
@@ -58,7 +57,8 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
     public function setValue($columnName, $value) {
         if(is_integer($columnName)){
             $column = $this->table_->getColumn($columnName);
-            $this->values_->set($columnName, $column->convert($value));
+            $keys = array_keys($this->values_->toArray());
+            $this->values_->put($keys[$columnName], $column->convert($value));
             $this->modify();
         } else {
             $column = $this->table_->getColumn($columnName);
@@ -113,7 +113,7 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
             $columnName = $this->table_->getColumnName($i);
             $value = $this->values_->get($i);
             $otherValue = $other->getValue($columnName);
-            $ct = S2Doa_ColumnTypes::getColumnType($value);
+            $ct = S2Dao_ColumnTypes::getColumnType($value);
             if ($ct->equals($value, $otherValue)) {
                 continue;
             }
@@ -124,7 +124,7 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
 
     public function copyFrom($source) {
         if ($source instanceof S2Dao_HashMap) {
-            $this->copyFromS2Dao_HashMap($source);
+            $this->copyFromHashMap($source);
         } else if ($source instanceof S2Dao_DataRow) {
             $this->copyFromRow($source);
         } else {
@@ -133,13 +133,18 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
 
     }
 
-    private function copyFromS2Dao_HashMap($source) {
-        for ($i = $source->keySet()->iterator(); $i->valid(); $i->next()) {
-            $columnName = $i->current();
-            if ($this->table_->hasColumn($columnName)) {
-                $value = $source->get($columnName);
-                $this->setValue($columnName, $this->convertValue($value));
-            }
+    private function copyFromHashMap(S2Dao_HashMap $source) {
+        $arrayObj = new ArrayObject($source->toArray());
+        $iterator = $arrayObj->getIterator();
+        for ($i = $iterator; $i->valid(); $i->next()) {
+            $this->setValueFromHashMap($i->current(), $source);
+        }
+    }
+    
+    private function copyFromBean($source) {
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc(new ReflectionClass($source));
+        for ($i = 0; $i < $this->table_->getColumnSize(); ++$i) {
+            $this->setValueFormBean($beanDesc, $this->table_->getColumnName($i), $source);
         }
     }
 
@@ -147,21 +152,34 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
         for ($i = 0; $i < $source->getTable()->getColumnSize(); ++$i) {
             $columnName = $source->getTable()->getColumnName($i);
             if ($this->table_->hasColumn($columnName)) {
-                $value = $source->getValue($i);
-                $this->setValue($columnName, $this->convertValue($value));
+                $this->setValue($columnName, $source->getValue($i));
             }
         }
     }
 
-    private function copyFromBean($source) {
-        $beanDesc = S2Container_BeanDescFactory::getBeanDesc(new ReflectionClass($source));
-        for ($i = 0; $i < $this->table_->getColumnSize(); ++$i) {
-            $columnName = $this->table_->getColumnName($i);
-            $propertyName = str_replace('_', '', $columnName);
+    private function setValueFromHashMap($columnName, S2Dao_HashMap $source){
+        $columnCase = array($columnName, strtoupper($columnName), strtolower($columnName));
+        $c = count($columnCase);
+        for($i = 0; $i < $c; $i++){
+            $columnName = $columnCase[$i];
+            if ($this->table_->hasColumn($columnName)) {
+                $this->setValue($columnName, $source->get($columnName));
+            }
+        }
+    }
+    
+    private function setValueFormBean(S2Container_BeanDesc $beanDesc, $columnName, $source){
+        $propertyName = str_replace('_', '', $columnName);
+        $propertyCase = array($propertyName,
+                             strtoupper($propertyName),
+                             strtolower($propertyName)
+                        );
+        $c = count($propertyCase);
+        for($i = 0; $i < $c; $i++){
+            $propertyName = $propertyCase[$i];
             if ($beanDesc->hasPropertyDesc($propertyName)) {
                 $pd = $beanDesc->getPropertyDesc($propertyName);
-                $value = $pd->getValue($source);
-                $this->setValue($columnName, $this->convertValue($value));
+                $this->setValue($columnName, $pd->getValue($source));
             }
         }
     }
@@ -170,8 +188,7 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
         if ($value == null) {
             return null;
         }
-        $columnType = S2Dao_ColumnTypes::getColumnType(new ReflectionClass($value));
-        return $columnType->convert($value, null);
+        return $value;
     }
 }
 

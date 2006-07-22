@@ -47,8 +47,13 @@ class S2Dao_HashMap {
         $this->element[$key] = $value;
     }
     
-    public function remove($object){
-        unset($this->element[$object]);
+    public function remove($key){
+        if(!$this->containsKey($key)){
+            return null;
+        }
+        $element = $this->element[$key];
+        unset($this->element[$key]);
+        return $element;
     }
     
     public function containsKey($key){
@@ -57,6 +62,13 @@ class S2Dao_HashMap {
 
     public function toArray(){
         return $this->element;
+    }
+    
+    public function keySet(){
+        $set = new S2Dao_ArrayList();
+        $list = new ArrayObject(array_keys($this->toArray()));
+        $set->addAll($list);
+        return $set;
     }
 }
 ?>

@@ -106,11 +106,11 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
             $column = $this->columns->get($name);
             if ($column == null) {
                 for ($i = 0; $i < $this->columns->size(); ++$i) {
-                    $values = array_values($this->columns->toArray());
-                    $key = key($values[$i]);
+                    $values = array_keys($this->columns->toArray());
+                    $key = $values[$i];
                     $key2 = str_replace('_', '', $key);
                     if (strcasecmp($key2, $name) == 0) {
-                        $column = $this->columns->get($i);
+                        $column = $this->getColumn($i);
                         break;
                     }
                 }
@@ -137,7 +137,7 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
     public function addColumn($columnName, $columnType = null) {
         if($columnType === null){
             return $this->addColumn($columnName, S2Dao_ColumnTypes::OBJECT);
-        }            
+        }
         $column = new S2Dao_DataColumnImpl($columnName, $columnType, $this->columns->size());
         $this->columns->put($columnName, $column);
         return $column;
@@ -160,7 +160,7 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
             if ($columnMap->containsKey($column->getColumnName())) {
                 $column->setWritable(true);
                 $cd = $columnMap->get($column->getColumnName());
-                $column->setColumnType(S2Dao_ColumnTypes::getColumnType($cd->getSqlType()));
+                //$column->setColumnType(S2Dao_ColumnTypes::getColumnType($cd->getSqlType()));
             } else {
                 $column->setWritable(false);
             }

@@ -67,10 +67,13 @@ class S2Dao_DataSetImpl implements S2Dao_DataSet {
             return $this->removeTable($table->getTableName());
         } else if(is_string($table)){
             $table = $this->tables_->remove($table);
-            if ($table == null) {
+            if ($table === null) {
                 throw new S2Dao_TableNotFoundRuntimeException($table);
             }
             return $table;
+        } else if(is_integer($table)){
+            $keys = array_keys($this->tables_->toArray());
+            return $this->removeTable($keys[$table]);
         } else {
             return $this->tables_->remove($table);
         }

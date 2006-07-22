@@ -37,25 +37,23 @@ class S2Dao_DataSetImplTest extends PHPUnit2_Framework_TestCase {
     protected function tearDown() {
     }
 
-    public function testGetTableSize() {
-    }
-
-    public function testGetTableName() {
-    }
-
-    public function testGetTable() {
-    }
-
-    public function testAddTable() {
-    }
-
     public function testRemoveTable() {
-    }
-
-    public function testToString() {
-    }
-
-    public function testEquals() {
+        $dataSet = new S2Dao_DataSetImpl();
+        $table = $dataSet->addTable("hoge");
+        $this->assertEquals($table, $dataSet->removeTable("hoge"));
+        $this->assertEquals(0, $dataSet->getTableSize());
+        $dataSet->addTable($table);
+        $this->assertEquals($table, $dataSet->removeTable($table));
+        $this->assertEquals(0, $dataSet->getTableSize());
+        $dataSet->addTable($table);
+        $this->assertEquals($table, $dataSet->removeTable(0));
+        $this->assertEquals(0, $dataSet->getTableSize());
+        try {
+            $dataSet->removeTable("hoge");
+            $this->fail("1");
+        } catch (S2Dao_TableNotFoundRuntimeException $ex) {
+            var_dump($ex);
+        }
     }
 }
 ?>
