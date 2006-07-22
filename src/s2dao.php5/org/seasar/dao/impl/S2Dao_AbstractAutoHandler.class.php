@@ -102,6 +102,7 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             $this->preUpdatePropertyTypes($bean);
             $this->preUpdateBean($bean);
             $this->setupBindVariables($bean);
+            $this->setupBindValiablesType($bean);
 
             if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
                 $this->getLogger()->debug(
@@ -156,6 +157,18 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
             $pt->setValueType(gettype($value));
         }
     }
+    
+    // TODO
+    protected function setupBindValiablesType($bean){
+        $c = count($this->bindVariableTypes_);
+        for($i = 0; $i < $c; $i++){
+            $type =& $this->bindVariableTypes_[$i];
+            if($type == gettype(null)){
+                $type = gettype($this->bindVariables_[$i]);
+            }
+        }
+    }
+
     
     protected function postUpdatePropertyTypes($bean){
         $this->preUpdatePropertyTypes($bean);

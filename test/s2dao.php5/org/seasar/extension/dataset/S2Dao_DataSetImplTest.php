@@ -52,7 +52,7 @@ class S2Dao_DataSetImplTest extends PHPUnit2_Framework_TestCase {
             $dataSet->removeTable("hoge");
             $this->fail("1");
         } catch (S2Dao_TableNotFoundRuntimeException $ex) {
-            var_dump($ex);
+            var_dump($ex->getTraceAsString());
         }
     }
 }

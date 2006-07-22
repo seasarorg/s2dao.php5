@@ -134,33 +134,43 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $args = $cmd->getArgNames();
         $this->assertEquals("employee", $args[0]);
     }
+    
+    public function testCRUDTx(){
+        $this->InsertAutoTx();
+        $this->UpdateAutoTx();
+        $this->DeleteAutoTx();
+    }
 
-    public function testInsertAutoTx() {
+    private function InsertAutoTx() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
         $cmd = $dmd->getSqlCommand("insert");
         $this->assertNotNull($cmd);
         $emp = $this->getBean("Employee2");
         $this->setProperty($emp, "empno", 991);
         $this->setProperty($emp, "ename", "hoge");
+        var_dump($emp);
         $cmd->execute(array($emp));
     }
 
-    public function testUpdateAutoTx() {
+    private function UpdateAutoTx() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
         $cmd = $dmd->getSqlCommand("update");
         $this->assertNotNull($cmd);
         $cmd2 = $dmd->getSqlCommand("getEmployee");
         $emp = $cmd2->execute(array(991));
         $this->setProperty($emp, "ename", "hoge2");
+        var_dump($emp);
         $cmd->execute(array($emp));
     }
 
-    public function testDeleteAutoTx() {
+    private function DeleteAutoTx() {
         $dmd = $this->createDaoMetaData($this->getDaoClass("EmployeeAutoDao"));
         $cmd = $dmd->getSqlCommand("delete");
         $this->assertNotNull($cmd);
         $cmd2 = $dmd->getSqlCommand("getEmployee");
         $emp = $cmd2->execute(array(991));
+        var_dump($emp);
+        $c = $this->dataSource->getConnection();
         $cmd->execute(array($emp));
     }
     
