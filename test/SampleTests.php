@@ -20,9 +20,9 @@ class SampleTests {
     
     public static function suite(){
         $suites = new PHPUnit2_Framework_TestSuite("All Sample tests");
-        $suites->addTest(ProcedureTest::suite());
-        //$suites->addTest(TransactionTest::suite());
-        //$suites->addTest(SearchTest::suite());
+        $suites->addTest(SampleProcedureTest::suite());
+        $suites->addTest(TransactionTest::suite());
+        $suites->addTest(SearchTest::suite());
         return $suites;
     }
 }

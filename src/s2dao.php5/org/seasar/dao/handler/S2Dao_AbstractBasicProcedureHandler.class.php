@@ -116,8 +116,11 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         
         try {
             $inTypeColumn = $metadata->getProcedureColumnsIn($prcInfo);
-            $outTypeColumn = $metadata->getProcedureColumnsOut($prcInfo);
-            $inoutTypeColumn = $metadata->getProcedureColumnsInOut($prcInfo);
+            // TODO: supported out/inout params
+            //$outTypeColumn = $metadata->getProcedureColumnsOut($prcInfo);
+            //$inoutTypeColumn = $metadata->getProcedureColumnsInOut($prcInfo);
+            $outTypeColumn = array();
+            $inoutTypeColumn = array();
 
             $merge = array_merge($inTypeColumn, $outTypeColumn, $inoutTypeColumn);
             foreach($merge as $m){
@@ -174,7 +177,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
             if($this->isOutputColum($this->columnInOutTypes_[$i])){
                 $pdoType = $this->getValueType($args[$argPos]);
                 $param = null;
-                $ps->bindValue($i + 1, $args[$argPos++], $pdoType|PDO::PARAM_INPUT_OUTPUT);
+                //$ps->bindValue($i + 1, $args[$argPos++], $pdoType|PDO::PARAM_INPUT_OUTPUT);
             }
             if($this->isInputColum($this->columnInOutTypes_[$i])){
                 $pdoType = $this->getValueType($args[$argPos]);
