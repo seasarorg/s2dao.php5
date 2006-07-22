@@ -38,7 +38,6 @@ class S2Dao_PagerResultSetWrapperFactoryTest extends PHPUnit2_Framework_TestCase
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $this->dao = $container->getComponent('pager.empPager');
         $this->dto = new S2Dao_DefaultPagerCondition();
-        $this->dto->setLimit(3);
     }
 
     protected function tearDown() {
@@ -46,10 +45,62 @@ class S2Dao_PagerResultSetWrapperFactoryTest extends PHPUnit2_Framework_TestCase
     }
 
     public function testCreate() {
+        $refDaoClass = new ReflectionClass('EmployeePagerDao');
+        $refDaoMethod = $refDaoClass->getMethod('getAllByPagerConditionList');
+ 
+        $invocation = new S2Container_S2MethodInvocationImpl($this->dao,
+                                                             $refDaoClass,
+                                                             $refDaoMethod,
+                                                             array($this->dto),
+                                                             array());
+
+        $wrapper = S2Dao_PagerResultSetWrapperFactory::create($invocation);
+        $isBasicResultSetWrapper = ($wrapper instanceof S2Dao_PagerBasicResultSetWrapper);
+        $this->assertEquals($isBasicResultSetWrapper, true);
     }
+    
+    public function testCreateArray() {
+        $refDaoClass = new ReflectionClass('EmployeePagerDao');
+        $refDaoMethod = $refDaoClass->getMethod('getAllByPagerConditionArray');
+        
+        $invocation = new S2Container_S2MethodInvocationImpl($this->dao,
+                                                             $refDaoClass,
+                                                             $refDaoMethod,
+                                                             array($this->dto),
+                                                             array());
+        $wrapper = S2Dao_PagerResultSetWrapperFactory::create($invocation);
+        $isBasicResultSetWrapper = ($wrapper instanceof S2Dao_PagerBasicResultSetWrapper);
+        $this->assertEquals($isBasicResultSetWrapper, true);
+    }
+
     public function testCreateYaml() {
+        $refDaoClass = new ReflectionClass('EmployeePagerDao');
+        $refDaoMethod = $refDaoClass->getMethod('getAllByPagerConditionYaml');
+
+        $invocation = new S2Container_S2MethodInvocationImpl($this->dao,
+                                                             $refDaoClass,
+                                                             $refDaoMethod,
+                                                             array($this->dto),
+                                                             array());
+
+        $wrapper = S2Dao_PagerResultSetWrapperFactory::create($invocation);
+        $isYamlResultSetWrapper = ($wrapper instanceof S2Dao_PagerYamlResultSetWrapper);
+        $this->assertEquals($isYamlResultSetWrapper, true);
     }
+
     public function testCreateJson() {
+        $refDaoClass = new ReflectionClass('EmployeePagerDao');
+        $refDaoMethod = $refDaoClass->getMethod('getAllByPagerConditionJson');
+
+        $invocation = new S2Container_S2MethodInvocationImpl($this->dao,
+                                                             $refDaoClass,
+                                                             $refDaoMethod,
+                                                             array($this->dto),
+                                                             array());
+
+        $wrapper = S2Dao_PagerResultSetWrapperFactory::create($invocation);
+        $isJsonResultSetWrapper = ($wrapper instanceof S2Dao_PagerJsonResultSetWrapper);
+        $this->assertEquals($isJsonResultSetWrapper, true);
     }
 }
 

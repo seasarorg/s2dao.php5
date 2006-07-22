@@ -76,9 +76,6 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
         $cmdWrapper = new S2Dao_SelectDynamicCommandLimitOffsetWrapper($cmd);
         $emp = $cmdWrapper->execute($args);
 
-        var_dump($empAll);
-        var_dump($emp);
-
         $this->assertEquals(count($empAll), $condition->getCount());
 
         if ($this->limit < 0) {
