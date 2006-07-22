@@ -61,12 +61,12 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
 
         if($this->isNull($clazz)){
             if($this->isNull($value)){
-                $ctx->addSql('?', null, gettype(null));
+                $ctx->addSql('?', $value, gettype(null));
             } else {
                 $ctx->addSql('?', $value, gettype($value));
             }
         } else {
-            $ctx->addSql('?', $value, $clazz);
+            $ctx->addSql('?', $value, gettype($clazz));
         }
     }
     

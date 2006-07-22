@@ -55,7 +55,7 @@ class S2Dao_SelectDynamicCommand extends S2Dao_AbstractDynamicCommand {
                                 $this->resultSetHandler,
                                 $this->getStatementFactory(),
                                 $this->resultSetFactory);
-                                
+
         return $selectHandler->execute($ctx->getBindVariables(),
                                        $ctx->getBindVariableTypes());
     }

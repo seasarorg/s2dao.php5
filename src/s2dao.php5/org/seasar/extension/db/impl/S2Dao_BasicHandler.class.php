@@ -110,21 +110,20 @@ class S2Dao_BasicHandler {
             try {
                 $arg = $args[$i];
                 $argType = $argTypes[$i];
-                $phptype = gettype($arg);
+                $phpType = gettype($arg);
                 
                 // TODO: argTypes check value
-                //$ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phptype));
+                //$ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phpType));
                 
                 // FIXME: null check null value
                 if($argType !== null){
-                    if($this->isNullEquals($arg, $argType)){
+                    if($this->isNullType($arg, $argType)){
                         $ps->bindValue($i + 1, $arg, S2Dao_PDOType::Null);
                     } else {
                         $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($argType));
                     }
                 } else {
-                    $phptype = gettype($arg);
-                    $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phptype));
+                    $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phpType));
                 }
             } catch (Exception $ex) {
                 throw new S2Container_SQLRuntimeException($ex);
@@ -186,12 +185,19 @@ class S2Dao_BasicHandler {
         }
     }
     
-    private function isNullEquals($value = null, $type = null){
+    private function isNullType($value = null, $type = null){
         $nullString = gettype(null);
         if($type == $nullString && gettype($value) == $nullString){
             return true;
         }
+        if(!$this->isPrimitive($type)){
+            return true;
+        }
         return false;
+    }
+    
+    private function isPrimitive($type){
+        return $type != gettype(new stdClass);
     }
 }
 ?>
