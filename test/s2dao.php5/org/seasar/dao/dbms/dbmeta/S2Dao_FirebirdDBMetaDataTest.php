@@ -25,6 +25,8 @@
  * @author nowel
  */
 class S2Dao_FirebirdDBMetaDataTest extends PHPUnit2_Framework_TestCase {
+    
+    private $dataSource;
 
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_FirebirdDBMetaDataTest");
@@ -32,12 +34,18 @@ class S2Dao_FirebirdDBMetaDataTest extends PHPUnit2_Framework_TestCase {
     }
 
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dataSource = $container->getComponent("pdo.dataSource");
     }
 
     protected function tearDown() {
+        $this->dataSource = null;
     }
 
     public function testGetTableInfo() {
+        $dbmeta = new S2Dao_FirebirdDBMetaData($this->dataSource->getConnection(),
+                                            new S2Dao_Firebird());
+        var_dump($dbmeta->getTableInfo("EMP2"));
     }
 }
 

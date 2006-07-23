@@ -106,8 +106,7 @@ class S2Dao_SQLiteProcedureMetaDataImplTest extends PHPUnit2_Framework_TestCase 
         $columnOut = $this->pmeta->getProcedureColumnsOut($infos[0]);
         var_dump($columnOut);
         $this->assertNotNull($columnOut);
-        $this->assertEquals(0, count($columnOut));
-        $this->assertEquals($columnOut[0], null);
+        $this->assertEquals(3, count($columnOut));
     }
 
     public function testGetProcedureColumnsInOut() {
@@ -115,8 +114,7 @@ class S2Dao_SQLiteProcedureMetaDataImplTest extends PHPUnit2_Framework_TestCase 
         $columnInOut = $this->pmeta->getProcedureColumnsInOut($infos[0]);
         var_dump($columnInOut);
         $this->assertNotNull($columnInOut);
-        $this->assertEquals(0, count($columnInOut));
-        $this->assertEquals($columnInOut[0], null);
+        $this->assertEquals(3, count($columnInOut));
     }
 
     public function testGetProcedureColumnReturn() {

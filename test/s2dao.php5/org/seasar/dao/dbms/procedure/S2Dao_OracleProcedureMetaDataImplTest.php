@@ -25,73 +25,102 @@
  * @author nowel
  */
 class S2Dao_OracleProcedureMetaDataImplTest extends PHPUnit2_Framework_TestCase {
-    /**
-     * Runs the test methods of this class.
-     *
-     * @access public
-     * @static
-     */
+
+    private $pmeta = null;
+
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_OracleProcedureMetaDataImplTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
-     *
-     * @access protected
-     */
     protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $dataSource = $container->getComponent("pdo.dataSource");
+        $this->pmeta = new S2Dao_OracleProcedureMetaDataImpl($dataSource->getConnection(),
+                                                            new S2Dao_Oracle());
     }
 
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     *
-     * @access protected
-     */
     protected function tearDown() {
+        $this->pmeta = null;
     }
 
-    /**
-     * @todo Implement testGetProcedures().
-     */
     public function testGetProcedures() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax");
+        var_dump($infos);
+        $this->assertNotNull($infos);
+        $this->assertEquals(1, count($infos));
     }
 
-    /**
-     * @todo Implement testGetProcedureColumnsIn().
-     */
     public function testGetProcedureColumnsIn() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax");
+        $columnIn = $this->pmeta->getProcedureColumnsIn($infos[0]);
+        var_dump($columnIn);
+        $this->assertNotNull($columnIn);
+        $this->assertTrue(is_array($columnIn));
+        $type = $columnIn[0];
+        $this->assertTrue($type instanceof S2Dao_ProcedureType);
+        $this->assertEquals($type->getName(), "sales");
+        $this->assertEquals($type->getInout(), S2Dao_ProcedureMetaData::INTYPE);
     }
 
-    /**
-     * @todo Implement testGetProcedureColumnsOut().
-     */
+    public function testGetProcedureColumnsIn2() {
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax2");
+        $columnIn = $this->pmeta->getProcedureColumnsIn($infos[0]);
+        var_dump($columnIn);
+        $this->assertNotNull($columnIn);
+        $this->assertTrue(is_array($columnIn));
+        $type = $columnIn[0];
+        $this->assertTrue($type instanceof S2Dao_ProcedureType);
+        $this->assertEquals($type->getName(), "sales");
+        $this->assertEquals($type->getInout(), S2Dao_ProcedureMetaData::INTYPE);
+    }
+
+    public function testGetProcedureColumnsIn3() {
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax3");
+        $columnIn = $this->pmeta->getProcedureColumnsIn($infos[0]);
+        var_dump($columnIn);
+        $this->assertNotNull($columnIn);
+        $this->assertTrue(is_array($columnIn));
+        $type = $columnIn[0];
+        $this->assertTrue($type instanceof S2Dao_ProcedureType);
+        $this->assertEquals($type->getName(), "sales");
+        $this->assertEquals($type->getInout(), S2Dao_ProcedureMetaData::INTYPE);
+    }
+    
+    public function testGetProcedureColumnsIn4() {
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax4");
+        $columnIn = $this->pmeta->getProcedureColumnsIn($infos[0]);
+        var_dump($columnIn);
+        $this->assertNotNull($columnIn);
+        $this->assertTrue(is_array($columnIn));
+        $this->assertEquals($columnIn[0]->getName(), "sales");
+        $this->assertEquals($columnIn[0]->getInout(), S2Dao_ProcedureMetaData::INTYPE);
+    }
+
     public function testGetProcedureColumnsOut() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax4");
+        $columnOut = $this->pmeta->getProcedureColumnsOut($infos[0]);
+        var_dump($columnOut);
+        $this->assertNotNull($columnOut);
+        $this->assertEquals($columnOut[0]->getName(), "tox");
+        $this->assertEquals($columnOut[0]->getInout(), S2Dao_ProcedureMetaData::OUTTYPE);
+        $this->assertEquals($columnOut[1]->getName(), "total");
+        $this->assertEquals($columnOut[1]->getInout(), S2Dao_ProcedureMetaData::OUTTYPE);
     }
 
-    /**
-     * @todo Implement testGetProcedureColumnsInOut().
-     */
     public function testGetProcedureColumnsInOut() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax4");
+        $columnInOut = $this->pmeta->getProcedureColumnsInOut($infos[0]);
+        var_dump($columnInOut);
+        $this->assertNotNull($columnInOut);
+        $this->assertEquals(0, count($columnInOut));
+        $this->assertEquals($columnInOut[0], null);
     }
 
-    /**
-     * @todo Implement testGetProcedureColumnReturn().
-     */
     public function testGetProcedureColumnReturn() {
-        // Remove the following line when you implement this test.
-        throw new PHPUnit2_Framework_IncompleteTestError;
+        $infos = $this->pmeta->getProcedures(null, null, "sales_tax4");
+        $columnReturn = $this->pmeta->getProcedureColumnReturn($infos[0]);
+        $this->assertNull($columnReturn);
     }
 }
 ?>

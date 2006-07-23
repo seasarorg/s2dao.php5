@@ -1,3 +1,13 @@
+2006-07-23 nowel(S2Dao.PHP5-1.1.0)
+
+    * add: 対応するDBMSに以下を追加しました。
+        - Firebird
+        - Oracle
+        - Sybase
+    * modify: MySQL接続中にBUFFERED_QUERYを使用するように変更しました。
+    	    - PHP5.1.3 以降及び PDO 1.0.3以降であり、かつ
+    	       MySQL接続中の場合にPDO::MYSQL_ATTR_USE_BUFFERED_QUERY, trueをセットします。
+
 2006-07-20 nowel, yonekawa(S2Dao.PHP5-1.1.0)
     
     * rename: S2Dao_PagerResultSetWrapperImpl -> S2Dao_PagerBasicResultSetWrapper
@@ -25,7 +35,8 @@
 2006-07-14 nowel(S2Dao.PHP5-1.1.0)
 
     * fix[DAOPHP-5]: S2Dao_BasicHandler
-    	    - PHP5.1.3 以降及び PDO 1.0.3以降の場合にPDO::ATTR_EMULATE_PREPARES, trueをセットするようにしました。
+    	    - PHP5.1.3 以降及び PDO 1.0.3以降であり、かつ
+    	       MySQL接続中の場合にPDO::ATTR_EMULATE_PREPARES, trueをセットするようにしました。
     * fix: S2Dao_BasicSelectHandler
         - S2Dao_BasicStatementFactoryが正しくセットされない不具合を修正しました。
 

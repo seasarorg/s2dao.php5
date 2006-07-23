@@ -1,11 +1,11 @@
 <?php
 class PHPArchiveTask extends Task {
 
-    private $pharfile = null;
-    private $inifile = null;
-    private $usegzip = false;
-    private $incFileSets = array();
-    private $filterChains = array();
+    protected $pharfile = null;
+    protected $inifile = null;
+    protected $usegzip = false;
+    protected $incFileSets = array();
+    protected $filterChains = array();
 
     public function init(){
         include_once "PHP/Archive/Creator.php";
@@ -76,7 +76,7 @@ class PHPArchiveTask extends Task {
         return $fc;
     }
 
-    private function getFileList(FileSet $fileset){
+    protected function getFileList(FileSet $fileset){
         $ds = $fileset->getDirectoryScanner($this->project);
         $files = $ds->getIncludedFiles();
         foreach($files as &$file){
@@ -89,7 +89,7 @@ class PHPArchiveTask extends Task {
         return $files;
     }
 
-    private function replacePath($pathstr){
+    protected function replacePath($pathstr){
         return str_replace(DIRECTORY_SEPARATOR, '/', $pathstr);
     }
 

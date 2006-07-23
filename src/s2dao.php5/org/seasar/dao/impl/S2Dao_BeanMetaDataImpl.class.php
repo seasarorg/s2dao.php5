@@ -282,7 +282,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         
         $columnSet = S2Dao_DatabaseMetaDataUtil::getColumnSet($dbMetaData, $this->tableName_);
         if ($columnSet->isEmpty()) {
-            self::$logger_->log('WDAO0002', (array)$this->tableName_);
+            self::$logger_->warn('WDAO0002', $this->tableName_);
         }
         
         $cset = $columnSet->toArray();

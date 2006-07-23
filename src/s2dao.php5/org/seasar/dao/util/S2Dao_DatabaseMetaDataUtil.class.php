@@ -75,6 +75,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
             foreach($rs as $col){
+                $col = array_change_key_case($col, CASE_LOWER);
                 if(isset($col['flags']) &&
                         in_array(S2Dao_DBMetaData::PRIMARY_KEY, $col['flags'])){
                     $set->add($col['name']);
@@ -135,6 +136,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         try {
             $rs = self::getTableInfo($pdo, $tableName, $schema);
             foreach($rs as $col){
+                $col = array_change_key_case($col, CASE_LOWER);
                 $set->add($col['name']);
             }
         } catch (Exception $ex) {
@@ -143,7 +145,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
 
     public static function convertIdentifier(PDO $dbMetaData, $identifier) {
-        $tables = self::getTables($dbMetaData);
+        $tables = S2Dao_ArrayUtil::spacetrim(self::getTables($dbMetaData));
         if (!in_array($identifier, $tables, true)) {
             $upper = strtoupper($identifier);
             $lower = strtolower($identifier);

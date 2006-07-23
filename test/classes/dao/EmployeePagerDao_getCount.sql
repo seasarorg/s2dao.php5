@@ -1,1 +1,1 @@
-SELECT count(*) FROM emp2
+SELECT count(*) FROM EMP2

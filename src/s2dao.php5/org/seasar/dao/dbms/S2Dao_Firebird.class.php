@@ -31,16 +31,24 @@ class S2Dao_Firebird extends S2Dao_Standard {
     }
     
     public function getSequenceNextValString($sequenceName) {
-        return 'SELECT GEN_ID( ' + $sequenceName + ', 1 ) from RDB$DATABASE';
+        return 'SELECT GEN_ID( ' . $sequenceName . ', 1 ) from RDB$DATABASE';
     }
 
     public function getTableSql(){
-        return 'SELECT RDB$RELATION_NAME ' . 
+        return 'SELECT RDB$RELATION_NAME AS NAME ' . 
                'FROM RDB$RELATION_FIELDS WHERE RDB$SYSTEM_FLAG = 0';
     }
 
     public function getTableInfoSql(){
         return 'SELECT * FROM ' . self::BIND_TABLE . ' WHERE 1 = 1';
+    }
+    
+    public function getPrimaryKeySql(){
+        // TODO: PDO bugs first columns is null array
+        return 'SELECT b.RDB$FIELD_NAME AS NAME ' .
+               'FROM rdb$indices a, rdb$index_segments b, ' . self::BIND_TABLE .' c ' .
+               'WHERE a.RDB$INDEX_NAME = b.RDB$INDEX_NAME ' .
+               'AND a.RDB$RELATION_NAME LIKE \'' . self::BIND_TABLE . '%\'';
     }
 }
 

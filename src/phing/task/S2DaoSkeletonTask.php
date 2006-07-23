@@ -46,11 +46,11 @@ interface S2DaoSkelConst {
  */
 class S2DaoSkeletonTask extends Task {
     
-    private $toDir = "";
-    private $skeldir = "";
-    private $dsn = "";
-    private $user = "";
-    private $pass = "";
+    protected $toDir = "";
+    protected $skeldir = "";
+    protected $dsn = "";
+    protected $user = "";
+    protected $pass = "";
     
     public function init(){
     }
@@ -94,34 +94,34 @@ class S2DaoSkeletonTask extends Task {
         $this->skeldir = dirname(__FILE__) . S2DaoSkelConst::SkelDir;
     }
     
-    private function generateDao(S2DaoSkeletonGen $skel){
+    protected function generateDao(S2DaoSkeletonGen $skel){
         $this->log("[create] [Dao]: " . $skel->getDaoName());
         $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getDaoFileName();
         $this->write($path, $skel->createDaoContent());
     }
     
-    private function generateBean(S2DaoSkeletonGen $skel){
+    protected function generateBean(S2DaoSkeletonGen $skel){
         $this->log("[create] [Bean]: " . $skel->getBeanName());
         $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getEntityFileName();
         $this->write($path, $skel->createEntityContent());
     }
     
-    private function generateDaoImpl(S2DaoSkeletonGen $skel){
+    protected function generateDaoImpl(S2DaoSkeletonGen $skel){
         $this->log("[create] [DaoImpl]: " . $skel->getDaoImplName());
         $path = $this->toDir . DIRECTORY_SEPARATOR . $skel->getDaoImplFileName();
         $this->write($path, $skel->createDaoImplContent());
     }
     
-    private function write($path, $content){
+    protected function write($path, $content){
         @file_put_contents($path, $content);
     }
 }
 
 class S2DaoSkeletonDbms {
     
-    private $pdo = null;
-    private $tables = array();
-    private $columns = array();
+    protected $pdo = null;
+    protected $tables = array();
+    protected $columns = array();
     
     public function __construct($dsn, $user, $pass){
         $this->pdo = new PDO($dsn, $user, $pass);
@@ -133,13 +133,13 @@ class S2DaoSkeletonDbms {
         unset($this->pdo);
     }
     
-    private function setupTables(){
+    protected function setupTables(){
         $dbms = S2Dao_DbmsManager::getDbms($this->pdo);
         $stmt = $this->pdo->query($dbms->getTableSql());
         $this->tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
     
-    private function setupColumns(){
+    protected function setupColumns(){
         foreach($this->tables as $table){
             $cols = S2Dao_DatabaseMetaDataUtil::getColumns($this->pdo, $table);
             $this->columns[$table] = $cols;
@@ -161,17 +161,17 @@ class S2DaoSkeletonDbms {
 
 class S2DaoSkeletonGen {
     
-    private $skelDir = "";
-    private $table = "";
-    private $columns = array();
-    private $className = "";
+    protected $skelDir = "";
+    protected $table = "";
+    protected $columns = array();
+    protected $className = "";
     
-    private $dao = "";
-    private $entity = "";
-    private $daoImpl = "";
+    protected $dao = "";
+    protected $entity = "";
+    protected $daoImpl = "";
     
-    private $author = "";
-    private $date = 0;
+    protected $author = "";
+    protected $date = 0;
     
     public function __construct($skelDir){
         $this->skelDir = $skelDir;
@@ -270,13 +270,13 @@ class S2DaoSkeletonGen {
         return $copy;
     }
     
-    private function getProperty($column){
+    protected function getProperty($column){
         $nameArr = $this->getMethodName($column);
         $nameArr[0] = strtolower($nameArr[0]);
         return $nameArr;
     }
     
-    private function getMethodName($propName){
+    protected function getMethodName($propName){
         $name = '';
         $token = strtok($propName, S2DaoSkelConst::SEP_CHAR);
         while ($token){
@@ -286,7 +286,7 @@ class S2DaoSkeletonGen {
         return $name;
     }
 
-    private function createGetter($propName){
+    protected function createGetter($propName){
         $methodName = $this->getMethodName($propName);
         $getter = array();
         $getter[] = 'public function ';
@@ -296,7 +296,7 @@ class S2DaoSkeletonGen {
         return $getter;
     }
     
-    private function createSetter($propName){
+    protected function createSetter($propName){
         $methodName = $this->getMethodName($propName);
         $setter = array();
         $setter[] = 'public function ';

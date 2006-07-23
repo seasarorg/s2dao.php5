@@ -58,7 +58,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if(null == $annoReaderFactory){
             $annoReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
         }
-
+        
         $this->sqlCommands_ = new S2Dao_HashMap();
         $this->daoClass_ = $daoClass;
         $this->daoBeanDesc_ = S2Container_BeanDescFactory::getBeanDesc($daoClass);

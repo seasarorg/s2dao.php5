@@ -79,7 +79,7 @@ class S2DaoTestGenTask extends Task {
         return $fs;
     }
     
-    private function setupTask(){
+    protected function setupTask(){
         include_once "S2Container/S2Container.php";
         include_once "S2Dao/S2Dao.php";
         if(!class_exists("S2ContainerClassLoader")){
@@ -95,7 +95,7 @@ class S2DaoTestGenTask extends Task {
         }
     }
     
-    private function getFiles(FileSet $fileset){
+    protected function getFiles(FileSet $fileset){
         $ds = $fileset->getDirectoryScanner($this->project);
         $files = $ds->getIncludedFiles();
         foreach($files as &$file){
@@ -112,14 +112,14 @@ class S2DaoTestGenTask extends Task {
         return $files;
     }
     
-    private function iniset(array $files){
+    protected function iniset(array $files){
         $path = $this->getPackage($files);
         foreach($path as $pkg){
             S2ContainerClassLoader::import($pkg);
         }
     }
     
-    private function getPackage(array $files){
+    protected function getPackage(array $files){
         $path = array();
         foreach($files as $file){
             $dir = dirname($file["fullPath"]);
@@ -179,12 +179,12 @@ class TestCodeGenSkeleteon extends PHPUnit2_Util_Skeleton {
 
 class TestAllClassGen {
     
-    private $dirs = array();
-    private $header = null;
-    private $footer = null;
-    private $content = null;
+    protected $dirs = array();
+    protected $header = null;
+    protected $footer = null;
+    protected $content = null;
     
-    private $alltests = array();
+    protected $alltests = array();
     
     public function __construct($files){
         $dir = array();
@@ -215,7 +215,7 @@ class TestAllClassGen {
         }
     }
     
-    private function generate(){
+    protected function generate(){
         foreach($this->dirs as $dir){
             $className = ucfirst(basename($dir)) . S2DaoTestGenTask::all_test_class_prefix;
             $source = $this->generateHeader($className);
@@ -240,12 +240,11 @@ class TestAllClassGen {
         return $genFiles;
     }
     
-    private function generateHeader($className){
-        $copy = str_replace("{className}", $className, $this->header);
-        return $copy;
+    protected function generateHeader($className){
+        return str_replace("{className}", $className, $this->header);
     }
     
-    private function generateContent($dir){
+    protected function generateContent($dir){
         $files = glob($dir . DIRECTORY_SEPARATOR . '*' . S2DaoTestGenTask::test_ext);
         $contents = array();
         foreach($files as $file){
@@ -255,7 +254,7 @@ class TestAllClassGen {
         return implode(PHP_EOL, $contents);
     }
     
-    private function generateFooter(){
+    protected function generateFooter(){
         return $this->footer;
     }
 

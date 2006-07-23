@@ -4,7 +4,7 @@
 <components namespace="pdo">
 
     <component name="dataSource" class="S2Container_PDODataSource">
-        <property name="dsn">"oci:dbname=//localhost/s2con"</property>
+        <property name="dsn">"oci:dbname=//192.168.0.8/s2con"</property>
         <property name="user">"root"</property>
         <property name="password">"pass"</property>
         <property name="option">
