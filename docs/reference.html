@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- don't edit start -->
-<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="seasar_b.css" type="text/css" rel="stylesheet"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
 <td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
@@ -10,11 +10,10 @@
 <td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
 <td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
 </tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
-<td><a href="index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
-<td><a href="projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
-<td><a href="products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
-
-<td><a href="resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
 <td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
 <td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
 <td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
@@ -24,87 +23,87 @@
 <!-- document start -->
 
     <ul>
-        <li><a href="#reference">S2Dao.PHP5���t�@�����X</a>
+        <li><a href="#reference">S2Dao.PHP5リファレンス</a>
             <ul>
-                <li><a href="#DaoMakeFile">�쐬���ׂ��t�@�C��</a></li>
+                <li><a href="#DaoMakeFile">作成すべきファイル</a></li>
                     <ul>
                         <li type="circle"><a href="#Entity">Entity</a></li>
                             <ul>
-                                <li><a href="#TableAnnotation">TABLE�A�m�e�[�V����</a></li>
-                                <li><a href="#ColumnAnnotation">COLUMN�A�m�e�[�V����</a></li>
-                                <li><a href="#N1Mapping">N:1�}�b�s���O</a></li>
-                                <li><a href="#IDAutoGenerate">ID�̎�������</a></li>
-                                <li><a href="#NoPersistentColumns">�i��������Ȃ��J����</a></li>
-                                <li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTY�A�m�e�[�V����</a></li>
-                                <li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTY�A�m�e�[�V����</a></li>
-                                <li><a href="#property">�J�����ɑΉ�����v���p�e�B�̐錾</a></li>
-                                <li><a href="#GetterSetterMethod">getter/setter���\�b�h�̎���</a></li>
+                                <li><a href="#TableAnnotation">TABLEアノテーション</a></li>
+                                <li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
+                                <li><a href="#N1Mapping">N:1マッピング</a></li>
+                                <li><a href="#IDAutoGenerate">IDの自動生成</a></li>
+                                <li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
+                                <li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
+                                <li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
+                                <li><a href="#property">カラムに対応するプロパティの宣言</a></li>
+                                <li><a href="#GetterSetterMethod">getter/setterメソッドの実装</a></li>
                             </ul>
                         <li type="circle"><a href="#Dao">Dao(Data Access Object)</a></li>
                             <ul>
-                                <li><a href="#BeanAnnotation">BEAN�A�m�e�[�V����</a></li>
-                                <li><a href="#ArgsAnnotation">ARGS�A�m�e�[�V����</a></li>
-                                <li><a href="#QueryAnnotation">QUERY�A�m�e�[�V����</a></li>
-                                <li><a href="#DefMethod">���\�b�h�̒�`</a></li>
-                                <li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPS�A�m�e�[�V����</a></li>
-                                <li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPS�A�m�e�[�V����</a></li>
-                                <li><a href="#SqlAnnotation">SQL�A�m�e�[�V����</a></li>
-                                <li><a href="#ProcedureAnnotation">PROCEDURE�A�m�e�[�V����</a></li>
+                                <li><a href="#BeanAnnotation">BEANアノテーション</a></li>
+                                <li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
+                                <li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
+                                <li><a href="#DefMethod">メソッドの定義</a></li>
+                                <li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
+                                <li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
+                                <li><a href="#SqlAnnotation">SQLアノテーション</a></li>
+                                <li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
                             </ul>
-                        <li type="circle"><a href="#diconfile">dicon�t�@�C��</a></li>
-                        <li type="circle"><a href="#SQLfile">SQL�t�@�C��</a></li>
+                        <li type="circle"><a href="#diconfile">diconファイル</a></li>
+                        <li type="circle"><a href="#SQLfile">SQLファイル</a></li>
                     </ul>
-                <li><a href="#SQLBind">SQL�R�����g</a></li>
-                <li><a href="#EntityManager">EntityManager���g�p����Query�̎��s</a>
-                <li><a href="#AutoUpdate">�X�VSQL�̎�������</a></li>
-                <li><a href="#AutoSelect">����SQL�̎������� </a></li>
-                <li><a href="#IDAutoGenerate">ID�̎������� </a></li>
-                <li><a href="#VersionNo">VersionNo�ɂ��r������ </a></li>
-                <li><a href="#Timestamp">Timestamp�ɂ��r������ </a></li>
-                <li><a href="#Annotation">�萔�A�m�e�[�V�����ƃR�����g�A�m�e�[�V����</a></li>
-                <li><a href="#HowToRun">S2Dao�̎��s</a></li>
+                <li><a href="#SQLBind">SQLコメント</a></li>
+                <li><a href="#EntityManager">EntityManagerを使用したQueryの実行</a>
+                <li><a href="#AutoUpdate">更新SQLの自動生成</a></li>
+                <li><a href="#AutoSelect">検索SQLの自動生成 </a></li>
+                <li><a href="#IDAutoGenerate">IDの自動生成 </a></li>
+                <li><a href="#VersionNo">VersionNoによる排他制御 </a></li>
+                <li><a href="#Timestamp">Timestampによる排他制御 </a></li>
+                <li><a href="#Annotation">定数アノテーションとコメントアノテーション</a></li>
+                <li><a href="#HowToRun">S2Daoの実行</a></li>
             </ul>
         </li>
     </ul>
 
-    <h2><a name="reference">S2Dao.PHP5���t�@�����X</a></h2>
+    <h2><a name="reference">S2Dao.PHP5リファレンス</a></h2>
 
-    <h3><a name="DaoMakeFile">�쐬���ׂ��t�@�C��</a></h3>
-        <p>S2Dao�@�\���g�p����ɂ�����AEntity�ADao�Adicon�t�@�C���ASQL�t�@�C��(.sql)�̍쐬���K�v�ƂȂ�܂��B</p>
-        <p>�ڍׂȃh�L�������g��<a href="http://s2dao.seasar.org/">Java��S2Dao</a>�������ɂȂ��Ă��������B</p>
+    <h3><a name="DaoMakeFile">作成すべきファイル</a></h3>
+        <p>S2Dao機能を使用するにあたり、Entity、Dao、diconファイル、SQLファイル(.sql)の作成が必要となります。</p>
+        <p>詳細なドキュメントは<a href="http://s2dao.seasar.org/">Java版S2Dao</a>をご覧になってください。</p>
 
-        <p>Entity�̓e�[�u���ADao��Entity�Adicon�t�@�C����Dao�ASQL�t�@�C����Dao�Ƃ��ꂼ��֘A���Ă��܂��B<br />
-        �e�t�@�C���̎����E�ݒ���@�̏ڍׂ͎��̂悤�ɂȂ�܂��B</p>
+        <p>Entityはテーブル、DaoはEntity、diconファイルはDao、SQLファイルはDaoとそれぞれ関連しています。<br />
+        各ファイルの実装・設定方法の詳細は次のようになります。</p>
 
     <h4><a name="Entity">Entity(Bean)</a></h4>
-        <p>Entity�̓e�[�u���Ƃ̊֘A�t���Ɏg�p���܂��B
-        Entity�Ƀe�[�u���̊֘A�t�����s���ɂ́A�ȉ��̒萔�錾�ƃ��\�b�h�̎������K�v�ɂȂ�܂��B</p>
+        <p>Entityはテーブルとの関連付けに使用します。
+        Entityにテーブルの関連付けを行うには、以下の定数宣言とメソッドの実装が必要になります。</p>
 
         <ul>
-            <li>�e�[�u���Ƃ̊֘A�t���̒萔�錾 (<a href="#TableAnnotation">TABLE�A�m�e�[�V����</a>)</li>
-            <li>�J�����Ƃ̊֘A�t���̒萔�錾 (<a href="#ColumnAnnotation">COLUMN�A�m�e�[�V����</a>)</li>
-            <li>�ʃe�[�u���ƌ�������ꍇ�̓L�[�ƂȂ�萔�錾(<a href="#N1Mapping">N:1�}�b�s���O</a>)</li>
-            <li><a href="#IDAutoGenerate">ID�̎�������</a></li>
-            <li><a href="#NoPersistentColumns">�i��������Ȃ��J����</a></li>
-            <li><a href="#property">�J�����ɑΉ�����v���p�e�B�̐錾</a><il>
-            <li><a href="#GetterSetterMethod">getter/setter���\�b�h�̎���</a></li>
+            <li>テーブルとの関連付けの定数宣言 (<a href="#TableAnnotation">TABLEアノテーション</a>)</li>
+            <li>カラムとの関連付けの定数宣言 (<a href="#ColumnAnnotation">COLUMNアノテーション</a>)</li>
+            <li>別テーブルと結合する場合はキーとなる定数宣言(<a href="#N1Mapping">N:1マッピング</a>)</li>
+            <li><a href="#IDAutoGenerate">IDの自動生成</a></li>
+            <li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
+            <li><a href="#property">カラムに対応するプロパティの宣言</a><il>
+            <li><a href="#GetterSetterMethod">getter/setterメソッドの実装</a></li>
         </ul>
 
-        <p>Entity�̍\���Ɛ������Ŏg�p����e�[�u���͈ȉ��̒ʂ�ł��B</p>
+        <p>Entityの構成と説明内で使用するテーブルは以下の通りです。</p>
 
-        <p>�e�[�u���FEMP</p>
+        <p>テーブル：EMP</p>
         <table border="1" class="main">
             <tr bgcolor="#d1f3f4" align="center">
-                <th>�J������</th>
-                <th>�^</th>
+                <th>カラム名</th>
+                <th>型</th>
                 <th>NotNull</th>
-                <th>��L�[</th>
+                <th>主キー</th>
             </tr>
             <tr>
                 <td>EMPNO</td>
                 <td>NUMBER</td>
-                <td align="center">�Z</td>
-                <td align="center">�Z</td>
+                <td align="center">〇</td>
+                <td align="center">〇</td>
             </tr>
             <tr>
                 <td>ENAME</td>
@@ -120,19 +119,19 @@
             </tr>
         </table>
 
-        <p>�e�[�u���FDEPT</p>
+        <p>テーブル：DEPT</p>
         <table border="1" class="main">
             <tr bgcolor="#d1f3f4" align="center">
-                <th>�J������</th>
-                <th>�^</th>
+                <th>カラム名</th>
+                <th>型</th>
                 <th>NotNull</th>
-                <th>��L�[</th>
+                <th>主キー</th>
             </tr>
             <tr>
                 <td>DEPTNO</td>
                 <td>NUMBER</td>
-                <td align="center">�Z</td>
-                <td align="center">�Z</td>
+                <td align="center">〇</td>
+                <td align="center">〇</td>
             </tr>
             <tr>
                 <td>DNAME</td>
@@ -142,18 +141,18 @@
             </tr>
         </table>
 
-    <h5><a name="TableAnnotation">TABLE�A�m�e�[�V����</a></h5>
+    <h5><a name="TableAnnotation">TABLEアノテーション</a></h5>
 
-        <p>�e�[�u���Ƃ̊֘A�t����TABLE�A�m�e�[�V�������g�p���܂��B
-        TABLE�A�m�e�[�V�����͈ȉ��̌`���Œ萔��錾���܂��B</p>
+        <p>テーブルとの関連付けはTABLEアノテーションを使用します。
+        TABLEアノテーションは以下の形式で定数を宣言します。</p>
 
-        <p> -  const TABLE = �g<span class="italic">�e�[�u����</span>�h;</p>
-        <p>EMP�e�[�u���̏ꍇ�ȉ��̂悤�ɂȂ�܂��B</p>
+        <p> -  const TABLE = “<span class="italic">テーブル名</span>”;</p>
+        <p>EMPテーブルの場合以下のようになります。</p>
         <pre>const TABLE = "EMP";</pre>
 
-        <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
-        <p> - @Bean(table = <span class="italic">�e�[�u����</span>)</p>
-        <p>EMP�e�[�u���̏ꍇ�ȉ��̂悤�ɂȂ�܂��B</p>
+        <p>コメントアノテーションを行う場合は以下のように記述します。</p>
+        <p> - @Bean(table = <span class="italic">テーブル名</span>)</p>
+        <p>EMPテーブルの場合以下のようになります。</p>
 <pre>
 /**
  * @Bean(table = EMP)
@@ -163,20 +162,20 @@ class Employee {
     :
 }</pre>
 
-        <p>���N���X������p�b�P�[�W�������������O���e�[�u�����ƈ�v����ꍇ�́ATABLE�A�m�e�[�V�������`����K�v�͂���܂���B</p>
+        <p>※クラス名からパッケージ名を除いた名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。</p>
 
-    <h5><a name="ColumnAnnotation">COLUMN�A�m�e�[�V����</a></h5>
+    <h5><a name="ColumnAnnotation">COLUMNアノテーション</a></h5>
 
-        <p>�e�[�u���̃J�����Ƃ̊֘A�t����COLUMN�A�m�e�[�V�������g�p���܂��B<br />
-        COLUMN�A�m�e�[�V�����͈ȉ��̌`���Œ萔��錾���܂��B</p>
+        <p>テーブルのカラムとの関連付けはCOLUMNアノテーションを使用します。<br />
+        COLUMNアノテーションは以下の形式で定数を宣言します。</p>
 
-        <p> -  const <span class="italic">�v���p�e�B��</span>_COLUMN = "<span class="italic">�J������</span>";</p>
-        <p>employeeNo�Ƃ����v���p�e�B��EMPNO�J�������֘A�t������ꍇ�ȉ��̂悤�ɂȂ�܂��B</p>
+        <p> -  const <span class="italic">プロパティ名</span>_COLUMN = "<span class="italic">カラム名</span>";</p>
+        <p>employeeNoというプロパティにEMPNOカラムを関連付けする場合以下のようになります。</p>
         <pre>const employeeNo_COLUMN = "EMPNO";</pre>
 
-        <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
-        <p> - @Column("<span class="italic">�J������</span>")
-        <p>employeeNo�Ƃ����v���p�e�B��EMPNO�J�������֘A�t������ꍇ�ȉ��̂悤�ɂȂ�܂��B</p>
+        <p>コメントアノテーションを行う場合は以下のように記述します。</p>
+        <p> - @Column("<span class="italic">カラム名</span>")
+        <p>employeeNoというプロパティにEMPNOカラムを関連付けする場合以下のようになります。</p>
 <pre>
 /**
  * @Column("EMPNO")
@@ -184,32 +183,32 @@ class Employee {
 private $employeeNo;
 </pre>
 
-        <p>���v���p�e�B���ƃJ����������v����ꍇ�́ACOLUMN�A�m�e�[�V�������`����K�v�͂���܂���B<br />
-        �e�[�u���ɑ��݂��Ȃ��v���p�e�B�́A�����I�ɖ��������̂ŁA���ɉ�����`����K�v�͂���܂���B</p>
+        <p>※プロパティ名とカラム名が一致する場合は、COLUMNアノテーションを定義する必要はありません。<br />
+        テーブルに存在しないプロパティは、自動的に無視されるので、特に何か定義する必要はありません。</p>
 
-     <h5><a name="N1Mapping">N:1�}�b�s���O</a></h5>
+     <h5><a name="N1Mapping">N:1マッピング</a></h5>
 
-         <p>N:1�}�b�s���O�Ƃ́A�����̏]�ƈ��̍s��1�̕����̍s���֘A�t������悤�ȏꍇ�̃}�b�s���O�ł��B<br />
-         N:1�}�b�s���O���g�p����ɂ́ARELNO�萔��RELKEYS�萔�����ꂼ��錾����K�v������܂��B<br />
-         RELNO�萔�͈ȉ��̌`���ɂȂ�܂��B</p>
+         <p>N:1マッピングとは、複数の従業員の行に1つの部署の行が関連付けられるような場合のマッピングです。<br />
+         N:1マッピングを使用するには、RELNO定数とRELKEYS定数をそれぞれ宣言する必要があります。<br />
+         RELNO定数は以下の形式になります。</p>
 
-        <p>-  const <span class="italic">�v���p�e�B��</span>_RELNO = <span class="italic">���l</span>;</p>
-        <p>RELNO�萔�́AN:1�}�b�s���O�̘A�Ԃł��B<br />
-        �Ⴆ�΁AAAA�̃e�[�u����BBB,CCC�̃e�[�u����N:1�}�b�s���O�����Ƃ����BBB��RELNO��0�ACCC��RELNO��1�ɂȂ�܂��B <br />
-        RELNO�͌��ʃZ�b�g�Ɋ܂܂�Ă���J�������A�ǂ̃e�[�u���ɏ������Ă���̂��𔻒肷�邱�ƂɎg���܂��B<br />
-        �Ⴆ�΁ASELECT ..., BBB.HOGE AS HOGE_0, ... FROM AAA, BBB ...�̂悤��SELECT�����������ꍇ�A HOGE_0��BBB�e�[�u���Ɋ܂܂�Ă���HOGE�J�����ł���ƔF������܂��B<br />
-        RELKEYS�萔�͈ȉ��̌`���ɂȂ�܂��B</p>
+        <p>-  const <span class="italic">プロパティ名</span>_RELNO = <span class="italic">数値</span>;</p>
+        <p>RELNO定数は、N:1マッピングの連番です。<br />
+        例えば、AAAのテーブルにBBB,CCCのテーブルがN:1マッピングされるとするとBBBのRELNOは0、CCCのRELNOは1になります。 <br />
+        RELNOは結果セットに含まれているカラムが、どのテーブルに所属しているのかを判定することに使われます。<br />
+        例えば、SELECT ..., BBB.HOGE AS HOGE_0, ... FROM AAA, BBB ...のようなSELECT文があった場合、 HOGE_0はBBBテーブルに含まれているHOGEカラムであると認識されます。<br />
+        RELKEYS定数は以下の形式になります。</p>
 
-        <p>-  const <span class="italic">�v���p�e�B��</span>_RELKEYS = "<span class="italic">N���̃e�[�u���̃J������: 1���̃e�[�u���̃J������</span>";</p>
-        <p>N:1�}�b�s���O�̃L�[��RELKEYS�萔�Ŏw�肵�܂��B<br />
-        �L�[����������ꍇ�ɂ́A�J���}( , )�ŋ�؂�܂��B�Ⴆ�΁Amykey1:yourkey1, mykey2:yourkey2�̂悤�ɂ��܂��B<br />
-        EMP�e�[�u����DEPTNUM�J������DEPT�e�[�u����DEPTNO���֘A�t����ꍇ�͈ȉ��̂悤�ɂȂ�܂��B</p>
+        <p>-  const <span class="italic">プロパティ名</span>_RELKEYS = "<span class="italic">N側のテーブルのカラム名: 1側のテーブルのカラム名</span>";</p>
+        <p>N:1マッピングのキーはRELKEYS定数で指定します。<br />
+        キーが複数ある場合には、カンマ( , )で区切ります。例えば、mykey1:yourkey1, mykey2:yourkey2のようにします。<br />
+        EMPテーブルのDEPTNUMカラムとDEPTテーブルのDEPTNOを関連付ける場合は以下のようになります。</p>
 <pre>
 const department_RELNO = 0;
 const department_RELKEYS = "DEPTNUM:DEPTNO";
 </pre>
 
-        <p>��L�̏ꍇ�̃R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
+        <p>上記の場合のコメントアノテーションを行う場合は以下のように記述します。</p>
 <pre>
 /**
  * @Relation(relationNo = 0, relationKey = "DEPTNUM:DEPTNO")
@@ -217,27 +216,27 @@ const department_RELKEYS = "DEPTNUM:DEPTNO";
 private $department;
 </pre>
 
-        <p>1���̃e�[�u���̃J��������N���̃e�[�u���̃J�������ɓ������ꍇ�́A1���̃e�[�u���̃J���������ȗ����邱�Ƃ��ł��܂��B<br />
-        ���̏ꍇ�ȉ��̂悤�ɒ�`���邱�Ƃ��o���܂��B</p>
+        <p>1側のテーブルのカラム名がN側のテーブルのカラム名に等しい場合は、1側のテーブルのカラム名を省略することができます。<br />
+        その場合以下のように定義することが出来ます。</p>
         <pre>const department_RELKEYS = "DEPTNO";</pre>
-        <p>�܂�1���̃e�[�u���̃J��������N���̃e�[�u���̃J�������ɓ������A1���̃e�[�u���̃J���������v���C�}���[�L�[�̏ꍇ�ARELKEYS�萔���ȗ����邱�Ƃ��ł��܂��B</p>
+        <p>また1側のテーブルのカラム名とN側のテーブルのカラム名に等しく、1側のテーブルのカラム名がプライマリーキーの場合、RELKEYS定数を省略することができます。</p>
 
-    <h5><a name="IDAutoGenerate">ID�̎�������</a></h5>
+    <h5><a name="IDAutoGenerate">IDの自動生成</a></h5>
 
-        <p>ID(�v���C�}���[�L�[)��RDBMS�Ɏ������������āA�����������ꂽ�l��Bean�Ɏ����I�ɐݒ肷�邱�Ƃ��o���܂��B<br />
-        ���̂��߂Ɏg���̂��AID�A�m�e�[�V�����ł��B<br />
-        ID�A�m�e�[�V�����́A�v���p�e�B��_ID = &quot;identity&quot;�̂悤�Ɏw�肵�܂��B </p>
+        <p>ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。<br />
+        そのために使うのが、IDアノテーションです。<br />
+        IDアノテーションは、プロパティ名_ID = &quot;identity&quot;のように指定します。 </p>
         <pre>const id_ID = "identity";</pre>
 
-        <p>SEQUENCE���g�����Ƃ��o���܂��Bmyseq�̕����́A���ۂ�SEQUENCE�ɒu�������Ă��������B</p>
+        <p>SEQUENCEを使うことも出来ます。myseqの部分は、実際のSEQUENCEに置き換えてください。</p>
         <pre>const id_ID = "sequence, sequenceName=myseq";</pre>
 
-        <p>�蓮��ID��ݒ肷��ꍇ�́A�����w�肷��K�v������܂���B<br />
-        �e�[�u���̃v���C�}���[�L�[���Ƃ������́A�e�[�u���̒�`(PDO�̃��^�f�[�^)��莩���I�Ɏ擾����܂��B
-        �܂��A�����I��assigned���w�肷�邱�Ƃ��ł��܂��B</p>
+        <p>手動でIDを設定する場合は、何も指定する必要がありません。<br />
+        テーブルのプライマリーキーだという情報は、テーブルの定義(PDOのメタデータ)より自動的に取得されます。
+        また、明示的にassignedを指定することもできます。</p>
         <pre>const id_ID = "assigned";</pre>
 
-       <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
+       <p>コメントアノテーションを行う場合は以下のように記述します。</p>
 <pre>
 /**
  * @Id(identity)
@@ -245,40 +244,77 @@ private $department;
 private $id;
 </pre>
 
-    <h5><a name="NoPersistentColumns">�i��������Ȃ��J����</a></h5>
+    <h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
 
-        <p>�J�������i�����̑Ώۂ��ǂ����Ƃ������́A�e�[�u���̒�`(PDO�̃��^�f�[�^)��莩���I�Ɏ擾����܂��B
-        �܂��A�����I��NO_PERSISTENT_PROPS���g���ĉi�����������Ȃ��J�������w�肷�邱�Ƃ��ł��܂��B
-        NO_PERSISTENT_PROPS�ɋ󕶎����w�肷���PDO�̃��^�f�[�^�̃��^�f�[�^���g�킸�ɂ��ׂẴv���p�e�B���i�����̑ΏۂƂ݂Ȃ��܂��B</p>
+        <p>カラムが永続化の対象かどうかという情報は、テーブルの定義(PDOのメタデータ)より自動的に取得されます。
+        また、明示的にNO_PERSISTENT_PROPSを使って永続化したくないカラムを指定することもできます。
+        NO_PERSISTENT_PROPSに空文字を指定するとPDOのメタデータのメタデータを使わずにすべてのプロパティを永続化の対象とみなします。</p>
         <pre>const NO_PERSISTENT_PROPS = "dummy1, dummy2";</pre>
+        <p>またコメントアノテーションで指定する場合は以下の書式で記述します</p>
+<pre>
+/**
+ * @Bean(table = EMP)
+ * @NoPersistentProperty(dummy1, dummy2)
+ */
+class Employee {
+    private $dummy1;
+    private $dummy2;
+      :
+      :
+}
+</pre>
 
-    <h5><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTY�A�m�e�[�V����</a></h5>
+    <h5><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h5>
 
-        <p><a href="#VersionNo">versionNo</a>�ɂ��r������p�̃v���p�e�B�����f�t�H���g��versionNo����ς���Ƃ��Ɏg���̂�VERSION_NO_PROPERTY�A�m�e�[�V�����ł��B
-        ���̂悤�Ɏg���܂��B</p>
+        <p><a href="#VersionNo">versionNo</a>による排他制御用のプロパティ名をデフォルトのversionNoから変えるときに使うのがVERSION_NO_PROPERTYアノテーションです。
+        次のように使います。</p>
         <pre>const VERSION_NO_PROPERTY = "myVersionNo";</pre>
+        <p>またコメントアノテーションで指定する場合は以下の書式で記述します</p>
+<pre>
+/**
+ * @Bean(table = EMP)
+ * @VersionNoProperty(myVersionNo)
+ */
+class Employee {
+    private $myVersionNo;
+      :
+      :
+}
+</pre>
 
-    <h5><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTY�A�m�e�[�V����</a></h5>
+    <h5><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h5>
 
-        <p><a href="#Timestamp">timestamp</a>�ɂ��r������p�̃v���p�e�B�����f�t�H���g��timestamp����ς���Ƃ��Ɏg���̂�TIMESTAMP_PROPERTY�A�m�e�[�V�����ł��B���̂悤�Ɏg���܂��B</p>
+        <p><a href="#Timestamp">timestamp</a>による排他制御用のプロパティ名をデフォルトのtimestampから変えるときに使うのがTIMESTAMP_PROPERTYアノテーションです。次のように使います。</p>
         <pre>const TIMESTAMP_PROPERTY = "myTimestamp";</pre>
+        <p>またコメントアノテーションで指定する場合は以下の書式で記述します</p>
+<pre>
+/**
+ * @Bean(table = EMP)
+ * @TimestampProperty(myTimestamp)
+ */
+class Employee {
+    private $myTimestamp;
+      :
+      :
+}
+</pre>
 
-    <h5><a name="property">�J�����ɑΉ�����v���p�e�B�̐錾</a></h5>
+    <h5><a name="property">カラムに対応するプロパティの宣言</a></h5>
 
-        <p>�e�[�u���̃J�����ɑΉ������ϐ���錾���܂��B</p>
-        <p>EMPNO�Ƃ����J�����̏ꍇ�A�ȉ��̂悤�ɐ錾���邱�Ƃ��ł��܂��B<p>
+        <p>テーブルのカラムに対応した変数を宣言します。</p>
+        <p>EMPNOというカラムの場合、以下のように宣言することができます。<p>
         <pre>private $empno;</pre>
 
-     <h5><a name="GetterSetterMethod">getter/setter���\�b�h</a></h5>
+     <h5><a name="GetterSetterMethod">getter/setterメソッド</a></h5>
 
-        <p>�e�[�u���̃J�����ɑΉ������e�v���p�e�B��getter/setter���\�b�h���������܂��B���\�b�h�̖����K���͈ȉ��̌`���ɂȂ�܂��B</p>
-        <p>getter���\�b�h</p>
-        <p> - public <span class="italic">function</span> get<span class="italic">�v���p�e�B��</span>()</p>
+        <p>テーブルのカラムに対応した各プロパティのgetter/setterメソッドを実装します。メソッドの命名規則は以下の形式になります。</p>
+        <p>getterメソッド</p>
+        <p> - public <span class="italic">function</span> get<span class="italic">プロパティ名</span>()</p>
 
-        <p>setter���\�b�h</p>
-        <p> - public function set<span class="italic">�v���p�e�B��(����)</span></p>
+        <p>setterメソッド</p>
+        <p> - public function set<span class="italic">プロパティ名(引数)</span></p>
 
-        <p>private $empno;�Ƃ����v���p�e�B�̏ꍇ�͈ȉ��̂悤�ɂȂ�܂��B</p>
+        <p>private $empno;というプロパティの場合は以下のようになります。</p>
 
 <pre>private $empno;
 
@@ -291,7 +327,7 @@ public function setEmpno($empno) {
 }
 </pre>
 
-        <p>�ȏ�̐ݒ���s����EMP�e�[�u���Ɋ֘A�t��Entity�͎��̂悤�ɂȂ�܂��B</p>
+        <p>以上の設定を行ったEMPテーブルに関連付くEntityは次のようになります。</p>
 
 <pre>&lt;?php
 class Employee {
@@ -345,37 +381,37 @@ class Employee {
 
     <h4><a name="Dao">Dao(Data Access Object)</a></h4>
 
-        <p>Dao�̓C���^�[�t�F�[�X�Ƃ��č쐬���܂��B�i���������f�[�^�ƃ��W�b�N�𕪗����āADao�{���̖ړI�ł���Bean�̉i�������s���܂��B
-        Entity�Ƃ�1�F1�̊֌W�ɂ���̂ŁA���Entity�ɑ΂��Ĉ��Dao���쐬���邱�ƂɂȂ�܂��B
-        Dao�̃��\�b�h���ĂԂ��Ƃɂ��A���\�b�h�ɑΉ�����SQL�t�@�C���ɋL�q����Ă���SQL�����s����܂��B
-        Dao���쐬����ɂ́A�ȉ��̓_���K�v�ɂȂ�܂��B</p>
+        <p>Daoはインターフェースとして作成します。永続化されるデータとロジックを分離して、Dao本来の目的であるBeanの永続化を行います。
+        Entityとは1：1の関係にあるので、一つのEntityに対して一つのDaoを作成することになります。
+        Daoのメソッドを呼ぶことにより、メソッドに対応したSQLファイルに記述されているSQLが実行されます。
+        Daoを作成するには、以下の点が必要になります。</p>
 
         <ul>
-            <li>Entity�Ƃ̊֘A�t���̒萔�錾(<a href="#BeanAnnotation">BEAN�A�m�e�[�V����</a>)</li>
-            <li><a href="#DefMethod">���\�b�h�̒�`</a></li>
+            <li>Entityとの関連付けの定数宣言(<a href="#BeanAnnotation">BEANアノテーション</a>)</li>
+            <li><a href="#DefMethod">メソッドの定義</a></li>
         </ul>
 
-        <p>�܂����\�b�h�̈�����SQL���ŎQ�Ƃ�����AWHERE��AORDER���ǉ��A�X�V��SQL�Ɋ܂߂Ȃ��A���邢�͊܂߂�v���p�e�B���w�肷��ꍇ�ɂ́A�ȉ��̃A�m�e�[�V�������g���܂��B</p>
+        <p>またメソッドの引数をSQL文で参照したり、WHERE句、ORDER句を追加、更新のSQLに含めない、あるいは含めるプロパティを指定する場合には、以下のアノテーションを使います。</p>
 
         <ul>
-            <li><a href="#ArgsAnnotation">ARGS�A�m�e�[�V����</a></li>
-            <li><a href="#QueryAnnotation">QUERY�A�m�e�[�V����</a></li>
-            <li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPS�A�m�e�[�V����</a></li>
-            <li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPS�A�m�e�[�V����</a></li>
-            <li><a href="#SqlAnnotation">SQL�A�m�e�[�V����</a></li>
+            <li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
+            <li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
+            <li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
+            <li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
+            <li><a href="#SqlAnnotation">SQLアノテーション</a></li>
         </ul>
 
-    <h5><a name="BeanAnnotation">BEAN�A�m�e�[�V����</a></h5>
+    <h5><a name="BeanAnnotation">BEANアノテーション</a></h5>
 
-        <p>Dao���ǂ�Entity(�G���e�B�e�B)�Ɋ֘A�t�����Ă���̂���BEAN�A�m�e�[�V�����Ŏw�肵�܂��B<br />
-        BEAN�A�m�e�[�V�����͈ȉ��̌`���Œ萔��錾���܂��B</p>
-        <p> - const BEAN = "<span class="italic">Bean(Entity)��</span>";</p>
-        <p>EmployeeDao�N���X��Employee�G���e�B�e�B�Ɋ֘A�t������ꍇ�͎��̂悤�ɒ�`���܂��B</p>
+        <p>DaoがどのEntity(エンティティ)に関連付けられているのかはBEANアノテーションで指定します。<br />
+        BEANアノテーションは以下の形式で定数を宣言します。</p>
+        <p> - const BEAN = "<span class="italic">Bean(Entity)名</span>";</p>
+        <p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。</p>
         <pre>const BEAN = "Employee";</pre>
 
-        <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
-        <p> - @Dao(bean = <span class="italic">Bean(Entity)��</span>)</p>
-        <p>EmployeeDao�N���X��Employee�G���e�B�e�B�Ɋ֘A�t������ꍇ�͎��̂悤�ɒ�`���܂��B</p>
+        <p>コメントアノテーションを行う場合は以下のように記述します。</p>
+        <p> - @Dao(bean = <span class="italic">Bean(Entity)名</span>)</p>
+        <p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。</p>
 <pre>
 /**
  * @Dao(bean = Employee)
@@ -385,78 +421,75 @@ interface EmployeeDao {
     :
 }</pre>
 
-    <h5><a name="ArgsAnnotation">ARGS�A�m�e�[�V����</a></h5>
+    <h5><a name="ArgsAnnotation">ARGSアノテーション</a></h5>
 
-        <p>���\�b�h�̈�����SQL���ŎQ�Ƃł���悤�ɁAARGS�A�m�e�[�V�������g�p���A���\�b�h�̈��������w�肷�邱�Ƃ��ł��܂��B<br />
-        ARGS�A�m�e�[�V�����͈ȉ��̌`���Œ萔��錾���܂��B</p>
-        <p> - const <span class="italic">���\�b�h��</span>_ARGS = "<span class="italic">������</span>";</p>
+        <p>メソッドの引数をSQL文で参照できるように、ARGSアノテーションを使用し、メソッドの引数名を指定することもできます。<br />
+        ARGSアノテーションは以下の形式で定数を宣言します。</p>
+        <p> - const <span class="italic">メソッド名</span>_ARGS = "<span class="italic">引数名</span>";</p>
 
-         <p>public function getEmployeeList($empno)�Ƃ������\�b�h��Dao�ɒ�`����Ă����ꍇ�̈������͎��̂悤�ɒ�`���܂��B</p>
+         <p>public function getEmployeeList($empno)というメソッドがDaoに定義されていた場合の引数名は次のように定義します。</p>
          <pre>const getEmployeeList_ARGS = "empno";</pre>
 
-         <p>�R�����g�A�m�e�[�V�������s���ɂ͈ȉ��̂悤�ɋL�q���܂��B</p>
+         <p>コメントアノテーションを行うには以下のように記述します。</p>
 <pre>
 /**
  * @Arguments(empno)
- * @return list
  */
 public function getEmployee($empno);
 </pre>
 
-        <p>�܂��AARGS�A�m�e�[�V�����͏ȗ����邱�Ƃ��ł��܂��B<br />
-        �ȗ������ꍇ�́A���\�b�h�̈����������̂܂܎g���܂��B</p>
-        <p>�Ⴆ�Έȉ��̂悤�ȃ��\�b�h�̏ꍇ</p>
+        <p>また、ARGSアノテーションは省略することができます。<br />
+        省略した場合は、メソッドの引数名がそのまま使われます。</p>
+        <p>例えば以下のようなメソッドの場合</p>
         <pre>public function methodA($id, $name, $age);</pre>
 
-        <p>�����AARGS�A�m�e�[�V�������ȗ������ꍇ�A id, name, age �����p����܂��B<br />
-        ����ď�̃��\�b�h�̏ꍇ�ȉ���ARGS�A�m�e�[�V�������ȗ��\�ł��B</p>
+        <p>もし、ARGSアノテーションを省略した場合、 id, name, age が利用されます。<br />
+        よって上のメソッドの場合以下のARGSアノテーションが省略可能です。</p>
         <pre>//const methodA_ARGS = "id, name, age";</pre>
 
-    <h5><a name="QueryAnnotation">QUERY�A�m�e�[�V����</a></h5>
+    <h5><a name="QueryAnnotation">QUERYアノテーション</a></h5>
 
-        <p>�����I�ɐ��������SELECT����WHERE���ORDER BY���ǉ�����ɂ́AQUERY�A�m�e�[�V�������g�p���܂��B<br />
-        QUERY�A�m�e�[�V�����͈ȉ��̌`���Œ萔��錾���܂��B</p>
+        <p>自動的に生成されるSELECT文にWHERE句やORDER BY句を追加するには、QUERYアノテーションを使用します。<br />
+        QUERYアノテーションは以下の形式で定数を宣言します。</p>
 
-        <p> - const <span class="italic">���\�b�h��</span>_QUERY = "<span class="italic">WHERE��ORDER BY��</span>";</p>
-        <p>�����ŋ��^�̏���Ɖ������w�肵�A���̊ԂɊ܂܂��]�ƈ��𒊏o����ꍇ�A���̂悤�ɂ��܂��B</p>
+        <p> - const <span class="italic">メソッド名</span>_QUERY = "<span class="italic">WHERE句ORDER BY句</span>";</p>
+        <p>引数で給与の上限と下限を指定し、その間に含まれる従業員を抽出する場合、次のようにします。</p>
 
 <pre>
 const getEmployeesBySalList_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
-
 public function getEmployeesBySalList($minSal, $maxSal);
 </pre>
 
-        <p>�R�����g�A�m�e�[�V�������s���ꍇ�ɂ͈ȉ��̂悤�ɋL�q���܂��B</p>
+        <p>コメントアノテーションを行う場合には以下のように記述します。</p>
 <pre>
 /**
  * @Query("sal BETWEEN ? AND ? ORDER BY empno")
- * @return list
  */
 public function getEmployeesBySal($minSal, $maxSal);
 </pre>
 
-        <p>��L��́g?�h���o�C���h�ϐ��ƌ����܂��B
-        �o�C���h�ϐ���QUERY�A�m�e�[�V�����ɋL�q���邱�Ƃɂ��A���\�b�h�̈����̒l�����Ɂh?�h�̕����ɑ������܂��B
-        ARGS�A�m�e�[�V�����́A�K�v����܂���BORDER BY�傾�����L�q����Ƃ��́AORDER BY�Ŏn�߂Ă��������B<a href="#SQLbind">SQL�R�����g</a>���L�q���邱�Ƃ��o���܂��B
-        SQL�R�����g���g�p�����T���v���͈ȉ��̂Ƃ���ł��B</p>
+        <p>上記例の“?”をバインド変数と言います。
+        バインド変数をQUERYアノテーションに記述することにより、メソッドの引数の値が順に”?”の部分に代入されます。
+        ARGSアノテーションは、必要ありません。ORDER BY句だけを記述するときは、ORDER BYで始めてください。<a href="#SQLbind">SQLコメント</a>も記述することが出来ます。
+        SQLコメントを使用したサンプルは以下のとおりです。</p>
 
 <pre>const getEmployeesList_QUERY =
             "job = /*job*/'CLERK'/*IF deptno != null*/ AND deptno = /*deptno*/20/*END*/";
 </pre>
 
-        <p>��L�T���v���́A����deptno��null�łȂ��ꍇ�Adeptno�������̒l�ƈ�v����Ƃ���������ǉ����܂��BSQL�R�����g�ɂ��Ă̏ڂ��������́A<a href="#SQLbind">SQL�R�����g</a>�̍��ڂ��Q�Ƃ��ĉ������B</p>
+        <p>上記サンプルは、引数deptnoがnullでない場合、deptnoが引数の値と一致するという条件を追加します。SQLコメントについての詳しい説明は、<a href="#SQLbind">SQLコメント</a>の項目を参照して下さい。</p>
 
-    <h5><a name="DefMethod">���\�b�h�̒�`</a></h5>
+    <h5><a name="DefMethod">メソッドの定義</a></h5>
 
-        <p>Dao�ɒ�`�������\�b�h���ĂԂ��Ƃɂ��A�Ή�����SQL�t�@�C���ɋL�q����Ă���SQL�����s����܂����A
-        �X�V(INSERT, UPDATE, DELETE)�A�����������ƂɃ��\�b�h�̖����K��������܂��BS2Dao�ł̓��\�b�h�̖����K�����SQL���̒��g�������I�Ɍ��肵�Ă��܂��B
-        �܂��A��`���郁�\�b�h�̃I�[�o�[���[�h�̓T�|�[�g���Ă��܂���B</p>
+        <p>Daoに定義したメソッドを呼ぶことにより、対応するSQLファイルに記述されているSQLが実行されますが、
+        更新(INSERT, UPDATE, DELETE)、検索処理ごとにメソッドの命名規則があります。S2Daoではメソッドの命名規則よりSQL文の中身を自動的に決定しています。
+        また、定義するメソッドのオーバーロードはサポートしていません。</p>
 
         <ul>
-            <li>INSERT����</li>
-                <p>INSERT�������s�Ȃ����\�b�h�̖��O���Ainsert, add, create�ł͂��܂�K�v������܂��B<br />
-                �X�V�����s�����߂�l�ƂȂ�܂��B�����̌^�̓G���e�B�e�B�̌^�ƈ�v�����܂��B<br />
-                ���\�b�h�̒�`��͈ȉ��̂悤�ɂȂ�܂��B</p>
+            <li>INSERT処理</li>
+                <p>INSERT処理を行なうメソッドの名前が、insert, add, createではじまる必要があります。<br />
+                更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
+                メソッドの定義例は以下のようになります。</p>
 
 <pre>
 public function insert(Department $department);
@@ -464,10 +497,10 @@ public function addDept(Department $department);
 public function createDept(Department $department);
 </pre>
 
-        <li>UPDATE����</li>
-            <p>UPDATE�������s�����\�b�h�̖��O���Aupdate,modify,store�ł͂��܂�K�v������܂��B<br />
-            �X�V�����s�����߂�l�ƂȂ�܂��B�����̌^�̓G���e�B�e�B�̌^�ƈ�v�����܂��B<br />
-            ���\�b�h�̒�`��͈ȉ��̂悤�ɂȂ�܂��B</p>
+        <li>UPDATE処理</li>
+            <p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。<br />
+            更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
+            メソッドの定義例は以下のようになります。</p>
 
 <pre>
 public function update(Department $department);
@@ -475,59 +508,104 @@ public function modifyDept(Department $department);
 public function storeDept(Department $department);
 </pre>
 
-        <li>DELETE����</li>
-            <p>DELETE�������s�����\�b�h�̖��O���Adelete,remove�ł͂��܂�K�v������܂��B<br />
-            �X�V�����s�����߂�l�ƂȂ�܂��B�����̌^�̓G���e�B�e�B�̌^�ƈ�v�����܂��B<br />
-            ���\�b�h�̒�`��͈ȉ��̂悤�ɂȂ�܂��B</p>
+        <li>DELETE処理</li>
+            <p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。<br />
+            更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
+            メソッドの定義例は以下のようになります。</p>
 
 <pre>
 public function delete(Department $department);
 public function removeDept(Department $department);
 </pre>
 
-        <li>����(SELECT)����</li>
-            <p>�����������s�Ȃ������ꍇ�́A���\�b�h���̍Ōオ<span class="italic">List</span>�܂��́A<span class="italic">Array</span>�ŏI����Ă���K�v������܂��B<br />
-            ����<span class="italic">List</span>�܂��́A<span class="italic">Array</span>�ŏI����Ă��Ȃ��ꍇ�͒P���Entity(Bean)��Ԃ��܂��B<br />
-            �܂��AList�AArray�͑啶���������𔻕ʂ��܂���B</p>
+        <li>検索(SELECT)処理
+            <p>検索処理を行ないたい場合は、メソッド名の最後が<span class="italic">List</span>または、<span class="italic">Array</span>で終わっている必要があります。<br />
+            もし<span class="italic">List</span>または、<span class="italic">Array</span>で終わっていない場合は単一のEntity(Bean)を返します。<br />
+            また、List、Arrayなどは大文字小文字を判別しません。</p>
 
-            <p>List�ŏI��郁�\�b�h���̏ꍇ�́ASELECT���ŃG���e�B�e�B�̃��X�g(S2Dao_ArrayList�`��)��Ԃ��܂��B<br />
-            (S2Dao_ArrayList��S2Dao.PHP5�̑g�ݍ��݃N���X�ł��BJava��ArrayList�Ɠ����悤�ȋ@�\��񋟂��܂��B)<br />
-            �ȉ��̂悤�ɋL�q���邱�Ƃ��ł��܂��B</p>
+            <ul>
+                <li>List形式の戻り値
+                    <p>Listで終わるメソッド名の場合は、SELECT文でエンティティのリスト(S2Dao_ArrayList形式)を返します。<br />
+                    (S2Dao_ArrayListはS2Dao.PHP5の組み込みクラスです。JavaのArrayListと同じような機能を提供します。)<br />
+                    以下のように記述することができます。</p>
 <pre>
 public function getEmpList();
 </pre>
-
-            <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
+                    <p>コメントアノテーションを行う場合は以下のように記述します。</p>
 <pre>
 /**
  * @return list
  */
 public function getEmp();
 </pre>
-
-            <p>Array�ŏI��郁�\�b�h���̏ꍇ�́A�G���e�B�e�B�̔z��(<span class="italic">array()</span>)��Ԃ��܂��B<br />
-            �ȉ��̂悤�ɋL�q���邱�Ƃ��ł��܂��B</p>
+</li>
+                <li>Array形式の戻り値
+                    <p>Arrayで終わるメソッド名の場合は、エンティティの連想配列(<span class="italic">array()</span>)を返します。<br />
+                        以下のように記述することができます。</p>
 <pre>
 public function getEmpArray();
 </pre>
 
-            <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
+            <p>コメントアノテーションを行う場合は以下のように記述します。</p>
 <pre>
 /**
  * @return array
  */
 public function getEmp();
 </pre>
+</li>
+                <li>YAML形式の戻り値
+                    <p>Yamlで終わるメソッド名の場合は、YAML形式の戻り値を返します。<br />
+                    以下のように記述することができます。</p>
+<pre>
+public function getEmpYaml();
+</pre>
+                    <p>コメントアノテーションを行う場合は以下のように記述します。</p>
+<pre>
+/**
+ * @return yaml
+ */
+public function getEmp();
+</pre>
+                    <p>※YAML形式の戻り値を取得するためにはSpyc(<a href="http://spyc.sourceforge.net/" title="spyc: a simple php yaml class">http://spyc.sourceforge.net/</a>)を読み込んでおく必要があります。</p>
+<pre>
+require_once "spyc.php";
+:
+:
+</pre>
+</li>
+
+                <li>JSON形式の戻り値
+                    <p>Jsonで終わるメソッド名の場合は、JSON形式の戻り値を返します。<br />
+                    以下のように記述することができます。</p>
+<pre>
+public function getEmpJson();
+</pre>
+                    <p>コメントアノテーションを行う場合は以下のように記述します。</p>
+<pre>
+/**
+ * @return json
+ */
+public function getEmp();
+</pre>
+                    <p>※JSON形式の戻り値を取得するためにはphp-jsonのPHP拡張(<a href="http://www.aurore.net/projects/php-json/" title="omar kilani - projects - php-json">http://www.aurore.net/projects/php-json/</a>)を使用します。<br />
+                        使用するにはphp.iniなどにjson.so(php_json.dll)を読み込んでおいてください。</p>
+<pre>
+extension=json.so(extension=php_json.dll)
+</pre>
+</li>
+                </ul>
+            </li>
         </ul>
 
-    <h5><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPS�A�m�e�[�V����</a></h5>
+    <h5><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h5>
 
-        <p>�X�V����Ƃ��ɁA���̃v���p�e�B�́ASQL�Ɋ܂߂ė~�����Ȃ��Ƃ����ꍇ������܂��B
-        ���̂悤�ȏꍇ�́ANO_PERSISTENT_PROPS�A�m�e�[�V�������g���܂��B</p>
+        <p>更新するときに、このプロパティは、SQLに含めて欲しくないという場合もあります。
+        そのような場合は、NO_PERSISTENT_PROPSアノテーションを使います。</p>
         <pre>const insert_NO_PERSISTENT_PROPS = "sal, comm";</pre>
-        <p>��L�̂悤�Ɏw�肷��ƁAinsert���\�b�h�ŁAsal��comm�v���p�e�B�͉i�����̑ΏۂɂȂ�܂���B</p>
+        <p>上記のように指定すると、insertメソッドで、salとcommプロパティは永続化の対象になりません。</p>
 
-        <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
+        <p>コメントアノテーションを行う場合は以下のように記述します。</p>
 <pre>
 /**
  * @NoPersistentProperty(sal, comm)
@@ -535,15 +613,15 @@ public function getEmp();
 public function insert(Department $department);
 </pre>
 
-    <h5><a name="PersistentPropsAnnotation">PERSISTENT_PROPS�A�m�e�[�V����</a></h5>
+    <h5><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h5>
 
-        <p>�X�V����Ƃ��ɁA���̃v���p�e�B������SQL�Ɋ܂߂����Ƃ����ꍇ������܂��B
-        ���̂悤�ȏꍇ�́APERSISTENT_PROPS�A�m�e�[�V�������g���܂��B</p>
+        <p>更新するときに、このプロパティだけをSQLに含めたいという場合もあります。
+        そのような場合は、PERSISTENT_PROPSアノテーションを使います。</p>
         <pre>const update_PERSISTENT_PROPS = "deptno";</pre>
-        <p>��L�̂悤�Ɏw�肷��ƁAupdate���\�b�h�ŁA�v���C�}���[�L�[�AversionNo�Atimestamp�̃v���p�e�B�ɉ����āA
-        PERSISTENT_PROPS�A�m�e�[�V�����Ŏw�肵���v���p�e�B���i�����̑ΏۂɂȂ�܂��B</p>
+        <p>上記のように指定すると、updateメソッドで、プライマリーキー、versionNo、timestampのプロパティに加えて、
+        PERSISTENT_PROPSアノテーションで指定したプロパティが永続化の対象になります。</p>
 
-        <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
+        <p>コメントアノテーションを行う場合は以下のように記述します。</p>
 <pre>
 /**
  * @PersistentProperty("deptno")
@@ -551,146 +629,128 @@ public function insert(Department $department);
 public function update(Department $department);
 </pre>
 
-    <h5><a name="SqlAnnotation">SQL�A�m�e�[�V����</a></h5>
+    <h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
 
-        <p>SQL�A�m�e�[�V�������g�p���邱�Ƃ��\�ł��B<br />
-        �@�\��SQL�t�@�C���Ɠ��l�ŁA�A�m�e�[�V�����ɂ�SQL�y��SQL�R�����g���g�p���邱�Ƃ��\�ł��B</p>
-        <p>SQL�A�m�e�[�V�����ɖ����K��������܂��B</p>
+        <p>SQLアノテーションを使用することが可能です。<br />
+        機能はSQLファイルと同様で、アノテーションにてSQL及びSQLコメントを使用することが可能です。</p>
+        <p>SQLアノテーションに命名規則があります。</p>
 
         <ul>
-            <li>SQL�t�@�C����Dao�ɒ�`�������\�b�h�̊֘A�t��</li>
-                <p>SQL�A�m�e�[�V������Dao�ɒ�`�������\�b�h�̊֘A�t��������ɂ́ASQL�A�m�e�[�V�������ȉ��̌`���ɂ���K�v������܂��B</p>
-                <p> - const <span class="italic">���\�b�h��</span>_SQL</p>
-                <p>EmployeeDao::getAllEmployeesList()�ɑΉ�����SQL�A�m�e�[�V�����͈ȉ��̂悤�ɂȂ�܂��B</p>
+            <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
+                <p>SQLアノテーションとDaoに定義したメソッドの関連付けをするには、SQLアノテーションを以下の形式にする必要があります。</p>
+                <p> - const <span class="italic">メソッド名</span>_SQL</p>
+                <p>EmployeeDao::getAllEmployeesList()に対応するSQLアノテーションは以下のようになります。</p>
 
 <pre>const getAllEmployeesList_SQL = "SELECT
 emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
  WHERE emp.deptno = dept.deptno ORDER BY emp.empno;";
 </pre>
 
-                <p>�R�����g�A�m�e�[�V�������s���ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
+                <p>コメントアノテーションを行う場合は以下のように記述します。</p>
 <pre>
 /**
  * @Sql("SELECT * FROM EMP WHERE EMPNO > 1")
- * @return list
  */
 public function getAllEmployees();
 </pre>
 
-            <li>����DBMS�Ή�</li>
-                <p>DBMS���ƂɎg�p����SQL�A�m�e�[�V�������w�肷�邱�Ƃ��ł��܂��B<br />
-                �ǂ�DBMS���g���Ă���̂��� PDO::ATTR_DRIVER_NAME �̒l�ɉ����āAS2Dao �������I�ɔ��f���Ă��܂��B<br />
-                S2Dao.PHP5��DBMS���ƂɃT�t�B�b�N�X�����߂Ă���̂ŁASQL�A�m�e�[�V�����ɃT�t�B�b�N�X��ǉ����܂��B<br />
-                �Ⴆ��MySQL�̏ꍇ�A�T�t�B�b�N�X��mysql�Ȃ̂ŁA�ugetAllEmployeesList_mysql_SQL�v�Ƃ���SQL�A�m�e�[�V�����ɂȂ�܂��B</p>
+            <li>複数DBMS対応</li>
+                <p>DBMSごとに使用するSQLアノテーションを指定することができます。<br />
+                どのDBMSを使っているのかは PDO::ATTR_DRIVER_NAME の値に応じて、S2Dao が自動的に判断しています。<br />
+                S2Dao.PHP5でDBMSごとにサフィックスを決めているので、SQLアノテーションにサフィックスを追加します。<br />
+                例えばMySQLの場合、サフィックスはmysqlなので、「getAllEmployeesList_mysql_SQL」というSQLアノテーションになります。</p>
 
-            <p>DBMS�ƃT�t�B�b�N�X�̊֌W�͈ȉ��̒ʂ�ł��B</p>
+            <p>DBMSとサフィックスの関係は以下の通りです。</p>
             <table class="main" border="1">
-                <tbody>
-                    <tr align="center" bgcolor="#d1f3f4">
-                        <th scope="col">DBMS</th>
-                        <th scope="col">�T�t�B�b�N�X</th>
-                    </tr>
-                    <tr>
-                        <td>Oracle</td>
-                        <td>oracle</td>
-                    </tr>
-                    <!--
-                    <tr>
-                        <td>DB2</td>
-                        <td>db2</td>
-                    </tr>
-                    <tr>
-                        <td>MSSQLServer</td>
-                        <td>mssql</td>
-                    </tr>
-                    <tr>
-                        <td>Firebird</td>
-                        <td>firebird</td>
-                    </tr>
-                    -->
-                    <tr>
-                        <td>MySQL</td>
-                        <td>mysql</td>
-                    </tr>
-                    <tr>
-                        <td>PostgreSQL</td>
-                        <td>pgsql</td>
-                    </tr>
-                    <tr>
-                        <td>SQLite</td>
-                        <td>sqlite</td>
-                    </tr>
-                </tbody>
+                <tr align="center" bgcolor="#d1f3f4">
+                    <th scope="col">DBMS</th>
+                    <th scope="col">サフィックス</th>
+                </tr>
+                <tr>
+                    <td>Oracle</td>
+                    <td>oracle</td>
+                </tr>
+                <tr>
+                    <td>Firebird</td>
+                    <td>firebird</td>
+                </tr>
+                <tr>
+                    <td>MySQL</td>
+                    <td>mysql</td>
+                </tr>
+                <tr>
+                    <td>PostgreSQL</td>
+                    <td>pgsql</td>
+                </tr>
+                <tr>
+                    <td>SQLite</td>
+                    <td>sqlite</td>
+                </tr>
+                <tr>
+                    <td>Sybase</td>
+                    <td>sybase</td>
+                </tr>
             </table>
         </ul>
 
-    <h5><a name="ProcedureAnnotation">PROCEDURE�A�m�e�[�V����</a></h5>
+    <h5><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h5>
 
-    <p>�o�[�W����RC3���APROCEDURE�A�m�e�[�V�������g�p���邱�Ƃɂ��StoredProcedure��StoredFunction�����s���邱�Ƃ��ł��܂��B
-    PROCEDURE�A�m�e�[�V�����͈ȉ��̌`���̂��������ꂩ���w�肵�܂��B</p>
-    <p>-  const <span class="italic">���\�b�h��</span>_PROCEDURE = "<span class="italic">�J�^���O��.�X�L�[�}��.�v���V�W����</span>";</p>
-    <p>-  const <span class="italic">���\�b�h��</span>_PROCEDURE = "<span class="italic">�X�L�[�}��.�v���V�W����</span>";</p>
-    <p>-  const <span class="italic">���\�b�h��</span>_PROCEDURE = "<span class="italic">�v���V�W����</span>";</p>
+    <p>バージョンRC3より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます。
+    PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
+    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>";</p>
+    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシジャ名</span>";</p>
+    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
 
     <ul>
-        <li>�T�|�[�g�����StoredProcedure�͈̔͂ɂ���</li>
-        <p>PROCEDURE�A�m�e�[�V�����ł́A�߂�l�̂���StoredProcedure�����IN�p�����[�^�𕡐����v���V�W���[���T�|�[�g���Ă��܂��B
-        �������AOUT��INOUT�p�����[�^�͌��݂̂Ƃ���Ή����Ă��܂���B</p>
-        <p>�܂��ADBMS��PDO�̃o�[�W�����ɂ���ẮA���p�ł��Ȃ��ꍇ������܂��B</p>
+        <li>サポートされるStoredProcedureの範囲について</li>
+        <p>PROCEDUREアノテーションでは、戻り値のあるStoredProcedureおよびINパラメータを複数持つプロシジャーをサポートしています。
+        ただし、OUTやINOUTパラメータは現在のところ対応していません。</p>
+        <p>また、DBMSやPDOのバージョンによっては、利用できない場合があります。</p>
 
         <table class="main" border="1">
             <tr align="center" bgcolor="#d1f3f4">
                 <th scope="col">DBMS</th>
-                <th scope="col">��������</th>
+                <th scope="col">制限事項</th>
             </tr>
             <tr>
                 <td>Oracle</td>
-                <td>���ݗ��p�s�ł��B</td>
+                <td>現在利用不可です。</td>
             </tr>
-            <!--
-            <tr>
-                <td>DB2</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>MSSQLServer</td>
-
-                <td>-</td>
-            </tr>
-            -->
             <tr>
                 <td>MySQL</td>
-                <td>IN�p�����[�^������StoredFunction�����StoredProcedure���T�|�[�g���Ă��܂��B</td>
+                <td>INパラメータをもつStoredFunctionおよびStoredProcedureをサポートしています。</td>
             </tr>
             <tr>
                 <td>PostgreSQL</td>
-                <td>IN�p�����[�^������StoredFunction�����StoredProcedure���T�|�[�g���Ă��܂��B</td>
+                <td>INパラメータをもつStoredFunctionおよびStoredProcedureをサポートしています。</td>
             </tr>
             <tr>
                 <td>SQLite</td>
-                <td>PDO::sqliteCreateFunction�̂ݑΉ����Ă��܂��B</td>
+                <td>PDO::sqliteCreateFunctionに対応し、INパラメータにおいてサポートしています。</td>
             </tr>
-            <!--
             <tr>
                 <td>Firebird</td>
-                <td>-</td>
+                <td>現在利用不可です。</td>
             </tr>
-        -->
+            <tr>
+                <td>Sybase</td>
+                <td>現在利用不可です。</td>
+            </tr>
         </table>
     </ul>
 
-    <h4><a name="diconfile">dicon�t�@�C��</a></h4>
+    <h4><a name="diconfile">diconファイル</a></h4>
 
-        <p>dicon�t�@�C����Dao���R���e�i�ɃR���|�[�l���g�o�^���܂��B
-        Dao�@�\���g�p����ɂ́A�o�^����Dao�ɑ΂��āAAOP��K�p����K�v������܂��B
-        dicon�t�@�C���͂ǂ��ɔz�u���Ă������̂ł����A�ʏ�Dao�Ɠ����ꏊ�ɔz�u���܂��B
-        dicon�t�@�C���̏ڂ����ݒ���@�ɂ��ẮA<a href="http://s2container.php5.sandbox.seasar.org/DIContainer.html">DIContainer</a>���Q�Ƃ��ĉ������B</p>
+        <p>diconファイルはDaoをコンテナにコンポーネント登録します。
+        Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
+        diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。
+        diconファイルの詳しい設定方法については、<a href="http://s2container.php5.sandbox.seasar.org/DIContainer.html">DIContainer</a>を参照して下さい。</p>
 
-    <h5>S2DaoInterceptor�̓K�p</h5>
+    <h5>S2DaoInterceptorの適用</h5>
 
-        <p>Dao�@�\���g�p����ɂ� "org.seasar.dao.interceptors.S2DaoInterceptor"��o�^����Dao�ɑ΂���AOP��K�p���܂��B<br />
-        AOP�ɂ��ẮA<a href="http://s2container.php5.sandbox.seasar.org/aop.html">AOP</a>�̃y�[�W���Q�Ƃ��ĉ������B<br />
-        �ȉ���Dao(EmployeeDao)���R���|�[�l���g�o�^����T���v��</p>
+        <p>Dao機能を使用するには "org.seasar.dao.interceptors.S2DaoInterceptor"を登録したDaoに対してAOPを適用します。<br />
+        AOPについては、<a href="http://s2container.php5.sandbox.seasar.org/aop.html">AOP</a>のページを参照して下さい。<br />
+        以下はDao(EmployeeDao)をコンポーネント登録するサンプル</p>
         <p>EmployeeDao.dicon</p>
 
 <pre>
@@ -707,8 +767,6 @@ public function getAllEmployees();
 <pre>
 &lt;components namespace="dao"&gt;
     &lt;include path="%PDO_DICON%" /&gt;
-    &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
-    &lt;component class="S2Dao_BasicStatementFactory" /&gt;
     &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
     &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
     &lt;component name="interceptor" class="S2DaoInterceptor" /&gt;
@@ -727,57 +785,47 @@ public function getAllEmployees();
 &lt;/components&gt;
 </pre>
 
-        <p>&lt;component class="S2Dao_DaoMetaDataFactoryImpl"/&gt;��S2DaoInterceptor�̃R���X�g���N�^�̈����ƂȂ�̂ŁA
-         S2Dao_DaoMetaDataFactoryImpl���L�q���Ă����܂��B</p>
+        <p>&lt;component class="S2Dao_DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
+         S2Dao_DaoMetaDataFactoryImplも記述しておきます。</p>
 
-    <h4><a name="SQLfile">SQL�t�@�C��</a></h4>
+    <h4><a name="SQLfile">SQLファイル</a></h4>
 
-        <p>�����A�X�V���������s��SQL�����L�q���܂��B
-        Dao�ɒ�`�������\�b�h���Ăяo���ƁA�Ή�����SQL�t�@�C���ɋL�q����Ă���SQL�������s����܂��B
-        �쐬����SQL�t�@�C����Dao�Ɠ����ꏊ�ɔz�u���Ă��������B<br />
-        ��S2Dao�ɂ�SQL��<a href="#AutoUpdate">�����Ő�������@�\</a>���p�ӂ���Ă���̂ŁASQL�t�@�C�����Ȃ��ꍇ�AS2Dao.PHP5��SQL���������������܂��B</p>
+        <p>検索、更新処理等を行うSQL文を記述します。
+        Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
+        作成したSQLファイルはDaoと同じ場所に配置してください。<br />
+        ※S2DaoにはSQLを<a href="#AutoUpdate">自動で生成する機能</a>が用意されているので、SQLファイルがない場合、S2Dao.PHP5がSQL文を自動生成します。</p>
 
-    <h5>SQL�t�@�C����</h5>
+    <h5>SQLファイル名</h5>
 
-        <p>S2Dao�ɂ�SQL�̃t�@�C�����ɂ������K��������܂��B</p>
+        <p>S2DaoにはSQLのファイル名にも命名規則があります。</p>
 
         <ul>
-            <li>SQL�t�@�C����Dao�ɒ�`�������\�b�h�̊֘A�t��</li>
-            <p>�쐬����SQL�t�@�C����Dao�ɒ�`�������\�b�h�̊֘A�t��������ɂ́ASQL�t�@�C���̃t�@�C�������ȉ��̌`���ɂ���K�v������܂��B</p>
-            <p> -  <span class="italic">Dao�̃N���X��</span>_<span class="italic">���\�b�h��</span>.sql</p>
-            <p>examples.dao.EmployeeDao::getAllEmployeesList()�ɑΉ�����SQL�t�@�C���͈ȉ��̂悤�ɂȂ�܂��B</p>
+            <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
+            <p>作成したSQLファイルとDaoに定義したメソッドの関連付けをするには、SQLファイルのファイル名を以下の形式にする必要があります。</p>
+            <p> -  <span class="italic">Daoのクラス名</span>_<span class="italic">メソッド名</span>.sql</p>
+            <p>examples.dao.EmployeeDao::getAllEmployeesList()に対応するSQLファイルは以下のようになります。</p>
             <pre>examples/dao/EmployeeDao_getAllEmployeesList.sql</pre>
 
-            <li>����DBMS�Ή�</li>
-                <p>DBMS���ƂɎg�p����SQL�t�@�C�����w�肷�邱�Ƃ��ł��܂��B<br />
-                �ǂ�DBMS���g���Ă���̂��� PDO::ATTR_DRIVER_NAME �̒l�ɉ����āAS2Dao �������I�ɔ��f���Ă��܂��B<br />
-                S2Dao.PHP5��DBMS���ƂɃT�t�B�b�N�X�����߂Ă���̂ŁASQL�t�@�C�����ɃT�t�B�b�N�X��ǉ����܂��B<br />
-                �Ⴆ�� MySQL �̏ꍇ�A�T�t�B�b�N�X�� mysql �Ȃ̂ŁA�uEmployeeDao_getAllEmployeesList_mysql.sql�v�Ƃ����t�@�C�����ɂȂ�܂��B</p>
+            <li>複数DBMS対応</li>
+                <p>DBMSごとに使用するSQLファイルを指定することができます。<br />
+                どのDBMSを使っているのかは PDO::ATTR_DRIVER_NAME の値に応じて、S2Dao が自動的に判断しています。<br />
+                S2Dao.PHP5でDBMSごとにサフィックスを決めているので、SQLファイル名にサフィックスを追加します。<br />
+                例えば MySQL の場合、サフィックスは mysql なので、「EmployeeDao_getAllEmployeesList_mysql.sql」というファイル名になります。</p>
 
-            <p>DBMS�ƃT�t�B�b�N�X�̊֌W�͈ȉ��̒ʂ�ł��B</p>
+            <p>DBMSとサフィックスの関係は以下の通りです。</p>
             <table border="1" class="main">
                 <tr bgcolor="#d1f3f4" align="center">
                     <th scope="col">DBMS</th>
-                    <th scope="col">�T�t�B�b�N�X</th>
+                    <th scope="col">サフィックス</th>
                 </tr>
                 <tr>
                     <td>Oracle</td>
                     <td>oracle</td>
                 </tr>
-                <!--
-                <tr>
-                    <td>DB2</td>
-                    <td>db2</td>
-                </tr>
-                <tr>
-                    <td>MSSQLServer</td>
-                    <td>mssql</td>
-                </tr>
                 <tr>
                     <td>Firebird</td>
                     <td>firebird</td>
                 </tr>
-                -->
                 <tr>
                     <td>MySQL</td>
                     <td>mysql</td>
@@ -790,88 +838,92 @@ public function getAllEmployees();
                     <td>SQLite</td>
                     <td>sqlite</td>
                 </tr>
+                <tr>
+                    <td>Sybase</td>
+                    <td>sybase</td>
+                </tr>
             </table>
         </ul>
 
-    <h5>SQL���̋L�q</h5>
+    <h5>SQL文の記述</h5>
 
-        <p>SQL�t�@�C���ɂ́A�hSELECT * FROM EMP�h, �gDELETE FROM EMP WHERE EMPNO = 7788�h�Ƃ������A���ʂ�SQL�����L�q���邱�Ƃ��\�ł��B<br />
-        �܂��AWHERE��̏����̒l�Ȃǂ𓮓I�ɕω������邱�Ƃ��\�ł��B
-        �ڂ����́A<a href="#SQLbind">SQL�R�����g</a>���Q�Ƃ��ĉ������B</p>
+        <p>SQLファイルには、”SELECT * FROM EMP”, “DELETE FROM EMP WHERE EMPNO = 7788”といった、普通のSQL文を記述することが可能です。<br />
+        また、WHERE句の条件の値などを動的に変化させることも可能です。
+        詳しくは、<a href="#SQLbind">SQLコメント</a>を参照して下さい。</p>
 
-    <h3><a name="SQLBind">SQL�R�����g</a></h3>
+    <h3><a name="SQLBind">SQLコメント</a></h3>
 
-        <p>S2Dao.PHP5�ł́A���\�b�h�̈�����SQL���̃o�C���h�ϐ��̑Ή��t����/**/��--�Ȃǂ̃R�����g���g���čs���܂��B
-        �R�����g�Ȃ̂ŁA�Ή��t����������ł��ASQL*Plus�Ȃǂ�SQL�̃c�[���ł��̂܂܎��s���邱�Ƃ��ł��܂��B
-        �ŏ��ASQL�̃c�[����SQL�������s���Ďv���ʂ�̌��ʂ��o�͂���悤�ɂȂ�����A
-        ����ɑ΂��āA�R�����g�𖄂ߍ���ł����Ɨǂ��ł��傤�B</p>
+        <p>S2Dao.PHP5では、メソッドの引数とSQL文のバインド変数の対応付けを/**/や--などのコメントを使って行います。
+        コメントなので、対応付けをした後でも、SQL*PlusなどのSQLのツールでそのまま実行することができます。
+        最初、SQLのツールでSQL文を実行して思い通りの結果を出力するようになったら、
+        それに対して、コメントを埋め込んでいくと良いでしょう。</p>
 
-        <p>�܂��ASQL���ɑ΂��Ă̐����̈Ӗ��ł̃R�����g���g�p�������ꍇ�́A/*�̌�ɃX�y�[�X�����邱�Ƃɂ��A
-        ���ʂ̃R�����g���g�p���邱�Ƃ��o���܂��B��Ƃ��āA/* hoge*/�ƂȂ�܂��B/*�̌�ɃX�y�[�X�������Ă���̂ŁA���s���ɂ͖�������܂��B</p>
+        <p>また、SQL文に対しての説明の意味でのコメントを使用したい場合は、/*の後にスペースを入れることにより、
+        普通のコメントを使用することが出来ます。例として、/* hoge*/となります。/*の後にスペースが入っているので、実行時には無視されます。</p>
 
-    <h4>�o�C���h�ϐ��R�����g</h4>
+    <h4>バインド変数コメント</h4>
 
-        <p>Dao�ɒ�`�������\�b�h�̈����̒l��SQL���Ŏg�p����ꍇ�́ASQL���Ƀo�C���h�ϐ��R�����g���L�q���܂��B
-        �o�C���h�ϐ��R�����g�̉E���̃��e�����Ɉ����̒l�������I�ɒu��������s����܂��B
-        �o�C���h�ϐ��R�����g�́A�ȉ��̂悤�ɋL�q���܂��B</p>
-        <p>-  /*<span class="italic">������</span>*/<span class="italic">���e����</span></p>
+        <p>Daoに定義したメソッドの引数の値をSQL文で使用する場合は、SQL文にバインド変数コメントを記述します。
+        バインド変数コメントの右側のリテラルに引数の値が自動的に置換され実行されます。
+        バインド変数コメントは、以下のように記述します。</p>
+        <p>-  /*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
 
-        <p>������Entity�̏ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
-        <p>-  /*<span class="italic">������</span>.<span class="italic">�v���p�e�B��</span>*/<span class="italic">���e����</span></p>
+        <p>引数がEntityの場合は以下のように記述します。</p>
+        <p>-  /*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
 
         <pre>public function getEmployeeList($empno);</pre>
 
-        <p>Dao�ɏ�L�̃��\�b�h���`�����ꍇ�ASQL�t�@�C��(EmploeeDao_getEmployeeList.sql)�͎��̂悤�Ƀo�C���h�ϐ����g�p���邱�Ƃ��\�ł��B
-        �����I��getEmployeeList���\�b�h�̈����̒l���ݒ肳��܂��B</p>
+        <p>Daoに上記のメソッドを定義した場合、SQLファイル(EmploeeDao_getEmployeeList.sql)は次のようにバインド変数を使用することが可能です。
+        自動的にgetEmployeeListメソッドの引数の値が設定されます。</p>
         <pre>SELECT * FROM emp WHERE empno = /*empno*/7788</pre>
 
-        <p>IN��Ƀo�C���h�ϐ���K�p�������ꍇ�͈ȉ��̂悤�ɂ��邱�Ƃ��ł��܂��B</p>
-        <p>-  IN /*<span class="italic">������</span>*/(...)</p>
+        <p>IN句にバインド変数を適用したい場合は以下のようにすることができます。</p>
+        <p>-  IN /*<span class="italic">引数名</span>*/(...)</p>
         <pre>IN /*names*/('aaa', 'bbb')</pre>
-        <p>������java.util.List��z��̈����ƂȂ�܂��B��L��IN��̏ꍇ�́A�ȉ��̂悤�Ɉ�����p�ӂ��܂��B</p>
+        <p>引数はjava.util.Listや配列の引数となります。上記のIN句の場合は、以下のように引数を用意します。</p>
         <pre>$names = array("SCOTT", "SMITH", "JAMES");</pre>
-        <p>�z��names�������I�Ƀo�C���h�ϐ��̕����ɒu������܂��B</p>
+        <p>配列namesが自動的にバインド変数の部分に置換されます。</p>
 
-        <p>LIKE���g�p����ꍇ�́A���̂悤�ɂ��܂��B</p>
+        <p>LIKEを使用する場合は、次のようにします。</p>
         <pre>ename LIKE /*ename*/'hoge'</pre>
 
-        <p>���C���h�J�[�h���g�������ꍇ�́A���\�b�h�̈����̒l�ɖ��ߍ��݂܂��B
-        �u"COT"���܂ށv�Ƃ����������w�肷��ꍇ�́A�ȉ��̂悤�Ɉ����̒l�Ƀ��C���h�J�[�h�𖄂ߍ��݂܂��B</p>
+        <p>ワイルドカードを使いたい場合は、メソッドの引数の値に埋め込みます。
+        「"COT"を含む」という条件を指定する場合は、以下のように引数の値にワイルドカードを埋め込みます。</p>
         <pre>$employeeDao-&gt;findEmployees("%COT%");</pre>
 
-    <h4>���ߍ��ݕϐ��R�����g</h4>
+    <h4>埋め込み変数コメント</h4>
 
-        <p>Dao�ɒ�`�������\�b�h�̈����̒l��SQL���ɕ�����Ƃ��Ē��ږ��ߍ��ޏꍇ�́ASQL���ɖ��ߍ��ݕϐ��R�����g���L�q���܂��B
-        ���ߍ��ݕϐ��R�����g�̉E���̃��e�����Ɉ����̒l�������I�ɒu��������s����܂��B
-        ���ߍ��ݕϐ��R�����g�́A�ȉ��̂悤�ɋL�q���܂��B</p>
-        <p>-  /*<span class="italic">������</span>*/<span class="italic">���e����</span></p>
+        <p>Daoに定義したメソッドの引数の値をSQL文に文字列として直接埋め込む場合は、SQL文に埋め込み変数コメントを記述します。
+        埋め込み変数コメントの右側のリテラルに引数の値が自動的に置換され実行されます。
+        埋め込み変数コメントは、以下のように記述します。</p>
+        <p>-  /*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
 
-        <p>������Entity�̏ꍇ�͈ȉ��̂悤�ɋL�q���܂��B</p>
-        <p>-  /*<span class="italic">������</span>.<span class="italic">�v���p�e�B��</span>*/<span class="italic">���e����</span></p>
+        <p>引数がEntityの場合は以下のように記述します。</p>
+        <p>-  /*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
 
-    <h4>IF�R�����g</h4>
+    <h4>IFコメント</h4>
 
-        <p>IF�R�����g�ł́A�����ɉ����Ď��s����SQL����ς��邱�Ƃ��\�ł��BIF�R�����g�͈ȉ��̌`���ŋL�q���܂��B</p>
+        <p>IFコメントでは、条件に応じて実行するSQL文を変えることが可能です。IFコメントは以下の形式で記述します。</p>
 
-        <p> -  /*IF <span class="italic">����</span>*/ .../*END*/</p>
-        <p>�T���v���͈ȉ��̂Ƃ���ł��B</p>
+        <p> -  /*IF <span class="italic">条件</span>*/ .../*END*/</p>
+        <p>サンプルは以下のとおりです。</p>
         <pre>/*IF hoge != null*/hoge = /*hoge*/'abc'/*END*/</pre>
 
-        <p>IF�R�����g�́A�������^�̏ꍇ�A/*IF*/��/*END*/�Ɉ͂܂ꂽ�������]������܂��B
-        ��L�̏ꍇ�A���� hoge ��null�łȂ��ꍇ�ɂ̂݁AIF�R�����g�ň͂܂�Ă��镔��(hoge = /*hoge*/'abc')���]������܂��B<br />
-        �܂��U�̏ꍇ�̏����Ƃ���ELSE�R�����g�Ƃ������̂��p�ӂ���Ă��܂��B
-        �������U�ƂȂ����ꍇ�́A�hELSE�h�̌�ɋL�q�����������]������܂��BELSE�R�����g�͈ȉ��̂悤�ɋL�q���܂��B</p>
+        <p>IFコメントは、条件が真の場合、/*IF*/と/*END*/に囲まれた部分が評価されます。
+        上記の場合、引数 hoge がnullでない場合にのみ、IFコメントで囲まれている部分(hoge = /*hoge*/'abc')が評価されます。<br />
+        また偽の場合の処理としてELSEコメントというものが用意されています。
+        条件が偽となった場合は、”ELSE”の後に記述した部分が評価されます。ELSEコメントは以下のように記述します。</p>
 
 <pre>
 /*IF hoge != null*/hoge = /*hoge*/'abc'
-  -- ELSE hoge is null
+  --ELSE hoge is null
 /*END*/
 </pre>
 
-        <p>������false�ɂȂ��-- ELSE�̌�̕���(hoge is null)���]������܂��B</p>
+        <p>条件がfalseになると--ELSEの後の部分(hoge is null)が評価されます。</p>
 
-        <p>��/*IF hoge != null*/�̔��ʂ������ɍs������(�^���܂߂�)�ꍇ�� /*IF hoge !=== null*/���g�p���Ă��������B<br />
-        �Ⴆ�� hoge = "true" �̏ꍇ�ȉ���IF�R�����g�ł͓��삪�Ⴂ�܂��B</p>
+        <p>※/*IF hoge != null*/の判別を厳密に行いたい(型も含める)場合は /*IF hoge !=== null*/を使用してください。<br />
+        例えば hoge = "true" の場合以下のIFコメントでは動作が違います。</p>
 <pre>
 /*IF hoge == true*/hoge = 123/*END*/
 /*IF hoge == "true"*/hoge = 456/*END*/
@@ -879,14 +931,14 @@ public function getAllEmployees();
 /*IF hoge === "true"*/hoge = 823/*END*/
 </pre>
 
-    <h4>BEGIN�R�����g</h4>
+    <h4>BEGINコメント</h4>
 
-        <p>BEGIN�R�����g�́AWHERE����̂��ׂĂ�ELSE���܂܂Ȃ�IF�R�����g��false�ɂȂ����ꍇ�ɁA
-         WHERE�厩�̂��o�͂������Ȃ��ꍇ�Ɏg���܂��BBEGIN�R�����g��IF�R�����g�ƕ����Ďg�p���܂��B<br />
-        BEGIN�R�����g�͈ȉ��̌`���ŋL�q���܂��B</p>
-        <p>- /*BEGIN*/<span class="italic">WHERE��</span>/*END*/</p>
+        <p>BEGINコメントは、WHERE句内のすべてのELSEを含まないIFコメントがfalseになった場合に、
+         WHERE句自体を出力したくない場合に使います。BEGINコメントはIFコメントと併せて使用します。<br />
+        BEGINコメントは以下の形式で記述します。</p>
+        <p>- /*BEGIN*/<span class="italic">WHERE句</span>/*END*/</p>
 
-        <p>�T���v���͈ȉ��̒ʂ�ł��B</p>
+        <p>サンプルは以下の通りです。</p>
 
 <pre>
 /*BEGIN*/WHERE
@@ -895,60 +947,70 @@ public function getAllEmployees();
 /*END*/
 </pre>
 
-        <p>��L�̏ꍇ�Ajob,deptno��null�̏ꍇ�́AWHERE��͏o�͂���܂���B
-        job == null,deptno != null�̏ꍇ�́AWHERE depno = ?�A job != null,deptno == null�̏ꍇ�́AWHERE job = ?�A
-        job != null,deptno != null�̏ꍇ�́AWHERE job = ? AND depno = ?�̂悤�ɂȂ�܂��B���ISQL���v���̂܂܂ł��B</p>
+        <p>上記の場合、job,deptnoがnullの場合は、WHERE句は出力されません。
+        job == null,deptno != nullの場合は、WHERE depno = ?、 job != null,deptno == nullの場合は、WHERE job = ?、
+        job != null,deptno != nullの場合は、WHERE job = ? AND depno = ?のようになります。動的SQLも思いのままです。</p>
 
-    <h3><a name="EntityManager">EntityManager���g�p����Query�̎��s</a></h3>
+    <h3><a name="EntityManager">EntityManagerを使用したQueryの実行</a></h3>
 
-        <p>EntityManager���g�p���A�����I�ɐ��������SELECT����WHERE���ORDER BY���ǉ��ł��܂��B�������́A<a href="#QueryAnnotation">QUERY�A�m�e�[�V����</a>�Ɠ��l�ł��B
-        ��ɁA���I��Query��g�ݗ��Ă����Ƃ��Ɏg�p���܂��BEntityManager���g�p����ɂ́A�ȉ��̃N���X���p�����܂��B</p>
+        <p>EntityManagerを使用し、自動的に生成されるSELECT文にWHERE句やORDER BY句を追加できます。書き方は、<a href="#QueryAnnotation">QUERYアノテーション</a>と同様です。
+        主に、動的にQueryを組み立てたいときに使用します。EntityManagerを使用するには、以下のクラスを継承します。</p>
 
         <p>- S2Dao_AbstractDao</p>
 
-        <p>Dao�̃C���^�[�t�F�[�X���́A�K��"Dao"�ŏI���悤�ɂ��Ă��������BS2Dao�́AS2Dao_AbstractDao���p�������N���X���������Ă���C���^�[�t�F�[�X�̒��ŁA
-        �N���X����"Dao"�ŏI����Ă���C���^�[�t�F�[�X��Dao�C���^�[�t�F�[�X���Ɣ��f���Ă��邽�߂ł��B</p>
+        <p>Daoのインターフェース名は、必ず"Dao"で終わるようにしてください。S2Daoは、S2Dao_AbstractDaoを継承したクラスが実装しているインターフェースの中で、
+        クラス名が"Dao"で終わっているインターフェースをDaoインターフェースだと判断しているためです。</p>
 
-        <p>EntityManager�ɂ́A�ȉ��̃��\�b�h���p�ӂ���Ă��܂��B</p>
+        <p>EntityManagerには、以下のメソッドが用意されています。</p>
 
         <dl>
-            <dt style="text-indent:1em;">find()���\�b�h</dt>
-            <dd>�߂�l��S2Dao_ArrayList(ArrayObject)�ŕԂ��܂��B�����̎�ނ͈ȉ��̒ʂ�ł��B<br />
+            <dt style="text-indent:1em;">find()メソッド</dt>
+            <dd>戻り値をS2Dao_ArrayList(ArrayObject)で返します。引数の種類は以下の通りです。<br />
             public function find($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
 
-            <dt style="text-indent:1em;">findArray()���\�b�h</dt>
-            <dd>�߂�l��z��(array())�ŕԂ��܂��B�����̎�ނ͈ȉ��̒ʂ�ł��B<br />
+            <dt style="text-indent:1em;">findArray()メソッド</dt>
+            <dd>戻り値を配列(array())で返します。引数の種類は以下の通りです。<br />
             public function findArray($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
 
-            <dt style="text-indent:1em;">findBean()���\�b�h</dt>
-            <dd>�߂�l��Entity(Bean)�ŕԂ��܂��B�����̎�ނ͈ȉ��̒ʂ�ł��B<br />
+            <dt style="text-indent:1em;">findBean()メソッド</dt>
+            <dd>戻り値をEntity(Bean)で返します。引数の種類は以下の通りです。<br />
               public function findBean($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
 
-            <dt style="text-indent:1em;">findObject()���\�b�h</dt>
-            <dd>���ʃZ�b�g�� Entity �I�u�W�F�N�g�ŕԂ��܂��B�����̎�ނ͈ȉ��̒ʂ�ł��B<br />
+            <dt style="text-indent:1em;">findObject()メソッド</dt>
+            <dd>結果セットを Entity オブジェクトで返します。引数の種類は以下の通りです。<br />
             public function findObject($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
+            </dd>
+
+            <dt style="text-indent:1em;">findYaml()メソッド</dt>
+            <dd>結果セットを YAML 形式で返します。引数の種類は以下の通りです。<br />
+            public function findYaml($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
+            </dd>
+
+            <dt style="text-indent:1em;">findJson()メソッド</dt>
+            <dd>結果セットを JSON 形式で返します。引数の種類は以下の通りです。<br />
+            public function findJson($query, $arg1 = null, $arg2 = null, $arg3 = null);<br />
             </dd>
         </dl>
 
-        <p>�����́AQUERY�A�m�e�[�V�����Ɠ��l�ɋL�q���܂��B������4�ȏ�ɂȂ�̏ꍇ�́A�z��(array)���g�p���܂��B</p>
+        <p>引数は、QUERYアノテーションと同様に記述します。引数が4つ以上になるの場合は、配列(array)を使用します。</p>
 
-    <h4>S2Dao_AbstractDao���p�������N���X�̊�{�I�Ȏ������@</h4>
+    <h4>S2Dao_AbstractDaoを継承したクラスの基本的な実装方法</h4>
 
         <ol>
-            <li>S2Dao_AbstractDao�̌p��</li>
-            <li>Dao��implements����<br />
-                implements����Dao�̃C���^�[�t�F�[�X���̍Ō��"Dao"�ŏI�����Ă���K�v������܂��B</li>
-            <li>�R���X�g���N�^�̎���<br />
-                S2Dao_DaoMetaDataFactory�������Ƃ��Aparent::__construct(S2Dao_DaoMetaDataFactory)���Ăяo���܂��B</li>
-            <li>Dao�ɒ�`�������\�b�h�̎���<br />
-                EntityManager�Œ񋟂��Ă��郁�\�b�h���g�p����ꍇ�́A<span class="italic">$this-&gt;getEntityManager()-&gt;find(...);</span>�̂悤�ɁAgetEntityManager()���\�b�h���g�p���A
-                EntityManager���擾���Ăяo�����Ƃ��o���܂��B</li>
+            <li>S2Dao_AbstractDaoの継承</li>
+            <li>Daoをimplementsする<br />
+                implementsするDaoのインターフェース名の最後は"Dao"で終了している必要があります。</li>
+            <li>コンストラクタの実装<br />
+                S2Dao_DaoMetaDataFactoryを引数とし、parent::__construct(S2Dao_DaoMetaDataFactory)を呼び出します。</li>
+            <li>Daoに定義したメソッドの実装<br />
+                EntityManagerで提供しているメソッドを使用する場合は、<span class="italic">$this-&gt;getEntityManager()-&gt;find(...);</span>のように、getEntityManager()メソッドを使用し、
+                EntityManagerを取得し呼び出すことが出来ます。</li>
         </ol>
 
-        <p>S2Dao_AbstractDao���p�������N���X�̃T���v���͈ȉ��̒ʂ�ł��B</p>
+        <p>S2Dao_AbstractDaoを継承したクラスのサンプルは以下の通りです。</p>
 
 <pre>
 class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
@@ -963,28 +1025,28 @@ class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
 }
 </pre>
 
-    <h3><a name="VersionNo">VersionNo�ɂ��r������ </a></h3>
-        <p>S2Dao.PHP5�͔r������������I�ɍs�����Ƃ��ł��܂��B<br />
-        �ݒ���@�́A�e�[�u���ɔr������p�̃J������p�ӂ��AEntity(Bean)��$versionNo�ƒ�`���邾���ŁAversionNo�ɂ��r������������I�ɍs���Ă���܂��B</p>
-        <p>�Ⴆ�΁A2�l�̃��[�U��versionNo�l0�̓���f�[�^���擾���čX�V���悤�Ƃ����ꍇ�A
-        ��ɍX�V�������[�U�͐���ɓo�^���邱�Ƃ��ł��܂��B���̂Ƃ�������versionNo�̓C���N�������g����ADB��versionNo��1�ƂȂ�܂��B
-        ���ɂ����P�l�̃��[�U���f�[�^���X�V���悤�Ƃ���ƁA���[�U���ێ����Ă���versionNo�̒l(0)�ƁA
-        ���ۂ�DB�i�[����Ă���versionNo�̒l(1)���قȂ邱�ƂɂȂ�AUpdateFailureRuntimeException���������X�V���s���邱�ƂɂȂ�܂��B</p>
+    <h3><a name="VersionNo">VersionNoによる排他制御 </a></h3>
+        <p>S2Dao.PHP5は排他制御も自動的に行うことができます。<br />
+        設定方法は、テーブルに排他制御用のカラムを用意し、Entity(Bean)に$versionNoと定義するだけで、versionNoによる排他制御を自動的に行ってくれます。</p>
+        <p>例えば、2人のユーザがversionNo値0の同一データを取得して更新しようとした場合、
+        先に更新したユーザは正常に登録することができます。そのとき自動でversionNoはインクリメントされ、DBのversionNoは1となります。
+        次にもう１人のユーザがデータを更新しようとすると、ユーザが保持しているversionNoの値(0)と、
+        実際にDB格納されているversionNoの値(1)が異なることになり、UpdateFailureRuntimeExceptionが発生し更新失敗することになります。</p>
 
-    <h3><a name="Timestamp">Timestamp�ɂ��r������ </a></h3>
-        <p>VersionNo�̑���Timestamp�ɂ��r�������S2Dao.PHP5�������I�ɍs�����Ƃ��ł��܂��BEntity(Bean)��$timestamp�Ƃ������O�̃v���p�e�B���`���邾���ŁA�����I�ɍs���Ă���܂��B
-        Timestamp�p�̃J�����̒l��null���ݒ肳��Ă���Ɣ�r�Ɏ��s����̂Œ��ӂ��Ă��������B</p>
+    <h3><a name="Timestamp">Timestampによる排他制御 </a></h3>
+        <p>VersionNoの他にTimestampによる排他制御もS2Dao.PHP5が自動的に行うことができます。Entity(Bean)に$timestampという名前のプロパティを定義するだけで、自動的に行ってくれます。
+        Timestamp用のカラムの値にnullが設定されていると比較に失敗するので注意してください。</p>
 
-    <h3><a name="AutoUpdate">�X�VSQL�̎�������</a></h3>
+    <h3><a name="AutoUpdate">更新SQLの自動生成</a></h3>
 
-        <p>�X�VSQL������������������ɂ́A���\�b�h����<a href="#DefMethod">�����K��</a>�ɂ��킹�AEntity��1�����Ɏ����\�b�h���`���邾���ł��B
-        SQL�t�@�C���̍쐬�͕s�v�ł��B��Ƃ���Insert�̏ꍇ�A�����K���ɍ��킹�A�ȉ��̂悤�ɒ�`���܂��B</p>
+        <p>更新SQL文を自動生成させるには、メソッド名を<a href="#DefMethod">命名規則</a>にあわせ、Entityを1つ引数に持つメソッドを定義するだけです。
+        SQLファイルの作成は不要です。例としてInsertの場合、命名規則に合わせ、以下のように定義します。</p>
         <pre>public function insert(Department $department);</pre>
 
-    <h3><a name="AutoSelect">����SQL�̎�������</a></h3>
+    <h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
 
-        <p>���\�b�h��signatue���AS2Dao.PHP5�Ɏ����I��SELECT���𐶐������邱�Ƃ��ł��܂��BARGS�A�m�e�[�V�����ɃJ���������w�肷�邱�ƂŁA
-        �����̒l�ɂ����WHERE�傪�ς��悤�ȓ��I��SQL�������������ł��܂��B</p>
+        <p>メソッドのsignatueより、S2Dao.PHP5に自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、
+        引数の値によってWHERE句が変わるような動的なSQL文も自動生成できます。</p>
 
 <pre>
 SELECT * FROM emp
@@ -994,18 +1056,18 @@ SELECT * FROM emp
 /*END*/
 </pre>
 
-        <p>��LSQL���ɑ�������SQL����������������ɂ͈ȉ��̂悤�ɒ�`���܂��B��LSQL��/**/�Ȃǂɂ��ẮA<a href="#SQLBind">SQL�R�����g</a>���Q�Ƃ��Ă��������B</p>
+        <p>上記SQL文に相当するSQL文を自動生成するには以下のように定義します。上記SQLの/**/などについては、<a href="#SQLBind">SQLコメント</a>を参照してください。</p>
         <pre>const getEmployeeByJobDeptnoList($job, $deptno);</pre>
 
-        <p><a href="#N1Mapping">N:1�Ń}�b�s���O</a>����Ă���J�������w�肷��ꍇ�ɂ́A�u�J������_�֘A�ԍ��v�Ŏw�肵�܂��B
-        N:1�Ń}�b�s���O����Ă���Bean�͍��O���������g����1��SQL���Ŏ擾����܂��B���O���������T�|�[�g���Ă��Ȃ�RDBMS��SELECT�����������̑ΏۊO�ł��B
-        �I���N���̂悤�ɍ��O���������W���ƈقȂ�ꍇ���AS2Dao.PHP5��RDBMS���I���N���ł���Ǝ����I�ɔ��f���ēK�؂�SQL����g�ݗ��Ă܂��B</p>
+        <p><a href="#N1Mapping">N:1でマッピング</a>されているカラムを指定する場合には、「カラム名_関連番号」で指定します。
+        N:1でマッピングされているBeanは左外部結合を使って1つのSQL文で取得されます。左外部結合をサポートしていないRDBMSはSELECT文自動生成の対象外です。
+        オラクルのように左外部結合が標準と異なる場合も、S2Dao.PHP5がRDBMSがオラクルであると自動的に判断して適切なSQL文を組み立てます。</p>
 
-        <p>������DTO�iData Transter Object�j���w�肷�邱�Ƃ��ł��܂��B���̏ꍇ�AARGS�A�m�e�[�V�������w�肵�Ă͂����܂���B
-        S2Dao.PHP5�́A������1�ŁAARGS�A�m�e�[�V�������w�肳��Ă��Ȃ��ꍇ�A������DTO�Ƃ݂Ȃ��ADTO�̃v���p�e�B���g���Ď����I��SQL����g�ݗ��Ă܂��B
-        �v���p�e�B���ƃJ���������قȂ�ꍇ�́ACOLUMN�A�m�e�[�V�������g���ăJ���������w�肵�܂��BN:1�Ń}�b�s���O����Ă���J�������w�肷��ꍇ�ɂ́A�J������_�֘A�ԍ��Ŏw�肵�܂��B
-        �e�[�u���ɑ��݂��Ȃ��v���p�e�B(�J����)�͎����I�ɖ�������܂��B�v���p�e�B�̒l�ɂ���āAWHERE�傪�ς��悤�ȓ��ISQL���������������܂��B<br />
-        ���ISQL���̎���������ORDER BY�ł͂��܂�QUERY�A�m�e�[�V�����͕��p���邱�Ƃ��o���܂��B</p>
+        <p>引数にDTO（Data Transter Object）を指定することもできます。その場合、ARGSアノテーションを指定してはいけません。
+        S2Dao.PHP5は、引数が1つで、ARGSアノテーションが指定されていない場合、引数をDTOとみなし、DTOのプロパティを使って自動的にSQL文を組み立てます。
+        プロパティ名とカラム名が異なる場合は、COLUMNアノテーションを使ってカラム名を指定します。N:1でマッピングされているカラムを指定する場合には、カラム名_関連番号で指定します。
+        テーブルに存在しないプロパティ(カラム)は自動的に無視されます。プロパティの値によって、WHERE句が変わるような動的SQL文を自動生成します。<br />
+        動的SQL文の自動生成とORDER BYではじまるQUERYアノテーションは併用することが出来ます。</p>
 
 <pre>
 class EmployeeSearchCondition {
@@ -1019,34 +1081,34 @@ class EmployeeSearchCondition {
 
 <pre>getEmployeesBySearchConditionList(EmployeeSearchCondition $dto);</pre>
 
-        <p>�܂����l�̎w����@�ň�����Entity���g�p���邱�Ƃ��o���܂��B<br />
-        DTO�̏ڂ����g�p���@�́A<a href="example.html#AutoSelectExample">�����Ō����pSQL���𐶐�����ꍇ��Example</a>���Q�Ƃ��ĉ������B</p>
+        <p>また同様の指定方法で引数にEntityを使用することも出来ます。<br />
+        DTOの詳しい使用方法は、<a href="example.html#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a>を参照して下さい。</p>
 
-    <h3><a name="Annotation">�萔�A�m�e�[�V�����ƃR�����g�A�m�e�[�V����</a></h3>
+    <h3><a name="Annotation">定数アノテーションとコメントアノテーション</a></h3>
 
-        <p>S2Dao.PHP5�ł͒萔�A�m�e�[�V�����̑��ɃR�����g�A�m�e�[�V�����ɂ��Ή����Ă��܂��B<br />
-        �R�����g�A�m�e�[�V�����𗘗p���邱�ƂŁA���\�b�h���ɗ]�v�ȕ�����(List�AArray)��t���Ȃ��čς݂܂��B</p>
+        <p>S2Dao.PHP5では定数アノテーションの他にコメントアノテーションにも対応しています。<br />
+        コメントアノテーションを利用することで、メソッド名に余計な文字列(List、Array)を付けなくて済みます。</p>
 
-        <p>�R�����g�A�m�e�[�V�����𗘗p����ɂ����ẮAS2Container.PHP5-1.1.0��K�v�Ƃ��܂��B<br />
-        �܂��A���݃R�����g�A�m�e�[�V�����ƒ萔�A�m�e�[�V�����𓯎��Ɏg�p���邱�Ƃ͂ł��܂���B</p>
+        <p>コメントアノテーションを利用するにおいては、S2Container.PHP5-1.1.0を必要とします。<br />
+        また、現在コメントアノテーションと定数アノテーションを同時に使用することはできません。</p>
 
-        <p>�R�����g�A�m�e�[�V�������g�p������@�͈ȉ��̂悤�ɂȂ�܂��B</p>
+        <p>コメントアノテーションを使用する方法は以下のようになります。</p>
         <ol>
-            <li>Dao�����Entity(Bean)�ɃR�����g�A�m�e�[�V������ݒ�</li>
-            <li>�쐬�����t�@�C�����s����</li>
+            <li>DaoおよびEntity(Bean)にコメントアノテーションを設定</li>
+            <li>作成したファイル実行する</li>
         </ol>
 
-    <h4>�萔 'S2DAO_PHP5_USE_COMMENT' �̐ݒ�� S2DaoAnnotationReader �̓o�^</h4>
-        <p>�R�����g�A�m�e�[�V�������g�p����ɂ�������S2DAO_PHP5_USE_COMMENT�̒萔�� true �������Ă����K�v������܂��B</p>
+    <h4>定数 'S2DAO_PHP5_USE_COMMENT' の設定</h4>
+        <p>コメントアノテーションを使用するにあたってS2DAO_PHP5_USE_COMMENTの定数に true を代入しておく必要があります。</p>
 <pre>
 define('S2DAO_PHP5_USE_COMMENT', true);
 </pre>
-        <p>define('S2DAO_PHP5_USE_COMMENT', true);�͕K��boolean���w�肵�Ă�������</p>
+        <p>define('S2DAO_PHP5_USE_COMMENT', true);は必ずbooleanを指定してください</p>
 
-    <h4>Dao�����Entity(Bean)�ɃR�����g�A�m�e�[�V������ݒ�</h4>
-        <p>�e�R�����g�A�m�e�[�V������Dao�y��Entity(Bean)�ɐݒ肵�܂��B</p>
+    <h4>DaoおよびEntity(Bean)にコメントアノテーションを設定</h4>
+        <p>各コメントアノテーションをDao及びEntity(Bean)に設定します。</p>
 
-    <h5>Dao�ɐݒ肷��ꍇ�̃T���v��</h5>
+    <h5>Daoに設定する場合のサンプル</h5>
 <pre>&lt;?php
 
 /**
@@ -1088,7 +1150,8 @@ interface CdDao {
 }
 ?&gt;</pre>
 
-    <h5>Entity(Bean)�ɐݒ肷��ꍇ�̃T���v��</h5>
+    <h5>Entity(Bean)に設定する場合のサンプル</h5>
+
 <pre>&lt;?php
 
 /**
@@ -1137,8 +1200,9 @@ class CdBean {
 }
 ?&gt;</pre>
 
-    <h4>�쐬�����t�@�C�����s����</h4>
-        <p>�쐬�����t�@�C����ǂݍ��݁A���s�����܂��B</p>
+    <h4>作成したファイル実行する</h4>
+        <p>作成したファイルを読み込み、実行させます。</p>
+
 <pre>&lt;?php
 require_once dirname(__FILE__) . "/example.inc.php";
 
@@ -1167,25 +1231,25 @@ for($i = 0; $i &lt; $list-&gt;size(); $i++){
 
 ?&gt;</pre>
 
-    <h3><a name="HowToRun">S2Dao�̎��s</a></h3>
+    <h3><a name="HowToRun">S2Daoの実行</a></h3>
 
-        <p>Dao�����s�����{�I�ȕ��@�͈ȉ��̂悤�ɂȂ�܂��B</p>
+        <p>Daoを実行する基本的な方法は以下のようになります。</p>
         <ol>
-            <li>�쐬����dicon�t�@�C���̃p�X��������S2Container�𐶐�</li>
-            <li>��������S2Container����getComponent���Ăяo���A�o�^����Dao���擾���� </li>
-            <li>�擾����Dao�̃��\�b�h�����s����</li>
+            <li>作成したdiconファイルのパスを引数にS2Containerを生成</li>
+            <li>生成したS2ContainerからgetComponentを呼び出し、登録したDaoを取得する </li>
+            <li>取得したDaoのメソッドを実行する</li>
         </ol>
 
-   <p> ���s�T���v��</p>
+   <p> 実行サンプル</p>
 
 <pre>
 &lt;?php
 define("PATH", "examples/dao/EmployeeDao.dicon");
 define("PDO_DICON", "examples/pdo.dicon");
 
-$container = S2ContainerFactory::create(PATH); /* �菇1 */
-$dao = $container->getComponent("EmployeeDao"); /* �菇2 */
-var_dump($dao->List_getAllEmployee(7788)); /* �菇3 */
+$container = S2ContainerFactory::create(PATH); /* 手順1 */
+$dao = $container->getComponent("EmployeeDao"); /* 手順2 */
+var_dump($dao->List_getAllEmployee(7788)); /* 手順3 */
 ?&gt;
 </pre>
 

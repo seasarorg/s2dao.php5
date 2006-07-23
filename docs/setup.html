@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- don't edit start -->
-<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<head><title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="seasar_b.css" type="text/css" rel="stylesheet"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
 <td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
@@ -10,11 +11,10 @@
 <td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
 <td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
 </tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
-<td><a href="index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
-<td><a href="projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
-<td><a href="products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
-
-<td><a href="resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
 <td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
 <td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
 <td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
@@ -24,38 +24,38 @@
 <!-- document start -->
 
 <ul>
-    <li><a href="#Setup">ƒZƒbƒgƒAƒbƒv</a></li>
-    <li>İ’è
+    <li><a href="#Setup">ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—</a></li>
+    <li>è¨­å®š
         <ul>
-            <li><a href="#installation">S2Dao.PHP5‚ÌƒCƒ“ƒXƒg[ƒ‹</a>
+            <li><a href="#installation">S2Dao.PHP5ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«</a>
                 <ul>
-                    <li><a href="#pearpkg_installation">PEARƒpƒbƒP[ƒW‚©‚ç‚ÌƒCƒ“ƒXƒg[ƒ‹</a></li>
-                    <li><a href="#src_installation">ƒ\[ƒX‚©‚ç‚ÌƒCƒ“ƒXƒg[ƒ‹</a></li>
+                    <li><a href="#pearpkg_installation">PEARãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‹ã‚‰ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«</a></li>
+                    <li><a href="#src_installation">ã‚½ãƒ¼ã‚¹ã‹ã‚‰ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«</a></li>
                 </ul>
             </li>
-            <li><a href="#setting">S2Dao.PHP5‚Ìİ’è</a>
+            <li><a href="#setting">S2Dao.PHP5ã®è¨­å®š</a>
                 <ul>
-                    <li><a href="#dicon">DICON‚Ìİ’è</a></li>
-                    <li><a href="#pdo_dicon">PDO‚Ìİ’è</a></li>
-                    <li><a href="#S2ContainerClassloader_import">Dao,Entity‚Ì“Ç‚İ‚İ‚Ì—á(S2ContainerClassLoader::import‚ğ—p‚¢‚Ä)</a></li>
+                    <li><a href="#dicon">DICONã®è¨­å®š</a></li>
+                    <li><a href="#pdo_dicon">PDOã®è¨­å®š</a></li>
+                    <li><a href="#S2ContainerClassloader_import">Dao,Entityã®èª­ã¿è¾¼ã¿ã®ä¾‹(S2ContainerClassLoader::importã‚’ç”¨ã„ã¦)</a></li>
                 </ul>
             </li>
         </ul>
     </li>
 </ul>
 
-<h2><a name="Setup">ƒZƒbƒgƒAƒbƒv</a></h2>
+<h2><a name="Setup">ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—</a></h2>
 
-<p>S2Dao.PHP5‚É‚ÍÅV”Å‚Ì<a href="http://s2container.php5.sandbox.seasar.org/">S2Container.PHP5</a>‚ª•K—v‚Å‚·B<br />
-<a href="http://s2container.php5.sandbox.seasar.org/setup.html">S2Container.PHP5‚ÌƒZƒbƒgƒAƒbƒv</a>‚ğI‚¦‚Ä‚©‚çS2Dao.PHP5‚Ìİ’è‚ğ‚µ‚Ä‚­‚¾‚³‚¢B<br />
-‚Ü‚½AS2Dao.PHP5‚Å‚Í<a href="http://jp2.php.net/manual/ja/ref.pdo.php">PDO</a>‚ğ—˜—p‚µ‚Ä‚¢‚Ü‚·B
-—˜—p‘O‚É<a href="http://jp2.php.net/manual/ja/ref.pdo.php#pdo.installation">PDO‚ÌƒCƒ“ƒXƒg[ƒ‹</a>‚àI‚¦‚Ä‚¨‚¢‚Ä‚­‚¾‚³‚¢B</p>
+<p>S2Dao.PHP5ã«ã¯æœ€æ–°ç‰ˆã®<a href="http://s2container.php5.sandbox.seasar.org/">S2Container.PHP5</a>ãŒå¿…è¦ã§ã™ã€‚<br />
+<a href="http://s2container.php5.sandbox.seasar.org/setup.html">S2Container.PHP5ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—</a>ã‚’çµ‚ãˆã¦ã‹ã‚‰S2Dao.PHP5ã®è¨­å®šã‚’ã—ã¦ãã ã•ã„ã€‚<br />
+ã¾ãŸã€S2Dao.PHP5ã§ã¯<a href="http://jp2.php.net/manual/ja/ref.pdo.php">PDO</a>ã‚’åˆ©ç”¨ã—ã¦ã„ã¾ã™ã€‚
+åˆ©ç”¨å‰ã«<a href="http://jp2.php.net/manual/ja/ref.pdo.php#pdo.installation">PDOã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«</a>ã‚‚çµ‚ãˆã¦ãŠã„ã¦ãã ã•ã„ã€‚</p>
 
 
-<h3><a name="installation">S2Dao.PHP5‚ÌƒCƒ“ƒXƒg[ƒ‹</a></h3>
-<h4><a name="pearpkg_installation">PEARƒpƒbƒP[ƒW‚©‚ç‚ÌƒCƒ“ƒXƒg[ƒ‹</a></h4>
+<h3><a name="installation">S2Dao.PHP5ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«</a></h3>
+<h4><a name="pearpkg_installation">PEARãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‹ã‚‰ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«</a></h4>
 <p>
-S2Dao.version.tgz‚ğæ“¾‚µApear install ‚ğÀ{‚µ‚Ä‰º‚³‚¢B
+S2Dao.version.tgzã‚’å–å¾—ã—ã€pear install ã‚’å®Ÿæ–½ã—ã¦ä¸‹ã•ã„ã€‚
 </p>
 
 <pre>
@@ -63,15 +63,15 @@ S2Dao.version.tgz‚ğæ“¾‚µApear install ‚ğÀ{‚µ‚Ä‰º‚³‚¢B
 install ok: channel://pear.php.net/S2Dao-{version}
 
 % pear list
-EEE
+ãƒ»ãƒ»ãƒ»
 S2Container             {version}       status
 S2Dao                   {version}       status
-EEE
+ãƒ»ãƒ»ãƒ»
 %
 </pre>
 
 <p>
-S2Container.php ‚Æ S2Dao.php ‚ğ“Ç‚İ‚İA__autoloadŠÖ”‚ğŸ‚Ì‚æ‚¤‚É’è‹`‚µ‚Ä‰º‚³‚¢BS2Dao.PHP5‚ªg—p‰Â”\‚Æ‚È‚è‚Ü‚·B
+S2Container.php ã¨ S2Dao.php ã‚’èª­ã¿è¾¼ã¿ã€__autoloadé–¢æ•°ã‚’æ¬¡ã®ã‚ˆã†ã«å®šç¾©ã—ã¦ä¸‹ã•ã„ã€‚S2Dao.PHP5ãŒä½¿ç”¨å¯èƒ½ã¨ãªã‚Šã¾ã™ã€‚
 </p>
 
 <pre>&lt;?php
@@ -88,7 +88,7 @@ function __autoload($class = null){
 
 <p>
 
-S2ContainerClassLoader‚ğ—˜—p‚·‚éê‡‚ÍA__autoloadŠÖ”‚ğŸ‚Ì‚æ‚¤‚É’è‹`‚µ‚Ä‰º‚³‚¢B
+S2ContainerClassLoaderã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã¯ã€__autoloadé–¢æ•°ã‚’æ¬¡ã®ã‚ˆã†ã«å®šç¾©ã—ã¦ä¸‹ã•ã„ã€‚
 </p>
 <pre>&lt;?php
 require_once 'S2Container/S2Container.php';
@@ -102,11 +102,11 @@ function __autoload($class = null){
 ?&gt;
 </pre>
 
-<p>ŠJ”­’†‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âg—p‚µ‚Ä‚¢‚éƒtƒŒ[ƒ€ƒ[ƒN‚ÅŠù‚É__autoloadŠÖ”‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍAã‹L‚Ì __autoloadŠÖ”“à—e‚ğ’è‹`Ï‚İ __autoloadŠÖ”‚É’Ç‹L‚µ‚Ä‰º‚³‚¢B
+<p>é–‹ç™ºä¸­ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚„ä½¿ç”¨ã—ã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã§æ—¢ã«__autoloadé–¢æ•°ãŒå®šç¾©ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ä¸Šè¨˜ã® __autoloadé–¢æ•°å†…å®¹ã‚’å®šç¾©æ¸ˆã¿ __autoloadé–¢æ•°ã«è¿½è¨˜ã—ã¦ä¸‹ã•ã„ã€‚
 </p>
 
 <p>
-S2Dao.PHP5‚ğƒAƒ“ƒCƒ“ƒXƒg[ƒ‹‚·‚éê‡‚ÍApear uninstall ‚ğÀ{‚µ‚Ä‰º‚³‚¢B
+S2Dao.PHP5ã‚’ã‚¢ãƒ³ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹å ´åˆã¯ã€pear uninstall ã‚’å®Ÿæ–½ã—ã¦ä¸‹ã•ã„ã€‚
 </p>
 <pre>
 % pear uninstall S2Dao
@@ -114,24 +114,24 @@ uninstall ok: channel://pear.php.net/S2Dao-{version}
 </pre>
 
 
-<h4><a name="src_installation">ƒ\[ƒX‚©‚ç‚ÌƒCƒ“ƒXƒg[ƒ‹</a></h4>
+<h4><a name="src_installation">ã‚½ãƒ¼ã‚¹ã‹ã‚‰ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«</a></h4>
 
-<p>s2dao.php5.version.tar.gz ‚ğƒ_ƒEƒ“ƒ[ƒhŒãA‰ğ“€‚·‚é‚ÆˆÈ‰º‚Ì‚æ‚¤‚ÈƒfƒBƒŒƒNƒgƒŠ‚ª“WŠJ‚³‚ê‚Ü‚·B</p>
+<p>s2dao.php5.version.tar.gz ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰å¾Œã€è§£å‡ã™ã‚‹ã¨ä»¥ä¸‹ã®ã‚ˆã†ãªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå±•é–‹ã•ã‚Œã¾ã™ã€‚</p>
 
 <pre>
 s2dao.php5/
-  +-- docs/                     ----- ƒhƒLƒ…ƒƒ“ƒg ƒfƒBƒŒƒNƒgƒŠ
-  +-- examples/                 ----- examples ƒfƒBƒŒƒNƒgƒŠ
-  +-- src/                      ----- ƒ\[ƒX ƒfƒBƒŒƒNƒgƒŠ
-  +-- test/                     ----- test case ƒfƒBƒŒƒNƒgƒŠ
-  +-- s2dao.inc.php             ----- S2Dao.PHP5 İ’èƒtƒ@ƒCƒ‹
-  +-- S2Dao.php                 ----- S2Dao.PHP5 İ’èƒtƒ@ƒCƒ‹
+  +-- docs/                     ----- ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+  +-- examples/                 ----- examples ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+  +-- src/                      ----- ã‚½ãƒ¼ã‚¹ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+  +-- test/                     ----- test case ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+  +-- s2dao.inc.php             ----- S2Dao.PHP5 è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
+  +-- S2Dao.php                 ----- S2Dao.PHP5 è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
   +-- Apache_Software_License_2.0.txt
   +-- ChangeLog
 </pre>
 
 <p>
-S2Container.php ‚Æ S2Dao.php ‚ğ“Ç‚İ‚İA__autoloadŠÖ”‚ğŸ‚Ì‚æ‚¤‚É’è‹`‚µ‚Ä‰º‚³‚¢BS2Dao.PHP5‚ªg—p‰Â”\‚Æ‚È‚è‚Ü‚·B
+S2Container.php ã¨ S2Dao.php ã‚’èª­ã¿è¾¼ã¿ã€__autoloadé–¢æ•°ã‚’æ¬¡ã®ã‚ˆã†ã«å®šç¾©ã—ã¦ä¸‹ã•ã„ã€‚S2Dao.PHP5ãŒä½¿ç”¨å¯èƒ½ã¨ãªã‚Šã¾ã™ã€‚
 </p>
 
 <pre>&lt;?php
@@ -145,10 +145,10 @@ function __autoload($class = null){
 ?&gt;</pre>
 
 <p>
-S2ContainerClassLoader‚ğ—˜—p‚·‚éê‡‚ÍA__autoloadŠÖ”‚ğŸ‚Ì‚æ‚¤‚É’è‹`‚µ‚Ä‰º‚³‚¢B
+S2ContainerClassLoaderã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã¯ã€__autoloadé–¢æ•°ã‚’æ¬¡ã®ã‚ˆã†ã«å®šç¾©ã—ã¦ä¸‹ã•ã„ã€‚
 </p>
 <pre>&lt;?php
-require_once('/path/to/s2container.php5/S2Container.php');
+require_once '/path/to/s2container.php5/S2Container.php';
 require_once '/path/to/s2dao.php5/S2Dao.php';
 
 S2ContainerClassLoader::import(S2CONTAINER_PHP5);
@@ -159,13 +159,13 @@ function __autoload($class = null){
 ?&gt;
 </pre>
 
-<p>ŠJ”­’†‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚âg—p‚µ‚Ä‚¢‚éƒtƒŒ[ƒ€ƒ[ƒN‚ÅŠù‚É__autoloadŠÖ”‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡‚ÍAã‹L‚Ì __autoloadŠÖ”“à—e‚ğ’è‹`Ï‚İ __autoloadŠÖ”‚É’Ç‹L‚µ‚Ä‰º‚³‚¢B</p>
+<p>é–‹ç™ºä¸­ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚„ä½¿ç”¨ã—ã¦ã„ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ã§æ—¢ã«__autoloadé–¢æ•°ãŒå®šç¾©ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ä¸Šè¨˜ã® __autoloadé–¢æ•°å†…å®¹ã‚’å®šç¾©æ¸ˆã¿ __autoloadé–¢æ•°ã«è¿½è¨˜ã—ã¦ä¸‹ã•ã„ã€‚</p>
 
 
-<h3><a name="setting">S2Dao.PHP5‚Ìİ’è</a></h3>
-<p>’Êí S2Dao.php ‚ğ“Ç‚İ‚Ş‚¾‚¯‚ÅS2Dao.PHP5‚Ì—˜—p‚ª‰Â”\‚Å‚·B</p>
+<h3><a name="setting">S2Dao.PHP5ã®è¨­å®š</a></h3>
+<p>é€šå¸¸ S2Dao.php ã‚’èª­ã¿è¾¼ã‚€ã ã‘ã§S2Dao.PHP5ã®åˆ©ç”¨ãŒå¯èƒ½ã§ã™ã€‚</p>
 
-<p>S2Dao.php ‚Ìİ’è‚ÍˆÈ‰º‚Ì’Ê‚è‚Å‚·B</p>
+<p>S2Dao.php ã®è¨­å®šã¯ä»¥ä¸‹ã®é€šã‚Šã§ã™ã€‚</p>
 
 <pre>&lt;?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
@@ -220,24 +220,19 @@ function __autoload($class = null){
  *
  */
 
-require_once('build/s2dao.php5/S2Dao.php');
+require_once dirname(__FILE__) . '/build/s2dao.php5/S2Dao.php';
 ?&gt;</pre>
 
-<p>Ú×‚Í /examples/s2dao/example.inc.php ‚É‹Lq‚µ‚Ä‚¢‚é‚Ì‚ÅQl‚É‚µ‚Ä‚­‚¾‚³‚¢B</p>
+<h4><a name="dicon">DICONã®è¨­å®š</a></h4>
+<p>S2Dao.PHP5ã‚’åˆ©ç”¨ã™ã‚‹ã«ã¯ src/s2dao.php5/dao.dicon ã‚’èª­ã¿è¾¼ã‚“ã§ãã ã•ã„ã€‚<br />
+DataSourceã¨ã—ã¦PDOã‚’å¿…è¦ã¨ã™ã‚‹ã®ã§ã€<a href="#pdo_dicon">pdo.dicon</a>ã®è¨­å®šã‚’ã—ã¦ãŠã„ã¦ãã ã•ã„ã€‚</p>
 
-<h4><a name="dicon">DICON‚Ìİ’è</a></h4>
-<p>S2Dao.PHP5‚ğ—˜—p‚·‚é‚É‚Í src/s2dao.php5/dao.dicon ‚ğ“Ç‚İ‚ñ‚Å‚­‚¾‚³‚¢B<br />
-DataSource‚Æ‚µ‚ÄPDO‚ğ•K—v‚Æ‚·‚é‚Ì‚ÅA<a href="#pdo_dicon">pdo.dicon</a>‚Ìİ’è‚ğ‚µ‚Ä‚¨‚¢‚Ä‚­‚¾‚³‚¢B</p>
-
-<p>dao.dicon‚ÍˆÈ‰º‚Ì‚æ‚¤‚É‹Lq‚³‚ê‚Ä‚¢‚Ü‚·B</p>
+<p>dao.diconã¯ä»¥ä¸‹ã®ã‚ˆã†ã«è¨˜è¿°ã•ã‚Œã¦ã„ã¾ã™ã€‚</p>
 
 <pre>
 &lt;components namespace="dao"&gt;
 
     &lt;include path="%PDO_DICON%" /&gt;
-
-    &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
-    &lt;component class="S2Dao_BasicStatementFactory" /&gt;
 
     &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
     &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
@@ -246,28 +241,28 @@ DataSource‚Æ‚µ‚ÄPDO‚ğ•K—v‚Æ‚·‚é‚Ì‚ÅA<a href="#pdo_dicon">pdo.dicon</a>‚Ìİ’è‚ğ‚
 &lt;/components&gt;
 </pre>
 
-<p>‚Ü‚½A“Ç‚İ‚Ş‚×‚«dicon‚Ì—á‚Å‚·B</p>
+<p>ã¾ãŸã€èª­ã¿è¾¼ã‚€ã¹ãdiconã®ä¾‹ã§ã™ã€‚</p>
 
 <pre>
 &lt;components namespace="example"&gt;
 
     &lt;include path="dao.dicon" /&gt;
 
-    &lt;component name="beanCdDao" class="Cd1Dao"&gt;
+    &lt;component class="Cd1Dao"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
 
-    &lt;component name="daoImpl" class="Cd2DaoImpl"&gt;
+    &lt;component class="Cd2DaoImpl"&gt;
         &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
     &lt;/component&gt;
 
 &lt;/components&gt;
 </pre>
 
-<p>Ú×‚Í /examples/s2dao/resource/example.dicon.xml ‚É‹Lq‚µ‚Ä‚¢‚é‚Ì‚ÅQl‚É‚µ‚Ä‚­‚¾‚³‚¢B</p>
+<p>è©³ç´°ã¯ /examples/s2dao/resource/example.dicon.xml ã«è¨˜è¿°ã—ã¦ã„ã‚‹ã®ã§å‚è€ƒã«ã—ã¦ãã ã•ã„ã€‚</p>
 
-<h5><a name="S2ContainerClassloader_import">Dao,Entity‚Ì“Ç‚İ‚İ‚Ì—á(S2ContainerClassLoader::import‚ğ—p‚¢‚Ä)</a></h5>
-<p> /examples/example.inc.php ‚Å‚Í ˆÈ‰º‚Ì‚æ‚¤‚É‹Lq‚µA•¡”ŒÂ¶¬‚³‚ê‚½ dao ‹y‚Ñ entity(bean)‚Ì“Ç‚İ‚İ‚ğ©“®‰»‚µ‚Ä‚¢‚Ü‚·B</p>
+<h5><a name="S2ContainerClassloader_import">Dao,Entityã®èª­ã¿è¾¼ã¿ã®ä¾‹(S2ContainerClassLoader::importã‚’ç”¨ã„ã¦)</a></h5>
+<p> /examples/example.inc.php ã§ã¯ ä»¥ä¸‹ã®ã‚ˆã†ã«è¨˜è¿°ã—ã€è¤‡æ•°å€‹ç”Ÿæˆã•ã‚ŒãŸ dao åŠã³ entity(bean)ã®èª­ã¿è¾¼ã¿ã‚’è‡ªå‹•åŒ–ã—ã¦ã„ã¾ã™ã€‚</p>
 
 <pre>
 if(class_exists("S2ContainerClassLoader")){
@@ -283,16 +278,14 @@ if(class_exists("S2ContainerClassLoader")){
 }
 </pre>
 
-<p>Ú×‚Í /examples/s2dao/example.inc.php ‚É‹Lq‚µ‚Ä‚¢‚é‚Ì‚ÅQl‚É‚µ‚Ä‚­‚¾‚³‚¢B</p>
+<h4><a name="pdo_dicon">PDOã®è¨­å®š</a></h4>
 
-<h4><a name="pdo_dicon">PDO‚Ìİ’è</a></h4>
+<p>S2Dao.PHP5ã§ã¯PDOã‚’åˆ©ç”¨ã—ã¦ã„ã¾ã™ã€‚<br />
+PDO ã§åˆ©ç”¨ã§ãã‚‹ DSN ã«ã¤ã„ã¦ã¯ã€<a href="http://jp2.php.net/manual/en/ref.pdo.php#pdo.drivers">PHP: PDO Functions - Manual</a>ã‚’å‚è€ƒã«è¨­å®šã—ã¦ãã ã•ã„ã€‚<br />
+å¤šãã®å ´åˆã¯ /examples/pdo.dicon ãŒå‚è€ƒã«ãªã‚‹ã¨æ€ã„ã¾ã™ã€‚</p>
+<p>dao.dicon ã‚’èª­ã¿è¾¼ã‚€å‰ã« pdo.dicon ã‚’èª­ã¿è¾¼ã‚€ã‚ˆã†ã«è¨­å®šã—ã¦ãã ã•ã„ã€‚</p>
 
-<p>S2Dao.PHP5‚Å‚ÍPDO‚ğ—˜—p‚µ‚Ä‚¢‚Ü‚·B<br />
-PDO ‚Å—˜—p‚Å‚«‚é DSN ‚É‚Â‚¢‚Ä‚ÍA<a href="http://jp2.php.net/manual/en/ref.pdo.php#pdo.drivers">PHP: PDO Functions - Manual</a>‚ğQl‚Éİ’è‚µ‚Ä‚­‚¾‚³‚¢B<br />
-‘½‚­‚Ìê‡‚Í /examples/pdo.dicon ‚ªQl‚É‚È‚é‚Æv‚¢‚Ü‚·B</p>
-<p>dao.dicon ‚ğ“Ç‚İ‚Ş‘O‚É pdo.dicon ‚ğ“Ç‚İ‚Ş‚æ‚¤‚Éİ’è‚µ‚Ä‚­‚¾‚³‚¢B</p>
-
-<p>/examples/pdo.dicon ‚É‚ÍˆÈ‰º‚Ì‚æ‚¤‚É‹Lq‚³‚ê‚Ä‚¢‚Ü‚·B</p>
+<p>/examples/pdo.dicon ã«ã¯ä»¥ä¸‹ã®ã‚ˆã†ã«è¨˜è¿°ã•ã‚Œã¦ã„ã¾ã™ã€‚</p>
 
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -304,11 +297,17 @@ PDO ‚Å—˜—p‚Å‚«‚é DSN ‚É‚Â‚¢‚Ä‚ÍA<a href="http://jp2.php.net/manual/en/ref.pdo.p
         &lt;property name="dsn"&gt;"mysql:host=localhost; dbname=s2con"&lt;/property&gt;
         &lt;property name="user"&gt;"root"&lt;/property&gt;
         &lt;property name="password"&gt;"pass"&lt;/property&gt;
+        &lt;property name="option"&gt;
+            array(PDO::ATTR_ORACLE_NULLS =&gt; PDO::NULL_EMPTY_STRING);
+        &lt;/property&gt;
     &lt;/component&gt;
 
     &lt;!--
     &lt;component name="dataSource" class="S2Container_PDODataSource"&gt;
         &lt;property name="dsn"&gt;"sqlite:/path/to/s2con.db"&lt;/property&gt;
+        &lt;property name="option"&gt;
+            array(PDO::ATTR_ORACLE_NULLS =&gt; PDO::NULL_EMPTY_STRING);
+        &lt;/property&gt;
     &lt;/component&gt;
     --&gt;
 
@@ -317,6 +316,9 @@ PDO ‚Å—˜—p‚Å‚«‚é DSN ‚É‚Â‚¢‚Ä‚ÍA<a href="http://jp2.php.net/manual/en/ref.pdo.p
         &lt;property name="dsn"&gt;"pgsql:host=localhost; dbname=s2con"&lt;/property&gt;
         &lt;property name="user"&gt;"root"&lt;/property&gt;
         &lt;property name="password"&gt;"pass"&lt;/property&gt;
+        &lt;property name="option"&gt;
+            array(PDO::ATTR_ORACLE_NULLS =&gt; PDO::NULL_EMPTY_STRING);
+        &lt;/property&gt;
     &lt;/component&gt;
     --&gt;
 
@@ -325,6 +327,9 @@ PDO ‚Å—˜—p‚Å‚«‚é DSN ‚É‚Â‚¢‚Ä‚ÍA<a href="http://jp2.php.net/manual/en/ref.pdo.p
         &lt;property name="dsn"&gt;"firebird:host=localhost; dbname=/path/to/s2con.fdb"&lt;/property&gt;
         &lt;property name="user"&gt;"root"&lt;/property&gt;
         &lt;property name="password"&gt;"pass"&lt;/property&gt;
+        &lt;property name="option"&gt;
+            array(PDO::ATTR_ORACLE_NULLS =&gt; PDO::NULL_EMPTY_STRING);
+        &lt;/property&gt;
     &lt;/component&gt;
     --&gt;
 
@@ -339,16 +344,23 @@ PDO ‚Å—˜—p‚Å‚«‚é DSN ‚É‚Â‚¢‚Ä‚ÍA<a href="http://jp2.php.net/manual/en/ref.pdo.p
     &lt;/component&gt;
     --&gt;
 
-    &lt;!--
+    &lt;!-- freetds dsn sybase|mssql
+    &lt;component name="dataSource" class="S2Container_PDODataSource"&gt;
+        &lt;property name="dsn"&gt;"dblib:host=localhost; dbname=s2con"&lt;/property&gt;
+        &lt;property name="user"&gt;"root"&lt;/property&gt;
+        &lt;property name="password"&gt;"passpass"&lt;/property&gt;
+        &lt;property name="option"&gt;
+            array(PDO::ATTR_ORACLE_NULLS =&gt; PDO::NULL_EMPTY_STRING);
+        &lt;/property&gt;
+    &lt;/component&gt;
+    --&gt;
+
     &lt;component name="requiredTx" class="S2Dao_RequiredInterceptor" /&gt;
     &lt;component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" /&gt;
     &lt;component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" /&gt;
-    --&gt;
 
 &lt;/components&gt;
 </pre>
-
-<p>Ú×‚Í /examples/s2dao/example.inc.php ‹y‚Ñ /examples/s2dao/resource/example.dicon.xml ‚ğQl‚É‚µ‚Ä‚­‚¾‚³‚¢B</p>
 
 <!-- document end -->
 <!-- don't edit start -->

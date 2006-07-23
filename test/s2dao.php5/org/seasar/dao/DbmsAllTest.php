@@ -48,7 +48,6 @@ class DbmsAllTest {
         }
         if($dbms instanceof S2Dao_Oracle){
             $suite->addTestSuite('S2Dao_OracleDBMetaDataTest');
-            $suite->addTestSuite('S2Dao_OracleProcedureMetaDataImplTest');
         }
         if($dbms instanceof S2Dao_PostgreSQL){
             $suite->addTestSuite('S2Dao_PostgreSQLDBMetaDataTest');

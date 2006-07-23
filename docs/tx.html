@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- don't edit start -->
-<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<head><title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="seasar_b.css" type="text/css" rel="stylesheet"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
 <td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
@@ -10,11 +11,10 @@
 <td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
 <td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
 </tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
-<td><a href="index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
-<td><a href="projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
-<td><a href="products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
-
-<td><a href="resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
 <td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
 <td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
 <td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
@@ -24,57 +24,57 @@
 <!-- document start -->
 
 <ul>
-    <li><a href="#Tx">PDOƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ©“®§Œä</a>
+    <li><a href="#Tx">PDOãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®è‡ªå‹•åˆ¶å¾¡</a>
     <ul>
-        <li><a href="#TransAttribute">ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«</a></li>
+        <li><a href="#TransAttribute">ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§</a></li>
         <li><a href="#Example">Example</a></li>
     </ul>
 </ul>
 
 
-<h2><a name="Tx">PDOƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ©“®§Œä</a></h2>
-<p>S2Tx‚Ì‹@”\‚ðŽg‚Á‚ÄA•’Ê‚ÌPHP‚ÌƒNƒ‰ƒX‚É‘Î‚µ‚ÄA<a href="http://s2container.php5.sandbox.seasar.org/aop.html">Aspect</a>‚Åƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ©“®ŠÇ—‹@”\‚ð‘g‚Ýž‚Þ‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-PDO‚ªŽ©“®‚ÅŠÇ—‚·‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ŠÇ—‹@”\‚ðPHP‚ÌƒNƒ‰ƒX‚É‘Î‚µ‚Ä“§–¾‚É‘g‚Ýž‚Þ‚±‚Æ‚ª‚Å‚«‚é‚Ì‚Å‚·B‘g‚Þž‚Þ‚±‚Æ‚Ì‚Å‚«‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«‚ÍŽŸ‚Ì‚Æ‚¨‚è‚Å‚·B</p>
-<h3><a name="TransAttribute">ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«</a></h3>
+<h2><a name="Tx">PDOãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®è‡ªå‹•åˆ¶å¾¡</a></h2>
+<p>S2Txã®æ©Ÿèƒ½ã‚’ä½¿ã£ã¦ã€æ™®é€šã®PHPã®ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦ã€<a href="http://s2container.php5.sandbox.seasar.org/aop.html">Aspect</a>ã§ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®è‡ªå‹•ç®¡ç†æ©Ÿèƒ½ã‚’çµ„ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã™ã€‚
+PDOãŒè‡ªå‹•ã§ç®¡ç†ã™ã‚‹ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç®¡ç†æ©Ÿèƒ½ã‚’PHPã®ã‚¯ãƒ©ã‚¹ã«å¯¾ã—ã¦é€æ˜Žã«çµ„ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã‚‹ã®ã§ã™ã€‚çµ„ã‚€è¾¼ã‚€ã“ã¨ã®ã§ãã‚‹ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§ã¯æ¬¡ã®ã¨ãŠã‚Šã§ã™ã€‚</p>
+<h3><a name="TransAttribute">ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§</a></h3>
 
-<p>S2Dao.PHP5‚ª•W€‚Å—pˆÓ‚µ‚Ä‚¢‚épdo.dicon‚É‚ÍAŽŸ‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«‚É‘Î‰ž‚µ‚½<a href="aop.html#Advice">Advice</a>‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
-ƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ª<a href="aop.html#Advice">Advice</a>‚Ì–¼‘O‚Å‚·B</p>
+<p>S2Dao.PHP5ãŒæ¨™æº–ã§ç”¨æ„ã—ã¦ã„ã‚‹pdo.diconã«ã¯ã€æ¬¡ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§ã«å¯¾å¿œã—ãŸ<a href="aop.html#Advice">Advice</a>ãŒå®šç¾©ã•ã‚Œã¦ã„ã¾ã™ã€‚
+ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåãŒ<a href="aop.html#Advice">Advice</a>ã®åå‰ã§ã™ã€‚</p>
 
 <table border="1">
     <tr bgcolor="#d1f3f4" align="center">
-        <th width="72">‘®«</th>
-        <th width="123">ƒRƒ“ƒ|[ƒlƒ“ƒg–¼</th>
-        <th width="534">à–¾</th>
+        <th width="72">å±žæ€§</th>
+        <th width="123">ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</th>
+        <th width="534">èª¬æ˜Ž</th>
     </tr>
     <tr>
         <td>Required</td>
         <td><code>pdo.requiredTx</code></td>
-        <td>ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ªŠJŽn‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA<br />
-        Ž©“®“I‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðŠJŽn‚µ‚Ü‚·B<br />
-        Šù‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ªŠJŽn‚³‚ê‚Ä‚¢‚ê‚ÎA<br />
-        ‚»‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðˆø‚«Œp‚¬‚Ü‚·B</td>
+        <td>ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ãªã‘ã‚Œã°ã€<br />
+        è‡ªå‹•çš„ã«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã—ã¾ã™ã€‚<br />
+        æ—¢ã«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ã‚Œã°ã€<br />
+        ãã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’å¼•ãç¶™ãŽã¾ã™ã€‚</td>
     </tr>
     <tr>
         <td>RequiresNew</td>
         <td><code>pdo.requiresNewTx</code></td>
-        <td>í‚ÉV‚µ‚¢ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðŠJŽn‚³‚¹‚Ü‚·B<br />
-        Šù‘¶‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ªŠJŽn‚³‚ê‚Ä‚¢‚é‚È‚çA<br />
-        Šù‘¶‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð’†’f‚µA<br />
-        Ž©•ªŽ©g‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌI—¹ŒãA<br />
-        ’†’f‚µ‚½ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð•œ‹A‚³‚¹‚Ü‚·B</td>
+        <td>å¸¸ã«æ–°ã—ã„ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã•ã›ã¾ã™ã€‚<br />
+        æ—¢å­˜ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ã‚‹ãªã‚‰ã€<br />
+        æ—¢å­˜ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä¸­æ–­ã—ã€<br />
+        è‡ªåˆ†è‡ªèº«ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®çµ‚äº†å¾Œã€<br />
+        ä¸­æ–­ã—ãŸãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’å¾©å¸°ã•ã›ã¾ã™ã€‚</td>
     </tr>
     <tr>
         <td>Mandatory</td>
         <td><code>pdo.mandatoryTx</code></td>
-        <td>ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ªŠù‚ÉŠJŽn‚³‚ê‚Ä‚È‚¯‚ê‚ÎƒGƒ‰[‚É‚µ‚Ü‚·B</td>
+        <td>ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒæ—¢ã«é–‹å§‹ã•ã‚Œã¦ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã«ã—ã¾ã™ã€‚</td>
     </tr>
     <tr>
         <td>NotSupported</td>
         <td><code>pdo.notSupportedTx</code></td>
-        <td>Šù‘¶‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ªŠJŽn‚³‚ê‚Ä‚¢‚é‚È‚çA<br>
-        Šù‘¶‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð’†’f‚µ‚Ü‚·B<br>
-        ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒƒ\ƒbƒh‚ÌI—¹ŒãA<br />
-        ’†’f‚µ‚½ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð•œ‹A‚³‚¹‚Ü‚·B</td>
+        <td>æ—¢å­˜ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒé–‹å§‹ã•ã‚Œã¦ã„ã‚‹ãªã‚‰ã€<br />
+        æ—¢å­˜ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä¸­æ–­ã—ã¾ã™ã€‚<br />
+        ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒ¡ã‚½ãƒƒãƒ‰ã®çµ‚äº†å¾Œã€<br />
+        ä¸­æ–­ã—ãŸãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’å¾©å¸°ã•ã›ã¾ã™ã€‚</td>
     </tr>
 </table>
 
@@ -272,7 +272,7 @@ try{
 ?&gt;</pre>
 
 
-<h4>ŽÀsŒ‹‰Ê</h4>
+<h4>å®Ÿè¡Œçµæžœ</h4>
 <pre>
 requiredInsert start
 string(38) "There is already an active transaction"
@@ -323,39 +323,10 @@ string(55) "Target for update must be single row(actual:0).(CdBean)"
 </pre>
 
 <p>
-pdo.dicon‚ÍS2Dao‚Æ‚µ‚Ä‚ ‚ç‚©‚¶‚ß—pˆÓ(src‚Ì’¼‰º)‚³‚ê‚Ä‚¢‚Ü‚·B
-Advice‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ðaspectƒ^ƒO‚Ìƒ{ƒfƒB‚ÉŽw’è‚·‚é‚¾‚¯‚È‚Ì‚ÅŠÈ’P‚Å‚·B
-ŠÈ’P‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ŠÇ—‹@”\‚ª‘g‚Ýž‚ß‚é‚±‚Æ‚ª‚í‚©‚Á‚Ä‚à‚ç‚¦‚½‚ÆŽv‚¢‚Ü‚·B
+pdo.diconã¯S2Daoã¨ã—ã¦ã‚ã‚‰ã‹ã˜ã‚ç”¨æ„(srcã®ç›´ä¸‹)ã•ã‚Œã¦ã„ã¾ã™ã€‚
+Adviceã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’aspectã‚¿ã‚°ã®ãƒœãƒ‡ã‚£ã«æŒ‡å®šã™ã‚‹ã ã‘ãªã®ã§ç°¡å˜ã§ã™ã€‚
+ç°¡å˜ã«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç®¡ç†æ©Ÿèƒ½ãŒçµ„ã¿è¾¼ã‚ã‚‹ã“ã¨ãŒã‚ã‹ã£ã¦ã‚‚ã‚‰ãˆãŸã¨æ€ã„ã¾ã™ã€‚
 </p>
-
-<!--
-<h2><a name="Exception">—áŠO”­¶Žž‚Ì“®ì</a></h2>
-<p>pdo.dicon‚É’è‹`‚³‚ê‚Ä‚¢‚éAdvice‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg‚ª—áŠO‚ðƒXƒ[‚µ‚½ê‡‚Íƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðƒ[ƒ‹ƒoƒbƒN‚µ‚Ü‚·D<br />
-”­¶‚µ‚½—áŠO‚É‰ž‚¶‚Äƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðƒRƒ~ƒbƒg‚·‚é‚©ƒ[ƒ‹ƒoƒbƒN‚·‚é‚©‚ðŽw’è‚·‚é‚±‚Æ‚à‚Å‚«‚Ü‚·B</p>
-<ul>
-    <li>Advice‚Ì<code>addCommitRule(Class)</code>ƒƒ\ƒbƒh‚ðŽg—p‚·‚é‚ÆAƒRƒ“ƒ|[ƒlƒ“ƒg‚©‚çƒXƒ[‚³‚ê‚Ä‚àƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðƒRƒ~ƒbƒg‚·‚é—áŠO‚ðŽw’è‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B</li>
-    <li>Advice‚Ì<code>addRollbackRule(Class)</code>ƒƒ\ƒbƒh‚ðŽg—p‚·‚é‚ÆAƒRƒ“ƒ|[ƒlƒ“ƒg‚©‚çƒXƒ[‚³‚ê‚Ä‚àƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðƒ[ƒ‹ƒoƒbƒN‚·‚é—áŠO‚ðŽw’è‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B</li>
-</ul>
-<p>ƒRƒ“ƒ|[ƒlƒ“ƒg‚©‚ç—áŠO‚ªƒXƒ[‚³‚ê‚é‚ÆA<code>addCommitRule()/addRollbackRule()</code>‚ªÝ’è‚³‚ê‚½‡”Ô‚Éƒ}ƒbƒ`‚·‚é‚©ƒ`ƒFƒbƒN‚³‚ê‚Ü‚·BƒXƒ[‚³‚ê‚½—áŠO‚ª<code>addCommitRule()/addRollbackRule()</code>‚ÅŽw’è‚³‚ê‚½—áŠO‚Ü‚½‚Í‚»‚Ì”h¶—áŠO‚Å‚ ‚ê‚ÎA‚»‚ÌÝ’è‚É]‚Á‚Äƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðƒRƒ~ƒbƒg‚Ü‚½‚Íƒ[ƒ‹ƒoƒbƒN‚µ‚Ü‚·BƒXƒ[‚³‚ê‚½—áŠO‚ª<code>addCommitRule()/addRollbackRule()</code>‚ÅŽw’è‚³‚ê‚½—áŠO‚Æƒ}ƒbƒ`‚µ‚È‚¢ê‡Aƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Íƒ[ƒ‹ƒoƒbƒN‚³‚ê‚Ü‚·B</p>
-
-<h3><a name="ExExample">Example</a></h3>
-<h4>MyTx.dicon</h4>
-<p>ŽŸ‚Ì—á‚Å‚ÍAŽÀsŽž—áŠO (<code>java.lang.RuntimeException</code>) ‚Ü‚½‚Í‚»‚Ì”h¶Œ^‚ªƒXƒ[‚³‚ê‚½ê‡‚Íƒ[ƒ‹ƒoƒbƒNA—áŠO (<code>java.lang.Exception</code>) ‚Ü‚½‚Í‚»‚Ì”h¶Œ^‚ªƒXƒ[‚³‚ê‚½ê‡‚ÍƒRƒ~ƒbƒg‚·‚éRequired ‚ÌAdvice‚Æ‚µ‚Ä<code>myTx</code>‚ð’è‹`‚µ‚Ä‚¢‚Ü‚·D<br>
-ŽÀsŽž—áŠO (<code>java.lang.RuntimeException</code>) ‚Í—áŠO (<code>java.lang.Exception</code>) ‚Ì”h¶—áŠO‚Å‚ ‚é‚½‚ßAÝ’è‚·‚é‡”Ô‚ð‹t‚É‚·‚é‚ÆŽÀsŽž—áŠO (<code>java.lang.RuntimeException</code>) ‚ªƒXƒ[‚³‚ê‚½ê‡‚Å‚àƒRƒ~ƒbƒg‚³‚ê‚Ä‚µ‚Ü‚¤‚Ì‚Å’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢ (JavaŒ¾Œê‚Ìcatchß‚ÆŽ—‚Ä‚¢‚Ü‚·)B</p>
-
-<pre>&lt;components&gt;<br />    &lt;include path=&quot;j2ee.dicon&quot;/&gt;<br />    &lt;component name=&quot;myTx&quot;
-        class=&quot;org.seasar.extension.tx.RequiredInterceptor&quot;&gt;
-        &lt;initMethod name=&quot;addRollbackRule&quot;&gt;
-
-            &lt;arg&gt;@java.lang.RuntimeException@class&lt;/arg&gt;
-        &lt;/initMethod&gt;
-        &lt;initMethod name=&quot;addCommitRule&quot;&gt;
-            &lt;arg&gt;@java.lang.Exception@class&lt;/arg&gt;
-
-        &lt;/initMethod&gt;
-    &lt;/component&gt;
-&lt;/components&gt;</pre>
--->
 
 <!-- document end -->
 <!-- don't edit start -->

@@ -1,3 +1,101 @@
+2006-07-24 nowel(S2Dao.PHP5-1.1.0)
+
+================ S2Dao.PHP5-1.1.0(stable) 更新履歴 ===================
+
+    * add: 対応するDBMSに以下を追加しました。(nowel)
+        - Firebird
+        - Oracle
+        - Sybase
+    * modify: MySQL接続中にBUFFERED_QUERYを使用するように変更しました。(nowel)
+    	    - PHP5.1.3 以降及び PDO 1.0.3以降であり、かつ
+    	       MySQL接続中の場合にPDO::MYSQL_ATTR_USE_BUFFERED_QUERY, trueをセットします。
+    * rename: S2Dao_PagerResultSetWrapperImpl -> S2Dao_PagerBasicResultSetWrapper(yonekawa)
+    * add: S2Dao_Standard::usableLimitOffsetQuery (yonekawa)
+           S2Dao_MySQL::usableLimitOffsetQuery
+           S2Dao_PostgresSQL::usableLimitOffsetQuery
+        -  DBMSでLimit,Offset句が使用可能かを返します
+    * fix: IN句を含むSQLコメントが正しく処理されない不具合を修正しました。(nowel)
+    * fix: SQLコメントに埋め込まれたバインド変数のネスト時に値が正しくならない不具合を修正しました。(nowel)
+    * fix: QUERYアノテーション時に"order by"句を先頭に指定するとPDOExceptionが発生する不具合を修正しました。(nowel)
+    * fix: findコマンド使用時とQUERYアノテーションの動作がマッチしていない不具合を修正しました。(nowel)
+    * fix: S2Dao_AbstractBeanMetaDataResultSetHandler, S2Dao_BeanMetaDataResultSetHandler(nowel)
+        - 一部のプロパティとSQL分の大小文字判別にstrcasecmpを使うようにしました。
+    * fix[DAOPHP-3]: PDOトランザクションが正しく発行されない不具合を修正しました。(nowel)
+    * fix[DAOPHP-5]: S2Dao_BasicHandler (nowel)
+    	    - PHP5.1.3 以降及び PDO 1.0.3以降であり、かつ
+    	       MySQL接続中の場合にPDO::ATTR_EMULATE_PREPARES, trueをセットするようにしました。
+    * fix: S2Dao_BasicSelectHandler (nowel)
+        - S2Dao_BasicStatementFactoryが正しくセットされない不具合を修正しました。
+    * fix: S2PagerでuseLimitOffsetQueryプロパティをtrueにした時に、Countが取得できない不具合を修正しました。(yonekawa)
+    * add: ResultSetHandler(nowel)
+        - extension/db/impl/S2Dao_AbstractBeanResultSetHandler
+        - extension/db/impl/S2Dao_AbstractMapResultSetHandler
+    	    - extension/db/impl/S2Dao_MapResultSetHandller
+        - extension/db/impl/S2Dao_MapListResultSetHandler
+        - extension/db/impl/S2Dao_BeanResultSetHandler
+        - extension/db/impl/S2Dao_BeanListResultSetHandler
+    * add: S2Dao_BasicStatementFactory::createStatement returns PDOStatement of PDO::query (nowel)
+    * modify: S2Dao_BasicResultSetFactory::create returns S2Dao_ObjectResultSetHandler (nowel)
+    * modify: S2Dao_ResultSetHandler::handler(PDOStatement $resultset) (nowel)
+        - dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanListMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanJsonMetaDataResultSetHandler
+        - dao/resultset/S2Dao_BeanYamlMetaDataResultSetHandler
+        - extension/db/impl/S2Dao_ObjectResultSetHandler
+    * add: S2Dao_ResultSetHandlerFactory, S2Dao_ResultSetHandlerFactoryImpl(nowel)
+    * add: add methods S2Dao_EntityManager (nowel)
+    	    - findYaml
+    	    - findJson
+    * remove: S2Dao_ValueType
+    * add: Json,YAML形式のResultに対応しました。(yonekawa)
+	   S2Dao_PagerResultSetWrapperImpl
+	   S2Dao_PagerJsonResultSetWrapper
+	   S2Dao_PagerYamlResultSetWrapper
+	   S2Dao_PagerResultSetWrapperFactory
+       S2Dao_PagerUtil
+    * delete: S2Dao_PagerResultSetWrapper::create -> S2Dao_PagerResultSetWrapper::filter (yonekawa)
+    * modify: S2Dao_PagerResultSetWrapper -> S2Dao_PagerResultSetWrapperImpl (yonekawa)
+    * modify: class S2Dao_PagerResultSetWrapper -> interface S2Dao_PagerResultSetWrapper (yonekawa)
+    * fix: SQLコメントのELSEが正しく動作しない不具合を修正しました。(nowel)
+    * fix[DAOPHP-4]: S2Dao_BasicSelectHandlerでカラム数が0の場合に正しく結果を取得できない不具合を修正しました。(nowel)
+        - modify: カラム数が0またはnullの場合はS2Dao_BasicSelectHandlerはnullを返すように変更しました。
+    * fix: S2Dao_ObjectResultSetHandlerで指定したクラスのオブジェクトマッピングが正しく行えない不具合を修正しました。(nowel)
+    * fix: S2Pagerを使用して検索結果が１件だった時にNULLが返る不具合を修正しました。 (yonekawa)
+    * add: DBMSにSybase(ASE-15.0)のサポートをしました。(nowel)
+    * add: ResultSetの形式にJSONを追加しました。(nowel)
+    * modify: BasicHandlerでPDOの型とPHPの型のマッピングを必ず行うように変更しました。(nowel)
+    * add: extenstion/dataset(nowel)
+        - S2Dao_DataColumnImpl.class.php
+        - S2Dao_DataRowImpl.class.php
+        - S2Dao_DataTableImpl.class.php
+    * fix: PhingTaskで正常に実行されない不具合を修正しました。(nowel)
+    * fix[DAOPHP-2]: S2Dao_PagerSupportにて、session_startの重複エラーが起きるのを修正しました。(yonekawa)
+    * fix: コメントアノテーション時に正しくアノテーションクラスが読み込めない不具合を修正しました。(nowel)
+    * fix: S2Dao_ClassLoaderが不要なパッケージを参照していたのを修正しました。(nowel)
+    * move: context パッケージを移動しました。(nowel)
+        - /dao/context/S2Dao_CommandContextImpl.class.php to /dao/impl/S2Dao_CommandContextImpl.class.php
+    * move: procedure パッケージを移動しました。(nowel)
+        - /dao/util/procedure to /dao/dbms/proceudre
+    * add: DBMataData パッケージの追加(nowel)
+        - /dao/dbms/dbmeta/S2Dao_DBMetaDataFactory.class.php
+        - /dao/dbms/dbmeta/S2Dao_FirebirdDBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_OracleDBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_PostgreSQLDBMetaData.class.php
+        - /dao/dbms/dbmeta/S2Dao_SQLiteDBMataData.class.php
+        - /dao/dbms/dbmeta/S2Dao_StandardDBMetaData.class.php
+    * add: ResultSet パッケージの追加、ResultSet クラスの移動(nowel)
+        - /dao/impl/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php
+        - /dao/impl/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
+        - /dao/impl/S2Dao_BeanListMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_BeanListMetaDataResultSetHandler.class.php
+        - /dao/impl/S2Dao_BeanMetaDataResultSetHandler.class.php
+            to /dao/resultset/S2Dao_BeanMetaDataResultSetHandler.class.php
+        - /dao/resultset/S2Dao_BeanJsonMetaDataResultSetHandler.class.php
+        - /dao/resultset/S2Dao_BeanYamlMetaDataResultSetHandler.class.php
+
 2006-07-23 nowel(S2Dao.PHP5-1.1.0)
 
     * add: 対応するDBMSに以下を追加しました。
@@ -40,7 +138,7 @@
     * fix: S2Dao_BasicSelectHandler
         - S2Dao_BasicStatementFactoryが正しくセットされない不具合を修正しました。
 
-2006-07-13  yonekawa(S2Dao.PHP5-1.1.0)
+2006-07-13 yonekawa(S2Dao.PHP5-1.1.0)
 
     * fix: S2PagerでuseLimitOffsetQueryプロパティをtrueにした時に、Countが取得できない不具合を修正しました。
 
@@ -78,7 +176,7 @@
 	   S2Dao_PagerJsonResultSetWrapper
 	   S2Dao_PagerYamlResultSetWrapper
 	   S2Dao_PagerResultSetWrapperFactory
-           S2Dao_PagerUtil
+       S2Dao_PagerUtil
     * delete: S2Dao_PagerResultSetWrapper::create -> S2Dao_PagerResultSetWrapper::filter
     * modify: S2Dao_PagerResultSetWrapper -> S2Dao_PagerResultSetWrapperImpl
     * modify: class S2Dao_PagerResultSetWrapper -> interface S2Dao_PagerResultSetWrapper

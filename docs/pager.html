@@ -3,7 +3,7 @@
 <!-- don't edit start -->
 <head>
 <title>Seasar - DI Container with AOP - </title>
-<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta http-equiv="Content-Style-Type" content="text/css"/>
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"/>
 <link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"/>
@@ -30,39 +30,39 @@
 <!-- don't edit end -->
 <!-- document start -->
 <ul>
-<li><a href="#S2Pager">S2Pager‚Æ‚Í</a></li>
+<li><a href="#S2Pager">S2Pagerã¨ã¯</a></li>
 
-<li><a href="#Setup">ƒZƒbƒgƒAƒbƒv</a></li>
+<li><a href="#Setup">ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—</a></li>
 <ul>
-<li><a href="#Sample">ƒTƒ“ƒvƒ‹‚ÌÀs</a></li>
-<li><a href="#Dicon">dao.dicon‚ÌC³</a></li>
+<li><a href="#Sample">ã‚µãƒ³ãƒ—ãƒ«ã®å®Ÿè¡Œ</a></li>
+<li><a href="#Dicon">dao.diconã®ä¿®æ­£</a></li>
 </ul>
-<li><a href="#UseS2Pager">S2ƒy[ƒWƒƒ‚Ìg‚¢•û</a></li>
+<li><a href="#UseS2Pager">S2ãƒšãƒ¼ã‚¸ãƒ£ã®ä½¿ã„æ–¹</a></li>
 <ul>
-<li><a href="#PagerCondition">PagerCondition - ŒŸõğŒ‚ğ•Û‚·‚é</a></li>
-<li><a href="#PagerSupport">PagerSupport - ƒZƒbƒVƒ‡ƒ“‚Ö‚ÌŒŸõğŒ‚ÌŠi”[‚ğƒTƒ|[ƒg</a></li>
-<li><a href="#PagerViewHelper">PagerViewHelper - ƒrƒ…[‚Ìì¬‚ğ•‚¯‚é</a></li>
+<li><a href="#PagerCondition">PagerCondition - æ¤œç´¢æ¡ä»¶ã‚’ä¿æŒã™ã‚‹</a></li>
+<li><a href="#PagerSupport">PagerSupport - ã‚»ãƒƒã‚·ãƒ§ãƒ³ã¸ã®æ¤œç´¢æ¡ä»¶ã®æ ¼ç´ã‚’ã‚µãƒãƒ¼ãƒˆ</a></li>
+<li><a href="#PagerViewHelper">PagerViewHelper - ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆã‚’åŠ©ã‘ã‚‹</a></li>
 
-<li><a href="#LimitOffset">limit‚Æoffset‚ğg—p‚µ‚½‚‘¬æ“¾</a></li>
+<li><a href="#LimitOffset">limitã¨offsetã‚’ä½¿ç”¨ã—ãŸé«˜é€Ÿå–å¾—</a></li>
 </ul>
 </ul>
 
 </ul>
-<h2><a name="S2Pager">S2Pager‚Æ‚Í</a></h2>
-<p>S2Dao‚ğg‚Á‚Äƒy[ƒWƒƒ‚ğÀŒ»‚·‚é‹@”\‚Å‚·B
-	S2Dao‚ÅŒŸõ‚µ‚½Œ‹‰Ê‚É‘Î‚µ‚ÄAŠJnˆÊ’u‚ÆÅ‘åæ“¾Œ”‚ğw’è‚µ‚ÄŒ‹‰Ê‚Ìˆê•”‚Ì‚İ‚ğæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-	‚±‚ê‚É‚æ‚èAGoogle‚ÌŒŸõŒ‹‰Ê‚Ì‚æ‚¤‚ÉA‘å—Ê‚ÌŒŸõŒ‹‰Ê‚ğƒy[ƒW’PˆÊ‚Å•\¦‚·‚é‚±‚Æ‚ª‰Â”\‚É‚È‚è‚Ü‚·B<br/>
+<h2><a name="S2Pager">S2Pagerã¨ã¯</a></h2>
+<p>S2Daoã‚’ä½¿ã£ã¦ãƒšãƒ¼ã‚¸ãƒ£ã‚’å®Ÿç¾ã™ã‚‹æ©Ÿèƒ½ã§ã™ã€‚
+    S2Daoã§æ¤œç´¢ã—ãŸçµæœã«å¯¾ã—ã¦ã€é–‹å§‹ä½ç½®ã¨æœ€å¤§å–å¾—ä»¶æ•°ã‚’æŒ‡å®šã—ã¦çµæœã®ä¸€éƒ¨ã®ã¿ã‚’å–å¾—ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+    ã“ã‚Œã«ã‚ˆã‚Šã€Googleã®æ¤œç´¢çµæœã®ã‚ˆã†ã«ã€å¤§é‡ã®æ¤œç´¢çµæœã‚’ãƒšãƒ¼ã‚¸å˜ä½ã§è¡¨ç¤ºã™ã‚‹ã“ã¨ãŒå¯èƒ½ã«ãªã‚Šã¾ã™ã€‚<br/>
 </p>
 
-<h2><a name="Setup">ƒZƒbƒgƒAƒbƒv</a></h2>
-<h3><a name="Sample">ƒTƒ“ƒvƒ‹‚ÌÀs</a></h3>
+<h2><a name="Setup">ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—</a></h2>
+<h3><a name="Sample">ã‚µãƒ³ãƒ—ãƒ«ã®å®Ÿè¡Œ</a></h3>
 <p>
 </p>
-<h3><a name="Dicon">dao.dicon‚ÌC³</a></h3>
+<h3><a name="Dicon">dao.diconã®ä¿®æ­£</a></h3>
 <p>
-	S2Pager‚ğŠù‘¶‚ÌƒvƒƒWƒFƒNƒg‚Åg—p‚·‚é‚É‚ÍAS2Dao‚Ìdao.dicon‚ğS2Pager—p‚ÉC³‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B<br>
-	S2DaoƒfƒBƒŒƒNƒgƒŠ/src/s2dao.php5/dao-pager.dicon‚ğQl‚É‚µ‚ÄˆÈ‰º‚Ì‚æ‚¤‚Édao.dicon‚ğC³‚µ‚Ü‚·B
-	  (dao-pager.dicon‚ğdao.dicon‚ÉƒŠƒl[ƒ€‚·‚é•û–@‚ªŠÈ’P‚Å‚·B) </p>
+    S2Pagerã‚’æ—¢å­˜ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã§ä½¿ç”¨ã™ã‚‹ã«ã¯ã€S2Daoã®dao.diconã‚’S2Pagerç”¨ã«ä¿®æ­£ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚<br>
+    S2Daoãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª/src/s2dao.php5/dao-pager.diconã‚’å‚è€ƒã«ã—ã¦ä»¥ä¸‹ã®ã‚ˆã†ã«dao.diconã‚’ä¿®æ­£ã—ã¾ã™ã€‚
+      (dao-pager.diconã‚’dao.diconã«ãƒªãƒãƒ¼ãƒ ã™ã‚‹æ–¹æ³•ãŒç°¡å˜ã§ã™ã€‚) </p>
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
@@ -73,68 +73,68 @@
 
     &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
     &lt;component class="S2Dao_BasicStatementFactory" /&gt;
-    &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;   
+    &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
     &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
     &lt;component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper"&gt;
       &lt;property name="useLimitOffsetQuery"&gt;false&lt;/property&gt;
     &lt;/component&gt;
-    
+
 &lt;/components&gt;
 </pre>
 
 
-<h2><a name="UseS2Pager">S2Pager‚Ìg‚¢•û</h2>
-<h3><a name="PagerCondition">S2Dao_PagerCondition - ŒŸõğŒ‚ğ•Û‚·‚é</a></h3>
-<p>ƒy[ƒWƒƒ‹@”\‚ÍŸ‚Ìè‡‚ÅÀŒ»‚µ‚Ü‚·B</p>
+<h2><a name="UseS2Pager">S2Pagerã®ä½¿ã„æ–¹</h2>
+<h3><a name="PagerCondition">S2Dao_PagerCondition - æ¤œç´¢æ¡ä»¶ã‚’ä¿æŒã™ã‚‹</a></h3>
+<p>ãƒšãƒ¼ã‚¸ãƒ£æ©Ÿèƒ½ã¯æ¬¡ã®æ‰‹é †ã§å®Ÿç¾ã—ã¾ã™ã€‚</p>
 <ol>
 <li>
-S2Dao_PagerConditionƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğimplements‚·‚éŒŸõğŒDTO‚ğì¬‚µ‚Ü‚·B
-ƒfƒtƒHƒ‹ƒg‚ÌÀ‘•‚Æ‚µ‚ÄAorg.seasar.dao.pager.S2Dao_DefaultPagerConditionƒNƒ‰ƒX‚ª—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B
-ŒŸõğŒDTO‚ÍS2Pager—p‚ÌƒvƒƒpƒeƒB(offset,limit,count)‚ÆAŒŸõğŒ(‰º‹L‚Ì—á‚Å‚Ícategory)‚ğ•Û‚µ‚Ü‚·B
+S2Dao_PagerConditionã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’implementsã™ã‚‹æ¤œç´¢æ¡ä»¶DTOã‚’ä½œæˆã—ã¾ã™ã€‚
+ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å®Ÿè£…ã¨ã—ã¦ã€org.seasar.dao.pager.S2Dao_DefaultPagerConditionã‚¯ãƒ©ã‚¹ãŒç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚
+æ¤œç´¢æ¡ä»¶DTOã¯S2Pagerç”¨ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£(offset,limit,count)ã¨ã€æ¤œç´¢æ¡ä»¶(ä¸‹è¨˜ã®ä¾‹ã§ã¯category)ã‚’ä¿æŒã—ã¾ã™ã€‚
 <pre>
 &lt;?php
 /**
- * ƒy[ƒWƒƒğŒƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ * ãƒšãƒ¼ã‚¸ãƒ£æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
  * @author yonekawa
  */
 interface S2Dao_PagerCondition
 {
-    /** limit‚ÌƒfƒtƒHƒ‹ƒg’l  */
+    /** limitã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤  */
     const NONE_LIMIT = -1;
-    
+
     /**
-     * ŒŸõŒ‹‰Ê‚Ì‘Œ”‚ğæ“¾‚µ‚Ü‚·B
-     * @return ‘Œ”
+     * æ¤œç´¢çµæœã®ç·ä»¶æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ç·ä»¶æ•°
      */
     public function getCount();
-    
+
     /**
-     * ŒŸõŒ‹‰Ê‚Ì‘Œ”‚ğƒZƒbƒg‚µ‚Ü‚·B
-     * @param count ‘Œ”
+     * æ¤œç´¢çµæœã®ç·ä»¶æ•°ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * @param count ç·ä»¶æ•°
      */
     public function setCount($count);
-    
+
     /**
-     * ŒŸõŒ‹‰Ê‚©‚çˆê“x‚Éæ“¾‚·‚éÅ‘åŒ”‚ğæ“¾‚µ‚Ü‚·B
-     * @return Å‘åŒ”
+     * æ¤œç´¢çµæœã‹ã‚‰ä¸€åº¦ã«å–å¾—ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return æœ€å¤§ä»¶æ•°
      */
     public function getLimit();
-    
+
     /**
-     * ŒŸõŒ‹‰Ê‚©‚çˆê“x‚Éæ“¾‚·‚éÅ‘åŒ”‚ğƒZƒbƒg‚µ‚Ü‚·B
-     * @param limit Å‘åŒ”
+     * æ¤œç´¢çµæœã‹ã‚‰ä¸€åº¦ã«å–å¾—ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * @param limit æœ€å¤§ä»¶æ•°
      */
     public function setLimit($limit);
-    
+
     /**
-     * ŒŸõŒ‹‰Ê‚Ìæ“¾ŠJnˆÊ’u‚ğ‚ğƒZƒbƒg‚µ‚Ü‚·B
-     * @param offset æ“¾ŠJnˆÊ’u
+     * æ¤œç´¢çµæœã®å–å¾—é–‹å§‹ä½ç½®ã‚’ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * @param offset å–å¾—é–‹å§‹ä½ç½®
      */
     public function setOffset($offset);
 
     /**
-     * ŒŸõŒ‹‰Ê‚Ìæ“¾ŠJnˆÊ’u‚ğ‚ğæ“¾‚µ‚Ü‚·B
-     * @return æ“¾ŠJnˆÊ’u
+     * æ¤œç´¢çµæœã®å–å¾—é–‹å§‹ä½ç½®ã‚’ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return å–å¾—é–‹å§‹ä½ç½®
      */
     public function getOffset();
 }
@@ -143,13 +143,13 @@ interface S2Dao_PagerCondition
 
 <pre>
 /**
- * ŒŸõğŒDTOB
- * “Æ©‚ÌŒŸõğŒ‚Í‚±‚ÌƒNƒ‰ƒX‚Ì‚æ‚¤‚ÉS2Dao_PagerConditionƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÀ‘•‚·‚é
- * ƒNƒ‰ƒX‚ÅÀŒ»‚µ‚Ü‚·B’Êí‚ÍS2Dao_DefaultPagerCondition‚ğŒp³‚·‚é‚Æ‚æ‚¢‚Å‚µ‚å‚¤B
+ * æ¤œç´¢æ¡ä»¶DTOã€‚
+ * ç‹¬è‡ªã®æ¤œç´¢æ¡ä»¶ã¯ã“ã®ã‚¯ãƒ©ã‚¹ã®ã‚ˆã†ã«S2Dao_PagerConditionã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’å®Ÿè£…ã™ã‚‹
+ * ã‚¯ãƒ©ã‚¹ã§å®Ÿç¾ã—ã¾ã™ã€‚é€šå¸¸ã¯S2Dao_DefaultPagerConditionã‚’ç¶™æ‰¿ã™ã‚‹ã¨ã‚ˆã„ã§ã—ã‚‡ã†ã€‚
  * @author yonekawa
  */
 class CategoryPagerCondition extends S2Dao_DefaultPagerCondition {
-    /** ƒJƒeƒSƒŠ[(ŒŸõğŒ) */
+    /** ã‚«ãƒ†ã‚´ãƒªãƒ¼(æ¤œç´¢æ¡ä»¶) */
     private $category;
     public function getCategory() {
         return $category;
@@ -161,7 +161,7 @@ class CategoryPagerCondition extends S2Dao_DefaultPagerCondition {
 </pre>
 </li>
 <li>
-ŒŸõğŒDTO‚ğˆø”‚É‚ÂDao‚ÌŒŸõƒƒ\ƒbƒh‚ğì¬‚µ‚Ü‚·B
+æ¤œç´¢æ¡ä»¶DTOã‚’å¼•æ•°ã«æŒã¤Daoã®æ¤œç´¢ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½œæˆã—ã¾ã™ã€‚
 <pre>
 interface BookDao {
     /**
@@ -172,22 +172,22 @@ interface BookDao {
 </pre>
 </li>
 <li>
-ŒŸõğŒDTO‚ÉŠJnˆÊ’u(offset)‚ÆÅ‘åæ“¾”(limit)‚ğƒZƒbƒg‚µ‚ÄDao‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ü‚·B
+æ¤œç´¢æ¡ä»¶DTOã«é–‹å§‹ä½ç½®(offset)ã¨æœ€å¤§å–å¾—æ•°(limit)ã‚’ã‚»ãƒƒãƒˆã—ã¦Daoã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 <pre>
 
-// offset‚Ælimit‚ğƒZƒbƒg
+// offsetã¨limitã‚’ã‚»ãƒƒãƒˆ
 $dto = new CategoryPagerCondition();
 $dto->setLimit(10);
 $offset = $_REQUEST['offset'];
 $dto->setOffset($offset);
 
-// “Æ©‚ÌŒŸõğŒ
+// ç‹¬è‡ªã®æ¤œç´¢æ¡ä»¶
 $category = $_REQUEST['category'];
 if ($category != null && length($category) != 0) {
     $dto->setCategory($category);
 }
 
-// ƒy[ƒWƒƒ‘Î‰‚ÌŒŸõ‚ğÀs
+// ãƒšãƒ¼ã‚¸ãƒ£å¯¾å¿œã®æ¤œç´¢ã‚’å®Ÿè¡Œ
 $bookDao = $container->getComponent('BookDao');
 $books = $bookDao->findByCategoryPagerCondition($dto);
 
@@ -198,142 +198,142 @@ var_dump($books);
 </ol>
 
 
-<h3><a name="PagerSupport">S2Dao_PagerSupport - ƒZƒbƒVƒ‡ƒ“‚Ö‚ÌŒŸõğŒ‚ÌŠi”[‚ğƒTƒ|[ƒg</a></h3>
-<p>’ÊíAŒŸõğŒƒIƒuƒWƒFƒNƒg‚Ísession•Ï”‚ÉŠi”[‚µ‚Ü‚·B
-S2Pager‚Å‚ÍŒŸõğŒƒIƒuƒWƒFƒNƒg‚Ìsession‚Ö‚ÌŠi”[‚È‚Ç‚ğƒTƒ|[ƒg‚·‚é
-ƒ†[ƒeƒBƒŠƒeƒB“I‚ÈƒNƒ‰ƒX‚Æ‚µ‚ÄS2Dao_PagerSupportƒNƒ‰ƒX‚ğ—pˆÓ‚µ‚Ä‚¢‚Ü‚·B
+<h3><a name="PagerSupport">S2Dao_PagerSupport - ã‚»ãƒƒã‚·ãƒ§ãƒ³ã¸ã®æ¤œç´¢æ¡ä»¶ã®æ ¼ç´ã‚’ã‚µãƒãƒ¼ãƒˆ</a></h3>
+<p>é€šå¸¸ã€æ¤œç´¢æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯sessionå¤‰æ•°ã«æ ¼ç´ã—ã¾ã™ã€‚
+S2Pagerã§ã¯æ¤œç´¢æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®sessionã¸ã®æ ¼ç´ãªã©ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹
+ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£çš„ãªã‚¯ãƒ©ã‚¹ã¨ã—ã¦S2Dao_PagerSupportã‚¯ãƒ©ã‚¹ã‚’ç”¨æ„ã—ã¦ã„ã¾ã™ã€‚
 </p>
 <p>
-S2Dao_PagerSupportƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÅŸ‚Ì€–Ú‚ğw’è‚µ‚Ü‚·B
+S2Dao_PagerSupportã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§æ¬¡ã®é …ç›®ã‚’æŒ‡å®šã—ã¾ã™ã€‚
 
 <table border="1">
-	<tr>
-		<th nowrap>ˆø”</th>
+    <tr>
+        <th nowrap>å¼•æ•°</th>
 
-		<th>ˆÓ–¡</hd>
-		<th>à–¾</hd>
-	</tr>
-	<tr>
-		<td nowrap>‘æ‚Pˆø”</td>
-		<td>Å‘åæ“¾”</td>
-		<td>S2Dao_PagerCondition‚Ìlimit‚Ég—p‚³‚ê‚Ü‚·B</td>
+        <th>æ„å‘³</hd>
+        <th>èª¬æ˜</hd>
+    </tr>
+    <tr>
+        <td nowrap>ç¬¬ï¼‘å¼•æ•°</td>
+        <td>æœ€å¤§å–å¾—æ•°</td>
+        <td>S2Dao_PagerConditionã®limitã«ä½¿ç”¨ã•ã‚Œã¾ã™ã€‚</td>
 
-	</tr>
-	<tr>
-		<td>‘æ‚Qˆø”</td>
-		<td>ğŒ•ÛDTO‚ÌƒNƒ‰ƒX–¼</td>
-		<td>ƒZƒbƒVƒ‡ƒ“’†‚É>ğŒ•ÛDTO‚ª‘¶İ‚µ‚©‚Á‚½ê‡A‚±‚±‚Åw’è‚µ‚½ƒNƒ‰ƒX–¼‚ÌŒŸõğŒDTO‚ª¶¬‚³‚ê‚Ü‚·B</td>
-	</tr>
-	<tr>
+    </tr>
+    <tr>
+        <td>ç¬¬ï¼’å¼•æ•°</td>
+        <td>æ¡ä»¶ä¿æŒDTOã®ã‚¯ãƒ©ã‚¹å</td>
+        <td>ã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã«>æ¡ä»¶ä¿æŒDTOãŒå­˜åœ¨ã—ã‹ã£ãŸå ´åˆã€ã“ã“ã§æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹åã®æ¤œç´¢æ¡ä»¶DTOãŒç”Ÿæˆã•ã‚Œã¾ã™ã€‚</td>
+    </tr>
+    <tr>
 
-		<td>‘æ‚Rˆø”</td>
-		<td>‘®«–¼</td>
-		<td>ƒZƒbƒVƒ‡ƒ“‚Ì‘®«–¼‚ğw’è‚µ‚Ü‚·B‚±‚±‚Åw’è‚µ‚½–¼‘O‚ÅŒŸõğŒDTO‚ªƒZƒbƒVƒ‡ƒ“’†‚ÉŠi”[‚³‚ê‚Ü‚·B</td>
-	</tr>
+        <td>ç¬¬ï¼“å¼•æ•°</td>
+        <td>å±æ€§å</td>
+        <td>ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®å±æ€§åã‚’æŒ‡å®šã—ã¾ã™ã€‚ã“ã“ã§æŒ‡å®šã—ãŸåå‰ã§æ¤œç´¢æ¡ä»¶DTOãŒã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã«æ ¼ç´ã•ã‚Œã¾ã™ã€‚</td>
+    </tr>
 </table>
 <pre>
-	/** ƒy[ƒWƒƒƒTƒ|[ƒgƒNƒ‰ƒX */
-	$pager = new S2Dao_PagerSupport(10, 'CategoryPagerCondition', 'categoryPagerCondition');
+    /** ãƒšãƒ¼ã‚¸ãƒ£ã‚µãƒãƒ¼ãƒˆã‚¯ãƒ©ã‚¹ */
+    $pager = new S2Dao_PagerSupport(10, 'CategoryPagerCondition', 'categoryPagerCondition');
 </pre>
 </p>
 
 <p>
-ƒZƒbƒVƒ‡ƒ“’†‚ÌŒŸõğŒDTO‚Ìæ“¾ŠJnˆÊ’u(offset)‚ÌXV‚ÍAŸ‚ÌƒR[ƒh‚Å‰Â”\‚Å‚·B
+ã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã®æ¤œç´¢æ¡ä»¶DTOã®å–å¾—é–‹å§‹ä½ç½®(offset)ã®æ›´æ–°ã¯ã€æ¬¡ã®ã‚³ãƒ¼ãƒ‰ã§å¯èƒ½ã§ã™ã€‚
 <pre>
-        // ƒy[ƒWƒƒ‚ÌoffsetˆÊ’u‚ğXV
+        // ãƒšãƒ¼ã‚¸ãƒ£ã®offsetä½ç½®ã‚’æ›´æ–°
         $pager->updateOffset($_REQUEST['offset']);
 </pre>
 </p>
 <p>
-ƒZƒbƒVƒ‡ƒ“’†‚ÌŒŸõğŒDTO‚ğæ“¾‚·‚é‚É‚ÍAŸ‚Ì‚æ‚¤‚ÈƒR[ƒh‚É‚È‚è‚Ü‚·B
+ã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã®æ¤œç´¢æ¡ä»¶DTOã‚’å–å¾—ã™ã‚‹ã«ã¯ã€æ¬¡ã®ã‚ˆã†ãªã‚³ãƒ¼ãƒ‰ã«ãªã‚Šã¾ã™ã€‚
 <pre>
-        // ƒy[ƒWƒƒ‚ÌğŒ•ÛƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒVƒ‡ƒ“‚©‚çæ“¾
-        // ‘¶İ‚µ‚È‚¢ê‡‚ÍAS2Dao_PagerSupport‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å
-        // “n‚³‚ê‚½ƒNƒ‰ƒX‚ªV‹K‚Éì¬‚³‚ê‚Ü‚·B
+        // ãƒšãƒ¼ã‚¸ãƒ£ã®æ¡ä»¶ä¿æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‹ã‚‰å–å¾—
+        // å­˜åœ¨ã—ãªã„å ´åˆã¯ã€S2Dao_PagerSupportã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§
+        // æ¸¡ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒæ–°è¦ã«ä½œæˆã•ã‚Œã¾ã™ã€‚
         $dto = $pager->getPagerCondition();
 </pre>
 </p>
 
 
 <p>
-ˆÈã‚ÌS2Dao_PagerSupport‚Ìg‚¢•û‚ğ‚Ü‚Æ‚ß‚é‚ÆAŸ‚Ì‚æ‚¤‚ÈƒR[ƒh‚É‚È‚è‚Ü‚·B
+ä»¥ä¸Šã®S2Dao_PagerSupportã®ä½¿ã„æ–¹ã‚’ã¾ã¨ã‚ã‚‹ã¨ã€æ¬¡ã®ã‚ˆã†ãªã‚³ãƒ¼ãƒ‰ã«ãªã‚Šã¾ã™ã€‚
 <!--
-PagerSupport‚ÍƒXƒŒƒbƒhƒZ[ƒt‚Å‚·B•¡”ƒ†[ƒU‚Å‹¤—L‚µ‚ÄˆÀ‘S‚Ég—p‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-‚½‚¾‚µAÅ‘åæ“¾”(limit)‚ğƒ†[ƒU‚²‚Æ‚ÉØ‚è‘Ö‚¦‚½‚¢ê‡‚ÍAPagerSupport©‘Ì‚ğƒZƒbƒVƒ‡ƒ“‚ÉŠi”[‚·‚é‚È‚ÇH•v‚ª•K—v‚Å‚µ‚å‚¤B
+PagerSupportã¯ã‚¹ãƒ¬ãƒƒãƒ‰ã‚»ãƒ¼ãƒ•ã§ã™ã€‚è¤‡æ•°ãƒ¦ãƒ¼ã‚¶ã§å…±æœ‰ã—ã¦å®‰å…¨ã«ä½¿ç”¨ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+ãŸã ã—ã€æœ€å¤§å–å¾—æ•°(limit)ã‚’ãƒ¦ãƒ¼ã‚¶ã”ã¨ã«åˆ‡ã‚Šæ›¿ãˆãŸã„å ´åˆã¯ã€PagerSupportè‡ªä½“ã‚’ã‚»ãƒƒã‚·ãƒ§ãƒ³ã«æ ¼ç´ã™ã‚‹ãªã©å·¥å¤«ãŒå¿…è¦ã§ã—ã‚‡ã†ã€‚
 -->
 
 <pre>
 &lt;?php
 
-/** ƒy[ƒWƒƒƒTƒ|[ƒgƒNƒ‰ƒX */
+/** ãƒšãƒ¼ã‚¸ãƒ£ã‚µãƒãƒ¼ãƒˆã‚¯ãƒ©ã‚¹ */
 $pager = new S2Dao_PagerSupport(10, 'CategoryPagerCondition', 'categoryPagerCondition');
-        
-// ƒpƒ‰ƒ[ƒ^offset‚ğŒ³‚Éƒy[ƒWƒƒ‚ÌoffsetˆÊ’u‚ğXV
+
+// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿offsetã‚’å…ƒã«ãƒšãƒ¼ã‚¸ãƒ£ã®offsetä½ç½®ã‚’æ›´æ–°
 $pager->updateOffset($_REQUEST['offset']);
-        
-// ƒy[ƒWƒƒ‚ÌğŒ•ÛƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒVƒ‡ƒ“‚©‚çæ“¾
-// ‘¶İ‚µ‚È‚¢ê‡‚ÍAPagerSupport‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å
-// “n‚³‚ê‚½ƒNƒ‰ƒX‚ªV‹K‚Éì¬‚³‚ê‚Ü‚·B
+
+// ãƒšãƒ¼ã‚¸ãƒ£ã®æ¡ä»¶ä¿æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‹ã‚‰å–å¾—
+// å­˜åœ¨ã—ãªã„å ´åˆã¯ã€PagerSupportã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§
+// æ¸¡ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒæ–°è¦ã«ä½œæˆã•ã‚Œã¾ã™ã€‚
 $dto = (CategoryPagerCondition) pager.getPagerCondition(request);
-        
-// ğŒ•ÛƒIƒuƒWƒFƒNƒg’†‚Ì“Æ©‚ÌŒŸõğŒ‚ğƒZƒbƒg
-// ‚±‚Ìê‡A‘ĞƒJƒeƒSƒŠ‚ğ•\‚·cateogry
+
+// æ¡ä»¶ä¿æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä¸­ã®ç‹¬è‡ªã®æ¤œç´¢æ¡ä»¶ã‚’ã‚»ãƒƒãƒˆ
+// ã“ã®å ´åˆã€æ›¸ç±ã‚«ãƒ†ã‚´ãƒªã‚’è¡¨ã™cateogry
 $category = $_REQUEST["category"];
 if (isset($category)) {
     $dto->setCategory(category);
 }
-        
-// ƒy[ƒWƒƒ‘Î‰‚ÌŒŸõ‚ğÀs
+
+// ãƒšãƒ¼ã‚¸ãƒ£å¯¾å¿œã®æ¤œç´¢ã‚’å®Ÿè¡Œ
 $books = $dao->findByCategoryPagerCondition($dto);
 
 ?&gt;
 </pre>
 </p>
 
-<h3><a name="PagerViewHelper">PagerViewHelper - ƒrƒ…[‚Ìì¬‚ğ•‚¯‚é</a></h3>
+<h3><a name="PagerViewHelper">PagerViewHelper - ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆã‚’åŠ©ã‘ã‚‹</a></h3>
 <p>
-	S2Dao_PagerCondition‚Ìî•ñ‚ğŒ³‚Éƒrƒ…[‚ÅƒŠƒ“ƒN‚ğ¶¬‚·‚é‚½‚ß‚Ìƒrƒ…[ƒwƒ‹ƒp[ƒNƒ‰ƒX‚Æ‚µ‚ÄA
-	org.seasar.dao.pager.S2Dao_PagerViewHelperƒNƒ‰ƒX‚ª‚ ‚è‚Ü‚·B
-	S2Dao_PagerViewHelperƒNƒ‰ƒX‚ğg‚¤‚Æƒrƒ…[‚Åƒy[ƒWƒŠƒ“ƒN‚ğì¬‚·‚é‚Ì‚ªŠy‚É‚È‚è‚Ü‚·B
-	<br/>
-	<br/>
-	PagerViewHelper‚ÍˆÈ‰º‚Ìƒƒ\ƒbƒh‚ğ‚Á‚Ä‚¢‚Ü‚·B
+    S2Dao_PagerConditionã®æƒ…å ±ã‚’å…ƒã«ãƒ“ãƒ¥ãƒ¼ã§ãƒªãƒ³ã‚¯ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ãƒ“ãƒ¥ãƒ¼ãƒ˜ãƒ«ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã¨ã—ã¦ã€
+    org.seasar.dao.pager.S2Dao_PagerViewHelperã‚¯ãƒ©ã‚¹ãŒã‚ã‚Šã¾ã™ã€‚
+    S2Dao_PagerViewHelperã‚¯ãƒ©ã‚¹ã‚’ä½¿ã†ã¨ãƒ“ãƒ¥ãƒ¼ã§ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã‚’ä½œæˆã™ã‚‹ã®ãŒæ¥½ã«ãªã‚Šã¾ã™ã€‚
+    <br/>
+    <br/>
+    PagerViewHelperã¯ä»¥ä¸‹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æŒã£ã¦ã„ã¾ã™ã€‚
 <pre>
 &lt;?php
 /**
- * ƒy[ƒWƒƒView‚Ìƒwƒ‹ƒp[ƒNƒ‰ƒX
+ * ãƒšãƒ¼ã‚¸ãƒ£Viewã®ãƒ˜ãƒ«ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹
  * @author yonekawa
  */
 class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 {
-    /** ‰æ–Êã‚Å‚Ìƒy[ƒW‚ÌÅ‘å•\¦Œ”‚ÌƒfƒtƒHƒ‹ƒg  */
+    /** ç”»é¢ä¸Šã§ã®ãƒšãƒ¼ã‚¸ã®æœ€å¤§è¡¨ç¤ºä»¶æ•°ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ  */
     const DEFAULT_DISPLAY_PAGE_MAX = 9;
-    
-    /** ŒŸõğŒƒIƒuƒWƒFƒNƒg */
+
+    /** æ¤œç´¢æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ */
     private $condition;
 
-    /** ‰æ–Êã‚Å‚Ìƒy[ƒW‚ÌÅ‘å•\¦Œ” */
+    /** ç”»é¢ä¸Šã§ã®ãƒšãƒ¼ã‚¸ã®æœ€å¤§è¡¨ç¤ºä»¶æ•° */
     private $displayPageMax;
 
     public function __construct($condition, $displayPageMax = null)
     {
         $this->condition = $condition;
-        
+
         if (isset($displayPageMax)) {
             $this->displayPageMax = $displayPageMax;
         } else {
             $this->displayPageMax = self::DEFAULT_DISPLAY_PAGE_MAX;
         }
     }
-    
-    public function getCount(){ ... }    
+
+    public function getCount(){ ... }
     public function setCount($count){ ... }
 
     public function getLimit()
     {
         return $this->condition->getLimit();
     }
-    
+
     public function setLimit($limit)
     {
         $this->condition->setLimit($limit);
@@ -343,35 +343,35 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     {
         return $this->condition->getOffset();
     }
-    
+
     public function setOffset($offset)
     {
         $this->condition->setOffset($offset);
     }
 
     /**
-     * ‘O‚Ö‚ÌƒŠƒ“ƒN‚ª•\¦‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B
+     * å‰ã¸ã®ãƒªãƒ³ã‚¯ãŒè¡¨ç¤ºã§ãã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
      */
-    public function isPrev() 
+    public function isPrev()
     {
         return 0 < $this->condition->getOffset();
     }
 
     /**
-     * Ÿ‚Ö‚ÌƒŠƒ“ƒN‚ª•\¦‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B
+     * æ¬¡ã¸ã®ãƒªãƒ³ã‚¯ãŒè¡¨ç¤ºã§ãã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
      */
-    public function isNext() 
+    public function isNext()
     {
         $count = $this->condition->getCount();
         $nextOffset = $this->condition->getOffset() + $this->condition->getLimit();
-        
+
         return 0 < $count && $nextOffset < $count;
     }
 
     /**
-     * Œ»İ•\¦’†‚Ìˆê——‚ÌÅŒã‚Ìoffset‚ğæ“¾‚µ‚Ü‚·B
+     * ç¾åœ¨è¡¨ç¤ºä¸­ã®ä¸€è¦§ã®æœ€å¾Œã®offsetã‚’å–å¾—ã—ã¾ã™ã€‚
      */
-    public function getCurrentLastOffset() 
+    public function getCurrentLastOffset()
     {
         $count = $this->condition->getCount();
         $nextOffset = $this->getNextOffset($this->condition);
@@ -383,26 +383,26 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     }
 
     /**
-     * Ÿ‚ÖƒŠƒ“ƒN‚Ìoffset‚ğ•Ô‚µ‚Ü‚·B
+     * æ¬¡ã¸ãƒªãƒ³ã‚¯ã®offsetã‚’è¿”ã—ã¾ã™ã€‚
      */
-    public function getNextOffset() 
+    public function getNextOffset()
     {
         return $this->condition->getOffset() + $this->condition->getLimit();
     }
 
     /**
-     * ‘O‚ÖƒŠƒ“ƒN‚Ìoffset‚ğ•Ô‚µ‚Ü‚·B
+     * å‰ã¸ãƒªãƒ³ã‚¯ã®offsetã‚’è¿”ã—ã¾ã™ã€‚
      */
-    public function getPrevOffset() 
+    public function getPrevOffset()
     {
         $prevOffset = $this->condition->getOffset() - $this->condition->getLimit();
         return $prevOffset < 0 ? 0 : $prevOffset;
     }
-    
+
     /**
-     * Œ»İƒy[ƒW‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µ‚Ü‚·B
+     * ç¾åœ¨ãƒšãƒ¼ã‚¸ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
      */
-    public function getPageIndex() 
+    public function getPageIndex()
     {
         $limit = $this->condition->getLimit();
         $offset = $this->condition->getOffset();
@@ -414,17 +414,17 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     }
 
     /**
-     * Œ»İƒy[ƒW‚ÌƒJƒEƒ“ƒg(ƒCƒ“ƒfƒbƒNƒX+1)‚ğ•Ô‚µ‚Ü‚·B
+     * ç¾åœ¨ãƒšãƒ¼ã‚¸ã®ã‚«ã‚¦ãƒ³ãƒˆ(ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹+1)ã‚’è¿”ã—ã¾ã™ã€‚
      */
-    public function getPageCount() 
+    public function getPageCount()
     {
         return $this->getPageIndex() + 1;
     }
 
     /**
-     * ÅIƒy[ƒW‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µ‚Ü‚·B
+     * æœ€çµ‚ãƒšãƒ¼ã‚¸ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
      */
-    public function getLastPageIndex() 
+    public function getLastPageIndex()
     {
         $limit = $this->condition->getLimit();
         $count = $this->condition->getCount();
@@ -436,9 +436,9 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     }
 
     /**
-     * ƒy[ƒWƒŠƒ“ƒN‚Ì•\¦ãŒÀ‚ğŒ³‚ÉAƒy[ƒW”Ô†ƒŠƒ“ƒN‚Ì•\¦ŠJnˆÊ’u‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºä¸Šé™ã‚’å…ƒã«ã€ãƒšãƒ¼ã‚¸ç•ªå·ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºé–‹å§‹ä½ç½®ã‚’è¿”ã—ã¾ã™ã€‚
      */
-    public function getDisplayPageIndexBegin() 
+    public function getDisplayPageIndexBegin()
     {
         $lastPageIndex = $this->getLastPageIndex();
         if ( $lastPageIndex < $this->displayPageMax ) {
@@ -451,9 +451,9 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     }
 
     /**
-     * ƒy[ƒWƒŠƒ“ƒN‚Ì•\¦ãŒÀ‚ğŒ³‚ÉAƒy[ƒW”Ô†ƒŠƒ“ƒN‚Ì•\¦I—¹ˆÊ’u‚ğ•Ô‚µ‚Ü‚·B
+     * ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºä¸Šé™ã‚’å…ƒã«ã€ãƒšãƒ¼ã‚¸ç•ªå·ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºçµ‚äº†ä½ç½®ã‚’è¿”ã—ã¾ã™ã€‚
      */
-    public function getDisplayPageIndexEnd() 
+    public function getDisplayPageIndexEnd()
     {
         $lastPageIndex = $this->getLastPageIndex();
         $displayPageIndexBegin = $this->getDisplayPageIndexBegin();
@@ -471,9 +471,9 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 </p>
 
 <p>
-ˆÈ‰º‚ÍƒTƒ“ƒvƒ‹‚Ìƒy[ƒWƒŠƒ“ƒN‚ÌÀ‘•—á‚Å‚·B
+ä»¥ä¸‹ã¯ã‚µãƒ³ãƒ—ãƒ«ã®ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®å®Ÿè£…ä¾‹ã§ã™ã€‚
 <br/>
-<b>ƒy[ƒWƒŠƒ“ƒN‚ÌÀ‘•Fpager.php</b>
+<b>ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®å®Ÿè£…ï¼špager.php</b>
 <pre>
 &lt;?php
 
@@ -494,12 +494,12 @@ $helper = new S2Dao_PagerViewHelper($dto);
 
 &lt;?php
 
-// ‘O‚Ì›Œ‚ğ•\¦
+// å‰ã®â—‹ä»¶ã‚’è¡¨ç¤º
 if ($helper-&gt;isPrev()) {
-    print('‘O‚Ì' . $helper-&gt;getLimit() . 'Œ');
+    print('å‰ã®' . $helper-&gt;getLimit() . 'ä»¶');
 }
 
-// ƒy[ƒW”Ô†ƒŠƒ“ƒN‚ğ•\¦
+// ãƒšãƒ¼ã‚¸ç•ªå·ãƒªãƒ³ã‚¯ã‚’è¡¨ç¤º
 for ( $i = $this->getDisplayPageIndexBegin(); $i <= $this->getDisplayPageIndexEnd(); $i++ ) {
     if ( $i == $this->getPageIndex() ) {
         print($i + 1);
@@ -507,10 +507,10 @@ for ( $i = $this->getDisplayPageIndexBegin(); $i <= $this->getDisplayPageIndexEn
         print('<a href="' . $this->pageUrl . '?offset=' . $i * $this->getLimit() . '">' . ( $i + 1 ) . '</a> ');
     }
 }
-        
-// Ÿ‚Ì›Œ‚ğ•\¦
+
+// æ¬¡ã®â—‹ä»¶ã‚’è¡¨ç¤º
 if ( $helper-&gt;isNext() ) {
-    print( '@Ÿ‚Ì' . $helper-&gt;getLimit() . 'Œ' );
+    print( 'ã€€æ¬¡ã®' . $helper-&gt;getLimit() . 'ä»¶' );
 }
 ?&gt;
 
@@ -534,15 +534,15 @@ foreach ($books as $book) {
 </pre>
 </p>
 
-<h3><a name="LimitOffset">limit‚Æoffset‚ğg—p‚µ‚½‚‘¬æ“¾</a></h3>
+<h3><a name="LimitOffset">limitã¨offsetã‚’ä½¿ç”¨ã—ãŸé«˜é€Ÿå–å¾—</a></h3>
 <p>
-	PosgreSQL‚âMySQL‚Ì‚æ‚¤‚Éulimit@offsetv‚ªg—p‚Å‚«‚éDBMS‚Å‚ÍA‘å—Êƒf[ƒ^ŒŸõ‚ÌƒpƒtƒH[ƒ}ƒ“ƒX‚ª‘å•‚ÉŒüã‚µ‚Ü‚·B
+    PosgreSQLã‚„MySQLã®ã‚ˆã†ã«ã€Œlimitã€€offsetã€ãŒä½¿ç”¨ã§ãã‚‹DBMSã§ã¯ã€å¤§é‡ãƒ‡ãƒ¼ã‚¿æ¤œç´¢æ™‚ã®ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãŒå¤§å¹…ã«å‘ä¸Šã—ã¾ã™ã€‚
 <br>
-	ˆÈ‰º‚Ìİ’è‚É‚æ‚èS2Dao_PagerS2DaoInterceptorWrapper‚ÌuseLimitOffsetQueryƒvƒƒpƒeƒB‚ğtrue‚É‚·‚é‚±‚Æ‚Å
-	ulimit@offsetv‚ğg—p‚µ‚½æ“¾‚ª‰Â”\‚É‚È‚è‚Ü‚·B
+    ä»¥ä¸‹ã®è¨­å®šã«ã‚ˆã‚ŠS2Dao_PagerS2DaoInterceptorWrapperã®useLimitOffsetQueryãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’trueã«ã™ã‚‹ã“ã¨ã§
+    ã€Œlimitã€€offsetã€ã‚’ä½¿ç”¨ã—ãŸå–å¾—ãŒå¯èƒ½ã«ãªã‚Šã¾ã™ã€‚
 <br>
 <br>
-<b>limit‚Æoffset‚ğg—p‚µ‚½‚‘¬æ“¾‚Ìİ’è(dao-pager.dicon)</b>
+<b>limitã¨offsetã‚’ä½¿ç”¨ã—ãŸé«˜é€Ÿå–å¾—ã®è¨­å®š(dao-pager.dicon)</b>
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
@@ -553,12 +553,12 @@ foreach ($books as $book) {
 
     &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
     &lt;component class="S2Dao_BasicStatementFactory" /&gt;
-    &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;   
+    &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
     &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
     &lt;component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper"&gt;
       &lt;property name="useLimitOffsetQuery"&gt;<font color="red">true</font>&lt;/property&gt;
     &lt;/component&gt;
-    
+
 &lt;/components&gt;
 </pre>
 </p>

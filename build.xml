@@ -10,7 +10,7 @@
         <property name="package.name" value="S2Dao" />
         <property name="project.name" value="${phing.project.name}" />
         <property name="project.version" value="1.1.0" />
-        <property name="project.state" value="state" />
+        <property name="project.state" value="stable" />
         <property name="project.build.dir" value="${project.basedir}/build" />
         <property name="project.src.dir" value="${project.basedir}/src" />
         <property name="project.test.dir" value="${project.basedir}/test" />
@@ -87,7 +87,7 @@
                 <include name="**/*"/>
             </fileset>
             <option name="notes">${release.notes}</option>
-            <option name="description">S2Dao is Object Relational Mapping tool: S2Dao does not use XML; and does not require JDBC knowledge. The goal of S2Dao.PHP5 project is to port Java S2Dao to PHP5(using PDO).</option>
+            <option name="description">S2Dao is Object Relational Mapping tool: S2Dao does not use XML; and does not require DB-Driver knowledge. The goal of S2Dao.PHP5 project is to port Java S2Dao to PHP5(using PDO).</option>
             <option name="summary">S2Dao.PHP5, a Object Relational Mapping tool.</option>
             <option name="version" value="${project.version}"/>
             <option name="state" value="${project.state}"/>
@@ -129,7 +129,6 @@
     <target name="pear-pkg" depends="pear-pkg-xml">
         <exec command="pear package " 
               dir="${project.build.dir}/${project.name}" />
-
         <move toDir="${project.build.dir}/pear" overwrite="true">
             <fileset dir="${project.build.dir}/${project.name}">
                 <include name="*.tgz"/>

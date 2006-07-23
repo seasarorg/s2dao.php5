@@ -11,7 +11,7 @@
             array(PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING);
         </property>
     </component>
-
+    
     <!--
     <component name="dataSource" class="S2Container_PDODataSource">
         <property name="dsn">"sqlite:/path/to/s2con.db"</property>
@@ -65,10 +65,8 @@
     </component>
     -->
     
-    <!--
     <component name="requiredTx" class="S2Dao_RequiredInterceptor" />
     <component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" />
     <component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" />
-    -->
 
 </components>
