@@ -24,16 +24,29 @@
 /**
  * @author nowel
  */
-class S2Dao_DBMetaDataFactory {
+class S2Dao_StandardDbMetaData implements S2Dao_DbMetaData {
     
-    const DBMetaData_Suffix = 'DBMetaData';
+    protected $pdo;
+    protected $dbms;
     
-    public static function create(PDO $db, S2Dao_Dbms $dbms){
-        $dbmd = get_class($dbms) . self::DBMetaData_Suffix;
-        if(class_exists($dbmd)){
-            return new $dbmd($db, $dbms);
+    public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
+        $this->pdo = $pdo;
+        $this->dbms = $dbms;
+    }
+    
+    public function getTableInfo($table){
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->dbms->getTableInfoSql());
+        $stmt = $this->pdo->query($sql);
+
+        $retVal = array();
+        for($i = 0; $i < $stmt->columnCount(); $i++){
+            $retVal[] = $stmt->getColumnMeta($i);
         }
-        return new S2Dao_StandardDBMetaData($db, $dbms);
+        return $retVal;
+    }
+    
+    public function getProcedureInfo($procedure){
+        return null;
     }
 }
 

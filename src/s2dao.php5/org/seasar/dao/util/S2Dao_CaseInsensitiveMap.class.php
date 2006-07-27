@@ -24,49 +24,71 @@
 /**
  * @author nowel
  */
-class S2Dao_HashMap {
+class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
     
-    protected $element = array();
-    
-    public function size(){
-        return count($this->element);
+    public function isEmpty($key = null){
+        if($key === null){
+            return empty($this->element);
+        }
+        $case = strtolower($key);
+        return empty($this->element[$case]);
     }
     
-    public function isEmpty(){
-        return empty($this->element);
+    public function put($key, $value){
+        $case = strtolower($key);
+        $this->element[$case] = array($key => $value);
+    }
+    
+    public function putAll(array $assoc){
+        foreach($assoc as $key => $value){
+            if(is_integer($key)){
+                $case = (string)$key;
+            } else {
+                $case = strtolower($key);
+            }
+            $this->element[$case] = array($key => $value);
+        }
     }
     
     public function get($key){
         if(!$this->containsKey($key)){
             return null;
         }
-        return $this->element[$key];
-    }
-    
-    public function put($key, $value){
-        $this->element[$key] = $value;
+        $case = strtolower($key);
+        return current($this->element[$case]);
     }
     
     public function remove($key){
         if(!$this->containsKey($key)){
             return null;
         }
-        $element = $this->element[$key];
-        unset($this->element[$key]);
+        $case = strtolower($key);
+        $element = current($this->element[$case]);
+        unset($this->element[$case]);
         return $element;
     }
     
     public function containsKey($key){
-        return isset($this->element[$key]);
+        $case = strtolower($key);
+        return array_key_exists($key, $this->element);
+    }
+    
+    public function containsValue($value){
+        return in_array($this->element, $value);
     }
 
     public function toArray(){
-        return $this->element;
+        $array = array();
+        foreach($this->element as $element){
+            list($key, $val) = each($element);
+            $array[$key] = $val;
+        }
+        return $array;
     }
     
-    public function keySet(){
+    public function valueSet(){
         $set = new S2Dao_ArrayList();
-        $list = new ArrayObject(array_keys($this->toArray()));
+        $list = new ArrayObject(array_values($this->toArray()));
         $set->addAll($list);
         return $set;
     }

@@ -23,9 +23,14 @@
 //
 /**
  * @author nowel
- * @author yonekawa
  */
-class S2DaoClassLoader {
+interface S2Dao_DbMetaData {
     
+    const PRIMARY_KEY = 'primary_key';
+    //const REL_KEY = 'foreign_key';
+    const REL_KEY = 'multiple_key';
+    
+    public function getTableInfo($table);
+    public function getProcedureInfo($procedure);
 }
 ?>

@@ -24,40 +24,53 @@
 /**
  * @author nowel
  */
-class S2Dao_PostgreSQLDBMetaData implements S2Dao_DBMetaData {
+class S2Dao_SybaseDbMetaData extends S2Dao_StandardDbMetaData {
     
-    private $pdo;
-    private $dbms;
+    const reg_pkey_match = '/PRIMARY KEY.+\((.+)\)/';
     
     public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
-        $this->pdo = $pdo;
-        $this->dbms = $dbms;
+        parent::__construct($pdo, $dbms);
     }
     
     public function getTableInfo($table){
-        $columnMeta = $this->getColumnMeta($table);
+        $stmt = $this->pdo->prepare($this->dbms->getTableInfoSql());
+        $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table);
+        $stmt->execute();
+        $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        $stmt = null;
         $stmt = $this->pdo->prepare($this->dbms->getPrimaryKeySql());
         $stmt->bindValue(S2Dao_Dbms::BIND_TABLE, $table);
         $stmt->execute();
-        foreach($columnMeta as &$value){
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if(is_array($row) && $row['pkey'] == $value['name']){
-                $value['flags'] = (array)self::PRIMARY_KEY;
-            }
+        $pkeys = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $columnMeta = array();
+        foreach($columns as $column){
+            $columnMeta[] = array(
+                            'name' => $column['column_name'],
+                            'native_type' => array(
+                                                $column['type_name'],
+                                                $column['sql_data_type']
+                                            ),
+                            'flags' => $this->getFlags($pkeys, $column),
+                            'len' => $column['length'],
+                            'precision' => $column['precision'],
+                            'pdo_type' => null,
+                        );
         }
         return $columnMeta;
     }
     
-    private function getColumnMeta($table){
-        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->dbms->getTableInfoSql());
-        $stmt = $this->pdo->query($sql);
-
-        $retVal = array();
-        for($i = 0; $i < $stmt->columnCount(); $i++){
-            $retVal[] = $stmt->getColumnMeta($i);
+    public function getFlags(array $pkeys, array $column){
+        $c = count($pkeys);
+        for($i = 0; $i < $c; $i++){
+            if(preg_match(self::reg_pkey_match, $pkeys[$i]['definition'], $m)){
+                if(strcasecmp(trim($m[1]), $column['column_name']) == 0){
+                    return (array)self::PRIMARY_KEY;
+                }
+            }
         }
-        return $retVal;
+        return null;
     }
 }
 

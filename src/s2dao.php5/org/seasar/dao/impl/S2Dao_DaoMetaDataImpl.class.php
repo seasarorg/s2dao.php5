@@ -29,7 +29,8 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     const INSERT_NAMES = '/^(insert|create|add)/i';
     const UPDATE_NAMES = '/^(update|modify|store)/i';
     const DELETE_NAMES = '/^(delete|remove)/i';
-    const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
+    const INSERT_OR_UPDATE_NAMES = '/^(save|saveOrUpdate|insertOrUpdate)/i';
+    const DELETE_AFTER_INSERT_NAMES = '/(replace|substitute)/i';
     const startWithSelectPattern = '/^\s*SELECT/i';
     const startWithBeginCommentPattern = '/^\/\*BEGIN\*\/\s*WHERE .+/i';
     const startWithOrderByPattern = '/^(\/\*[^\*]+\*\/)*order by/i';
@@ -175,12 +176,17 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
     
     protected function setupMethodByAuto(ReflectionMethod $method) {
-        if ($this->isInsert($method->getName())) {
+        $methodName = $methid->getName();
+        if ($this->isInsert($methodName)) {
             $this->setupInsertMethodByAuto($method);
-        } else if ($this->isUpdate($method->getName())) {
+        } else if ($this->isUpdate($methodName)) {
             $this->setupUpdateMethodByAuto($method);
-        } else if ($this->isDelete($method->getName())) {
+        } else if ($this->isDelete($methodName)) {
             $this->setupDeleteMethodByAuto($method);
+        } else if($this->isSaveOrInsert($methodName)){
+            $this->setupInsertOrUpdateByAuto($method);
+        } else if($this->isDeleteAfterInsert($methodName)){
+            $this->setupDeleteAfterInsertByAuto($method);
         } else {
             $this->setupSelectMethodByAuto($method);
         }
@@ -243,6 +249,22 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                                            $this->beanMetaData_,
                                            $propertyNames);
         $this->sqlCommands_->put($method->getName(), $cmd);
+    }
+    
+    protected function setupInsertOrUpdateByAuto(ReflectionMethod $method) {
+        $this->setupSelectMethodByAuto($method);
+        $propertyNames = $this->getPersistentPropertyNames($method);
+        $sqlCommand = $this->sqlCommands_->remove($method->getName());
+        $cmd = new S2Dao_InsertOrUpdateAutoStaticCommand($this->dataSource_,
+                                            $this->statementFactory_,
+                                            $this->beanMetaData_,
+                                            $propertyNames);
+        $cmd->setSql($sqlCommand->getSql());
+        $cmd->setArgNames($sqlCommand->getArgNames());
+        $this->sqlCommands_->put($method->getName(), $cmd);
+    }
+    
+    protected function setupDeleteAfterInsertByAuto(ReflectionMethod $method) {
     }
     
     protected function setupSelectMethodByAuto(ReflectionMethod $method) {

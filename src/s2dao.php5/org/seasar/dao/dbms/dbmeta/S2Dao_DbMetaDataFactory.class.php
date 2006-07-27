@@ -24,47 +24,16 @@
 /**
  * @author nowel
  */
-class S2Dao_OracleDBMetaData implements S2Dao_DBMetaData {
+class S2Dao_DbMetaDataFactory {
     
-    private $pdo;
-    private $dbms;
-    private $tableInfoSql = null;
+    const DBMetaData_Suffix = 'DBMetaData';
     
-    public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
-        $this->pdo = $pdo;
-        $this->dbms = $dbms;
-        $this->tableInfoSql = $dbms->getTableInfoSql();
-    }
-    
-    public function getTableInfo($table){
-        $retVal = array();
-        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, '\'' . $table . '\'', $this->tableInfoSql);
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-
-        $colsql = $this->dbms->getPrimaryKeySql();
-        $colsql = str_replace(S2Dao_Dbms::BIND_TABLE, '\'' . $table . '\'', $colsql);
-
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        foreach($rows as $row){
-            $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\'' . $row['COLUMN_NAME'] . '\'', $colsql);
-            $col = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
-
-            $flg = null;
-            if('P' == $col['CONSTRAINT_TYPE']){
-                $flg = (array)self::PRIMARY_KEY;
-            }
-
-            $retVal[] = array(
-                            'name' => $row['COLUMN_NAME'],
-                            'native_type' => $row['DATA_TYPE'],
-                            'flags' => $flg,
-                            'len' => $row['CHAR_COL_DECL_LENGTH'],
-                            'precision' => $row['DATA_PRECISION'],
-                            'pdo_type' => null,
-                        );
+    public static function create(PDO $db, S2Dao_Dbms $dbms){
+        $dbmd = get_class($dbms) . self::DBMetaData_Suffix;
+        if(class_exists($dbmd)){
+            return new $dbmd($db, $dbms);
         }
-        return $retVal;
+        return new S2Dao_StandardDBMetaData($db, $dbms);
     }
 }
 

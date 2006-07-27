@@ -24,26 +24,41 @@
 /**
  * @author nowel
  */
-class S2Dao_StandardDBMetaData implements S2Dao_DBMetaData {
-    
-    private $pdo;
-    private $dbms;
-    
-    public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
-        $this->pdo = $pdo;
-        $this->dbms = $dbms;
+class S2Dao_InsertOrUpdateAutoStaticCommand extends S2Dao_AbstractAutoStaticCommand {
+
+    public function __construct(S2Container_DataSource $dataSource,
+                                S2Dao_StatementFactory $statementFactory = null,
+                                S2Dao_BeanMetaData $beanMetaData,
+                                $propertyNames) {
+        parent::__construct($dataSource, $statementFactory, $beanMetaData, $propertyNames);
+    }
+
+    protected function createAutoHandler() {
+        return new S2Dao_InsertAutoHandler($this->getDataSource(),
+                                     $this->getStatementFactory(),
+                                     $this->getBeanMetaData(),
+                                     $this->getPropertyTypes());
+    }
+
+    protected function setupSql() {
+        $this->setupInsertSql();
+    }
+
+    protected function setupPropertyTypes($propertyNames) {
+        $this->setupInsertPropertyTypes($propertyNames);
     }
     
-    public function getTableInfo($table){
-        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->dbms->getTableInfoSql());
-        $stmt = $this->pdo->query($sql);
+    public function execute($args) {
+        $ctx = $this->apply($args);
+        $selectHandler = new S2Dao_BasicSelectHandler(
+                                $this->getDataSource(),
+                                $ctx->getSql(),
+                                $this->resultSetHandler,
+                                $this->getStatementFactory(),
+                                $this->resultSetFactory);
 
-        $retVal = array();
-        for($i = 0; $i < $stmt->columnCount(); $i++){
-            $retVal[] = $stmt->getColumnMeta($i);
-        }
-        return $retVal;
+        return $selectHandler->execute($ctx->getBindVariables(),
+                                       $ctx->getBindVariableTypes());
     }
 }
-
 ?>

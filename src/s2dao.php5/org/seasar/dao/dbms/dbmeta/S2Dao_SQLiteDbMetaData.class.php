@@ -24,57 +24,40 @@
 /**
  * @author nowel
  */
-class S2Dao_FirebirdDBMetaData implements S2Dao_DBMetaData {
-    
-    private $pdo;
-    private $dbms;
+class S2Dao_SQLiteDbMetaData extends S2Dao_StandardDbMetaData {
     
     public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
-        $this->pdo = $pdo;
-        $this->dbms = $dbms;
+        parent::__construct($pdo, $dbms);
     }
     
     public function getTableInfo($table){
-        $columns = $this->getColumns($table);
+        $columnMeta = $this->getColumnMeta($table);
+        
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->dbms->getPrimaryKeySql());
-        $stmt = $this->pdo->query($sql);
-        $pkeys = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $c = count($columns);
-        for($i = 0; $i < $c; $i++){
-            $column =& $columns[$i];
-            $columnName = $column['name'];
-            foreach($pkeys as $pk){
-                $pk = array_change_key_case($pk, CASE_LOWER);
-                $pkName = trim($pk['name']);
-                if(empty($pkName)){
-                    continue;
-                }
-                if(strcasecmp($columnName, $pkName) == 0){
-                    $column['flags'] = (array)self::PRIMARY_KEY;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        foreach($columnMeta as &$value){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(is_array($row) && $row['name'] == $value['name']){
+                if($row['pk'] == '1'){
+                    $value['flags'] = (array)self::PRIMARY_KEY;
                 }
             }
         }
-        return $columns;
+        return $columnMeta;
     }
     
-    public function getColumns($table){
-        $retVal = array();
+    private function getColumnMeta($table){
         $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->dbms->getTableInfoSql());
         $stmt = $this->pdo->query($sql);
-        $columns = $stmt->fetch(PDO::FETCH_ASSOC);
-        $stmt = null;
-        foreach($columns as $key => $column){
-            $retVal[] = array(
-                            'name' => $key,
-                            'native_type' => array(),
-                            'flags' => null,
-                            'len' => -1,
-                            'precision' => 0,
-                            'pdo_type' => null,
-                        );
+
+        $retVal = array();
+        for($i = 0; $i < $stmt->columnCount(); $i++){
+            $retVal[] = $stmt->getColumnMeta($i);
         }
         return $retVal;
     }
+    
 }
 
 ?>

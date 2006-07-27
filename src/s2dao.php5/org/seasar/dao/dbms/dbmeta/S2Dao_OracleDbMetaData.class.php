@@ -24,11 +24,45 @@
 /**
  * @author nowel
  */
-interface S2Dao_DBMetaData {
-    const PRIMARY_KEY = 'primary_key';
-    //const REL_KEY = 'foreign_key';
-    const REL_KEY = 'multiple_key';
+class S2Dao_OracleDbMetaData extends S2Dao_StandardDbMetaData {
     
-    public function getTableInfo($table);
+    private $tableInfoSql = null;
+    
+    public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
+        parent::__construct($pdo, $dbms);
+    }
+    
+    public function getTableInfo($table){
+        $retVal = array();
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, '\'' . $table . '\'', $this->dbms->tableInfoSql);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        $colsql = $this->dbms->getPrimaryKeySql();
+        $colsql = str_replace(S2Dao_Dbms::BIND_TABLE, '\'' . $table . '\'', $colsql);
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($rows as $row){
+            $sql = str_replace(S2Dao_Dbms::BIND_COLUMN, '\'' . $row['COLUMN_NAME'] . '\'', $colsql);
+            $col = $this->pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+
+            $flg = null;
+            if('P' == $col['CONSTRAINT_TYPE']){
+                $flg = (array)self::PRIMARY_KEY;
+            }
+
+            $retVal[] = array(
+                            'name' => $row['COLUMN_NAME'],
+                            'native_type' => $row['DATA_TYPE'],
+                            'flags' => $flg,
+                            'len' => $row['CHAR_COL_DECL_LENGTH'],
+                            'precision' => $row['DATA_PRECISION'],
+                            'pdo_type' => null,
+                        );
+        }
+        return $retVal;
+    }
+    
 }
+
 ?>
