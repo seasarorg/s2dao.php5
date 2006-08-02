@@ -52,12 +52,33 @@ class S2Dao_SQLiteDBMetaData implements S2Dao_DBMetaData {
     }
     
     private function getColumnMeta($table){
-        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table, $this->dbms->getTableInfoSql());
-        $stmt = $this->pdo->query($sql);
-
         $retVal = array();
-        for($i = 0; $i < $stmt->columnCount(); $i++){
-            $retVal[] = $stmt->getColumnMeta($i);
+        $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table,
+                            $this->dbms->getTableInfoSql());
+
+        try {
+            $stmt = $this->pdo->query($sql);
+            for($i = 0; $i < $stmt->columnCount(); $i++){
+                $retVal[] = $stmt->getColumnMeta($i);
+            }
+        } catch(PDOException $e){
+            $sql = str_replace(S2Dao_Dbms::BIND_TABLE, $table,
+                                $this->dbms->getPrimaryKeySql());
+            $stmt = $this->pdo->query($sql);
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $pk = false;
+                if($row['pk'] == '1'){
+                    $pk = true;
+                }
+                $retVal[] = array(
+                            'name' => $row['name'],
+                            'native_type' => array($row['type']),
+                            'flags' => $pk === true ? (array)self::PRIMARY_KEY : array(),
+                            'len' => -1,
+                            'precision' => 0,
+                            'pdo_type' => 2,
+                        );
+            }
         }
         return $retVal;
     }

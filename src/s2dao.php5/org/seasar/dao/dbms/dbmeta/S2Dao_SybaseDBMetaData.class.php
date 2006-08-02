@@ -29,7 +29,7 @@ class S2Dao_SybaseDBMetaData implements S2Dao_DBMetaData {
     private $pdo;
     private $dbms;
     
-    const reg_pkey_match = '/PRIMARY KEY.+\((.+)\)/';
+    const reg_pkey_match = '/PRIMARY KEY.+\((.+)\)/i';
     
     public function __construct(PDO $pdo, S2Dao_Dbms $dbms){
         $this->pdo = $pdo;
@@ -51,16 +51,16 @@ class S2Dao_SybaseDBMetaData implements S2Dao_DBMetaData {
         $columnMeta = array();
         foreach($columns as $column){
             $columnMeta[] = array(
-                            'name' => $column['column_name'],
-                            'native_type' => array(
-                                                $column['type_name'],
-                                                $column['sql_data_type']
-                                            ),
-                            'flags' => $this->getFlags($pkeys, $column),
-                            'len' => $column['length'],
-                            'precision' => $column['precision'],
-                            'pdo_type' => null,
-                        );
+                        'name' => $column['column_name'],
+                        'native_type' => array(
+                                            $column['type_name'],
+                                            $column['sql_data_type']
+                                        ),
+                        'flags' => $this->getFlags($pkeys, $column),
+                        'len' => $column['length'],
+                        'precision' => $column['precision'],
+                        'pdo_type' => null,
+                    );
         }
         return $columnMeta;
     }
