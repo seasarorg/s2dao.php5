@@ -57,7 +57,8 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
             if ($this->args_->size() == 1) {
                 return $this->args_->get(0);
             }
-            self::$logger_->info('Argument(' . $name . ') not found');
+            $message = S2ContainerMessageUtil::getMessageWithArgs('WDAO0001', array($name));
+            self::$logger_->info($message);
             return null;
         }
     }
@@ -71,7 +72,8 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
             if ($this->argTypes_->size() == 1) {
                 return $this->argTypes_->get(0);
             }
-            self::$logger_->info('Argument(' . $name . ') not found');
+            $message = S2ContainerMessageUtil::getMessageWithArgs('WDAO0001', array($name));
+            self::$logger_->info($message);
             return null;
         }
     }
