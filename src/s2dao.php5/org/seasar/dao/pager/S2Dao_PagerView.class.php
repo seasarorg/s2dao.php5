@@ -39,42 +39,62 @@ class S2Dao_PagerView
 
         $this->helper = new S2Dao_PagerViewHelper($dto);
         if ($this->helper->isPrev()) {
-            $this->makePreviewLink($dto->getLimit());
+            $this->makePreviewLink();
         } else {
             $this->makeNonePreviewLink();
         }
         if ($this->helper->isNext()) {
-            $this->makeNextLink($dto->getLimit());
+            $this->makeNextLink();
         } else {
             $this->makeNoneNextLink();
         }
         
         $this->makePageLinks();
     }
+    
+    public function getPageLinks()
+    {
+        return $this->pageLinks;
+    }
+
+    public function getNextLink()
+    {
+        return $this->nextLink;
+    }
+    
+    public function getPreviewLink() 
+    {
+        return $this->previewLink;
+    }
+
+    public function getLimit()
+    {
+        return $this->helper->getLimit();
+    }
 
     /**
      * 前の○件リンクを生成する
      */
-    public function makePreviewLink($limit) 
+    public function makePreviewLink() 
     {
-        if ($limit <= 0) {
+        if ($this->getLimit() <= 0) {
             return;
         }
         if (!$this->helper->isPrev()) {
         }
-        $this->previewLink = '<a href="' . $this->$href . '">Preview Page</a>';
+        $this->previewLink = '<a href="' . $this->href . '">Preview Page</a>';
     }
     
     /**
      * 次の○件リンクを作成する
      */
-    public function makeNextLink($limit)
+    public function makeNextLink()
     {
-        if ($limit <= 0) {
+        if ($this->getLimit() <= 0) {
             return;
         }
         if (!$this->helper->isNext()) {
-            $this->makeNoneNextLink($limit);
+            $this->makeNoneNextLink();
             return;
         }
         $this->nextLink = '<a href="' . $this->href . '">Next Page</a>';
@@ -101,17 +121,17 @@ class S2Dao_PagerView
     /**
      * 次の○件が存在しないときの出力を生成する
      */
-    public function makeNoneNextLink($limit)
+    public function makeNoneNextLink()
     {
-        $this->nextLink = 'Preview Page';
+        $this->nextLink = 'Next Page';
     }
     
     /**
      * 前の○件が存在しないときの出力を生成する
      */
-    public function makeNonePreviewLink($limit)
+    public function makeNonePreviewLink()
     {
-        $this->previewLink = 'Next Page';
+        $this->previewLink = 'Preview Page';
     }
     
 }
