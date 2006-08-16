@@ -53,7 +53,7 @@ class S2Dao_PagerView
     }
 
     /**
-     * 蜑阪�笳倶ｻｶ繝ｪ繝ｳ繧ｯ繧剃ｽ懈�縺吶ｋ
+     * 前の○件リンクを生成する
      */
     public function makePreviewLink($limit) 
     {
@@ -62,11 +62,11 @@ class S2Dao_PagerView
         }
         if (!$this->helper->isPrev()) {
         }
-        $this->previewLink = '<a href="' . $this->$href . '">蜑阪�' . $limit . '莉ｶ</a>';
+        $this->previewLink = '<a href="' . $this->$href . '">Preview Page</a>';
     }
     
     /**
-     * 谺｡縺ｮ笳倶ｻｶ繝ｪ繝ｳ繧ｯ繧剃ｽ懈�縺吶ｋ
+     * 次の○件リンクを作成する
      */
     public function makeNextLink($limit)
     {
@@ -77,11 +77,11 @@ class S2Dao_PagerView
             $this->makeNoneNextLink($limit);
             return;
         }
-        $this->nextLink = '<a href="' . $this->href . '">谺｡縺ｮ' . $limit . '莉ｶ</a>';
+        $this->nextLink = '<a href="' . $this->href . '">Next Page</a>';
     }
     
     /**
-     * 繝壹�繧ｸ逡ｪ蜿ｷ繝ｪ繝ｳ繧ｯ繧剃ｽ懈�縺吶ｋ
+     * ページリンクを作成する
      */
     public function makePageLinks()
     {
@@ -99,19 +99,19 @@ class S2Dao_PagerView
     }
 
     /**
-     * 谺｡縺ｮ笳倶ｻｶ縺悟ｭ伜惠縺励↑縺�凾縺ｮ蜃ｺ蜉帙ｒ菴懈�縺吶ｋ
+     * 次の○件が存在しないときの出力を生成する
      */
     public function makeNoneNextLink($limit)
     {
-        $this->nextLink = '谺｡縺ｮ' . $limit . '莉ｶ';
+        $this->nextLink = 'Preview Page';
     }
     
     /**
-     * 蜑阪�笳倶ｻｶ縺悟ｭ伜惠縺励↑縺�凾縺ｮ蜃ｺ蜉帙ｒ菴懈�縺吶ｋ
+     * 前の○件が存在しないときの出力を生成する
      */
     public function makeNonePreviewLink($limit)
     {
-        $this->previewLink = '蜑阪�' . $limit . '莉ｶ';
+        $this->previewLink = 'Next Page';
     }
     
 }
