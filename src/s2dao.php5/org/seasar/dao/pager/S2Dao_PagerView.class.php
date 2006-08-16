@@ -27,54 +27,6 @@
 class S2Dao_PagerView
 {
     private $helper = null;
-
-    private previewLink = '';
-    private nextLink = '';
-    private pageLinks = '';
-
-    public function __construct($dto)
-    {
-        $this->helper = new S2Dao_PagerViewHelper($dto);
-        if ($this->helper->isPrev()) {
-            $this->makePreviewLink();
-        }
-        if ($this->helper->isNext()) {
-            $this->makeNextLink();
-        }
-    }
-
-    public function makePreviewLink($dto) 
-    {
-    }
-    <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-// +----------------------------------------------------------------------+
-// | PHP version 5                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
-// +----------------------------------------------------------------------+
-// | Licensed under the Apache License, Version 2.0 (the "License");      |
-// | you may not use this file except in compliance with the License.     |
-// | You may obtain a copy of the License at                              |
-// |                                                                      |
-// |     http://www.apache.org/licenses/LICENSE-2.0                       |
-// |                                                                      |
-// | Unless required by applicable law or agreed to in writing, software  |
-// | distributed under the License is distributed on an "AS IS" BASIS,    |
-// | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,                        |
-// | either express or implied. See the License for the specific language |
-// | governing permissions and limitations under the License.             |
-// +----------------------------------------------------------------------+
-// | Authors: yonekawa                                                    |
-// +----------------------------------------------------------------------+
-// $Id$
-//
-/**
- * @author yonekawa
- */
-class S2Dao_PagerView
-{
-    private $helper = null;
     
     private $href = '';
     private $previewLink = '';
@@ -101,7 +53,7 @@ class S2Dao_PagerView
     }
 
     /**
-     * 前の○件リンクを作成する
+     * 蜑阪�笳倶ｻｶ繝ｪ繝ｳ繧ｯ繧剃ｽ懈�縺吶ｋ
      */
     public function makePreviewLink($limit) 
     {
@@ -110,11 +62,11 @@ class S2Dao_PagerView
         }
         if (!$this->helper->isPrev()) {
         }
-        $this->previewLink = '<a href="' . $href . '">前の' . $limit . '件</a>';
+        $this->previewLink = '<a href="' . $this->$href . '">蜑阪�' . $limit . '莉ｶ</a>';
     }
     
     /**
-     * 次の○件リンクを作成する
+     * 谺｡縺ｮ笳倶ｻｶ繝ｪ繝ｳ繧ｯ繧剃ｽ懈�縺吶ｋ
      */
     public function makeNextLink($limit)
     {
@@ -125,11 +77,11 @@ class S2Dao_PagerView
             $this->makeNoneNextLink($limit);
             return;
         }
-        $this->nextLink = '<a href="' . $href . '">次の' . $limit . '件</a>';
+        $this->nextLink = '<a href="' . $this->href . '">谺｡縺ｮ' . $limit . '莉ｶ</a>';
     }
     
     /**
-     * ページ番号リンクを作成する
+     * 繝壹�繧ｸ逡ｪ蜿ｷ繝ｪ繝ｳ繧ｯ繧剃ｽ懈�縺吶ｋ
      */
     public function makePageLinks()
     {
@@ -141,25 +93,25 @@ class S2Dao_PagerView
             if ($i == $index) {
                 $this->pageLinks .= ($i + 1) . ' ';
             } else {
-                $this->pageLinks .= '<a href="' . $href . '">' . ( $i + 1 ) . '</a> ';
+                $this->pageLinks .= '<a href="' . $this->href . '">' . ( $i + 1 ) . '</a> ';
             }
         }
     }
 
     /**
-     * 次の○件が存在しない時の出力を作成する
+     * 谺｡縺ｮ笳倶ｻｶ縺悟ｭ伜惠縺励↑縺�凾縺ｮ蜃ｺ蜉帙ｒ菴懈�縺吶ｋ
      */
     public function makeNoneNextLink($limit)
     {
-        $this->nextLink = '次の' . $limit . '件';
+        $this->nextLink = '谺｡縺ｮ' . $limit . '莉ｶ';
     }
     
     /**
-     * 前の○件が存在しない時の出力を作成する
+     * 蜑阪�笳倶ｻｶ縺悟ｭ伜惠縺励↑縺�凾縺ｮ蜃ｺ蜉帙ｒ菴懈�縺吶ｋ
      */
     public function makeNonePreviewLink($limit)
     {
-        $this->previewLink = '前の' . $limit . '件';
+        $this->previewLink = '蜑阪�' . $limit . '莉ｶ';
     }
     
 }
