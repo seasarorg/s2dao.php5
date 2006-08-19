@@ -76,7 +76,7 @@ class S2Dao_BasicHandler {
         if(!version_compare($refPdo->getVersion(), '1.0.3', '>=')){
             return;
         }
-        if(S2Dao_DbmsManager::getDbms($connection) instanceof S2Dao_MySQL){
+        if(S2DaoDbmsManager::getDbms($connection) instanceof S2Dao_MySQL){
             $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
             $connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         }

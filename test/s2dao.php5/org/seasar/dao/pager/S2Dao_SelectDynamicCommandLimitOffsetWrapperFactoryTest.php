@@ -45,7 +45,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperFactoryTest extends PHPUnit2_F
         return new S2Dao_BeanMetaDataImpl(
                         new ReflectionClass($class),
                         $conn,
-                        S2Dao_DbmsManager::getDbms($conn));
+                        S2DaoDbmsManager::getDbms($conn));
     }
 
     public function testCreate() {

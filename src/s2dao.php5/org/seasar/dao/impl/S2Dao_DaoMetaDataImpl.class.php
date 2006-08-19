@@ -69,7 +69,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $this->beanClass_ = $this->annotationReader_->getBeanClass();
         $this->dataSource_ = $dataSource;
         $conn = $dataSource->getConnection();
-        $this->dbms_ = S2Dao_DbmsManager::getDbms($conn);
+        $this->dbms_ = S2DaoDbmsManager::getDbms($conn);
         $this->beanMetaData_ = $this->createBeanMetaData($this->beanClass_, $conn);
         $this->statementFactory_ = $statementFactory;
         $this->resultSetFactory_ = $resultSetFactory;

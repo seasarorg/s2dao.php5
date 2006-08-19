@@ -30,7 +30,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
     
     public static function getDbms(PDO $db){
-        $dbms = S2Dao_DbmsManager::getDbms($db);
+        $dbms = S2DaoDbmsManager::getDbms($db);
         if($dbms === null){
             throw new Exception('not such dbms case');
         }

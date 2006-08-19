@@ -38,7 +38,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
     protected function setUp() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $this->dataSource = $container->getComponent("pdo.dataSource");
-        $dbms = S2Dao_DbmsManager::getDbms($this->dataSource->getConnection());
+        $dbms = S2DaoDbmsManager::getDbms($this->dataSource->getConnection());
         if ($dbms->usableLimitOffsetQuery()) {
             $this->limit = 5;
             $this->offset = 2;
@@ -54,7 +54,7 @@ class S2Dao_SelectDynamicCommandLimitOffsetWrapperTest extends PHPUnit2_Framewor
         return new S2Dao_BeanMetaDataImpl(
                         new ReflectionClass($class),
                         $conn,
-                        S2Dao_DbmsManager::getDbms($conn));
+                        S2DaoDbmsManager::getDbms($conn));
     }
 
     public function testExecute() {

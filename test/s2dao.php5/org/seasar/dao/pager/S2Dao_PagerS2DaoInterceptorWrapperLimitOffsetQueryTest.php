@@ -42,7 +42,7 @@ class S2Dao_PagerS2DaoInterceptorWrapperLimitOffsetQueryTest extends PHPUnit2_Fr
         $this->dto = new S2Dao_DefaultPagerCondition();
 
         $dataSource = $container->getComponent("pdo.dataSource");
-        $dbms = S2Dao_DbmsManager::getDbms($dataSource->getConnection());
+        $dbms = S2DaoDbmsManager::getDbms($dataSource->getConnection());
         if ($dbms->usableLimitOffsetQuery()) {
             $this->limit = 5;
             $this->offset = 2;

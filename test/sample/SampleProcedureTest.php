@@ -36,7 +36,7 @@ class SampleProcedureTest {
     public static function suite() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $dataSource = $container->getComponent("pdo.dataSource");
-        $dbms = S2Dao_DbmsManager::getDbms($dataSource->getConnection());
+        $dbms = S2DaoDbmsManager::getDbms($dataSource->getConnection());
         
         $suite = new PHPUnit2_Framework_TestSuite("Procedure All Test");
         if($dbms instanceof S2Dao_SQLite){

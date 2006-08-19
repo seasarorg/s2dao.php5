@@ -24,10 +24,10 @@
 /**
  * @author nowel
  */
-class S2Dao_DbmsManagerTest extends PHPUnit2_Framework_TestCase {
+class S2DaoDbmsManagerTest extends PHPUnit2_Framework_TestCase {
 
     public static function main() {
-        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_DbmsManagerTest");
+        $suite  = new PHPUnit2_Framework_TestSuite("S2DaoDbmsManagerTest");
         $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
@@ -40,7 +40,7 @@ class S2Dao_DbmsManagerTest extends PHPUnit2_Framework_TestCase {
     public function testGetDbms() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $ds = $container->getComponent("pdo.dataSource");
-        $this->assertNotNull(S2Dao_DbmsManager::getDbms($ds->getConnection()));
+        $this->assertNotNull(S2DaoDbmsManager::getDbms($ds->getConnection()));
     }
 }
 ?>

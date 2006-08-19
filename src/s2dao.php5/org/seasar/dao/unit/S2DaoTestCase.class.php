@@ -44,7 +44,7 @@ class S2DaoTestCase extends S2Container_S2PHPUnit2TestCase {
 
     protected function getDbms() {
         $dbMetaData = $this->getDatabaseMetaData();
-        return S2Dao_DbmsManager::getDbms($dbMetaData);
+        return S2DaoDbmsManager::getDbms($dbMetaData);
     }
 
 }

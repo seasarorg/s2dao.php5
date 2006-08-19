@@ -75,13 +75,16 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     public function getQuery(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('Query', $method);
-        return $anno->value;
+        if($anno != null && isset($anno->value)){
+            return $anno->value;
+        }
+        return null;
     }
 
     public function getSQL(ReflectionMethod $method, $dbmsSuffix) {
         $dbmsSuffix = preg_replace('/^(_)/', '', $dbmsSuffix);
         $anno = $this->getMethodAnnotation('Sql', $method);
-        if($anno != null && $anno->value != null){
+        if($anno != null && isset($anno->value)){
             return $anno->value;
         }
         return null;
@@ -89,7 +92,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     public function getStoredProcedureName(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('Procedure', $method);
-        if($anno != null && $anno->value != null){
+        if($anno != null && isset($anno->value)){
             return $anno->value;
         }
         return null;
@@ -132,7 +135,6 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     private function getMethodComment(ReflectionMethod $method){
         $method = $this->beanClass->getMethod($method->getName());
         return $method->getDocComment();
-
     }
 }
 

@@ -1,3 +1,8 @@
+2006-08-20 nowel(S2Dao.PHP5-1.2.0-RC)
+
+    * modify: S2Dao_DbmsManager to S2DaoDbmsManager
+      - remove: dbms.properties exp to S2DaoDbmsManager
+
 2006-08-16  yonekawa(S2Dao.PHP5-1.2.0-RC)
 
     * add: /dao/pager/S2Dao_PagerView.class.php

@@ -45,6 +45,10 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     private function getDataSource(){
         return $this->dataSource;
     }
+    
+    private function getDbms(){
+        return S2DaoDbmsManager::getDbms($this->getDataSource()->getConnection());
+    }
 
     public function testExecute() {
         $sql = "select * from EMP2 emp2 where empno = ?";
@@ -65,7 +69,7 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testExecute3(){
-        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        $dbms = $this->getDbms();
         if($dbms instanceof S2Dao_MySQL){
             return;
         }
@@ -96,7 +100,7 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
     
     public function testExecute6(){
-        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        $dbms = $this->getDbms();
         // if null columnset
         if(!($dbms instanceof S2Dao_MySQL)){
             return;
@@ -111,7 +115,7 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testExecute7(){
-        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        $dbms = $this->getDbms();
         // if null columnset
         if(!($dbms instanceof S2Dao_MySQL)){
             return;
@@ -126,7 +130,7 @@ class S2Dao_BasicSelectHandlerTest extends PHPUnit2_Framework_TestCase {
     }
 
     public function testExecute8(){
-        $dbms = S2Dao_DbmsManager::getDbms($this->getDataSource()->getConnection());
+        $dbms = $this->getDbms();
         // if null columnset
         if(!($dbms instanceof S2Dao_MySQL)){
             return;

@@ -30,7 +30,7 @@ class S2DaoBeanListReader extends S2DaoBeanReader {
         $this->dataSet_ = new S2Dao_DataSetImpl();
         $this->table_ = $this->dataSet_->addTable('S2DaoBean');
         
-        $dbms = S2Dao_DbmsManager::getDbms($dbMetaData);
+        $dbms = S2DaoDbmsManager::getDbms($dbMetaData);
         $clazz = new ReflectionClass(get_class($list->get(0)));
         $beanMetaData = new S2Dao_BeanMetaDataImpl($clazz, $dbMetaData, $dbms);
         $this->setupColumns($beanMetaData);

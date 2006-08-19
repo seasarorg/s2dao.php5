@@ -25,7 +25,6 @@
  * @author nowel
  * @author yonekawa
  */
-class S2DaoClassLoader {
-    
+class S2DaoClassLoader extends S2ContainerClassLoader {
 }
 ?>

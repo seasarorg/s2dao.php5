@@ -24,28 +24,32 @@
 /**
  * @author nowel
  */
-final class S2Dao_DbmsManager {
+final class S2DaoDbmsManager {
 
-    private static $dbmses = null;
-    private static $staticConst = false;
+    private static $dbmses = array(
+        'Standard' => 'S2Dao_Standard',
+        'mysql' => 'S2Dao_MySQL',
+        'pgsql' => 'S2Dao_PostgreSQL',
+        'sqlite' => 'S2Dao_SQLite',
+        'firebird' => 'S2Dao_Firebird',
+        'oci' => 'S2Dao_Oracle',
+        'dblib' => 'S2Dao_Sybase',
+        'sybase' => 'S2Dao_Sybase',
+        'odbc' => 'S2Dao_DB2'
+    );
 
-    private function S2Dao_DbmsManager() {
-    }
-
-    private static function staticConst(){
-        self::$dbmses = new S2Dao_HashMap();
-        $dbmsClassNames = parse_ini_file(S2DAO_PHP5 . '/dbms.properties');
-        foreach($dbmsClassNames as $key => $value){
-            self::$dbmses->put(strtolower($key), new $value);
-        }
-        self::$staticConst = true;
+    private function __construct() {
     }
 
     public static function getDbms(PDO $ds) {
-        if(!self::$staticConst){
-            self::staticConst();
+        $driver = $ds->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $class = null;
+        if(isset(self::$dbmses[$driver])){
+            $class = self::$dbmses[$driver];
+        } else {
+            $class = self::$dbmses['Standard'];
         }
-        return self::$dbmses->get($ds->getAttribute(PDO::ATTR_DRIVER_NAME));
+        return new $class;
     }
 }
 ?>

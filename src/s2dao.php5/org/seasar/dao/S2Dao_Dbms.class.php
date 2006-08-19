@@ -33,16 +33,16 @@ interface S2Dao_Dbms {
     const BIND_CATALOG = ':CATALOG';
     const BIND_NAME = ':NAME';
     
-    function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData);
-    function getSuffix();
-    function getIdentitySelectString();
-    function getSequenceNextValString($sequenceName);
-    function getTableSql();
-    function getTableInfoSql();
-    function getPrimaryKeySql();
-    function getProcedureNamesSql();
-    function getProcedureInfoSql();
-    function getLimitOffsetSql();
-    function usableLimitOffsetQuery();
+    public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData);
+    public function getSuffix();
+    public function getIdentitySelectString();
+    public function getSequenceNextValString($sequenceName);
+    public function getTableSql();
+    public function getTableInfoSql();
+    public function getPrimaryKeySql();
+    public function getProcedureNamesSql();
+    public function getProcedureInfoSql();
+    public function getLimitOffsetSql();
+    public function usableLimitOffsetQuery();
 }
 ?>

@@ -33,7 +33,7 @@ class S2DaoBeanReader implements S2Dao_DataReader {
         $this->dataSet_ = new S2Dao_DataSetImpl();
         $this->table_ = $this->dataSet_->addTable('S2DaoBean');
 
-        $dbms = S2Dao_DbmsManager::getDbms($connection);
+        $dbms = S2DaoDbmsManager::getDbms($connection);
         $clazz = new ReflectionClass($bean);
         $beanMetaData = new S2Dao_BeanMetaDataImpl($clazz, $connection, $dbms);
         $this->setupColumns($beanMetaData);

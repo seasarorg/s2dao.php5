@@ -36,9 +36,9 @@ class DbmsAllTest {
     public static function suite() {
         $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
         $dataSource = $container->getComponent("pdo.dataSource");
-        $dbms = S2Dao_DbmsManager::getDbms($dataSource->getConnection());
+        $dbms = S2DaoDbmsManager::getDbms($dataSource->getConnection());
         $suite = new PHPUnit2_Framework_TestSuite("All DBMS Tests");
-        $suite->addTestSuite('S2Dao_DbmsManagerTest');
+        $suite->addTestSuite('S2DaoDbmsManagerTest');
         if($dbms instanceof S2Dao_Firebird){
             $suite->addTestSuite('S2Dao_FirebirdDBMetaDataTest');
         }

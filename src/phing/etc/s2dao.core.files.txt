@@ -35,7 +35,9 @@ S2Dao_AbstractDynamicCommand
 S2Dao_AnnotationReaderFactory
 S2Dao_AbstractAnnotationReader
 S2Dao_FieldAnnotationReaderFactory
-S2Dao_DbmsManager
+S2DaoDbmsManager
+S2DaoVersion
+S2DaoClassLoader
 S2Dao_Standard
 S2Dao_AbstractIdentifierGenerator
 S2Dao_EntityManagerImpl
@@ -43,6 +45,8 @@ S2Dao_DaoMetaDataFactoryImpl
 S2DaoAssertAtLeastOneRowInterceptor
 S2DaoAssertExactlyOneRowInterceptor
 S2DaoInterceptor
-S2Dao_ArrayList
 S2Dao_DatabaseMetaDataUtil
+S2Dao_ArrayList
+S2Dao_ArrayUtil
 S2Dao_HashMap
+S2Dao_CaseInsensitiveMap

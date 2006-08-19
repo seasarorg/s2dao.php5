@@ -47,7 +47,7 @@ class S2DaoBeanReaderTest extends PHPUnit2_Framework_TestCase {
         return new S2Dao_BeanMetaDataImpl(
                         $class,
                         $conn,
-                        S2Dao_DbmsManager::getDbms($conn));
+                        S2DaoDbmsManager::getDbms($conn));
     }
     
     private function getBeanClass($class){

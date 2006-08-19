@@ -47,7 +47,7 @@ class S2Dao_SelectDynamicCommandTest extends PHPUnit2_Framework_TestCase {
         return new S2Dao_BeanMetaDataImpl(
                         new ReflectionClass($class),
                         $conn,
-                        S2Dao_DbmsManager::getDbms($conn));
+                        S2DaoDbmsManager::getDbms($conn));
     }
     
     public function testExecute() {
