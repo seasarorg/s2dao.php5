@@ -96,11 +96,18 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
             $args = $invocation->getArguments();
             $result = parent::invoke($invocation);
             
-            if ((count($args) < 1) || (!is_array($result) && !($result instanceof S2Dao_ArrayList) && (!is_string($result)))) {
+            $noArgs = (count($args) < 1);
+            $notArray = !(is_array($result));
+            $notArrayList = !($result instanceof S2Dao_ArrayList);
+            $notJsonOrYaml = !(is_string($result));
+
+            if ($noArgs || ($noArray && $notArrayList && $notJsonOrYaml)) {
                 return $result;
             }
 
-            if ($args[0] instanceof S2Dao_PagerCondition) {
+            $argsIsPagerCondition = ($args[0] instanceof S2Dao_PagerCondition);
+
+            if ($argsIsPagerCondition) {
                 $condition = $args[0];
                 $wrapper = S2Dao_PagerResultSetWrapperFactory::create($invocation);
                 return $wrapper->filter($result, $condition);
