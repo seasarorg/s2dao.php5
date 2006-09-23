@@ -45,20 +45,24 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
     }
 
     /**
-     * インターセプトしたメソッドの引数がPagerConditionの実装クラスだったら
-     * S2DaoInterceptorの結果をPagerConditionでラップした結果を返します
+     * インターセプトしたメソッドの引数がPagerConditionの実装クラスなら
+     * S2DaoInterceptorの結果をPagerConditionでラップした結果を返す
+     * @param $invocation
      */
     public function invoke(S2Container_MethodInvocation $invocation) 
-    {   
+    {
         if ($this->useLimitOffsetQuery) {
-            return $this->invokePagerWithLimitOffsetQuery($invocation);
+            $result = $this->invokePagerWithLimitOffsetQuery($invocation);
         } else {
-            return $this->invokePagerWithoutLimitOffsetQuery($invocation);
+            $result = $this->invokePagerWithoutLimitOffsetQuery($invocation);
         }
+        
+        return $result;
     }
 
     /**
      * Limit,Offset句を使用してページャを実行する
+     * @param $invocation
      */
     private function invokePagerWithLimitOffsetQuery(S2Container_MethodInvocation $invocation)
     {
@@ -89,6 +93,7 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
 
     /**
      * Limit,Offset句を使用せずにページャを実行する
+     * @param $invocation
      */
     private function invokePagerWithoutLimitOffsetQuery(S2Container_MethodInvocation $invocation)
     {
