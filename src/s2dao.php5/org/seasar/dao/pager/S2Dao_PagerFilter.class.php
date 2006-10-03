@@ -81,7 +81,22 @@ class S2Dao_PagerFilter
         if (empty($resultSet)) {
             return $resultSet;
         }
-        $pager = new S2Dao_PagerObject($resultSet, $condition);
+        
+        $helper = new S2Dao_PagerViewHelper($condition);
+        
+        $pager = array();
+        $pager['data'] = $resultSet;
+        $pager['status'] = array(
+            'count' => $condition->getCount(),
+            'limit' => $condition->getLimit(),
+            'offset' => $condition->getOffset()
+        );
+        $pager['hasPrev'] = $helper->isPrev();
+        $pager['hasNext'] = $helper->isNext();
+        $pager['currentIndex'] = $helper->getPageIndex();
+        $pager['isFirst'] = $helper->getDisplayPageIndexBegin() == $pager['currentIndex'] ? true : false;
+        $pager['isLast'] = $helper->getDisplayPageIndexEnd() == $pager['currentIndex'] ? true : false;
+
         return $pager;
     }
     
@@ -90,7 +105,8 @@ class S2Dao_PagerFilter
         if (empty($resultSet)) {
             return $resultSet;
         }
-        $pager = $this->createPagerObject($resultSet, $condition);
+        $pager = $this->createPagerObject(json_decode($resultSet), $condition);
+
         return json_encode($pager);
     }
     
@@ -99,8 +115,9 @@ class S2Dao_PagerFilter
         if (empty($resultSet)) {
             return $resultSet;
         }
-        $pager = $this->createPagerObject($resultSet, $condition);
         $spyc = new Spyc();
+        $pager = $this->createPagerObject($spyc->YAMLLoad($resultSet), $condition);
+
         return $spyc->YAMLdump($pager);
     }
 }
