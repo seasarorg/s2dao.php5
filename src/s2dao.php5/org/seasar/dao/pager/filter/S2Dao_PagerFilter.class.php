@@ -37,25 +37,25 @@ class S2Dao_PagerFilter
         if (is_null($invocation)) {
             return $resultSet;
         }
-        $args = $invocation->getArgments();
-        if (! $args[0] instanceof S2Dao_PagerCondition) {
+        $args = $invocation->getArguments();
+        if (count($args) < 1 || ! $args[0] instanceof S2Dao_PagerCondition) {
             return $resultSet;
         }
         $condition = $args[0];
  
         $method = $invocation->getMethod();
-        $reader = $this->getAnnotationReader($invocation);
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($invocation->getTargetClass());
+        $reader = new S2Dao_DaoCommentAnnotationReader($beanDesc);
         $filterType = $reader->getFilterType($method);
 
-        if (! $filterType == S2Dao_DaoAnnotationReader::FILTER_PAGER) {
-
+        if ($filterType == S2Dao_DaoAnnotationReader::FILTER_PAGER) {
+            
             $type = $reader->getReturnType($method);
             if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML) {
                 return $this->createPagerYamlObject($resultSet, $condition);
             } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
                 return $this->createPagerJsonObject($resultSet, $condition);
             } else {
-
                 $reader = new S2Dao_DaoConstantAnnotationReader($beanDesc);
                 $type = $reader->getReturnType($method);
 
@@ -64,7 +64,6 @@ class S2Dao_PagerFilter
                 } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
                     return $this->createPagerJsonObject($resultSet, $condition);
                 }
-                return new S2Dao_PagerBasicResultSetWrapper();
             }
             return $this->createPagerObject($resultSet, $condition);
         }

@@ -176,7 +176,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
     
     protected function setupMethodByAuto(ReflectionMethod $method) {
-        $methodName = $methid->getName();
+        $methodName = $method->getName();
         if ($this->isInsert($methodName)) {
             $this->setupInsertMethodByAuto($method);
         } else if ($this->isUpdate($methodName)) {

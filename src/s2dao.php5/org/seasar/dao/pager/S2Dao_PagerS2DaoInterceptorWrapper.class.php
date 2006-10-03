@@ -109,7 +109,7 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
             $notArrayList = !($result instanceof S2Dao_ArrayList);
             $notJsonOrYaml = !(is_string($result));
 
-            if ($noArgs || ($noArray && $notArrayList && $notJsonOrYaml)) {
+            if ($noArgs || ($notArray && $notArrayList && $notJsonOrYaml)) {
                 return $result;
             }
 
