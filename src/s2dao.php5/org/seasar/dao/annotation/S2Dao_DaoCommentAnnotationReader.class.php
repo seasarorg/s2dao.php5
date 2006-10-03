@@ -32,6 +32,9 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     const RETURN_TYPE_YAML = '/@return\s*yaml/i';
     const RETURN_TYPE_JSON = '/@return\s*json/i';
     const RETURN_TYPE_MAP = '/@return\s*map/i';
+
+    const FILTER_TYPE_PAGER = '/@filter\s*pager/i';
+
     protected $beanClass;
     
     public function __construct(S2Container_BeanDesc $beanDesc) {
@@ -117,6 +120,15 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         }
         if(preg_match(self::RETURN_TYPE_OBJ, $comment)){
             return S2Dao_DaoAnnotationReader::RETURN_OBJ;
+        }
+        return null;
+    }
+
+    public function getFilterType(ReflectionMethod $method)
+    {
+        $comment = $this->getMethodComment($method);
+        if(preg_match(self::FILTER_TYPE_PAGER, $comment)){
+            return S2Dao_DaoAnnotationReader::FILTER_PAGER;
         }
         return null;
     }

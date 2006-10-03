@@ -1,3 +1,9 @@
+2006-10-03 yonekawa(S2Dao.PHP5-1.2.0-RC)
+
+    * add: S2Dao_PagerFilter
+	   S2Dao_PagerObject
+    * add: S2Dao_DaoCommentAnnotationReader::getFilterType()
+
 2006-08-20 nowel(S2Dao.PHP5-1.2.0-RC)
 
     * modify: S2Dao_DbmsManager to S2DaoDbmsManager

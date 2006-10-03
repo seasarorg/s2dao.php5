@@ -22,39 +22,31 @@
 // $Id$
 //
 /**
- * PagerResultSetWrapperのファクトリクラス
  * @author yonekawa
- * @author nowel
  */
-class S2Dao_PagerResultSetWrapperFactory
+class S2Dao_PagerObject
 {
-    /**
-     * コメントアノテーションからDaoの結果のタイプを取得して、それに応じたResultSetWrapperを返す
-     */
-    public static function create(S2Container_MethodInvocation $invocation)
-    {
-        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($invocation->getTargetClass());
-        $reader = new S2Dao_DaoCommentAnnotationReader($beanDesc);
+    private $status = null;
+    private $data = null;
+    private $hasPrev = false;
+    private $hasNext = false;
+    private $pageIndex = 0;
+    private $isFirst = 0;
+    private $isLast = 0;
 
-        // 戻り値の型を取得する
-        $method = $invocation->getMethod();
-        $type = $reader->getReturnType($method);
+    public function __construct($resultSet, $condition)
+    {
+        $this->data = $resultSet;
+        $this->status = $condition;
+
+        $helper = new S2Dao_PagerViewHelper($condition);
         
-        if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML){
-            return new S2Dao_PagerYamlResultSetWrapper();
-        } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
-            return new S2Dao_PagerJsonResultSetWrapper();
-        } else {
-            $reader = new S2Dao_DaoConstantAnnotationReader($beanDesc);
-            $type = $reader->getReturnType($method);
-            if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML) {
-                return new S2Dao_PagerYamlResultSetWrapper();
-            } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
-                return new S2Dao_PagerJsonResultSetWrapper();
-            }
-            return new S2Dao_PagerBasicResultSetWrapper();
-        }
-    }
+        $this->hasPrev = $helper->isPrev();
+        $this->hasNext = $helper->isNext();
+        $this->currentIndex = $helper->getPageIndex();
+        $this->isFirst = $helper->getDisplayPageIndexBegin() == $this->currentIndex ? true : false;
+        $this->isLast = $helper->getDisplayPageIndexEnd() == $this->currentIndex ? true : false;
+    }    
 }
 
 ?>

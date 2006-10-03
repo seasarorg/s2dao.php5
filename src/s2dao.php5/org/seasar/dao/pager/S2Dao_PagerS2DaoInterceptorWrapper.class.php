@@ -57,6 +57,9 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
             $result = $this->invokePagerWithoutLimitOffsetQuery($invocation);
         }
         
+        $pagerFilter = new S2Dao_PagerFilter();
+        $result = $pagerFilter->filterResultSet($result, $invocation);
+        
         return $result;
     }
 

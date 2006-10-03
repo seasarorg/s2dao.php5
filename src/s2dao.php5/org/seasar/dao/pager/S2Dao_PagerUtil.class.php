@@ -69,21 +69,22 @@ class S2Dao_PagerUtil
 
     public static function filterJson($json, $condition)
     {
-        $result = json_decode($json);
         if (empty($result)) {
             return $json;
         }
+        $result = json_decode($json);
         $result = self::filter($result, $condition);
         return json_encode($result);
     }
     
     public static function filterYaml($yaml, $condition)
     {
-        $spyc = new Spyc();
-        $result = $spyc->YAMLLoad($yaml);
         if (empty($result)) {
             return $yaml;
         }
+        $spyc = new Spyc();
+        $result = $spyc->YAMLLoad($yaml);
+
         $result = self::filter($result, $condition);
         return $spyc->YAMLdump($result);
     }

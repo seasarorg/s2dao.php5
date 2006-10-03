@@ -33,6 +33,8 @@ interface S2Dao_DaoAnnotationReader {
     const RETURN_JSON = 4;
     const RETURN_MAP = 5;
 
+    const FILTER_PAGER = 10;
+
     public function getBeanClass();
     public function getQuery(ReflectionMethod $method);
     public function getArgNames(ReflectionMethod $method);
