@@ -29,36 +29,36 @@ class S2Dao_PagerUtil
 {
     /**
      * listの内容をPagerConditionの条件でフィルタリングする。
-     * @param List フィルタリング前の配列
-     * @param condition 条件
+     * @param $resultSet フィルタリング前の配列
+     * @param $condition 条件(S2Dao_PagerCondition)
      * @return フィルタリング後の配列
      */
-    public static function filter($result, $condition)
+    public static function filter($resultSet, S2Dao_PagerCondition $condition)
     {
-        if (empty($result)) {
-            return $result;
+        if (empty($resultSet)) {
+            return $resultSet;
         }
         if (!($condition instanceof S2Dao_PagerCondition)) {
-            return $result;
+            return $resultSet;
         }
         if ($condition->getLimit() == S2Dao_PagerCondition::NONE_LIMIT) {
-            return $result;
+            return $resultSet;
         }
 
         $returnArray = false;
         $retValue = new S2Dao_ArrayList();
-        if(!($result instanceof S2Dao_ArrayList)){
-            $result = new S2Dao_ArrayList(new ArrayObject($result));
+        if(!($resultSet instanceof S2Dao_ArrayList)){
+            $resultSet = new S2Dao_ArrayList(new ArrayObject($resultSet));
             $returnArray = true;
         }
         
-        $condition->setCount($result->size());
+        $condition->setCount($resultSet->size());
      
         $limit = $condition->getOffset() + $condition->getLimit();
         $count = $condition->getCount();
         $start = $condition->getOffset() == null ? 0 : $condition->getOffset();
         for($i = $start; $i < $limit && $i < $count; $i++){
-            $retValue->add($result->get($i));
+            $retValue->add($resultSet->get($i));
         }
 
         if($returnArray){
@@ -67,28 +67,90 @@ class S2Dao_PagerUtil
         return $retValue;
     }
 
+    /**
+     * jsonの内容をPagerConditionの条件でフィルタリングする。
+     * @param $json      フィルタリング前のJSONデータ
+     * @param $condition 条件(S2Dao_PagerCondition)
+     * @return フィルタリング後のJSONデータ
+     */
     public static function filterJson($json, $condition)
     {
-        if (empty($result)) {
+        if (empty($json)) {
             return $json;
         }
-        $result = json_decode($json);
-        $result = self::filter($result, $condition);
-        return json_encode($result);
+        $resultSet = json_decode($json);
+        $resultSet = self::filter($resultSet, $condition);
+        return json_encode($resultSet);
     }
     
+    /**
+     * yamlの内容をPagerConditionの条件でフィルタリングする。
+     * @param $yaml      フィルタリング前のYAMLデータ
+     * @param $condition 条件(S2Dao_PagerCondition)
+     * @return フィルタリング後のYAMLデータ
+     */
     public static function filterYaml($yaml, $condition)
     {
-        if (empty($result)) {
+        if (empty($yaml)) {
             return $yaml;
         }
         $spyc = new Spyc();
-        $result = $spyc->YAMLLoad($yaml);
+        $resultSet = $spyc->YAMLLoad($yaml);
 
-        $result = self::filter($result, $condition);
-        return $spyc->YAMLdump($result);
+        $resultSet = self::filter($resultSet, $condition);
+        return $spyc->YAMLdump($resultSet);
     }
 
+    /**
+     * S2Pagerでフィルタリングされたlistの内容をページング情報を付加して返す。
+     * @param $resultSet 
+     * @param $condition 条件(S2Dao_PagerCondition)
+     * @return ページング情報を付加した配列 
+     */
+    public static function createPagerObject($resultSet, S2Dao_PagerCondition $condition)
+    {
+        if (empty($resultSet)) {
+            return $resultSet;
+        }
+        
+        $helper = new S2Dao_PagerViewHelper($condition);
+        
+        $pager = array();
+        $pager['data'] = $resultSet;
+        $pager['status'] = array(
+            'count' => $condition->getCount(),
+            'limit' => $condition->getLimit(),
+            'offset' => $condition->getOffset()
+        );
+        $pager['hasPrev'] = $helper->isPrev();
+        $pager['hasNext'] = $helper->isNext();
+        $pager['currentIndex'] = $helper->getPageIndex();
+        $pager['isFirst'] = $helper->getDisplayPageIndexBegin() == $pager['currentIndex'] ? true : false;
+        $pager['isLast'] = $helper->getDisplayPageIndexEnd() == $pager['currentIndex'] ? true : false;
+
+        return $pager;
+    }
+    
+    public static function createPagerJsonObject($resultSet, S2Dao_PagerCondition $condition)
+    {
+        if (empty($resultSet)) {
+            return $resultSet;
+        }
+        $pager = self::createPagerObject(json_decode($resultSet), $condition);
+
+        return json_encode($pager);
+    }
+    
+    public static function createPagerYamlObject($resultSet, S2Dao_PagerCondition $condition)
+    {
+        if (empty($resultSet)) {
+            return $resultSet;
+        }
+        $spyc = new Spyc();
+        $pager = self::createPagerObject($spyc->YAMLLoad($resultSet), $condition);
+
+        return $spyc->YAMLdump($pager);
+    }
 }
 
 ?>

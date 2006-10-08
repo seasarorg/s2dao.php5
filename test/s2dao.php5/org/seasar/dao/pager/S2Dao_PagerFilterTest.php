@@ -17,38 +17,43 @@
 // | either express or implied. See the License for the specific language |
 // | governing permissions and limitations under the License.             |
 // +----------------------------------------------------------------------+
-// | Authors: nowel                                                       |
+// | Authors: yonekawa                                                       |
 // +----------------------------------------------------------------------+
 // $Id$
 //
 /**
- * @author nowel
+ * @author yonekawa
  */
-class PagerAllTest {
+class S2Dao_PagerFilterTest extends PHPUnit2_Framework_TestCase {
 
-    public function __construct(){
+    private $dao;
+    private $dto;
+
+    public static function main() {
+        $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerFilterTest");
+        $result = PHPUnit2_TextUI_TestRunner::run($suite);
     }
 
-    public static function main(){
-        PHPUnit2_TextUI_TestRunner::run(self::suite());
+    protected function setUp() {
+        $container = S2ContainerFactory::create(S2CONTAINER_PHP5_APP_DICON);
+        $this->dao = $container->getComponent("pager.empPager");
+        $this->dto = new S2Dao_DefaultPagerCondition();
+        $this->dto->setLimit(5);
+        $this->dto->setOffset(2);
     }
 
-    public static function suite(){
-        $suite = new PHPUnit2_Framework_TestSuite("All Pager Tests");
-        $suite->addTestSuite('S2Dao_DefaultPagerConditionTest');
-        $suite->addTestSuite('S2Dao_PagerBasicResultSetWrapperTest');
-        $suite->addTestSuite('S2Dao_PagerFilterTest');
-        $suite->addTestSuite('S2Dao_PagerJsonResultSetWrapperTest');
-        $suite->addTestSuite('S2Dao_PagerYamlResultSetWrapperTest');
-        $suite->addTestSuite('S2Dao_PagerUtilTest');
-        $suite->addTestSuite('S2Dao_PagerResultSetWrapperFactoryTest');
-        $suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperTest');
-        $suite->addTestSuite('S2Dao_PagerS2DaoInterceptorWrapperLimitOffsetQueryTest');
-        $suite->addTestSuite('S2Dao_PagerSupportTest');
-        $suite->addTestSuite('S2Dao_PagerViewHelperTest');
-        $suite->addTestSuite('S2Dao_SelectDynamicCommandLimitOffsetWrapperFactoryTest');
-        $suite->addTestSuite('S2Dao_SelectDynamicCommandLimitOffsetWrapperTest');
-        return $suite;
+    protected function tearDown() {
+        $this->dao = null;
+        $this->dto = null;
+    }
+
+    public function testFilterResultSetList() {
+    }
+    public function testFilterResultSetArray() {
+    }
+    public function testFilterResultSetJson() {
+    }
+    public function testFilterResultSetYaml() {
     }
 }
 
