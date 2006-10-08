@@ -98,6 +98,76 @@ class S2Dao_PagerUtilTest extends PHPUnit2_Framework_TestCase {
 
         $this->assertEquals($yaml, $filter_yaml);
     }
+    
+    public function testCreatePagerObject() {
+        $data = array('a' => '1', 'b' => '2', 'c' => '3');
+        
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+
+        $pager = $this->createPagerObject($data);        
+        $pagerObject = S2Dao_PagerUtil::createPagerObject($data, $this->condition);
+        
+        $this->assertEquals($pager, $pagerObject);
+    }
+
+    public function testCreatePagerListObject() {
+        $data = array('a' => '1', 'b' => '2', 'c' => '3');
+        $data = new S2Dao_ArrayList(new ArrayObject($data));
+        
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+
+        $pager = $this->createPagerObject($data);        
+        $pagerObject = S2Dao_PagerUtil::createPagerObject($data, $this->condition);
+        
+        $this->assertEquals($pager, $pagerObject);
+    }
+
+    public function testCreatePagerJsonObject() {
+        $data = array('a' => '1', 'b' => '2', 'c' => '3');
+        
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+
+        $pager = $this->createPagerObject($data);
+        $pager = json_encode($pager);
+        $pagerObject = S2Dao_PagerUtil::createPagerJsonObject(json_encode($data), $this->condition);
+        
+        $this->assertEquals($pager, $pagerObject);
+    }
+    
+    public function testCreatePagerYamlObject() {
+        $spyc = new Spyc();
+        $data = array('a' => '1', 'b' => '2', 'c' => '3');
+        
+        $this->condition->setLimit(3);
+        $this->condition->setOffset(2);
+
+        $pager = $this->createPagerObject($data);
+        $pager = $spyc->YAMLDump($pager);
+        $pagerObject = S2Dao_PagerUtil::createPagerYamlObject($spyc->YAMLDump($data), $this->condition);
+        
+        $this->assertEquals($pager, $pagerObject);
+    }
+
+    private function createPagerObject($data) {
+        $helper = new S2Dao_PagerViewHelper($this->condition);
+        $pager = array();
+        $pager['data'] = $data;
+        $pager['status'] = array(
+            'count' => $this->condition->getCount(),
+            'limit' => $this->condition->getLimit(),
+            'offset' => $this->condition->getOffset()
+        );
+        $pager['hasPrev'] = $helper->isPrev();
+        $pager['hasNext'] = $helper->isNext();
+        $pager['currentIndex'] = $helper->getPageIndex();
+        $pager['isFirst'] = $helper->getDisplayPageIndexBegin() == $pager['currentIndex'] ? true : false;
+        $pager['isLast'] = $helper->getDisplayPageIndexEnd() == $pager['currentIndex'] ? true : false;
+
+        return $pager;
+    }
 }
 
 ?>

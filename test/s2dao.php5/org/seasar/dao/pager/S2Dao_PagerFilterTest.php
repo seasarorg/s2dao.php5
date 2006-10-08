@@ -17,7 +17,7 @@
 // | either express or implied. See the License for the specific language |
 // | governing permissions and limitations under the License.             |
 // +----------------------------------------------------------------------+
-// | Authors: yonekawa                                                       |
+// | Authors: yonekawa                                                    |
 // +----------------------------------------------------------------------+
 // $Id$
 //
@@ -27,7 +27,9 @@
 class S2Dao_PagerFilterTest extends PHPUnit2_Framework_TestCase {
 
     private $dao;
+    private $dao2;
     private $dto;
+    private $helper;
 
     public static function main() {
         $suite  = new PHPUnit2_Framework_TestSuite("S2Dao_PagerFilterTest");
@@ -40,20 +42,75 @@ class S2Dao_PagerFilterTest extends PHPUnit2_Framework_TestCase {
         $this->dto = new S2Dao_DefaultPagerCondition();
         $this->dto->setLimit(5);
         $this->dto->setOffset(2);
+        $this->helper = new S2Dao_PagerViewHelper($this->dto);
     }
 
     protected function tearDown() {
         $this->dao = null;
+        $this->dao2 = null;
         $this->dto = null;
+        $this->helper = null;
     }
 
     public function testFilterResultSetList() {
+        $result = $this->dao->getAllByPagerConditionList($this->dto);
+        
+        $filterObject = $this->createFilterObject($result);
+
+        $filter_result = $this->dao->getAllByPagerConditionFilterList($this->dto);
+
+        $this->assertEquals($filterObject, $filter_result);
     }
+
     public function testFilterResultSetArray() {
+        $result = $this->dao->getAllByPagerConditionArray($this->dto);
+        
+        $filterObject = $this->createFilterObject($result);
+        
+        $filter_result = $this->dao->getAllByPagerConditionFilterArray($this->dto);
+
+        $this->assertEquals($filterObject, $filter_result);
     }
+
     public function testFilterResultSetJson() {
+        $result = $this->dao->getAllByPagerConditionJson($this->dto);
+
+        $filterObject = $this->createFilterObject(json_decode($result));
+        $filterObject = json_encode($filterObject);
+
+        $filter_result = $this->dao->getAllByPagerConditionFilterJson($this->dto);
+
+        $this->assertEquals($filterObject, $filter_result);
     }
+
     public function testFilterResultSetYaml() {
+        $spyc = new Spyc();
+        $result = $this->dao->getAllByPagerConditionYaml($this->dto);
+
+        $filterObject = $this->createFilterObject($spyc->YAMLLoad($result));
+        $filterObject = $spyc->YAMLDump($filterObject);
+
+        $filter_result = $this->dao->getAllByPagerConditionFilterYaml($this->dto);
+        
+        $this->assertEquals($filterObject, $filter_result);
+    }
+
+    private function createFilterObject($result)
+    {
+        $filterObject = array();
+        $filterObject['data'] = $result;
+        $filterObject['status'] = array(
+            'count' => $this->dto->getCount(),
+            'limit' => $this->dto->getLimit(),
+            'offset' => $this->dto->getOffset()
+        );
+        $filterObject['hasPrev'] = $this->helper->isPrev();
+        $filterObject['hasNext'] = $this->helper->isNext();
+        $filterObject['currentIndex'] = $this->helper->getPageIndex();
+        $filterObject['isFirst'] = $this->helper->getDisplayPageIndexBegin() == $filterObject['currentIndex'] ? true : false;
+        $filterObject['isLast'] = $this->helper->getDisplayPageIndexEnd() == $filterObject['currentIndex'] ? true : false;
+
+        return $filterObject;
     }
 }
 

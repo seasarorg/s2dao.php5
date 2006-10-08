@@ -56,7 +56,7 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
         } else {
             $result = $this->invokePagerWithoutLimitOffsetQuery($invocation);
         }
-        
+
         $pagerFilter = new S2Dao_PagerFilter();
         $result = $pagerFilter->filterResultSet($result, $invocation);
         
@@ -109,7 +109,10 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
             $notArrayList = !($result instanceof S2Dao_ArrayList);
             $notJsonOrYaml = !(is_string($result));
 
-            if ($noArgs || ($notArray && $notArrayList && $notJsonOrYaml)) {
+            if ($noArgs) {
+                return $result;
+            }
+            if ($notArray && $notArrayList && $notJsonOrYaml) {
                 return $result;
             }
 
