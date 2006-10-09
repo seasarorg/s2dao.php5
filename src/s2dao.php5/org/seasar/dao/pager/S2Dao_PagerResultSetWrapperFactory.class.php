@@ -45,10 +45,11 @@ class S2Dao_PagerResultSetWrapperFactory
         } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
             return new S2Dao_PagerJsonResultSetWrapper();
         } else {
-            $methodName = $method->getName();
-            if (preg_match('/Yaml$/', $methodName)) {
+            $reader = new S2Dao_DaoConstantAnnotationReader($beanDesc);
+            $type = $reader->getReturnType($method);
+            if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML) {
                 return new S2Dao_PagerYamlResultSetWrapper();
-            } else if (preg_match('/Json$/', $methodName)) {
+            } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
                 return new S2Dao_PagerJsonResultSetWrapper();
             }
             return new S2Dao_PagerBasicResultSetWrapper();
