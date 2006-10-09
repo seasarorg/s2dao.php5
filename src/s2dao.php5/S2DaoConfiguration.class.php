@@ -24,27 +24,18 @@
 /**
  * @author nowel
  */
-interface S2Dao_DaoMetaData {
-
-    const BEAN = 'BEAN';
-    const QUERY = 'QUERY';
-    const FILE = 'FILE';
-
-    public function getBeanClass();
-    public function getBeanMetaData();
-    public function hasSqlCommand($methodName);
-    public function getSqlCommand($methodName);
-    /*
-    public function createFindCommand($query);
-    public function createFindArrayCommand($query);
-    public function createFindBeanCommand($query);
-    public function createFindYamlCommand($query);
-    public function createFindJsonCommand($query);
-    public function createFindObjectCommand($query);
-    */
+interface S2DaoConfiguration {
     
-    public function getDbms();
+    public function isInsertMethod(ReflectionMethod $method);
     
-    public function getDaoBeanDesc();
+    public function isDeleteMethod(ReflectionMethod $method);
+    
+    public function isSelectMethod(ReflectionMethod $method);
+
+    public function isUpdateMethod(ReflectionMethod $method);
+
+    public function getDaoSuffixes();
+
 }
+
 ?>

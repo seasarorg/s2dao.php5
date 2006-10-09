@@ -31,7 +31,7 @@ class S2Dao_JoinData {
     private $myKeys = array();
     private $yourKeys = array();
     
-    public function __construcy(S2Dao_JoinType $joinType,
+    public function __construct(S2Dao_JoinType $joinType,
                                 $joinTableName,
                                 array $myKeys,
                                 array $yourKeys){
