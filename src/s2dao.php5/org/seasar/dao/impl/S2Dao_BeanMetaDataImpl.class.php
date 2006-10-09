@@ -19,7 +19,7 @@
 // +----------------------------------------------------------------------+
 // | Authors: nowel                                                       |
 // +----------------------------------------------------------------------+
-// $Id$
+// $Id: $
 //
 /**
  * @author nowel
@@ -28,7 +28,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
     private static $logger_ = null;
     private $tableName_;
-    private $propertyTypesByColumnName_ = null;
+    private $propertyTypesByColumnName = null;
     private $relationPropertyTypes_ = null;
     private $primaryKeys_ = array();
     private $autoSelectList_;
@@ -47,7 +47,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                                 $relation = false) {
 
         self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
-        $this->propertyTypesByColumnName_ = new S2Dao_HashMap();
+        $this->propertyTypesByColumnName = new S2Dao_CaseInsensitiveMap();
         $this->relationPropertyTypes_ = new S2Dao_ArrayList();
         
         if($annotationReaderFactory == null){
@@ -94,7 +94,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
     public function getPropertyTypeByColumnName($columnName) {
         $columnName = strtolower($columnName);
-        $propertyType = $this->propertyTypesByColumnName_->get($columnName);
+        $propertyType = $this->propertyTypesByColumnName->get($columnName);
         if ($propertyType === null) {
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $columnName);
         }
@@ -120,10 +120,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
 
     public function hasPropertyTypeByColumnName($columnName) {
-        $upperColumnName = strtoupper($columnName);
-        $lowerColumnName = strtolower($columnName);
-        return $this->propertyTypesByColumnName_->get($upperColumnName) !== null ||
-                $this->propertyTypesByColumnName_->get($lowerColumnName) !== null;
+        return $this->propertyTypesByColumnName->get($columnName) !== null ;
     }
 
     public function hasPropertyTypeByAliasName($alias) {
@@ -318,8 +315,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $c = $this->getPropertyTypeSize();
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->getPropertyType($i);
-            $columnName = strtolower($pt->getColumnName());
-            $this->propertyTypesByColumnName_->put($columnName, $pt);
+            $this->propertyTypesByColumnName->put($pt->getColumnName(), $pt);
         }
     }
 
@@ -358,8 +354,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         return new S2Dao_RelationPropertyTypeImpl($propertyDesc,
                     $relno, $myKeys, $yourKeys,
                     new S2Dao_BeanMetaDataImpl($beanClass, $dbMetaData, $dbms,
-                                        $this->annotationReaderFactory_, true)
-                );
+                                        $this->annotationReaderFactory_, true));
     }
 
     protected function addRelationPropertyType(S2Dao_RelationPropertyType $rpt) {

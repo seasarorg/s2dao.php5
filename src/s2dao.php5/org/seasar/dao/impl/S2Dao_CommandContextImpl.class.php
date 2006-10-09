@@ -19,7 +19,7 @@
 // +----------------------------------------------------------------------+
 // | Authors: nowel                                                       |
 // +----------------------------------------------------------------------+
-// $Id$
+// $Id: $
 //
 /**
  * @author nowel
@@ -39,8 +39,8 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
         if(self::$logger_ === null){
             self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
         }
-        $this->args_ = new S2Dao_HashMap();
-        $this->argTypes_ = new S2Dao_HashMap();
+        $this->args_ = new S2Dao_CaseInsensitiveMap();
+        $this->argTypes_ = new S2Dao_CaseInsensitiveMap();
         $this->sqlBuf_ = '';
         $this->bindVariables_ = new S2Dao_ArrayList();
         $this->bindVariableTypes_ = new S2Dao_ArrayList();

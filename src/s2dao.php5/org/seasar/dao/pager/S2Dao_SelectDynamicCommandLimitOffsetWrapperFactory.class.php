@@ -19,10 +19,10 @@
 // +----------------------------------------------------------------------+
 // | Authors: yonekawa                                                    |
 // +----------------------------------------------------------------------+
-// $Id$
+// $Id: $
 //  
 /**
- * SelectDynamicCommandLimitOffsetWrapper‚ğ¶¬‚·‚éƒNƒ‰ƒX
+ * SelectDynamicCommandLimitOffsetWrapperï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  * @author yonekawa
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapperFactory
