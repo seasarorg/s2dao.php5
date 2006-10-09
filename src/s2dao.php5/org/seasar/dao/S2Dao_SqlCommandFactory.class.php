@@ -39,8 +39,8 @@ interface S2Dao_SqlCommandFactory {
     public function createSelectDynamicCommandByQuery(S2Dao_Dbms $dbms,
                                     S2Dao_BeanMetaData $beanMetaData,
                                     $returnType,
+                                    array $joinDatas = null,
                                     $query);
-    
     /**
      * @return SqlCommand
      */
@@ -55,14 +55,6 @@ interface S2Dao_SqlCommandFactory {
      */
     public function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $sql);
 
-    /**
-     * @return SelectDynamicCommand
-     */
-    public function createSelectDynamicCommandByQuery(S2Dao_Dbms $dbms,
-                                S2Dao_BeanMetaData $beanMetaData,
-                                ReflectionClass $clazz,
-                                array $joinDatas,
-                                $string);
 }
 
 ?>

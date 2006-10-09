@@ -1,0 +1,271 @@
+<?php
+
+/**
+ * @author nowel
+ */
+class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
+    
+    const startWithOrderByPattern = '/(\/\*[^*]+\*\/)*order by/i';
+    const startWithSelectPattern = '/^\s*select\s/i';
+    const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
+
+    protected $annotationReaderFactory;
+
+    protected $dataSource;
+
+    protected $statementFactory;
+
+    protected $resultSetFactory;
+
+    protected $configuration;
+
+    protected $autoSelectSqlCreator;
+
+    public function __construct(S2Dao_AutoSelectSqlCreator $autoSelectSqlCreator,
+                                S2DaoConfiguration $configuration,
+                                S2Dao_AnnotationReaderFactory $annotationReaderFactory,
+                                S2Container_DataSource $dataSource,
+                                S2Dao_StatementFactory $statementFactory,
+                                S2Dao_ResultSetFactory $resultSetFactory) {
+        $this->autoSelectSqlCreator = $autoSelectSqlCreator;
+        $this->annotationReaderFactory = $annotationReaderFactory;
+        $this->configuration = $configuration;
+        $this->dataSource = $dataSource;
+        $this->statementFactory = $statementFactory;
+        $this->resultSetFactory = $resultSetFactory;
+    }
+
+    /**
+     * @return SqlCommand
+     */
+    public function createSqlCommand(S2Dao_Dbms $dbms,
+                                     S2Dao_DaoAnnotationReader $annotationReader,
+                                     S2Dao_BeanMetaData $beanMetaData,
+                                     ReflectionMethod $method,
+                                     S2Dao_SqlWrapper $sql) {
+        if ($sql instanceof S2Dao_ProcedureSqlWrapper) {
+            $procedureSqlWrapper = $sql;
+            $returnType = $annotationReader->getReturnType($method);
+            $resultSetHandler = $this->createResultSetHandler($dbms,
+                                                              $beanMetaData,
+                                                              $returnType);
+            $procedureHandler = new S2Dao_ProcedureHandlerImpl($procedureSqlWrapper,
+                                                               $this->dataSource,
+                                                               $this->statementFactory,
+                                                               $this->resultSetHandler,
+                                                               $returnType);
+            return new S2Dao_StaticStoredProcedureCommand($procedureHandler);
+        } else if ($this->configuration->isSelectMethod($method)) {
+            return $this->setupSelectMethodByManual($dbms,
+                                                    $annotationReader,
+                                                    $beanMetaData,
+                                                    $method, $sql);
+        } else {
+            return $this->setupUpdateMethodByManual($annotationReader,
+                                                    $beanMetaData,
+                                                    $method, $sql);
+        }
+    }
+    
+    /**
+     * @return SelectDynamicCommand
+     */
+    public function createSelectDynamicCommandByQuery(S2Dao_Dbms $dbms,
+                                                      S2Dao_BeanMetaData $beanMetaData,
+                                                      $returnType,
+                                                      array $joinData = null,
+                                                      $query) {
+        $sql = $autoSelectSqlCreator->createSelectSql($dbms,
+                                                      $beanMetaData,
+                                                      $joinData,
+                                                      $query);
+        $resultSetHandler = $this->createResultSetHandler($dbms, $beanMetaData, $returnType);
+        $selectCommand = new S2Dao_SelectDynamicCommand($this->dataSource,
+                                                        $this->statementFactory,
+                                                        $resultSetHandler,
+                                                        $this->resultSetFactory);
+        $selectCommand->setSql($sql);
+        return $selectCommand;
+    }
+    
+    /**
+     * @author SelectDynamicCommand
+     */
+    public function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $sql) {
+        $selectCommand = new S2Dao_SelectDynamicCommand($this->dataSource,
+                                                        $this->statementFactory,
+                                                        $rsh,
+                                                        $this->resultSetFactory);
+        $selectCommand->setSql($sql);
+        return $selectCommand;
+    }
+
+    protected function isUpdateSignatureForBean(S2Dao_BeanMetaData $beanMetaData,
+                                                ReflectionMethod $method) {
+        $params = $method->getParameters();
+        return count($params) == 1 && $beanMetaData->isBeanClassAssignable($params[0]);
+    }
+
+    /**
+     * @return SqlCommand
+     */
+    protected function setupSelectMethodByManual(S2Dao_Dbms $dbms,
+                                                 S2Dao_DaoAnnotationReader $annotationReader,
+                                                 S2Dao_BeanMetaData $beanMetaData,
+                                                 ReflectionMethod $method,
+                                                 S2Dao_SqlWrapper $sql) {
+        $returnType = $annotationReader->getReturnType($method);
+        $rsh = $this->createResultSetHandler($dbms, $beanMetaData, $returnType);
+        $cmd = $this->createSelectDynamicCommand($rsh, $sql->getSql());
+        
+        $cmd->setArgNames($sql->getParameterNames());
+        $cmd->setArgTypes($method->getParameters());
+        return $cmd;
+    }
+
+    /**
+     * @return SqlCommand
+     */
+    protected function setupUpdateMethodByManual(S2Dao_DaoAnnotationReader $annotationReader,
+                                                 S2Dao_BeanMetaData $beanMetaData,
+                                                 ReflectionMethod $method,
+                                                 SqlWrapper $sql) {
+        $argNames = $sql->getParameterNames();
+        if (count($argNames) == 0 &&
+            $this->isUpdateSignatureForBean($beanMetaData, $method)) {
+            $argNames = array(ucwords($beanMetaData->getBeanClass()->getName()));
+        }
+        $handler = null;
+        if($sql->isBatch()){
+            $handler = new S2Dao_BasicBatchUpdateHandler($this->dataSource, $sql,
+                                                        $method->getParameters(),
+                                                        $this->statementFactory);
+        } else {
+            $handler = new S2Dao_BasicUpdateHandler($this->dataSource, $sql,
+                                                    $argNames,
+                                                    $method->getParameters(),
+                                                    $this->statementFactory);            
+        }
+        return new S2Dao_UpdateDynamicCommand($this->dataSource,
+                                              $this->statementFactory,
+                                              $handler);
+    }
+
+    /**
+     * @return ResultSetHandler
+     */
+    public function createResultSetHandler(S2Dao_Dbms $dbms,
+                                           S2Dao_BeanMetaData $beanMetaData, 
+                                           $returnType) {
+        switch($returnType){
+            case S2Dao_DaoAnnotationReader::RETURN_LIST:
+                return new S2Dao_BeanListMetaDataResultSetHandler($beanMetaData, $dbms,
+                            $this->createRelationPropertyHandler($beanMetaData, $dbms));
+            case S2Dao_DaoAnnotationReader::RETURN_ARRAY:
+                return new S2Dao_BeanArrayMetaDataResultSetHandler($beanMetaData, $dbms,
+                            $this->createRelationPropertyHandler($beanMetaData, $dbms));
+            case S2Dao_DaoAnnotationReader::RETURN_YAML:
+                return new S2Dao_BeanYamlMetaDataResultSetHandler($beanMetaData, $dbms,
+                            $this->createRelationPropertyHandler($beanMetaData, $dbms));
+            case S2Dao_DaoAnnotationReader::RETURN_JSON:
+                return new S2Dao_BeanJsonMetaDataResultSetHandler($beanMetaData);
+            case S2Dao_DaoAnnotationReader::RETURN_MAP:
+                return new S2Dao_MapArrayResultSetHandler();
+            case S2Dao_DaoAnnotationReader::RETURN_OBJ:
+            default:
+                if($returnType === null){
+                    // S2Dao_ObjectArrayResultSetHandler
+                    return new S2Dao_BeanMetaDataResultSetHandler($beanMetaData);
+                }
+                return new S2Dao_ObjectResultSetHandler();
+        }
+    }
+    
+    /**
+     * @return RelationPropertyHandler[]
+     */
+    protected function createRelationPropertyHandler(S2Dao_BeanMetaData $beanMetaData,
+                                                     S2Dao_Dbms $dbms) {
+        $list = new S2Dao_ArrayList();
+        $c = $beanMetaData->getOneToManyRelationPropertyTypeSize();
+        for ($i = 0; $i < $c; ++$i) {
+            $rpt = $beanMetaData->getManyRelationPropertyType($i);
+            if ($rpt === null) {
+                continue;
+            }
+            $clazz = $rpt->getPropertyDesc()->getPropertyType();
+            $command = null;
+            if ($clazz->isArray()) {
+                $bmd = $rpt->getBeanMetaData();
+                if($rpt->getJoinTableName() == null){
+                    $command = $this->createSelectDynamicCommandByQuery(
+                                        $dbms, $bmd, $clazz, null,
+                                        $this->createWhere($rpt));
+                } else {
+                    $joinData = new S2Dao_JoinData(S2Dao_JoinType::INNER_JOIN,
+                                                   $rpt->getJoinTableName(),
+                                                   $rpt->getYourKeys(),
+                                                   $rpt->getYourJoinKeys());
+                    $command = $this->createSelectDynamicCommandByQuery(
+                                        $dbms, $bmd, $clazz, array($joinData),
+                                        $this->createJoinWhere($rpt));
+                }
+                $list->add(new S2Dao_ArrayRelationPropertyHandler($beanMetaData,
+                                                                  $rpt,
+                                                                  $command));
+            } else if ($clazz instanceof S2Dao_ArrayList) {
+                $bmd = $rpt->getBeanMetaData();
+                if($rpt->getJoinTableName() == null){
+                    $command = $this->createSelectDynamicCommandByQuery(
+                                        $dbms, $bmd, $clazz, null,
+                                        $this->createWhere($rpt));
+                } else {
+                    $joinData = new S2Dao_JoinData(S2Dao_JoinType::INNER_JOIN,
+                                                   $rpt->getJoinTableName(),
+                                                   $rpt->getYourKeys(),
+                                                   $rpt->getYourJoinKeys());
+                    $command = $this->createSelectDynamicCommandByQuery(
+                                        $dbms, $bmd, $clazz, array($joinData),
+                                        $this->createJoinWhere($rpt));
+                }
+                $list->add(new S2Dao_ListRelationPropertyHandler($beanMetaData,
+                                                                 $rpt,
+                                                                 $command));
+            }
+        }
+        return $list->toArray();
+
+    }
+
+    protected function createWhere(S2Dao_RelationPropertyType $relationPropertyType) {
+        $buf = '';
+        $c = $relationPropertyType->getKeySize();
+        for ($i = 0; $i < $c; ++$i) {
+            if (0 < $i) {
+                $buf .= ' AND ';
+            }
+            $yourKey = $relationPropertyType->getYourKey($i);
+            $buf .= $yourKey;
+            $buf .= ' = ?';
+        }
+        return $buf;
+    }
+
+    protected function createJoinWhere(S2Dao_RelationPropertyType $relationPropertyType) {
+        $buf = '';
+        $c = $relationPropertyType->getKeySize();
+        for ($i = 0; $i < $c; ++$i) {
+            if (0 < $i) {
+                $buf .= ' AND ';
+            }
+            $buf .= $relationPropertyType->getJoinTableName();
+            $buf .= '.';
+            $buf .= $relationPropertyType->getMyJoinKey($i);
+            $buf .= ' = ?';
+        }
+        return $buf;
+    }
+    
+}
+
+?>
