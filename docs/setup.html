@@ -46,8 +46,8 @@
 
 <h2><a name="Setup">セットアップ</a></h2>
 
-<p>S2Dao.PHP5には最新版の<a href="http://s2container.php5.sandbox.seasar.org/">S2Container.PHP5</a>が必要です。<br />
-<a href="http://s2container.php5.sandbox.seasar.org/setup.html">S2Container.PHP5のセットアップ</a>を終えてからS2Dao.PHP5の設定をしてください。<br />
+<p>S2Dao.PHP5には最新版の<a href="http://s2container.php5.seasar.org/">S2Container.PHP5</a>が必要です。<br />
+<a href="http://s2container.php5.seasar.org/setup.html">S2Container.PHP5のセットアップ</a>を終えてからS2Dao.PHP5の設定をしてください。<br />
 また、S2Dao.PHP5では<a href="http://jp2.php.net/manual/ja/ref.pdo.php">PDO</a>を利用しています。
 利用前に<a href="http://jp2.php.net/manual/ja/ref.pdo.php#pdo.installation">PDOのインストール</a>も終えておいてください。</p>
 
@@ -234,6 +234,8 @@ DataSourceとしてPDOを必要とするので、<a href="#pdo_dicon">pdo.dicon<
 
     &lt;include path="%PDO_DICON%" /&gt;
 
+    &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
+    &lt;component class="S2Dao_BasicStatementFactory" /&gt;
     &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
     &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
     &lt;component name="interceptor" class="S2DaoInterceptor" /&gt;
@@ -358,6 +360,8 @@ PDO で利用できる DSN については、<a href="http://jp2.php.net/manual/
     &lt;component name="requiredTx" class="S2Dao_RequiredInterceptor" /&gt;
     &lt;component name="requiresNewTx" class="S2Dao_RequiresNewInterceptor" /&gt;
     &lt;component name="mandatoryTx" class="S2Dao_MandatoryInterceptor" /&gt;
+    &lt;component name="neverTx" class="S2Dao_NeverInterceptor" /&gt;
+    &lt;component name="notSupportedTx" class="S2Dao_NotSupportedInterceptor" /&gt;
 
 &lt;/components&gt;
 </pre>

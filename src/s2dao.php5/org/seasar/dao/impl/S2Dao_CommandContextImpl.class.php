@@ -19,13 +19,14 @@
 // +----------------------------------------------------------------------+
 // | Authors: nowel                                                       |
 // +----------------------------------------------------------------------+
-// $Id$
+// $Id: $
 //
 /**
  * @author nowel
  */
 class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
 
+    const startWithVariable = '/^\$(\d+)/';
     private static $logger_ = null;
     private $args_;
     private $argTypes_;
@@ -57,6 +58,11 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
             if ($this->args_->size() == 1) {
                 return $this->args_->get(0);
             }
+            $argNum = $this->startWithVariableString($name);
+            if($argNum !== false){
+                $arr = array_values($this->args_->toArray());
+                return $arr[$argNum - 1];
+            }
             $message = S2ContainerMessageUtil::getMessageWithArgs('WDAO0001', array($name));
             self::$logger_->info($message);
             return null;
@@ -71,6 +77,11 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
         } else {
             if ($this->argTypes_->size() == 1) {
                 return $this->argTypes_->get(0);
+            }
+            $argNum = $this->startWithVariableString($name);
+            if($argNum !== false){
+                $arr = array_values($this->argTypes_->toArray());
+                return $arr[$argNum - 1];
             }
             $message = S2ContainerMessageUtil::getMessageWithArgs('WDAO0001', array($name));
             self::$logger_->info($message);
@@ -122,9 +133,16 @@ class S2Dao_CommandContextImpl implements S2Dao_CommandContext {
     public function setEnabled($enabled) {
         $this->enabled_ = $enabled;
     }
-    
+
     private function isNull($valueType = null){
         return $valueType === null || $valueType == gettype(null);
+    }
+
+    private function startWithVariableString($que){
+        if(preg_match(self::startWithVariable, $que, $m)){
+            return (int)$m[1];
+        }
+        return false;
     }
 }
 ?>

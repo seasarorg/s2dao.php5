@@ -1,15 +1,20 @@
 <?xml version="1.0"?>
 <project name="s2dao.php5" default="info" basedir=".">
 
+	<!-- s2php5 building -->
     <taskdef name="copy2" classname="src.phing.task.CopyFilesToOneDirTask" />
     <taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
+	<taskdef name="pearpkg2" classname="src.phing.task.PearPkg2SupportTask" />
+	<!-- /s2php5 build -->
+	<!-- s2dao phing tasks addon -->
 	<taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
     <taskdef name="testgen" classname="src.phing.task.S2DaoTestGenTask" />
+	<!-- /s2dao phing tasks addon -->
     
     <target name="init">
         <property name="package.name" value="S2Dao" />
         <property name="project.name" value="${phing.project.name}" />
-        <property name="project.version" value="1.1.0" />
+        <property name="project.version" value="1.1.1" />
         <property name="project.state" value="stable" />
         <property name="project.build.dir" value="${project.basedir}/build" />
         <property name="project.src.dir" value="${project.basedir}/src" />
@@ -17,14 +22,14 @@
         <property name="skeleton.src.dir" value="${project.build.dir}/skel" />
         <property name="test.src.dir" value="${project.build.dir}/test" />
         <property name="license.file" value="Apache_Software_License_2.0.txt" />
-        <property name="release.notes" value="Release 1.1.0" />
+        <property name="release.notes" value="Release 1.1.1" />
     </target>
     
     <target name="info">
         <echo message="" />
         <echo message="S2Dao.PHP5 build script" />
         <echo message="----------------------------" />
-        <echo message="available targets:"/>
+        <echo message="available targets:" />
         <echo message="" />
         <echo message="generate ---> generate S2Dao.PHP5 Dao,Bean(Entity) files from DBMS" />
         <echo message="testgen  ---> generate PHPUnit2 TestCase from /src/s2dao.php5" />
@@ -82,7 +87,7 @@
     <target name="pear-pkg-xml" depends="build">
         <pearpkg name="${package.name}" 
                  dir="${project.build.dir}/${project.name}" 
-                 destFile="${project.build.dir}/${project.name}/package-dist.xml">
+                 destFile="${project.build.dir}/${project.name}/package.xml">
             <fileset dir="${project.build.dir}/${project.name}">
                 <include name="**/*"/>
             </fileset>
@@ -115,7 +120,11 @@
                 </element>
             </mapping>
         </pearpkg>
+    	
+        <pearpkg2 uri="${project.pear.uri}"
+                  pkgFile="${project.build.dir}/${project.name}/package.xml"/>
 
+<!--
         <copy file="${project.build.dir}/${project.name}/package-dist.xml"
               tofile="${project.build.dir}/${project.name}/package.xml">
             <filterchain>
@@ -124,6 +133,7 @@
                 </replaceregexp>
             </filterchain>
         </copy>
+-->
     </target>
  
     <target name="pear-pkg" depends="pear-pkg-xml">
@@ -136,7 +146,7 @@
             </fileset>
         </move>
     </target>
-    
+	
     <target name="testgen" depends="prepare">
         <testgen>
             <fileset dir="${project.src.dir}">
