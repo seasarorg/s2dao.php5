@@ -1,3 +1,9 @@
+2006-10-21  yonekawa(S2Dao.PHP5-1.2.0-RC)
+
+    * fix: S2Dao_PagerSupport::getPagerConditionでセッションにキーが存在しなかった時に
+           NOTICEを出す不具合を修正しました。
+    * add: S2Dao_PagerViewHelper::getPageIndexNumbers()
+
 2006-10-03 yonekawa(S2Dao.PHP5-1.2.0-RC)
 
     * add: ページャ情報を付加するフィルタを作成

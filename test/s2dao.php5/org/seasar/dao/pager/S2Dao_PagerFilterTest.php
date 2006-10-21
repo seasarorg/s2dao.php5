@@ -27,7 +27,6 @@
 class S2Dao_PagerFilterTest extends PHPUnit2_Framework_TestCase {
 
     private $dao;
-    private $dao2;
     private $dto;
     private $helper;
 

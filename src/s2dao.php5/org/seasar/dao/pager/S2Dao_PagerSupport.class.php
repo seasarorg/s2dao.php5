@@ -63,8 +63,9 @@ class S2Dao_PagerSupport
         $pagerCondition = $this->getPagerCondition();
         if (empty($offset)) {
             $offset = 0;
-        }   
+        }
         $pagerCondition->setOffset($offset);
+        $_SESSION[$this->pagerConditionName] = $pagerCondition;
     }
     
     /**
@@ -73,8 +74,11 @@ class S2Dao_PagerSupport
      * @return 検索条件オブジェクト
      */
     public function getPagerCondition()
-    {        
-        $dto = $_SESSION[$this->pagerConditionName];
+    {
+        $dto = null;
+        if (! is_null($_SESSION) && array_key_exists($this->pagerConditionName, $_SESSION)) {
+            $dto = $_SESSION[$this->pagerConditionName];
+        }
         
         if (empty($dto)) {
             $refClass = new ReflectionClass($this->pagerConditionClass);
@@ -83,7 +87,6 @@ class S2Dao_PagerSupport
 
             $_SESSION[$this->pagerConditionName] = $dto;
         }
-        
         return $dto;
     }
 

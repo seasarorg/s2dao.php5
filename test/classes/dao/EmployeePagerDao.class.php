@@ -58,6 +58,7 @@ interface EmployeePagerDao
      * @filter pager
      */
     public function getAllByPagerConditionFilterList(S2Dao_PagerCondition $dto);
+
     /**
      * @filter pager
      */

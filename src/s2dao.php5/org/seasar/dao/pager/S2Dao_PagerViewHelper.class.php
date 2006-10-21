@@ -78,6 +78,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 
     /**
      * 前へのリンクが表示できるかどうかを判定します。
+     * @return true or false
      */
     public function isPrev() 
     {
@@ -86,6 +87,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 
     /**
      * 次へのリンクが表示できるかどうかを判定します。
+     * @return true or false
      */
     public function isNext() 
     {
@@ -97,6 +99,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 
     /**
      * 現在表示中の一覧の最後のoffsetを取得します。
+     * @return true or false
      */
     public function getCurrentLastOffset() 
     {
@@ -111,6 +114,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 
     /**
      * 次へリンクのoffsetを返します。
+     * @return int next offset
      */
     public function getNextOffset() 
     {
@@ -119,6 +123,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 
     /**
      * 前へリンクのoffsetを返します。
+     * @return int preview offset
      */
     public function getPrevOffset() 
     {
@@ -190,6 +195,21 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
         } else {
             return $displayPageIndexBegin + $this->displayPageMax - 1;
         }
+    }
+
+    /**
+     * ページ番号のリストを返します。
+     * @return array page-index-number list
+     */
+    public function getPageIndexNumbers()
+    {
+        $pageIndex = array();
+        $begin = $this->getDisplayPageIndexBegin();
+        $end = $this->getDisplayPageIndexEnd();
+        for ($i = $begin; $i <= $end; $i++) {
+            $pageIndex[] = $i;
+        }
+        return $pageIndex;
     }
 
 }

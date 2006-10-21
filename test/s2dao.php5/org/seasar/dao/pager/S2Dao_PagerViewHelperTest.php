@@ -139,6 +139,13 @@ class S2Dao_PagerViewHelperTest extends PHPUnit2_Framework_TestCase {
         $this->helper_->setCount(150);
         $this->assertEquals($this->helper_->getDisplayPageIndexEnd(), 8);
     }
+
+    public function testGetPageIndexNumbers() {
+        $list = array(0, 1, 2, 3, 4, 5);
+        $this->helper_->setLimit(25);
+        $this->helper_->setCount(150);
+        $this->assertEquals($this->helper_->getPageIndexNumbers(), $list);
+    }
 }
 
 ?>
