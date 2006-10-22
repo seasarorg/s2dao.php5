@@ -21,19 +21,57 @@
 <tbody><tr align="left" valign="top"><td width="18"><img src="images/spacer.gif" alt="" height="14" width="18"></td><td class="main" width="744">
 <!-- don't edit end -->
 <!-- document start -->
+<style>
+dl {
+    margin-left: 2em;
+}
 
-<h2>S2Dao.PHP5</h2>
+dl dt {
+    font-size: 120%;
+    font-weight: bold;
+}
 
-<h3>概要</h3>
-<p>Java版S2DaoをPHP5に移植します。</p>
+dl dd {
+    margin-bottom: 1em;
+}
+</style>
 
-<p>
-    <a href="https://www.seasar.org/svn/sandbox/s2dao.php5/">リポジトリ</a> /
-    <a href="http://www.seasar.org/websvn/listing.php?repname=sandbox.s2dao.php5&path=%2F&sc=0">WebSVN</a> /
-    <a href="https://www.seasar.org/issues/browse/DAOPHP">トラッキング</a>
-</p>
+<h1>S2Dao.PHP5</h1>
 
-<h3>ドキュメント</h3>
+<h2>概要</h2>
+<p><a href="http://s2dao.seasar.org/">Java版S2Dao</a>をPHP5に移植します。<br />
+※ S2Dao.PHP5 を利用するには最新版の <a href="http://s2container.php5.seasar.org/">S2Container.PHP5</a> が必要です。</p>
+
+<h3>リンク</h3>
+<ul>
+    <li><a href="https://www.seasar.org/svn/s2dao.php5/">リポジトリ</a></li>
+    <li><a href="http://svn.seasar.org/browse/?root=s2dao.php5">SVNリポジトリブラウザ</a></li>
+    <li><a href="https://www.seasar.org/issues/browse/DAOPHP">トラッキング</a></li>
+    <li><a href="http://s2dao.php5.seasar.org/#download">ダウンロード</a></li>
+    <li><a href="http://labs.s2php5.jp/">labs.s2php5.jp</a></li>
+</ul>
+
+<h2>S2Dao.PHP5の特徴</h2>
+<p>S2Dao.PHP5は以下のような特徴を持ちます。</p>
+<dl>
+    <dt>XML不要のO/Rマッピング</dt>
+        <dd>S2Dao.PHP5では、データベースとPHP5クラスのマッピング情報にXMLを使用することなくO/Rマッピングすることが可能です。</dd>
+    <dt>SQLの自動生成</dt>
+        <dd>S2Dao.PHP5では、メソッドを命名規則に合わせることで、SQL文の記述が不要で自動的にSQL文を生成させることができます。</dd>
+    <dt>2Way SQL</dt>
+        <dd>S2Dao.PHP5では、自動生成されたSQLの他に任意のSQLを実行することもできます。そのSQLはファイルに記述することもできますし、
+            PHPに直接設定することも出来ます。また、それらのSQLは<a href="reference.html#SQLBind">SQLコメント</a>を使うことで
+            より便利に・効果的にSQLを発行することができます。</p>
+    <dt>豊富な種類の結果セット</dt>
+        <dd>S2Dao.PHP5では、データベースからの取得結果を<a href="reference.html#DefMethod">さまざまなフォーマット形式で取得することが可能</a>です。
+            それには、Web開発に欠かせないJSON形式や、静的ファイルで扱いが便利なYAML形式を含みます。もちろん通常のアプリケーション開発で使うList形式やEntity(Bean)形式で取得することも可能です。<br />
+            これらの結果セット取得に複雑な知識は必要ありません。<br />
+            必要なのは<a href="annotation.html">メソッドの定義を命名規則に合わせるか、コメントアノテーションで指定するか</a>、それだけです。
+    <dt>インターフェースと実装の分離</dt>
+        <dd>インターフェースを定義するだけで、<a href="http://s2container.php5.seasar.org/aop.html">アスペクト</a>の適用やSQL文の自動生成が可能になります。</dd>
+</dl>
+
+<h2>ドキュメント</h2>
 <ul>
     <li><a href="setup.html">セットアップ</a></li>
     <li><a href="reference.html">リファレンス</a></li>
@@ -44,7 +82,7 @@
     <li><a href="example.html">Example</a></li>
 </ul>
 
-<h3>メーリングリスト</h3>
+<h2>メーリングリスト</h2>
 <ul>
     <li><a href="https://www.seasar.org/mailman/listinfo/s2container-php5">S2Container-PHP5 メーリングリスト</a><br />
     S2Container.PHP5/S2Dao.PHP5を使っていて困ったこと・質問・要望などはこちらへ</li>
@@ -57,12 +95,26 @@
     <li>開発環境
         <ul>
             <li>OS: Linux(SUSE 10.1)</li>
-            <li>PHP: PHP-5.1.4 (tarball)</li>
+            <li>PHP: PHP-5.1.6 (tarball)</li>
         </ul>
     </li>
     <li>動作環境(以下の環境で動作しています。)
         <ul>
-            <li>SUSE 10.1 PHP-5.1.4(tarball)</li>
+            <li>SUSE 10.1 PHP-5.1.6(tarball)</li>
+        </ul>
+    </li>
+    <li>リリース履歴
+        <ul>
+            <li>2006/10/15: S2Dao-1.1.1</li>
+            <li>2006/07/24: S2Dao-1.1.0</li>
+            <li>2006/06/16: S2Dao-1.1.0RC4</li>
+            <li>2006/05/16: S2Dao-1.1.0RC3</li>
+            <li>2006/05/03: S2Dao-1.1.0RC2</li>
+            <li>2006/04/10: s2dao.php5-1.1.0-rc1</li>
+            <li>2006/03/18: s2dao.php5-1.0.0-beta4</li>
+            <li>2006/01/31: s2dao.php5-1.0.0-beta3</li>
+            <li>2005/12/07: s2dao.php5-1.0.0-beta2</li>
+            <li>2005/11/09: s2dao.php5-1.0.0-beta1</li>
         </ul>
     </li>
 </ul>

@@ -19,17 +19,38 @@
 // +----------------------------------------------------------------------+
 // | Authors: nowel                                                       |
 // +----------------------------------------------------------------------+
-// $Id: $
+// $Id$
 //
 /**
  * @author nowel
  *
+ * S2Dao System Definition
+ *   SDao define these definitions.
+ *   - S2DAO_PHP5 : S2DAO.PHP5 ROOT Directory
+ *      [ string default /src/s2dao.php5 ]
+ * 
  * User Definition
  *   User could define these definitions.
  *   - S2DAO_PHP5_USE_COMMENT : constant or comment annotation usage
  *      [ boolean: default false ]
  *   needs: sets property S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER
  *      [S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = 'S2DaoAnnotationReader';]
+ *
+ * Autoload function must be defined
+ *   sample : use S2ContainerClassLoader
+ *     S2ContainerClassLoader::import(S2CONTAINER_PHP5);
+ *     S2ContainerClassLoader::import(S2DAO_PHP5);
+ *     function __autoload($class = null){
+ *         S2ContainerClassLoader::load($class);
+ *     }
+ * 
+ *   sample : use include_once directly
+ *     function __autoload($class=null){
+ *         if($class != null){
+ *             include_once("$class.class.php");
+ *         }
+ *     }
+ * 
  */
  
 /**
@@ -61,8 +82,4 @@ require_once 's2dao.core.classes.php';
 if(class_exists('S2ContainerMessageUtil')){
     S2ContainerMessageUtil::addMessageResource(S2DAO_PHP5 . '/DaoMessages.properties');
 }
-
-//
-// S2ContainerClassLoader::addLoader('S2DaoClassLoader');
-//
 ?>

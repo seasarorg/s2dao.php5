@@ -134,7 +134,7 @@ class S2DaoSkeletonDbms {
     }
     
     protected function setupTables(){
-        $dbms = S2DaoDbmsManager::getDbms($this->pdo);
+        $dbms = S2Dao_DbmsManager::getDbms($this->pdo);
         $stmt = $this->pdo->query($dbms->getTableSql());
         $this->tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
     }

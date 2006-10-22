@@ -744,12 +744,12 @@ public function getAllEmployees();
         <p>diconファイルはDaoをコンテナにコンポーネント登録します。
         Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
         diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。
-        diconファイルの詳しい設定方法については、<a href="http://s2container.php5.sandbox.seasar.org/DIContainer.html">DIContainer</a>を参照して下さい。</p>
+        diconファイルの詳しい設定方法については、<a href="http://s2container.php5.seasar.org/DIContainer.html">DIContainer</a>を参照して下さい。</p>
 
     <h5>S2DaoInterceptorの適用</h5>
 
         <p>Dao機能を使用するには "org.seasar.dao.interceptors.S2DaoInterceptor"を登録したDaoに対してAOPを適用します。<br />
-        AOPについては、<a href="http://s2container.php5.sandbox.seasar.org/aop.html">AOP</a>のページを参照して下さい。<br />
+        AOPについては、<a href="http://s2container.php5.seasar.org/aop.html">AOP</a>のページを参照して下さい。<br />
         以下はDao(EmployeeDao)をコンポーネント登録するサンプル</p>
         <p>EmployeeDao.dicon</p>
 
@@ -922,7 +922,7 @@ public function getAllEmployees();
 
         <p>条件がfalseになると--ELSEの後の部分(hoge is null)が評価されます。</p>
 
-        <p>※/*IF hoge != null*/の判別を厳密に行いたい(型も含める)場合は /*IF hoge !=== null*/を使用してください。<br />
+        <p>※/*IF hoge != null*/の判別を厳密に行いたい(型も含める)場合は /*IF hoge !== null*/を使用してください。<br />
         例えば hoge = "true" の場合以下のIFコメントでは動作が違います。</p>
 <pre>
 /*IF hoge == true*/hoge = 123/*END*/
@@ -1089,7 +1089,7 @@ class EmployeeSearchCondition {
         <p>S2Dao.PHP5では定数アノテーションの他にコメントアノテーションにも対応しています。<br />
         コメントアノテーションを利用することで、メソッド名に余計な文字列(List、Array)を付けなくて済みます。</p>
 
-        <p>コメントアノテーションを利用するにおいては、S2Container.PHP5-1.1.0を必要とします。<br />
+        <p>コメントアノテーションを利用するにおいては、S2Container.PHP5-1.1.0以降を必要とします。<br />
         また、現在コメントアノテーションと定数アノテーションを同時に使用することはできません。</p>
 
         <p>コメントアノテーションを使用する方法は以下のようになります。</p>

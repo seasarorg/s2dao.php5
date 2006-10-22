@@ -155,7 +155,7 @@ class CategoryPagerCondition extends S2Dao_DefaultPagerCondition {
         return $category;
     }
     public function setCategory($category) {
-        $this->category = $category;
+        $this-&gt;category = $category;
     }
 }
 </pre>
@@ -177,19 +177,19 @@ interface BookDao {
 
 // offsetとlimitをセット
 $dto = new CategoryPagerCondition();
-$dto->setLimit(10);
+$dto-&gt;setLimit(10);
 $offset = $_REQUEST['offset'];
-$dto->setOffset($offset);
+$dto-&gt;setOffset($offset);
 
 // 独自の検索条件
 $category = $_REQUEST['category'];
-if ($category != null && length($category) != 0) {
-    $dto->setCategory($category);
+if ($category != null &amp;&amp; length($category) != 0) {
+    $dto-&gt;setCategory($category);
 }
 
 // ページャ対応の検索を実行
-$bookDao = $container->getComponent('BookDao');
-$books = $bookDao->findByCategoryPagerCondition($dto);
+$bookDao = $container-&gt;getComponent('BookDao');
+$books = $bookDao-&gt;findByCategoryPagerCondition($dto);
 
 var_dump($books);
 
@@ -241,7 +241,7 @@ S2Dao_PagerSupportクラスのコンストラクタで次の項目を指定し�
 セッション中の検索条件DTOの取得開始位置(offset)の更新は、次のコードで可能です。
 <pre>
         // ページャのoffset位置を更新
-        $pager->updateOffset($_REQUEST['offset']);
+        $pager-&gt;updateOffset($_REQUEST['offset']);
 </pre>
 </p>
 <p>
@@ -250,7 +250,7 @@ S2Dao_PagerSupportクラスのコンストラクタで次の項目を指定し�
         // ページャの条件保持オブジェクトをセッションから取得
         // 存在しない場合は、S2Dao_PagerSupportのコンストラクタで
         // 渡されたクラスが新規に作成されます。
-        $dto = $pager->getPagerCondition();
+        $dto = $pager-&gt;getPagerCondition();
 </pre>
 </p>
 
@@ -269,22 +269,22 @@ PagerSupportはスレッドセーフです。複数ユーザで共有して安�
 $pager = new S2Dao_PagerSupport(10, 'CategoryPagerCondition', 'categoryPagerCondition');
 
 // パラメータoffsetを元にページャのoffset位置を更新
-$pager->updateOffset($_REQUEST['offset']);
+$pager-&gt;updateOffset($_REQUEST['offset']);
 
 // ページャの条件保持オブジェクトをセッションから取得
 // 存在しない場合は、PagerSupportのコンストラクタで
 // 渡されたクラスが新規に作成されます。
-$dto = (CategoryPagerCondition) pager.getPagerCondition(request);
+$dto = $pager-&gt;getPagerCondition(request);
 
 // 条件保持オブジェクト中の独自の検索条件をセット
 // この場合、書籍カテゴリを表すcateogry
 $category = $_REQUEST["category"];
 if (isset($category)) {
-    $dto->setCategory(category);
+    $dto-&gt;setCategory(category);
 }
 
 // ページャ対応の検索を実行
-$books = $dao->findByCategoryPagerCondition($dto);
+$books = $dao-&gt;findByCategoryPagerCondition($dto);
 
 ?&gt;
 </pre>
@@ -298,6 +298,7 @@ $books = $dao->findByCategoryPagerCondition($dto);
     <br/>
     <br/>
     PagerViewHelperは以下のメソッドを持っています。
+
 <pre>
 &lt;?php
 /**
@@ -317,12 +318,12 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 
     public function __construct($condition, $displayPageMax = null)
     {
-        $this->condition = $condition;
+        $this-&gt;condition = $condition;
 
         if (isset($displayPageMax)) {
-            $this->displayPageMax = $displayPageMax;
+            $this-&gt;displayPageMax = $displayPageMax;
         } else {
-            $this->displayPageMax = self::DEFAULT_DISPLAY_PAGE_MAX;
+            $this-&gt;displayPageMax = self::DEFAULT_DISPLAY_PAGE_MAX;
         }
     }
 
@@ -331,22 +332,22 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 
     public function getLimit()
     {
-        return $this->condition->getLimit();
+        return $this-&gt;condition-&gt;getLimit();
     }
 
     public function setLimit($limit)
     {
-        $this->condition->setLimit($limit);
+        $this-&gt;condition-&gt;setLimit($limit);
     }
 
     public function getOffset()
     {
-        return $this->condition->getOffset();
+        return $this-&gt;condition-&gt;getOffset();
     }
 
     public function setOffset($offset)
     {
-        $this->condition->setOffset($offset);
+        $this-&gt;condition-&gt;setOffset($offset);
     }
 
     /**
@@ -354,7 +355,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function isPrev()
     {
-        return 0 < $this->condition->getOffset();
+        return 0 &lt; $this-&gt;condition-&gt;getOffset();
     }
 
     /**
@@ -362,10 +363,10 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function isNext()
     {
-        $count = $this->condition->getCount();
-        $nextOffset = $this->condition->getOffset() + $this->condition->getLimit();
+        $count = $this-&gt;condition-&gt;getCount();
+        $nextOffset = $this-&gt;condition-&gt;getOffset() + $this-&gt;condition-&gt;getLimit();
 
-        return 0 < $count && $nextOffset < $count;
+        return 0 &lt; $count &amp;&amp; $nextOffset &lt; $count;
     }
 
     /**
@@ -373,12 +374,12 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getCurrentLastOffset()
     {
-        $count = $this->condition->getCount();
-        $nextOffset = $this->getNextOffset($this->condition);
-        if ($nextOffset <= 0 || $this->condition->getCount() <= 0) {
+        $count = $this-&gt;condition-&gt;getCount();
+        $nextOffset = $this-&gt;getNextOffset($this-&gt;condition);
+        if ($nextOffset &lt;= 0 || $this-&gt;condition-&gt;getCount() &lt;= 0) {
             return 0;
         } else {
-            return $nextOffset < $count ? $nextOffset - 1 : $count - 1;
+            return $nextOffset &lt; $count ? $nextOffset - 1 : $count - 1;
         }
     }
 
@@ -387,7 +388,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getNextOffset()
     {
-        return $this->condition->getOffset() + $this->condition->getLimit();
+        return $this-&gt;condition-&gt;getOffset() + $this-&gt;condition-&gt;getLimit();
     }
 
     /**
@@ -395,8 +396,8 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getPrevOffset()
     {
-        $prevOffset = $this->condition->getOffset() - $this->condition->getLimit();
-        return $prevOffset < 0 ? 0 : $prevOffset;
+        $prevOffset = $this-&gt;condition-&gt;getOffset() - $this-&gt;condition-&gt;getLimit();
+        return $prevOffset &lt; 0 ? 0 : $prevOffset;
     }
 
     /**
@@ -404,8 +405,8 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getPageIndex()
     {
-        $limit = $this->condition->getLimit();
-        $offset = $this->condition->getOffset();
+        $limit = $this-&gt;condition-&gt;getLimit();
+        $offset = $this-&gt;condition-&gt;getOffset();
         if ($limit == 0) {
             return 1;
         } else {
@@ -418,7 +419,7 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getPageCount()
     {
-        return $this->getPageIndex() + 1;
+        return $this-&gt;getPageIndex() + 1;
     }
 
     /**
@@ -426,8 +427,8 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getLastPageIndex()
     {
-        $limit = $this->condition->getLimit();
-        $count = $this->condition->getCount();
+        $limit = $this-&gt;condition-&gt;getLimit();
+        $count = $this-&gt;condition-&gt;getCount();
         if ($limit == 0) {
             return 0;
         } else {
@@ -440,13 +441,13 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getDisplayPageIndexBegin()
     {
-        $lastPageIndex = $this->getLastPageIndex();
-        if ( $lastPageIndex < $this->displayPageMax ) {
+        $lastPageIndex = $this-&gt;getLastPageIndex();
+        if ( $lastPageIndex &lt; $this-&gt;displayPageMax ) {
             return 0;
         } else {
-            $currentPageIndex = $this->getPageIndex();
-            $displayPageIndexBegin = $currentPageIndex - (floor($this->displayPageMax / 2));
-            return $displayPageIndexBegin < 0 ? 0 : $displayPageIndexBegin;
+            $currentPageIndex = $this-&gt;getPageIndex();
+            $displayPageIndexBegin = $currentPageIndex - (floor($this-&gt;displayPageMax / 2));
+            return $displayPageIndexBegin &lt; 0 ? 0 : $displayPageIndexBegin;
         }
     }
 
@@ -455,13 +456,13 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
      */
     public function getDisplayPageIndexEnd()
     {
-        $lastPageIndex = $this->getLastPageIndex();
-        $displayPageIndexBegin = $this->getDisplayPageIndexBegin();
+        $lastPageIndex = $this-&gt;getLastPageIndex();
+        $displayPageIndexBegin = $this-&gt;getDisplayPageIndexBegin();
         $displayPageRange = $lastPageIndex - $displayPageIndexBegin;
-        if ($displayPageRange < $this->displayPageMax) {
+        if ($displayPageRange &lt; $this-&gt;displayPageMax) {
             return $lastPageIndex;
         } else {
-            return $displayPageIndexBegin + $this->displayPageMax - 1;
+            return $displayPageIndexBegin + $this-&gt;displayPageMax - 1;
         }
     }
 
@@ -504,7 +505,7 @@ for ( $i = $this->getDisplayPageIndexBegin(); $i <= $this->getDisplayPageIndexEn
     if ( $i == $this->getPageIndex() ) {
         print($i + 1);
     } else {
-        print('<a href="' . $this->pageUrl . '?offset=' . $i * $this->getLimit() . '">' . ( $i + 1 ) . '</a> ');
+        print('&lt;a href="' . $this->pageUrl . '?offset=' . $i * $this->getLimit() . '"&gt;' . ( $i + 1 ) . '&lt;/a&gt; ');
     }
 }
 
