@@ -922,7 +922,7 @@ public function getAllEmployees();
 
         <p>条件がfalseになると--ELSEの後の部分(hoge is null)が評価されます。</p>
 
-        <p>※/*IF hoge != null*/の判別を厳密に行いたい(型も含める)場合は /*IF hoge !=== null*/を使用してください。<br />
+        <p>※/*IF hoge != null*/の判別を厳密に行いたい(型も含める)場合は /*IF hoge !== null*/を使用してください。<br />
         例えば hoge = "true" の場合以下のIFコメントでは動作が違います。</p>
 <pre>
 /*IF hoge == true*/hoge = 123/*END*/
