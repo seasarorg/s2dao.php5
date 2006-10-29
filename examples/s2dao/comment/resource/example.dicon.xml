@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"components21.dtd">
+<components namespace="example">
+
+    <include path="%DAO_DICON%" />
+    <component class="CdDao">
+        <aspect>dao.interceptor</aspect>
+    </component>
+
+</components>
