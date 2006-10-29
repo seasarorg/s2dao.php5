@@ -103,21 +103,19 @@ class S2Dao_BeanCommentAnnotationReader implements S2Dao_BeanAnnotationReader {
     
     private function getPropertyAnnotation($annoType, S2Container_PropertyDesc $pd){
         $propertyName = $pd->getPropertyName();
-        if(S2Container_Annotations::isAnnotationPresent($annoType,
-                                                      $this->beanClass,
-                                                      $propertyName)){
-            return S2Container_Annotations::getAnnotation($annoType,
-                                                          $this->beanClass,
-                                                          $propertyName);
+        if(S2Container_Annotations::isAnnotationPresent(
+                $annoType, $this->beanClass, $propertyName)){
+            return S2Container_Annotations::getAnnotation(
+                $annoType, $this->beanClass, $propertyName);
         }
         return null;
     }
     
     private function getAnnotation($anno = self::Anno){
-        if(S2Container_Annotations::isAnnotationPresent($anno,
-                                                      $this->beanClass->getName())){
-            return S2Container_Annotations::getAnnotation($anno,
-                                       $this->beanClass->getName());
+        if(S2Container_Annotations::isAnnotationPresent(
+                            $anno, $this->beanClass->getName())){
+            return S2Container_Annotations::getAnnotation(
+                            $anno, $this->beanClass->getName());
         }
         return null;
     }

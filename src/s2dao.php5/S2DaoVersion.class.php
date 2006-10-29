@@ -27,29 +27,55 @@
 final class S2DaoVersion {
     
     const Version = '1.2.0';
-    const ReleaseVersion = 'RC';
-    const FullVersion = 'S2Dao.PHP5-1.2.0-RC';
+    const DownwardVersion = '1.2.0';
+    const ReleaseVersion = 'beta';
+    const FullVersion = 'S2Dao.PHP5-1.2.0-beta1';
+    const RequiredPDOVersion = '1.0.3';
     
-    public static function compatibleTo($containerVersion){
+    public static function getVersion(){
+        return self::Version;
     }
     
+    public static function getFullVersion(){
+        return self::FullVersion;
+    }
+    
+    public static function getRequiredPdoVersion(){
+        return self::RequiredPDOVersion;
+    }
+    
+    public static function compatibleTo($s2daoVersion){
+        return version_compare(self::DownwardVersion, $s2daoVersion, '>=');
+    }
+    
+    /*
     public static function compatibleS2Container(S2ContainerVersion $container){
     }
+    */
     
-    public static function compatiblePDO(PDO $pdo){
+    public static function compatiblePDO(){
+        $ref = new ReflectionExtension('PDO');
+        return version_compare(self::RequiredPDOVersion, $ref->getVersion(), '>=');
     }
     
-    public static function compatibleWith($element){
-        if($element instanceof S2ContainerVersion){
-            return self::compatibleS2Container($element);
+    public static function compatibleWith(S2DaoVersion $version){
+        if(self::compatibleTo($version->getVersion())){
+            return false;
         }
-        if($element instanceof PDO){
-            return self::compatiblePDO($element);
+        if(self::compatiblePDO()){
+            return false;
         }
+        return true;
     }
     
     public static function requiresExtention(){
+        return array('PDO');
     }
+    
+    public static function requiresOptExtension(){
+        return array('json', 'Spyc');
+    }
+    
 }
 
 ?>

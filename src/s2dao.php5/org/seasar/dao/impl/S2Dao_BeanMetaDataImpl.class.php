@@ -26,77 +26,253 @@
  */
 class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_BeanMetaData {
 
-    private static $logger_ = null;
-    private $tableName_;
-    private $propertyTypesByColumnName = null;
-    private $relationPropertyTypes_ = null;
-    private $primaryKeys_ = array();
-    private $autoSelectList_;
-    private $relation_;
-    private $identifierGenerator_;
-    private $versionNoPropertyName_ = 'versionNo';
-    private $timestampPropertyName_ = 'timestamp';
-    private $annotationReaderFactory_;
-    private $dbms_;
-    private $databaseMetaData_; 
+    private static $logger;
+    private $tableName;
+    private $propertyTypesByColumnName;
+    private $relationPropertyTypes;
+    private $primaryKeys = array();
+    private $autoSelectList;
+    private $relation;
+    private $identifierGenerator;
+    private $versionNoPropertyName = 'versionNo';
+    private $timestampPropertyName = 'timestamp';
+    private $annotationReaderFactory;
+    private $databaseMetaData; 
     
-    public function __construct(ReflectionClass $beanClass,
-                                $dbMetaData,
-                                S2Dao_Dbms $dbms,
-                                S2Dao_AnnotationReaderFactory $annotationReaderFactory = null,
-                                $relation = false) {
-
-        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
+    public function __construct() {
+        self::$logger = S2Container_S2Logger::getLogger(get_class($this));
         $this->propertyTypesByColumnName = new S2Dao_CaseInsensitiveMap();
-        $this->relationPropertyTypes_ = new S2Dao_ArrayList();
-        
-        if($annotationReaderFactory == null){
-            $annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
-        }
-
-        $this->annotationReaderFactory_ = $annotationReaderFactory;
-        $this->beanAnnotationReader_ =
-                $annotationReaderFactory->createBeanAnnotationReader($beanClass);
-        $this->setBeanClass($beanClass);
-        $this->relation_ = $relation;
-        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
+        $this->relationPropertyTypes = new S2Dao_ArrayList();
+        $this->annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
+    }
+    
+    protected function getAnnotationReaderFactory() {
+        return $this->annotationReaderFactory;
+    }
+    
+    public function setAnnotationReaderFactory(
+                    S2Dao_AnnotationReaderFactory $annotationReaderFactory) {
+        $this->annotationReaderFactory = $annotationReaderFactory;
+    }
+    
+    public function initialize() {
+        $factory = $this->getAnnotationReaderFactory();
+        $beanAnnotationReader = $factory->createBeanAnnotationReader($this->getBeanClass());
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($this->getBeanClass());
         $this->setupTableName($beanDesc);
         $this->setupVersionNoPropertyName($beanDesc);
         $this->setupTimestampPropertyName($beanDesc);
-        $this->setupProperty($beanDesc, $dbMetaData, $dbms);
-        $this->setupDatabaseMetaData($beanDesc, $dbMetaData, $dbms);
+        $this->setupProperty($beanDesc, $this->databaseMetaData);
+        $this->setupDatabaseMetaData($beanDesc, $this->databaseMetaData);
         $this->setupPropertiesByColumnName();
+        $this->setupRelationProperties($beanDesc, $this->databaseMetaData);
     }
     
-    public function setDbms($dbms){
-        $this->dbms_ = $dbms;
+    protected function setupRelationProperties(S2Container_BeanDesc $beanDesc,
+                                               $dbMetaData) {
+        $c = $beanDesc->getPropertyDescSize();
+        for ($i = 0; $i < $c; ++$i) {
+            $pd = $beanDesc->getPropertyDesc($i);
+            $relationType = $this->beanAnnotationReader->getRelationType($pd);
+            if ($relationType !== S2Dao_RelationType::hasMany) {
+                continue;
+            }
+            $joinTableName = $beanAnnotationReader->getRelationTable($pd);
+            $relationPropertyType = null;
+            if ($joinTableName == null) {
+                $relationPropertyType =
+                    $this->createOneToManyRelationPropertyType($beanDesc,
+                                                               $pd,
+                                                               $dbMetaData);
+            } else {
+                $relationPropertyType =
+                    $this->createManyToManyRelationPropertyType($beanDesc,
+                                                                $pd,
+                                                                $dbMetaData,
+                                                                $joinTableName);
+            }
+            $this->addOneToManyRelationPropertyType($relationPropertyType);
+        }
+    }
+    
+    /**
+     * @return RelationPropertyType
+     */
+    private function createOneToManyRelationPropertyType(
+            S2Container_BeanDesc $beanDesc, S2Container_PropertyDesc $propertyDesc,
+            $dbMetaData, $joinTableName = null) {
+        if($joinTableName === null){
+            return $this->createOneToManyRelationPropertyType0($beanDesc,
+                                                               $propertyDesc,
+                                                               $dbMetaData);
+        }
+        return $this->createOneToManyRelationPropertyType1($beanDesc,
+                                                           $propertyDesc,
+                                                           $dbMetaData,
+                                                           $joinTableName);
+    }
+    
+    private function createOneToManyRelationPropertyType0(
+            S2Container_BeanDesc $beanDesc, S2Container_PropertyDesc $propertyDesc,
+            $dbMetaData){
+        $myKeys = array();
+        $yourKeys = array();
+        $beanClass = $this->beanAnnotationReader->getRelationBean($propertyDesc);
+        
+        // 
+        $returnType = $propertyDesc->getPropertyType();
+        if ($returnType->isArray()) {
+            $beanClass = $returnType->getComponentType();
+        }
+        if ($beanClass === null) {
+            // TODO
+            throw new S2Container_SRuntimeException('');
+        }
+        $beanMetaData = new S2Dao_BeanMetaDataImpl();
+        $beanMetaData->setBeanClass($beanClass);
+        $beanMetaData->setDatabaseMetaData($dbMetaData);
+        $beanMetaData->setAnnotationReaderFactory($this->getAnnotationReaderFactory());
+        //$beanMetaData->setValueTypeFactory($this->getValueTypeFactory());
+        $beanMetaData->setRelation(true);
+        $beanMetaData->initialize();
+        $relkeys = $beanAnnotationReader->getRelationKey($propertyDesc);
+        $myKeyList = new S2Dao_ArrayList();
+        $yourKeyList = new S2Dao_ArrayList();
+        if ($relkeys !== null) {
+            $st = preg_split('/[\s,]+/', $relkeys);
+            foreach($st as $token){
+                $index = strpos($token, ':');
+                if (0 < $index && $index !== false) {
+                    $myKeyList->add(substr($token, 0, $index));
+                    $yourKeyList->add(substr($token, $index + 1));
+                } else {
+                    $myKeyList->add($token);
+                    $yourKeyList->add($token);
+                }
+            }
+        } else {
+            $primaryKeySize = $this->getPrimaryKeySize();
+            for ($i = 0; $i < $primaryKeySize; $i++) {
+                $myKey = $this->getPrimaryKey($i);
+                $myKeyList->add($myKey);
+                $column = $beanMetaData->getPropertyTypeByColumnName($myKey);
+                $yourKey = $column->getColumnName();
+                $yourKeyList->add($yourKey);
+            }
+        }
+        $myKeys = $myKeyList->toArray();
+        $yourKeys = $yourKeyList->toArray();
+        return new S2Dao_RelationPropertyTypeImpl($propertyDesc,
+                                                  $myKeys,
+                                                  $yourKeys,
+                                                  $beanMetaData,
+                                                  RelationType::hasMany);
     }
 
+    /**
+     * @return RelationPropertyType
+     */
+    private function createManyToManyRelationPropertyType1(
+            S2Container_BeanDesc $beanDesc, S2Container_PropertyDesc $propertyDesc,
+            $dbMetaData, $joinTableName) {
+        $myKeys = array();
+        $yourKeys = array();
+        $myJoinKeys = array();
+        $yourJoinKeys = array();
+        $beanClass = $beanAnnotationReader->getRelationBean($propertyDesc);
+        
+        //
+        $returnType = $propertyDesc->getPropertyType();
+        if ($returnType->isArray()) {
+            $beanClass = $returnType->getComponentType();
+        }
+        if ($beanClass === null) {
+            // TODO
+            throw new S2Container_SRuntimeException('');
+        }
+        $beanMetaData = new S2Dao_BeanMetaDataImpl();
+        $beanMetaData->setBeanClass($beanClass);
+        $beanMetaData->setDatabaseMetaData($dbMetaData);
+        $beanMetaData->setAnnotationReaderFactory($this->getAnnotationReaderFactory());
+        //$beanMetaData->setValueTypeFactory($this->getValueTypeFactory());
+        $beanMetaData->setRelation(true);
+        $beanMetaData->initialize();
+        $relkeys = $beanAnnotationReader->getRelationKey($propertyDesc);
+        $myKeyList = new S2Dao_ArrayList();
+        $yourKeyList = new S2Dao_ArrayList();
+        $myJoinKeyList = new S2Dao_ArrayList();
+        $yourJoinKeyList = new S2Dao_ArrayList();
+        if ($relkeys !== null) {
+            
+            $st = preg_split('/[\s,]+/', $relkeys);
+            foreach($st as $token){
+                $index = strpos($token, ':');
+                if (0 < $index && $index !== false) {
+                    $myKeyList->add(substr($token, 0, $index));
+                    $yourKeyList->add(substr($token, $index + 1));
+                } else {
+                    $myKeyList->add($token);
+                    $yourKeyList->add($token);
+                }
+            }
+        } else {
+            $primaryKeySize = $this->getPrimaryKeySize();
+            for ($i = 0; $i < $primaryKeySize; $i++) {
+                $myKey = $this->getPrimaryKey($i);
+                $myKeyList->add($myKey);
+                $myJoinKeyList->add($myKey);
+                $yourKey = $beanMetaData->getPrimaryKey($i);
+                $yourKeyList->add($yourKey);
+                $yourJoinKeyList->add($yourKey);
+            }
+        }
+        $myKeys = $myKeyList->toArray();
+        $yourKeys = $yourKeyList->toArray();
+        $myJoinKeys = $myJoinKeyList->toArray();
+        $yourJoinKeys = $yourJoinKeyList->toArray();
+        return new S2Dao_RelationPropertyTypeImpl($propertyDesc,
+                                                  $joinTableName,
+                                                  $myKeys,
+                                                  $yourKeys,
+                                                  $myJoinKeys,
+                                                  $yourJoinKeys,
+                                                  $beanMetaData,
+                                                  RelationType::hasMany);
+    }
+    
     public function getTableName() {
-        return $this->tableName_;
+        return $this->tableName;
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#getVersionNoPropertyType()
+     */
     public function getVersionNoPropertyType(){
-        return $this->getPropertyType($this->versionNoPropertyName_);
+        return $this->getPropertyType($this->versionNoPropertyName);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#getTimestampPropertyType()
+     */
     public function getTimestampPropertyType() {
-        return $this->getPropertyType($this->timestampPropertyName_);
+        return $this->getPropertyType($this->timestampPropertyName);
     }
 
     public function getVersionNoPropertyName() {
-        return $this->versionNoPropertyName_;
+        return $this->versionNoPropertyName;
     }
 
     public function getTimestampPropertyName() {
-        return $this->timestampPropertyName_;
+        return $this->timestampPropertyName;
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#getPropertyTypeByColumnName(string)
+     */
     public function getPropertyTypeByColumnName($columnName) {
-        $columnName = strtolower($columnName);
         $propertyType = $this->propertyTypesByColumnName->get($columnName);
         if ($propertyType === null) {
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $columnName);
+            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $columnName);
         }
         return $propertyType;
     }
@@ -107,22 +283,27 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
         $index = strrpos($alias, '_');
         if ($index < 0 || $index === false) {
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
+            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $alias);
         }
         $columnName = substr($alias, 0, $index);
         $relnoStr = substr($alias, $index + 1);
-        $relno = (int)$relnoStr;
-        $rpt = $this->getRelationPropertyType($relno);
+        $rpt = $this->getRelationPropertyType((int)$relnoStr);
         if (!$rpt->getBeanMetaData()->hasPropertyTypeByColumnName($columnName)){
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
+            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $alias);
         }
         return $rpt->getBeanMetaData()->getPropertyTypeByColumnName($columnName);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#hasPropertyTypeByColumnName(string)
+     */
     public function hasPropertyTypeByColumnName($columnName) {
-        return $this->propertyTypesByColumnName->get($columnName) !== null ;
+        return $this->propertyTypesByColumnName->get($columnName) !== null;
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#hasPropertyTypeByAliasName(string)
+     */
     public function hasPropertyTypeByAliasName($alias) {
         if ($this->hasPropertyTypeByColumnName($alias)) {
             return true;
@@ -134,51 +315,81 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $columnName = substr($alias, 0, $index);
         $relnoStr = substr($alias, $index + 1);
         $relno = (int)$relnoStr;
-        if ($relno >= $this->getRelationPropertyTypeSize()) {
+        if ($this->getRelationPropertyTypeSize() <= $relno) {
             return false;
         }
         $rpt = $this->getRelationPropertyType($relno);
         return $rpt->getBeanMetaData()->hasPropertyTypeByColumnName($columnName);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#hasVersionNoPropertyType()
+     */
     public function hasVersionNoPropertyType() {
-        return $this->hasPropertyType($this->versionNoPropertyName_);
+        return $this->hasPropertyType($this->versionNoPropertyName);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#hasTimestampPropertyType()
+     */
     public function hasTimestampPropertyType() {
-        return $this->hasPropertyType($this->timestampPropertyName_);
+        return $this->hasPropertyType($this->timestampPropertyName);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#convertFullColumnName(string)
+     */
     public function convertFullColumnName($alias) {
         if ($this->hasPropertyTypeByColumnName($alias)) {
-            return $this->tableName_ . '.' . $alias;
+            return $this->tableName . '.' . $alias;
         }
         $index = strrpos($alias, '_');
         if ($index < 0 || $index === false) {
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
+            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $alias);
         }
         $columnName = substr($alias, 0, $index);
         $relnoStr = substr($alias, $index + 1);
-        $relno = (int)$relnoStr;
-        $rpt = $this->getRelationPropertyType($relno);
+        $rpt = $this->getRelationPropertyType((int)$relnoStr);
         if (!$rpt->getBeanMetaData()->hasPropertyTypeByColumnName($columnName)) {
-            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName_, $alias);
+            throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $alias);
         }
         return $rpt->getPropertyName() . '.' . $columnName;
     }
-
-    public function getRelationPropertyTypeSize() {
-        return $this->relationPropertyTypes_->size();
+    
+    /**
+     * @see org.seasar.dao.BeanMetaData#getRelationPropertyTypeSize()
+     */
+    public function getOneToManyRelationPropertyTypeSize() {
+        return $this->oneToMenyRelationPropertyTypes->size();
+    }
+    
+    /**
+     * @see org.seasar.dao.BeanMetaData#getRelationPropertyType(int)
+     * @return RelationPropertyType
+     */
+    public function getManyRelationPropertyType($index) {
+        return $this->oneToMenyRelationPropertyTypes->get($index);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#getRelationPropertyTypeSize()
+     */
+    public function getRelationPropertyTypeSize() {
+        return $this->relationPropertyTypes->size();
+    }
+    
+    /**
+     * @see org.seasar.dao.BeanMetaData#getRelationPropertyType(int)
+     * @return RelationPropertyType
+     */
     public function getRelationPropertyType($index) {
         if(is_integer($index)){
-          return $this->relationPropertyTypes_->get($index);
+          return $this->relationPropertyTypes->get($index);
         } else {
             $propertyName = $index;
             $c = $this->getRelationPropertyTypeSize();
             for ($i = 0; $i < $c; $i++) {
-                $rpt = $this->relationPropertyTypes_->get($i);
+                $rpt = $this->relationPropertyTypes->get($i);
                 if ($rpt !== null &&
                     strcasecmp($rpt->getPropertyName(), $propertyName) == 0){
                     return $rpt;
@@ -192,94 +403,80 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     protected function setupTableName(S2Container_BeanDesc $beanDesc) {
         $ta = $this->beanAnnotationReader_->getTableAnnotation();
         if ($ta != null) {
-            $this->tableName_ = $ta;
+            $this->tableName = $ta;
         } else {
-            $this->tableName_ = $this->getBeanClass()->getName();
+            $this->tableName = $this->getBeanClass()->getName();
         }
     }
 
     protected function setupVersionNoPropertyName(S2Container_BeanDesc $beanDesc) {
         $vna = $this->beanAnnotationReader_->getVersionNoPropertyNameAnnotation();
         if ($vna !== null) {
-            $this->versionNoPropertyName_ = $vna;
+            $this->versionNoPropertyName = $vna;
         }
     }
 
     protected function setupTimestampPropertyName(S2Container_BeanDesc $beanDesc) {
         $tsa = $this->beanAnnotationReader_->getTimestampPropertyName();
         if ($tsa !== null) {
-            $this->timestampPropertyName_ = $tsa;
+            $this->timestampPropertyName = $tsa;
         }
     }
-
-    protected function setupProperty(S2Container_BeanDesc $beanDesc,
-                                   $dbMetaData,
-                                   S2Dao_Dbms $dbms) {
-
+    
+    protected function setupProperty(S2Container_BeanDesc $beanDesc, $dbMetaData) {
         $c = $beanDesc->getPropertyDescSize();
         for ($i = 0; $i < $c; ++$i) {
             $pd = $beanDesc->getPropertyDesc($i);
             $pt = null;
-            if($this->beanAnnotationReader_->hasRelationNo($pd)){
-                if (!$this->relation_) {
-                    $rpt = $this->createRelationPropertyType(
-                                         $beanDesc, $pd, $dbMetaData, $dbms);
+            $retatopmType = $this->beanAnnotationReader->getRelationType($pd);
+            if ($retatopmType == RelationType::belongTo) {
+                if (!$this->relation) {
+                    $rpt = $this->createRelationPropertyType($beanDesc, $pd, $dbMetaData);
                     $this->addRelationPropertyType($rpt);
                 }
-            } else {
+            } else if($retatopmType != RelationType::hasMany){
                 $pt = $this->createPropertyType($beanDesc, $pd);
                 $this->addPropertyType($pt);
             }
-            if ($this->identifierGenerator_ == null) {
-                $idAnnotation = $this->beanAnnotationReader_->getId($pd);
-                if($idAnnotation != null){
-                    $this->identifierGenerator_ =
-                        S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator(
-                                    $pd->getPropertyName(), $dbms, $idAnnotation
-                                );
-                    $this->primaryKeys_ = (array)$pt->getColumnName();
+            if ($this->primaryKeys == null || count($this->primaryKeys) == 0) {
+                $idAnnotation = $this->beanAnnotationReader->getId($pd);
+                if ($idAnnotation != null) {
+                    $this->primaryKeys[] = new S2Dao_PropertyType($pt);
                     $pt->setPrimaryKey(true);
                 }
             }
         }
     }
-
-    protected function setupDatabaseMetaData(S2Container_BeanDesc $beanDesc,
-                                           $dbMetaData,
-                                           S2Dao_Dbms $dbms) {
+    
+    protected function setupDatabaseMetaData(S2Container_BeanDesc $beanDesc, $dbMetaData) {
         $this->setupPropertyPersistentAndColumnName($beanDesc, $dbMetaData);
-        $this->setupPrimaryKey($dbMetaData, $dbms);
+        $this->setupPrimaryKey($dbMetaData);
     }
-
-    protected function setupPrimaryKey($dbMetaData, S2Dao_Dbms $dbms) {
-        if ($this->identifierGenerator_ == null) {
+    
+    protected function setupPrimaryKey($dbMetaData) {
+        if ($this->primaryKeys == null || count($this->primaryKeys) == 0) {
             $pkeyList = new S2Dao_ArrayList();
-            $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet(
-                                               $dbMetaData, $this->tableName_);
-
-            $c = $this->getPropertyTypeSize();
-            for ($i = 0; $i < $c; ++$i) {
+            $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet($dbMetaData,
+                                                                          $this->tableName);
+            $size = $this->getPropertyTypeSize();
+            for ($i = 0; $i < $size; ++$i) {
                 $pt = $this->getPropertyType($i);
                 if ($primaryKeySet->contains($pt->getColumnName())) {
                     $pt->setPrimaryKey(true);
-                    $pkeyList->add($pt->getColumnName());
+                    $pkeyList->add($pt);
                 } else {
                     $pt->setPrimaryKey(false);
                 }
             }
-            $this->primaryKeys_ = $pkeyList->toArray();
-            $this->identifierGenerator_ =
-                S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator(null, $dbms);
+            $this->primaryKeys = $pkeyList->toArray();
         }
     }
-
-    protected function setupPropertyPersistentAndColumnName(
-                                            S2Container_BeanDesc $beanDesc,
-                                            $dbMetaData) {
-        
-        $columnSet = S2Dao_DatabaseMetaDataUtil::getColumnSet($dbMetaData, $this->tableName_);
+    
+    protected function setupPropertyPersistentAndColumnName(S2Container_BeanDesc $beanDesc,
+                                                            $dbMetaData) {
+        $columnSet = S2Dao_DatabaseMetaDataUtil::getColumnMap($dbMetaData, $this->tableName);
         if ($columnSet->isEmpty()) {
-            self::$logger_->warn('WDAO0002', $this->tableName_);
+            self::$logger->warn('Table(' . $this->tableName . ') not found');
         }
         
         $cset = $columnSet->toArray();
@@ -289,21 +486,26 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             for($i = 0; $i < $c; ++$i){
                 $pt = $this->getPropertyType($i);
                 if(0 == strcasecmp($pt->getColumnName(), $col2)){
-                    $pt->setColumnName($columnName);
+                    $pd = $pt->getPropertyDesc();
+                    if ($beanAnnotationReader->getColumnAnnotation($pd) == null) {
+                        $pt->setColumnName($columnName);
+                    }
                     break;
                 }
             }
         }
-
+        
         $props = $this->beanAnnotationReader_->getNoPersisteneProps();
-        if ($props != null) {
+        if ($props !== null) {
             $length = count($props);
             for ($i = 0; $i < $length; ++$i) {
                 $pt = $this->getPropertyType(trim($props[$i]));
                 $pt->setPersistent(false);
             }
         }
-        for ($i = 0; $i < $this->getPropertyTypeSize(); ++$i) {
+        
+        $size = $this->getPropertyTypeSize();
+        for ($i = 0; $i < $size; ++$i) {
             $pt = $this->getPropertyType($i);
             if (!$columnSet->contains($pt->getColumnName())) {
                 $pt->setPersistent(false);
@@ -318,23 +520,25 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             $this->propertyTypesByColumnName->put($pt->getColumnName(), $pt);
         }
     }
-
+    
     protected function createRelationPropertyType(S2Container_BeanDesc $beanDesc,
                                                   S2Container_PropertyDesc $propertyDesc,
-                                                  $dbMetaData,
-                                                  S2Dao_Dbms $dbms) {
+                                                  $dbMetaData) {
         $myKeys = array();
         $yourKeys = array();
-        $relno = $this->beanAnnotationReader_->getRelationNo($propertyDesc);
+        $relno = 0;
+        if($this->beanAnnotationReader->hasRelationNo($propertyDesc)){
+            $relno = $this->beanAnnotationReader->getRelationNo($propertyDesc); 
+        }else{
+            $relno = $this->relationPropertyTypes->size();
+        }
         $relkeys = $this->beanAnnotationReader_->getRelationKey($propertyDesc);
 
         if($relkeys !== null){
-            $delim = new ArrayObject(preg_split('/[\s,]+/', $relkeys));
-            $st = $delim->getIterator();
+            $st = preg_split('/[\s,]+/', $relkeys);
             $myKeyList = new S2Dao_ArrayList();
             $yourKeyList = new S2Dao_ArrayList();
-            while ($st->valid()) {
-                $token = $st->current();
+            foreach ($st as $token) {
                 $index = strpos($token, ':');
                 if (0 < $index && $index !== false) {
                     $myKeyList->add(substr($token, 0, $index));
@@ -343,63 +547,82 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                     $myKeyList->add($token);
                     $yourKeyList->add($token);
                 }
-                $st->next();
             }
             $myKeys = $myKeyList->toArray();
             $yourKeys = $yourKeyList->toArray();
         }
         
         $beanClass = $propertyDesc->getPropertyType();
-        
+        $beanMetaData = new BeanMetaDataImpl();
+        $beanMetaData->setBeanClass($beanClass);
+        $beanMetaData->setDatabaseMetaData($dbMetaData);
+        $beanMetaData->setAnnotationReaderFactory($this->getAnnotationReaderFactory());
+        //$beanMetaData->setValueTypeFactory($this->getValueTypeFactory());
+        $beanMetaData->setRelation(true);
+        $beanMetaData->initialize();
         return new S2Dao_RelationPropertyTypeImpl($propertyDesc,
-                    $relno, $myKeys, $yourKeys,
-                    new S2Dao_BeanMetaDataImpl($beanClass, $dbMetaData, $dbms,
-                                        $this->annotationReaderFactory_, true));
+                                                  $relno,
+                                                  $myKeys,
+                                                  $yourKeys,
+                                                  $beanMetaData);
     }
 
     protected function addRelationPropertyType(S2Dao_RelationPropertyType $rpt) {
-        for ($i = $this->relationPropertyTypes_->size(); $i <= $rpt->getRelationNo(); ++$i) {
-            $this->relationPropertyTypes_->add(null);
+        $relNo = $rpt->getRelationNo();
+        for ($i = $this->relationPropertyTypes->size(); $i <= $relNo; ++$i) {
+            $this->relationPropertyTypes->add(null);
         }
-        $this->relationPropertyTypes_->set($rpt->getRelationNo(), $rpt);
+        $this->relationPropertyTypes->set($relNo, $rpt);
+    }
+    
+    private function addOneToManyRelationPropertyType(S2Dao_RelationPropertyType $rpt) {
+        $this->oneToMenyRelationPropertyTypes->add($rpt);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#getPrimaryKeySize()
+     */
     public function getPrimaryKeySize() {
-        return count($this->primaryKeys_);
+        return count($this->primaryKeys);
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#getPrimaryKey(int)
+     */
     public function getPrimaryKey($index) {
-        return $this->primaryKeys_[$index];
+        return $this->primaryKeys[$index];
     }
-
-    public function getIdentifierGenerator() {
-        return $this->identifierGenerator_;
-    }
-
+    
+    /**
+     * @see org.seasar.dao.BeanMetaData#getAutoSelectList()
+     */
     public function getAutoSelectList() {
-        if ($this->autoSelectList_ != null) {
-            return $this->autoSelectList_;
+        if ($this->autoSelectList != null) {
+            return $this->autoSelectList;
         }
         $this->setupAutoSelectList();
-        return $this->autoSelectList_;
+        return $this->autoSelectList;
     }
 
     protected function setupAutoSelectList() {
-        $buf = '';
-        $buf .= 'SELECT ';
-        for ($i = 0; $i < $this->getPropertyTypeSize(); ++$i) {
+        $buf = 'SELECT ';
+        $ptSize = $this->getPropertyTypeSize();
+        for ($i = 0; $i < $ptSize; ++$i) {
             $pt = $this->getPropertyType($i);
-            if ($pt !== null && $pt->isPersistent()) {
-                $buf .= $this->tableName_;
+            if ($pt->isPersistent()) {
+                $buf .= $this->tableName;
                 $buf .= '.';
                 $buf .= $pt->getColumnName();
                 $buf .= ', ';
             }
         }
-        for ($i = 0; $i < $this->getRelationPropertyTypeSize(); ++$i) {
+        
+        $rptSize = $this->getRelationPropertyTypeSize();
+        for ($i = 0; $i < $rptSize; ++$i) {
             $rpt = $this->getRelationPropertyType($i);
             $bmd = $rpt->getBeanMetaData();
-            for ($j = 0; $j < $bmd->getPropertyTypeSize(); ++$j) {
+            $bptSize = $bmd->getPropertyTypeSize();
+            for ($j = 0; $j < $bptSize; ++$j) {
                 $pt = $bmd->getPropertyType($j);
                 if ($pt->isPersistent()) {
                     $columnName = $pt->getColumnName();
@@ -413,20 +636,28 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             }
         }
         $buf = preg_replace('/(, )$/', '', $buf);
-        $this->autoSelectList_ = $buf;
+        $this->autoSelectList = $buf;
     }
 
+    /**
+     * @see org.seasar.dao.BeanMetaData#isRelation()
+     */
     public function isRelation() {
-        return $this->relation_;
+        return $this->relation;
     }
 
     public function setRelation($relation) {
-        $this->relation_ = $relation;
+        $this->relation = $relation;
     }
 
     public function setDatabaseMetaData($databaseMetaData) {
-        $this->databaseMetaData_ = $databaseMetaData;
+        $this->databaseMetaData = $databaseMetaData;
     }
 
+    public function checkPrimaryKey() {
+        if ($this->getPrimaryKeySize() == 0) {
+            throw new S2Dao_PrimaryKeyNotFoundRuntimeException($this->getBeanClass());
+        }
+    }
 }
 ?>

@@ -25,120 +25,203 @@
  * @author nowel
  */
 class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
-
+    
     private static $EMPTY_ARGS = array();
 
-    private $daoMetaData_;
+    private $beanMetaData;
+    
+    private $daoMetaData;
+    
+    private $sqlCommandFactory;
 
-    public function __construct(S2Dao_DaoMetaData $daoMetaData) {
-        $this->daoMetaData_ = $daoMetaData;
+    public function __construct(
+            S2Dao_DaoMetaData $daoMetaData,
+            S2Dao_BeanMetaData $beanMetaData,
+            S2Dao_SqlCommandFactory $sqlCommandFactory) {
+        $this->daoMetaData = $daoMetaData;
+        $this->beanMetaData = $beanMetaData;
+        $this->sqlCommandFactory = $sqlCommandFactory;
     }
 
+    /**
+     * @return DaoMetaData
+     */
     public function getDaoMetaData() {
-        return $this->daoMetaData_;
+        return $this->daoMetaData;
     }
 
-    public function find($query, $args = null, $arg2 = null, $arg3 = null) {
+    /**
+     * @see org.seasar.dao.EntityManager#find
+     * @return List
+     */
+    public function find($query, $arg1 = null, $arg2 = null, $arg3 = null) {
         switch(func_num_args()){
-            case 1:
-                return $this->find($query, self::$EMPTY_ARGS);
-            case 2:
-                if(is_array($args)){
-                    $cmd = $this->daoMetaData_->createFindCommand($query);
-                    return $cmd->execute($args);
-                }
-                return $this->find($query, array($args));
-            case 3:
-                return $this->find($query, array($args, $arg2));
-            case 4:
-                return $this->find($query, array($args, $arg2, $arg3));
+        case 1:
+            return $this->find($query, self::$EMPTY_ARGS);
+        case 2:
+            if(is_array($arg1) && !is_string($arg1)){
+                return $this->find0($query, $arg1);
+            }
+            return $this->find($query, array($arg1));
+        case 3:
+            return $this->find($query, array($arg1, $arg2));
+        case 4:
+            return $this->find($query, array($arg1, $arg2, $arg3));
         }
     }
 
-    public function findArray($query, $args = null, $arg2 = null, $arg3 = null) {
+    /**
+     * @return List
+     */
+    public function find0($query, array $args) {
+        $cmd = $this->sqlCommandFactory->createSelectDynamicCommandByQuery(
+                $this->daoMetaData->getDbms(),
+                $this->beanMetaData,
+                new ReflectionClass('S2Dao_ArrayList'),
+                $query);
+        return $cmd->execute($args);
+    }
+
+    /**
+     * @see org.seasar.dao.EntityManager#findArray
+     */
+    public function findArray($query, $arg1 = null, $arg2 = null, $arg3 = null) {
         switch(func_num_args()){
-            case 1:
-                return $this->findArray($query, self::$EMPTY_ARGS);
-            case 2:
-                if(is_array($args)){
-                    $cmd = $this->daoMetaData_->createFindArrayCommand($query);
-                    return $cmd->execute($args);
-                }
-                return $this->findArray($query, array($args));
-            case 3:
-                return $this->findArray($query, array($args, $arg2));
-            case 4:
-                return $this->findArray($query, array($args, $arg2, $arg3));
+        case 1:
+            return $this->findArray($query, self::$EMPTY_ARGS);
+        case 2:
+            if(is_array($arg1) && !is_string($arg1)){
+                return $this->findArray0($query, $arg1);
+            }
+            return $this->findArray($query, array($arg1));
+        case 3:
+            return $this->findArray($query, array($arg1, $arg2));
+        case 4:
+            return $this->findArray($query, array($arg1, $arg2, $arg3));
         }
     }
-    
-    public function findBean($query, $args = null, $arg2 = null, $arg3 = null) {
+
+    public function findArray0($query, array $args) {
+        $returnClass = $this->beanMetaData->getBeanClass()->getClass();
+        $cmd = $this->sqlCommandFactory->createSelectDynamicCommandByQuery(
+                            $daoMetaData->getDbms(),
+                            $this->beanMetaData,
+                            $returnClass,
+                            $query);
+        return $cmd->execute($args);
+    }
+
+    /**
+     * @see org.seasar.dao.EntityManager#findBean
+     */
+    public function findBean($query, $arg1 = null, $arg2 = null, $arg3 = null) {
         switch(func_num_args()){
-            case 1:
-                return $this->findBean($query, self::$EMPTY_ARGS);
-            case 2:
-                if(is_array($args)){
-                    $cmd = $this->daoMetaData_->createFindBeanCommand($query);
-                    return $cmd->execute($args);
-                }
-                return $this->findBean($query, array($args));
-            case 3:
-                return $this->findBean($query, array($args, $arg2));
-            case 4:
-                return $this->findBean($query, array($args, $arg2, $arg3));
+        case 1:
+            return $this->findBean($query, self::$EMPTY_ARGS);
+        case 2:
+            if(is_array($arg1) && !is_string($arg1)){
+                return $this->findBean0($query, $arg1);
+            }
+            return $this->findBean($query, array($arg1));
+        case 3:
+            return $this->findBean($query, array($arg1, $arg2));
+        case 4:
+            return $this->findBean($query, array($arg1, $arg2, $arg3));
         }
     }
+
+    /**
+     * @see org.seasar.dao.EntityManager#findBean
+     */
+    public function findBean0($query, array $args) {
+        $cmd = $this->sqlCommandFactory->createSelectDynamicCommandByQuery(
+                    $this->daoMetaData->getDbms(),
+                    $this->beanMetaData,
+                    $this->beanMetaData->getBeanClass(),
+                    $query);
+        return $cmd->execute($args);
+    }
+
+    /**
+     * @see org.seasar.dao.EntityManager#findObject
+     */
+    public function findObject($query, $arg1 = null, $arg2 = null, $arg3 = null) {
+        switch(func_num_args()){
+        case 1:
+            return $this->findObject($query, self::$EMPTY_ARGS);
+        case 2:
+            if(is_array($arg1) && !is_string($arg1)){
+                $this->findObject0($query, $arg1);
+            }
+            return $this->findObject($query, array($arg1));
+        case 3:
+            return $this->findObject($query, array($arg1, $arg2));
+        case 4:
+            return $this->findObject($query, array($arg1, $arg2, $arg3));
+        }
+    }
+
+    /**
+     * @see org.seasar.dao.EntityManager#findObject
+     */
+    public function findObject0($query, array $args) {
+        $cmd = $this->sqlCommandFactory->createSelectDynamicCommand(
+                    new S2Dao_ObjectResultSetHandler(),
+                    $query);
+        return $cmd->execute($args);
+    }
     
-    public function findYaml($query, $args = null, $arg2 = null, $arg3 = null) {
+    /**
+     * @see org.seasar.dao.EntityManager#findYaml
+     */
+    public function findYaml($query, $arg1 = null, $arg2 = null, $arg3 = null) {
        switch(func_num_args()){
             case 1:
                 return $this->findYaml($query, self::$EMPTY_ARGS);
             case 2:
-                if(is_array($args)){
-                    $cmd = $this->daoMetaData_->createFindYamlCommand($query);
-                    return $cmd->execute($args);
+                if(is_array($arg1) && !is_string($arg1)){
+                    return $this->findYaml0($query, $arg1);
                 }
-                return $this->findYaml($query, array($args));
+                return $this->findYaml($query, array($arg1));
             case 3:
-                return $this->findYaml($query, array($args, $arg2));
+                return $this->findYaml($query, array($arg1, $arg2));
             case 4:
-                return $this->findYaml($query, array($args, $arg2, $arg3));
+                return $this->findYaml($query, array($arg1, $arg2, $arg3));
         }
     }
     
-    public function findJson($query, $args = null, $arg2 = null, $arg3 = null) {
+    public function findYaml0($query, array $args){
+        $cmd = $this->sqlCommandFactory->createSelectDynamicCommand(
+                    new S2Dao_BeanYamlMetaDataResultSetHandler(),
+                    $query);
+        return $cmd->execute($args);
+    }
+    
+    /**
+     * @see org.seasar.dao.EntityManager#findJson
+     */
+    public function findJson($query, $arg1 = null, $arg2 = null, $arg3 = null) {
        switch(func_num_args()){
             case 1:
                 return $this->findJson($query, self::$EMPTY_ARGS);
             case 2:
-                if(is_array($args)){
-                    $cmd = $this->daoMetaData_->createFindJsonCommand($query);
-                    return $cmd->execute($args);
+                if(is_array($arg1) && !is_string($arg1)){
+                    return $this->findJson0($query, $arg1);
                 }
-                return $this->findJson($query, array($args));
+                return $this->findJson($query, array($arg1));
             case 3:
-                return $this->findJson($query, array($args, $arg2));
+                return $this->findJson($query, array($arg1, $arg2));
             case 4:
-                return $this->findJson($query, array($args, $arg2, $arg3));
+                return $this->findJson($query, array($arg1, $arg2, $arg3));
         }
+    }
+    
+    public function findJson0($query, array $args){
+        $cmd = $this->sqlCommandFactory->createSelectDynamicCommand(
+                    new S2Dao_BeanJsonMetaDataResultSetHandler(),
+                    $query);
+        return $cmd->execute($args);
     }
 
-    public function findObject($query, $args = null, $arg2 = null, $arg3 = null) {
-        switch(func_num_args()){
-            case 1:
-                return $this->findObject($query, self::$EMPTY_ARGS);
-            case 2:
-                if(is_array($args)){
-                    $cmd = $this->daoMetaData_->createFindObjectCommand($query);
-                    return $cmd->execute($args);
-                } else {
-                    return $this->findObject($query, array($args));
-                }
-            case 3:
-                return $this->findObject($query, array($args, $arg2));
-            case 4:
-                return $this->findObject($query, array($args, $arg2, $arg3));
-        }
-    }
 }
 ?>

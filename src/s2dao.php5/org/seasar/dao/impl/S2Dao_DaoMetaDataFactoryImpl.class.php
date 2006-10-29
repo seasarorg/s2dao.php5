@@ -25,52 +25,137 @@
  * @author nowel
  */
 class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
+    
+    protected $autoSelectCommandCreator;
 
-    protected $daoMetaDataCache;
+    protected $daoMetaDataCache = null;
+
+    protected $sqlWrapperCreators = array();
+
     protected $dataSource;
-    protected $statementFactory;
-    protected $resultSetFactory;
+
     protected $readerFactory;
 
-    public function __construct(S2Container_DataSource $dataSource,
-                                S2Dao_StatementFactory $statementFactory = null,
-                                S2Dao_ResultSetFactory $resultSetFactory = null,
-                                S2Dao_AnnotationReaderFactory $readerFactory) {
+    protected $valueTypeFactory;
+    
+    protected $sqlCommandFactory;
 
-        $this->daoMetaDataCache = new S2Dao_HashMap();
+    protected $configuration;
+
+    protected $beanMetaDataCache = null;
+
+    public function __construct(
+            S2Dao_SqlCommandFactory $sqlCommandFactory,
+            S2Container_DataSource $dataSource,
+            S2Dao_AnnotationReaderFactory $readerFactory,
+            S2Dao_AutoSelectSqlCreator $autoSelectCommandCreator,
+            S2Dao_DaoNamingConvention $configuration) {
+        $this->sqlCommandFactory = $sqlCommandFactory;
         $this->dataSource = $dataSource;
-        $this->statementFactory = $this->createStatementFactory($statementFactory);
-        $this->resultSetFactory = $this->createResultSetFactory($resultSetFactory);
         $this->readerFactory = $readerFactory;
-    }
-    
-    public function createStatementFactory(S2Dao_StatementFactory $statementFactory = null){
-        if($statementFactory === null){
-            return new S2Dao_BasicStatementFactory();
-        }
-        return $statementFactory;
-    }
-    
-    public function createResultSetFactory(S2Dao_ResultSetFactory $resultSetFactory = null){
-        if($resultSetFactory === null){
-            return new S2Dao_BasicResultSetFactory();
-        }
-        return $resultSetFactory;
+        $this->autoSelectCommandCreator = $autoSelectCommandCreator;
+        $this->configuration = $configuration;
+        $this->daoMetaDataCache = new S2Dao_HashMap();
+        $this->sqlWrapperCreators = new S2Dao_SqlWrapperCreator();
+        $this->beanMetaDataCache = new S2Dao_HashMap();
     }
 
+    public function setSqlWrapperCreators(array $sqlWrapperCreators) {
+        $cc = array();
+        $length = count($sqlWrapperCreators);
+        for($i = 0; $i < $length; $i++){
+            $cc[] = new S2Dao_SqlWrapperCreator();
+        }
+        $this->sqlWrapperCreators = $cc;
+    }
+    
+    /**
+     * @return SqlCommandFactory
+     */
+    public function getSqlCommandFactory() {
+        return $this->sqlCommandFactory;
+    }
+    
+    /**
+     * @return DaoMetaData
+     */
     public function getDaoMetaData(ReflectionClass $daoClass) {
         $key = $daoClass->getName();
-        $dmd = $this->daoMetaDataCache->get($key);
+        $dmd = $daoMetaDataCache->get($key);
         if ($dmd !== null) {
             return $dmd;
         }
-        $dmd = new S2Dao_DaoMetaDataImpl($daoClass,
-                                         $this->dataSource,
-                                         $this->statementFactory,
-                                         $this->resultSetFactory,
-                                         $this->readerFactory);
-        $this->daoMetaDataCache->put($key, $dmd);
-        return $dmd;
+        $dmdi = new S2Dao_DaoMetaDataImpl($daoClass,
+                                          $this->dataSource,
+                                          $this->readerFactory,
+                                          $this->configuration->getDaoSuffixes());
+        $this->setupSqlCommand($dmdi);
+        $this->daoMetaDataCache->put($key, $dmdi);
+        return $dmdi;
     }
+
+    protected function setupSqlCommand(S2Dao_DaoMetaDataImpl $daoMetaDataImpl) {
+        $idbd = $daoMetaDataImpl->getDaoBeanDesc();
+        $names = $idbd->getMethodNames();
+        $c = count($names);
+        for ($i = 0; $i < $c; ++$i) {
+            $methods = $idbd->getMethods($names[$i]);
+            if (count($methods) == 1 && S2Container_MethodUtil::isAbstract($methods[0])) {
+                $this->setupMethod($daoMetaDataImpl, $methods[0]);
+            }
+        }
+    }
+    
+    protected function setupMethod(S2Dao_DaoMetaDataImpl $daoMetaDataImpl,
+                                   ReflectionMethod $method) {
+        $daoAnnotationReader = $daoMetaDataImpl->getDaoAnnotationReader();
+        $beanMetaData = $this->getBeanMetaData($daoAnnotationReader->getBeanClass($method));
+        $length = $this->sqlWrapperCreators;
+        for ($i = 0; $i < $length; $i++) {
+            $dbms = $daoMetaDataImpl->getDbms();
+            $sqlWrapper = $sqlWrapperCreators[$i]->createSqlCommand($dbms,
+                                                                    $daoMetaDataImpl, 
+                                                                    $beanMetaData,
+                                                                    $method);
+            if ($sqlWrapper !== null) {
+                $daoAnnoReader = $daoMetaDataImpl->getDaoAnnotationReader();
+                $command = $sqlCommandFactory->createSqlCommand($dbms,
+                                                                $daoAnnoReader,
+                                                                $beanMetaData,
+                                                                $method,
+                                                                $sqlWrapper);
+                $daoMetaDataImpl->setSqlCommand($method->getName(), $command);
+                return;
+            }
+        }
+    }
+    
+    /**
+     * @return BeanMetaData
+     */
+    public function getBeanMetaData(ReflectionClass $beanClass){
+        $beanMetaData = $this->beanMetaDataCache->get($beanClass);
+        if($beanMetaData === null){
+            $conn = $this->dataSource->getConnection();
+            $beanMetaDataImpl = new S2Dao_BeanMetaDataImpl();
+            $beanMetaDataImpl->setBeanClass($beanClass);
+            $beanMetaDataImpl->setDatabaseMetaData($conn);
+            $beanMetaDataImpl->setAnnotationReaderFactory($this->readerFactory);
+            $beanMetaDataImpl->initialize();
+            $beanMetaData = $beanMetaDataImpl;
+            $beanMetaDataCache->put($beanClass, $beanMetaData);
+        }
+        return $beanMetaData;
+    }
+    
+    /**
+     * @return BeanMetaData
+     */
+    public function getBeanMetaDataByDaoClass(ReflectionClass $daoClass){
+        $daoMetaData = $this->getDaoMetaData($daoClass);
+        $daoAnnotationReader = $daoMetaData->getDaoAnnotationReader();
+        return $this->getBeanMetaData($daoAnnotationReader->getBeanClass(null));
+    }
+
 }
 ?>

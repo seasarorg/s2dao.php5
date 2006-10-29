@@ -26,20 +26,27 @@
  */
 class S2Dao_UpdateDynamicCommand extends S2Dao_AbstractDynamicCommand {
 
+    protected $updateHandler;
+
     public function __construct(S2Container_DataSource $dataSource,
-                                S2Dao_StatementFactory $statementFactory) {
+                                S2Dao_StatementFactory $statementFactory,
+                                S2Dao_UpdateHandler $updateHandler) {
         parent::__construct($dataSource, $statementFactory);
+        $this->updateHandler = $updateHandler;
     }
-
-    public function execute($args) {
-        $ctx = $this->apply($args);
-        $updateHandler = new S2Dao_BasicUpdateHandler(
-                                $this->getDataSource(),
-                                $ctx->getSql(),
-                                $this->getStatementFactory());
-
-        return $updateHandler->execute($ctx->getBindVariables(),
-                                       $ctx->getBindVariableTypes());
+    
+    /**
+     * @return UpdateHandler
+     */
+    public function getUpdateHandler() {
+        return $this->updateHandler;
+    }
+    
+    /**
+     * @Override
+     */
+    public function execute(array $args) {
+        return (int)$this->updateHandler->execute($args);
     }
 }
 ?>

@@ -26,40 +26,39 @@
  */
 abstract class S2Dao_AbstractSqlCommand implements S2Dao_SqlCommand {
 
-    private $dataSource_;
-    private $statementFactory_;
-    private $sql_;
-    private $notSingleRowUpdatedExceptionClass_;
+    private $dataSource;
+    private $statementFactory;
+    private $sql;
+    private $notSingleRowUpdatedExceptionClass;
 
     public function __construct(S2Container_DataSource $dataSource,
-                                S2Dao_StatementFactory $statementFactory = null) {
-        
-        $this->dataSource_ = $dataSource;
-        $this->statementFactory_ = $statementFactory;
+                                S2Dao_StatementFactory $statementFactory) {
+        $this->dataSource = $dataSource;
+        $this->statementFactory = $statementFactory;
     }
 
     public function getDataSource() {
-        return $this->dataSource_;
+        return $this->dataSource;
     }
     
     public function getStatementFactory() {
-        return $this->statementFactory_;
+        return $this->statementFactory;
     }
 
     public function getSql() {
-        return $this->sql_;
+        return $this->sql;
     }
 
     public function setSql($sql) {
-        $this->sql_ = $sql;
+        $this->sql = $sql;
     }
     
     public function getNotSingleRowUpdatedExceptionClass() {
-        return $this->notSingleRowUpdatedExceptionClass_;
+        return $this->notSingleRowUpdatedExceptionClass;
     }
     
     public function setNotSingleRowUpdatedExceptionClass($notSingleRowUpdatedExceptionClass) {
-        $this->notSingleRowUpdatedExceptionClass_ = $notSingleRowUpdatedExceptionClass;
+        $this->notSingleRowUpdatedExceptionClass = $notSingleRowUpdatedExceptionClass;
     }
 
 }

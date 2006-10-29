@@ -48,7 +48,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     public static function getPrimaryKeySet(PDO $dbMetaData, $tableName) {
         $schema = null;
         $index = strpos('.', $tableName);
-        if ($index >= 0 && $index !== false) {
+        if (0 <= $index && $index !== false) {
             $schema = substr($tableName, 0, $index);
             $tableName = substr($tableName, $index + 1);
         }
@@ -59,12 +59,13 @@ final class S2Dao_DatabaseMetaDataUtil {
                               $convertedTableName,
                               $set);
 
-        if ($set->size() == 0) {
+        $size = $set->size();
+        if ($size === 0) {
             self::addPrimaryKeys($dbMetaData, $schema, $tableName, $set);
         }
-        if ($set->size() == 0 && $schema != null) {
+        if ($size === 0 && $schema != null) {
             self::addPrimaryKeys($dbMetaData, null, $convertedTableName, $set);
-            if ($set->size() == 0) {
+            if ($size === 0) {
                 self::addPrimaryKeys($dbMetaData, null, $tableName, $set);
             }
         }
@@ -91,16 +92,11 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
     
     public static function getColumnMap(PDO $dbMetaData, $tableName) {
-        $map = new S2Dao_HashMap();
+        $map = new S2Dao_CaseInsensitiveMap();
         $set = self::getColumnSet($dbMetaData, $tableName);
         $c = $set->size();
         for($i = 0; $i < $c; ++$i){
-            $column = $set->get($i);
-            $lower = strtolower($column);
-            $upper = strtoupper($column);
-            $map->put($lower, null);
-            $map->put($upper, null);
-            $map->put($column, null);
+            $map->put($set->get($i), null);
         }
         return $map;
     }
@@ -120,12 +116,13 @@ final class S2Dao_DatabaseMetaDataUtil {
                          $convertedTableName,
                          $set);
 
-        if ($set->size() == 0) {
+        $size = $set->size();
+        if ($size === 0) {
             self::addColumns($dbMetaData, $schema, $tableName, $set);
         }
-        if ($set->size() == 0 && $schema != null) {
+        if ($size === 0 && $schema != null) {
             self::addColumns($dbMetaData, null, $convertedTableName, $set);
-            if ($set->size() == 0) {
+            if ($size === 0) {
                 self::addColumns($dbMetaData, null, $tableName, $set);
             }
         }
@@ -162,7 +159,11 @@ final class S2Dao_DatabaseMetaDataUtil {
     
     private static function getTables(PDO $pdo){
         $stmt = $pdo->query(self::getDbms($pdo)->getTableSql());
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $tables = array();
+        while($row = $stmt->fetch(PDO::FETCH_COLUMN)){
+            $tables[] = $row;
+        }
+        return $tables;
     }
 
     private static function getTableInfo(PDO $pdo, $table, $schema){

@@ -24,19 +24,16 @@
 /**
  * @author nowel
  */
-class S2Dao_FieldBeanAnnotationReader extends S2Dao_AbstractAnnotationReader {
+interface S2Dao_DaoNamingConvention {
     
-    public function __construct($beanClass){
-        parent::__construct(S2Container_BeanDescFactory::getBeanDesc($beanClass));
-    }
+    public function isInsertMethod(ReflectionMethod $method);
     
-    protected function createConstantAnnotationReader($beanDesc){
-        return new S2Dao_BeanConstantAnnotationReader($beanDesc);
-    }
+    public function isDeleteMethod(ReflectionMethod $method);
     
-    protected function createCommentAnnotationReader($beanDesc){
-        return new S2Dao_BeanCommentAnnotationReader($beanDesc);
-    }
-    
+    public function isSelectMethod(ReflectionMethod $method);
+
+    public function isUpdateMethod(ReflectionMethod $method);
+
+    public function getDaoSuffixes();
+
 }
-?>

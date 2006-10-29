@@ -24,19 +24,22 @@
 /**
  * @author nowel
  */
-class S2Dao_FieldBeanAnnotationReader extends S2Dao_AbstractAnnotationReader {
-    
-    public function __construct($beanClass){
-        parent::__construct(S2Container_BeanDescFactory::getBeanDesc($beanClass));
+class S2Dao_SetProxy extends ArrayObject {
+    private $set;
+
+    /**
+     * @return Iterator
+     */
+    public function iterator() {
+        // TODO Auto-generated method stub
+        return null;
     }
-    
-    protected function createConstantAnnotationReader($beanDesc){
-        return new S2Dao_BeanConstantAnnotationReader($beanDesc);
+
+    public function size() {
+        // TODO Auto-generated method stub
+        return 0;
     }
-    
-    protected function createCommentAnnotationReader($beanDesc){
-        return new S2Dao_BeanCommentAnnotationReader($beanDesc);
-    }
-    
+
 }
+
 ?>

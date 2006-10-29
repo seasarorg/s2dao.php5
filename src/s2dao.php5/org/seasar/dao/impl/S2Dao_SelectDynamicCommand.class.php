@@ -26,28 +26,30 @@
  */
 class S2Dao_SelectDynamicCommand extends S2Dao_AbstractDynamicCommand {
 
-    private $resultSetHandler = null;
-    private $resultSetFactory = null;
+    private $resultSetHandler;
+
+    private $resultSetFactory;
 
     public function __construct(S2Container_DataSource $dataSource,
-                                S2Dao_StatementFactory $statementFactory = null,
+                                S2Dao_StatementFactory $statementFactory,
                                 S2Dao_ResultSetHandler $resultSetHandler,
-                                S2Dao_ResultSetFactory $resultSetFactory = null){
-
+                                S2Dao_ResultSetFactory $resultSetFactory) {
         parent::__construct($dataSource, $statementFactory);
         $this->resultSetHandler = $resultSetHandler;
         $this->resultSetFactory = $resultSetFactory;
     }
 
+    /**
+     * @return ResultSetHandler
+     */
     public function getResultSetHandler() {
         return $this->resultSetHandler;
     }
-    
-    public function getResultSetFactory(){
-        return $this->resultSetFactory;
-    }
 
-    public function execute($args) {
+    /**
+     * @Override
+     */
+    public function execute(array $args) {
         $ctx = $this->apply($args);
         $selectHandler = new S2Dao_BasicSelectHandler(
                                 $this->getDataSource(),
@@ -55,7 +57,7 @@ class S2Dao_SelectDynamicCommand extends S2Dao_AbstractDynamicCommand {
                                 $this->resultSetHandler,
                                 $this->getStatementFactory(),
                                 $this->resultSetFactory);
-
+        //$selectHandler->setFetchSize(-1);
         return $selectHandler->execute($ctx->getBindVariables(),
                                        $ctx->getBindVariableTypes());
     }

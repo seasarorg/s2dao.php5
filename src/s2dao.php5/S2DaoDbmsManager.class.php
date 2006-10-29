@@ -37,19 +37,27 @@ final class S2DaoDbmsManager {
         'sybase' => 'S2Dao_Sybase',
         'odbc' => 'S2Dao_DB2'
     );
+    private static $instance = array();
 
     private function __construct() {
     }
-
-    public static function getDbms(PDO $ds) {
-        $driver = $ds->getAttribute(PDO::ATTR_DRIVER_NAME);
+    
+    private static function getInstancate($driver){
+        if(isset(self::$instance[$driver])){
+            return self::$instance[$driver];
+        }
         $class = null;
         if(isset(self::$dbmses[$driver])){
             $class = self::$dbmses[$driver];
         } else {
             $class = self::$dbmses['Standard'];
         }
-        return new $class;
+        $instance = self::$instance[$driver] = new $class;
+        return $instance;
+    }
+
+    public static function getDbms(PDO $ds) {
+        return self::getInstancate($ds->getAttribute(PDO::ATTR_DRIVER_NAME));
     }
 }
 ?>
