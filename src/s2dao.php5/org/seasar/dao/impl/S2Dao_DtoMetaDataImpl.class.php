@@ -31,18 +31,35 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     private $propertyTypes = null;
 
     protected $beanAnnotationReader;
+    
+    public function __construct(){
+        $args = func_get_args();
+        if(0 < func_num_args()){
+            $this->__call('__construct0', $args);
+        } else {
+            $this->__call('__construct1', $args);
+        }
+    }
+    
+    public function __construct0(){
+        $this->propertyTypes = new S2Dao_CaseInsensitiveMap();
+    }
 
-    public function __construct(ReflectionClass $beanClass,
+    public function __construct1(ReflectionClass $beanClass,
                                 S2Dao_BeanAnnotationReader $beanAnnotationReader) {
+        $this->__construct0();
         $this->setBeanClass($beanClass);
         $this->setBeanAnnotationReader($beanAnnotationReader);
-        $this->propertyTypes = new S2Dao_CaseInsensitiveMap();
         $this->initialize();
     }
 
     public function initialize() {
         $beanDesc = S2Container_BeanDescFactory::getBeanDesc($this->getBeanClass());
         $this->setupPropertyType($beanDesc);
+    }
+    
+    private function __call($name, $args){
+        return call_user_func_array(array($this, $name), $args);
     }
 
     /**
@@ -115,7 +132,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     }
 
     protected function addPropertyType(S2Dao_PropertyType $propertyType) {
-        $propertyTypes->put($propertyType->getPropertyName(), $propertyType);
+        $this->propertyTypes->put($propertyType->getPropertyName(), $propertyType);
     }
 
     public function setBeanAnnotationReader(S2Dao_BeanAnnotationReader $beanAnnotationReader) {

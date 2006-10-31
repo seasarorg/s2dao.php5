@@ -109,7 +109,7 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
         $args = $ctx->getBindVariables();
         $argTypes = $ctx->getBindVariableTypes();
         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug($this->getCompleteSql($sql, $args));
+            self::$logger->debug($this->_getCompleteSql($sql, $args));
         }
         $ret = $this->execute($connection, $sql, $args, $argTypes);
         $this->sqlWrapper->postUpdateBean($ctx, (int)$ret);
@@ -121,7 +121,7 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
     }
     
     protected function execute3(PDO $connection, $sql, array $args, array $argTypes) {
-        $ps = $this->prepareStatement($connection, $sql);
+        $ps = $this->_prepareStatement($connection, $sql);
         $this->bindArgs($ps, $args, $argTypes);
         try {
             $ps->execute($ps);
@@ -131,7 +131,7 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
         }
     }
 
-    protected function getCompleteSql($sql, array $args) {
+    protected function _getCompleteSql($sql, array $args) {
         if ($args == null || !is_array($args)) {
             return $this->sql_;
         }
@@ -151,7 +151,7 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
     /**
      * @return PDOStatement
      */
-    protected function prepareStatement($connection, $sql) {
+    protected function _prepareStatement($connection, $sql) {
         if ($sql === null) {
             throw new S2Dao_EmptyRuntimeException('sql');
         }

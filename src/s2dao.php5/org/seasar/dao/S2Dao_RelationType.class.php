@@ -28,11 +28,19 @@ class S2Dao_RelationType {
     public static $belongTo = null;
     public static $hasMany = null;
     public static $init = false;
+    
+    private $code;
+    private $name;
+    
+    public function __construct($code, $name){
+        $this->code = $code;
+        $this->name = $name;
+    }
 }
 
 if(!S2Dao_RelationType::$init){
-    S2Dao_RelationType::$belongTo = new S2Dao_RelationType();
-    S2Dao_RelationType::$hasMany = new S2Dao_RelationType();
+    S2Dao_RelationType::$belongTo = new S2Dao_RelationType(1, 'belongTo');
+    S2Dao_RelationType::$hasMany = new S2Dao_RelationType(9, 'hasMany');
     S2Dao_RelationType::$init = true;
 }
 
