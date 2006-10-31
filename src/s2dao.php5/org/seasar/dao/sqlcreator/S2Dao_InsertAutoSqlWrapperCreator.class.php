@@ -32,7 +32,7 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             S2Dao_AnnotationReaderFactory $annotationReaderFactory,
             S2Container_DataSource $dataSource,
             S2Dao_StatementFactory $statementFactory,
-            S2DaoConfiguration $configuration) {
+            S2Dao_DaoNamingConvention $configuration) {
         parent::__construct($annotationReaderFactory, $configuration);
         $this->dataSource = $dataSource;
     }
@@ -201,7 +201,7 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
 }
 
-final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl{
+final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
     
     private $beanMetaData;
     private $dataSource;

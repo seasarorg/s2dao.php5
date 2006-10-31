@@ -28,8 +28,8 @@ class S2Dao_DeleteAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
     public function __construct(
             S2Dao_AnnotationReaderFactory $annotationReaderFactory,
-            S2DaoConfiguration $configuration) {
-        super($annotationReaderFactory, $configuration);
+            S2Dao_DaoNamingConvention $configuration) {
+        parent::__construct($annotationReaderFactory, $configuration);
     }
 
     protected function createSql(S2Dao_BeanMetaData $beanMetaData) {
@@ -86,9 +86,11 @@ class S2Dao_DeleteAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
         $reader = $this->annotationReaderFactory->createDaoAnnotationReader($beanDesc);
         if($this->checkAutoUpdateMethod($beanMetaData, $method)){
             if ($this->isUpdateSignatureForBean($beanMetaData, $method)) {
-                return new S2Dao_SqlWrapperImplAnony(array('dto'), $this->createSql($beanMetaData), false);
+                return new S2Dao_DeleteAutoSqlWrapperImplAnony(array('dto'),
+                                                               $this->createSql($beanMetaData), false);
             }
-            return new S2Dao_SqlWrapperImpl(array('dto'), $this->createSql($beanMetaData), true);
+            return new S2Dao_SqlWrapperImpl(array('dto'),
+                                            $this->createSql($beanMetaData), true);
         }
         return new S2Dao_SqlWrapperImpl($reader->getArgNames($method),
                                         $this->createAutoDelete($dbms, $beanMetaData,
@@ -96,7 +98,7 @@ class S2Dao_DeleteAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
     }
 }
 
-final class S2Dao_SqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
+final class S2Dao_DeleteAutoSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     
     public function preUpdateBean(S2Dao_CommandContext $ctx) {
     }

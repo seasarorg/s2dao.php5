@@ -43,7 +43,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
     protected $autoSelectSqlCreator;
 
     public function __construct(S2Dao_AutoSelectSqlCreator $autoSelectSqlCreator,
-                                S2DaoConfiguration $configuration,
+                                S2Dao_DaoNamingConvention $configuration,
                                 S2Dao_AnnotationReaderFactory $annotationReaderFactory,
                                 S2Container_DataSource $dataSource,
                                 S2Dao_StatementFactory $statementFactory,

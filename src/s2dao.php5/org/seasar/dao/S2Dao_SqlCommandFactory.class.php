@@ -44,7 +44,7 @@ interface S2Dao_SqlCommandFactory {
     /**
      * @return SqlCommand
      */
-    public abstract function createSqlCommand(S2Dao_Dbms $dbms,
+    public function createSqlCommand(S2Dao_Dbms $dbms,
                     S2Dao_DaoAnnotationReader $annotationReader,
                     S2Dao_BeanMetaData $beanMetaData,
                     ReflectionMethod $method,

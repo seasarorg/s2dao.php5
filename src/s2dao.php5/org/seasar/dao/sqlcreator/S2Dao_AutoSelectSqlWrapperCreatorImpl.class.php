@@ -27,18 +27,15 @@
 class S2Dao_AutoSelectSqlWrapperCreatorImpl
 implements S2Dao_SqlWrapperCreator, S2Dao_AutoSelectSqlCreator {
 
-    const startWithOrderByPattern = "/(\/\*[^*]+\*\/)*order by/i";
-    const startWithSelectPattern = "/^\s*select\s/i";
-    const startWithBeginCommentPattern = "/\/\*BEGIN\*\/\s*WHERE .+/i";
+    const startWithOrderByPattern = '/(\/\*[^*]+\*\/)*order by/i';
+    const startWithSelectPattern = '/^\s*select\s/i';
+    const startWithBeginCommentPattern = '/\/\*BEGIN\*\/\s*WHERE .+/i';
     
-    private $valueTypeFactory;
     private $annotationReaderFactory;
     
     public function __construct(
-            S2Dao_AnnotationReaderFactory $annotationReaderFactory,
-            S2Dao_ValueTypeFactory $valueTypeFactory) {
+            S2Dao_AnnotationReaderFactory $annotationReaderFactory) {
         $this->annotationReaderFactory = $annotationReaderFactory;
-        $this->valueTypeFactory = $valueTypeFactory;
     }
 
     protected static function startsWithOrderBy($query = null) {
@@ -138,8 +135,7 @@ implements S2Dao_SqlWrapperCreator, S2Dao_AutoSelectSqlCreator {
             return $sql;
         }
         $dmd = new S2Dao_DtoMetaDataImpl($dtoClass,
-                $this->annotationReaderFactory->createBeanAnnotationReader($dtoClass),
-                $this->valueTypeFactory);
+                $this->annotationReaderFactory->createBeanAnnotationReader($dtoClass));
         $began = false;
         if (stripos($sql, 'WHERE') === false) {
             $buf .= '/*BEGIN*/ WHERE ';

@@ -36,8 +36,6 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
 
     protected $readerFactory;
 
-    protected $valueTypeFactory;
-    
     protected $sqlCommandFactory;
 
     protected $configuration;
@@ -56,17 +54,11 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $this->autoSelectCommandCreator = $autoSelectCommandCreator;
         $this->configuration = $configuration;
         $this->daoMetaDataCache = new S2Dao_HashMap();
-        $this->sqlWrapperCreators = new S2Dao_SqlWrapperCreator();
         $this->beanMetaDataCache = new S2Dao_HashMap();
     }
 
     public function setSqlWrapperCreators(array $sqlWrapperCreators) {
-        $cc = array();
-        $length = count($sqlWrapperCreators);
-        for($i = 0; $i < $length; $i++){
-            $cc[] = new S2Dao_SqlWrapperCreator();
-        }
-        $this->sqlWrapperCreators = $cc;
+        $this->sqlWrapperCreators = $sqlWrapperCreators;
     }
     
     /**
@@ -81,7 +73,7 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
      */
     public function getDaoMetaData(ReflectionClass $daoClass) {
         $key = $daoClass->getName();
-        $dmd = $daoMetaDataCache->get($key);
+        $dmd = $this->daoMetaDataCache->get($key);
         if ($dmd !== null) {
             return $dmd;
         }
@@ -100,8 +92,8 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $c = count($names);
         for ($i = 0; $i < $c; ++$i) {
             $methods = $idbd->getMethods($names[$i]);
-            if (count($methods) == 1 && S2Container_MethodUtil::isAbstract($methods[0])) {
-                $this->setupMethod($daoMetaDataImpl, $methods[0]);
+            if (S2Container_MethodUtil::isAbstract($methods)) {
+                $this->setupMethod($daoMetaDataImpl, $methods);
             }
         }
     }
@@ -134,7 +126,8 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
      * @return BeanMetaData
      */
     public function getBeanMetaData(ReflectionClass $beanClass){
-        $beanMetaData = $this->beanMetaDataCache->get($beanClass);
+        $beanClassName = $beanClass->getName();
+        $beanMetaData = $this->beanMetaDataCache->get($beanClassName);
         if($beanMetaData === null){
             $conn = $this->dataSource->getConnection();
             $beanMetaDataImpl = new S2Dao_BeanMetaDataImpl();
@@ -143,7 +136,7 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
             $beanMetaDataImpl->setAnnotationReaderFactory($this->readerFactory);
             $beanMetaDataImpl->initialize();
             $beanMetaData = $beanMetaDataImpl;
-            $beanMetaDataCache->put($beanClass, $beanMetaData);
+            $this->beanMetaDataCache->put($beanClassName, $beanMetaData);
         }
         return $beanMetaData;
     }

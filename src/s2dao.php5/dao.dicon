@@ -3,9 +3,21 @@
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="dao">
     <include path="%PDO_DICON%" />
-    <component class="S2Dao_BasicStatementFactory" />
-    <component class="S2Dao_BasicResultSetFactory" />
-    <component class="S2Dao_FieldAnnotationReaderFactory" />   
-    <component class="S2Dao_DaoMetaDataFactoryImpl" />
+    <component class="S2Dao_SqlCommandFactoryImpl" />
+    <component class="S2Dao_FieldAnnotationReaderFactory" />
+    <component class="S2Dao_DaoNamingConventionImpl" />
+    <component class="S2Dao_AnnotationSqlWrapperCreator" />
+    <component class="S2Dao_StoredProcedureWrapperCreator" />
+    <component class="S2Dao_FileSqlWrapperCreator" />
+    <component class="S2Dao_InsertAutoSqlWrapperCreator" />
+    <component class="S2Dao_UpdateSqlWrapperCreator" />
+    <component class="S2Dao_DeleteAnnotationSqlWrapperCreator" />
+    <component class="S2Dao_DeleteAutoSqlWrapperCreator" />
+    <component class="S2Dao_AutoSelectSqlWrapperCreatorImpl" />
+    <component class="S2Dao_DaoMetaDataFactoryImpl">
+    	    <!--
+        <property name="sqlWrapperCreators">$container->findComponents(S2Dao_SqlWrapperCreator)</property>
+        -->
+    </component>
     <component name="interceptor" class="S2DaoInterceptor" />
 </components>

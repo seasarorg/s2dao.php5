@@ -25,6 +25,25 @@
  * @author nowel
  */
 interface S2Dao_DaoMetaDataFactory {
+    
+    /**
+     * @return SqlCommandFactory
+     */
+    public function getSqlCommandFactory();
+
+    /**
+     * @return DaoMetaData
+     */
     public function getDaoMetaData(ReflectionClass $daoClass);
+
+    /**
+     * @return BeanMetaData
+     */
+    public function getBeanMetaData(ReflectionClass $class);
+    
+    /**
+     * @return BeanMetaData
+     */
+    public function getBeanMetaDataByDaoClass(ReflectionClass $daoClass);
 }
 ?>

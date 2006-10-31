@@ -32,8 +32,8 @@ class S2Dao_UpdateSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
     public function __construct(
             S2Dao_AnnotationReaderFactory $annotationReaderFactory,
-            S2DaoConfiguration $configuration) {
-        super($annotationReaderFactory, $configuration);
+            S2Dao_DaoNamingConvention $configuration) {
+        parent::__construct($annotationReaderFactory, $configuration);
     }
 
     protected function createSql(S2Dao_BeanMetaData $beanMetaData,
@@ -104,13 +104,11 @@ class S2Dao_UpdateSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
         $this->checkAutoUpdateMethod($beanMetaData, $method);
         $propertyNames = $this->getPersistentPropertyNames($daoAnnotationReader, $beanMetaData, $method);
         if ($this->isUpdateSignatureForBean($beanMetaData, $method)) {
-            $anSqlWrapper = new S2Dao_SqlWrapperImplAnony(array('dto'),
-                    $this->createSql($beanMetaData, $propertyNames, true), false);
-                    
+            $anSqlWrapper = new S2Dao_UpdateSqlWrapperImplAnony(array('dto'),
+                        $this->createSql($beanMetaData, $propertyNames, true), false);
             $anSqlWrapper->versionNoPropertyExists = $this->versionNoPropertyExists;
             $anSqlWrapper->timeStampPropertyExists = $this->timeStampPropertyExists;
             $anSqlWrapper->beanMetaData = $beanMetaData;
-            
             return $anSqlWrapper;
         }
         return new S2Dao_SqlWrapperImpl(array('dto'),
@@ -119,7 +117,7 @@ class S2Dao_UpdateSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
 }
 
-final class S2Dao_SqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
+final class S2Dao_UpdateSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     
     public $timeStampPropertyExists;
     public $versionNoPropertyExists;

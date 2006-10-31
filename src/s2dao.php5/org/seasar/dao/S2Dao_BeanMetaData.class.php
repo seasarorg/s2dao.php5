@@ -26,50 +26,108 @@
  */
 interface S2Dao_BeanMetaData extends S2Dao_DtoMetaData {
 
-    const TABLE = 'TABLE';
-    const RELNO_SUFFIX = '_RELNO';
-    const RELKEYS_SUFFIX = '_RELKEYS';
-    const ID_SUFFIX = '_ID';
-    const NO_PERSISTENT_PROPS = 'NO_PERSISTENT_PROPS';
-    const VERSION_NO_PROPERTY = 'VERSION_NO_PROPERTY';
-    const TIMESTAMP_PROPERTY = 'TIMESTAMP_PROPERTY';
-
     public function getTableName();
 
+    /**
+     * @return PropertyType
+     */
     public function getVersionNoPropertyType();
-
-    public function getVersionNoPropertyName();
     
+    /**
+     * @return String
+     */
+    public function getVersionNoPropertyName();
+
+    /**
+     * @return boolean
+     */
     public function hasVersionNoPropertyType();
 
+    /**
+     * @return PropertyType
+     */
     public function getTimestampPropertyType();
 
+    /**
+     * @return String
+     */
     public function getTimestampPropertyName();
 
+    /**
+     * @return boolean
+     */
     public function hasTimestampPropertyType();
 
+    /**
+     * @return String
+     */
     public function convertFullColumnName($alias);
 
+    /**
+     * @return PropertyType
+     */
     public function getPropertyTypeByAliasName($aliasName);
 
+    /**
+     * @return PropertyType
+     */
     public function getPropertyTypeByColumnName($columnName);
 
+    /**
+     * @return boolean
+     */
     public function hasPropertyTypeByColumnName($columnName);
 
+    /**
+     * @return boolean
+     */
     public function hasPropertyTypeByAliasName($aliasName);
 
+    /**
+     * @return integer
+     */
     public function getRelationPropertyTypeSize();
 
-    public function getRelationPropertyType($index);
+    /**
+     * @return RelationPropertyType
+     */
+    public function getRelationPropertyType($indexOrName);
 
+    /**
+     * @return integer
+     */
     public function getPrimaryKeySize();
 
+    /**
+     * @return String
+     */
     public function getPrimaryKey($index);
-    
-    public function getIdentifierGenerator();
 
+    /**
+     * @return String
+     */
     public function getAutoSelectList();
 
+    /**
+     * @return boolean
+     */
     public function isRelation();
+
+    /**
+     * @return boolean
+     */
+    public function isBeanClassAssignable(ReflectionClass $clazz);
+
+    public function checkPrimaryKey();
+
+    /**
+     * @return RelationPropertyType
+     */
+    public function getManyRelationPropertyType($index);
+
+    /**
+     * @return integer
+     */
+    public function getOneToManyRelationPropertyTypeSize();
 }
 ?>

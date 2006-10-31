@@ -1,6 +1,6 @@
 <?php
 require_once 'S2Container/S2Container.php';
-require_once 'S2Dao/S2Dao.php';
+require_once dirname(dirname(dirname(dirname(__FILE__)))). '/build/s2dao.php5/S2Dao.php';
 
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
 define('DAO_DICON', dirname(dirname(__FILE__)) . '/dao.dicon');

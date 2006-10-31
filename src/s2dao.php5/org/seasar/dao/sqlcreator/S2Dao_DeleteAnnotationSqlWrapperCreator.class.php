@@ -28,8 +28,8 @@ class S2Dao_DeleteAnnotationSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreato
 
     public function __construct(
             S2Dao_AnnotationReaderFactory $annotationReaderFactory,
-            S2DaoConfiguration $configuration) {
-        super($annotationReaderFactory, $configuration);
+            S2Dao_DaoNamingConvention $configuration) {
+        parent::__construct($annotationReaderFactory, $configuration);
     }
 
     protected function createSql(S2Dao_BeanMetaData $beanMetaData, $query) {
