@@ -26,38 +26,40 @@
  */
 abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_ResultSetHandler {
 
-    private $beanMetaData_;
+    private $beanMetaData;
 
-    public function __construct(S2Dao_BeanMetaData $beanMetaData) {
-        $this->beanMetaData_ = $beanMetaData;
+    protected $dbms;
+
+    public function __construct(S2Dao_BeanMetaData $beanMetaData,
+                                S2Dao_Dbms $dbms) {
+        $this->beanMetaData = $beanMetaData;
+        $this->dbms = $dbms;
     }
 
+    /**
+     * @return BeanMetaData
+     */
     public function getBeanMetaData() {
-        return $this->beanMetaData_;
+        return $this->beanMetaData;
     }
 
-    protected function createRow(array $resultSet){
+    protected function createRow(array $rs) {
         $row = $this->beanMetaData_->getBeanClass()->newInstance();
-        $columnNames = new S2Dao_ArrayList(array_keys($resultSet));
+        $columnNames = new S2Dao_ArrayList(array_keys($rs));
         
-        $c = $this->beanMetaData_->getPropertyTypeSize();
-        for($i = 0; $i < $c; ++$i) {
-            $pt = $this->beanMetaData_->getPropertyType($i);
+        $size =  $this->beanMetaData->getPropertyTypeSize();
+        for ($i = 0; $i < $size; ++$i) {
+            $pt = $this->beanMetaData->getPropertyType($i);
             if ($columnNames->contains($pt->getColumnName())) {
-                $value = $resultSet[$pt->getColumnName()];
-                $pd = $pt->getPropertyDesc();
-                $pd->setValue($row, $value);
-            } else if ($columnNames->contains($pt->getPropertyName())) {
-                $value = $resultSet[$pt->getPropertyName()];
+                $value = $rs[$pt->getColumnName()];
                 $pd = $pt->getPropertyDesc();
                 $pd->setValue($row, $value);
             } else if (!$pt->isPersistent()) {
-                $iter = $columnNames->iterator();
-                for (; $iter->valid(); $iter->next()) {
+                for ($iter = $columnNames->iterator(); $iter->valid(); $iter->next()) {
                     $columnName = $iter->current();
                     $columnName2 = str_replace('_', '', $columnName);
                     if (strcasecmp($columnName2, $pt->getColumnName()) == 0) {
-                        $value = $resultSet[$pt->getColumnName()];
+                        $value = $rs[$pt->getColumnName()];
                         $pd = $pt->getPropertyDesc();
                         $pd->setValue($row, $value);
                         break;
@@ -67,25 +69,30 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
         }
         return $row;
     }
-
-    protected function createRelationRow(S2Dao_RelationPropertyType $rpt,
-                                         array $resultSet = null,
-                                         S2Dao_HashMap $relKeyValues = null){
-
-        if($resultSet == null && $relKeyValues == null){
-            return $rpt->getPropertyDesc()->getPropertyType()->newInstance();
+    
+    protected function createRelationRow() {
+        $args = func_get_args();
+        if(1 < func_num_args()){
+            return $this->__call('createRelationRow0', $args);
         }
-
+        return $this->__call('createRelationRow1', $args);
+    }
+    
+    protected function createRelationRow0(array $rs,
+                                         S2Dao_RelationPropertyType $rpt,
+                                         S2Dao_HashMap $columnNames,
+                                         S2Dao_HashMap $relKeyValues) {
         $row = null;
-        $columnNames = new S2Dao_ArrayList(array_keys($resultSet));
         $bmd = $rpt->getBeanMetaData();
-        for ($i = 0; $i < $rpt->getKeySize(); ++$i) {
+        $size = $rpt->getKeySize();
+        for ($i = 0; $i < $size; ++$i) {
             $columnName = $rpt->getMyKey($i);
-            if($this->columnContains($columnNames, $columnName)) {
+            if ($columnNames->contains($columnName)) {
                 if ($row === null) {
                     $row = $this->createRelationRow($rpt);
                 }
-                if ($relKeyValues != null && $relKeyValues->containsKey($columnName)) {
+                if ($relKeyValues !== null
+                        && $relKeyValues->containsKey($columnName)) {
                     $value = $relKeyValues->get($columnName);
                     $pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
                     $pd = $pt->getPropertyDesc();
@@ -96,12 +103,12 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
             }
             continue;
         }
-        $c = $bmd->getPropertyTypeSize();
         $existColumn = 0;
-        for ($i = 0; $i < $c; ++$i) {
+        $propertyTypeSize = $bmd->getPropertyTypeSize();
+        for ($i = 0; $i < $propertyTypeSize; ++$i) {
             $pt = $bmd->getPropertyType($i);
             $columnName = $pt->getColumnName() . '_' . $rpt->getRelationNo();
-            if(!$this->columnContains($columnNames, $columnName)){
+            if (!$columnNames->contains($columnName)) {
                 continue;
             }
             $existColumn++;
@@ -112,33 +119,35 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
             if ($relKeyValues !== null && $relKeyValues->containsKey($columnName)) {
                 $value = $relKeyValues->get($columnName);
             } else {
-                $value = $resultSet[$columnName];
+                $value = $rs[$columnName];
             }
             $pd = $pt->getPropertyDesc();
             if ($value !== null) {
                 $pd->setValue($row, $value);
             }
         }
-        if($existColumn == 0){
+        if ($existColumn === 0) {
             return null;
         }
         return $row;
     }
+
+    protected function createRelationRow1(S2Dao_RelationPropertyType $rpt) {
+        return $rpt->getPropertyDesc()->getPropertyType()->newInstance();
+    }
     
-    private function columnContains($columnNames, $column){
-        if(is_string($columnNames)){
-            if(strcasecmp($columnNames, $column) == 0){
-                return true;
-            }
-            return false;
+    protected function createColumnNames(array $rsmd) {
+        $colNames = array_keys($rsmd);
+        $count = count($colNames);
+        $columnNames = new S2Dao_CaseInsensitiveMap();
+        for ($i = 0; $i < $count; ++$i) {
+            $columnNames->put($colNames);
         }
-        $c = count($columnNames);
-        for($i = 0; $i < $c; $i++){
-            if($this->columnContains($columnNames[$i], $column)){
-                return true;
-            }
-        }
-        return false;
+        return $columnNames;
+    }
+    
+    private function __call($name, $args){
+        return call_user_func_array(array($this, $name), $args);
     }
 
 }
