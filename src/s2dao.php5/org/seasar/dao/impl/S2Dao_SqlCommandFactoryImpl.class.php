@@ -150,7 +150,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
     protected function setupUpdateMethodByManual(S2Dao_DaoAnnotationReader $annotationReader,
                                                  S2Dao_BeanMetaData $beanMetaData,
                                                  ReflectionMethod $method,
-                                                 SqlWrapper $sql) {
+                                                 S2Dao_SqlWrapper $sql) {
         $argNames = $sql->getParameterNames();
         if (count($argNames) == 0 &&
             $this->isUpdateSignatureForBean($beanMetaData, $method)) {

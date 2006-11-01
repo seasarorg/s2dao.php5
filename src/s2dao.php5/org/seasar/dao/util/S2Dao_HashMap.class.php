@@ -37,6 +37,10 @@ class S2Dao_HashMap {
     }
     
     public function get($key){
+        // TODO
+        if(is_object($key)){
+            $key = (string)$key;
+        }
         if(!$this->containsKey($key)){
             return null;
         }

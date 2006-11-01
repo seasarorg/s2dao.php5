@@ -30,6 +30,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     private $tableName;
     private $propertyTypesByColumnName;
     private $relationPropertyTypes;
+    private $oneToMenyRelationPropertyTypes;
     private $primaryKeys = array();
     private $autoSelectList;
     private $relation;
@@ -44,6 +45,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         self::$logger = S2Container_S2Logger::getLogger(get_class($this));
         $this->propertyTypesByColumnName = new S2Dao_CaseInsensitiveMap();
         $this->relationPropertyTypes = new S2Dao_ArrayList();
+        $this->oneToMenyRelationPropertyTypes = new S2Dao_ArrayList();
         $this->annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
     }
     

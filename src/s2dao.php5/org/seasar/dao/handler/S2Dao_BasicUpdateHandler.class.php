@@ -42,7 +42,7 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
                                 array $argTypes,
                                 S2Dao_StatementFactory $statementFactory) {
         parent::__construct($dataSource, $sql->getSql(), $statementFactory);
-        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
+        self::$logger = S2Container_S2Logger::getLogger(get_class($this));
         $parser = new S2Dao_SqlParserImpl($sql->getSql());
         $this->rootNode = $parser->parse();
         $this->sqlWrapper = $sql;
@@ -69,7 +69,7 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
                     }
                 }
                 if ($i < $namesCount) {
-                    $ctx->addArg($this->argNames_[$i], $args[$i], $argType);
+                    $ctx->addArg($this->argNames[$i], $args[$i], $argType);
                 } else {
                     $ctx->addArg('$' . ($i + 1), $args[$i], $argType);
                 }
@@ -133,10 +133,10 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
 
     protected function _getCompleteSql($sql, array $args) {
         if ($args == null || !is_array($args)) {
-            return $this->sql_;
+            return $sql;
         }
         $pos = 0;
-        $buf = $this->sql_;
+        $buf = $sql;
         foreach($args as $value){
             $pos = strpos($buf, '?');
             if($pos !== false){
@@ -155,7 +155,7 @@ class S2Dao_BasicUpdateHandler extends S2Dao_BasicHandler implements S2Dao_Updat
         if ($sql === null) {
             throw new S2Dao_EmptyRuntimeException('sql');
         }
-        return $this->statementFactory_->createPreparedStatement($connection, $sql);
+        return $this->statementFactory->createPreparedStatement($connection, $sql);
     }
 
     private function __call($name, $args){
