@@ -27,10 +27,10 @@
 class S2Dao_Standard implements S2Dao_Dbms {
 
     const baseSqlPattern = '/^.*?(select)/i';
-    private $autoSelectFromClauseCache_ = null;
+    private $autoSelectFromClauseCache = null;
 
     public function __construct(){
-        $this->autoSelectFromClauseCache_ = new S2Dao_HashMap();
+        $this->autoSelectFromClauseCache = new S2Dao_HashMap();
     }
 
     public function getSuffix() {
@@ -40,7 +40,6 @@ class S2Dao_Standard implements S2Dao_Dbms {
     public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData, array $joinData = null) {
         if($joinData === null){
             $joinData = array();
-            $joinData[] = new S2Dao_JoinData();
         }
         $buf = $beanMetaData->getAutoSelectList();
         $buf .= ' ';

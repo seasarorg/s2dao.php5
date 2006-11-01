@@ -92,7 +92,7 @@ class S2Dao_RelationPropertyTypeImpl
         $this->relationType = $relationType;
     }
 
-    public function __construct(S2Container_PropertyDesc $propertyDesc,
+    public function __construct3(S2Container_PropertyDesc $propertyDesc,
                                 $joinTable,
                                 array $myKeys,
                                 array $yourKeys,

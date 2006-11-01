@@ -27,6 +27,7 @@
 abstract class S2Dao_AutoSqlWrapperCreator implements S2Dao_SqlWrapperCreator {
     
     protected $annotationReaderFactory;
+    
     protected $configuration;
 
     public function __construct(

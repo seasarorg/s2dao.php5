@@ -34,7 +34,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     
     public function __construct(){
         $args = func_get_args();
-        if(0 < func_num_args()){
+        if(func_num_args() < 1){
             $this->__call('__construct0', $args);
         } else {
             $this->__call('__construct1', $args);
@@ -87,7 +87,8 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
      */
     public function getPropertyType($index) {
         if(is_integer($index)){
-            return $this->propertyTypes->get($index);
+            $values = array_values($this->propertyTypes->toArray());
+            return $values[$index];
         }
         $propertyName = $index;
         $propertyType = $this->propertyTypes->get($propertyName);

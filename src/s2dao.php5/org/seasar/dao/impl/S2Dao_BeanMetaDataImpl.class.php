@@ -40,6 +40,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     private $databaseMetaData; 
     
     public function __construct() {
+        parent::__construct();
         self::$logger = S2Container_S2Logger::getLogger(get_class($this));
         $this->propertyTypesByColumnName = new S2Dao_CaseInsensitiveMap();
         $this->relationPropertyTypes = new S2Dao_ArrayList();
@@ -201,7 +202,6 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $myJoinKeyList = new S2Dao_ArrayList();
         $yourJoinKeyList = new S2Dao_ArrayList();
         if ($relkeys !== null) {
-            
             $st = preg_split('/[\s,]+/', $relkeys);
             foreach($st as $token){
                 $index = strpos($token, ':');
@@ -555,7 +555,6 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $beanMetaData->setBeanClass($beanClass);
         $beanMetaData->setDatabaseMetaData($dbMetaData);
         $beanMetaData->setAnnotationReaderFactory($this->getAnnotationReaderFactory());
-        //$beanMetaData->setValueTypeFactory($this->getValueTypeFactory());
         $beanMetaData->setRelation(true);
         $beanMetaData->initialize();
         return new S2Dao_RelationPropertyTypeImpl($propertyDesc,

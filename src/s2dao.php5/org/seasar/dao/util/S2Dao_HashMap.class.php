@@ -44,6 +44,10 @@ class S2Dao_HashMap {
     }
     
     public function put($key, $value){
+        // TODO
+        if(is_object($key)){
+            $key = (string)$key;
+        }
         $this->element[$key] = $value;
     }
     
@@ -56,7 +60,15 @@ class S2Dao_HashMap {
         return $element;
     }
     
+    public function contains($key){
+        return $this->containsKey($key);
+    }
+    
     public function containsKey($key){
+        // TODO
+        if(is_object($key)){
+            $key = (string)$key;
+        }
         return isset($this->element[$key]);
     }
 

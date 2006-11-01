@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_DbMetaDataFactory {
+final class S2Dao_DbMetaDataFactory {
     
     const DBMetaData_Suffix = 'DBMetaData';
     

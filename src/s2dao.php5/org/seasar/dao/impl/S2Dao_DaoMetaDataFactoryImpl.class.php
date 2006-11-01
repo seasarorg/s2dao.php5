@@ -57,8 +57,16 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $this->beanMetaDataCache = new S2Dao_HashMap();
     }
 
-    public function setSqlWrapperCreators(array $sqlWrapperCreators) {
-        $this->sqlWrapperCreators = $sqlWrapperCreators;
+    public function setSqlWrapperCreators(array $sqlWrapperCreators = null) {
+        // TODO: DIContainer definition
+        $this->sqlWrapperCreators = array(
+            new S2Dao_AnnotationSqlWrapperCreator($this->readerFactory),
+            new S2Dao_AutoSelectSqlWrapperCreatorImpl($this->readerFactory),
+            new S2Dao_DeleteAnnotationSqlWrapperCreator($this->readerFactory, $this->configuration),
+            new S2Dao_DeleteAutoSqlWrapperCreator($this->readerFactory, $this->configuration),
+            new S2Dao_FileSqlWrapperCreator($this->readerFactory),
+            new S2Dao_UpdateSqlWrapperCreator($this->readerFactory, $this->configuration),
+        );
     }
     
     /**
@@ -102,17 +110,19 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
                                    ReflectionMethod $method) {
         $daoAnnotationReader = $daoMetaDataImpl->getDaoAnnotationReader();
         $beanMetaData = $this->getBeanMetaData($daoAnnotationReader->getBeanClass($method));
+        $dbms = $daoMetaDataImpl->getDbms();
+        $sqlWrapperCreators =& $this->sqlWrapperCreators;
+        $sqlCommandFactory =& $this->sqlCommandFactory;
+        
         $length = $this->sqlWrapperCreators;
         for ($i = 0; $i < $length; $i++) {
-            $dbms = $daoMetaDataImpl->getDbms();
             $sqlWrapper = $sqlWrapperCreators[$i]->createSqlCommand($dbms,
                                                                     $daoMetaDataImpl, 
                                                                     $beanMetaData,
                                                                     $method);
             if ($sqlWrapper !== null) {
-                $daoAnnoReader = $daoMetaDataImpl->getDaoAnnotationReader();
                 $command = $sqlCommandFactory->createSqlCommand($dbms,
-                                                                $daoAnnoReader,
+                                                                $daoAnnotationReader,
                                                                 $beanMetaData,
                                                                 $method,
                                                                 $sqlWrapper);
