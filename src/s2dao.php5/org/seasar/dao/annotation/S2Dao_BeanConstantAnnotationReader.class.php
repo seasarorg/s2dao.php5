@@ -27,12 +27,25 @@
 class S2Dao_BeanConstantAnnotationReader implements S2Dao_BeanAnnotationReader {
     
     const TABLE = 'TABLE';
+    
     const RELNO_SUFFIX = '_RELNO';
+    
+    const RELBEAN_SUFFIX = '"_RELBEAN';
+    
+    const RELTABLE_SUFFIX = '_RELTABLE';
+    
+    const RELTYPE_SUFFIX = '_RELTYPE';
+    
     const RELKEYS_SUFFIX = '_RELKEYS';
+    
     const ID_SUFFIX = '_ID';
+    
     const NO_PERSISTENT_PROPS = 'NO_PERSISTENT_PROPS';
+    
     const VERSION_NO_PROPERTY = 'VERSION_NO_PROPERTY';
+    
     const TIMESTAMP_PROPERTY = 'TIMESTAMP_PROPERTY';
+    
     const COLUMN_SUFFIX = '_COLUMN';
 
     private $beanDesc;
@@ -96,7 +109,7 @@ class S2Dao_BeanConstantAnnotationReader implements S2Dao_BeanAnnotationReader {
         }
         return null;
     }
-
+    
     public function getRelationNo(S2Container_PropertyDesc $pd) {
         $relnoKey = $pd->getPropertyName() . self::RELNO_SUFFIX;
         return (int)$this->beanDesc->getConstant($relnoKey);
@@ -105,6 +118,30 @@ class S2Dao_BeanConstantAnnotationReader implements S2Dao_BeanAnnotationReader {
     public function hasRelationNo(S2Container_PropertyDesc $pd) {
         $relnoKey = $pd->getPropertyName() . self::RELNO_SUFFIX;
         return $this->beanDesc->hasConstant($relnoKey);
+    }
+    
+    public function getRelationTable(S2Container_PropertyDesc $pd) {
+        $key = $pd->getPropertyName() . self::RELTABLE_SUFFIX;
+        if ($this->beanDesc->hasConstant($key)) {
+            return $this->beanDesc->getConstant($key);
+        }
+        return null;
+    }
+    
+    public function getRelationType(S2Container_PropertyDesc $pd) {
+        $reltypeKey = $pd->getPropertyName() . self::RELTYPE_SUFFIX;
+        if ($this->beanDesc->hasConstant($reltypeKey)) {
+            return $this->beanDesc->getConstant($reltypeKey);
+        }
+        return null;
+    }
+    
+    public function getRelationBean(S2Container_PropertyDesc $pd) {
+        $key = $pd->getPropertyName() . self::RELBEAN_SUFFIX;
+        if ($this->beanDesc->hasConstant($key)) {
+            return $this->beanDesc->getConstant($key);
+        }
+        return null;
     }
 }
 

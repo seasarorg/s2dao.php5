@@ -25,22 +25,35 @@
  * @author nowel
  */
 interface S2Dao_BeanAnnotationReader {
-    function getColumnAnnotation(S2Container_PropertyDesc $pd);
+    
+    public function getColumnAnnotation(S2Container_PropertyDesc $pd);
 
-    function getTableAnnotation();
+    public function getTableAnnotation();
 
-    function getVersionNoPropertyNameAnnotation();
+    public function getVersionNoPropertyNameAnnotation();
 
-    function getTimestampPropertyName();
+    public function getTimestampPropertyName();
 
-    function getId(S2Container_PropertyDesc $pd);
+    public function getId(S2Container_PropertyDesc $pd);
 
-    function getNoPersisteneProps();
+    public function getNoPersisteneProps();
+    
+    /**
+     * @return ReflectionClass
+     */
+    public function getRelationBean(S2Container_PropertyDesc $pd);
+    
+    /**
+     * @return RelationType
+     */
+    public function getRelationType(S2Container_PropertyDesc $pd);
+    
+    public function getRelationTable(S2Container_PropertyDesc $pd);
 
-    function hasRelationNo(S2Container_PropertyDesc $pd);
+    public function hasRelationNo(S2Container_PropertyDesc $pd);
 
-    function getRelationNo(S2Container_PropertyDesc $pd);
+    public function getRelationNo(S2Container_PropertyDesc $pd);
 
-    function getRelationKey(S2Container_PropertyDesc $pd);
+    public function getRelationKey(S2Container_PropertyDesc $pd);
 }
 ?>

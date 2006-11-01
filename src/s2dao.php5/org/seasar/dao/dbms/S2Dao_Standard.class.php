@@ -37,40 +37,42 @@ class S2Dao_Standard implements S2Dao_Dbms {
         return '';
     }
 
-    public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData) {
-        $buf = '';
-        $buf .= $beanMetaData->getAutoSelectList();
+    public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData, array $joinData = null) {
+        if($joinData === null){
+            $joinData = array();
+            $joinData[] = new S2Dao_JoinData();
+        }
+        $buf = $beanMetaData->getAutoSelectList();
         $buf .= ' ';
-
-        $beanName = $beanMetaData->getBeanClass()->getName();
-        $fromClause = $this->autoSelectFromClauseCache_->get($beanName);
-        if ($fromClause == null) {
-            $fromClause = $this->createAutoSelectFromClause($beanMetaData);
-            $this->autoSelectFromClauseCache_->put($beanName, $fromClause);
+        $fromClause = $this->autoSelectFromClauseCache->get($beanMetaData);
+        if ($fromClause === null) {
+            $fromClause = $this->createAutoSelectFromClause($beanMetaData, $joinData);
+            $this->autoSelectFromClauseCache->put($beanMetaData, $fromClause);
         }
         $buf .= $fromClause;
         return $buf;
     }
 
-    protected function createAutoSelectFromClause(S2Dao_BeanMetaData $beanMetaData) {
+    protected function createAutoSelectFromClause(S2Dao_BeanMetaData $beanMetaData,
+                                                  array $joinData) {
         $buf = 'FROM ';
-
         $myTableName = $beanMetaData->getTableName();
         $buf .= $myTableName;
-
-        for ($i = 0; $i < $beanMetaData->getRelationPropertyTypeSize(); ++$i) {
+        $size = $beanMetaData->getRelationPropertyTypeSize();
+        for ($i = 0; $i < $size; ++$i) {
             $rpt = $beanMetaData->getRelationPropertyType($i);
             $bmd = $rpt->getBeanMetaData();
-
             $buf .= ' LEFT OUTER JOIN ';
             $buf .= $bmd->getTableName();
             $buf .= ' ';
-
             $yourAliasName = $rpt->getPropertyName();
             $buf .= $yourAliasName;
             $buf .= ' ON ';
-
-            for ($j = 0; $j < $rpt->getKeySize(); ++$j) {
+            $rptKeySize = $rpt->getKeySize();
+            for ($j = 0; $j < $rptKeySize; ++$j) {
+                if(0 < $j){
+                    $buf .= ' AND ';                    
+                }
                 $buf .= $myTableName;
                 $buf .= '.';
                 $buf .= $rpt->getMyKey($j);
@@ -78,11 +80,32 @@ class S2Dao_Standard implements S2Dao_Dbms {
                 $buf .= $yourAliasName;
                 $buf .= '.';
                 $buf .= $rpt->getYourKey($j);
-                $buf .= ' AND ';
             }
-            $buf = preg_replace('/( AND )$/', '', $buf);
         }
-
+        $c = count($joinData);
+        for ($i = 0; $i < $c; ++$i) {
+            $joinDatum = $joinData[$i];
+            if($joinDatum->getJoinType() == S2Dao_JoinType::$OUTER_JOIN){
+                $buf .= ' LEFT OUTER JOIN ';
+            } else {
+                $buf .= ' INNER JOIN ';
+            }
+            $buf .= $joinDatum->getJoinTableName();
+            $buf .= ' ON ';
+            $joinDatSize = $joinDatum->getKeySize();
+            for ($j = 0; $j < $joinDatSize; ++$j) {
+                if(0 < $j){
+                    $buf .= ' AND ';                    
+                }
+                $buf .= $myTableName;
+                $buf .= '.';
+                $buf .= $joinDatum->getMyKey($j);
+                $buf .= ' = ';
+                $buf .= $joinDatum->getJoinTableName();
+                $buf .= '.';
+                $buf .= $joinDatum->getYourKey($j);
+            }
+        }
         return $buf;
     }
     

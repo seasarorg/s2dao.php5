@@ -26,22 +26,69 @@
  */
 interface S2Dao_DaoAnnotationReader {
     
+    /** */
     const RETURN_OBJ = 0;
+    /** */
     const RETURN_LIST = 1;
+    /** */
     const RETURN_ARRAY = 2;
+    /** */
     const RETURN_YAML = 3;
+    /** */
     const RETURN_JSON = 4;
+    /** */
     const RETURN_MAP = 5;
 
+    /** */
     const FILTER_PAGER = 10;
-
-    public function getBeanClass();
+    
+    /**
+     * @param name
+     * @return
+     */
     public function getQuery(ReflectionMethod $method);
-    public function getArgNames(ReflectionMethod $method);
-    public function getNoPersistentProps(ReflectionMethod $method);
-    public function getPersistentProps(ReflectionMethod $method);
-    public function getSQL(ReflectionMethod $method, $suffix);
+    
+    /**
+     * @param $method
+     * @return 
+     */
     public function getStoredProcedureName(ReflectionMethod $method);
+    
+    /**
+     * @param method
+     * @return
+     */
+    public function getArgNames(ReflectionMethod $method);
+    
+    /**
+     * @param method 
+     * @return
+     */
+    public function getBeanClass(ReflectionMethod $method);
+    
+    /**
+     * @param methodName
+     * @return
+     */
+    public function getNoPersistentProps(ReflectionMethod $method);
+    
+    /**
+     * @param method
+     * @return
+     */
+    public function getPersistentProps(ReflectionMethod $method);
+    
+    /**
+     * @param method
+     * @param suffix
+     * @return
+     */
+    public function getSQL(ReflectionMethod $method, $suffix);
+    
+    /**
+     * @param method
+     * @return returnType
+     */
     public function getReturnType(ReflectionMethod $method);
 }
 ?>

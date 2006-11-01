@@ -27,23 +27,45 @@
 class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     const BEAN = 'BEAN';
+    
+    const PROCEDURE_SUFFIX = '_PROCEDURE';
+    
     const ARGS_SUFFIX = '_ARGS';
+    
     const SQL_SUFFIX = '_SQL';
+    
+    const RET_SUFFIX = '_RET';
+    
     const QUERY_SUFFIX = '_QUERY';
+    
     const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
+    
     const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
-    const PROCEDURE_SUFFIX = "_PROCEDURE";
+    
     const RETURN_TYPE_OBJ = '/Obj$/i';
+    
     const RETURN_TYPE_ARRAY = '/Array$/i';
+    
     const RETURN_TYPE_LIST = '/List$/i';
+    
     const RETURN_TYPE_YAML = '/Yaml$/i';
+    
     const RETURN_TYPE_JSON = '/Json$/i';
+    
     const RETURN_TYPE_MAP = '/Map$/i';
 
     protected $daoBeanDesc;
     
+    protected $interfacesBeanDesc;
+    
     public function __construct(S2Container_BeanDesc $daoBeanDesc) {
         $this->daoBeanDesc = $daoBeanDesc;
+        $interfaces = $daoBeanDesc->getBeanClass()->getInterfaces();
+        $ifDesc = array();
+        foreach($interfaces as $interface){
+            $ifDesc[] = S2Container_BeanDescFactory::getBeanDesc($interface); 
+        }
+        $interfacesBeanDesc = $ifDesc;
     }
 
     public function getArgNames(ReflectionMethod $method) {
@@ -59,6 +81,15 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
             return $params;
         }
     }
+    
+    public function getReturnComponentClass(ReflectionMethod $method) {
+        $key = $method->getName() . self::RET_SUFFIX;
+        if ($this->daoBeanDesc->hasConstant($key)) {
+            $clazz = $this->daoBeanDesc->getConstant($key);
+            return new ReflectionClass($clazz);
+        }
+        return null;
+    }
 
     public function getQuery(ReflectionMethod $method) {
         $key = $method->getName() . self::QUERY_SUFFIX;
@@ -68,9 +99,47 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
 
-    public function getBeanClass() {
+    public function getBeanClass(ReflectionMethod $method) {
+        $beanClass = $this->getBeanClass0($this->daoBeanDesc, $method);
+        if($beanClass !== null){
+            return $beanClass;
+        }
+        $c = count($this->interfacesBeanDesc);
+        for ($i = 0; $i < $c; $i++) {
+            $beanClass = $this->getBeanClass($this->interfacesBeanDesc[$i], $method);
+            if($beanClass === null){
+                continue;
+            }
+            return $beanClass;
+        }
+        return null;
+    }
+    
+    private function getBeanClass0(S2Container_BeanDesc $beanDesc,
+                                   ReflectionMethod $method){
         $beanField = $this->daoBeanDesc->getConstant(self::BEAN);
-        return new ReflectionClass(new $beanField);
+        $daoAnnotationClass = new ReflectionClass($beanField);
+        if(null === $method){
+            return $daoAnnotationClass;
+        }
+        $key = $method->getName() . '_' + self::BEAN;
+        if ($this->daoBeanDesc->hasConstant($key)) {
+            $queryField = $this->daoBeanDesc->getConstant($key);
+            return new ReflectionClass($queryField);
+        }
+        
+        $rType = null;
+        $returnType = $this->getReturnType($method);
+        if($returnType == self::RETURN_ARRAY){
+            // TODO: MapArray or it
+        }
+        if($returnType == self::RETURN_MAP ||
+           $returnType == self::RETURN_LIST ||
+           $returnType == null){
+            // XXX
+            return $daoAnnotationClass;
+        }
+        return $daoAnnotationClass;
     }
 
     public function getNoPersistentProps(ReflectionMethod $method) {

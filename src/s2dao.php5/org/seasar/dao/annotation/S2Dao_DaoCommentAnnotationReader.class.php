@@ -27,10 +27,15 @@
 class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     const RETURN_TYPE_OBJ = '/@return\s*object/i';
+    
     const RETURN_TYPE_ARRAY = '/@return\s*array/i';
+    
     const RETURN_TYPE_LIST = '/@return\s*list/i';
+    
     const RETURN_TYPE_YAML = '/@return\s*yaml/i';
+    
     const RETURN_TYPE_JSON = '/@return\s*json/i';
+    
     const RETURN_TYPE_MAP = '/@return\s*map/i';
 
     const FILTER_TYPE_PAGER = '/@filter\s*pager/i';
@@ -41,7 +46,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         $this->beanClass = $beanDesc->getBeanClass();
     }
     
-    public function getBeanClass() {
+    public function getBeanClass(ReflectionMethod $method) {
         $anno = S2Container_Annotations::getAnnotation('Dao',
                                 $this->beanClass->getName());
         return new ReflectionClass(new $anno->bean);
@@ -104,22 +109,22 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function getReturnType(ReflectionMethod $method){
         $comment = $this->getMethodComment($method);
         if(preg_match(self::RETURN_TYPE_LIST, $comment)){
-            return S2Dao_DaoAnnotationReader::RETURN_LIST;
+            return self::RETURN_LIST;
         }
         if(preg_match(self::RETURN_TYPE_ARRAY, $comment)){
-            return S2Dao_DaoAnnotationReader::RETURN_ARRAY;
+            return self::RETURN_ARRAY;
         }
         if(preg_match(self::RETURN_TYPE_YAML, $comment)){
-            return S2Dao_DaoAnnotationReader::RETURN_YAML;
+            return self::RETURN_YAML;
         }
         if(preg_match(self::RETURN_TYPE_JSON, $comment)){
-            return S2Dao_DaoAnnotationReader::RETURN_JSON;
+            return self::RETURN_JSON;
         }
         if(preg_match(self::RETURN_TYPE_MAP, $comment)){
-            return S2Dao_DaoAnnotationReader::RETURN_MAP;
+            return self::RETURN_MAP;
         }
         if(preg_match(self::RETURN_TYPE_OBJ, $comment)){
-            return S2Dao_DaoAnnotationReader::RETURN_OBJ;
+            return self::RETURN_OBJ;
         }
         return null;
     }

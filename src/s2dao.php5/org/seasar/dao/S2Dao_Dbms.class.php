@@ -33,7 +33,7 @@ interface S2Dao_Dbms {
     const BIND_CATALOG = ':CATALOG';
     const BIND_NAME = ':NAME';
     
-    public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData);
+    public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData, array $joinData = null);
     public function getSuffix();
     public function getIdentitySelectString();
     public function getSequenceNextValString($sequenceName);
@@ -43,6 +43,7 @@ interface S2Dao_Dbms {
     public function getProcedureNamesSql();
     public function getProcedureInfoSql();
     public function getLimitOffsetSql();
-    public function usableLimitOffsetQuery();
+    public function isSelfGenerate();
+    public function getBaseSql($st);
 }
 ?>

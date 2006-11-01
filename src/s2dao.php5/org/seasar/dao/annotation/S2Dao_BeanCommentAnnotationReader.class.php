@@ -101,6 +101,21 @@ class S2Dao_BeanCommentAnnotationReader implements S2Dao_BeanAnnotationReader {
         return $this->getPropertyAnnotation('Relation', $pd) !== null;
     }
     
+    public function getRelationTable(S2Container_PropertyDesc $pd) {
+        // TODO: Comment Annotation
+        return null;
+    }
+    
+    public function getRelationType(S2Container_PropertyDesc $pd) {
+        // TODO: Comment Annotation
+        return null;
+    }
+    
+    public function getRelationBean(S2Container_PropertyDesc $pd) {
+        // TODO: Comment Annotation
+        return null;
+    }
+    
     private function getPropertyAnnotation($annoType, S2Container_PropertyDesc $pd){
         $propertyName = $pd->getPropertyName();
         if(S2Container_Annotations::isAnnotationPresent(
