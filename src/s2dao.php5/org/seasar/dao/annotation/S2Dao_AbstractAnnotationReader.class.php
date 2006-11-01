@@ -57,10 +57,6 @@ abstract class S2Dao_AbstractAnnotationReader {
         }
     }
     
-    public function getAnnotationReader(){
-        return $this->reader;
-    }
-
 }
 
 ?>
