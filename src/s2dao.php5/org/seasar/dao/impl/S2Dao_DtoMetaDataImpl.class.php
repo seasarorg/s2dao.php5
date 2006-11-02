@@ -33,10 +33,9 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     protected $beanAnnotationReader;
     
     public function __construct(){
+        $this->__construct0();
         $args = func_get_args();
-        if(func_num_args() < 1){
-            $this->__call('__construct0', $args);
-        } else {
+        if(1 < func_num_args() === 0){
             $this->__call('__construct1', $args);
         }
     }
@@ -47,10 +46,15 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     public function __construct1(ReflectionClass $beanClass,
                                 S2Dao_BeanAnnotationReader $beanAnnotationReader) {
-        $this->__construct0();
         $this->setBeanClass($beanClass);
         $this->setBeanAnnotationReader($beanAnnotationReader);
         $this->initialize();
+    }
+    
+    private function __call($name, $args){
+        if(method_exists(__CLASS__, $args)){
+            return call_user_func_array(array($this, $name), $args);
+        }
     }
 
     public function initialize() {
@@ -58,10 +62,6 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
         $this->setupPropertyType($beanDesc);
     }
     
-    private function __call($name, $args){
-        return call_user_func_array(array($this, $name), $args);
-    }
-
     /**
      * @see org.seasar.dao.DtoMetaData#getBeanClass()
      * @return ReflectionClass

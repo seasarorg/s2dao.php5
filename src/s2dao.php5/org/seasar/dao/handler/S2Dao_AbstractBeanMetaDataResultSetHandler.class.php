@@ -44,7 +44,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
     }
 
     protected function createRow(array $rs) {
-        $row = $this->beanMetaData_->getBeanClass()->newInstance();
+        $row = $this->beanMetaData->getBeanClass()->newInstance();
         $columnNames = new S2Dao_ArrayList(array_keys($rs));
         
         $size =  $this->beanMetaData->getPropertyTypeSize();

@@ -59,15 +59,25 @@ implements S2Dao_SqlWrapperCreator, S2Dao_AutoSelectSqlCreator {
         return preg_match(self::startWithBeginCommentPattern, trim($query));
     }
     
-    public function createSelectSql(S2Dao_Dbms $dbms,
-                                    S2Dao_BeanMetaData $beanMetaData,
-                                    $joinData = array(),
-                                    $query) {
-        if(null === $joinData){
-            $joinData = array();
-            $joinData[] = new S2Dao_JoinData();
+    public function createSelectSql(){
+        $args = func_get_args();
+        $dbms = $args[0];
+        $beanMetaData = $args[1];
+        $joinData = array();
+        $query = null;
+        if(func_num_args() == 3){
+            $query = $args[2];
+        } else {
+            $joinData = $args[2];
+            $query = $args[3];
         }
-        
+        return $this->createSelectSql0($dbms, $beanMetaData, $joinData, $query);
+    }
+    
+    public function createSelectSql0(S2Dao_Dbms $dbms,
+                                    S2Dao_BeanMetaData $beanMetaData,
+                                    array $joinData,
+                                    $query) {
         $buf = '';
         if (self::startsWithSelect($query)) {
             $buf .= $query;

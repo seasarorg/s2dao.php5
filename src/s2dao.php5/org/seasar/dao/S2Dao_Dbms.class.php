@@ -27,23 +27,39 @@
 interface S2Dao_Dbms {
     
     const BIND_TABLE = ':TABLE';
+    
     const BIND_COLUMN = ':COLUMN';
+    
     const BIND_DB = ':DB';
+    
     const BIND_SCHEME = ':SCHEME';
+    
     const BIND_CATALOG = ':CATALOG';
+    
     const BIND_NAME = ':NAME';
     
-    public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData, array $joinData = null);
+    public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData, $joinData = array());
+    
     public function getSuffix();
+    
     public function getIdentitySelectString();
+    
     public function getSequenceNextValString($sequenceName);
+    
     public function getTableSql();
+    
     public function getTableInfoSql();
+    
     public function getPrimaryKeySql();
+    
     public function getProcedureNamesSql();
+    
     public function getProcedureInfoSql();
+    
     public function getLimitOffsetSql();
+    
     public function isSelfGenerate();
+    
     public function getBaseSql($st);
 }
 ?>

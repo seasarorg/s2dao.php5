@@ -179,26 +179,28 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
                                            S2Dao_BeanMetaData $beanMetaData, 
                                            $returnType) {
         switch($returnType){
-            case S2Dao_DaoAnnotationReader::RETURN_LIST:
-                return new S2Dao_BeanListMetaDataResultSetHandler($beanMetaData, $dbms,
-                            $this->createRelationPropertyHandler($beanMetaData, $dbms));
-            case S2Dao_DaoAnnotationReader::RETURN_ARRAY:
-                return new S2Dao_BeanArrayMetaDataResultSetHandler($beanMetaData, $dbms,
-                            $this->createRelationPropertyHandler($beanMetaData, $dbms));
-            case S2Dao_DaoAnnotationReader::RETURN_YAML:
-                return new S2Dao_BeanYamlMetaDataResultSetHandler($beanMetaData, $dbms,
-                            $this->createRelationPropertyHandler($beanMetaData, $dbms));
-            case S2Dao_DaoAnnotationReader::RETURN_JSON:
-                return new S2Dao_BeanJsonMetaDataResultSetHandler($beanMetaData);
-            case S2Dao_DaoAnnotationReader::RETURN_MAP:
-                return new S2Dao_MapArrayResultSetHandler();
-            case S2Dao_DaoAnnotationReader::RETURN_OBJ:
-            default:
-                if($returnType === null){
-                    // S2Dao_ObjectArrayResultSetHandler
-                    return new S2Dao_BeanMetaDataResultSetHandler($beanMetaData);
-                }
-                return new S2Dao_ObjectResultSetHandler();
+        case S2Dao_DaoAnnotationReader::RETURN_LIST:
+            return new S2Dao_BeanListMetaDataResultSetHandler($beanMetaData, $dbms,
+                        $this->createRelationPropertyHandler($beanMetaData, $dbms));
+        case S2Dao_DaoAnnotationReader::RETURN_ARRAY:
+            return new S2Dao_BeanArrayMetaDataResultSetHandler($beanMetaData, $dbms,
+                        $this->createRelationPropertyHandler($beanMetaData, $dbms));
+        case S2Dao_DaoAnnotationReader::RETURN_YAML:
+            return new S2Dao_BeanYamlMetaDataResultSetHandler($beanMetaData, $dbms,
+                        $this->createRelationPropertyHandler($beanMetaData, $dbms));
+        case S2Dao_DaoAnnotationReader::RETURN_JSON:
+            return new S2Dao_BeanJsonMetaDataResultSetHandler($beanMetaData, $dbms,
+                        $this->createRelationPropertyHandler($beanMetaData, $dbms));
+        case S2Dao_DaoAnnotationReader::RETURN_MAP:
+            return new S2Dao_MapArrayResultSetHandler();
+        case S2Dao_DaoAnnotationReader::RETURN_OBJ:
+        default:
+            if($returnType === null){
+                // S2Dao_ObjectArrayResultSetHandler
+                return new S2Dao_BeanMetaDataResultSetHandler($beanMetaData, $dbms,
+                        $this->createRelationPropertyHandler($beanMetaData, $dbms));
+            }
+            return new S2Dao_ObjectResultSetHandler();
         }
     }
     

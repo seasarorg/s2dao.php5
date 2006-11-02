@@ -27,8 +27,9 @@
 class S2Dao_BeanListMetaDataResultSetHandler
     extends S2Dao_AbstractBeanMetaDataResultSetHandler {
 
-    public function __construct(S2Dao_BeanMetaData $beanMetaData) {
-        parent::__construct($beanMetaData);
+    public function __construct(S2Dao_BeanMetaData $beanMetaData,
+                                S2Dao_Dbms $dbms) {
+        parent::__construct($beanMetaData, $dbms);
     }
 
     public function handle(PDOStatement $rs){

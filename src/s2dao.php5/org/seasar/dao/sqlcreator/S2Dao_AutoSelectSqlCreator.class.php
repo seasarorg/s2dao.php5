@@ -25,9 +25,6 @@
  * @author nowel
  */
 interface S2Dao_AutoSelectSqlCreator {
-    public function createSelectSql(S2Dao_Dbms $dbms,
-                                    S2Dao_BeanMetaData $beanMetaData,
-                                    $joinData = array(),
-                                    $query);
+    public function createSelectSql();
 }
 ?>

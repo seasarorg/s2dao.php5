@@ -110,7 +110,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
      * @return SqlCommand
      */
     public function getSqlCommand($methodName) {
-        $cmd = $sqlCommands->get($methodName);
+        $cmd = $this->sqlCommands->get($methodName);
         if ($cmd === null) {
             throw new S2Container_MethodNotFoundRuntimeException($this->daoClass,
                                                                  $methodName,
