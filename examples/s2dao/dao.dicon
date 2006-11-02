@@ -15,7 +15,8 @@
     <component class="S2Dao_DeleteAutoSqlWrapperCreator" />
     <component class="S2Dao_AutoSelectSqlWrapperCreatorImpl" />
     <component class="S2Dao_DaoMetaDataFactoryImpl">
-    		<!--
+        <initMethod name="setSqlWrapperCreators">"array(1, 2, 3)"</initMethod>
+        <!--
         <property name="sqlWrapperCreators">$container->findComponents(S2Dao_SqlWrapperCreator)</property>
         -->
     </component>
