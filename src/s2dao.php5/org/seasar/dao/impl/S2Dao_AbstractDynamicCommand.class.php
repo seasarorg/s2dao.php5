@@ -67,6 +67,7 @@ abstract class S2Dao_AbstractDynamicCommand extends S2Dao_AbstractSqlCommand {
         $ctx = new S2Dao_CommandContextImpl();
         if ($args != null) {
             $c = count($args);
+            $cargNames = count($this->argNames);
             for ($i = 0; $i < $c; ++$i) {
                 $argType = null;
                 if ($args[$i] !== null){
@@ -76,7 +77,7 @@ abstract class S2Dao_AbstractDynamicCommand extends S2Dao_AbstractSqlCommand {
                         $argType = gettype($args[$i]);
                     }
                 }
-                if ($i < count($this->argNames)) {
+                if ($i < $cargNames) {
                     $ctx->addArg($this->argNames[$i], $args[$i], $argType);
                 } else {
                     $ctx->addArg('$' . ($i + 1), $args[$i], $argType);

@@ -57,11 +57,16 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         if ($anno != null && 0 < count($anno->value)) {
             return $anno->value;
         } else {
-            $params = array();
-            foreach($method->getParameters() as $param){
-                $params[] = $param->getName();
+            $returnType = $this->getReturnType($method);
+            if($returnType == null){
+                return array();
             }
-            return $params;
+            $argNames = array();
+            $parameters = $method->getParameters();
+            foreach($parameters as $param){
+                $argNames[] = $param->getName();
+            }
+            return $argNames;
         }
     }
 

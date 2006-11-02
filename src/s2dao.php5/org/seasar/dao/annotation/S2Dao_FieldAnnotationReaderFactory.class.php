@@ -25,12 +25,35 @@
  * @author nowel
  */
 class S2Dao_FieldAnnotationReaderFactory implements S2Dao_AnnotationReaderFactory {
+    
+    const READER = 'S2DaoAnnotationReader';
+    private static $useCommentAnnotation = false;
+    
+    public function __construct(){
+        if(defined('S2DAO_PHP5_USE_COMMENT') &&
+           S2DAO_PHP5_USE_COMMENT === true &&
+           class_exists('S2Container_AnnotationContainer') &&
+           strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER, self::READER) != 0){
+           S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = self::READER;
+           self::$useCommentAnnotation = true;
+        }                
+    }
+    
     public function createDaoAnnotationReader(S2Container_BeanDesc $daoBeanDesc) {
-        return new S2Dao_FieldDaoAnnotationReader($daoBeanDesc);
+        if(!self::$useCommentAnnotation){
+            return new S2Dao_DaoConstantAnnotationReader($daoBeanDesc);
+        }
+        return new S2Dao_DaoCommentAnnotationReader($daoBeanDesc);
     }
+    
     public function createBeanAnnotationReader($beanClass) {
-        return new S2Dao_FieldBeanAnnotationReader($beanClass);
+        $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
+        if(!self::$useCommentAnnotation){
+            return new S2Dao_BeanConstantAnnotationReader($beanDesc);
+        }
+        return new S2Dao_BeanCommentAnnotationReader($beanDesc);
     }
+    
 }
 
 ?>
