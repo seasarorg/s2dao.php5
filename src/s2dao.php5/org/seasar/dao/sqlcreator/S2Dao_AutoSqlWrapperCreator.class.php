@@ -81,11 +81,15 @@ abstract class S2Dao_AutoSqlWrapperCreator implements S2Dao_SqlWrapperCreator {
                                              ReflectionMethod $method) {
         $parameters = $method->getParameters();
         $param0 = $parameters[0];
+        return count($parameters) === 1
+                && !($param0 instanceof S2Dao_ArrayList) || !$param0->isArray();
+        /*
         return count($parameters) == 1
                 && 
                 ($beanMetaData->isBeanClassAssignable($param0)
                 || $param0 instanceof S2Dao_ArrayList
                 || $param0->isArray());
+        */
     }
 
     protected function isPropertyExist(array $props, $propertyName) {
@@ -102,7 +106,7 @@ abstract class S2Dao_AutoSqlWrapperCreator implements S2Dao_SqlWrapperCreator {
                 S2Dao_DaoAnnotationReader $daoAnnotationReader,
                 S2Dao_BeanMetaData $beanMetaData,
                 ReflectionMethod $method) {
-        $names = new ArrayList();
+        $names = new S2Dao_ArrayList();
         $props = $daoAnnotationReader->getNoPersistentProps($method);
         if ($props != null) {
             $c = $beanMetaData->getPropertyTypeSize();

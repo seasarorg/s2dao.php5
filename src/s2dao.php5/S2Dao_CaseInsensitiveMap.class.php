@@ -26,6 +26,10 @@
  */
 class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
     
+    public function __construct(){
+        parent::__construct();
+    }
+    
     public function isEmpty($key = null){
         if($key === null){
             return empty($this->element);
@@ -69,8 +73,12 @@ class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
     }
     
     public function containsKey($key){
+        // TODO
+        if(is_object($key)){
+            $key = (string)$key;
+        }
         $case = strtolower($key);
-        return array_key_exists($key, $this->element);
+        return array_key_exists($case, $this->element);
     }
     
     public function containsValue($value){
@@ -87,10 +95,16 @@ class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
     }
     
     public function valueSet(){
-        $set = new S2Dao_ArrayList();
-        $list = new ArrayObject(array_values($this->toArray()));
-        $set->addAll($list);
+        $set = new S2Dao_CaseInsensitiveSet();
+        $set->addAll(new ArrayObject(array_values($this->toArray())));
         return $set;
     }
+    
+    public function keySet(){
+        $set = new S2Dao_CaseInsensitiveSet();
+        $set->addAll(new ArrayObject(array_keys($this->toArray())));
+        return $set;
+    }
+    
 }
 ?>

@@ -26,16 +26,16 @@
  */
 class S2Dao_BasicHandler {
 
-    private $dataSource_;
-    private $sql_;
-    private $statementFactory_ = null;
+    protected $dataSource;
+    protected $sql;
+    protected $statementFactory = null;
 
     public function __construct(S2Container_DataSource $ds,
                                 $sql,
-                                S2Dao_StatementFactory $statementFactory = null) {
+                                S2Dao_StatementFactory $statementFactory) {
         $this->setDataSource($ds);
         $this->setSql($sql);
-        if($statementFactory == null){
+        if($statementFactory === null){
             $this->setStatementFactory(new S2Dao_BasicStatementFactory());
         } else {
             $this->setStatementFactory($statementFactory);
@@ -43,30 +43,33 @@ class S2Dao_BasicHandler {
     }
     
     public function getDataSource() {
-        return $this->dataSource_;
+        return $this->dataSource;
     }
 
     public function setDataSource(S2Container_DataSource $dataSource) {
-        $this->dataSource_ = $dataSource;
+        $this->dataSource = $dataSource;
     }
 
     public function getSql() {
-        return $this->sql_;
+        return $this->sql;
     }
 
     public function setSql($sql) {
-        $this->sql_ = $sql;
+        $this->sql = $sql;
     }
 
     public function getStatementFactory() {
-        return $this->statementFactory_;
+        return $this->statementFactory;
     }
 
     public function setStatementFactory($statementFactory) {
-        $this->statementFactory_ = $statementFactory;
+        $this->statementFactory = $statementFactory;
     }
     
     private function setAttributes(PDO $connection){
+        if(!(S2DaoDbmsManager::getDbms($connection) instanceof S2Dao_MySQL)){
+            return;
+        }
         // php 5.1.3 or later
         if(!version_compare(phpversion(), '5.1.3', '>=')){
             return;
@@ -76,26 +79,24 @@ class S2Dao_BasicHandler {
         if(!version_compare($refPdo->getVersion(), '1.0.3', '>=')){
             return;
         }
-        if(S2DaoDbmsManager::getDbms($connection) instanceof S2Dao_MySQL){
-            $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-            $connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-        }
+        $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+        $connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
     }
 
     protected function getConnection() {
-        if ($this->dataSource_ == null) {
+        if ($this->dataSource == null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
         }
-        $conn = $this->dataSource_->getConnection();
+        $conn = $this->dataSource->getConnection();
         $this->setAttributes($conn);
         return $conn;
     }
 
     protected function prepareStatement(PDO $connection) {
-        if ($this->sql_ == null) {
+        if ($this->sql == null) {
             throw new S2Container_EmptyRuntimeException('sql');
         }
-        return $this->statementFactory_->createPreparedStatement($connection, $this->sql_);
+        return $this->statementFactory->createPreparedStatement($connection, $this->sql);
     }
     
     protected function bindArgs(PDOStatement $ps,
@@ -148,10 +149,10 @@ class S2Dao_BasicHandler {
 
     protected function getCompleteSql($args = null) {
         if ($args == null || !is_array($args)) {
-            return $this->sql_;
+            return $this->sql;
         }
         $pos = 0;
-        $buf = $this->sql_;
+        $buf = $this->sql;
         foreach($args as $value){
             $pos = strpos($buf, '?');
             if($pos !== false){
@@ -176,7 +177,7 @@ class S2Dao_BasicHandler {
             return "'" . date("Y-m-d H.i.s", $bindVariable) . "'";
         } else if (is_bool($bindVariable)) {
             return (string)$bindVariable;
-        } else if ($bindVariable == null) {
+        } else if ($bindVariable === null) {
             return "null";
         } else if (strtotime($bindVariable) !== -1) {
             return "'" . date("Y-m-d", strtotime($bindVariable)) . "'";

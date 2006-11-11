@@ -28,6 +28,9 @@ class S2Dao_HashMap {
     
     protected $element = array();
     
+    public function __construct(){
+    }
+    
     public function size(){
         return count($this->element);
     }
@@ -53,6 +56,7 @@ class S2Dao_HashMap {
             $key = (string)$key;
         }
         $this->element[$key] = $value;
+        return $this;
     }
     
     public function remove($key){
@@ -62,6 +66,12 @@ class S2Dao_HashMap {
         $element = $this->element[$key];
         unset($this->element[$key]);
         return $element;
+    }
+    
+    public function clear(){
+        $back = $this->element;
+        $this->element = array();
+        return $back;
     }
     
     public function contains($key){
@@ -80,10 +90,20 @@ class S2Dao_HashMap {
         return $this->element;
     }
     
+    public function iterator(){
+        $ao = new ArrayObject($this->toArray());
+        return $ao->getIterator();
+    }
+    
+    public function valueSet(){
+        $set = new S2Dao_HashSet();
+        $set->addAll(new ArrayObject(array_values($this->toArray())));
+        return $set;
+    }
+    
     public function keySet(){
-        $set = new S2Dao_ArrayList();
-        $list = new ArrayObject(array_keys($this->toArray()));
-        $set->addAll($list);
+        $set = new S2Dao_HashSet();
+        $set->addAll(new ArrayObject(array_keys($this->toArray())));
         return $set;
     }
 }

@@ -140,7 +140,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             foreach($interfaces as $intf){
                 $c = count($this->daoSuffixes);
                 for ($j = 0; $j < $c; $j++) {
-                    if(0 < stripos($intf->getName(), $this->daoSuffixes[$j])){
+                    if(0 == strcasecmp($intf->getName(), $this->daoSuffixes[$j])){
                         return $intf;
                     }
                 }

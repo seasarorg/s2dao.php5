@@ -57,16 +57,11 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $this->beanMetaDataCache = new S2Dao_HashMap();
     }
 
-    public function setSqlWrapperCreators(array $sqlWrapperCreators = null) {
-        // TODO: DIContainer definition
-        $this->sqlWrapperCreators = array(
-            new S2Dao_AnnotationSqlWrapperCreator($this->readerFactory),
-            new S2Dao_AutoSelectSqlWrapperCreatorImpl($this->readerFactory),
-            new S2Dao_DeleteAnnotationSqlWrapperCreator($this->readerFactory, $this->configuration),
-            new S2Dao_DeleteAutoSqlWrapperCreator($this->readerFactory, $this->configuration),
-            new S2Dao_FileSqlWrapperCreator($this->readerFactory),
-            new S2Dao_UpdateSqlWrapperCreator($this->readerFactory, $this->configuration),
-        );
+    /**
+     * @param sqlWrapperCreators Added in SqlWrapperCreators
+     */
+    public function setSqlWrapperCreators(ArrayObject $creators) {
+        $this->sqlWrapperCreators = $creators->getArrayCopy();
     }
     
     /**

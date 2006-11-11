@@ -27,7 +27,9 @@
 class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
     
     const startWithOrderByPattern = '/(\/\*[^*]+\*\/)*order by/i';
+    
     const startWithSelectPattern = '/^\s*select\s/i';
+    
     const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
 
     protected $annotationReaderFactory;
@@ -157,6 +159,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
             $argNames = array(ucwords($beanMetaData->getBeanClass()->getName()));
         }
         $handler = null;
+        /*
         if($sql->isBatch()){
             $handler = new S2Dao_BasicBatchUpdateHandler($this->dataSource, $sql,
                                                         $method->getParameters(),
@@ -165,8 +168,13 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
             $handler = new S2Dao_BasicUpdateHandler($this->dataSource, $sql,
                                                     $argNames,
                                                     $method->getParameters(),
-                                                    $this->statementFactory);            
+                                                    $this->statementFactory);
         }
+        */
+        $handler = new S2Dao_BasicUpdateHandler($this->dataSource, $sql,
+                                                $argNames,
+                                                $method->getParameters(),
+                                                $this->statementFactory);
         return new S2Dao_UpdateDynamicCommand($this->dataSource,
                                               $this->statementFactory,
                                               $handler);

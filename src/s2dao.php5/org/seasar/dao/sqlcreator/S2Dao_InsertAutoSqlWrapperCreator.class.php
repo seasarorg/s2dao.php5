@@ -187,7 +187,7 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
         if (!$this->configuration->isInsertMethod($method)) {
             return null;
         }
-        if(!$this->checkAutoUpdateMethod($beanMetaData, $method)){
+        if (!$this->checkAutoUpdateMethod($beanMetaData, $method)) {
             throw new S2Dao_IllegalSignatureRuntimeException('EDAO0006', $method->__toString());            
         }
         $beanDesc = $daoMetaData->getDaoBeanDesc();

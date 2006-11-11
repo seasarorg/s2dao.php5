@@ -93,7 +93,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
         $propertyName = $index;
         $propertyType = $this->propertyTypes->get($propertyName);
         if ($propertyType === null) {
-            throw new S2Dao_PropertyNotFoundRuntimeException($this->beanClass,
+            throw new S2Container_PropertyNotFoundRuntimeException($this->beanClass,
                                                              $propertyName);
         }
         return $propertyType;

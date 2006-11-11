@@ -38,7 +38,7 @@ class S2Dao_DaoNamingConventionImpl implements S2Dao_DaoNamingConvention {
     public function isInsertMethod(ReflectionMethod $method) {
         $c = count($this->insertPrefixes);
         for ($i = 0; $i < $c; ++$i) {
-            if(stripos($method->getName(), $this->insertPrefixes[$i]) === 0){
+            if(0 === stripos($method->getName(), $this->insertPrefixes[$i])){
                 return true;
             }
         }
@@ -57,7 +57,7 @@ class S2Dao_DaoNamingConventionImpl implements S2Dao_DaoNamingConvention {
     public function isDeleteMethod(ReflectionMethod $method) {
         $c = count($this->deletePrefixes);
         for ($i = 0; $i < $c; ++$i) {
-            if(stripos($method->getName(), $this->deletePrefixes[$i]) === 0){
+            if(0 === stripos($method->getName(), $this->deletePrefixes[$i])){
                 return true;
             }
         }
@@ -76,7 +76,7 @@ class S2Dao_DaoNamingConventionImpl implements S2Dao_DaoNamingConvention {
     public function isUpdateMethod(ReflectionMethod $method) {
         $c = count($this->updatePrefixes);
         for ($i = 0; $i < $c; ++$i) {
-            if(stripos($method->getName(), $this->updatePrefixes[$i]) === 0){
+            if(0 === stripos($method->getName(), $this->updatePrefixes[$i])){
                 return true;
             }
         }
@@ -84,9 +84,13 @@ class S2Dao_DaoNamingConventionImpl implements S2Dao_DaoNamingConvention {
     }
     
     public function isSelectMethod(ReflectionMethod $method) {
-        if ($this->isDeleteMethod($method) ||
-            $this->isInsertMethod($method) ||
-            $this->isUpdateMethod($method)) {
+        if ($this->isDeleteMethod($method)) {
+            return false;
+        }
+        if ($this->isInsertMethod($method)) {
+            return false;
+        }
+        if ($this->isUpdateMethod($method)) {
             return false;
         }
         return true;

@@ -58,5 +58,8 @@ S2DaoInterceptor
 S2Dao_ArrayList
 S2Dao_ArrayUtil
 S2Dao_DatabaseMetaDataUtil
+S2Dao_SqlCreatorsStredUtil
 S2Dao_HashMap
 S2Dao_CaseInsensitiveMap
+S2Dao_HashSet
+S2Dao_CaseInsensitiveSet

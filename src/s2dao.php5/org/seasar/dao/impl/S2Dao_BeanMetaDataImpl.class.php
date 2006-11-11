@@ -438,9 +438,9 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                 $pt = $this->createPropertyType($beanDesc, $pd);
                 $this->addPropertyType($pt);
             }
-            if ($this->primaryKeys == null || count($this->primaryKeys) == 0) {
+            if ($this->primaryKeys === null || count($this->primaryKeys) == 0) {
                 $idAnnotation = $this->beanAnnotationReader->getId($pd);
-                if ($idAnnotation != null) {
+                if ($idAnnotation !== null) {
                     $this->primaryKeys[] = new S2Dao_PropertyType($pt);
                     $pt->setPrimaryKey(true);
                 }
@@ -454,7 +454,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
     
     protected function setupPrimaryKey($dbMetaData) {
-        if ($this->primaryKeys == null || count($this->primaryKeys) == 0) {
+        if ($this->primaryKeys === null || count($this->primaryKeys) == 0) {
             $pkeyList = new S2Dao_ArrayList();
             $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet($dbMetaData,
                                                                           $this->tableName);
@@ -474,7 +474,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     
     protected function setupPropertyPersistentAndColumnName(S2Container_BeanDesc $beanDesc,
                                                             $dbMetaData) {
-        $columnSet = S2Dao_DatabaseMetaDataUtil::getColumnMap($dbMetaData, $this->tableName);
+        $columnSet = S2Dao_DatabaseMetaDataUtil::getColumnSet($dbMetaData, $this->tableName);
         if ($columnSet->isEmpty()) {
             self::$logger->warn('Table(' . $this->tableName . ') not found');
         }
@@ -487,7 +487,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                 $pt = $this->getPropertyType($i);
                 if(0 == strcasecmp($pt->getColumnName(), $col2)){
                     $pd = $pt->getPropertyDesc();
-                    if ($beanAnnotationReader->getColumnAnnotation($pd) == null) {
+                    if ($this->beanAnnotationReader->getColumnAnnotation($pd) == null) {
                         $pt->setColumnName($columnName);
                     }
                     break;
@@ -589,7 +589,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
      * @see org.seasar.dao.BeanMetaData#getPrimaryKey(int)
      */
     public function getPrimaryKey($index) {
-        return $this->primaryKeys[$index];
+        return $this->primaryKeys[$index]->getColumnName();
     }
     
     /**

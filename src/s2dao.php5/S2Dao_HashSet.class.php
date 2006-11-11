@@ -24,61 +24,38 @@
 /**
  * @author nowel
  */
-class S2Dao_ArrayList extends ArrayObject {
-
-    public function __construct($object = null){
-        if($object === null){
-            parent::__construct();
-        } else {
-            parent::__construct($object);
-        }
+class S2Dao_HashSet extends S2Dao_HashMap {
+    
+    public function __construct(){
+        parent::__construct();
     }
     
-    public function size(){
-        return $this->count();
+    public final function put($key, $value){
+        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
-    public function isEmpty(){
-        return count($this) == 0;
+    public final function keySet(){
+        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
-    public function contains($object){
-        return in_array($object, $this->getArrayCopy(), true);
+    public final function valueSet(){
+        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
-    public function get($index){
-        return $this->offsetGet($index);
-    }
-	
-    public function set($index, $object){
-        $this->offsetSet($index, $object);
-    }
-    	
-    public function add($index, $object = null){
-        if($object === null){
-            $this->append($index);
-        } else {
-            $this->offsetSet($index, $object);
-        }
+    public function add($element){
+        parent::put($element, $element);
     }
     
     public function addAll(ArrayObject $list){
         $arrays = $list->getArrayCopy();
         foreach($arrays as $value){
-            $this->append($value);
+            $this->add($value);
         }
     }
     
-    public function remove($index){
-        $this->offsetUnset($index);
-    }
-    
-    public function iterator(){
-        return $this->getIterator();
-    }
-    
     public function toArray(){
-        return $this->getArrayCopy();
+        $values = parent::toArray();
+        return array_values($values);
     }
 }
 

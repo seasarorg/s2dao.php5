@@ -3,21 +3,41 @@
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="dao">
     <include path="%PDO_DICON%" />
+    <component class="S2Dao_BasicResultSetFactory" />
+    <component class="S2Dao_BasicStatementFactory" />
     <component class="S2Dao_SqlCommandFactoryImpl" />
     <component class="S2Dao_FieldAnnotationReaderFactory" />
     <component class="S2Dao_DaoNamingConventionImpl" />
-    <component class="S2Dao_AnnotationSqlWrapperCreator" />
-    <component class="S2Dao_StoredProcedureWrapperCreator" />
-    <component class="S2Dao_FileSqlWrapperCreator" />
-    <component class="S2Dao_InsertAutoSqlWrapperCreator" />
-    <component class="S2Dao_UpdateSqlWrapperCreator" />
-    <component class="S2Dao_DeleteAnnotationSqlWrapperCreator" />
-    <component class="S2Dao_DeleteAutoSqlWrapperCreator" />
-    <component class="S2Dao_AutoSelectSqlWrapperCreatorImpl" />
     <component class="S2Dao_DaoMetaDataFactoryImpl">
-    	    <!--
-        <property name="sqlWrapperCreators">$container->findComponents(S2Dao_SqlWrapperCreator)</property>
+        <property name="sqlWrapperCreators">creators</property>
+    </component>
+    <component name="creators" class="ArrayObject" autoBinding="none">
+        <initMethod name="append">
+            <arg><component class="S2Dao_AnnotationSqlWrapperCreator" /></arg>
+        </initMethod>
+        	<!--
+        <initMethod name="append">
+            <arg><component class="S2Dao_StoredProcedureWrapperCreator" /></arg>
+        </initMethod>
         -->
+        <initMethod name="append">
+            <arg><component class="S2Dao_FileSqlWrapperCreator" /></arg>
+        </initMethod>
+        <initMethod name="append">
+            <arg><component class="S2Dao_InsertAutoSqlWrapperCreator" /></arg>
+        </initMethod>
+        <initMethod name="append">
+            <arg><component class="S2Dao_UpdateSqlWrapperCreator" /></arg>
+        </initMethod>
+        <initMethod name="append">
+            <arg><component class="S2Dao_DeleteAnnotationSqlWrapperCreator" /></arg>
+        </initMethod>
+        <initMethod name="append">
+            <arg><component class="S2Dao_DeleteAutoSqlWrapperCreator" /></arg>
+        </initMethod>
+        <initMethod name="append">
+            <arg><component class="S2Dao_AutoSelectSqlWrapperCreatorImpl" /></arg>
+        </initMethod>
     </component>
     <component name="interceptor" class="S2DaoInterceptor" />
 </components>

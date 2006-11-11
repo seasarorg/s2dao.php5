@@ -53,7 +53,7 @@ final class S2Dao_DatabaseMetaDataUtil {
             $tableName = substr($tableName, $index + 1);
         }
         $convertedTableName = self::convertIdentifier($dbMetaData, $tableName);
-        $set = new S2Dao_ArrayList();
+        $set = new S2Dao_CaseInsensitiveSet();
         self::addPrimaryKeys($dbMetaData,
                               self::convertIdentifier($dbMetaData, $schema),
                               $convertedTableName,
@@ -91,7 +91,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         return self::getColumnSet($dbMetaData, $tableName)->toArray();
     }
     
-    public static function getColumnMap(PDO $dbMetaData, $tableName) {
+    private static function getColumnMap(PDO $dbMetaData, $tableName) {
         $map = new S2Dao_CaseInsensitiveMap();
         $set = self::getColumnSet($dbMetaData, $tableName);
         $c = $set->size();
@@ -110,7 +110,7 @@ final class S2Dao_DatabaseMetaDataUtil {
         }
         
         $convertedTableName = self::convertIdentifier($dbMetaData, $tableName);
-        $set = new S2Dao_ArrayList();
+        $set = new S2Dao_CaseInsensitiveSet();
         self::addColumns($dbMetaData,
                          self::convertIdentifier($dbMetaData, $schema),
                          $convertedTableName,
