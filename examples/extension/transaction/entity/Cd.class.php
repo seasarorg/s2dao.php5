@@ -4,7 +4,7 @@
  * @author nowel
  * @Bean(table = CD)
  */
-class CdBean {
+class Cd {
     
     /**
      * @Column("ID")

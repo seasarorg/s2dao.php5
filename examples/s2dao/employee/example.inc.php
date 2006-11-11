@@ -2,11 +2,14 @@
 require_once 'S2Container/S2Container.php';
 require_once 'S2Dao/S2Dao.php';
 
+//
+define('EXAM_DIR', dirname(dirname(dirname(__FILE__))));
+
 // debug
 define('S2CONTAINER_PHP5_DOM_VALIDATE', false);
 
 define('S2CONTAINER_PHP5_LOG_LEVEL', S2Container_SimpleLogger::DEBUG);
-define('DAO_DICON', dirname(dirname(__FILE__)) . '/dao.dicon');
+define('DAO_DICON', EXAM_DIR . '/dao.dicon');
 define('PDO_DICON', dirname(dirname(__FILE__)) . '/pdo.dicon');
 
 /** class import */
