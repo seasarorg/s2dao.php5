@@ -5,7 +5,7 @@
 
     <include path="%DAO_DICON%" />
 
-    <component name="beanCdDao" class="Cd1Dao">
+    <component name="CdDao" class="Cd1Dao">
         <aspect>dao.interceptor</aspect>
     </component>
     
