@@ -159,7 +159,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
             $argNames = array(ucwords($beanMetaData->getBeanClass()->getName()));
         }
         $handler = null;
-        /*
+        /* TODO: Batch
         if($sql->isBatch()){
             $handler = new S2Dao_BasicBatchUpdateHandler($this->dataSource, $sql,
                                                         $method->getParameters(),
@@ -171,10 +171,10 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
                                                     $this->statementFactory);
         }
         */
-        $handler = new S2Dao_BasicUpdateHandler($this->dataSource, $sql,
-                                                $argNames,
-                                                $method->getParameters(),
-                                                $this->statementFactory);
+        $handler = new S2Dao_BasicUpdateHandlerEx($this->dataSource, $sql,
+                                                 $argNames,
+                                                 $method->getParameters(),
+                                                 $this->statementFactory);
         return new S2Dao_UpdateDynamicCommand($this->dataSource,
                                               $this->statementFactory,
                                               $handler);

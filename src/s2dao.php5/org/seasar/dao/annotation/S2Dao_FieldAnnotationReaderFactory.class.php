@@ -30,13 +30,13 @@ class S2Dao_FieldAnnotationReaderFactory implements S2Dao_AnnotationReaderFactor
     private static $useCommentAnnotation = false;
     
     public function __construct(){
-        if(defined('S2DAO_PHP5_USE_COMMENT') &&
-           S2DAO_PHP5_USE_COMMENT === true &&
-           class_exists('S2Container_AnnotationContainer') &&
-           strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER, self::READER) != 0){
-           S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = self::READER;
-           self::$useCommentAnnotation = true;
-        }                
+        if(defined('S2DAO_PHP5_USE_COMMENT') && S2DAO_PHP5_USE_COMMENT === true){
+            $existsReader = strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER, self::READER) != 0;
+            if(class_exists('S2Container_AnnotationContainer') && $existsReader){
+                S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = self::READER;
+                self::$useCommentAnnotation = true;
+            }
+        }
     }
     
     public function createDaoAnnotationReader(S2Container_BeanDesc $daoBeanDesc) {

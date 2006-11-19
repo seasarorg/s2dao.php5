@@ -19,9 +19,9 @@ class GenerateCoreFileTask extends Task {
         $this->classes = $this->getClasses();
         $this->searchDirectory($this->searchDir);
 
-        $contents = "<?php\n" . 
+        $contents = "<?php" . PHP_EOL . 
                     $this->getAllContents() .
-                    "?>\n";
+                    "?>" . PHP_EOL;
         
         file_put_contents($this->coreFile,
                           $contents,
@@ -74,8 +74,8 @@ class GenerateCoreFileTask extends Task {
         $isComment = false;
         for($i=0;$i<count($lines);$i++){
             $line = preg_replace("/\/\/.*$/","",$lines[$i]);
-            if (trim($line) == '' or
-                trim($line) == '<?php' or
+            if (trim($line) == '' ||
+                trim($line) == '<?php' ||
                 trim($line) == '?>'){
                 continue;
             }
@@ -92,7 +92,7 @@ class GenerateCoreFileTask extends Task {
                 $this->contents[$className] = $line;
             }
         }
-        $this->contents[$className] .= "\n";
+        $this->contents[$className] .= PHP_EOL;
     }
 
     public function setSearchDir($searchDir){

@@ -24,8 +24,7 @@
 /**
  * @author nowel
  */
-// XXX: update s2container.java::extension::db
-class S2Dao__BasicUpdateHandler
+class S2Dao_BasicUpdateHandler
     extends S2Dao_BasicHandler 
     implements S2Dao_UpdateHandler {
 
