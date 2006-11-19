@@ -1,20 +1,25 @@
 <?php
+
+/**
+ * @author nowel
+ */
 class PHPArchiveTask extends Task {
 
-    protected $pharfile = null;
+    protected $pharFile = "";
     protected $inifile = null;
     protected $usegzip = false;
     protected $incFileSets = array();
     protected $filterChains = array();
 
-    public function init(){
+    public function main(){
         include_once "PHP/Archive/Creator.php";
         if(!class_exists("PHP_Archive_Creator")){
             throw new BuildException("PHP_Archive_Creator...orz");
         }
+        $this->create();
     }
 
-    public function main(){
+    public function create(){
         $phar = new PHP_Archive_Creator($this->inifile, $this->usegzip);
 
         $includefiles = array();
@@ -25,9 +30,10 @@ class PHPArchiveTask extends Task {
         foreach($includefiles as $files){
             $c = count($files);
             for($i = 0; $i < $c; $i++){
+                $file = $files[$i];
                 try {
                     $contents = "";
-                    $in = FileUtils::getChainedReader(new FileReader($files[$i]["path"]),
+                    $in = FileUtils::getChainedReader(new FileReader($file["path"]),
                                                       $this->filterChains,
                                                       $this->project);
                     while(-1 !== ($buffer = $in->read())) {
@@ -39,21 +45,21 @@ class PHPArchiveTask extends Task {
                     $this->log($e->getMessage());
                 }
 
-                $this->log("[add] file: " . $files[$i]["path"]);
-                $phar->addString($contents, $this->replacePath($files[$i]["key"]), false);
+                $this->log("[add] file: " . $file["path"]);
+                $phar->addString($contents, $this->replacePath($file["file"]), false);
             }
         }
 
-        $this->log("[make] file: " . $this->pharfile->getPath() . "......");
-        if( $phar->savePhar($this->pharfile->getPath()) ){
+        $this->log("[create] file: " . $this->pharFile . "......");
+        if($phar->savePhar($this->pharFile)){
             $this->log("Succeed.");
         } else {
             $this->log("Failure. orz");
         }
     }
 
-    public function setPharfile(PhingFile $pharfile){
-        $this->pharfile = $pharfile;
+    public function setPharFile($filepath){
+        $this->pharFile = $filepath;
     }
 
     public function setInifile($inifile = "index.php"){

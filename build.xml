@@ -6,24 +6,15 @@
     <taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
 	<taskdef name="pearpkg2" classname="src.phing.task.PearPkg2SupportTask" />
 	<!-- /s2php5 build -->
+    <!-- Phar Package -->
+    <taskdef name="phar" classname="src.phing.task.PHPArchiveTask" />
+    <!-- /Phar Package -->
 	<!-- s2dao phing tasks addon -->
 	<taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
     <taskdef name="testgen" classname="src.phing.task.S2DaoTestGenTask" />
 	<!-- /s2dao phing tasks addon -->
     
-    <target name="init">
-        <property name="package.name" value="S2Dao" />
-        <property name="project.name" value="${phing.project.name}" />
-        <property name="project.version" value="1.1.1" />
-        <property name="project.state" value="stable" />
-        <property name="project.build.dir" value="${project.basedir}/build" />
-        <property name="project.src.dir" value="${project.basedir}/src" />
-        <property name="project.test.dir" value="${project.basedir}/test" />
-        <property name="skeleton.src.dir" value="${project.build.dir}/skel" />
-        <property name="test.src.dir" value="${project.build.dir}/test" />
-        <property name="license.file" value="Apache_Software_License_2.0.txt" />
-        <property name="release.notes" value="Release 1.1.1" />
-    </target>
+    <property file="build.properties" />
     
     <target name="info">
         <echo message="" />
@@ -32,7 +23,7 @@
         <echo message="available targets:" />
         <echo message="" />
         <echo message="generate ---> generate S2Dao.PHP5 Dao,Bean(Entity) files from DBMS" />
-        <echo message="testgen  ---> generate PHPUnit2 TestCase from /src/s2dao.php5" />
+        <echo message="testgen  ---> generate PHPUnit2 TestCase from /src/s2dao.php5(default)" />
         <echo message="build    ---> build all; don't create pear-package" />
         <echo message="pear-pkg ---> create pear-package" />
         <echo message="test     ---> run unit test suite from /test" />
@@ -41,14 +32,14 @@
         <echo message="" />
     </target>
 
-    <target name="clean" depends="init">
+    <target name="clean">
         <delete dir="${project.build.dir}/${package.name}" />
         <delete dir="${skeleton.src.dir}" />
         <delete dir="${test.src.dir}" />
         <delete dir="${project.build.dir}" />
     </target>
 
-    <target name="prepare" depends="init">
+    <target name="prepare">
         <mkdir dir="${project.build.dir}" />
         <mkdir dir="${skeleton.src.dir}" />
         <mkdir dir="${test.src.dir}" />
@@ -73,14 +64,14 @@
 
         <gcore searchDir="${project.build.dir}/${project.name}/S2Dao"
                coreFile="${project.build.dir}/${project.name}/s2dao.core.classes.php"
-               listFile="${project.basedir}/src/phing/etc/s2dao.core.files.txt"/>
+               listFile="${gcore.file.list}"/>
 
         <copy file="${project.basedir}/src/phing/etc/S2Dao.php.tpl"
               tofile="${project.build.dir}/${project.name}/S2Dao.php"
               overwrite="true"/>
 
-        <copy file="${project.basedir}/${license.file}"
-              tofile="${project.build.dir}/${project.name}/${license.file}"
+        <copy file="${project.basedir}/${project.license.file}"
+              tofile="${project.build.dir}/${project.name}/${project.license.file}"
               overwrite="true"/>
     </target>
 
@@ -91,13 +82,13 @@
             <fileset dir="${project.build.dir}/${project.name}">
                 <include name="**/*"/>
             </fileset>
-            <option name="notes">${release.notes}</option>
-            <option name="description">S2Dao is Object Relational Mapping tool: S2Dao does not use XML; and does not require DB-Driver knowledge. The goal of S2Dao.PHP5 project is to port Java S2Dao to PHP5(using PDO).</option>
-            <option name="summary">S2Dao.PHP5, a Object Relational Mapping tool.</option>
+            <option name="notes" value="${project.release.notes}" />
+            <option name="description" value="${project.description}" />
+            <option name="summary" value="${project.summary}" />
             <option name="version" value="${project.version}"/>
             <option name="state" value="${project.state}"/>
             <option name="baseinstalldir" value="${package.name}"/>
-            <option name="license" value="The Apache License, Version 2.0"/>
+            <option name="license" value="${project.license.name}"/>
             <mapping name="deps">
                 <element>
                     <element key="type" value="php"/>
@@ -123,17 +114,6 @@
     	
         <pearpkg2 uri="${project.pear.uri}"
                   pkgFile="${project.build.dir}/${project.name}/package.xml"/>
-
-<!--
-        <copy file="${project.build.dir}/${project.name}/package-dist.xml"
-              tofile="${project.build.dir}/${project.name}/package.xml">
-            <filterchain>
-                <replaceregexp>
-                    <regexp pattern="(role=.)data" replace="\1php" ignoreCase="true"/>
-                </replaceregexp>
-            </filterchain>
-        </copy>
--->
     </target>
  
     <target name="pear-pkg" depends="pear-pkg-xml">
@@ -145,6 +125,24 @@
                 <include name="package*.xml"/>
             </fileset>
         </move>
+    </target>
+
+    <target name="phar-pkg" depends="prepare">
+        <phar usegzip="false" pharfile="${package.name}.phar">
+            <fileset dir="${project.src.dir}">
+                <include name="**" />
+                <exclude name="**phing/**" />
+            </fileset>
+            <filterchain>
+                <tabtospaces tablength="0" />
+                <striplinebreaks />
+                <stripphpcomments />
+                <striplinecomments>
+                    <comment value="#" />
+                    <comment value="//" />
+                </striplinecomments>
+            </filterchain>
+        </phar>
     </target>
 	
     <target name="testgen" depends="prepare">
@@ -170,5 +168,5 @@
             <formatter type="plain" usefile="false" />
         </phpunit2>
     </target>
-    
+
 </project>
