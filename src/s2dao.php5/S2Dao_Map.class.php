@@ -24,8 +24,30 @@
 /**
  * @author nowel
  */
-interface S2Dao_ResultSetHandlerFactory {
-    public function createResultSetHandler(ReflectionMethod $daoMethod);
+interface S2Dao_Map {
+    
+    public function size();
+    
+    public function isEmpty();
+    
+    public function get($key);
+    
+    public function put($key, $value);
+    
+    public function remove($key);
+    
+    public function clear();
+    
+    public function contains($key);
+    
+    public function containsKey($key);
+    
+    public function toArray();
+    
+    public function iterator();
+        
+    public function entrySet();
+    
+    public function keySet();
 }
-
 ?>

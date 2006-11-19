@@ -80,8 +80,8 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
     
     protected function createRelationRow0(array $rs,
                                          S2Dao_RelationPropertyType $rpt,
-                                         S2Dao_HashMap $columnNames,
-                                         S2Dao_HashMap $relKeyValues) {
+                                         S2Dao_Map $columnNames,
+                                         S2Dao_Map $relKeyValues) {
         $row = null;
         $bmd = $rpt->getBeanMetaData();
         $size = $rpt->getKeySize();

@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_HashMap {
+class S2Dao_HashMap implements S2Dao_Map {
     
     protected $element = array();
     
@@ -55,7 +55,8 @@ class S2Dao_HashMap {
         if(is_object($key)){
             $key = (string)$key;
         }
-        $this->element[$key] = $value;
+        // linkable ** minimize refcount **
+        $this->element[$key] =& $value;
         return $this;
     }
     
@@ -95,7 +96,7 @@ class S2Dao_HashMap {
         return $ao->getIterator();
     }
     
-    public function valueSet(){
+    public function entrySet(){
         $set = new S2Dao_HashSet();
         $set->addAll(new ArrayObject(array_values($this->toArray())));
         return $set;

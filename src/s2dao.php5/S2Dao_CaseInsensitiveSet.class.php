@@ -38,7 +38,7 @@ class S2Dao_CaseInsensitiveSet extends S2Dao_CaseInsensitiveMap {
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
-    public final function valueSet(){
+    public final function entrySet(){
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     

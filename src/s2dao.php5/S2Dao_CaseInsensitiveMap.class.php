@@ -94,7 +94,7 @@ class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
         return $array;
     }
     
-    public function valueSet(){
+    public function entrySet(){
         $set = new S2Dao_CaseInsensitiveSet();
         $set->addAll(new ArrayObject(array_values($this->toArray())));
         return $set;

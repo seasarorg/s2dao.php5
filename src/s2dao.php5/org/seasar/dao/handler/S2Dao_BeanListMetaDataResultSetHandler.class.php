@@ -67,7 +67,7 @@ class S2Dao_BeanListMetaDataResultSetHandler
 
     protected function createRelationKey(S2Dao_RelationPropertyType $rpt,
                                          array $resultSet,
-                                         S2Dao_HashMap $relKeyValues){
+                                         S2Dao_Map $relKeyValues){
 
         $keyList = new S2Dao_ArrayList();
         $columnNames = new S2Dao_ArrayList(array_keys($resultSet));

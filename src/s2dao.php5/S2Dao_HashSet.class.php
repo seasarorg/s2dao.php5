@@ -38,7 +38,7 @@ class S2Dao_HashSet extends S2Dao_HashMap {
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
-    public final function valueSet(){
+    public final function entrySet(){
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
@@ -54,8 +54,7 @@ class S2Dao_HashSet extends S2Dao_HashMap {
     }
     
     public function toArray(){
-        $values = parent::toArray();
-        return array_values($values);
+        return array_values(parent::toArray());
     }
 }
 

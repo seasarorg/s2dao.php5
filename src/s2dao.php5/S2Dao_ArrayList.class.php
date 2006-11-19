@@ -26,12 +26,8 @@
  */
 class S2Dao_ArrayList extends ArrayObject {
 
-    public function __construct($object = null){
-        if($object === null){
-            parent::__construct();
-        } else {
-            parent::__construct($object);
-        }
+    public function __construct($object = array()){
+        parent::__construct($object);
     }
     
     public function size(){
@@ -54,11 +50,11 @@ class S2Dao_ArrayList extends ArrayObject {
         $this->offsetSet($index, $object);
     }
     	
-    public function add($index, $object = null){
+    public function add($indexOrObject, $object = null){
         if($object === null){
-            $this->append($index);
+            $this->append($indexOrObject);
         } else {
-            $this->offsetSet($index, $object);
+            $this->offsetSet($indexOrObject, $object);
         }
     }
     

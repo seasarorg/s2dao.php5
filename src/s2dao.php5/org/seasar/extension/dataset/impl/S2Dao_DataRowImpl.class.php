@@ -123,8 +123,8 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
     }
 
     public function copyFrom($source) {
-        if ($source instanceof S2Dao_HashMap) {
-            $this->copyFromHashMap($source);
+        if ($source instanceof S2Dao_Map) {
+            $this->copyFromMap($source);
         } else if ($source instanceof S2Dao_DataRow) {
             $this->copyFromRow($source);
         } else {
@@ -133,11 +133,10 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
 
     }
 
-    private function copyFromHashMap(S2Dao_HashMap $source) {
-        $arrayObj = new ArrayObject($source->toArray());
-        $iterator = $arrayObj->getIterator();
+    private function copyFromMap(S2Dao_Map $source) {
+        $iterator = $source->iterator();
         for ($i = $iterator; $i->valid(); $i->next()) {
-            $this->setValueFromHashMap($i->current(), $source);
+            $this->setValueFromMap($i->current(), $source);
         }
     }
     
@@ -157,7 +156,7 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
         }
     }
 
-    private function setValueFromHashMap($columnName, S2Dao_HashMap $source){
+    private function setValueFromMap($columnName, S2Dao_Map $source){
         $columnCase = array($columnName, strtoupper($columnName), strtolower($columnName));
         $c = count($columnCase);
         for($i = 0; $i < $c; $i++){

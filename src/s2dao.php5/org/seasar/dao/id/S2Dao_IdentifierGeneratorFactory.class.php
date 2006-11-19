@@ -26,14 +26,14 @@
  */
 class S2Dao_IdentifierGeneratorFactory {
 
-    private static $generatorClasses_;
+    private static $generatorClasses;
     public static $init = false;
     
     private function __construct() {
     }
 
     public static function staticConst(){
-        self::$generatorClasses_ = new S2Dao_HashMap();
+        self::$generatorClasses = new S2Dao_HashMap();
         self::addIdentifierGeneratorClass('assigned', 'S2Dao_AssignedIdentifierGenerator');
         self::addIdentifierGeneratorClass('identity', 'S2Dao_IdentityIdentifierGenerator');
         self::addIdentifierGeneratorClass('sequence', 'S2Dao_SequenceIdentifierGenerator');
@@ -41,11 +41,11 @@ class S2Dao_IdentifierGeneratorFactory {
     }
     
     public static function addIdentifierGeneratorClass($name, $clazz) {
-        self::$generatorClasses_->put($name, $clazz);
+        self::$generatorClasses->put($name, $clazz);
     }
 
     protected static function getGeneratorClass($name) {
-        $clazz = self::$generatorClasses_->get($name);
+        $clazz = self::$generatorClasses->get($name);
         if ($clazz != null) {
             return $clazz;
         }
@@ -57,7 +57,7 @@ class S2Dao_IdentifierGeneratorFactory {
             return new S2Dao_AssignedIdentifierGenerator($propertyName, $dbms);
         }
 
-        $array = S2Dao_ArrayUtil::spacetrim(preg_split("/(=|,)/", $annotation));
+        $array = S2Dao_ArrayUtil::spacetrim(preg_split('/(=|,)/', $annotation));
         $claz = self::getGeneratorClass($array[0]);
         $generator = self::createIdentifierGenerator2($claz, $propertyName, $dbms);
         for ($i = 1; $i < count($array); $i += 2) {
