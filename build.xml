@@ -12,6 +12,8 @@
 	<!-- s2dao phing tasks addon -->
 	<taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
     <taskdef name="testgen" classname="src.phing.task.S2DaoTestGenTask" />
+    <taskdef name="testrunner" classname="src.phing.task.S2DaoTestRunnerTask" />
+    <taskdef name="listener" classname="src.phing.task.S2DaoTestListenerTask" />
 	<!-- /s2dao phing tasks addon -->
     
     <property file="build.properties" />
@@ -35,14 +37,14 @@
     <target name="clean">
         <delete dir="${project.build.dir}/${package.name}" />
         <delete dir="${skeleton.src.dir}" />
-        <delete dir="${test.src.dir}" />
+        <delete dir="${testgen.out.dir}" />
         <delete dir="${project.build.dir}" />
     </target>
 
     <target name="prepare">
         <mkdir dir="${project.build.dir}" />
         <mkdir dir="${skeleton.src.dir}" />
-        <mkdir dir="${test.src.dir}" />
+        <mkdir dir="${testgen.out.dir}" />
         <mkdir dir="${project.build.dir}/${project.name}/${package.name}" />
     </target>
     
@@ -63,11 +65,11 @@
         </copy2>
 
         <gcore searchDir="${project.build.dir}/${project.name}/S2Dao"
-               coreFile="${project.build.dir}/${project.name}/s2dao.core.classes.php"
+               coreFile="${gcore.core.file}"
                listFile="${gcore.file.list}"/>
 
-        <copy file="${project.basedir}/src/phing/etc/S2Dao.php.tpl"
-              tofile="${project.build.dir}/${project.name}/S2Dao.php"
+        <copy file="${package.inc.template}"
+              tofile="${package.inc.file}"
               overwrite="true"/>
 
         <copy file="${project.basedir}/${project.license.file}"
@@ -146,7 +148,7 @@
     </target>
 	
     <target name="testgen" depends="prepare">
-        <testgen>
+        <testgen genDir="${testgen.out.dir}">
             <fileset dir="${project.src.dir}">
                 <include name="${project.name}/**/*.php"/>
                 <exclude name="${project.name}/**/*.properties"/>
@@ -156,17 +158,18 @@
         </testgen>
     </target>
     
-    <target name="test" depends="prepare">
-        <php expression="require_once '${project.test.dir}' . '/test.environment.php'"/>
-        <php expression="require_once '${project.test.dir}' . '/setup.php'"/>
-        <phpunit2 haltonfailure="false" printsummary="true">
-            <batchtest>
+    <target name="test">
+        <php expression="require_once '${project.test.dir}' . '/environment.inc.php'"/>
+        <testrunner resourcedir="${test.resource.dir}"
+                    appDicon="${test.app.dicon}"
+                    daoDicon="${test.dao.dicon}"
+                    pdoDicon="${test.pdo.dicon}">
+            <listener>
                 <fileset dir="${project.test.dir}">
                     <include name="**/**Test.php"/>
                 </fileset>
-            </batchtest>
-            <formatter type="plain" usefile="false" />
-        </phpunit2>
+            </listener>
+        </testrunner>
     </target>
 
 </project>

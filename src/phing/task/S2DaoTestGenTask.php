@@ -23,6 +23,8 @@ class S2DaoTestGenTask extends Task {
     const AllTestFooterFile = "/test.all.Footer.skel";
     const AllTestContentFile = "/test.all.Content.skel";
     
+    private $genDir;
+    
     private $filesets = array();
     
     public function init(){
@@ -31,7 +33,7 @@ class S2DaoTestGenTask extends Task {
     public function main(){
         $this->setupTask();
         $skeldir = dirname(__FILE__) . self::skelDir;
-        $srcdir = $this->getProject()->getProperty("test.src.dir");
+        $srcdir = $this->getProject()->getProperty($this->genDir);
         
         $files = array();
         $files = $this->getFiles($this->filesets[0]);
@@ -126,6 +128,10 @@ class S2DaoTestGenTask extends Task {
             $path[$dir] = $dir;
         }
         return $path;
+    }
+    
+    public function setGenDir($dir){
+        $this->genDir = $dir;
     }
 }
 

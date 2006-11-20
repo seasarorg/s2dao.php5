@@ -1,3 +1,7 @@
+2006-11-21 nowel(S2Dao.PHP5-1.2.0-beta1)
+
+    * add: S2DaoTestListenerTask, S2DaoTestRunnerTask
+
 2006-11-20 nowel(S2Dao.PHP5-1.2.0-bata1)
 
     * add: build.properies
