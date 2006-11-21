@@ -171,5 +171,15 @@
             </listener>
         </testrunner>
     </target>
+    
+    <target name="apidocs" description="API docs">
+        <mkdir dir="${docs.api.outdir}" />
+        <phpdoc title="${docs.api.title}"
+            destdir="${docs.api.outdir}"
+            sourcepath="${project.src.dir}/${project.name} ${docs.api.arguments} "
+            output="HTML:Smarty:PHP"
+            parseprivate="true"
+            linksource="false" />
+    </target>
 
 </project>
