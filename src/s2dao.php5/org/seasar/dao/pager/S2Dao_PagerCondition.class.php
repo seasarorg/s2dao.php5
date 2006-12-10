@@ -22,7 +22,7 @@
 // $Id: $
 //
 /**
- * ページャ条件オブジェクトのインターフェイス
+ * ページャ検索条件DTOのインターフェイス
  * @author yonekawa
  */
 interface S2Dao_PagerCondition

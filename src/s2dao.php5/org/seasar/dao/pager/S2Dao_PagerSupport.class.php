@@ -38,11 +38,11 @@ class S2Dao_PagerSupport
 
     /**
      * コンストラクタ
-     * セッションを開始して、指定された最大取得件数,検索条件クラス名,
-     * 検索条件オブジェクトのセッション中の名前で新しいPagerSupportインスタンスを生成します
+     * セッションを開始して、指定された最大取得件数,検索条件DTOクラス名,
+     * 検索条件DTOのセッション中の名前で新しいPagerSupportインスタンスを生成します
      * @param limit 最大取得件数
-     * @param pagerConditionClass 検索条件クラス名
-     * @param pagerConditionName 検索条件オブジェクトのセッション中の名前
+     * @param pagerConditionClass 検索条件DTOクラス名
+     * @param pagerConditionName 検索条件DTOのセッション中の名前
      */
     public function __construct($limit, $pagerConditionClass, $pagerConditionName)
     {
@@ -55,7 +55,7 @@ class S2Dao_PagerSupport
     }
 
     /** 
-     * Session中の検索条件オブジェクトのoffsetを更新します
+     * セッション中の検索条件DTOのoffsetを更新します
      * @param offset 更新Offset
      */
     public function updateOffset($offset)
@@ -69,9 +69,9 @@ class S2Dao_PagerSupport
     }
     
     /**
-     * セッション中の検索条件オブジェクトを取得します。
-     * 検索条件オブジェクトが存在しない場合、新規に検索条件オブジェクトを生成します。
-     * @return 検索条件オブジェクト
+     * セッション中の検索条件DTOを取得します。
+     * 検索条件DTOが存在しない場合、新規に検索条件DTOを生成します。
+     * @return 検索条件DTO
      */
     public function getPagerCondition()
     {

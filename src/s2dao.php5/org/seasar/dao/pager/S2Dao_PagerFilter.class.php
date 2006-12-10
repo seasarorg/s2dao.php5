@@ -29,10 +29,10 @@ class S2Dao_PagerFilter
     /**
      * S2Daoの結果にフィルタをかけて返します。
      * @param $resultSet
-     * @param $invocation
-     * @return フィルタリングされたResultSet
+     * @param S2Container_MethodInvocation $invocation
+     * @return array Pager情報Object
      */
-    public function filterResultSet($resultSet, S2Container_MethodInvocation $invocation)
+    public static function createPagerObject($resultSet, S2Container_MethodInvocation $invocation)
     {
         if (empty($resultSet)) {
             return $resultSet;
@@ -44,33 +44,37 @@ class S2Dao_PagerFilter
         if (count($args) < 1 || ! $args[0] instanceof S2Dao_PagerCondition) {
             return $resultSet;
         }
-        $condition = $args[0];
  
         $method = $invocation->getMethod();
         $beanDesc = S2Container_BeanDescFactory::getBeanDesc($invocation->getTargetClass());
         $reader = new S2Dao_DaoCommentAnnotationReader($beanDesc);
-        $filterType = $reader->getFilterType($method);
 
-        if ($filterType == S2Dao_DaoAnnotationReader::FILTER_PAGER) {
-            
+        $result = $resultSet;
+        $condition = $args[0];
+
+        $type = $reader->getReturnType($method);
+        switch ($type) {
+        case S2Dao_DaoAnnotationReader::RETURN_YAML:
+            $result = S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
+            break;
+        case S2Dao_DaoAnnotationReader::RETURN_JSON:
+            $result = S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
+        default:
+            $reader = new S2Dao_DaoConstantAnnotationReader($beanDesc);
             $type = $reader->getReturnType($method);
-            if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML) {
-                return S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
-            } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
-                return S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
-            } else {
-                $reader = new S2Dao_DaoConstantAnnotationReader($beanDesc);
-                $type = $reader->getReturnType($method);
 
-                if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML) {
-                    return S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
-                } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
-                    return S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
-                }
+            switch ($type) {
+            case S2Dao_DaoAnnotationReader::RETURN_YAML:
+                $result = S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
+                break;
+            case S2Dao_DaoAnnotationReader::RETURN_JSON:
+                $result = S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
+                break;
+            default:
+                $result = S2Dao_PagerUtil::createPagerObject($resultSet, $condition);
             }
-            return S2Dao_PagerUtil::createPagerObject($resultSet, $condition);
         }
-        return $resultSet;
+        return $result;
     }
 }
 

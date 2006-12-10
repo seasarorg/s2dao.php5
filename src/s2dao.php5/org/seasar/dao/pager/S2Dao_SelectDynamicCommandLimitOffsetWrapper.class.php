@@ -22,7 +22,10 @@
 // $Id: $
 //  
 /**
- * SelectDynamicCommandをLimit,Offset句を使って実行する
+ * S2Dao_SelectDynamicCommandクラスをラップするクラス
+ * 
+ * S2Dao_SelectDynamicCommandをラップして、
+ * 実行するSQLにLimit,Offset句を付加して実行する
  * @author yonekawa
  * @author nowel
  */

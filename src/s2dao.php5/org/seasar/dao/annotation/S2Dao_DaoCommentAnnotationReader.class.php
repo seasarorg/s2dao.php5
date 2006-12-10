@@ -38,8 +38,6 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     const RETURN_TYPE_MAP = '/@return\s*map/i';
 
-    const FILTER_TYPE_PAGER = '/@filter\s*pager/i';
-
     protected $beanClass;
     
     public function __construct(S2Container_BeanDesc $beanDesc) {
@@ -134,15 +132,6 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
 
-    public function getFilterType(ReflectionMethod $method)
-    {
-        $comment = $this->getMethodComment($method);
-        if(preg_match(self::FILTER_TYPE_PAGER, $comment)){
-            return S2Dao_DaoAnnotationReader::FILTER_PAGER;
-        }
-        return null;
-    }
-    
     private function getMethodAnnotation($annoType, ReflectionMethod $method){
         if(S2Container_Annotations::isAnnotationPresent($annoType,
                                                       $this->beanClass,

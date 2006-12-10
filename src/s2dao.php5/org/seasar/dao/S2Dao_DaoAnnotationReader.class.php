@@ -39,9 +39,6 @@ interface S2Dao_DaoAnnotationReader {
     /** */
     const RETURN_MAP = 5;
 
-    /** */
-    const FILTER_PAGER = 10;
-    
     /**
      * @param name
      * @return

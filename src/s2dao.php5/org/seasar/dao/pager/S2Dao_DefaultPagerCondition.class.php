@@ -23,6 +23,9 @@
 //
 /**
  * ページャ条件保持オブジェクトのベースクラス。
+ *
+ * S2Dao_PagerConditionのデフォルト実装クラスです。
+ * 独自検索条件DTOを実装する場合はこのクラスを継承するとよいでしょう。
  * @author yonekawa
  */
 class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
@@ -37,7 +40,7 @@ class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
     private $count = 0;
     
     /**
-     * @return Returns the total.
+     * @return 現在の総数を返す
      */
     public function getCount() 
     {
@@ -45,7 +48,7 @@ class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
     }
 
     /**
-     * @param total The total to set.
+     * @param total セットする総数
      */
     public function setCount($total) 
     {
@@ -53,7 +56,7 @@ class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
     }
 
     /**
-     * @return Returns the limit.
+     * @return 現在のLimit
      */
     public function getLimit() 
     {
@@ -61,7 +64,7 @@ class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
     }
 
     /**
-     * @param limit The limit to set.
+     * @param limit セットするLimit
      */
     public function setLimit($limit) 
     {
@@ -69,7 +72,7 @@ class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
     }
 
     /**
-     * @return Returns the offset.
+     * @return 現在のOffset
      */
     public function getOffset() 
     {
@@ -77,7 +80,7 @@ class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
     }
     
     /**
-     * @param offset The offset to set.
+     * @param offset セットするOffset
      */
     public function setOffset($offset) 
     {

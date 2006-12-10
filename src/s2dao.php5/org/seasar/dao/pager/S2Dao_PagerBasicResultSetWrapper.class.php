@@ -22,14 +22,17 @@
 // $Id: $
 //
 /**
+ * S2Daoの検索結果セットをラップするクラス
+ *
+ * S2Daoの検索結果セット( List, Array )をコンディションDTOでラップするクラスです。
  * @author yonekawa
  */
 class S2Dao_PagerBasicResultSetWrapper implements S2Dao_PagerResultSetWrapper
 {
     /**
      * S2Daoの結果をDTOの条件でラップして返します
-     * @param result S2Daoの結果
-     * @param condition DTO
+     * @param result S2Daoの結果セット
+     * @param condition コンディションDTO
      */
     public function filter($result, $condition)
     {

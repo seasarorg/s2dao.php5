@@ -22,12 +22,13 @@
 // $Id: $
 //
 /**
- * S2DaoInterceptorラップするインターセプタ
+ * S2DaoInterceptorをラップして結果をペ−ジングするインターセプタ
+ *
+ * S2Daoを利用して取得した結果セットを、検索条件DTOによってペ−ジングします。
  * @author yonekawa
  */
 class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
 {
-    /** Limit,Offset句を使用する true/false  */
     private $useLimitOffsetQuery = false;
 
     private $daoMetaDataFactory_;
@@ -36,8 +37,9 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
         parent::__construct($daoMetaDataFactory);
         $this->daoMetaDataFactory_ = $daoMetaDataFactory;
     }
+
     /**
-     * @param useLimitOffsetQuery Limit,Offset句を使用する true/false
+     * @param boolean ペ−ジングにSQLのLimit句を使用するかどうかの真偽値
      */
     public function setUseLimitOffsetQuery($useLimitOffsetQuery)
     {
@@ -45,8 +47,7 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
     }
 
     /**
-     * インターセプトしたメソッドの引数がPagerConditionの実装クラスなら
-     * S2DaoInterceptorの結果をPagerConditionでラップした結果を返す
+     * useLimitOffsetQueryプロパティの値によって、ペ−ジング処理を振り分ける
      * @param $invocation
      */
     public function invoke(S2Container_MethodInvocation $invocation) 
@@ -57,9 +58,6 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
             $result = $this->invokePagerWithoutLimitOffsetQuery($invocation);
         }
 
-        $pagerFilter = new S2Dao_PagerFilter();
-        $result = $pagerFilter->filterResultSet($result, $invocation);
-        
         return $result;
     }
 
@@ -83,7 +81,7 @@ class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
 
             if (count($args) >= 1) {
                 if ($args[0] instanceof S2Dao_PagerCondition) {
-                    $cmd = S2Dao_SelectDynamicCommandLimitOffsetWrapperFactory::create($cmd);
+                    $cmd = new S2Dao_SelectDynamicCommandLimitOffsetWrapper($cmd);
                 }
             }
             $ret = $cmd->execute($invocation->getArguments());

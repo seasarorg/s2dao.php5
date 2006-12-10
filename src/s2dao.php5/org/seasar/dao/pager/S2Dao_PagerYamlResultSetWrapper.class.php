@@ -22,14 +22,17 @@
 // $Id: $
 //
 /**
+ * S2Daoの検索結果セット( YAML )をラップするクラス
+ *
+ * S2Daoの検索結果セット( YAML )をコンディションDTOでラップするクラスです。
  * @author yonekawa
  */
 class S2Dao_PagerYamlResultSetWrapper implements S2Dao_PagerResultSetWrapper
 {
     /**
      * S2Daoの結果(YAML)をDTOの条件でラップして返します
-     * @param $result S2Daoの結果(YAML)
-     * @param $condition DTO
+     * @param $result S2Daoの結果セット(YAML)
+     * @param $condition 検索条件DTO
      */
     public function filter($result, $condition)
     {

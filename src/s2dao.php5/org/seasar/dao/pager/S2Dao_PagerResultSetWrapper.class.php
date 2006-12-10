@@ -22,13 +22,16 @@
 // $Id: $
 //
 /**
+　* S2Daoの検索結果セットラッパ−のインタフェ−ス
+ *
+ * S2Daoの検索結果セットのラッパを提供するインタフェ−スです。
  * @author yonekawa
  */
 interface S2Dao_PagerResultSetWrapper
 {
     /**
-     * @param result S2Daoの結果
-     * @param condition DTO
+     * @param result S2Daoの結果セット
+     * @param condition 検索条件DTO
      */
     public function filter($result, $condition);
 }

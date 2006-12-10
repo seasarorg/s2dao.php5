@@ -22,14 +22,17 @@
 // $Id: $
 //
 /**
+　* S2Daoの検索結果セット(　JSON　)をラップするクラス
+ *
+ * S2Daoの検索結果セット( JSON )をコンディションDTOでラップするクラスです。
  * @author yonekawa
  */
 class S2Dao_PagerJsonResultSetWrapper implements S2Dao_PagerResultSetWrapper
 {
     /**
      * S2Daoの結果(JSON)をDTOの条件でラップして返します
-     * @param $result S2Daoの結果(JSON)
-     * @param $condition DTO
+     * @param $result S2Daoの結果セット(JSON)
+     * @param $condition 検索条件DTO
      */
     public function filter($result, $condition)
     {

@@ -23,13 +23,16 @@
 //
 /**
  * PagerResultSetWrapperのファクトリクラス
+ *
+ * S2Daoの検索結果をラップするクラスをアノテ−ション情報から読み取った情報によって生成します。
  * @author yonekawa
  * @author nowel
  */
 class S2Dao_PagerResultSetWrapperFactory
 {
     /**
-     * コメントアノテーションからDaoの結果のタイプを取得して、それに応じたResultSetWrapperを返す
+     * アノテーションからDaoの結果のタイプを取得して、それに応じたResultSetWrapperを返す
+     * @param $invocation
      */
     public static function create(S2Container_MethodInvocation $invocation)
     {
