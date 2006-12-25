@@ -48,5 +48,13 @@ class S2Dao_SQLite extends S2Dao_Standard {
     public function getPrimaryKeySql(){
         return 'PRAGMA table_info(' . self::BIND_TABLE . ')';
     }
+
+    public function getLimitOffsetSql(){
+        return 'LIMIT ?,?';
+    }
+
+    public function usableLimitOffsetQuery() {
+        return true;
+    }
 }
 ?>

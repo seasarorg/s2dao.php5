@@ -34,7 +34,7 @@ class S2Dao_PagerSupport
     private $pagerConditionClass;
     
     /** 検索条件オブジェクトのセッション中の名前 */
-    private $pagerConditionName;
+    private $pagerConditionName = 'ORG_SEASAR_PAGER_CONDITION';
 
     /**
      * コンストラクタ
@@ -44,14 +44,21 @@ class S2Dao_PagerSupport
      * @param pagerConditionClass 検索条件DTOクラス名
      * @param pagerConditionName 検索条件DTOのセッション中の名前
      */
-    public function __construct($limit, $pagerConditionClass, $pagerConditionName)
+    public function __construct($limit = NULL, 
+                                $pagerConditionClass = NULL,
+                                $pagerConditionName = NULL)
     {
         if (!headers_sent() && session_id() == '') {
             session_start();
         }
-        $this->limit = $limit;
-        $this->pagerConditionClass = $pagerConditionClass;
-        $this->pagerConditionName = $pagerConditionName;
+        
+        $this->limit = ($limit !== NULL) ? $limit : S2Dao_PagerCondition::NONE_LIMIT;
+        $this->pagerConditionClass = ($pagerConditionClass !== NULL) 
+                                    ? $pagerConditionClass 
+                                    : 'S2Dao_DefaultPagerCondition';
+        $this->pagerConditionName = ($pagerConditionName !== NULL) 
+                                    ? $pagerConditionName 
+                                    : 'ORG_SEASAR_PAGER_CONDITION';
     }
 
     /** 

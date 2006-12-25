@@ -1,3 +1,11 @@
+2006-12-25 yonekawa(S2Dao.PHP5-1.2.0-beta1)
+
+    * modify: SQLiteでのuseLimitOffsetQuery=TRUEに対応しました
+    * fix: S2Dao_PagerSupportのコンストラクタ引数に初期値を設定しました
+           第1引数　最大表示件数 = S2Dao_PagerCondition::NONE_LIMIT
+           第2引数 検索条件DTOクラス名 = 'S2Dao_DefaultPagerCondition'
+           第3引数 検索条件DTOのセッション中のキ− = 'ORG_SEASAR_PAGER_CONDITION'
+
 2006-11-21 nowel(S2Dao.PHP5-1.2.0-beta1)
 
     * add: S2DaoTestListenerTask, S2DaoTestRunnerTask
