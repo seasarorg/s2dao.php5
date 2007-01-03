@@ -59,7 +59,8 @@ class S2DaoSkeletonTask extends Task {
         $this->setupTask();
         $dbms = new S2DaoSkeletonDbms($this->dsn, $this->user, $this->pass);
         $skel = new S2DaoSkeletonGen($this->skeldir);
-        foreach($dbms->getAllColumns() as $table => $columns){
+        $colset = $dbms->getAllColumns();
+        foreach($colset as $table => $columns){
             $skel->setTableName($table);
             $skel->setColumns($columns);
             

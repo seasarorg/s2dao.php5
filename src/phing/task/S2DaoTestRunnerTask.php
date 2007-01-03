@@ -127,7 +127,7 @@ class UnitTest_DB_Initializer {
             throw new Exception("File not Exists: " . $sqlfile);
         }
         
-        $pdo->query(file_get_contents($sqlfile));
+        return $pdo->query(file_get_contents($sqlfile));
     }
     
 }

@@ -86,15 +86,12 @@ class S2Dao_DeleteAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
         $reader = $this->annotationReaderFactory->createDaoAnnotationReader($beanDesc);
         if($this->checkAutoUpdateMethod($beanMetaData, $method)){
             if ($this->isUpdateSignatureForBean($beanMetaData, $method)) {
-                return new S2Dao_DeleteAutoSqlWrapperImplAnony(array('dto'),
-                                                               $this->createSql($beanMetaData), false);
+                return new S2Dao_DeleteAutoSqlWrapperImplAnony(array('dto'), $this->createSql($beanMetaData), false);
             }
-            return new S2Dao_SqlWrapperImpl(array('dto'),
-                                            $this->createSql($beanMetaData), true);
+            return new S2Dao_SqlWrapperImpl(array('dto'), $this->createSql($beanMetaData), true);
         }
-        return new S2Dao_SqlWrapperImpl($reader->getArgNames($method),
-                                        $this->createAutoDelete($dbms, $beanMetaData,
-                                                                $reader->getArgNames($method)), false);
+        $autoDelete = $this->createAutoDelete($dbms, $beanMetaData,$reader->getArgNames($method));
+        return new S2Dao_SqlWrapperImpl($reader->getArgNames($method), $autoDelete, false);
     }
 }
 
@@ -103,12 +100,10 @@ final class S2Dao_DeleteAutoSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     public function preUpdateBean(S2Dao_CommandContext $ctx) {
     }
 
-    public function postUpdateBean(S2Dao_CommandContext $ctx,
-                                   $returnValue) {
+    public function postUpdateBean(S2Dao_CommandContext $ctx, $returnValue) {
         $rows = $returnValue;
         if ((int)$rows != 1) {
-            throw new S2Dao_NotSingleRowUpdatedRuntimeException(
-                       $ctx->getArg('dto'), (int)$rows);
+            throw new S2Dao_NotSingleRowUpdatedRuntimeException($ctx->getArg('dto'), (int)$rows);
         }
     }
 }

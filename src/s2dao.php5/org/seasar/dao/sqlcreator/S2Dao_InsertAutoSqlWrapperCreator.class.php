@@ -70,7 +70,7 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             $pt = $propertyTypes[$i];
             $id = $reader->getId($pt->getPropertyDesc());
             if($id != null){
-                $generator = IdentifierGeneratorFactory::createIdentifierGenerator(
+                $generator = S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator(
                                     $pt->getPropertyName(), $dbms, $id);
                 if(!$generator->isSelfGenerate()){
                     continue;
@@ -144,8 +144,7 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             $pt = $propertyTypes[$i];
             $id = $reader->getId($pt->getPropertyDesc());
             if($id != null){
-                $identifierGenerator = IdentifierGeneratorFactory::createIdentifierGenerator(
-                                            $pt->getPropertyName(), $dbms, $id);
+                $identifierGenerator = S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator($pt->getPropertyName(), $dbms, $id);
                 if(!$identifierGenerator->isSelfGenerate()){
                     continue;
                 }
@@ -242,7 +241,7 @@ final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
             $this->generator->setIdentifier($bean, $this->dataSource);
         }
         if ($this->timeStampPropertyExists) {
-            $ctx->addArg('_timeStamp', date(), gettype(0));
+            $ctx->addArg('_timeStamp', time(), gettype(0));
         }
         if ($this->versionNoPropertyExists) {
             $ctx->addArg('_versionNo', 0, gettype(0));
@@ -299,7 +298,7 @@ final class S2Dao_InsertBatchSqlWrapper extends S2Dao_SqlWrapperImpl{
             return;
         }
         if ($this->timeStampPropertyExists) {
-            $ctx->addArg('_timeStamp', date(), gettype(0));
+            $ctx->addArg('_timeStamp', time(), gettype(0));
         }
         if ($this->versionNoPropertyExists) {
             $ctx->addArg('_versionNo', 0, gettype(0));
