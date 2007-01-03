@@ -26,6 +26,8 @@
  */
 class S2Dao_DateType implements S2Dao_ValueType {
     
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+    
     /**
      * 
      */
@@ -37,16 +39,14 @@ class S2Dao_DateType implements S2Dao_ValueType {
      * 
      */
     public function bindValue(PDOStatement $stmt, $index, $value){
-        $bindValue = null;
+        $bindValue = $value;
         $toTime = strtotime($value);
         if($toTime !== -1){
-            $bindValue = date('Y-m-d H:i:s', $toTime);
+            $bindValue = date(self::DATE_FORMAT, $toTime);
         } else if(is_long($value)){
-            $bindValue = date('Y-m-d H:i:s', $value);
+            $bindValue = date(self::DATE_FORMAT, $value);
         } else if(empty($value)){
-            $bindValue = date('Y-m-d H:i:s', time());
-        } else {
-            $bindValue = $value;
+            $bindValue = date(self::DATE_FORMAT, time());
         }
         $stmt->bindValue($index, $bindValue, PDO::PARAM_STR);
     }

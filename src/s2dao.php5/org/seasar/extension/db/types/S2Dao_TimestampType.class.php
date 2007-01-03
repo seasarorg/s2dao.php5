@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_DateType implements S2Dao_ValueType {
+class S2Dao_TimestampType implements S2Dao_ValueType {
     
     /**
      * 

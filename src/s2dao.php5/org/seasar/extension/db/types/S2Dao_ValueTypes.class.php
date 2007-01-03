@@ -41,6 +41,9 @@ final class S2Dao_ValueTypes {
     private function __construct(){
     }
     
+    /**
+     * @return S2Dao_ValueType
+     */
     public static function getValueType($type = null){
         if($type === null){
             return self::getValueType(S2Dao_PHPType::Null);
