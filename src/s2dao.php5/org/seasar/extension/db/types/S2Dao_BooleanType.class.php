@@ -24,25 +24,21 @@
 /**
  * @author nowel
  */
-final class S2Dao_PDOType {
+class S2Dao_BooleanType implements S2Dao_ValueType {
     
-    private static $TYPES = array(
-        S2Dao_PHPType::String => PDO::PARAM_STR,
-        S2Dao_PHPType::Integer => PDO::PARAM_INT,
-        S2Dao_PHPType::Double => PDO::PARAM_INT,
-        S2Dao_PHPType::Boolean => PDO::PARAM_BOOL,
-        S2Dao_PHPType::Null => PDO::PARAM_NULL,
-        S2Dao_PHPType::Resource => PDO::PARAM_LOB,
-        S2Dao_PHPType::Object => PDO::PARAM_STMT,
-        S2Dao_PHPType::Unknown => PDO::PARAM_STMT
-    );
-    
-    public static function gettype($phpType = null){
-        if($phpType === null){
-            return PDO::PARAM_NULL;
-        }
-        return self::$TYPES[$phpType];
+    /**
+     * 
+     */
+    public function getValue(array $resultset, $key){
+        return (boolean)$resultset[$key];
     }
-
+    
+    /**
+     * 
+     */
+    public function bindValue(PDOStatement $stmt, $index, $value){
+        $stmt->bindValue($index, $value, PDO::PARAM_BOOL);
+    }
 }
+
 ?>

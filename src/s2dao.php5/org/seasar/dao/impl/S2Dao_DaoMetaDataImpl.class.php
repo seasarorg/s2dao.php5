@@ -43,11 +43,14 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     protected $sqlCommands = null;
 
     protected $daoSuffixes = array('Dao');
+    
+    private $valueTypeFactory;
 
     public function __construct(ReflectionClass $daoClass,
                                 S2Container_DataSource $dataSource,
                                 S2Dao_AnnotationReaderFactory $annotationReaderFactory = null,
-                                array $daoSuffixes = null) {
+                                array $daoSuffixes = null,
+                                S2Dao_ValueTypeFactory $valueTypeFactory = null) {
         $this->setDaoClass($daoClass);
         $this->setDataSource($dataSource);
         if($annotationReaderFactory === null){
@@ -57,6 +60,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         if ($daoSuffixes !== null) {
             $this->setDaoSuffixes($daoSuffixes);
         }
+        if($valueTypeFactory !== null){
+            $this->setValueTypeFactory($valueTypeFactory);
+        }
+        
         $this->sqlCommands = new S2Dao_HashMap();
         $this->initialize();
     }
@@ -165,6 +172,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
         $this->daoSuffixes = $daoSuffixes;
     }
 
+    /**
+     * @param $dataSource S2Container_DataSource
+     */
     public function setDataSource(S2Container_DataSource $dataSource) {
         $this->dataSource = $dataSource;
     }
@@ -178,6 +188,20 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     public function setDaoClass(ReflectionClass $daoClass) {
         $this->daoClass = $daoClass;
+    }
+    
+    /**
+     * @return ValueTypeFactory
+     */
+    protected function getValueTypeFactory() {
+        return $this->valueTypeFactory;
+    }
+
+    /**
+     * @param $valueTypeFactory S2Dao_ValueTypeFactory
+     */
+    public function setValueTypeFactory(S2Dao_ValueTypeFactory $valueTypeFactory) {
+        $this->valueTypeFactory = $valueTypeFactory;
     }
 
 }

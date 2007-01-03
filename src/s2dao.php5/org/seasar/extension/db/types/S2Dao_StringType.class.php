@@ -21,15 +21,24 @@
 // +----------------------------------------------------------------------+
 // $Id: $
 //
-interface S2Dao_PHPType {
-    const Boolean = 'boolean';
-    const Integer = 'integer';
-    const Double = 'double';
-    const Float = 'float';
-    const String = 'string';
-    const Object = 'object';
-    const Resource = 'resource';
-    const Null = 'NULL';
-    const Unkwown = 'unknown type';
+/**
+ * @author nowel
+ */
+class S2Dao_StringType implements S2Dao_ValueType {
+    
+    /**
+     * 
+     */
+    public function getValue(array $resultset, $key){
+        return (string)$resultset[$key];
+    }
+    
+    /**
+     * 
+     */
+    public function bindValue(PDOStatement $stmt, $index, $value){
+        $stmt->bindValue($index, $value, PDO::PARAM_STR);
+    }
 }
+
 ?>

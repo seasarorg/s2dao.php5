@@ -1,3 +1,8 @@
+2007-01-04 nowel(S2Dao.PHP5-1.2.0-beta1)
+
+    * add: added ValueType extention
+    * fix: いくつかの参照ミスの修正
+
 2006-12-25 yonekawa(S2Dao.PHP5-1.2.0-beta1)
 
     * modify: SQLiteでのuseLimitOffsetQuery=TRUEに対応しました

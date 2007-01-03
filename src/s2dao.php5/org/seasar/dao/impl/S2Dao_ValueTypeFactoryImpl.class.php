@@ -24,25 +24,34 @@
 /**
  * @author nowel
  */
-final class S2Dao_PDOType {
-    
-    private static $TYPES = array(
-        S2Dao_PHPType::String => PDO::PARAM_STR,
-        S2Dao_PHPType::Integer => PDO::PARAM_INT,
-        S2Dao_PHPType::Double => PDO::PARAM_INT,
-        S2Dao_PHPType::Boolean => PDO::PARAM_BOOL,
-        S2Dao_PHPType::Null => PDO::PARAM_NULL,
-        S2Dao_PHPType::Resource => PDO::PARAM_LOB,
-        S2Dao_PHPType::Object => PDO::PARAM_STMT,
-        S2Dao_PHPType::Unknown => PDO::PARAM_STMT
-    );
-    
-    public static function gettype($phpType = null){
-        if($phpType === null){
-            return PDO::PARAM_NULL;
-        }
-        return self::$TYPES[$phpType];
+class S2Dao_ValueTypeFactoryImpl implements S2Dao_ValueTypeFactory {
+
+    /**
+     * @type S2Container
+     */
+    private $container;
+
+    /**
+     * @return S2Dao_ValueType
+     */
+    public function getValueTypeByName($name) {
+        return $container->getComponent($name);
+    }
+
+    /**
+     * @return S2Dao_ValueType
+     */
+    public function getValueTypeByClassName($clazzName) {
+        return S2Dao_ValueTypes::getValueType($clazzName);
+    }
+
+    /**
+     * @param $container S2Container
+     */
+    public function setContainer(S2Container $container) {
+        $this->container = $container;
     }
 
 }
+
 ?>
