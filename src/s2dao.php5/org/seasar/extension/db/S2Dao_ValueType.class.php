@@ -34,7 +34,7 @@ interface S2Dao_ValueType {
     /**
      * 
      */
-    public function bindValue(PDOStatement $stmt, $index, $value);
+    public function bindValue(PDOStatement $stmt, $index, $value = null);
 }
 
 ?>

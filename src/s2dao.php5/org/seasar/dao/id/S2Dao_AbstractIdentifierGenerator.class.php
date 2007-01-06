@@ -26,38 +26,38 @@
  */
 abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGenerator {
 
-    private static $resultSetHandler_;
-    private $propertyName_;
-    private $dbms_;
+    private static $resultSetHandler;
+    private $propertyName;
+    private $dbms;
     
     public function __construct($propertyName, S2Dao_Dbms $dbms) {
-        self::$resultSetHandler_ = new S2Dao_ObjectResultSetHandler();
-        $this->propertyName_ = $propertyName;
-        $this->dbms_ = $dbms;
+        self::$resultSetHandler = new S2Dao_ObjectResultSetHandler();
+        $this->propertyName = $propertyName;
+        $this->dbms = $dbms;
     }
     
     public function getPropertyName() {
-        return $this->propertyName_;
+        return $this->propertyName;
     }
     
     public function getDbms() {
-        return $this->dbms_;
+        return $this->dbms;
     }
     
     protected function executeSql(S2Container_DataSource $ds, $sql, $args) {
-        $handler = new S2Dao_BasicSelectHandler($ds, $sql, self::$resultSetHandler_);
+        $handler = new S2Dao_BasicSelectHandler($ds, $sql, self::$resultSetHandler);
         return $handler->execute($args, null);
     }
     
     public abstract function setIdentifier($bean, S2Container_DataSource $value);
     
     public function setIdentifier2($bean, $value) {
-        if ($this->propertyName_ == null) {
+        if ($this->propertyName == null) {
             throw new S2Container_EmptyRuntimeException('propertyName');
         }
         $class = new ReflectionClass(get_class($bean));
         $beanDesc = S2Container_BeanDescFactory::getBeanDesc($class);
-        $pd = $beanDesc->getPropertyDesc($this->propertyName_);
+        $pd = $beanDesc->getPropertyDesc($this->propertyName);
         $pd->setValue($bean, $value);
     }
 }

@@ -38,7 +38,7 @@ class S2Dao_DateType implements S2Dao_ValueType {
     /**
      * 
      */
-    public function bindValue(PDOStatement $stmt, $index, $value){
+    public function bindValue(PDOStatement $stmt, $index, $value = null){
         $bindValue = $value;
         $toTime = strtotime($value);
         if($toTime !== -1){

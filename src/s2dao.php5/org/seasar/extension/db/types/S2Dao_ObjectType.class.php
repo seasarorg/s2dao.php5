@@ -26,6 +26,17 @@
  */
 class S2Dao_ObjectType implements S2Dao_ValueType {
     
+    private static $types = array(
+        S2Dao_PHPType::String => PDO::PARAM_STR,
+        S2Dao_PHPType::Integer => PDO::PARAM_INT,
+        S2Dao_PHPType::Double => PDO::PARAM_INT,
+        S2Dao_PHPType::Boolean => PDO::PARAM_BOOL,
+        S2Dao_PHPType::Null => PDO::PARAM_NULL,
+        S2Dao_PHPType::Resource => PDO::PARAM_LOB,
+        S2Dao_PHPType::Object => PDO::PARAM_STMT,
+        S2Dao_PHPType::Unknown => PDO::PARAM_STMT
+    );
+    
     /**
      * 
      */
@@ -36,8 +47,13 @@ class S2Dao_ObjectType implements S2Dao_ValueType {
     /**
      * 
      */
-    public function bindValue(PDOStatement $stmt, $index, $value){
-        $stmt->bindValue($index, $value);
+    public function bindValue(PDOStatement $stmt, $index, $value = null){
+        $type = gettype($value);
+        if(isset(self::$types[$type])){
+            $stmt->bindValue($index, $value, self::$types[$type]);
+        } else {
+            $stmt->bindValue($index, $value);
+        }
     }
 }
 

@@ -29,7 +29,7 @@ class S2Dao_AtomDateType extends S2Dao_DateType {
     /**
      * 
      */
-    public function bindValue(PDOStatement $stmt, $index, $value){
+    public function bindValue(PDOStatement $stmt, $index, $value = null){
         $stmt->bindValue($index, date(DATE_ATOM, (integer)$value), PDO::PARAM_STR);
     }
 }

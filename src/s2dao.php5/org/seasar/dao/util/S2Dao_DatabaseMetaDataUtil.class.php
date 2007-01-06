@@ -29,16 +29,8 @@ final class S2Dao_DatabaseMetaDataUtil {
     private function __construct() {
     }
     
-    public static function getDbms(PDO $db){
-        $dbms = S2DaoDbmsManager::getDbms($db);
-        if($dbms === null){
-            throw new Exception('not such dbms case');
-        }
-        return $dbms;
-    }
-    
     public static function getDbMeta(PDO $pdo){
-        return S2Dao_DBMetaDataFactory::create($pdo, self::getDbms($pdo));
+        return S2Dao_DBMetaDataFactory::create($pdo, S2DaoDbmsManager::getDbms($pdo));
     }
 
     public static function getPrimaryKeys(PDO $dbMetaData, $tableName) {
@@ -158,7 +150,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     }
     
     private static function getTables(PDO $pdo){
-        $stmt = $pdo->query(self::getDbms($pdo)->getTableSql());
+        $stmt = $pdo->query(S2DaoDbmsManager::getDbms($pdo)->getTableSql());
         $tables = array();
         while($row = $stmt->fetch(PDO::FETCH_COLUMN)){
             $tables[] = $row;

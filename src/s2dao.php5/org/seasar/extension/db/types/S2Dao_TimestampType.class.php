@@ -36,7 +36,7 @@ class S2Dao_TimestampType implements S2Dao_ValueType {
     /**
      * 
      */
-    public function bindValue(PDOStatement $stmt, $index, $value){
+    public function bindValue(PDOStatement $stmt, $index, $value = null){
         $bindValue = (integer)$value;
         if(empty($value)){
             $bindValue = time();

@@ -30,12 +30,8 @@ abstract class S2Dao_AbstractMapResultSetHandler implements S2Dao_ResultSetHandl
     }
 
     protected function createRow(array $rs) {
-        $lower = array_change_key_case($rs, CASE_LOWE);
-        $upper = array_change_key_case($rs, CASE_UPPER);
-        $merged = array_merge($lower, $upper, $rs);
-            
-        $map = new S2Dao_HashMap();
-        foreach($merged as $key => $value){
+        $map = new S2Dao_CaseInsensitiveMap();
+        foreach($rs as $key => $value){
             $map->put($key, $value);
         }
         return $map;

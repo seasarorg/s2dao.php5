@@ -31,6 +31,9 @@ interface S2Dao_DaoMetaData {
      */
     public function getDbms();
 
+    /**
+     * @return boolean
+     */
     public function hasSqlCommand($methodName);
 
     /**

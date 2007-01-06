@@ -1,3 +1,7 @@
+2007-01-07 nowel(S2Dao.PHP5-1.2.0-beta1)
+
+    * modify: S2Dao_PDOTypeをS2Dao_ObjectTypeに統合しました。
+
 2007-01-04 nowel(S2Dao.PHP5-1.2.0-beta1)
 
     * add: added ValueType extention

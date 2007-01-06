@@ -33,8 +33,7 @@ class S2Dao_BeanResultSetHandler extends S2Dao_AbstractBeanResultSetHandler {
     public function handle(PDOStatement $rs) {
         $assoc = $rs->fetch(PDO::FETCH_ASSOC);
         $rs = null;
-        return $this->createRow($assoc,
-                                $this->createPropertyTypes($assoc));
+        return $this->createRow($assoc, $this->createPropertyTypes($assoc));
     }
 }
 

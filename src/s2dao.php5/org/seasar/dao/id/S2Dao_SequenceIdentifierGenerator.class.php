@@ -26,23 +26,23 @@
  */
 class S2Dao_SequenceIdentifierGenerator extends S2Dao_AbstractIdentifierGenerator {
 
-    private $sequenceName_;
+    private $sequenceName;
 
     public function __construct($propertyName, S2Dao_Dbms $dbms) {
         parent::__construct($propertyName, $dbms);
     }
 
     public function getSequenceName() {
-        return $this->sequenceName_;
+        return $this->sequenceName;
     }
 
     public function setSequenceName($sequenceName) {
-        $this->sequenceName_ = $sequenceName;
+        $this->sequenceName = $sequenceName;
     }
 
     public function setIdentifier($bean, S2Container_DataSource $value) {
         $retVal = $this->executeSql($value,
-                $this->getDbms()->getSequenceNextValString($this->sequenceName_),
+                $this->getDbms()->getSequenceNextValString($this->sequenceName),
                 null);
         $this->setIdentifier2($bean, $retVal);
     }
