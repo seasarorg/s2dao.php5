@@ -102,7 +102,7 @@ interface S2Dao_BeanMetaData extends S2Dao_DtoMetaData {
      * @return String
      */
     public function getPrimaryKey($index);
-
+    
     /**
      * @return String
      */

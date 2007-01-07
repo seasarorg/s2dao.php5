@@ -26,30 +26,21 @@
  */
 class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_SelectHandler {
 
-    private static $logger_ = null;
-    private $resultSetFactory_ = null;
-    private $resultSetHandler_;
-    private $fetchSize_ = 100;
-    private $maxRows_ = -1;
+    private static $logger;
+    private $resultSetFactory;
+    private $resultSetHandler;
+    private $fetchSize = 100;
+    private $maxRows = -1;
 
     public function __construct(S2Container_DataSource $dataSource,
                               $sql,
                               S2Dao_ResultSetHandler $resultSetHandler,
                               S2Dao_StatementFactory $statementFactory = null,
                               S2Dao_ResultSetFactory $resultSetFactory = null) {
-
-        self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
-        $this->setDataSource($dataSource);
-        $this->setSql($sql);
+        parent::__construct($dataSource, $sql, $statementFactory);
+        self::$logger = S2Container_S2Logger::getLogger(get_class($this));
         $this->setResultSetHandler($resultSetHandler);
-        
-        if($statementFactory == null){
-            $this->setStatementFactory(new S2Dao_BasicStatementFactory());
-        } else {
-            $this->setStatementFactory($statementFactory);
-        }
-        
-        if($resultSetFactory == null){
+        if($resultSetFactory === null){
             $this->setResultSetFactory(new S2Dao_BasicResultSetFactory());
         } else {
             $this->setResultSetFactory($resultSetFactory);
@@ -57,35 +48,35 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     }
 
     public function getResultSetFactory() {
-        return $this->resultSetFactory_;
+        return $this->resultSetFactory;
     }
 
     public function setResultSetFactory(S2Dao_ResultSetFactory $resultSetFactory = null) {
-        $this->resultSetFactory_ = $resultSetFactory;
+        $this->resultSetFactory = $resultSetFactory;
     }
 
     public function getResultSetHandler() {
-        return $this->resultSetHandler_;
+        return $this->resultSetHandler;
     }
 
     public function setResultSetHandler(S2Dao_ResultSetHandler $resultSetHandler = null) {
-        $this->resultSetHandler_ = $resultSetHandler;
+        $this->resultSetHandler = $resultSetHandler;
     }
 
     public function getFetchSize() {
-        return $this->fetchSize_;
+        return $this->fetchSize;
     }
 
     public function setFetchSize($fetchSize) {
-        $this->fetchSize_ = $fetchSize;
+        $this->fetchSize = $fetchSize;
     }
 
     public function getMaxRows() {
-        return $this->maxRows_;
+        return $this->maxRows;
     }
 
     public function setMaxRows($maxRows) {
-        $this->maxRows_ = $maxRows;
+        $this->maxRows = $maxRows;
     }
 
     public function execute($args1, $args2){
@@ -93,9 +84,9 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->bindArgs($stmt, $args1, $args2);
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
-            self::$logger_->debug($this->getCompleteSql($args1));
+            self::$logger->debug($this->getCompleteSql($args1));
         }
-        if ($this->resultSetHandler_ == null) {
+        if ($this->resultSetHandler === null) {
             throw new S2Container_EmptyRuntimeException('resultSetHandler');
         }
 
@@ -105,11 +96,11 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
             $columnCount = $stmt->columnCount();
             if($columnCount == 1){
                 $rs = $stmt->fetch(PDO::FETCH_NUM);
-                return (int)$rs[0];
+                return $rs[0];
             } else if($columnCount === null || $columnCount <= 0){
                 return null;
             } else {
-                return $this->resultSetHandler_->handle($stmt);
+                return $this->resultSetHandler->handle($stmt);
             }
         } catch (PDOException $ex) {
             throw new S2Dao_SQLRuntimeException($ex);
@@ -124,7 +115,7 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
     }
 
     protected function createResultSet(PDOStatement $stmt) {
-        return $this->resultSetFactory_->createResultSet($stmt);
+        return $this->resultSetFactory->createResultSet($stmt);
     }
 }
 ?>

@@ -46,7 +46,9 @@ final class S2Dao_ValueTypes {
      */
     public static function getValueType($type = null){
         if($type === null){
-            $type = S2Dao_PHPType::Null;
+            /// TODO
+            //$type = S2Dao_PHPType::Null;
+            $type = S2Dao_PHPType::Object;
         } else if(is_object($type)){
             $type = S2Dao_PHPType::Object;
         }

@@ -28,11 +28,11 @@ class S2Dao_BasicHandler {
 
     protected $dataSource;
     protected $sql;
-    protected $statementFactory = null;
+    protected $statementFactory;
 
     public function __construct(S2Container_DataSource $ds,
                                 $sql,
-                                S2Dao_StatementFactory $statementFactory) {
+                                S2Dao_StatementFactory $statementFactory = null) {
         $this->setDataSource($ds);
         $this->setSql($sql);
         if($statementFactory === null){
@@ -84,7 +84,7 @@ class S2Dao_BasicHandler {
     }
 
     protected function getConnection() {
-        if ($this->dataSource == null) {
+        if ($this->dataSource === null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
         }
         $conn = $this->dataSource->getConnection();
@@ -93,7 +93,7 @@ class S2Dao_BasicHandler {
     }
 
     protected function prepareStatement(PDO $connection) {
-        if ($this->sql == null) {
+        if ($this->sql === null) {
             throw new S2Container_EmptyRuntimeException('sql');
         }
         return $this->statementFactory->createPreparedStatement($connection, $this->sql);
@@ -126,7 +126,7 @@ class S2Dao_BasicHandler {
     }
 
     protected function getArgTypes($args) {
-        if ($args == null) {
+        if ($args === null) {
             return null;
         }
         $argTypes = array();
@@ -143,7 +143,7 @@ class S2Dao_BasicHandler {
     }
 
     protected function getCompleteSql($args = null) {
-        if ($args == null || !is_array($args)) {
+        if ($args === null || !is_array($args)) {
             return $this->sql;
         }
         $pos = 0;

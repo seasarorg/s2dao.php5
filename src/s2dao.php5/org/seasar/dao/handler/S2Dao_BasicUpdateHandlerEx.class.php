@@ -156,7 +156,9 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
     }
 
     private function __call($name, $args){
-        return call_user_func_array(array($this, $name), $args);
+        if(method_exists(__CLASS__, $args)){
+            return call_user_func_array(array($this, $name), $args);
+        }
     }
 }
 

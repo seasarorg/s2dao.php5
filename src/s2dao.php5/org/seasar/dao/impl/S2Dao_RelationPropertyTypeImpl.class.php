@@ -111,7 +111,9 @@ class S2Dao_RelationPropertyTypeImpl
     }
     
     private function __call($name, $args){
-        return call_user_func_array(array($this, $name), $args);
+        if(method_exists(__CLASS__, $args)){
+            return call_user_func_array(array($this, $name), $args);
+        }
     }
 
     /**

@@ -27,7 +27,6 @@
 class S2Dao_SelectDynamicCommand extends S2Dao_AbstractDynamicCommand {
 
     private $resultSetHandler;
-
     private $resultSetFactory;
 
     public function __construct(S2Container_DataSource $dataSource,
