@@ -27,23 +27,14 @@
 class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     protected $daoClass;
-
     protected $daoInterface;
-
     protected $daoBeanDesc;
-
     protected $dataSource;
-
     protected $daoAnnotationReader;
-
     protected $annotationReaderFactory;
-
     protected $dbms;
-
-    protected $sqlCommands = null;
-
+    protected $sqlCommands;
     protected $daoSuffixes = array('Dao');
-    
     private $valueTypeFactory;
 
     public function __construct(ReflectionClass $daoClass,
@@ -141,8 +132,10 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             return $clazz;
         }
         $abstractDao = 'S2Dao_AbstractDao';
-        for ($target = $clazz; $target->getName != $abstractDao;
-                               $target = $target->getParentClass()) {
+        for ($target = $clazz; $target->getName != $abstractDao; $target = $target->getParentClass()) {
+            if($target === false){
+                return $clazz;
+            }
             $interfaces = $target->getInterfaces();
             foreach($interfaces as $intf){
                 $c = count($this->daoSuffixes);

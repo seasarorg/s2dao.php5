@@ -33,8 +33,7 @@ class S2Dao_ObjectType implements S2Dao_ValueType {
         S2Dao_PHPType::Boolean => PDO::PARAM_BOOL,
         S2Dao_PHPType::Null => PDO::PARAM_NULL,
         S2Dao_PHPType::Resource => PDO::PARAM_LOB,
-        S2Dao_PHPType::Object => PDO::PARAM_STMT,
-        S2Dao_PHPType::Unknown => PDO::PARAM_STMT
+        S2Dao_PHPType::Object => PDO::PARAM_STR,
     );
     
     /**
@@ -47,7 +46,7 @@ class S2Dao_ObjectType implements S2Dao_ValueType {
     /**
      * 
      */
-    public function bindValue(PDOStatement $stmt, $index, $value = null){
+    public function bindValue(PDOStatement $stmt, $index, $value){
         $type = gettype($value);
         if(isset(self::$types[$type])){
             $stmt->bindValue($index, $value, self::$types[$type]);

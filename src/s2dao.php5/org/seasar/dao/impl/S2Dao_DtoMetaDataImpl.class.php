@@ -27,10 +27,9 @@
 class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     private $beanClass;
-
-    private $propertyTypes = null;
-
+    private $propertyTypes;
     protected $beanAnnotationReader;
+    private $valueTypeFactory;
     
     public function __construct(){
         $this->__construct0();
@@ -45,9 +44,11 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     }
 
     public function __construct1(ReflectionClass $beanClass,
-                                 S2Dao_BeanAnnotationReader $beanAnnotationReader) {
+                                 S2Dao_BeanAnnotationReader $beanAnnotationReader,
+                                 S2Dao_ValueTypeFactory $valueTypeFactory) {
         $this->setBeanClass($beanClass);
         $this->setBeanAnnotationReader($beanAnnotationReader);
+        $this->valueTypeFactory = $valueTypeFactory;
         $this->initialize();
     }
     
@@ -121,7 +122,8 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     protected function createPropertyType(S2Container_BeanDesc $beanDesc,
                                           S2Container_PropertyDesc $propertyDesc) {
         $columnName = $this->getColumnName($propertyDesc);
-        return new S2Dao_PropertyTypeImpl($propertyDesc, null, $columnName);
+        $valueType = $this->getValueType($propertyDesc);
+        return new S2Dao_PropertyTypeImpl($propertyDesc, $valueType, $columnName);
     }
     
     private function getColumnName(S2Container_PropertyDesc $propertyDesc) {
@@ -131,6 +133,18 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
         }
         return $propertyDesc->getPropertyName();
     }
+    
+    /**
+     * @return S2Dao_ValueType
+     */
+    protected function getValueType(S2Container_PropertyDesc $propertyDesc) {
+        $valueTypeName = $this->beanAnnotationReader->getValueType($propertyDesc);
+        $valueTypeFactory = $this->getValueTypeFactory();
+        if ($valueTypeName !== null) {
+            return $valueTypeFactory->getValueTypeByName($valueTypeName);
+        }
+        return $valueTypeFactory->getValueTypeByClass($propertyDesc->getPropertyType());
+    }
 
     protected function addPropertyType(S2Dao_PropertyType $propertyType) {
         $this->propertyTypes->put($propertyType->getPropertyName(), $propertyType);
@@ -138,6 +152,17 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     public function setBeanAnnotationReader(S2Dao_BeanAnnotationReader $beanAnnotationReader) {
         $this->beanAnnotationReader = $beanAnnotationReader;
+    }
+    
+    /**
+     * @return ValueTypeFactory
+     */
+    protected function getValueTypeFactory() {
+        return $this->valueTypeFactory;
+    }
+
+    public function setValueTypeFactory(S2Dao_ValueTypeFactory $valueTypeFactory) {
+        $this->valueTypeFactory = $valueTypeFactory;
     }
 }
 ?>

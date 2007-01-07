@@ -27,36 +27,22 @@
 class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     const BEAN = 'BEAN';
-    
     const PROCEDURE_SUFFIX = '_PROCEDURE';
-    
     const ARGS_SUFFIX = '_ARGS';
-    
     const SQL_SUFFIX = '_SQL';
-    
     const RET_SUFFIX = '_RET';
-    
     const QUERY_SUFFIX = '_QUERY';
-    
     const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
-    
     const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
-    
     const RETURN_TYPE_OBJ = '/Obj$/i';
-    
     const RETURN_TYPE_ARRAY = '/Array$/i';
-    
     const RETURN_TYPE_LIST = '/List$/i';
-    
     const RETURN_TYPE_YAML = '/Yaml$/i';
-    
     const RETURN_TYPE_JSON = '/Json$/i';
-    
     const RETURN_TYPE_MAP = '/Map$/i';
 
     protected $daoBeanDesc;
-    
-    protected $interfacesBeanDesc;
+    protected $interfacesBeanDesc = array();
     
     public function __construct(S2Container_BeanDesc $daoBeanDesc) {
         $this->daoBeanDesc = $daoBeanDesc;
@@ -104,7 +90,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
 
-    public function getBeanClass(ReflectionMethod $method) {
+    public function getBeanClass(ReflectionMethod $method = null) {
         $beanClass = $this->getBeanClass0($this->daoBeanDesc, $method);
         if($beanClass !== null){
             return $beanClass;
@@ -121,7 +107,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     }
     
     private function getBeanClass0(S2Container_BeanDesc $beanDesc,
-                                   ReflectionMethod $method){
+                                   ReflectionMethod $method = null){
         $beanField = $this->daoBeanDesc->getConstant(self::BEAN);
         $daoAnnotationClass = new ReflectionClass($beanField);
         if(null === $method){
@@ -139,11 +125,16 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
             // TODO: MapArray or it
         }
         if($returnType == self::RETURN_MAP ||
-           $returnType == self::RETURN_LIST ||
-           $returnType == null){
+           $returnType == self::RETURN_LIST){
             // XXX
             return $daoAnnotationClass;
         }
+        /*
+        if($returnType === null){
+            // valueType = ValueTypes.getValueType(returnType);
+            //return createReturnClass($method);
+        }
+        */
         return $daoAnnotationClass;
     }
 

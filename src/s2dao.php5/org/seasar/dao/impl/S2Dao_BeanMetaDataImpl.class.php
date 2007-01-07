@@ -135,6 +135,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $beanMetaData->setBeanClass($beanClass);
         $beanMetaData->setDatabaseMetaData($dbMetaData);
         $beanMetaData->setAnnotationReaderFactory($this->getAnnotationReaderFactory());
+        $beanMetaData->setValueTypeFactory($this->getValueTypeFactory());
         $beanMetaData->setRelation(true);
         $beanMetaData->initialize();
         $relkeys = $beanAnnotationReader->getRelationKey($propertyDesc);
@@ -196,6 +197,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $beanMetaData->setBeanClass($beanClass);
         $beanMetaData->setDatabaseMetaData($dbMetaData);
         $beanMetaData->setAnnotationReaderFactory($this->getAnnotationReaderFactory());
+        $beanMetaData->setValueTypeFactory($this->getValueTypeFactory());
         $beanMetaData->setRelation(true);
         $beanMetaData->initialize();
         $relkeys = $beanAnnotationReader->getRelationKey($propertyDesc);
@@ -423,7 +425,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
     }
     
-    protected function setupProperty(S2Container_BeanDesc $beanDesc, $dbMetaData) {
+    protected function setupProperty(S2Container_BeanDesc $beanDesc, PDO $dbMetaData) {
         $c = $beanDesc->getPropertyDescSize();
         for ($i = 0; $i < $c; ++$i) {
             $pd = $beanDesc->getPropertyDesc($i);
@@ -448,12 +450,12 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
     }
     
-    protected function setupDatabaseMetaData(S2Container_BeanDesc $beanDesc, $dbMetaData) {
+    protected function setupDatabaseMetaData(S2Container_BeanDesc $beanDesc, PDO $dbMetaData) {
         $this->setupPropertyPersistentAndColumnName($beanDesc, $dbMetaData);
         $this->setupPrimaryKey($dbMetaData);
     }
     
-    protected function setupPrimaryKey($dbMetaData) {
+    protected function setupPrimaryKey(PDO $dbMetaData) {
         if ($this->primaryKeys === null || count($this->primaryKeys) == 0) {
             $pkeyList = new S2Dao_ArrayList();
             $primaryKeySet = S2Dao_DatabaseMetaDataUtil::getPrimaryKeySet($dbMetaData,
@@ -473,7 +475,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
     
     protected function setupPropertyPersistentAndColumnName(S2Container_BeanDesc $beanDesc,
-                                                            $dbMetaData) {
+                                                            PDO $dbMetaData) {
         $columnSet = S2Dao_DatabaseMetaDataUtil::getColumnSet($dbMetaData, $this->tableName);
         if ($columnSet->isEmpty()) {
             self::$logger->warn('Table(' . $this->tableName . ') not found');
@@ -523,7 +525,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     
     protected function createRelationPropertyType(S2Container_BeanDesc $beanDesc,
                                                   S2Container_PropertyDesc $propertyDesc,
-                                                  $dbMetaData) {
+                                                  PDO $dbMetaData) {
         $myKeys = array();
         $yourKeys = array();
         $relno = 0;
@@ -557,6 +559,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $beanMetaData->setBeanClass($beanClass);
         $beanMetaData->setDatabaseMetaData($dbMetaData);
         $beanMetaData->setAnnotationReaderFactory($this->getAnnotationReaderFactory());
+        $beanMetaData->setValueTypeFactory($this->getValueTypeFactory());
         $beanMetaData->setRelation(true);
         $beanMetaData->initialize();
         return new S2Dao_RelationPropertyTypeImpl($propertyDesc,
@@ -649,7 +652,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $this->relation = $relation;
     }
 
-    public function setDatabaseMetaData($databaseMetaData) {
+    public function setDatabaseMetaData(PDO $databaseMetaData) {
         $this->databaseMetaData = $databaseMetaData;
     }
 

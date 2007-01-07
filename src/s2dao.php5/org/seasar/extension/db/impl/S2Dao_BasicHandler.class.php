@@ -111,21 +111,14 @@ class S2Dao_BasicHandler {
             try {
                 $arg = $args[$i];
                 $argType = $argTypes[$i];
-                $phpType = gettype($arg);
-                
-                // TODO: argTypes check value
-                //$ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phpType));
-                
-                // FIXME: null check null value
-                if($argType !== null){
-                    if($this->isNullType($arg, $argType)){
-                        $ps->bindValue($i + 1, $arg, S2Dao_PDOType::Null);
-                    } else {
-                        $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($argType));
-                    }
+
+                $valueType = null;
+                if($argType === null){
+                    $valueType = $this->getValueType(gettype($arg));
                 } else {
-                    $ps->bindValue($i + 1, $arg, $this->getBindParamTypes($phpType));
+                    $valueType = $this->getValueType($argType);
                 }
+                $valueType->bindValue($ps, $i + 1, $arg);
             } catch (Exception $ex) {
                 throw new S2Container_SQLRuntimeException($ex);
             }
@@ -140,8 +133,10 @@ class S2Dao_BasicHandler {
         $c = count($args);
         for ($i = 0; $i < $c; ++$i) {
             $arg = $args[$i];
-            if ($arg != null) {
+            if ($arg != null && is_object($arg)) {
                 $argTypes[$i] = get_class($arg);
+            } else {
+                $argTypes[$i] = gettype($arg);
             }
         }
         return $argTypes;
@@ -155,50 +150,38 @@ class S2Dao_BasicHandler {
         $buf = $this->sql;
         foreach($args as $value){
             $pos = strpos($buf, '?');
-            if($pos !== false){
-                $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
-            } else {
+            if($pos === false){
                 break;
             }
+            $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
         }
         return $buf;
     }
 
-    protected function getBindParamTypes($phpType = null){
-        return S2Dao_PDOType::gettype($phpType);
-    }
-
     protected function getBindVariableText($bindVariable) {
         if (is_string($bindVariable)) {
-            return "'" . $bindVariable . "'";
+            return '\'' . $bindVariable . '\'';
         } else if (is_numeric($bindVariable)) {
             return (string)$bindVariable;
         } else if (is_long($bindVariable)) {
-            return "'" . date("Y-m-d H.i.s", $bindVariable) . "'";
+            return '\'' . date('Y-m-d H.i.s', $bindVariable) . '\'';
         } else if (is_bool($bindVariable)) {
             return (string)$bindVariable;
         } else if ($bindVariable === null) {
-            return "null";
+            return 'null';
         } else if (strtotime($bindVariable) !== -1) {
-            return "'" . date("Y-m-d", strtotime($bindVariable)) . "'";
+            return '\'' . date('Y-m-d', strtotime($bindVariable)) . '\'';
         } else {
-            return "'" . (string)$bindVariable . "'";
+            return '\'' . (string)$bindVariable . '\'';
         }
     }
     
-    private function isNullType($value = null, $type = null){
-        $nullString = gettype(null);
-        if($type == $nullString && gettype($value) == $nullString){
-            return true;
-        }
-        if(!$this->isPrimitive($type)){
-            return true;
-        }
-        return false;
+    /**
+     * @return S2Dao_ValueType
+     */
+    protected function getValueType($phptype) {
+        return S2Dao_ValueTypes::getValueType($phptype);
     }
     
-    private function isPrimitive($type){
-        return $type != gettype(new stdClass);
-    }
 }
 ?>

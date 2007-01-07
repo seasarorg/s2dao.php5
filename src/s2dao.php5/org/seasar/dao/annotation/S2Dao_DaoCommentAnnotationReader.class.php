@@ -27,15 +27,10 @@
 class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
     const RETURN_TYPE_OBJ = '/@return\s*object/i';
-    
     const RETURN_TYPE_ARRAY = '/@return\s*array/i';
-    
     const RETURN_TYPE_LIST = '/@return\s*list/i';
-    
     const RETURN_TYPE_YAML = '/@return\s*yaml/i';
-    
     const RETURN_TYPE_JSON = '/@return\s*json/i';
-    
     const RETURN_TYPE_MAP = '/@return\s*map/i';
 
     protected $beanClass;
@@ -44,9 +39,14 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         $this->beanClass = $beanDesc->getBeanClass();
     }
     
-    public function getBeanClass(ReflectionMethod $method) {
-        $anno = S2Container_Annotations::getAnnotation('Dao',
-                                $this->beanClass->getName());
+    public function getBeanClass(ReflectionMethod $method = null) {
+        $anno = S2Container_Annotations::getAnnotation('Dao', $this->beanClass->getName());
+        /*
+        if($returnType === null){
+            // valueType = ValueTypes.getValueType(returnType);
+            //return createReturnClass($method);
+        }
+        */
         return new ReflectionClass(new $anno->bean);
     }
 
@@ -55,10 +55,6 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         if ($anno != null && 0 < count($anno->value)) {
             return $anno->value;
         } else {
-            $returnType = $this->getReturnType($method);
-            if($returnType == null){
-                return array();
-            }
             $argNames = array();
             $parameters = $method->getParameters();
             foreach($parameters as $param){
@@ -71,7 +67,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function getNoPersistentProps(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('NoPersistentProperty', $method);
         if($anno != null && 0 < count($anno->value)){
-            return $anno->value;
+            return (array)$anno->value;
         }
         return null;
     }
@@ -79,7 +75,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function getPersistentProps(ReflectionMethod $method) {
         $anno = $this->getMethodAnnotation('PersistentProperty', $method);
         if($anno != null && 0 < count($anno->value)){
-            return $anno->value;
+            return (array)$anno->value;
         }
         return null;
     }

@@ -24,32 +24,25 @@
 /**
  * @author nowel
  */
-class S2Dao_DateType implements S2Dao_ValueType {
+class S2Dao_MapArrayResultSetHandler implements S2Dao_ResultSetHandler {
     
-    const DATE_FORMAT = 'Y-m-d H:i:s';
+    private $returnType;
     
-    /**
-     * 
-     */
-    public function getValue(array $resultset, $key){
-        return $resultset[$key];
+    public function __construct(ReflectionClass $returnType) {
+        $this->returnType = $returnType;
     }
-    
-    /**
-     * 
-     */
-    public function bindValue(PDOStatement $stmt, $index, $value){
-        $bindValue = $value;
-        $toTime = strtotime($value);
-        if($toTime !== -1){
-            $bindValue = date(self::DATE_FORMAT, $toTime);
-        } else if(is_long($value)){
-            $bindValue = date(self::DATE_FORMAT, $value);
-        } else if(empty($value)){
-            $bindValue = date(self::DATE_FORMAT, time());
+
+    public function handle(PDOStatement $resultSet) {
+        $list = new S2Dao_ArrayList();
+        while ($result = $rs->fetch(PDO::FETCH_ASSOC)) {
+            $map = new S2Dao_HashMap();
+            foreach($result as $column => $value){
+                $valueType = S2Dao_ValueTypes::getValueType($value);
+                $map->put($column, $valueType->getValue($result, $column));
+            }
+            $list->add($map);
         }
-        $stmt->bindValue($index, $bindValue, PDO::PARAM_STR);
+        // TODO: returnType Cast
+        return $list->toArray();
     }
 }
-
-?>

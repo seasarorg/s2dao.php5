@@ -132,19 +132,18 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
         }
     }
 
-    protected function _getCompleteSql($sql, array $args) {
+    protected function getCompleteSql($args = null) {
         if ($args == null || !is_array($args)) {
-            return $sql;
+            return $this->sql;
         }
         $pos = 0;
-        $buf = $sql;
+        $buf = $this->sql;
         foreach($args as $value){
             $pos = strpos($buf, '?');
-            if($pos !== false){
-                $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
-            } else {
+            if($pos === false){
                 break;
             }
+            $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
         }
         return $buf;
     }

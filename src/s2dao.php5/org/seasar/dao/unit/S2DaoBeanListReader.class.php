@@ -27,12 +27,17 @@
 class S2DaoBeanListReader extends S2DaoBeanReader {
 
     public function __construct(S2Dao_ArrayList $list, PDO $dbMetaData) {
-        $this->dataSet_ = new S2Dao_DataSetImpl();
-        $this->table_ = $this->dataSet_->addTable('S2DaoBean');
+        $this->dataSet = new S2Dao_DataSetImpl();
+        $this->table = $this->dataSet->addTable('S2DaoBean');
         
         $dbms = S2DaoDbmsManager::getDbms($dbMetaData);
         $clazz = new ReflectionClass(get_class($list->get(0)));
-        $beanMetaData = new S2Dao_BeanMetaDataImpl($clazz, $dbMetaData, $dbms);
+        $beanMetaData = new S2Dao_BeanMetaDataImpl();
+        $beanMetaData->setBeanClass($clazz);
+        $beanMetaData->setDatabaseMetaData($dbMetaData);
+        $beanMetaData->setAnnotationReaderFactory(new S2Dao_FieldAnnotationReaderFactory());
+        $beanMetaData->setValueTypeFactory(new S2Dao_ValueTypeFactoryImpl());
+        $beanMetaData->initialize();
         $this->setupColumns($beanMetaData);
         for ($i = 0; $i < $list->size(); ++$i) {
             $this->setupRow($beanMetaData, $list->get($i));

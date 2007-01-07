@@ -27,26 +27,17 @@
 class S2Dao_BeanConstantAnnotationReader implements S2Dao_BeanAnnotationReader {
     
     const TABLE = 'TABLE';
-    
     const RELNO_SUFFIX = '_RELNO';
-    
-    const RELBEAN_SUFFIX = '"_RELBEAN';
-    
+    const RELBEAN_SUFFIX = '_RELBEAN';
     const RELTABLE_SUFFIX = '_RELTABLE';
-    
     const RELTYPE_SUFFIX = '_RELTYPE';
-    
     const RELKEYS_SUFFIX = '_RELKEYS';
-    
     const ID_SUFFIX = '_ID';
-    
     const NO_PERSISTENT_PROPS = 'NO_PERSISTENT_PROPS';
-    
     const VERSION_NO_PROPERTY = 'VERSION_NO_PROPERTY';
-    
     const TIMESTAMP_PROPERTY = 'TIMESTAMP_PROPERTY';
-    
     const COLUMN_SUFFIX = '_COLUMN';
+    const VALUE_TYPE_SUFFIX = '_VALUE_TYPE';
 
     private $beanDesc;
     
@@ -140,6 +131,14 @@ class S2Dao_BeanConstantAnnotationReader implements S2Dao_BeanAnnotationReader {
         $key = $pd->getPropertyName() . self::RELBEAN_SUFFIX;
         if ($this->beanDesc->hasConstant($key)) {
             return $this->beanDesc->getConstant($key);
+        }
+        return null;
+    }
+    
+    public function getValueType(S2Container_PropertyDesc $pd) {
+        $valueTypeKey = $pd->getPropertyName() . self::VALUE_TYPE_SUFFIX;
+        if ($this->beanDesc->hasConstant($valueTypeKey)) {
+            return $this->beanDesc->getConstant($valueTypeKey);
         }
         return null;
     }

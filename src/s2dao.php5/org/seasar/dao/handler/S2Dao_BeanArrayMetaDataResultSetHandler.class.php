@@ -27,8 +27,9 @@
 class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResultSetHandler {
 
     public function __construct(S2Dao_BeanMetaData $beanMetaData,
-                                S2Dao_Dbms $dbms) {
-        parent::__construct($beanMetaData, $dbms);
+                                S2Dao_Dbms $dbms,
+                                array $relationPropertyHandlers) {
+        parent::__construct($beanMetaData, $dbms, $relationPropertyHandlers);
     }
 
     public function handle(PDOStatement $rs){
@@ -36,8 +37,7 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
         $arrays = array();
         $c = $result->size();
         for($i = 0; $i < $c; $i++){
-            $bean = $result->get($i);
-            $arrays[] = $this->dumpBean($bean);
+            $arrays[] = $this->dumpBean($result->get($i));
         }
         return $arrays;
     }
@@ -57,20 +57,12 @@ class S2Dao_BeanArrayMetaDataResultSetHandler extends S2Dao_BeanListMetaDataResu
             $propName = $pd->getPropertyName();
             $propValue = $pd->getValue($bean);
             if(is_object($propValue)){
-                $this->setValue($retVal, $propName, $this->dumpBean($propValue));
-                continue;
+                $retVal[$propName] = $this->dumpBean($propValue);
+            } else {
+                $retVal[$propName] = $propValue;
             }
-            $this->setValue($retVal, $propName, $propValue);
         }
         return $assoc;
-    }
-    
-    private function setValue(array &$source, $caseInsensitiveKey, $value){
-        $lower = strtolower($caseInsensitiveKey);
-        $upper = strtoupper($caseInsensitiveKey);
-        $source[$lower] = $value;
-        $source[$upper] = $value;
-        $source[$caseInsensitiveKey] = $value;
     }
 }
 ?>

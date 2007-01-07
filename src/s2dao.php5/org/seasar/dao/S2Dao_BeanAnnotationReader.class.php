@@ -55,5 +55,10 @@ interface S2Dao_BeanAnnotationReader {
     public function getRelationNo(S2Container_PropertyDesc $pd);
 
     public function getRelationKey(S2Container_PropertyDesc $pd);
+    
+    /**
+     * @return ValueTypeName
+     */
+    public function getValueType(S2Container_PropertyDesc $pd);
 }
 ?>

@@ -27,53 +27,62 @@
 abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHandler {
 
     protected $initialised = false;
-    protected $dataSource_;
-    protected $procedureName_;
-    protected $sql_;
-    protected $columnInOutTypes_ = array();
-    protected $columnTypes_ = array();
-    protected $columnNames_ = array();
-    protected $statementFactory_ = null;
+    protected $dataSource;
+    protected $procedureName;
+    protected $sql;
+    protected $columnInOutTypes = array();
+    protected $columnTypes = array();
+    protected $columnNames = array();
+    protected $statementFactory;
+    
+    public function __construct($sql,
+                                S2Container_DataSource $dataSource,
+                                S2Dao_StatementFactory $statementFactory) {
+        $this->sql = $sql;
+        $this->dataSource = $dataSource;
+        $this->statementFactory = $statementFactory;
+    }
     
     public function getDataSource() {
-        return $this->dataSource_;
+        return $this->dataSource;
     }
 
     public function setDataSource(S2Container_DataSource $dataSource) {
-        $this->dataSource_ = $dataSource;
+        $this->dataSource = $dataSource;
     }
+    
     public function getProcedureName() {
-        return $this->procedureName_;
+        return $this->procedureName;
     }
+    
     public function setProcedureName($procedureName) {
-        $this->procedureName_ = $procedureName;
+        $this->procedureName = $procedureName;
     }
 
     public function getStatementFactory() {
-        return $this->statementFactory_;
+        return $this->statementFactory;
     }
 
     public function setStatementFactory(S2Dao_StatementFactory $statementFactory) {
-        $this->statementFactory_ = $statementFactory;
+        $this->statementFactory = $statementFactory;
     }
 
     protected function getConnection() {
-        if ($this->dataSource_ === null) {
+        if ($this->dataSource === null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
         }
-        return $this->dataSource_->getConnection();
+        return $this->dataSource->getConnection();
     }
 
     protected function prepareCallableStatement(PDO $connection) {
-        if ($this->sql_ == null) {
+        if ($this->sql == null) {
             throw new S2Container_EmptyRuntimeException('sql');
         }
-        return $this->statementFactory_->createCallableStatement(
-                        $connection, $this->sql_);
+        return $this->statementFactory->createCallableStatement($connection, $this->sql);
     }
 
     protected function confirmProcedureName(PDO $conn, S2Dao_ProcedureMetaData $metadata) {
-        $str = S2Dao_DatabaseMetaDataUtil::convertIdentifier($conn, $this->procedureName_);
+        $str = S2Dao_DatabaseMetaDataUtil::convertIdentifier($conn, $this->procedureName);
         $names = explode('.', $str);
         $namesLength = count($names);
         
@@ -87,9 +96,9 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         }
         
         if(count($rs) == 0){
-            throw new S2Container_S2RuntimeException('EDAO0012', array($this->procedureName_));
+            throw new S2Container_S2RuntimeException('EDAO0012', array($this->procedureName));
         } else if(count($rs) > 1){
-            throw new S2Container_S2RuntimeException('EDAO0013', array($this->procedureName_));
+            throw new S2Container_S2RuntimeException('EDAO0013', array($this->procedureName));
         } else {
             return $rs[0];
         }
@@ -107,7 +116,7 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         } else {
             $buff .= 'SELECT ';
         }
-        $buff .= $this->procedureName_;
+        $buff .= $this->procedureName;
         $buff .= '(';
         $columnNames = new S2Dao_ArrayList();
         $dataType = new S2Dao_ArrayList();
@@ -134,14 +143,14 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
                 } else if($columnType == S2Dao_ProcedureMetaData::RETURNTYPE){
                     $buff = '';
                     $buff .= '{? = call ';
-                    $buff .= $this->procedureName_;
+                    $buff .= $this->procedureName;
                     $buff .= '(';
                 } else if($columnType == S2Dao_ProcedureMetaData::OUTTYPE ||
                           $columnType == S2Dao_ProcedureMetaData::INOUTTYPE){
                     $buff .= '?,';
                     $outparameterNum++;
                 } else {
-                    throw new S2Container_S2RuntimeException('EDAO0010', array($this->procedureName_));
+                    throw new S2Container_S2RuntimeException('EDAO0010', array($this->procedureName));
                 }
             }
             
@@ -154,10 +163,10 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
             $buff .= '}';
         }
         
-        $this->sql_ = $buff;
-        $this->columnNames_ = $columnNames->toArray();
-        $this->columnTypes_ = $dataType->toArray();
-        $this->columnInOutTypes_ = $inOutTypes->toArray();
+        $this->sql = $buff;
+        $this->columnNames = $columnNames->toArray();
+        $this->columnTypes = $dataType->toArray();
+        $this->columnInOutTypes = $inOutTypes->toArray();
         return $outparameterNum;
     }
 
@@ -173,13 +182,13 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         }
         
         $argPos = 0;
-        for ($i = 0; $i < count($this->columnTypes_); $i++) {
-            if($this->isOutputColum($this->columnInOutTypes_[$i])){
+        for ($i = 0; $i < count($this->columnTypes); $i++) {
+            if($this->isOutputColum($this->columnInOutTypes[$i])){
                 $pdoType = $this->getValueType($args[$argPos]);
                 $param = null;
                 //$ps->bindValue($i + 1, $args[$argPos++], $pdoType|PDO::PARAM_INPUT_OUTPUT);
             }
-            if($this->isInputColum($this->columnInOutTypes_[$i])){
+            if($this->isInputColum($this->columnInOutTypes[$i])){
                 $pdoType = $this->getValueType($args[$argPos]);
                 $ps->bindValue($i + 1, $args[$argPos++], $pdoType);
             }
@@ -197,10 +206,10 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
 
     protected function getCompleteSql($args = null) {
         if ($args == null || !is_array($args)) {
-            return $this->sql_;
+            return $this->sql;
         }
         $pos = 0;
-        $buf = $this->sql_;
+        $buf = $this->sql;
         foreach($args as $value){
             $pos = strpos($buf, '?');
             if($pos !== false){
@@ -230,9 +239,13 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         }
     }
     
-    protected function getValueType($clazz = null) {
-        return S2Dao_PDOType::gettype(gettype($clazz));
+    /**
+     * @return S2Dao_ValueType
+     */
+    protected function getValueType($clazz) {
+        return S2Dao_ValueTypes::getValueType($clazz);
     }
+    
 }
 
 ?>

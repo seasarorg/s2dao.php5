@@ -50,16 +50,19 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
         $size =  $this->beanMetaData->getPropertyTypeSize();
         for ($i = 0; $i < $size; ++$i) {
             $pt = $this->beanMetaData->getPropertyType($i);
-            if ($columnNames->contains($pt->getColumnName())) {
-                $value = $rs[$pt->getColumnName()];
+            $ptColumnName = $pt->getColumnName();
+            if ($columnNames->contains($ptColumnName)) {
+                $valueType = $pt->getValueType();
+                $value = $valueType->getValue($rs, $ptColumnName);
                 $pd = $pt->getPropertyDesc();
                 $pd->setValue($row, $value);
             } else if (!$pt->isPersistent()) {
                 for ($iter = $columnNames->iterator(); $iter->valid(); $iter->next()) {
                     $columnName = $iter->current();
                     $columnName2 = str_replace('_', '', $columnName);
-                    if (strcasecmp($columnName2, $pt->getColumnName()) == 0) {
-                        $value = $rs[$pt->getColumnName()];
+                    if (strcasecmp($columnName2, $ptColumnName) == 0) {
+                        $valueType = $pt->getValueType();
+                        $value = $valueType->getValue($rs, $columnName);
                         $pd = $pt->getPropertyDesc();
                         $pd->setValue($row, $value);
                         break;
@@ -119,7 +122,8 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
             if ($relKeyValues !== null && $relKeyValues->containsKey($columnName)) {
                 $value = $relKeyValues->get($columnName);
             } else {
-                $value = $rs[$columnName];
+                $valueType = $pt->getValueType();
+                $value = $valueType->getValue($rs, $columnName);
             }
             $pd = $pt->getPropertyDesc();
             if ($value !== null) {

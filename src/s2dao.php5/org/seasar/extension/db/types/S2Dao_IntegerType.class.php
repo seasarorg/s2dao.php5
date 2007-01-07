@@ -36,7 +36,7 @@ class S2Dao_IntegerType implements S2Dao_ValueType {
     /**
      * 
      */
-    public function bindValue(PDOStatement $stmt, $index, $value = null){
+    public function bindValue(PDOStatement $stmt, $index, $value){
         $stmt->bindValue($index, $value, PDO::PARAM_INT);
     }
 }

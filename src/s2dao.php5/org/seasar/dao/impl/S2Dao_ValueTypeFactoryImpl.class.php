@@ -41,8 +41,8 @@ class S2Dao_ValueTypeFactoryImpl implements S2Dao_ValueTypeFactory {
     /**
      * @return S2Dao_ValueType
      */
-    public function getValueTypeByClassName($clazzName) {
-        return S2Dao_ValueTypes::getValueType($clazzName);
+    public function getValueTypeByClass($phptype) {
+        return S2Dao_ValueTypes::getValueType($phptype);
     }
 
     /**

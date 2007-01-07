@@ -25,17 +25,20 @@
  * @author nowel
  */
 class S2Dao_AutoSelectSqlWrapperCreatorImpl
-implements S2Dao_SqlWrapperCreator, S2Dao_AutoSelectSqlCreator {
+    implements S2Dao_SqlWrapperCreator, S2Dao_AutoSelectSqlCreator {
 
     const startWithOrderByPattern = '/(\/\*[^*]+\*\/)*order by/i';
     const startWithSelectPattern = '/^\s*select\s/i';
     const startWithBeginCommentPattern = '/\/\*BEGIN\*\/\s*WHERE .+/i';
     
+    private $valueTypeFactory;
     private $annotationReaderFactory;
     
     public function __construct(
-            S2Dao_AnnotationReaderFactory $annotationReaderFactory) {
+            S2Dao_AnnotationReaderFactory $annotationReaderFactory,
+            S2Dao_ValueTypeFactory $valueTypeFactory) {
         $this->annotationReaderFactory = $annotationReaderFactory;
+        $this->valueTypeFactory = $valueTypeFactory;
     }
 
     protected static function startsWithOrderBy($query = null) {
@@ -105,13 +108,13 @@ implements S2Dao_SqlWrapperCreator, S2Dao_AutoSelectSqlCreator {
                                            array $argNames) {
         $sql = $dbms->getAutoSelectSql($beanMetaData);
         $buf = $sql;
-        if (count($argNames) != 0) {
+        $c = count($argNames);
+        if ($c !== 0) {
             $began = false;
             if (stripos($sql, 'WHERE') === false) {
                 $buf .= '/*BEGIN*/ WHERE ';
                 $began = true;
             }
-            $c = count($argNames);
             for ($i = 0; $i < $c; ++$i) {
                 $argName = $argNames[$i];
                 $columnName = $beanMetaData->convertFullColumnName($argName);
@@ -145,7 +148,8 @@ implements S2Dao_SqlWrapperCreator, S2Dao_AutoSelectSqlCreator {
             return $sql;
         }
         $dmd = new S2Dao_DtoMetaDataImpl($dtoClass,
-                $this->annotationReaderFactory->createBeanAnnotationReader($dtoClass));
+                $this->annotationReaderFactory->createBeanAnnotationReader($dtoClass),
+                $this->valueTypeFactory);
         $began = false;
         if (stripos($sql, 'WHERE') === false) {
             $buf .= '/*BEGIN*/ WHERE ';

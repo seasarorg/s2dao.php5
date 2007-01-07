@@ -26,21 +26,28 @@
  */
 class S2Dao_BeanListMetaDataResultSetHandler
     extends S2Dao_AbstractBeanMetaDataResultSetHandler {
+    
+    /**
+     * @type RelationPropertyHandler
+     */    
+    private $relationPropertyHandlers = array();
 
     public function __construct(S2Dao_BeanMetaData $beanMetaData,
-                                S2Dao_Dbms $dbms) {
+                                S2Dao_Dbms $dbms,
+                                array $relationPropertyHandlers) {
         parent::__construct($beanMetaData, $dbms);
+        $this->relationPropertyHandlers = $relationPropertyHandlers;
     }
-
+    
     public function handle(PDOStatement $rs){
         $list = new S2Dao_ArrayList();
-        $relSize = $this->getBeanMetaData()->getRelationPropertyTypeSize();
+        $bmd = $this->getBeanMetaData();
+        $relSize = $bmd->getRelationPropertyTypeSize();
         $relRowCache = new S2Dao_RelationRowCache($relSize);
-
         while($result = $rs->fetch(PDO::FETCH_ASSOC)){
             $row = $this->createRow($result);
             for($i = 0; $i < $relSize; $i++){
-                $rpt = $this->getBeanMetaData()->getRelationPropertyType($i);
+                $rpt = $bmd->getRelationPropertyType($i);
                 if ($rpt === null) {
                     continue;
                 }
@@ -60,6 +67,10 @@ class S2Dao_BeanListMetaDataResultSetHandler
                     $pd->setValue($row, $relRow);
                 }
             }
+            $c = count($this->relationPropertyHandlers);
+            for ($i = 0; $i < $c; $i++) {
+                $this->relationPropertyHandlers[$i]->setupRelationProperty($row);
+            }
             $list->add($row);
         }
         return $list;
@@ -76,7 +87,7 @@ class S2Dao_BeanListMetaDataResultSetHandler
             $valueType = null;
             $columnName = $rpt->getMyKey($i);
             if ($columnNames->contains($columnName)) {
-                $pt = $this->getBeanMetaData()->getPropertyTypeByColumnName($columnName);
+                $pt = $bmd->getPropertyTypeByColumnName($columnName);
                 $valueType = $pt->getValueType();
             } else {
                 $pt = $bmd->getPropertyTypeByColumnName($rpt->getYourKey($i));
@@ -87,16 +98,15 @@ class S2Dao_BeanListMetaDataResultSetHandler
                     return null;
                 }
             }
-            if(!isset($resultSet[$columnName])){
+            $value = $valueType->getValue($resultSet, $columnName);
+            if ($value === null) {
                 return null;
             }
-            $value = $resultSet[$columnName];
             $relKeyValues->put($columnName, $value);
             $keyList->add($value);
         }
-        if ($keyList->size() > 0) {
-            $keys = $keyList->toArray();
-            return new S2Dao_RelationKey($keys);
+        if (0 < $keyList->size()) {
+            return new S2Dao_RelationKey($keyList->toArray());
         }
         return null;
     }

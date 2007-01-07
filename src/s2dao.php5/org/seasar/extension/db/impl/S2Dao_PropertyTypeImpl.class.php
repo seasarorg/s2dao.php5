@@ -26,10 +26,10 @@
  */
 class S2Dao_PropertyTypeImpl implements S2Dao_PropertyType {
 
-    private $propertyDesc = null;
-    private $propertyName = null;
-    private $columnName = null;
-    private $valueType = null;
+    private $propertyDesc;
+    private $propertyName;
+    private $columnName;
+    private $valueType;
     private $primaryKey = false;
     private $persistent = true;
 

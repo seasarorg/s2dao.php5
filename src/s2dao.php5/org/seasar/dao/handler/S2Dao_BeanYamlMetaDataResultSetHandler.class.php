@@ -29,8 +29,9 @@ class S2Dao_BeanYamlMetaDataResultSetHandler extends S2Dao_BeanArrayMetaDataResu
     const YAML_Indent = 4;
 
     public function __construct(S2Dao_BeanMetaData $beanMetaData,
-                                S2Dao_Dbms $dbms) {
-        parent::__construct($beanMetaData, $dbms);
+                                S2Dao_Dbms $dbms,
+                                array $relationPropertyHandlers) {
+        parent::__construct($beanMetaData, $dbms, $relationPropertyHandlers);
     }
 
     public function handle(PDOStatement $rs){

@@ -45,8 +45,7 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
             $clazz = $clazz->getProperty($callName);
         }
         
-        $comments = preg_split('/\r?\n/',
-                               $clazz->getDocComment(), -1, PREG_SPLIT_NO_EMPTY);
+        $comments = preg_split('/\r?\n/', $clazz->getDocComment(), -1, PREG_SPLIT_NO_EMPTY);
         $inAnno = false;
         $annoLines = array();
         $annoObjects = array();
@@ -67,14 +66,14 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
             }
         }
 
-        if(count($annoLines) != 0){
+        if(0 != count($annoLines)){
             $annoObj = $this->getAnnotationObject($annoLines);
             if(is_object($annoObj)){
                 $annoObjects[get_class($annoObj)] = $annoObj;
             }
         }
 
-        if(count($annoObjects) > 0){
+        if(0 < count($annoObjects)){
             return $annoObjects;
         }
         return null;
@@ -138,9 +137,7 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
                     }
                 }
             }
-            return S2Container_AnnotationFactory::create($annotationType,
-                                                         $args,
-                                                         $argType);
+            return S2Container_AnnotationFactory::create($annotationType, $args, $argType);
         }
     }
 

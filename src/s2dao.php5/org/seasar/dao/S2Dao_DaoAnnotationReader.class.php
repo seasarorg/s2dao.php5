@@ -61,7 +61,7 @@ interface S2Dao_DaoAnnotationReader {
      * @param method 
      * @return
      */
-    public function getBeanClass(ReflectionMethod $method);
+    public function getBeanClass(ReflectionMethod $method = null);
     
     /**
      * @param methodName

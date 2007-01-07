@@ -26,16 +26,21 @@
  */
 class S2DaoBeanReader implements S2Dao_DataReader {
 
-    protected $dataSet_;
-    protected $table_;
+    protected $dataSet;
+    protected $table;
 
     public function __construct($bean, PDO $connection) {
-        $this->dataSet_ = new S2Dao_DataSetImpl();
-        $this->table_ = $this->dataSet_->addTable('S2DaoBean');
+        $this->dataSet = new S2Dao_DataSetImpl();
+        $this->table = $this->dataSet->addTable('S2DaoBean');
 
         $dbms = S2DaoDbmsManager::getDbms($connection);
         $clazz = new ReflectionClass($bean);
-        $beanMetaData = new S2Dao_BeanMetaDataImpl($clazz, $connection, $dbms);
+        $beanMetaData = new S2Dao_BeanMetaDataImpl();
+        $beanMetaData->setBeanClass($clazz);
+        $beanMetaData->setDatabaseMetaData($connection);
+        $beanMetaData->setAnnotationReaderFactory(new S2Dao_FieldAnnotationReaderFactory());
+        $beanMetaData->setValueTypeFactory(new S2Dao_ValueTypeFactoryImpl());
+        $beanMetaData->initialize();
         $this->setupColumns($beanMetaData);
         $this->setupRow($beanMetaData, $bean);
     }
@@ -44,7 +49,7 @@ class S2DaoBeanReader implements S2Dao_DataReader {
         for ($i = 0; $i < $beanMetaData->getPropertyTypeSize(); ++$i) {
             $pt = $beanMetaData->getPropertyType($i);
             $propertyType = $pt->getPropertyDesc()->getPropertyType();
-            $this->table_->addColumn($pt->getColumnName(),
+            $this->table->addColumn($pt->getColumnName(),
                                      S2Dao_ColumnTypes::getColumnType($propertyType));
         }
         for ($i = 0; $i < $beanMetaData->getRelationPropertyTypeSize(); ++$i) {
@@ -53,14 +58,14 @@ class S2DaoBeanReader implements S2Dao_DataReader {
                 $pt = $rpt->getBeanMetaData()->getPropertyType($j);
                 $columnName = $pt->getColumnName() . '_' . $rpt->getRelationNo();
                 $propertyType = $pt->getPropertyDesc()->getPropertyType();
-                $this->table_->addColumn($columnName,
+                $this->table->addColumn($columnName,
                                     S2Dao_ColumnTypes::getColumnType($propertyType));
             }
         }
     }
 
     protected function setupRow(S2Dao_BeanMetaData $beanMetaData, $bean) {
-        $row = $this->table_->addRow();
+        $row = $this->table->addRow();
         for ($i = 0; $i < $beanMetaData->getPropertyTypeSize(); ++$i) {
             $pt = $beanMetaData->getPropertyType($i);
             $pd = $pt->getPropertyDesc();
@@ -87,11 +92,11 @@ class S2DaoBeanReader implements S2Dao_DataReader {
     }
 
     public function read() {
-        return $this->dataSet_;
+        return $this->dataSet;
     }
 
     public function getTable(){
-        return $this->table_;
+        return $this->table;
     }
 
 }

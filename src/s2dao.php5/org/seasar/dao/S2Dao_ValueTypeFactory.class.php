@@ -32,9 +32,10 @@ interface S2Dao_ValueTypeFactory {
     public function getValueTypeByName($name);
 
     /**
+     * @param $phptype gettype(many) type @link{S2Dao_PHPType}
      * @return S2Dao_ValueType
      */
-    public function getValueTypeByClassName($clazzName);
+    public function getValueTypeByClass($phptype);
 
 }
 

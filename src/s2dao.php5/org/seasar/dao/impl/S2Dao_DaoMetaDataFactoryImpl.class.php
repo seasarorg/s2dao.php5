@@ -35,6 +35,8 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
     protected $dataSource;
 
     protected $readerFactory;
+    
+    protected $valueTypeFactory;
 
     protected $sqlCommandFactory;
 
@@ -46,11 +48,13 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
             S2Dao_SqlCommandFactory $sqlCommandFactory,
             S2Container_DataSource $dataSource,
             S2Dao_AnnotationReaderFactory $readerFactory,
+            S2Dao_ValueTypeFactory $valueTypeFactory,
             S2Dao_AutoSelectSqlCreator $autoSelectCommandCreator,
             S2Dao_DaoNamingConvention $configuration) {
         $this->sqlCommandFactory = $sqlCommandFactory;
         $this->dataSource = $dataSource;
         $this->readerFactory = $readerFactory;
+        $this->valueTypeFactory = $valueTypeFactory;
         $this->autoSelectCommandCreator = $autoSelectCommandCreator;
         $this->configuration = $configuration;
         $this->daoMetaDataCache = new S2Dao_HashMap();
@@ -83,7 +87,8 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $dmdi = new S2Dao_DaoMetaDataImpl($daoClass,
                                           $this->dataSource,
                                           $this->readerFactory,
-                                          $this->configuration->getDaoSuffixes());
+                                          $this->configuration->getDaoSuffixes(),
+                                          $this->valueTypeFactory);
         $this->setupSqlCommand($dmdi);
         $this->daoMetaDataCache->put($key, $dmdi);
         return $dmdi;
@@ -138,6 +143,7 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
             $beanMetaDataImpl = new S2Dao_BeanMetaDataImpl();
             $beanMetaDataImpl->setBeanClass($beanClass);
             $beanMetaDataImpl->setDatabaseMetaData($conn);
+            $beanMetaDataImpl->setValueTypeFactory($this->valueTypeFactory);
             $beanMetaDataImpl->setAnnotationReaderFactory($this->readerFactory);
             $beanMetaDataImpl->initialize();
             $beanMetaData = $beanMetaDataImpl;
