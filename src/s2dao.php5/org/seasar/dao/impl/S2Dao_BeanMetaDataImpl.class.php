@@ -27,6 +27,7 @@
 class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_BeanMetaData {
 
     private static $logger;
+    private static $code = 0;
     private $tableName;
     private $propertyTypesByColumnName;
     private $relationPropertyTypes;
@@ -42,11 +43,12 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     
     public function __construct() {
         parent::__construct();
-        self::$logger = S2Container_S2Logger::getLogger(get_class($this));
         $this->propertyTypesByColumnName = new S2Dao_CaseInsensitiveMap();
         $this->relationPropertyTypes = new S2Dao_ArrayList();
         $this->oneToMenyRelationPropertyTypes = new S2Dao_ArrayList();
         $this->annotationReaderFactory = new S2Dao_FieldAnnotationReaderFactory();
+        self::$logger = S2Container_S2Logger::getLogger(get_class($this));
+        self::$code++;
     }
     
     protected function getAnnotationReaderFactory() {
@@ -286,10 +288,11 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $columnName = substr($alias, 0, $index);
         $relnoStr = substr($alias, $index + 1);
         $rpt = $this->getRelationPropertyType((int)$relnoStr);
-        if (!$rpt->getBeanMetaData()->hasPropertyTypeByColumnName($columnName)){
+        $rbmd = $rpt->getBeanMetaData();
+        if (!$rbmd->hasPropertyTypeByColumnName($columnName)){
             throw new S2Dao_ColumnNotFoundRuntimeException($this->tableName, $alias);
         }
-        return $rpt->getBeanMetaData()->getPropertyTypeByColumnName($columnName);
+        return $rbmd->getPropertyTypeByColumnName($columnName);
     }
 
     /**
@@ -656,6 +659,15 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         if ($this->getPrimaryKeySize() == 0) {
             throw new S2Dao_PrimaryKeyNotFoundRuntimeException($this->getBeanClass());
         }
+    }
+    
+    public function isBeanClassAssignable(ReflectionClass $clazz) {
+        $beanClass = $this->getBeanClass();
+        return $beanClass->isSubclassOf($clazz) || $clazz->isSubclassOf($beanClass);
+    }
+    
+    public function getCode(){
+        return self::$code;
     }
 }
 ?>

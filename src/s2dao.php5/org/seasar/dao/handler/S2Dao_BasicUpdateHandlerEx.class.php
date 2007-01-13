@@ -23,18 +23,13 @@
 //
 /**
  * @author nowel
- * TODO: ClassNaming -p
  */
 class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_UpdateHandler {
 
     private static $logger;
-
     private $rootNode;
-    
     private $sqlWrapper;
-
     private $argNames = array();
-
     private $argTypes = array();
 
     public function __construct(S2Container_DataSource $dataSource,
@@ -42,9 +37,10 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
                                 array $argNames,
                                 array $argTypes,
                                 S2Dao_StatementFactory $statementFactory) {
-        parent::__construct($dataSource, $sql->getSql(), $statementFactory);
+        $sqlString = $sql->getSql();
         self::$logger = S2Container_S2Logger::getLogger(get_class($this));
-        $parser = new S2Dao_SqlParserImpl($sql->getSql());
+        parent::__construct($dataSource, $sqlString, $statementFactory);
+        $parser = new S2Dao_SqlParserImpl($sqlString);
         $this->rootNode = $parser->parse();
         $this->sqlWrapper = $sql;
         $this->argNames = $argNames;
@@ -65,9 +61,14 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
                 if ($args[$i] !== null) {
                     if ($i < $typesCount) {
                         $argType = $this->argTypes[$i];
-                    } else if ($args[$i] != null) {
-                        $argType = gettype($args[$i]);
+                    } else {
+                        $argType = $args[$i];
                     }
+                }
+                if($argType instanceof Reflector){
+                    $argType = $argType->getClass()->getName();
+                } else if(is_object($argType)){
+                    $argType = get_class($argType);
                 }
                 if ($i < $namesCount) {
                     $ctx->addArg($this->argNames[$i], $args[$i], $argType);
@@ -82,19 +83,21 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
     public function execute(){
         $args = func_get_args();
         $funcNum = func_num_args();
-        if($funcNum == 1){
+        switch($funcNum){
+        case 1:
             if(is_array($args[0])){
                 return $this->__call('execute0', $args); 
             }
             if($args[0] instanceof S2Dao_CommandContext){
                 return $this->__call('execute1', $args);
             }
-        }
-        if($funcNum == 2){
+            break;
+        case 2:
             return $this->__call('execute2', $args);
-        }
-        if($funcNum == 4){
+        case 4:
             return $this->__call('execute3', $args);
+        default:
+            throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
         }
     }
 
@@ -132,12 +135,15 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
         }
     }
 
-    protected function getCompleteSql($args = null) {
+    /**
+     * @Override
+     */
+    protected function _getCompleteSql($sql, $args = null) {
         if ($args == null || !is_array($args)) {
             return $this->sql;
         }
         $pos = 0;
-        $buf = $this->sql;
+        $buf = $sql;
         foreach($args as $value){
             $pos = strpos($buf, '?');
             if($pos === false){
@@ -149,14 +155,14 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
     }
     
     protected function _prepareStatement(PDO $connection, $sql){
-        if ($this->sql == null) {
+        if ($sql == null) {
             throw new S2Container_EmptyRuntimeException('sql');
         }
         return $this->statementFactory->createPreparedStatement($connection, $sql);
     }
 
     private function __call($name, $args){
-        if(method_exists(__CLASS__, $args)){
+        if(method_exists($this, $name)){
             return call_user_func_array(array($this, $name), $args);
         }
     }

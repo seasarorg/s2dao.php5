@@ -116,8 +116,16 @@ interface S2Dao_BeanMetaData extends S2Dao_DtoMetaData {
     /**
      * @return boolean
      */
-    //public function isBeanClassAssignable(ReflectionClass $clazz);
+    public function isBeanClassAssignable(ReflectionClass $clazz);
+    
+    /**
+     * @return integer
+     */
+    public function getCode();
 
+    /**
+     * @throws S2Dao_PrimaryKeyNotFoundRuntimeException
+     */
     public function checkPrimaryKey();
 
     /**

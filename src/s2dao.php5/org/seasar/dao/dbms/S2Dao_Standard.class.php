@@ -39,12 +39,13 @@ class S2Dao_Standard implements S2Dao_Dbms {
 
     public function getAutoSelectSql(S2Dao_BeanMetaData $beanMetaData,
                                      $joinData = array()) {
+        $code = $beanMetaData->getCode();
         $buf = $beanMetaData->getAutoSelectList();
         $buf .= ' ';
-        $fromClause = $this->autoSelectFromClauseCache->get($beanMetaData);
+        $fromClause = $this->autoSelectFromClauseCache->get($code);
         if ($fromClause === null) {
             $fromClause = $this->createAutoSelectFromClause($beanMetaData, $joinData);
-            $this->autoSelectFromClauseCache->put($beanMetaData, $fromClause);
+            $this->autoSelectFromClauseCache->put($code, $fromClause);
         }
         $buf .= $fromClause;
         return $buf;

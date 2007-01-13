@@ -26,23 +26,23 @@
  */
 final class S2Dao_RelationKey {
 
-    private $values_ = array();
-    private $hashCode_ = 0;
+    private $values = array();
+    private $hashCode = 0;
     
     public function __construct($values) {
-        $this->values_ = $values;
+        $this->values = $values;
         $c = count($values);
         for ($i = 0; $i < $c; ++$i) {
-            $this->hashCode_ += crc32($values[$i]);
+            $this->hashCode += crc32($values[$i]);
         }
     }
     
     public function getValues() {
-        return $this->values_;
+        return $this->values;
     }
     
     public function hashCode() {
-        return $this->hashCode_;
+        return $this->hashCode;
     }
 
     public function equals($o) {
@@ -50,15 +50,14 @@ final class S2Dao_RelationKey {
             return false;
         }
         
-        $otherValues = $o->values_;
-        if (count($this->values_) != count($otherValues)) {
+        $otherValues = $o->values;
+        if (count($this->values) != count($otherValues)) {
             return false;
         }
         
-        $c = count($this->values_);
+        $c = count($this->values);
         for ($i = 0; $i < $c; ++$i) {
-            //if (!$this->values_[$i] === $otherValues[$i]) {
-            if(!$otherValues[$i]->equals($this->values_[$i])){
+            if(!$otherValues[$i]->equals($this->values[$i])){
                 return false;
             }
         }

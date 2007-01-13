@@ -78,9 +78,9 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             }
             $pd = $pt->getPropertyDesc();
             $propertyName = $pd->getPropertyName();
-            if ($pd->getPropertyType()->isPrimitive()
-                    || strcasecmp($propertyName, $timestampPropertyName) == 0
-                    || strcmp($propertyName, $versionNoPropertyName) == 0) {
+            if ($pd->getPropertyType() == null
+                || strcasecmp($propertyName, $timestampPropertyName) == 0
+                || strcmp($propertyName, $versionNoPropertyName) == 0) {
                 $isNullCheckRequired = false;
             }
             if ($isNullCheckRequired) {
@@ -112,7 +112,7 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             }
         }
         if($generator == null){
-            $generator = IdentifierGeneratorFactory::createIdentifierGenerator(null, $dbms);
+            $generator = S2Dao_IdentifierGeneratorFactory::createIdentifierGenerator(null, $dbms);
         }
         $sql = 'INSERT INTO ' . $beanMetaData->getTableName() . ' (' . $namesBuf;
         $sql .= ') VALUES (' . $valuesBuf . ')';
@@ -262,13 +262,13 @@ final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
         }
         if ($this->timeStampPropertyExists) {
             $timestampPropertyName = $this->beanMetaData->getTimestampPropertyName();
-            $pt = $this->beanMetaData->getPropertyType($this->timestampPropertyName);
+            $pt = $this->beanMetaData->getPropertyType($timestampPropertyName);
             $vn = $ctx->getArg('_timeStamp');
             $pt->getPropertyDesc()->setValue($bean, $vn);
         }
         if ($this->versionNoPropertyExists) {
             $versionNoPropertyName = $this->beanMetaData->getVersionNoPropertyName();
-            $pt = $this->beanMetaData->getPropertyType($this->versionNoPropertyName);
+            $pt = $this->beanMetaData->getPropertyType($versionNoPropertyName);
             $vn = $ctx->getArg('_versionNo');
             $pt->getPropertyDesc()->setValue($bean, $vn);
         }

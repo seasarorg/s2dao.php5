@@ -24,29 +24,28 @@
 /**
  * @author nowel
  */
-class S2Dao_PrefixSqlNode extends S2Dao_AbstractNode {
+interface S2Dao_List {
 
-    private $prefix = '';
-    private $sql = '';
+    public function size();
     
-    public function __construct($prefix, $sql) {
-        $this->prefix = $prefix;
-        $this->sql = $sql;
-    }
+    public function isEmpty();
     
-    public function getPrefix() {
-        return $this->prefix;
-    }
-
-    public function getSql() {
-        return $this->sql;
-    }
-
-    public function accept(S2Dao_CommandContext $ctx) {
-        if ($ctx->isEnabled()) {
-            $ctx->addSql($this->prefix);
-        }
-        $ctx->addSql($this->sql);
-    }
+    public function contains($object);
+        
+    public function get($index);
+    
+    public function set($index, $object);
+        
+    public function add($indexOrObject, $object = null);
+    
+    public function addAll(ArrayObject $list);
+    
+    public function remove($index);
+    
+    public function iterator();
+    
+    public function toArray();
+    
 }
+
 ?>

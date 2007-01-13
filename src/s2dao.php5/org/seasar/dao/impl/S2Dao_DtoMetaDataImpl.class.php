@@ -28,6 +28,8 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
 
     private $beanClass;
     private $propertyTypes;
+    private $_propertyTypes = array();
+    private $_propertyTypesIndex = 0;
     protected $beanAnnotationReader;
     private $valueTypeFactory;
     
@@ -53,7 +55,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     }
     
     private function __call($name, $args){
-        if(method_exists(__CLASS__, $args)){
+        if(method_exists($this, $name)){
             return call_user_func_array(array($this, $name), $args);
         }
     }
@@ -83,15 +85,13 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     }
 
     /**
-     * @see org.seasar.dao.DtoMetaData#getPropertyType(int)
+     * @see org.seasar.dao.DtoMetaData#getPropertyType(mixed)
      * @return PropertyType
      */
-    public function getPropertyType($index) {
-        if(is_integer($index)){
-            $values = array_values($this->propertyTypes->toArray());
-            return $values[$index];
+    public function getPropertyType($propertyName) {
+        if(is_integer($propertyName)){
+            return $this->_propertyTypes[$propertyName];
         }
-        $propertyName = $index;
         $propertyType = $this->propertyTypes->get($propertyName);
         if ($propertyType === null) {
             throw new S2Container_PropertyNotFoundRuntimeException($this->beanClass,
@@ -147,6 +147,7 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     }
 
     protected function addPropertyType(S2Dao_PropertyType $propertyType) {
+        $this->_propertyTypes[] = $propertyType;
         $this->propertyTypes->put($propertyType->getPropertyName(), $propertyType);
     }
 

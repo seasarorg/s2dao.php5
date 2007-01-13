@@ -54,8 +54,7 @@ class S2Dao_CaseInsensitiveSet extends S2Dao_CaseInsensitiveMap {
     }
     
     public function toArray(){
-        $values = parent::toArray();
-        return array_values($values);
+        return array_values(parent::toArray());
     }
 }
 

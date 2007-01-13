@@ -27,21 +27,13 @@
 class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
     
     protected $autoSelectCommandCreator;
-
     protected $daoMetaDataCache = null;
-
     protected $sqlWrapperCreators = array();
-
     protected $dataSource;
-
     protected $readerFactory;
-    
     protected $valueTypeFactory;
-
     protected $sqlCommandFactory;
-
     protected $configuration;
-
     protected $beanMetaDataCache = null;
 
     public function __construct(
@@ -114,7 +106,7 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         $sqlWrapperCreators =& $this->sqlWrapperCreators;
         $sqlCommandFactory =& $this->sqlCommandFactory;
         
-        $length = $this->sqlWrapperCreators;
+        $length = count($sqlWrapperCreators);
         for ($i = 0; $i < $length; $i++) {
             $sqlWrapper = $sqlWrapperCreators[$i]->createSqlCommand($dbms,
                                                                     $daoMetaDataImpl, 

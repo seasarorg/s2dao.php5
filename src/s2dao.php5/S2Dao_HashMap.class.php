@@ -40,10 +40,6 @@ class S2Dao_HashMap implements S2Dao_Map {
     }
     
     public function get($key){
-        // TODO
-        if(is_object($key)){
-            $key = (string)$key;
-        }
         if(!$this->containsKey($key)){
             return null;
         }
@@ -51,11 +47,7 @@ class S2Dao_HashMap implements S2Dao_Map {
     }
     
     public function put($key, $value){
-        // TODO
-        if(is_object($key)){
-            $key = (string)$key;
-        }
-        // linkable ** minimize refcount **
+        // linkable ** refcount **
         $this->element[$key] =& $value;
         return $this;
     }
@@ -80,10 +72,6 @@ class S2Dao_HashMap implements S2Dao_Map {
     }
     
     public function containsKey($key){
-        // TODO
-        if(is_object($key)){
-            $key = (string)$key;
-        }
         return isset($this->element[$key]);
     }
 

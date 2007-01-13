@@ -47,7 +47,7 @@ class S2Dao_PagerUtil
 
         $returnArray = false;
         $retValue = new S2Dao_ArrayList();
-        if(!($resultSet instanceof S2Dao_ArrayList)){
+        if(!($resultSet instanceof S2Dao_List)){
             $resultSet = new S2Dao_ArrayList(new ArrayObject($resultSet));
             $returnArray = true;
         }

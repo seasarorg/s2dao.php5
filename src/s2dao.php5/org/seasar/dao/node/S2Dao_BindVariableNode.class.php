@@ -44,19 +44,14 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
         
         $c = count($this->names);
         for($pos = 1; $pos < $c; $pos++){
-            if(gettype(new stdClass) == $clazz || is_object($clazz)){
-                if($value === null){
-                    continue;
-                }
-                $refClass = new ReflectionClass($value);
-                $beanDesc = S2Container_BeanDescFactory::getBeanDesc($refClass);
-                $pd = $beanDesc->getPropertyDesc($this->names[$pos]);
-                if (!is_object($value)) {
-                    break;
-                }
-                $value = $pd->getValue($value);
-                $clazz = $pd->getPropertyType();
+            $refClass = new ReflectionClass($value);
+            $beanDesc = S2Container_BeanDescFactory::getBeanDesc($refClass);
+            $pd = $beanDesc->getPropertyDesc($this->names[$pos]);
+            if (!is_object($value)) {
+                break;
             }
+            $value = $pd->getValue($value);
+            $clazz = $pd->getPropertyType();
         }
 
         if($this->isNull($clazz)){

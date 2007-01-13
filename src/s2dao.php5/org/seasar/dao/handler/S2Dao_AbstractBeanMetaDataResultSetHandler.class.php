@@ -151,7 +151,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
     }
     
     private function __call($name, $args){
-        if(method_exists(__CLASS__, $args)){
+        if(method_exists($this, $name)){
             return call_user_func_array(array($this, $name), $args);
         }
     }

@@ -26,21 +26,21 @@
  */
 abstract class S2Dao_AbstractNode implements S2Dao_Node {
 
-    private $children_ = array();
+    private $children = array();
     
     public function __construct() {
     }
 
     public function getChildSize() {
-        return count($this->children_);
+        return count($this->children);
     }
     
     public function getChild($index) {
-        return $this->children_[$index];
+        return $this->children[$index];
     }
     
     public function addChild($node) {
-        $this->children_[] = $node;
+        $this->children[] = $node;
     }
 }
 ?>

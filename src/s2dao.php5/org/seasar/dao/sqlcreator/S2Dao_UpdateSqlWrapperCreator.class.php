@@ -125,7 +125,7 @@ final class S2Dao_UpdateSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     
     public function preUpdateBean(S2Dao_CommandContext $ctx) {
         if ($this->timeStampPropertyExists) {
-            $ctx->addArg('_timeStamp', date());
+            $ctx->addArg('_timeStamp', time());
         }
         if ($this->versionNoPropertyExists) {
             $bean = $ctx->getArg('dto');
@@ -139,8 +139,7 @@ final class S2Dao_UpdateSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     public function postUpdateBean(S2Dao_CommandContext $ctx, $returnValue) {
         $rows = $returnValue;
         if ((int)$rows != 1) {
-            throw new S2Dao_NotSingleRowUpdatedRuntimeException(
-                        $ctx->getArg('dto'), (int)$rows);
+            throw new S2Dao_NotSingleRowUpdatedRuntimeException($ctx->getArg('dto'), (int)$rows);
         }
         if ($this->timeStampPropertyExists) {
             $bean = $ctx->getArg('dto');

@@ -98,10 +98,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
                                                       $returnType,
                                                       array $joinData = null,
                                                       $query) {
-        $sql = $autoSelectSqlCreator->createSelectSql($dbms,
-                                                      $beanMetaData,
-                                                      $joinData,
-                                                      $query);
+        $sql = $autoSelectSqlCreator->createSelectSql($dbms, $beanMetaData, $joinData, $query);
         $resultSetHandler = $this->createResultSetHandler($dbms, $beanMetaData, $returnType);
         $selectCommand = new S2Dao_SelectDynamicCommand($this->dataSource,
                                                         $this->statementFactory,
@@ -159,22 +156,17 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
             $argNames = array(ucwords($beanMetaData->getBeanClass()->getName()));
         }
         $handler = null;
-        /* TODO: Batch
-        if($sql->isBatch()){
+        // TODO: Batch:: $sql->isBatch()
+        if(false){
             $handler = new S2Dao_BasicBatchUpdateHandler($this->dataSource, $sql,
                                                         $method->getParameters(),
                                                         $this->statementFactory);
         } else {
-            $handler = new S2Dao_BasicUpdateHandler($this->dataSource, $sql,
+            $handler = new S2Dao_BasicUpdateHandlerEx($this->dataSource, $sql,
                                                     $argNames,
                                                     $method->getParameters(),
                                                     $this->statementFactory);
         }
-        */
-        $handler = new S2Dao_BasicUpdateHandlerEx($this->dataSource, $sql,
-                                                 $argNames,
-                                                 $method->getParameters(),
-                                                 $this->statementFactory);
         return new S2Dao_UpdateDynamicCommand($this->dataSource,
                                               $this->statementFactory,
                                               $handler);
@@ -244,7 +236,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
                 $list->add(new S2Dao_ArrayRelationPropertyHandler($beanMetaData,
                                                                   $rpt,
                                                                   $command));
-            } else if ($clazz instanceof S2Dao_ArrayList) {
+            } else if ($clazz instanceof S2Dao_List) {
                 $bmd = $rpt->getBeanMetaData();
                 if($rpt->getJoinTableName() == null){
                     $command = $this->createSelectDynamicCommandByQuery(

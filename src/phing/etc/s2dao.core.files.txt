@@ -3,6 +3,7 @@ S2Dao_CommandContext
 S2Dao_DaoMetaData
 S2Dao_DaoMetaDataFactory
 S2Dao_DaoAnnotationReader
+S2Dao_BeanAnnotationReader
 S2Dao_DaoNamingConvention
 S2Dao_Dbms
 S2Dao_EntityManager
@@ -25,6 +26,7 @@ S2Dao_SqlWrapperImpl
 S2Dao_SqlCommandFactory
 S2Dao_SqlWrapperCreator
 S2Dao_AutoSelectSqlCreator
+S2Dao_AnnotationSqlWrapperCreator
 S2Dao_PropertyType
 S2Dao_PropertyTypeImpl
 S2Dao_RelationType
@@ -33,7 +35,7 @@ S2Dao_RelationPropertyType
 S2Dao_RelationPropertyTypeImpl
 S2Dao_RelationRowCache
 S2Dao_PHPType
-S2Dao_PDOType
+S2Dao_ValueTypeFactory
 S2Dao_BasicHandler
 S2Dao_BasicResultSetFactory
 S2Dao_BasicStatementFactory
@@ -51,12 +53,14 @@ S2Dao_StandardDbMetaData
 S2Dao_DbMetaDataFactory
 S2Dao_AbstractIdentifierGenerator
 S2Dao_EntityManagerImpl
+S2Dao_DtoMetaDataImpl
+S2Dao_DaoMetaDataImpl
 S2Dao_DaoMetaDataFactoryImpl
 S2DaoInterceptor
+S2Dao_List
 S2Dao_ArrayList
 S2Dao_ArrayUtil
 S2Dao_DatabaseMetaDataUtil
-S2Dao_SqlCreatorsStredUtil
 S2Dao_Map
 S2Dao_HashMap
 S2Dao_CaseInsensitiveMap

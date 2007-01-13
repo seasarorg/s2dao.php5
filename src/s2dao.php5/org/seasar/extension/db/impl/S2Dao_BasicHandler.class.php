@@ -107,8 +107,8 @@ class S2Dao_BasicHandler {
         }
 
         $c = count($args);
-        for ($i = 0; $i < $c; $i++) {
-            try {
+        try {
+            for ($i = 0; $i < $c; $i++) {
                 $arg = $args[$i];
                 $argType = $argTypes[$i];
 
@@ -119,9 +119,9 @@ class S2Dao_BasicHandler {
                     $valueType = $this->getValueType($argType);
                 }
                 $valueType->bindValue($ps, $i + 1, $arg);
-            } catch (Exception $ex) {
-                throw new S2Container_SQLRuntimeException($ex);
             }
+        } catch (Exception $ex) {
+            throw new S2Container_SQLRuntimeException($ex);
         }
     }
 

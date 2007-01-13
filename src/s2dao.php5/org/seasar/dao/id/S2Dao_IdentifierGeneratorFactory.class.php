@@ -26,33 +26,30 @@
  */
 class S2Dao_IdentifierGeneratorFactory {
 
-    private static $generatorClasses;
-    public static $init = false;
+    private static $generatorClasses = array(
+        'assigned' => 'S2Dao_AssignedIdentifierGenerator',
+        'identity' => 'S2Dao_IdentityIdentifierGenerator',
+        'sequence' => 'S2Dao_SequenceIdentifierGenerator'
+    );
+    private static $instance = array();
     
     private function __construct() {
     }
 
-    public static function staticConst(){
-        self::$generatorClasses = new S2Dao_HashMap();
-        self::addIdentifierGeneratorClass('assigned', 'S2Dao_AssignedIdentifierGenerator');
-        self::addIdentifierGeneratorClass('identity', 'S2Dao_IdentityIdentifierGenerator');
-        self::addIdentifierGeneratorClass('sequence', 'S2Dao_SequenceIdentifierGenerator');
-        self::$init = true;
-    }
-    
     public static function addIdentifierGeneratorClass($name, $clazz) {
-        self::$generatorClasses->put($name, $clazz);
+        self::$generatorClasses[$name] = $clazz;
     }
 
     protected static function getGeneratorClass($name) {
-        $clazz = self::$generatorClasses->get($name);
-        if ($clazz != null) {
-            return $clazz;
+        if (isset(self::$generatorClasses[$name])) {
+            return self::$generatorClasses[$name];
         }
         return new $name;
     }
     
-    public static function createIdentifierGenerator($propertyName, S2Dao_Dbms $dbms, $annotation = null) {
+    public static function createIdentifierGenerator($propertyName,
+                                                     S2Dao_Dbms $dbms,
+                                                     $annotation = null) {
         if($annotation === null){
             return new S2Dao_AssignedIdentifierGenerator($propertyName, $dbms);
         }
@@ -67,8 +64,13 @@ class S2Dao_IdentifierGeneratorFactory {
     }
     
     public static function createIdentifierGenerator2($clazz, $propertyName, S2Dao_Dbms $dbms) {
-        $ref = new ReflectionClass($clazz);
-        return S2Container_ConstructorUtil::newInstance($ref, array($propertyName, $dbms));
+        $refClazz = null;
+        if(isset(self::$instance[$clazz])){
+            $refClass = self::$instance[$clazz];
+        } else {
+            $refClass = self::$instance[$clazz] = new ReflectionClass($clazz);
+        }
+        return S2Container_ConstructorUtil::newInstance($refClass, array($propertyName, $dbms));
     }
 
     protected static function setProperty($generator, $propertyName, $value) {
@@ -77,9 +79,5 @@ class S2Dao_IdentifierGeneratorFactory {
         $pd = $beanDesc->getPropertyDesc($propertyName);
         $pd->setValue($generator, $value);
     }
-}
-
-if(!S2Dao_IdentifierGeneratorFactory::$init){
-    S2Dao_IdentifierGeneratorFactory::staticConst();
 }
 ?>

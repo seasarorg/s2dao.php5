@@ -73,23 +73,24 @@ abstract class S2Dao_AutoSqlWrapperCreator implements S2Dao_SqlWrapperCreator {
     protected function isUpdateSignatureForBean(S2Dao_BeanMetaData $beanMetaData,
                                                 ReflectionMethod $method) {
         $parameters = $method->getParameters();
-        return count($parameters) == 1 &&
-               $beanMetaData->isBeanClassAssignable($parameters[0]);
+        if(count($parameters) == 1){
+            $param0 = $parameters[0];
+            return $beanMetaData->isBeanClassAssignable($param0->getClass());
+        }
+        return false;
     }
 
     protected function checkAutoUpdateMethod(S2Dao_BeanMetaData $beanMetaData,
                                              ReflectionMethod $method) {
         $parameters = $method->getParameters();
         $param0 = $parameters[0];
+        $paramClass = $param0->getClass();
         return count($parameters) === 1
-                && !($param0 instanceof S2Dao_ArrayList) || !$param0->isArray();
-        /*
-        return count($parameters) == 1
-                && 
-                ($beanMetaData->isBeanClassAssignable($param0)
-                || $param0 instanceof S2Dao_ArrayList
-                || $param0->isArray());
-        */
+                && (
+                    $beanMetaData->isBeanClassAssignable($paramClass)
+                    || $paramClass->isSubClassOf('S2Dao_List')
+                    || $param0->isArray()
+                );
     }
 
     protected function isPropertyExist(array $props, $propertyName) {

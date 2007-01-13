@@ -45,11 +45,7 @@ class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
     
     public function putAll(array $assoc){
         foreach($assoc as $key => $value){
-            if(is_integer($key)){
-                $case = (string)$key;
-            } else {
-                $case = strtolower($key);
-            }
+            $case = strtolower($key);
             $this->element[$case] = array($key => $value);
         }
     }
@@ -73,12 +69,7 @@ class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
     }
     
     public function containsKey($key){
-        // TODO
-        if(is_object($key)){
-            $key = (string)$key;
-        }
-        $case = strtolower($key);
-        return array_key_exists($case, $this->element);
+        return array_key_exists(strtolower($key), $this->element);
     }
     
     public function containsValue($value){

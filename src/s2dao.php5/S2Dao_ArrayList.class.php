@@ -24,7 +24,7 @@
 /**
  * @author nowel
  */
-class S2Dao_ArrayList extends ArrayObject {
+class S2Dao_ArrayList extends ArrayObject implements S2Dao_List {
 
     public function __construct($object = array()){
         parent::__construct($object);

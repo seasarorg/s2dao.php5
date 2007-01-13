@@ -46,7 +46,7 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
         $expression = S2Container_EvalUtil::getExpression($expression);
         $result = eval($expression);
         
-        if ($result instanceof S2Dao_ArrayList) {
+        if ($result instanceof S2Dao_List) {
             $this->bindArray($ctx, $result->toArray());
         } else if ($result === null) {
             return;

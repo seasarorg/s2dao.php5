@@ -26,30 +26,30 @@
  */
 class S2Dao_EmbeddedValueNode extends S2Dao_AbstractNode {
 
-    private $expression_ = '';
-    private $baseName_ = '';
-    private $propertyName_ = '';
+    private $expression = '';
+    private $baseName = '';
+    private $propertyName = '';
 
     public function __construct($expression) {
-        $this->expression_ = $expression;
+        $this->expression = $expression;
         $array = explode('.',$expression);
-        $this->baseName_ = $array[0];
+        $this->baseName = $array[0];
         if (1 < count($array)) {
-            $this->propertyName_ = $array[1];
+            $this->propertyName = $array[1];
         }
     }
 
     public function getExpression() {
-        return $this->expression_;
+        return $this->expression;
     }
 
     public function accept(S2Dao_CommandContext $ctx) {
-        $value = $ctx->getArg($this->baseName_);
-        $clazz = $ctx->getArgType($this->baseName_);
+        $value = $ctx->getArg($this->baseName);
+        $clazz = $ctx->getArgType($this->baseName);
 
-        if ($this->propertyName_ != null) {
+        if ($this->propertyName != null) {
             $beanDesc = BeanDescFactory::getBeanDesc($clazz);
-            $pd = $beanDesc->getPropertyDesc($this->propertyName_);
+            $pd = $beanDesc->getPropertyDesc($this->propertyName);
             $value = $pd->getValue($value);
             $clazz = $pd->getPropertyType();
         }
