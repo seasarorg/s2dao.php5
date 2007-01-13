@@ -80,12 +80,11 @@ class S2Dao_FileSqlWrapperCreator implements S2Dao_SqlWrapperCreator {
         $base = $dir . $clazz->getName() . '_' . $method->getName();
         $dbmsPath = $base . $dbms->getSuffix() . '.sql';
         $standardPath = $base . '.sql';
+        $argNames = $reader->getArgNames($method);
         if (file_exists($dbmsPath)) {
-            $sql = $this->readText($dbmsPath);
-            return new S2Dao_SqlWrapperImpl($reader->getArgNames($method), $sql);
+            return new S2Dao_SqlWrapperImpl($argNames, $this->readText($dbmsPath));
         } else if (file_exists($standardPath)) {
-            $sql = $this->readText($standardPath);
-            return new S2Dao_SqlWrapperImpl($reader->getArgNames($method), $sql);
+            return new S2Dao_SqlWrapperImpl($argNames, $this->readText($standardPath));
         }
         return null;
     }

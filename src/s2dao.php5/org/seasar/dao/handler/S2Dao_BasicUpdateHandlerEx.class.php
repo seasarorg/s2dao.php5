@@ -65,11 +65,7 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
                         $argType = $args[$i];
                     }
                 }
-                if($argType instanceof Reflector){
-                    $argType = $argType->getClass()->getName();
-                } else if(is_object($argType)){
-                    $argType = get_class($argType);
-                }
+                $argType = S2Dao_PHPType::getType($argType, $args[$i]);
                 if ($i < $namesCount) {
                     $ctx->addArg($this->argNames[$i], $args[$i], $argType);
                 } else {
@@ -151,7 +147,7 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
             }
             $buf = substr_replace($buf, $this->getBindVariableText($value), $pos, 1);
         }
-        return $buf;
+        return preg_replace('/\r?\n/s', ' ', $buf);
     }
     
     protected function _prepareStatement(PDO $connection, $sql){

@@ -21,7 +21,11 @@
 // +----------------------------------------------------------------------+
 // $Id: $
 //
-interface S2Dao_PHPType {
+/**
+ * @author nowel
+ */
+final class S2Dao_PHPType {
+    
     const Boolean = 'boolean';
     const Integer = 'integer';
     const Double = 'double';
@@ -31,5 +35,19 @@ interface S2Dao_PHPType {
     const Resource = 'resource';
     const Null = 'NULL';
     const Unknown = 'unknown type';
+    
+    public static function getType($type, $value = null){
+        if($type instanceof Reflector){
+            $argClass = $type->getClass();
+            if($argClass === null){
+                return gettype($value);
+            }
+            return $argClass->getName();
+        } else if(is_object($type)){
+            return get_class($type);
+        } else {
+            return gettype($type);
+        }
+    }
 }
 ?>

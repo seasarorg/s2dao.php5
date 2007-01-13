@@ -27,21 +27,14 @@
 class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
     
     const startWithOrderByPattern = '/(\/\*[^*]+\*\/)*order by/i';
-    
     const startWithSelectPattern = '/^\s*select\s/i';
-    
     const NOT_SINGLE_ROW_UPDATED = 'NotSingleRowUpdated';
 
     protected $annotationReaderFactory;
-
     protected $dataSource;
-
     protected $statementFactory;
-
     protected $resultSetFactory;
-
     protected $configuration;
-
     protected $autoSelectSqlCreator;
 
     public function __construct(S2Dao_AutoSelectSqlCreator $autoSelectSqlCreator,
@@ -123,7 +116,8 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
     protected function isUpdateSignatureForBean(S2Dao_BeanMetaData $beanMetaData,
                                                 ReflectionMethod $method) {
         $params = $method->getParameters();
-        return count($params) == 1 && $beanMetaData->isBeanClassAssignable($params[0]);
+        $param0 = $params[0];
+        return count($params) == 1 && $beanMetaData->isBeanClassAssignable($param0->getClass());
     }
 
     /**

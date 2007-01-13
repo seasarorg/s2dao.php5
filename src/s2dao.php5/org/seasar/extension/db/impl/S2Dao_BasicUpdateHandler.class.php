@@ -41,7 +41,7 @@ class S2Dao_BasicUpdateHandler
         $stmt = $this->prepareStatement($this->getConnection());
         $this->bindArgs($stmt, $args, $argsTypes);
         if(S2CONTAINER_PHP5_LOG_LEVEL == 1){
-            self::$logger_->debug($this->getCompleteSql($args));
+            self::$logger_->debug(preg_match('/\r?\n/s', ' ', $this->getCompleteSql($args)));
         }
 
         try {

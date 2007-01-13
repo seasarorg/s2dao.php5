@@ -44,6 +44,9 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
         
         $c = count($this->names);
         for($pos = 1; $pos < $c; $pos++){
+            if(null === $value){
+                break;
+            }
             $refClass = new ReflectionClass($value);
             $beanDesc = S2Container_BeanDescFactory::getBeanDesc($refClass);
             $pd = $beanDesc->getPropertyDesc($this->names[$pos]);

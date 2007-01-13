@@ -65,19 +65,21 @@ abstract class S2Dao_AbstractDynamicCommand extends S2Dao_AbstractSqlCommand {
 
     protected function createCommandContext($args) {
         $ctx = new S2Dao_CommandContextImpl();
-        if ($args != null) {
+        if ($args !== null) {
             $c = count($args);
-            $cargNames = count($this->argNames);
+            $typesCount = count($this->argTypes);
+            $namesCount = count($this->argNames);
             for ($i = 0; $i < $c; ++$i) {
                 $argType = null;
-                if ($args[$i] !== null){
-                    if ($i < count($this->argTypes)) {
+                if ($args[$i] !== null) {
+                    if ($i < $typesCount) {
                         $argType = $this->argTypes[$i];
-                    } else if ($args[$i] !== null) {
-                        $argType = gettype($args[$i]);
+                    } else {
+                        $argType = $args[$i];
                     }
                 }
-                if ($i < $cargNames) {
+                $argType = S2Dao_PHPType::getType($argType, $args[$i]);
+                if ($i < $namesCount || isset($this->argNames[$i])) {
                     $ctx->addArg($this->argNames[$i], $args[$i], $argType);
                 } else {
                     $ctx->addArg('$' . ($i + 1), $args[$i], $argType);

@@ -60,10 +60,6 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
             $argNames = $this->daoBeanDesc->getConstant($argsKey);
             return S2Dao_ArrayUtil::spacetrim(explode(',', $argNames));
         } else {
-            $returnType = $this->getReturnType($method);
-            if($returnType == null){
-                return array();
-            }
             $argNames = array();
             $parameters = $method->getParameters();
             foreach($parameters as $param){
