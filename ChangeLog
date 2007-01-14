@@ -11,14 +11,23 @@
          - S2Dao_ObjectReturnType
          - S2Dao_XmlReturnType
          - S2Dao_ReturnTypes
-    * add: ReturnType Annotation
-        通常の形式戻り型をコンテナから取得します。
-          - S2Dao_ReturnTypeFactory
+    * add: ReturnType Annotation(CommentAnnotaion時は@type)
 
 2007-01-08 nowel(S2Dao.PHP5-1.2.0-beta1)
 
     * update: ValueTypeのサポート
-        - 定数使用時にValueTypeアノテーションに対応しました。
+        定数使用時にValueTypeアノテーションに対応しました。
+          - S2Dao_AtomDateType
+          - S2Dao_BooleanType
+          - S2Dao_DateType
+          - S2Dao_DoubleType
+          - S2Dao_IntegerType
+          - S2Dao_LobType
+          - S2Dao_NullType
+          - S2Dao_ObjectType
+          - S2Dao_StringType
+          - S2Dao_TimestampType
+          - S2Dao_ValueTypes
 
 2007-01-07 nowel(S2Dao.PHP5-1.2.0-beta1)
 

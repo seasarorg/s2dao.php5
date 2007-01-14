@@ -40,6 +40,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     const RETURN_TYPE_YAML = '/Yaml$/i';
     const RETURN_TYPE_JSON = '/Json$/i';
     const RETURN_TYPE_MAP = '/Map$/i';
+    const RETURNTYPE_SUFFIX = '_TYPE';
 
     protected $daoBeanDesc;
     protected $interfacesBeanDesc = array();
@@ -164,6 +165,11 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     public function getReturnType(ReflectionMethod $method){
         $methodName = $method->getName();
+        $key = $methodName . self::RETURNTYPE_SUFFIX;
+        if($this->daoBeanDesc->hasConstant($key)){
+            $returnType = $this->daoBeanDesc->getConstant($key);
+            return S2Dao_ReturnTypes::getValueType($returnType);
+        }
         if(preg_match(self::RETURN_TYPE_LIST, $methodName)){
             return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_List);
         }

@@ -32,6 +32,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     const RETURN_TYPE_YAML = '/@return\s*yaml/i';
     const RETURN_TYPE_JSON = '/@return\s*json/i';
     const RETURN_TYPE_MAP = '/@return\s*map/i';
+    const TYPE_SUFFIX = '/@type\s*(.+)/';
 
     protected $beanClass;
     
@@ -107,23 +108,26 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     
     public function getReturnType(ReflectionMethod $method){
         $comment = $this->getMethodComment($method);
+        if(preg_match(self::TYPE_SUFFIX, $comment, $m)){
+            return S2Dao_ReturnTypes::getValueType(trim($m[1]));
+        }
         if(preg_match(self::RETURN_TYPE_LIST, $comment)){
-            return $types->list;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_List);
         }
         if(preg_match(self::RETURN_TYPE_ARRAY, $comment)){
-            return $types->array;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Array);
         }
         if(preg_match(self::RETURN_TYPE_YAML, $comment)){
-            return $types->yaml;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Yaml);
         }
         if(preg_match(self::RETURN_TYPE_JSON, $comment)){
-            return $types->json;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Json);
         }
         if(preg_match(self::RETURN_TYPE_MAP, $comment)){
-            return $types->map;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Map);
         }
         if(preg_match(self::RETURN_TYPE_OBJ, $comment)){
-            return $types->obj;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
         }
         return null;
     }

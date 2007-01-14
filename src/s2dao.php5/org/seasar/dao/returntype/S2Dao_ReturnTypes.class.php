@@ -52,7 +52,7 @@ class S2Dao_ReturnTypes {
             $inst = self::$instance[$key] = new $type;
             return $inst;
         }
-        return null;
+        return new $key;
     }
     
     public static function addReturnType($key, S2Dao_ReturnType $handler){
