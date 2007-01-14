@@ -118,11 +118,11 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         
         $rType = null;
         $returnType = $this->getReturnType($method);
-        if($returnType == self::RETURN_ARRAY){
+        if($returnType instanceof S2Dao_ArrayReturnType){
             // TODO: MapArray or it
         }
-        if($returnType == self::RETURN_MAP ||
-           $returnType == self::RETURN_LIST){
+        if($returnType instanceof S2Dao_MapReturnType ||
+           $returnType instanceof S2Dao_ListReturnType){
             // XXX
             return $daoAnnotationClass;
         }
