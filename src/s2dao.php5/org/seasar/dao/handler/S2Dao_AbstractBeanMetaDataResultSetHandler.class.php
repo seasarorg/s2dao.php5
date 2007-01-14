@@ -27,7 +27,6 @@
 abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_ResultSetHandler {
 
     private $beanMetaData;
-
     protected $dbms;
 
     public function __construct(S2Dao_BeanMetaData $beanMetaData,

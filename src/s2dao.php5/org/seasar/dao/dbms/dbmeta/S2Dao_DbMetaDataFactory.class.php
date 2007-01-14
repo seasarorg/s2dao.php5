@@ -28,10 +28,16 @@ final class S2Dao_DbMetaDataFactory {
     
     const DBMetaData_Suffix = 'DBMetaData';
     
+    private static $instance = array();
+    
     public static function create(PDO $db, S2Dao_Dbms $dbms){
         $dbmd = get_class($dbms) . self::DBMetaData_Suffix;
+        if(isset(self::$instance[$dbmd])){
+            return self::$instance[$dbmd];
+        }
         if(class_exists($dbmd)){
-            return new $dbmd($db, $dbms);
+            $instance = self::$instance[$dbmd] = new $dbmd($db, $dbms);
+            return $instance;
         }
         return new S2Dao_StandardDBMetaData($db, $dbms);
     }

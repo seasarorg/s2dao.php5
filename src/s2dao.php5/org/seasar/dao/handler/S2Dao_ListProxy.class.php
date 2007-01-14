@@ -27,9 +27,7 @@
 class S2Dao_ListProxy extends S2Dao_ArrayList {
     
     private $args;
-
     protected $lst = null;
-
     protected $sqlCommand;
 
     public function __construct(S2Dao_SqlCommand $sqlCommand, array $args) {

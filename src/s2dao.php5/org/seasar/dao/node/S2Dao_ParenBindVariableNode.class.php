@@ -26,23 +26,23 @@
  */
 class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
 
-    private $expression_ = '';
-    private $parsedExpression_ = null;
+    private $expression = '';
+    private $parsedExpression = null;
 
     public function __construct($expression) {
-        $this->expression_ = $expression;
+        $this->expression = $expression;
         $expression = quotemeta($expression);
         $expression = str_replace('\.', '.', $expression);
-        $this->parsedExpression_ = $expression;
+        $this->parsedExpression = $expression;
     }
 
     public function getExpression() {
-        return $this->expression_;
+        return $this->expression;
     }
 
     public function accept(S2Dao_CommandContext $ctx) {
         $expression = preg_replace('/^(\w+)(\s+.*)?/i',
-                        '$ctx->getArg("\1")' . '\2', $this->parsedExpression_);
+                        '$ctx->getArg("\1")' . '\2', $this->parsedExpression);
         $expression = S2Container_EvalUtil::getExpression($expression);
         $result = eval($expression);
         

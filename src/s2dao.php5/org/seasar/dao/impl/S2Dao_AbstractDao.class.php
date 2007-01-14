@@ -26,7 +26,7 @@
  */
 abstract class S2Dao_AbstractDao {
 
-    private $entityManager_;
+    private $entityManager;
 
     public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory) {
         $clazz = new ReflectionClass($this);
@@ -37,7 +37,7 @@ abstract class S2Dao_AbstractDao {
     }
 
     public function getEntityManager() {
-        return $this->entityManager_;
+        return $this->entityManager;
     }
 }
 ?>

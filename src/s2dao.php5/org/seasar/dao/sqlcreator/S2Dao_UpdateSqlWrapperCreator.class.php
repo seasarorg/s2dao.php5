@@ -27,7 +27,6 @@
 class S2Dao_UpdateSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
     
     private $versionNoPropertyExists;
-
     private $timeStampPropertyExists;
 
     public function __construct(

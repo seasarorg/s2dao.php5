@@ -26,15 +26,15 @@
  */
 class S2Dao_TableNotFoundRuntimeException extends S2Container_S2RuntimeException {
 
-    private $tableName_;
+    private $tableName;
     
     public function __construct($tableName) {
         parent::__construct('ESSR0067', array($tableName));
-        $this->tableName_ = $tableName;
+        $this->tableName = $tableName;
     }
     
     public function getTableName() {
-        return $this->tableName_;
+        return $this->tableName;
     }
 }
 

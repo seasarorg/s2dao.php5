@@ -80,19 +80,19 @@ class S2Dao_HashMap implements S2Dao_Map {
     }
     
     public function iterator(){
-        $ao = new ArrayObject($this->toArray());
+        $ao = new ArrayObject($this->element);
         return $ao->getIterator();
     }
     
     public function entrySet(){
         $set = new S2Dao_HashSet();
-        $set->addAll(new ArrayObject(array_values($this->toArray())));
+        $set->addAll(new ArrayObject(array_values($this->element)));
         return $set;
     }
     
     public function keySet(){
         $set = new S2Dao_HashSet();
-        $set->addAll(new ArrayObject(array_keys($this->toArray())));
+        $set->addAll(new ArrayObject(array_keys($this->element)));
         return $set;
     }
 }

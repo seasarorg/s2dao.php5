@@ -29,19 +29,12 @@ class S2Dao_RelationPropertyTypeImpl
     implements S2Dao_RelationPropertyType {
 
     protected $relationType = RelationType::belongTo;
-
     protected $relationNo;
-
     protected $joinTableName;
-
     protected $myKeys = array();
-
     protected $yourKeys = array();
-
     protected $myJoinKeys = array();
-
     protected $yourJoinKeys = array();
-
     protected $beanMetaData;
 
     public function __construct() {

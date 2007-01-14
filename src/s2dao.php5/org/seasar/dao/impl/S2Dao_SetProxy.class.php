@@ -25,6 +25,7 @@
  * @author nowel
  */
 class S2Dao_SetProxy extends ArrayObject {
+    
     private $set;
 
     /**

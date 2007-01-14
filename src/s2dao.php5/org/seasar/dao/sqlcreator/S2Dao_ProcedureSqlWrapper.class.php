@@ -27,7 +27,6 @@
 class S2Dao_ProcedureSqlWrapper extends S2Dao_SqlWrapperImpl {
     
     protected $parameterInOutTypes = array();
-
     protected $parameterTypes = array();
 
     public function __construct($sql,

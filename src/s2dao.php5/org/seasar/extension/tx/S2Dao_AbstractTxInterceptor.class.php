@@ -58,7 +58,7 @@ abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodIntercep
                 $this->connection->beginTransaction();
             }
         } catch(Exception $e){
-            // TODO: No Operation
+            // TODO: Nest transaction
         }
     }
 

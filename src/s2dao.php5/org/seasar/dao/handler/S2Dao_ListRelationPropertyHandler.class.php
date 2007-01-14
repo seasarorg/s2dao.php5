@@ -27,9 +27,7 @@
 class S2Dao_ListRelationPropertyHandler implements S2Dao_RelationPropertyHandler {
     
     private $beanMetaData;
-    
     private $rpt;
-    
     protected $command;
     
     public function __construct(S2Dao_BeanMetaData $beanMetaData,

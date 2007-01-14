@@ -26,14 +26,14 @@
  */
 class S2Dao_DataSetImpl implements S2Dao_DataSet {
     
-    private $tables_ = null;
+    private $tables = null;
 
     public function __construct() {
-        $this->tables_ = new S2Dao_HashMap();
+        $this->tables = new S2Dao_HashMap();
     }
 
     public function getTableSize() {
-        return $this->tables_->size();
+        return $this->tables->size();
     }
     
     public function getTableName($index) {
@@ -42,10 +42,10 @@ class S2Dao_DataSetImpl implements S2Dao_DataSet {
 
     public function getTable($table) {
         if(is_integer($table)){
-            $values = array_values($this->tables_->toArray());
+            $values = array_values($this->tables->toArray());
             return $values[$table];
         } else {
-            $table = $this->tables_->get($table);
+            $table = $this->tables->get($table);
             if ($table == null) {
                 throw new S2Dao_TableNotFoundRuntimeException($table);
             }
@@ -57,7 +57,7 @@ class S2Dao_DataSetImpl implements S2Dao_DataSet {
         if(is_string($table)){
             return $this->addTable(new S2Dao_DataTableImpl($table));
         } else {
-            $this->tables_->put($table->getTableName(), $table);
+            $this->tables->put($table->getTableName(), $table);
             return $table;
         }
     }
@@ -66,22 +66,23 @@ class S2Dao_DataSetImpl implements S2Dao_DataSet {
         if($table instanceof S2Dao_DataTable){
             return $this->removeTable($table->getTableName());
         } else if(is_string($table)){
-            $table = $this->tables_->remove($table);
+            $table = $this->tables->remove($table);
             if ($table === null) {
                 throw new S2Dao_TableNotFoundRuntimeException($table);
             }
             return $table;
         } else if(is_integer($table)){
-            $keys = array_keys($this->tables_->toArray());
+            $keys = array_keys($this->tables->toArray());
             return $this->removeTable($keys[$table]);
         } else {
-            return $this->tables_->remove($table);
+            return $this->tables->remove($table);
         }
     }
 
     public function toString() {
         $buf = '';
-        for ($i = 0; $i < $this->getTableSize(); ++$i) {
+        $size = $this->getTableSize();
+        for ($i = 0; $i < $size; ++$i) {
             $buf .= $this->getTable($i);
             $buf .= PHP_EOL;
         }

@@ -26,73 +26,73 @@
  */
 class S2Dao_DataRowImpl implements S2Dao_DataRow {
 
-    private $table_;
-    private $values_;
-    private $state_ = S2Dao_RowStates::UNCHANGED;
+    private $table;
+    private $values;
+    private $state = S2Dao_RowStates::UNCHANGED;
 
     public function __construct(S2Dao_DataTable $table) {
-        $this->values_ = new S2Dao_HashMap();
-        $this->table_ = $table;
+        $this->values = new S2Dao_HashMap();
+        $this->table = $table;
         $this->initValues();
     }
 
     private function initValues() {
-        for ($i = 0; $i < $this->table_->getColumnSize(); ++$i) {
-            $this->values_->put($this->table_->getColumnName($i), null);
+        for ($i = 0; $i < $this->table->getColumnSize(); ++$i) {
+            $this->values->put($this->table->getColumnName($i), null);
         }
     }
 
     public function getValue($index) {
         if(is_integer($index)){
-            $keys = array_keys($this->values_->toArray());
-            return $this->values_->get($keys[$index]);
+            $keys = array_keys($this->values->toArray());
+            return $this->values->get($keys[$index]);
         }
-        if($this->values_->containsKey($index)){
-            return $this->values_->get($index);
+        if($this->values->containsKey($index)){
+            return $this->values->get($index);
         }
-        $column = $this->table_->getColumn($index);
-        return $this->values_->get($column->getColumnIndex());
+        $column = $this->table->getColumn($index);
+        return $this->values->get($column->getColumnIndex());
     }
 
     public function setValue($columnName, $value) {
         if(is_integer($columnName)){
-            $column = $this->table_->getColumn($columnName);
-            $keys = array_keys($this->values_->toArray());
-            $this->values_->put($keys[$columnName], $column->convert($value));
+            $column = $this->table->getColumn($columnName);
+            $keys = array_keys($this->values->toArray());
+            $this->values->put($keys[$columnName], $column->convert($value));
             $this->modify();
         } else {
-            $column = $this->table_->getColumn($columnName);
-            $this->values_->put($columnName, $column->convert($value));
+            $column = $this->table->getColumn($columnName);
+            $this->values->put($columnName, $column->convert($value));
             $this->modify();
         }
     }
 
     private function modify() {
-        if ($this->state_ === S2Dao_RowStates::UNCHANGED) {
-            $this->state_ = S2Dao_RowStates::MODIFIED;
+        if ($this->state === S2Dao_RowStates::UNCHANGED) {
+            $this->state = S2Dao_RowStates::MODIFIED;
         }
     }
 
     public function remove() {
-        $this->state_ = S2Dao_RowStates::REMOVED;
+        $this->state = S2Dao_RowStates::REMOVED;
     }
 
     public function getTable() {
-        return $this->table_;
+        return $this->table;
     }
 
     public function getState() {
-        return $this->state_;
+        return $this->state;
     }
 
     public function setState($state) {
-        $this->state_ = $state;
+        $this->state = $state;
     }
 
     public function toString() {
         $buf = '';
         $buf .= '{';
-        for ($i = 0; $i < $this->values_->size(); ++$i) {
+        for ($i = 0; $i < $this->values->size(); ++$i) {
             $buf .= $this->getValue($i);
             $buf .= ', ';
         }
@@ -109,9 +109,9 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
             return false;
         }
         $other = $o;
-        for ($i = 0; $i < $this->table_->getColumnSize(); ++$i) {
-            $columnName = $this->table_->getColumnName($i);
-            $value = $this->values_->get($i);
+        for ($i = 0; $i < $this->table->getColumnSize(); ++$i) {
+            $columnName = $this->table->getColumnName($i);
+            $value = $this->values->get($i);
             $otherValue = $other->getValue($columnName);
             $ct = S2Dao_ColumnTypes::getColumnType($value);
             if ($ct->equals($value, $otherValue)) {
@@ -142,15 +142,15 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
     
     private function copyFromBean($source) {
         $beanDesc = S2Container_BeanDescFactory::getBeanDesc(new ReflectionClass($source));
-        for ($i = 0; $i < $this->table_->getColumnSize(); ++$i) {
-            $this->setValueFormBean($beanDesc, $this->table_->getColumnName($i), $source);
+        for ($i = 0; $i < $this->table->getColumnSize(); ++$i) {
+            $this->setValueFormBean($beanDesc, $this->table->getColumnName($i), $source);
         }
     }
 
     private function copyFromRow($source) {
         for ($i = 0; $i < $source->getTable()->getColumnSize(); ++$i) {
             $columnName = $source->getTable()->getColumnName($i);
-            if ($this->table_->hasColumn($columnName)) {
+            if ($this->table->hasColumn($columnName)) {
                 $this->setValue($columnName, $source->getValue($i));
             }
         }
@@ -161,7 +161,7 @@ class S2Dao_DataRowImpl implements S2Dao_DataRow {
         $c = count($columnCase);
         for($i = 0; $i < $c; $i++){
             $columnName = $columnCase[$i];
-            if ($this->table_->hasColumn($columnName)) {
+            if ($this->table->hasColumn($columnName)) {
                 $this->setValue($columnName, $source->get($columnName));
             }
         }

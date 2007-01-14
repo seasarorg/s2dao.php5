@@ -24,9 +24,9 @@
 /**
  * @author nowel
  */
-class S2Dao_ObjectType implements S2Dao_ColumnType {
+class S2Dao_ObjectColumnType implements S2Dao_ColumnType {
 
-    function __construct() {
+    public function __construct() {
     }
     
     public function convert($value, $formatPattern) {
@@ -55,7 +55,7 @@ class S2Dao_ObjectType implements S2Dao_ColumnType {
     }
     
     public function getType() {
-        return gettype(get_class($this));
+        return get_class($this);
     }
 }
 ?>

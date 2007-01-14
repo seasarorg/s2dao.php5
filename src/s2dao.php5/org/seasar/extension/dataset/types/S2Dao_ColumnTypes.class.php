@@ -31,7 +31,7 @@ class S2Dao_ColumnTypes {
 
     public static function getColumnType($value = null) {
         if ($value === null) {
-            return new S2Dao_ObjectType();
+            return new S2Dao_ObjectColumnType();
         } else {
             self::getColumnType(new ReflectionClass($value));
         }
@@ -41,7 +41,7 @@ class S2Dao_ColumnTypes {
                 return $columnType;
             }
         }
-        return new S2Dao_ObjectType();
+        return new S2Dao_ObjectColumnType();
     }
 
     private static function getColumnType0(ReflectionClass $clazz) {
