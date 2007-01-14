@@ -32,7 +32,7 @@ abstract class S2Dao_AbstractReturnType implements S2Dao_ReturnType {
         $this->handler = $handler;
     }
     
-    public function getHanlder(){
+    public function getHandler(){
         return $this->handler;
     }
 }
