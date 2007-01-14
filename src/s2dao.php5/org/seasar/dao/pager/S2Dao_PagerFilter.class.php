@@ -53,28 +53,22 @@ class S2Dao_PagerFilter
         $condition = $args[0];
 
         $type = $reader->getReturnType($method);
-        switch ($type) {
-        case S2Dao_DaoAnnotationReader::RETURN_YAML:
-            $result = S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
-            break;
-        case S2Dao_DaoAnnotationReader::RETURN_JSON:
-            $result = S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
-        default:
+        if($type instanceof S2Dao_YamlReturnType){
+            return S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
+        } else if($type instanceof S2Dao_JsonReturnType){
+            return S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
+        } else {
             $reader = new S2Dao_DaoConstantAnnotationReader($beanDesc);
             $type = $reader->getReturnType($method);
 
-            switch ($type) {
-            case S2Dao_DaoAnnotationReader::RETURN_YAML:
-                $result = S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
-                break;
-            case S2Dao_DaoAnnotationReader::RETURN_JSON:
-                $result = S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
-                break;
-            default:
-                $result = S2Dao_PagerUtil::createPagerObject($resultSet, $condition);
+            if($type instanceof S2Dao_YamlReturnType){
+                return S2Dao_PagerUtil::createPagerYamlObject($resultSet, $condition);
             }
+            if($type instanceof S2Dao_JsonReturnType){
+                return S2Dao_PagerUtil::createPagerJsonObject($resultSet, $condition);
+            }
+            return S2Dao_PagerUtil::createPagerObject($resultSet, $condition);
         }
-        return $result;
     }
 }
 

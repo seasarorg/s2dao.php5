@@ -1,3 +1,20 @@
+2007-01-15 nowel(S2Dao.PHP5-1.2.0-beta1)
+
+    * add: S2Dao_ReturnType interface
+        DaoAnnotationReaderから分離しました。
+         取得する形式戻り型を設定します。
+         - S2Dao_ArrayReturnType
+         - S2Dao_JsonReturnType
+         - S2Dao_YamlReturnType
+         - S2Dao_MapReturnType
+         - S2Dao_ListReturnType
+         - S2Dao_ObjectReturnType
+         - S2Dao_XmlReturnType
+         - S2Dao_ReturnTypes
+    * add: ReturnType Annotation
+        通常の形式戻り型をコンテナから取得します。
+          - S2Dao_ReturnTypeFactory
+
 2007-01-08 nowel(S2Dao.PHP5-1.2.0-beta1)
 
     * update: ValueTypeのサポート

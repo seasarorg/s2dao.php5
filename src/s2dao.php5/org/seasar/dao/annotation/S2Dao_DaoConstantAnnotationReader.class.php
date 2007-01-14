@@ -165,22 +165,22 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function getReturnType(ReflectionMethod $method){
         $methodName = $method->getName();
         if(preg_match(self::RETURN_TYPE_LIST, $methodName)){
-            return self::RETURN_LIST;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_List);
         }
         if(preg_match(self::RETURN_TYPE_ARRAY, $methodName)){
-            return self::RETURN_ARRAY;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Array);
         }
         if(preg_match(self::RETURN_TYPE_YAML, $methodName)){
-            return self::RETURN_YAML;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Yaml);
         }
         if(preg_match(self::RETURN_TYPE_JSON, $methodName)){
-            return self::RETURN_JSON;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Json);
         }
         if(preg_match(self::RETURN_TYPE_MAP, $methodName)){
-            return self::RETURN_MAP;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Map);
         }
         if(preg_match(self::RETURN_TYPE_OBJ, $methodName)){
-            return self::RETURN_OBJ;
+            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
         }
         return null;
     }

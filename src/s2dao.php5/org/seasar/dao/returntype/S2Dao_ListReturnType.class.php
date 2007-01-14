@@ -24,37 +24,10 @@
 /**
  * @author nowel
  */
-interface S2Dao_SqlCommandFactory {
-    
-    /**
-     * @return ResultSetHandler
-     */
-    public function createResultSetHandler(S2Dao_Dbms $dbms,
-                                          S2Dao_BeanMetaData $beanMetaData, 
-                                          S2Dao_ReturnType $returnType = null);
-                                          
-    /**
-     * @return SelectDynamicCommand
-     */
-    public function createSelectDynamicCommandByQuery(S2Dao_Dbms $dbms,
-                                    S2Dao_BeanMetaData $beanMetaData,
-                                    S2Dao_ReturnType $returnType = null,
-                                    array $joinDatas = null,
-                                    $query);
-    /**
-     * @return SqlCommand
-     */
-    public function createSqlCommand(S2Dao_Dbms $dbms,
-                    S2Dao_DaoAnnotationReader $annotationReader,
-                    S2Dao_BeanMetaData $beanMetaData,
-                    ReflectionMethod $method,
-                    S2Dao_SqlWrapper $sql);
-            
-    /**
-     * @return SelectDynamicCommand
-     */
-    public function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $sql);
-
+class S2Dao_ListReturnType extends S2Dao_AbstractReturnType {
+    public function __construct(){
+        parent::__construct('S2Dao_BeanListMetaDataResultSetHandler');
+    }
 }
 
 ?>

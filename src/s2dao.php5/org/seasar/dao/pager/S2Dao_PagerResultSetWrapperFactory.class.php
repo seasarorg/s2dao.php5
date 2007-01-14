@@ -43,16 +43,16 @@ class S2Dao_PagerResultSetWrapperFactory
         $method = $invocation->getMethod();
         $type = $reader->getReturnType($method);
         
-        if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML){
+        if ($type instanceof S2Dao_YamlReturnType){
             return new S2Dao_PagerYamlResultSetWrapper();
-        } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
+        } else if ($type instanceof S2Dao_JsonReturnType) {
             return new S2Dao_PagerJsonResultSetWrapper();
         } else {
             $reader = new S2Dao_DaoConstantAnnotationReader($beanDesc);
             $type = $reader->getReturnType($method);
-            if ($type == S2Dao_DaoAnnotationReader::RETURN_YAML) {
+            if ($type instanceof S2Dao_YamlReturnType) {
                 return new S2Dao_PagerYamlResultSetWrapper();
-            } else if ($type == S2Dao_DaoAnnotationReader::RETURN_JSON) {
+            } else if ($type instanceof S2Dao_JsonReturnType) {
                 return new S2Dao_PagerJsonResultSetWrapper();
             }
             return new S2Dao_PagerBasicResultSetWrapper();

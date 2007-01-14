@@ -108,22 +108,22 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     public function getReturnType(ReflectionMethod $method){
         $comment = $this->getMethodComment($method);
         if(preg_match(self::RETURN_TYPE_LIST, $comment)){
-            return self::RETURN_LIST;
+            return $types->list;
         }
         if(preg_match(self::RETURN_TYPE_ARRAY, $comment)){
-            return self::RETURN_ARRAY;
+            return $types->array;
         }
         if(preg_match(self::RETURN_TYPE_YAML, $comment)){
-            return self::RETURN_YAML;
+            return $types->yaml;
         }
         if(preg_match(self::RETURN_TYPE_JSON, $comment)){
-            return self::RETURN_JSON;
+            return $types->json;
         }
         if(preg_match(self::RETURN_TYPE_MAP, $comment)){
-            return self::RETURN_MAP;
+            return $types->map;
         }
         if(preg_match(self::RETURN_TYPE_OBJ, $comment)){
-            return self::RETURN_OBJ;
+            return $types->obj;
         }
         return null;
     }

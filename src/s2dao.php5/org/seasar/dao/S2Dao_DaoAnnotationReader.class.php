@@ -26,19 +26,6 @@
  */
 interface S2Dao_DaoAnnotationReader {
     
-    /** */
-    const RETURN_OBJ = 0;
-    /** */
-    const RETURN_LIST = 1;
-    /** */
-    const RETURN_ARRAY = 2;
-    /** */
-    const RETURN_YAML = 3;
-    /** */
-    const RETURN_JSON = 4;
-    /** */
-    const RETURN_MAP = 5;
-
     /**
      * @param name
      * @return
@@ -84,7 +71,7 @@ interface S2Dao_DaoAnnotationReader {
     
     /**
      * @param method
-     * @return returnType
+     * @return S2Dao_ReturnType
      */
     public function getReturnType(ReflectionMethod $method);
 }

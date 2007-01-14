@@ -24,37 +24,40 @@
 /**
  * @author nowel
  */
-interface S2Dao_SqlCommandFactory {
+class S2Dao_ReturnTypes {
+    
+    private static $types = array(
+        S2Dao_ReturnType::Type_Object => 'S2Dao_ObjectReturnType',
+        S2Dao_ReturnType::Type_Array => 'S2Dao_ArrayReturnType',
+        S2Dao_ReturnType::Type_List => 'S2Dao_ListReturnType',
+        S2Dao_ReturnType::Type_Yaml => 'S2Dao_YamlReturnType',
+        S2Dao_ReturnType::Type_Json => 'S2Dao_JsonReturnType',
+        S2Dao_ReturnType::Type_Map => 'S2Dao_MapReturnType',
+        S2Dao_ReturnType::Type_Xml => 'S2Dao_XmlReturnType',
+    );
+    private static $instance = array();
+    
+    private function __construct(){
+    }
     
     /**
-     * @return ResultSetHandler
+     * @return S2Dao_ReturnType
      */
-    public function createResultSetHandler(S2Dao_Dbms $dbms,
-                                          S2Dao_BeanMetaData $beanMetaData, 
-                                          S2Dao_ReturnType $returnType = null);
-                                          
-    /**
-     * @return SelectDynamicCommand
-     */
-    public function createSelectDynamicCommandByQuery(S2Dao_Dbms $dbms,
-                                    S2Dao_BeanMetaData $beanMetaData,
-                                    S2Dao_ReturnType $returnType = null,
-                                    array $joinDatas = null,
-                                    $query);
-    /**
-     * @return SqlCommand
-     */
-    public function createSqlCommand(S2Dao_Dbms $dbms,
-                    S2Dao_DaoAnnotationReader $annotationReader,
-                    S2Dao_BeanMetaData $beanMetaData,
-                    ReflectionMethod $method,
-                    S2Dao_SqlWrapper $sql);
-            
-    /**
-     * @return SelectDynamicCommand
-     */
-    public function createSelectDynamicCommand(S2Dao_ResultSetHandler $rsh, $sql);
-
+    public static function getReturnType($key){
+        if(isset(self::$instance[$key])){
+            return self::$instance[$key];
+        }
+        if(isset(self::$types[$key])){
+            $type = self::$types[$key];
+            $inst = self::$instance[$key] = new $type;
+            return $inst;
+        }
+        return null;
+    }
+    
+    public static function addReturnType($key, S2Dao_ReturnType $handler){
+        self::$instance[$key] = $handler;
+    }
 }
 
 ?>
