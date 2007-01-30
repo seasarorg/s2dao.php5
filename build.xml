@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<project name="s2dao.php5" default="info" basedir=".">
+
+	<!-- s2php5 building -->
+    <taskdef name="copy2" classname="src.phing.task.CopyFilesToOneDirTask" />
+    <taskdef name="gcore" classname="src.phing.task.GenerateCoreFileTask" />
+	<taskdef name="pearpkg2" classname="src.phing.task.PearPkg2SupportTask" />
+	<!-- /s2php5 build -->
+    <!-- Phar Package -->
+    <taskdef name="phar" classname="src.phing.task.PHPArchiveTask" />
+    <!-- /Phar Package -->
+	<!-- s2dao phing tasks addon -->
+	<taskdef name="generate" classname="src.phing.task.S2DaoSkeletonTask" />
+    <taskdef name="testgen" classname="src.phing.task.S2DaoTestGenTask" />
+    <taskdef name="testrunner" classname="src.phing.task.S2DaoTestRunnerTask" />
+    <taskdef name="listener" classname="src.phing.task.S2DaoTestListenerTask" />
+	<!-- /s2dao phing tasks addon -->
+    
+    <property file="build.properties" />
+    
+    <target name="info">
+        <echo message="" />
+        <echo message="S2Dao.PHP5 build script" />
+        <echo message="----------------------------" />
+        <echo message="available targets:" />
+        <echo message="" />
+        <echo message="generate ---> generate S2Dao.PHP5 Dao,Bean(Entity) files from DBMS" />
+        <echo message="testgen  ---> generate PHPUnit2 TestCase from /src/s2dao.php5(default)" />
+        <echo message="build    ---> build all; don't create pear-package" />
+        <echo message="pear-pkg ---> create pear-package" />
+        <echo message="apidocs  ---> create phpDocument" />
+        <echo message="test     ---> run unit test suite from /test" />
+        <echo message="clean    ---> remove build directory" />
+        <echo message="----------------------------" />
+        <echo message="" />
+    </target>
+
+    <target name="clean">
+        <delete dir="${project.build.dir}/${package.name}" />
+        <delete dir="${skeleton.src.dir}" />
+        <delete dir="${testgen.out.dir}" />
+        <delete dir="${project.build.dir}" />
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${project.build.dir}" />
+        <mkdir dir="${skeleton.src.dir}" />
+        <mkdir dir="${testgen.out.dir}" />
+        <mkdir dir="${project.build.dir}/${project.name}/${package.name}" />
+    </target>
+    
+    <target name="generate" depends="prepare">
+        <property name="dsn" value="mysql:host=localhost; dbname=s2con" />
+        <property name="user" value="root" />
+        <property name="password" value="pass" />
+        <generate toDir="${skeleton.src.dir}" />
+    </target>
+
+    <target name="build" depends="clean, prepare">
+        <copy2 toDir="${project.build.dir}/${project.name}/${package.name}">
+            <fileset dir="${project.src.dir}">
+                <include name="${project.name}/**/*.php"/>
+                <include name="${project.name}/**/*.properties"/>
+                <include name="${project.name}/**/*.dicon"/>
+            </fileset>
+        </copy2>
+
+        <gcore searchDir="${project.build.dir}/${project.name}/S2Dao"
+               coreFile="${gcore.core.file}"
+               listFile="${gcore.file.list}"/>
+
+        <copy file="${package.inc.template}"
+              tofile="${package.inc.file}"
+              overwrite="true"/>
+
+        <copy file="${project.basedir}/${project.license.file}"
+              tofile="${project.build.dir}/${project.name}/${project.license.file}"
+              overwrite="true"/>
+    </target>
+
+    <target name="pear-pkg-xml" depends="build">
+        <pearpkg name="${package.name}" 
+                 dir="${project.build.dir}/${project.name}" 
+                 destFile="${project.build.dir}/${project.name}/package.xml">
+            <fileset dir="${project.build.dir}/${project.name}">
+                <include name="**/*"/>
+            </fileset>
+            <option name="notes" value="${project.release.notes}" />
+            <option name="description" value="${project.description}" />
+            <option name="summary" value="${project.summary}" />
+            <option name="version" value="${project.version}"/>
+            <option name="state" value="${project.state}"/>
+            <option name="baseinstalldir" value="${package.name}"/>
+            <option name="license" value="${project.license.name}"/>
+            <mapping name="deps">
+                <element>
+                    <element key="type" value="php"/>
+                    <element key="rel" value="ge"/>
+                    <element key="version" value="5.1.0"/>
+                </element>
+            </mapping>
+            <mapping name="maintainers">
+                <element>
+                    <element key="handle" value="nowel"/>
+                    <element key="name" value="hata"/>
+                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
+                    <element key="role" value="lead"/>
+                </element>
+                <element>
+                    <element key="handle" value="yonekawa"/>
+                    <element key="name" value="yonekawa"/>
+                    <element key="email" value="seasar-s2dicon-php5@lists.sourceforge.jp"/>
+                    <element key="role" value="developer"/>
+                </element>
+            </mapping>
+        </pearpkg>
+    	
+        <pearpkg2 uri="${project.pear.uri}"
+                  pkgFile="${project.build.dir}/${project.name}/package.xml"/>
+    </target>
+ 
+    <target name="pear-pkg" depends="pear-pkg-xml">
+        <exec command="pear package " 
+              dir="${project.build.dir}/${project.name}" />
+        <move toDir="${project.build.dir}/pear" overwrite="true">
+            <fileset dir="${project.build.dir}/${project.name}">
+                <include name="*.tgz"/>
+                <include name="package*.xml"/>
+            </fileset>
+        </move>
+    </target>
+
+    <target name="phar-pkg" depends="prepare">
+        <phar usegzip="false" pharfile="${package.name}.phar">
+            <fileset dir="${project.src.dir}">
+                <include name="**" />
+                <exclude name="**phing/**" />
+            </fileset>
+            <filterchain>
+                <tabtospaces tablength="0" />
+                <striplinebreaks />
+                <stripphpcomments />
+                <striplinecomments>
+                    <comment value="#" />
+                    <comment value="//" />
+                </striplinecomments>
+            </filterchain>
+        </phar>
+    </target>
+	
+    <target name="testgen" depends="prepare">
+        <testgen genDir="${testgen.out.dir}">
+            <fileset dir="${project.src.dir}">
+                <include name="${project.name}/**/*.php"/>
+                <exclude name="${project.name}/**/*.properties"/>
+                <exclude name="${project.name}/**/*.dicon"/>
+                <exclude name="${project.name}/*"/>
+            </fileset>
+        </testgen>
+    </target>
+    
+    <target name="test">
+        <php expression="require_once '${project.test.dir}' . '/environment.inc.php'"/>
+        <testrunner resourcedir="${test.resource.dir}"
+                    appDicon="${test.app.dicon}"
+                    daoDicon="${test.dao.dicon}"
+                    pdoDicon="${test.pdo.dicon}">
+            <listener>
+                <fileset dir="${project.test.dir}">
+                    <include name="**/**Test.php"/>
+                </fileset>
+            </listener>
+        </testrunner>
+    </target>
+    
+    <target name="apidocs" description="API docs">
+        <mkdir dir="${docs.api.outdir}" />
+        <phpdoc title="${docs.api.title}"
+            destdir="${docs.api.outdir}"
+            sourcepath="${project.src.dir}/${project.name} ${docs.api.arguments} "
+            output="HTML:Smarty:PHP"
+            parseprivate="true"
+            linksource="false" />
+    </target>
+
+</project>
