@@ -28,6 +28,7 @@
         <echo message="testgen  ---> generate PHPUnit2 TestCase from /src/s2dao.php5(default)" />
         <echo message="build    ---> build all; don't create pear-package" />
         <echo message="pear-pkg ---> create pear-package" />
+        <echo message="apidocs  ---> create phpDocument" />
         <echo message="test     ---> run unit test suite from /test" />
         <echo message="clean    ---> remove build directory" />
         <echo message="----------------------------" />
