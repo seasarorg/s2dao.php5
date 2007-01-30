@@ -88,10 +88,10 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
      */
     public function createSelectDynamicCommandByQuery(S2Dao_Dbms $dbms,
                                                       S2Dao_BeanMetaData $beanMetaData,
-                                                      S2Dao_ReturnType $returnType = null,
+                                                      S2Dao_ReturnType $returnType,
                                                       array $joinData = null,
                                                       $query) {
-        $sql = $autoSelectSqlCreator->createSelectSql($dbms, $beanMetaData, $joinData, $query);
+        $sql = $this->autoSelectSqlCreator->createSelectSql($dbms, $beanMetaData, $joinData, $query);
         $resultSetHandler = $this->createResultSetHandler($dbms, $beanMetaData, $returnType);
         $selectCommand = new S2Dao_SelectDynamicCommand($this->dataSource,
                                                         $this->statementFactory,
@@ -171,14 +171,9 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
      */
     public function createResultSetHandler(S2Dao_Dbms $dbms,
                                            S2Dao_BeanMetaData $beanMetaData, 
-                                           S2Dao_ReturnType $returnType = null) {
-        if($returnType === null){
-            return new S2Dao_BeanMetaDataResultSetHandler($beanMetaData, $dbms,
+                                           S2Dao_ReturnType $returnType) {
+        return $returnType->createResultSetHandler($beanMetaData, $dbms,
                     $this->createRelationPropertyHandler($beanMetaData, $dbms));
-        }
-        $rptHandler = $this->createRelationPropertyHandler($beanMetaData, $dbms);
-        $resultHandler = $returnType->getHandler();
-        return new $resultHandler($beanMetaData, $dbms, $rptHandler);
     }
     
     /**

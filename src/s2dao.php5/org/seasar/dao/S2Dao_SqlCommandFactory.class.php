@@ -31,14 +31,14 @@ interface S2Dao_SqlCommandFactory {
      */
     public function createResultSetHandler(S2Dao_Dbms $dbms,
                                           S2Dao_BeanMetaData $beanMetaData, 
-                                          S2Dao_ReturnType $returnType = null);
+                                          S2Dao_ReturnType $returnType);
                                           
     /**
      * @return SelectDynamicCommand
      */
     public function createSelectDynamicCommandByQuery(S2Dao_Dbms $dbms,
                                     S2Dao_BeanMetaData $beanMetaData,
-                                    S2Dao_ReturnType $returnType = null,
+                                    S2Dao_ReturnType $returnType,
                                     array $joinDatas = null,
                                     $query);
     /**

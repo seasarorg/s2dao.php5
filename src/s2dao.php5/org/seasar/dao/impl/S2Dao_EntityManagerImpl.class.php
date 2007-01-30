@@ -74,7 +74,8 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
         $cmd = $this->sqlCommandFactory->createSelectDynamicCommandByQuery(
                 $this->daoMetaData->getDbms(),
                 $this->beanMetaData,
-                new S2Dao_ListReturnType,
+                S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_List),
+                null,
                 $query);
         return $cmd->execute($args);
     }
@@ -99,11 +100,11 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     }
 
     public function findArray0($query, array $args) {
-        //$returnClass = $this->beanMetaData->getBeanClass()->getClass();
         $cmd = $this->sqlCommandFactory->createSelectDynamicCommandByQuery(
                             $daoMetaData->getDbms(),
                             $this->beanMetaData,
-                            new S2Dao_ArrayReturnType,
+                            S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Array),
+                            null,
                             $query);
         return $cmd->execute($args);
     }
@@ -134,7 +135,8 @@ class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
         $cmd = $this->sqlCommandFactory->createSelectDynamicCommandByQuery(
                     $this->daoMetaData->getDbms(),
                     $this->beanMetaData,
-                    new S2Dao_ObjectReturnType,
+                    S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object),
+                    null,
                     $query);
         return $cmd->execute($args);
     }

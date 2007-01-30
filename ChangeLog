@@ -1,3 +1,29 @@
+2007-01-30 nowel(S2Dao.PHP5-1.2.0-beta1)
+
+    * add: S2Dao_SimpleXmlResultSetHandlerを追加しました。
+        通常のbeanクラスからXMLデータを出力します。
+        このResultSetを利用するにはxmlwriterのextensionを必要とします。
+        ex)
+            HogeBean
+                propertyHoge => 123
+                propertyFoo => 456
+                propertyBar => FooBean
+                    fooPropertyA => aaa
+                    fooPropertyB => bbb
+        result)
+            <?xml version="1.0" encoding="UTF-8"?>
+            <root>
+                <hogeBean>
+                    <propertyHoge>123</propertyHoge>
+                    <propertyFoo>123</propertyFoo>
+                    <propertyBar>
+                        <fooBean>
+                            <fooPropertyA>aaa</fooPropertyA>
+                            <fooPropertyB>aaa</fooPropertyB>
+                        </fooBean>
+                    </propertyBar>
+            </root>
+
 2007-01-15 nowel(S2Dao.PHP5-1.2.0-beta1)
 
     * add: S2Dao_ReturnType interface

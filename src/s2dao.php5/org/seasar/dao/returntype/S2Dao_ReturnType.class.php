@@ -35,9 +35,11 @@ interface S2Dao_ReturnType {
     const Type_Xml = 'xml';
     
     /**
-     * @return string ResultHandler
+     * @return string ResultSetHandler
      */
-    public function getHandler();
+    public function createResultSetHandler(S2Dao_BeanMetaData $bmd,
+                                           S2Dao_Dbms $dbms,
+                                           array $relationPropertyHandler);
 }
 
 ?>

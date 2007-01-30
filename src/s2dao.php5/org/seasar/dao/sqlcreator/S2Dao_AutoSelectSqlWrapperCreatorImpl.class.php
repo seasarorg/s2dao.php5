@@ -74,12 +74,15 @@ class S2Dao_AutoSelectSqlWrapperCreatorImpl
             $joinData = $args[2];
             $query = $args[3];
         }
+        if($joinData === null){
+            $joinData = array();
+        }
         return $this->createSelectSql0($dbms, $beanMetaData, $joinData, $query);
     }
     
     public function createSelectSql0(S2Dao_Dbms $dbms,
                                     S2Dao_BeanMetaData $beanMetaData,
-                                    array $joinData,
+                                    array $joinData = null,
                                     $query) {
         $buf = '';
         if (self::startsWithSelect($query)) {

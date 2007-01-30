@@ -185,10 +185,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
         if(preg_match(self::RETURN_TYPE_MAP, $methodName)){
             return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Map);
         }
-        if(preg_match(self::RETURN_TYPE_OBJ, $methodName)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
-        }
-        return null;
+        return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
     }
     
     private function getProps(ReflectionMethod $method, $constName){

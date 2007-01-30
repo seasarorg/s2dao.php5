@@ -126,10 +126,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         if(preg_match(self::RETURN_TYPE_MAP, $comment)){
             return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Map);
         }
-        if(preg_match(self::RETURN_TYPE_OBJ, $comment)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
-        }
-        return null;
+        return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
     }
 
     private function getMethodAnnotation($annoType, ReflectionMethod $method){

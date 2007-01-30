@@ -24,9 +24,11 @@
 /**
  * @author nowel
  */
-class S2Dao_ArrayReturnType extends S2Dao_AbstractReturnType {
-    public function __construct(){
-        parent::__construct('S2Dao_BeanArrayMetaDataResultSetHandler');
+class S2Dao_ArrayReturnType implements S2Dao_ReturnType {
+    public function createResultSetHandler(S2Dao_BeanMetaData $bmd,
+                                           S2Dao_Dbms $dbms,
+                                           array $relationPropertyHandler){
+        return new S2Dao_BeanArrayMetaDataResultSetHandler($bmd, $dbms, $relationPropertyHandler);
     }
 }
 
