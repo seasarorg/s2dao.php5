@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="Shift_JIS"?>
-<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components.dtd">
-<components namespace="nvTx">
-	<include path="%PDO_DICON%" />
-	<component class="TxBeanImpl">
-		<aspect>neverTx</aspect>
-	</component>
-</components>
