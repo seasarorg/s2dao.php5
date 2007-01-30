@@ -1,0 +1,8 @@
+
+    /**
+     * @todo Implement test{methodName}().
+     */
+    public function test{methodName}() {
+        // Remove the following line when you implement this test.
+        throw new PHPUnit2_Framework_IncompleteTestError;
+    }
