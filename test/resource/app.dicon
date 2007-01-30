@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components namespace="test">
+    <include path="%PDO_DICON%" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/dao/impl/DefaultTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertAtLeastOneRowInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoAssertExactlyOneRowInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptor2Test.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/dao/interceptors/S2DaoInterceptor3Test.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapperTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/extension/tx/AbstractTxInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/extension/tx/MandatoryInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/extension/tx/NeverInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/extension/tx/NotSupportedInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/extension/tx/RequiredInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/org/seasar/extension/tx/RequiresNewInterceptorTest.dicon" />
+    <include
+        path="%RESOURCE_DIR%/sample/transaction/transaction1.dicon" />
+    <include
+        path="%RESOURCE_DIR%/sample/search/search1.dicon" />
+    <include
+        path="%RESOURCE_DIR%/sample/search/search2.dicon" />
+    <include
+        path="%RESOURCE_DIR%/sample/procedure/SampleProcedureDao.dicon" />
+</components>

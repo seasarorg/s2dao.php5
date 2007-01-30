@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd">
+<components namespace="mandTx">
+	<include path="%PDO_DICON%" />
+	<component class="TxBeanImpl">
+		<aspect>mandatoryTx</aspect>
+	</component>
+</components>
