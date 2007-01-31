@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.impl
  */
 abstract class S2Dao_AbstractSqlCommand implements S2Dao_SqlCommand {
 

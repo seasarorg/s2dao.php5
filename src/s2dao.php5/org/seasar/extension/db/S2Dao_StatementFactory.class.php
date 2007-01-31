@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.db
  */
 interface S2Dao_StatementFactory {
     public function createStatement(PDO $conn, $sql);

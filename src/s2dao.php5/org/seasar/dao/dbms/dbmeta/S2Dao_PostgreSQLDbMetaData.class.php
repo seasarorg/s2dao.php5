@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.dbms.dbmeta
  */
 class S2Dao_PostgreSQLDbMetaData extends S2Dao_StandardDbMetaData {
     

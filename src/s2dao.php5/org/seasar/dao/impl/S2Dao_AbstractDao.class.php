@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.impl
  */
 abstract class S2Dao_AbstractDao {
 

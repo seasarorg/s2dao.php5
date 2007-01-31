@@ -27,7 +27,7 @@
  * S2Dao_SelectDynamicCommandをラップして、
  * 実行するSQLにLimit,Offset句を付加して実行する
  * @author yonekawa
- * @author nowel
+ * @package org.seasar.s2dao.pager
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapper extends S2Dao_AbstractDynamicCommand
 {

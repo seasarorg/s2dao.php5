@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.handler
  */
 class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_UpdateHandler {
 

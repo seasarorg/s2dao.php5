@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.tx
  */
 abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodInterceptor {
 

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.dbms.procedure
  */
 class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
     

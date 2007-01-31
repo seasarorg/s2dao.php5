@@ -178,9 +178,9 @@
         <phpdoc title="${docs.api.title}"
             destdir="${docs.api.outdir}"
             sourcepath="${project.src.dir}/${project.name} ${docs.api.arguments} "
-            output="HTML:Smarty:PHP"
-            parseprivate="true"
-            linksource="false" />
+            output="${docs.api.output}"
+            parseprivate="${docs.api.parseprivate}"
+            linksource="${docs.api.linksource}" />
     </target>
 
 </project>

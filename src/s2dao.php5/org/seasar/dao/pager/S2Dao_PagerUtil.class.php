@@ -24,6 +24,7 @@
 /**
  * ページャResultSetのユーティリティクラス
  * @author yonekawa
+ * @package org.seasar.s2dao.pager
  */
 class S2Dao_PagerUtil
 {

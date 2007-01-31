@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.exception
  */
 class S2Dao_TableNotFoundRuntimeException extends S2Container_S2RuntimeException {
 

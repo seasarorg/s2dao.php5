@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.handler
  */
 class S2Dao_SimpleXmlResultSetHandler extends S2Dao_BeanListMetaDataResultSetHandler {
     

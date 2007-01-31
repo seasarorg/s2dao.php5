@@ -23,6 +23,7 @@
 // $Id: $
 /**
  * @author nowel
+ * @package org.seasar.extension.db
  */
 interface S2Dao_ResultSetHandler {
     public function handle(PDOStatement $resultSet);

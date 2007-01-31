@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.parser
  */
 class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
 

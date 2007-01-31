@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
  */
 class S2Dao_UpdateSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
     
@@ -116,6 +117,10 @@ class S2Dao_UpdateSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
 }
 
+/**
+ * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
+ */
 final class S2Dao_UpdateSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     
     public $timeStampPropertyExists;

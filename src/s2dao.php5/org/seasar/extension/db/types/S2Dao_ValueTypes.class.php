@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.db.types
  */
 final class S2Dao_ValueTypes {
     

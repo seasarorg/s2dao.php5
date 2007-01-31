@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.id
  */
 abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGenerator {
 

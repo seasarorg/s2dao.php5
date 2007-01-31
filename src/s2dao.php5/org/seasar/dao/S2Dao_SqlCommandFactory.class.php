@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao
  */
 interface S2Dao_SqlCommandFactory {
     
@@ -30,8 +31,8 @@ interface S2Dao_SqlCommandFactory {
      * @return ResultSetHandler
      */
     public function createResultSetHandler(S2Dao_Dbms $dbms,
-                                          S2Dao_BeanMetaData $beanMetaData, 
-                                          S2Dao_ReturnType $returnType);
+                                           S2Dao_BeanMetaData $beanMetaData, 
+                                           S2Dao_ReturnType $returnType);
                                           
     /**
      * @return SelectDynamicCommand

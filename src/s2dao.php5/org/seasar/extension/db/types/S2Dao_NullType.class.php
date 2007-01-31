@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.db.types
  */
 class S2Dao_NullType implements S2Dao_ValueType {
     

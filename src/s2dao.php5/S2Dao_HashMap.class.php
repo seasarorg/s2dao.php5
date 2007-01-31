@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao
  */
 class S2Dao_HashMap implements S2Dao_Map {
     

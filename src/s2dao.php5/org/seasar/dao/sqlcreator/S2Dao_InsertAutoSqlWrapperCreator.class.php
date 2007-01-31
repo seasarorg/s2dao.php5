@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
  */
 class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
     
@@ -200,6 +201,10 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
 }
 
+/**
+ * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
+ */
 final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
     
     private $beanMetaData;
@@ -275,6 +280,10 @@ final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
     }
 }
 
+/**
+ * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
+ */
 final class S2Dao_InsertBatchSqlWrapper extends S2Dao_SqlWrapperImpl{
     
     private $beanMetaData;

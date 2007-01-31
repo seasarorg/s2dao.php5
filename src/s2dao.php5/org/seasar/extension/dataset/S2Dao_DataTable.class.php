@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.dataset
  */
 interface S2Dao_DataTable {
 

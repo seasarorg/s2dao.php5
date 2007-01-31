@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.db.impl
  */
 abstract class S2Dao_AbstractMapResultSetHandler implements S2Dao_ResultSetHandler {
 

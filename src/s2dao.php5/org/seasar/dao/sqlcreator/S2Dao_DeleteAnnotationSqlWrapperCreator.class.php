@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
  */
 class S2Dao_DeleteAnnotationSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 

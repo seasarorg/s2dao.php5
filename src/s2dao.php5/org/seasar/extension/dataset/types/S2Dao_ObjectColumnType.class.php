@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.dataset.types
  */
 class S2Dao_ObjectColumnType implements S2Dao_ColumnType {
 

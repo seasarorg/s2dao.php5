@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.exception
  */
 final class S2Dao_ColumnNotFoundRuntimeException extends S2Container_S2RuntimeException {
 

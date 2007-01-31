@@ -27,6 +27,7 @@
  * S2Dao_PagerConditionのデフォルト実装クラスです。
  * 独自検索条件DTOを実装する場合はこのクラスを継承するとよいでしょう。
  * @author yonekawa
+ * @package org.seasar.s2dao.pager
  */
 class S2Dao_DefaultPagerCondition implements S2Dao_PagerCondition
 {

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
  */
 interface S2Dao_SqlWrapperCreator {
     public function createSqlCommand(S2Dao_Dbms $dbms,

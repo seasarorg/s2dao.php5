@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao
  */
 class S2Dao_RelationType {
     public static $belongTo = null;

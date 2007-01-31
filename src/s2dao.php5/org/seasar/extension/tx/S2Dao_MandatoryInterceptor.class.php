@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.tx
  */
 class S2Dao_MandatoryInterceptor extends S2Dao_AbstractTxInterceptor {
 

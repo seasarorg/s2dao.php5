@@ -24,6 +24,7 @@
 /**
  * ページャ検索条件DTOのインターフェイス
  * @author yonekawa
+ * @package org.seasar.s2dao.pager
  */
 interface S2Dao_PagerCondition
 {

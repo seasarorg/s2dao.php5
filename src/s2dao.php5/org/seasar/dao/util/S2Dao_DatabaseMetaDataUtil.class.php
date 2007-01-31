@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.util
  */
 final class S2Dao_DatabaseMetaDataUtil {
 

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
  */
 class S2Dao_DeleteAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
@@ -95,6 +96,10 @@ class S2Dao_DeleteAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
     }
 }
 
+/**
+ * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
+ */
 final class S2Dao_DeleteAutoSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     
     public function preUpdateBean(S2Dao_CommandContext $ctx) {

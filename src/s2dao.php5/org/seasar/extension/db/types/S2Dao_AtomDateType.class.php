@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.db.types
  */
 class S2Dao_AtomDateType extends S2Dao_DateType {
     

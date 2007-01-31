@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.node
  */
 class S2Dao_SqlNode extends S2Dao_AbstractNode {
 

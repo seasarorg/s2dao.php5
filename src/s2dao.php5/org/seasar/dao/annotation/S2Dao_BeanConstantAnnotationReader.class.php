@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.annotation
  */
 class S2Dao_BeanConstantAnnotationReader implements S2Dao_BeanAnnotationReader {
     

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.dbms
  */
 class S2Dao_Oracle extends S2Dao_Standard {
 

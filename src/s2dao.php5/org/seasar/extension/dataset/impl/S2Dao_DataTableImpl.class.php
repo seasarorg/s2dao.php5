@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.dataset.impl
  */
 class S2Dao_DataTableImpl implements S2Dao_DataTable {
 

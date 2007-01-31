@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.node
  */
 class S2Dao_IfNode extends S2Dao_ContainerNode {
 

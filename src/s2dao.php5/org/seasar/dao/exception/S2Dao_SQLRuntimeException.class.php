@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.exception
  */
 class S2Dao_SQLRuntimeException extends S2Container_S2RuntimeException {
     public function __construct(Exception $cause) {

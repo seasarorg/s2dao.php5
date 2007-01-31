@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.unit
  */
 class S2DaoBeanListReader extends S2DaoBeanReader {
 

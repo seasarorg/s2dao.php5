@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.tx
  */
 final class S2Dao_TxRule {
     

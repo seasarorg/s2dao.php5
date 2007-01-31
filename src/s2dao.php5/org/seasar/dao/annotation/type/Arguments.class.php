@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.annotation.type
  */
 class Arguments {
     public $value = array();

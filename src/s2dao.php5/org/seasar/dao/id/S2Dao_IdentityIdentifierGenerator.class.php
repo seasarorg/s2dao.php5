@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.id
  */
 class S2Dao_IdentityIdentifierGenerator extends S2Dao_AbstractIdentifierGenerator {
 

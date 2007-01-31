@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.exception
  */
 class S2Dao_NotSingleRowUpdatedRuntimeException extends S2Dao_UpdateFailureRuntimeException {
     public function __construct($bean, $rows) {

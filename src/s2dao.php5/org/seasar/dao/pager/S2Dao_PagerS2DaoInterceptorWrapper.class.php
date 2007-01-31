@@ -26,6 +26,7 @@
  *
  * S2Daoを利用して取得した結果セットを、検索条件DTOによってペ−ジングします。
  * @author yonekawa
+ * @package org.seasar.s2dao.pager
  */
 class S2Dao_PagerS2DaoInterceptorWrapper extends S2DaoInterceptor
 {

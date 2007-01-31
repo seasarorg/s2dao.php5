@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.handler
  */
 interface S2Dao_ProcedureHandler {
 	public function execute(array $args);

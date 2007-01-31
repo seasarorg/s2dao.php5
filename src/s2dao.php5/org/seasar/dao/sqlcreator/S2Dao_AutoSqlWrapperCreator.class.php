@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
  */
 abstract class S2Dao_AutoSqlWrapperCreator implements S2Dao_SqlWrapperCreator {
     

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
  */
 interface S2Dao_AutoSelectSqlCreator {
     public function createSelectSql();

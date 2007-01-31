@@ -21,6 +21,10 @@
 // +----------------------------------------------------------------------+
 // $Id: $
 //
+/**
+ * @author nowel
+ * @package org.seasar.s2dao.sqlcreator
+ */
 class S2Dao_StoredProcedureWrapperCreator {
 }
 ?>

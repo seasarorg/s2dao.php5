@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.impl
  */
 class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     

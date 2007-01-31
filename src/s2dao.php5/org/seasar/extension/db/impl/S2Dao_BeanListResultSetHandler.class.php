@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.db.impl
  */
 class S2Dao_BeanListResultSetHandler extends S2Dao_AbstractBeanResultSetHandler {
     

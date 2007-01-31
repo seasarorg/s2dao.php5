@@ -26,7 +26,7 @@
  *
  * S2Daoの検索結果をラップするクラスをアノテ−ション情報から読み取った情報によって生成します。
  * @author yonekawa
- * @author nowel
+ * @package org.seasar.s2dao.pager
  */
 class S2Dao_PagerResultSetWrapperFactory
 {

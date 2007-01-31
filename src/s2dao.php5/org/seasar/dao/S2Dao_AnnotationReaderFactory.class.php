@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao
  */
 interface S2Dao_AnnotationReaderFactory {
     public function createDaoAnnotationReader(S2Container_BeanDesc $daoBeanDesc);

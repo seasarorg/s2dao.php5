@@ -26,6 +26,7 @@
  *
  * S2Daoの検索結果セット( List, Array )をコンディションDTOでラップするクラスです。
  * @author yonekawa
+ * @package org.seasar.s2dao.pager
  */
 class S2Dao_PagerBasicResultSetWrapper implements S2Dao_PagerResultSetWrapper
 {

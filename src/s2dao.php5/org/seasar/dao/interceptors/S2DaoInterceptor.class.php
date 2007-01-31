@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.interceptors
  */
 class S2DaoInterceptor extends S2Container_AbstractInterceptor {
 

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.node
  */
 abstract class S2Dao_AbstractNode implements S2Dao_Node {
 

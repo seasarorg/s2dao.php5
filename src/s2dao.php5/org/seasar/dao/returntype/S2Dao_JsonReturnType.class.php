@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.returntype
  */
 class S2Dao_JsonReturnType implements S2Dao_ReturnType {
     public function createResultSetHandler(S2Dao_BeanMetaData $bmd,

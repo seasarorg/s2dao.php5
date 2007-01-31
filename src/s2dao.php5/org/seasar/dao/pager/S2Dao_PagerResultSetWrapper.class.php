@@ -26,6 +26,7 @@
  *
  * S2Daoの検索結果セットのラッパを提供するインタフェ−スです。
  * @author yonekawa
+ * @package org.seasar.s2dao.pager
  */
 interface S2Dao_PagerResultSetWrapper
 {

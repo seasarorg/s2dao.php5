@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.extension.dataset.impl
  */
 class S2Dao_DataRowImpl implements S2Dao_DataRow {
 

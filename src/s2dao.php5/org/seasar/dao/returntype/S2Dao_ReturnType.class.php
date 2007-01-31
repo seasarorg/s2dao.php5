@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.returntype
  */
 interface S2Dao_ReturnType {
     

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao
  */
 final class S2DaoVersion {
     
@@ -68,12 +69,12 @@ final class S2DaoVersion {
         return true;
     }
     
-    public static function requiresExtention(){
+    public static function requiresExtentions(){
         return array('PDO');
     }
     
-    public static function requiresOptExtension(){
-        return array('json', 'Spyc');
+    public static function requiresOptExtensions(){
+        return array('json', 'Spyc', 'xmlwriter');
     }
     
 }

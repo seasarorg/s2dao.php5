@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao
  */
 interface S2Dao_RelationPropertyType extends S2Dao_PropertyType {
     public function getRelationNo();

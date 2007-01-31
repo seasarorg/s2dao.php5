@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.dbms.dbmeta
  */
 final class S2Dao_DbMetaDataFactory {
     

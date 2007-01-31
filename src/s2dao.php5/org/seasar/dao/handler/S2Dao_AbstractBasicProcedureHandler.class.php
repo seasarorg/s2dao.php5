@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.handler
  */
 abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHandler {
 

@@ -23,6 +23,7 @@
 //
 /**
  * @author nowel
+ * @package org.seasar.s2dao.unit
  */
 class S2DaoTestCase extends S2Container_S2PHPUnit2TestCase {
 
