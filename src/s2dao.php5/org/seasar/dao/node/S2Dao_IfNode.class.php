@@ -55,6 +55,9 @@ class S2Dao_IfNode extends S2Dao_ContainerNode {
         $this->elseNode = $elseNode;
     }
 
+    /**
+     * @throws S2Dao_IllegalBoolExpressionRuntimeException
+     */
     public function accept(S2Dao_CommandContext $ctx) {
         $expression = preg_replace('/^(\w+)(\s+.*)/i',
                         '$ctx->getArg("\1")' . '\2', $this->parsedExpression);

@@ -88,6 +88,9 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
         return $this->columns->size();
     }
 
+    /**
+     * @throws S2Dao_ColumnNotFoundRuntimeException
+     */
     public function getColumn($index) {
         if(is_integer($index)){
             $columns = array_values($this->columns->toArray());

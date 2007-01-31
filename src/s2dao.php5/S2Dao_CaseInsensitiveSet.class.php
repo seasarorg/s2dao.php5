@@ -31,14 +31,23 @@ class S2Dao_CaseInsensitiveSet extends S2Dao_CaseInsensitiveMap {
         parent::__construct();
     }
     
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     public final function put($key, $value){
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     public final function keySet(){
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }
     
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     public final function entrySet(){
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }

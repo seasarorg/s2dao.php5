@@ -41,6 +41,9 @@ class S2Dao_DataSetImpl implements S2Dao_DataSet {
         return $this->getTable($index)->getTableName();
     }
 
+    /**
+     * @throws S2Dao_TableNotFoundRuntimeException
+     */
     public function getTable($table) {
         if(is_integer($table)){
             $values = array_values($this->tables->toArray());
@@ -63,6 +66,9 @@ class S2Dao_DataSetImpl implements S2Dao_DataSet {
         }
     }
 
+    /**
+     * @throws S2Dao_TableNotFoundRuntimeException
+     */
     public function removeTable($table) {
         if($table instanceof S2Dao_DataTable){
             return $this->removeTable($table->getTableName());

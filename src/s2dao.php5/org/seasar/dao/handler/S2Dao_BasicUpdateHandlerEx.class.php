@@ -77,6 +77,9 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
         return $ctx;
     }
     
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     public function execute(){
         $args = func_get_args();
         $funcNum = func_num_args();
@@ -121,6 +124,9 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
         return $this->execute($this->createCommandContext($args));
     }
     
+    /**
+     * @throws S2Dao_SQLRuntimeException
+     */
     protected function execute3(PDO $connection, $sql, array $args, array $argTypes) {
         $ps = $this->_prepareStatement($connection, $sql);
         $this->bindArgs($ps, $args, $argTypes);
@@ -151,6 +157,9 @@ class S2Dao_BasicUpdateHandlerEx extends S2Dao_BasicHandler implements S2Dao_Upd
         return preg_replace('/\r?\n/s', ' ', $buf);
     }
     
+    /**
+     * @throws S2Container_EmptyRuntimeException
+     */
     protected function _prepareStatement(PDO $connection, $sql){
         if ($sql == null) {
             throw new S2Container_EmptyRuntimeException('sql');

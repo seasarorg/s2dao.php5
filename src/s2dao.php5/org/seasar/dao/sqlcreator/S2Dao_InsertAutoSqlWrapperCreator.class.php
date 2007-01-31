@@ -179,6 +179,7 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
 
     /**
      * @return SqlWrapper
+     * @throws S2Dao_IllegalSignatureRuntimeException
      */
     public function createSqlCommand(S2Dao_Dbms $dbms,
                                      S2Dao_DaoMetaData $daoMetaData,
@@ -228,6 +229,9 @@ final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
         $this->generator = $generator;
     }
 
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     public function transformSql($sql) {
         // delete comma
         $newSql = preg_replace('/\([^,]*,/', '(', $sql);
@@ -253,6 +257,9 @@ final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
         }
     }
 
+    /**
+     * @throws S2Dao_NotSingleRowUpdatedRuntimeException
+     */
     public function postUpdateBean(S2Dao_CommandContext $ctx, $returnValue) {
         $bean = $ctx->getArg('dto');
         if ($bean === null) {
@@ -314,6 +321,9 @@ final class S2Dao_InsertBatchSqlWrapper extends S2Dao_SqlWrapperImpl{
         }
     }
 
+    /**
+     * @throws S2Dao_NotSingleRowUpdatedRuntimeException
+     */
     public function postUpdateBean(S2Dao_CommandContext $ctx, $returnValue) {
         $bean = $ctx->getArg('dto');
         if ($bean === null) {

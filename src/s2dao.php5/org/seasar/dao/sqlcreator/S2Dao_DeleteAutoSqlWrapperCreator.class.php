@@ -105,6 +105,9 @@ final class S2Dao_DeleteAutoSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     public function preUpdateBean(S2Dao_CommandContext $ctx) {
     }
 
+    /**
+     * @throws S2Dao_NotSingleRowUpdatedRuntimeException
+     */
     public function postUpdateBean(S2Dao_CommandContext $ctx, $returnValue) {
         $rows = (int)$returnValue;
         if ($rows != 1) {

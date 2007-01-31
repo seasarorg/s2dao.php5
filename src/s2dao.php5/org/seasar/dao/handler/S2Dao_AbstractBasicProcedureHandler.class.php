@@ -68,6 +68,9 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         $this->statementFactory = $statementFactory;
     }
 
+    /**
+     * @throws S2Container_EmptyRuntimeException
+     */
     protected function getConnection() {
         if ($this->dataSource === null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
@@ -75,6 +78,9 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         return $this->dataSource->getConnection();
     }
 
+    /**
+     * @throws S2Container_EmptyRuntimeException
+     */
     protected function prepareCallableStatement(PDO $connection) {
         if ($this->sql == null) {
             throw new S2Container_EmptyRuntimeException('sql');
@@ -82,6 +88,9 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
         return $this->statementFactory->createCallableStatement($connection, $this->sql);
     }
 
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     protected function confirmProcedureName(PDO $conn, S2Dao_ProcedureMetaData $metadata) {
         $str = S2Dao_DatabaseMetaDataUtil::convertIdentifier($conn, $this->procedureName);
         $names = explode('.', $str);
@@ -106,6 +115,10 @@ abstract class S2Dao_AbstractBasicProcedureHandler implements S2Dao_ProcedureHan
 
     }
     
+    /**
+     * @throws S2Container_S2RuntimeException
+     * @throws S2Dao_SQLRuntimeException
+     */
     protected function initTypes(){
         $connection = $this->getConnection();
         $metadata = S2Dao_ProcedureMetaDataFactory::createProcedureMetaData($connection);

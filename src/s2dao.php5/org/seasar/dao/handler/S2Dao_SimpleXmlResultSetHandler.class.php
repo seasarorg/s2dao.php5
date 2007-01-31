@@ -31,6 +31,9 @@ class S2Dao_SimpleXmlResultSetHandler extends S2Dao_BeanListMetaDataResultSetHan
     const XML_ENCODING = 'UTF-8';
     const ROOT_ELEMENT = 'root';
 
+    /**
+     * @throws Exception
+     */
     public function __construct(S2Dao_BeanMetaData $beanMetaData,
                                 S2Dao_Dbms $dbms,
                                 array $relationPropertyHandlers) {

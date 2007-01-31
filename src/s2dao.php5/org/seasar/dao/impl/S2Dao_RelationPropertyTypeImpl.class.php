@@ -38,6 +38,9 @@ class S2Dao_RelationPropertyTypeImpl
     protected $yourJoinKeys = array();
     protected $beanMetaData;
 
+    /**
+     * @throws S2Container_IllegalArgumentException
+     */
     public function __construct() {
         $args = func_get_args();
         $argNum = func_num_args();

@@ -28,7 +28,7 @@
 class S2Dao_ValueTypeFactoryImpl implements S2Dao_ValueTypeFactory {
 
     /**
-     * @type S2Container
+     * @var S2Container
      */
     private $container;
 

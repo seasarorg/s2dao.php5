@@ -65,6 +65,9 @@ final class S2Dao_DatabaseMetaDataUtil {
         return $set;
     }
     
+    /**
+     * @throws S2Dao_SQLRuntimeException
+     */
     private static function addPrimaryKeys($dbMetaData, $schema, $tableName, $set) {
         try {
             $rs = self::getTableInfo($dbMetaData, $tableName, $schema);
@@ -122,6 +125,9 @@ final class S2Dao_DatabaseMetaDataUtil {
         return $set;
     }
     
+    /**
+     * @throws S2Dao_SQLRuntimeException
+     */
     private static function addColumns(PDO $pdo, $schema, $tableName, $set) {
         try {
             $rs = self::getTableInfo($pdo, $tableName, $schema);

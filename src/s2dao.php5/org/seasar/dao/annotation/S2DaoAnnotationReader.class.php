@@ -80,6 +80,9 @@ class S2DaoAnnotationReader implements S2Container_AnnotationReader {
         return null;
     }
 
+    /**
+     * @throws S2Container_AnnotationRuntimeException
+     */
     private function getAnnotationObject(array $annoLines){
         if(preg_match('/^@(\w+)$/', $annoLines[0], $matches)){
             return S2Container_AnnotationFactory::create($matches[1]);

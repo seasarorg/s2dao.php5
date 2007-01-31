@@ -105,6 +105,9 @@ abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodIntercep
         return false;
     }
 
+    /**
+     * @throws Exception
+     */
     public final function addCommitRule($class) {
         if($class instanceof Exception){
             $this->txRules->add(new S2Dao_TxRule($this, $class, true));
@@ -113,6 +116,9 @@ abstract class S2Dao_AbstractTxInterceptor implements S2Container_MethodIntercep
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public final function addRollbackRule($class) {
         if($class instanceof Exception){
             $this->txRules->add(new S2Dao_TxRule($this, $class, false));

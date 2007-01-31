@@ -29,7 +29,7 @@ class S2Dao_BeanListMetaDataResultSetHandler
     extends S2Dao_AbstractBeanMetaDataResultSetHandler {
     
     /**
-     * @type RelationPropertyHandler
+     * @var S2Dao_RelationPropertyHandler
      */    
     private $relationPropertyHandlers = array();
 

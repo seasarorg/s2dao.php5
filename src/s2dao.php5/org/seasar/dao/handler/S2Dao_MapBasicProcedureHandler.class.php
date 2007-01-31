@@ -39,6 +39,9 @@ class S2Dao_MapBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHandler
         $this->initTypes();
     }
     
+    /**
+     * @throws S2Dao_SQLRuntimeException
+     */
     protected function execute2(PDO $connection, array $args){
         try {
             $stmt = $this->prepareCallableStatement($connection);

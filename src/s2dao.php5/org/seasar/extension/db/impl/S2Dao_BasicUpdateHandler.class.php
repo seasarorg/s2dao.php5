@@ -38,6 +38,9 @@ class S2Dao_BasicUpdateHandler
         self::$logger_ = S2Container_S2Logger::getLogger(get_class($this));
     }
     
+    /**
+     * @throws S2Dao_SQLRuntimeException
+     */
     public function execute($args, $argsTypes = null){
         $stmt = $this->prepareStatement($this->getConnection());
         $this->bindArgs($stmt, $args, $argsTypes);

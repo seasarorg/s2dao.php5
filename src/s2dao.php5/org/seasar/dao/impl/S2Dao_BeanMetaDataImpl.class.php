@@ -114,6 +114,9 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
                                                            $joinTableName);
     }
     
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     private function createOneToManyRelationPropertyType0(S2Container_BeanDesc $beanDesc,
                                                           S2Container_PropertyDesc $propertyDesc,
                                                           $dbMetaData){
@@ -128,7 +131,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         }
         if ($beanClass === null) {
             // TODO
-            throw new S2Container_SRuntimeException('');
+            throw new S2Container_S2RuntimeException('');
         }
         $beanMetaData = new S2Dao_BeanMetaDataImpl();
         $beanMetaData->setBeanClass($beanClass);
@@ -269,6 +272,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
     /**
      * @see org.seasar.dao.BeanMetaData#getPropertyTypeByColumnName(string)
+     * @throws S2Dao_ColumnNotFoundRuntimeException
      */
     public function getPropertyTypeByColumnName($columnName) {
         $propertyType = $this->propertyTypesByColumnName->get($columnName);
@@ -278,6 +282,9 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         return $propertyType;
     }
 
+    /**
+     * @throws S2Dao_ColumnNotFoundRuntimeException
+     */
     public function getPropertyTypeByAliasName($alias) {
         if ($this->hasPropertyTypeByColumnName($alias)) {
             return $this->getPropertyTypeByColumnName($alias);
@@ -340,6 +347,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
     /**
      * @see org.seasar.dao.BeanMetaData#convertFullColumnName(string)
+     * @throws S2Dao_ColumnNotFoundRuntimeException
      */
     public function convertFullColumnName($alias) {
         if ($this->hasPropertyTypeByColumnName($alias)) {
@@ -381,8 +389,9 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
     }
     
     /**
-     * @see org.seasar.dao.BeanMetaData#getRelationPropertyType(int)
      * @return RelationPropertyType
+     * @see org.seasar.dao.BeanMetaData#getRelationPropertyType(int)
+     * @throws S2Container_PropertyNotFoundRuntimeException
      */
     public function getRelationPropertyType($index) {
         if(is_integer($index)){
@@ -656,6 +665,9 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
         $this->databaseMetaData = $databaseMetaData;
     }
 
+    /**
+     * @throws S2Dao_PrimaryKeyNotFoundRuntimeException
+     */
     public function checkPrimaryKey() {
         if ($this->getPrimaryKeySize() == 0) {
             throw new S2Dao_PrimaryKeyNotFoundRuntimeException($this->getBeanClass());

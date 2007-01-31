@@ -27,6 +27,9 @@
  */
 class S2Dao_ObjectBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHandler {
 
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     public function __construct(S2Container_DataSource $ds,
                                $procedureName,
                                S2Dao_StatementFactory $statementFactory = null){
@@ -41,6 +44,9 @@ class S2Dao_ObjectBasicProcedureHandler extends S2Dao_AbstractBasicProcedureHand
         }
     }
     
+    /**
+     * @throws S2Dao_SQLRuntimeException
+     */
     protected function execute2(PDO $connection, array $args){
         try {
             $stmt = $this->prepareCallableStatement($connection);

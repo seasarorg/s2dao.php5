@@ -52,6 +52,9 @@ abstract class S2Dao_AbstractIdentifierGenerator implements S2Dao_IdentifierGene
     
     public abstract function setIdentifier($bean, S2Container_DataSource $value);
     
+    /**
+     * @throws S2Container_EmptyRuntimeException
+     */
     public function setIdentifier2($bean, $value) {
         if ($this->propertyName == null) {
             throw new S2Container_EmptyRuntimeException('propertyName');

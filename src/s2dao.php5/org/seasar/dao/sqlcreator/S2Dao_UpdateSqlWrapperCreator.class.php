@@ -140,6 +140,9 @@ final class S2Dao_UpdateSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
         }
     }
 
+    /**
+     * @throws S2Dao_NotSingleRowUpdatedRuntimeException
+     */
     public function postUpdateBean(S2Dao_CommandContext $ctx, $returnValue) {
         $rows = $returnValue;
         if ((int)$rows != 1) {

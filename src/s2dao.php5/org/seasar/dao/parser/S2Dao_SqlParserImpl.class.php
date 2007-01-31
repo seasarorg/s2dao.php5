@@ -98,6 +98,9 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
         }
     }
 
+    /**
+     * @throws S2Dao_IfConditionNotFoundRuntimeException
+     */
     protected function parseIf() {
         $condition = trim(substr($this->tokenizer->getToken(), 2));
         if (empty($condition)) {
@@ -116,6 +119,9 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
         $this->parseEnd();
     }
 
+    /**
+     * @throws S2Dao_EndCommentNotFoundRuntimeException
+     */
     protected function parseEnd() {
         while (S2Dao_SqlTokenizer::EOF != $this->tokenizer->next()) {
             if ($this->tokenizer->getTokenType() == S2Dao_SqlTokenizer::COMMENT

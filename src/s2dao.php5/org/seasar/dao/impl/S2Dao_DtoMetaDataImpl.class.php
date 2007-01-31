@@ -86,8 +86,9 @@ class S2Dao_DtoMetaDataImpl implements S2Dao_DtoMetaData {
     }
 
     /**
-     * @see org.seasar.dao.DtoMetaData#getPropertyType(mixed)
      * @return PropertyType
+     * @see org.seasar.dao.DtoMetaData#getPropertyType(mixed)
+     * @throws S2Container_PropertyNotFoundRuntimeException
      */
     public function getPropertyType($propertyName) {
         if(is_integer($propertyName)){

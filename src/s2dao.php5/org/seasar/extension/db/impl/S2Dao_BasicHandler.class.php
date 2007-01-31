@@ -84,6 +84,9 @@ class S2Dao_BasicHandler {
         $connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
     }
 
+    /**
+     * @throws S2Container_EmptyRuntimeException
+     */
     protected function getConnection() {
         if ($this->dataSource === null) {
             throw new S2Container_EmptyRuntimeException('dataSource');
@@ -93,6 +96,9 @@ class S2Dao_BasicHandler {
         return $conn;
     }
 
+    /**
+     * @throws S2Container_EmptyRuntimeException
+     */
     protected function prepareStatement(PDO $connection) {
         if ($this->sql === null) {
             throw new S2Container_EmptyRuntimeException('sql');
@@ -100,6 +106,9 @@ class S2Dao_BasicHandler {
         return $this->statementFactory->createPreparedStatement($connection, $this->sql);
     }
     
+    /**
+     * @throws S2Dao_SQLRuntimeException
+     */
     protected function bindArgs(PDOStatement $ps,
                                 array $args = null,
                                 array $argTypes = null) {
@@ -122,7 +131,7 @@ class S2Dao_BasicHandler {
                 $valueType->bindValue($ps, $i + 1, $arg);
             }
         } catch (Exception $ex) {
-            throw new S2Container_SQLRuntimeException($ex);
+            throw new S2Dao_SQLRuntimeException($ex);
         }
     }
 

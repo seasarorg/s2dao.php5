@@ -105,8 +105,9 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     }
 
     /**
-     * @see org.seasar.dao.DaoMetaData#getSqlCommand(string)
      * @return SqlCommand
+     * @see org.seasar.dao.DaoMetaData#getSqlCommand(string)
+     * @throws S2Container_MethodNotFoundRuntimeException
      */
     public function getSqlCommand($methodName) {
         $cmd = $this->sqlCommands->get($methodName);
@@ -127,6 +128,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     /**
      * @return ReflectionClass
+     * @throws S2Dao_DaoNotFoundRuntimeException
      */
     public function getDaoInterface(ReflectionClass $clazz) {
         if ($clazz->isInterface()) {

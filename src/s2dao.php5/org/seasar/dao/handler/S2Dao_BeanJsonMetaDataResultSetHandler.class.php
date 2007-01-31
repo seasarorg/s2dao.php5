@@ -27,6 +27,9 @@
  */
 class S2Dao_BeanJsonMetaDataResultSetHandler extends S2Dao_BeanArrayMetaDataResultSetHandler {
 
+    /**
+     * @throws Exception
+     */
     public function __construct(S2Dao_BeanMetaData $beanMetaData,
                                 S2Dao_Dbms $dbms,
                                 array $relationPropertyHandlers) {

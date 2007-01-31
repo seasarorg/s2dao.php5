@@ -158,6 +158,9 @@ class S2Dao_SqlTokenizerImpl implements S2Dao_SqlTokenizer {
         return '$' . ++$this->bindVariableNum;
     }
 
+    /**
+     * @throws S2Dao_TokenNotClosedRuntimeException
+     */
     protected function parseComment() {
         $commentEndPos = strpos($this->sql, '*/', $this->position);
         if ($commentEndPos === false || $commentEndPos < 0) {

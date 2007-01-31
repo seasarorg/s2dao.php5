@@ -29,6 +29,9 @@ class S2Dao_ProcedureMetaDataFactory {
     
     const ProcedureMetaData_Suffix = 'ProcedureMetaDataImpl';
     
+    /**
+     * @throws Exception
+     */
     public static function createProcedureMetaData(PDO $connection){
         $dbms = S2DaoDbmsManager::getDbms($connection);
         $pmd = get_class($dbms) . self::ProcedureMetaData_Suffix;

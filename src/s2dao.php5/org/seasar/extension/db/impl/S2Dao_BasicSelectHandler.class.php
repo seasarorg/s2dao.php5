@@ -80,6 +80,10 @@ class S2Dao_BasicSelectHandler extends S2Dao_BasicHandler implements S2Dao_Selec
         $this->maxRows = $maxRows;
     }
 
+    /**
+     * @throws S2Container_EmptyRuntimeException
+     * @throws S2Dao_SQLRuntimeException
+     */
     public function execute($args1, $args2){
         $stmt = $this->prepareStatement($this->getConnection());
         $stmt->setFetchMode(PDO::FETCH_ASSOC);

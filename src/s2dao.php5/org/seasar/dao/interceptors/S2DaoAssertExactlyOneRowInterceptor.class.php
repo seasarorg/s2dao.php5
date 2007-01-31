@@ -27,6 +27,9 @@
  */
 class S2DaoAssertExactlyOneRowInterceptor extends S2Container_AbstractInterceptor {
 
+    /**
+     * @throws S2Dao_NotExactlyOneRowUpdatedRuntimeException
+     */
     public function invoke(S2Container_MethodInvocation $invocation) {
         $result = $invocation->proceed();
         if (is_numeric($result)) {
