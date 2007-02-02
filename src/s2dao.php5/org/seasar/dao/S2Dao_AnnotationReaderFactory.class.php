@@ -26,7 +26,17 @@
  * @package org.seasar.s2dao
  */
 interface S2Dao_AnnotationReaderFactory {
+    
+    public function initialize();
+    
+    public function isInitialized();
+    
+    public function setUseCommentAnnotation($useComment);
+    
+    public function getUseCommentAnnotation();
+    
     public function createDaoAnnotationReader(S2Container_BeanDesc $daoBeanDesc);
+    
     public function createBeanAnnotationReader($beanClass);
 }
 ?>

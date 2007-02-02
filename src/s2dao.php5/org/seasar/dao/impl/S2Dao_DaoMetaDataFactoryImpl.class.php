@@ -77,6 +77,9 @@ class S2Dao_DaoMetaDataFactoryImpl implements S2Dao_DaoMetaDataFactory {
         if ($dmd !== null) {
             return $dmd;
         }
+        if(!$this->readerFactory->isInitialized()){
+            $this->readerFactory->initialize();
+        }
         $dmdi = new S2Dao_DaoMetaDataImpl($daoClass,
                                           $this->dataSource,
                                           $this->readerFactory,

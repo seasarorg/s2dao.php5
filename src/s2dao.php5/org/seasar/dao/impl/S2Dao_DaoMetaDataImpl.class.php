@@ -40,7 +40,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
 
     public function __construct(ReflectionClass $daoClass,
                                 S2Container_DataSource $dataSource,
-                                S2Dao_AnnotationReaderFactory $annotationReaderFactory = null,
+                                S2Dao_AnnotationReaderFactory $annotationReaderFactory,
                                 array $daoSuffixes = null,
                                 S2Dao_ValueTypeFactory $valueTypeFactory = null) {
         $this->setDaoClass($daoClass);

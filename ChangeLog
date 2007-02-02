@@ -1,3 +1,9 @@
+2007-02-02 nowe(S2Dao.PHP5-1.2.0-beta2)
+
+    * modify: 定数値S2DAO_PHP5_USE_COMMENTを削除しました。
+        コメントアノテーションを利用する場合は、diconファイルに記述してある
+        <property name="useCommentAnnotation">false</property>の値をtrueに変更してください。
+
 2007-01-30 nowel(S2Dao.PHP5-1.2.0-beta1)
 
     * add: S2Dao_SimpleXmlResultSetHandlerを追加しました。
@@ -22,6 +28,7 @@
                             <fooPropertyB>aaa</fooPropertyB>
                         </fooBean>
                     </propertyBar>
+                </hogeBean>
             </root>
 
 2007-01-15 nowel(S2Dao.PHP5-1.2.0-beta1)

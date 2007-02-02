@@ -6,11 +6,13 @@
     <component class="S2Dao_BasicResultSetFactory" />
     <component class="S2Dao_BasicStatementFactory" />
     <component class="S2Dao_SqlCommandFactoryImpl" />
-    <component class="S2Dao_FieldAnnotationReaderFactory" />
     <component class="S2Dao_ValueTypeFactoryImpl"/>
     <component class="S2Dao_DaoNamingConventionImpl" />
     <component class="S2Dao_DaoMetaDataFactoryImpl">
         <property name="sqlWrapperCreators">creators</property>
+    </component>
+    <component class="S2Dao_FieldAnnotationReaderFactory">
+        <property name="useCommentAnnotation">false</property>
     </component>
     <component name="creators" class="ArrayObject" autoBinding="none">
         <initMethod name="append">
