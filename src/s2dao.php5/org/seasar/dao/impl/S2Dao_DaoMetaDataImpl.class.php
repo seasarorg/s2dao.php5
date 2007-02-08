@@ -135,7 +135,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             return $clazz;
         }
         $abstractDao = 'S2Dao_AbstractDao';
-        for ($target = $clazz; $target->getName != $abstractDao; $target = $target->getParentClass()) {
+        for ($target = $clazz; $target->getName() != $abstractDao; $target = $target->getParentClass()) {
             if($target === false){
                 return $clazz;
             }

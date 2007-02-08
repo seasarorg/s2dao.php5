@@ -63,9 +63,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
         if ($sql instanceof S2Dao_ProcedureSqlWrapper) {
             $procedureSqlWrapper = $sql;
             $returnType = $annotationReader->getReturnType($method);
-            $resultSetHandler = $this->createResultSetHandler($dbms,
-                                                              $beanMetaData,
-                                                              $returnType);
+            $resultSetHandler = $this->createResultSetHandler($dbms, $beanMetaData, $returnType);
             $procedureHandler = new S2Dao_ProcedureHandlerImpl($procedureSqlWrapper,
                                                                $this->dataSource,
                                                                $this->statementFactory,
@@ -78,9 +76,7 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
                                                     $beanMetaData,
                                                     $method, $sql);
         } else {
-            return $this->setupUpdateMethodByManual($annotationReader,
-                                                    $beanMetaData,
-                                                    $method, $sql);
+            return $this->setupUpdateMethodByManual($annotationReader, $beanMetaData, $method, $sql);
         }
     }
     
@@ -132,7 +128,6 @@ class S2Dao_SqlCommandFactoryImpl implements S2Dao_SqlCommandFactory {
         $returnType = $annotationReader->getReturnType($method);
         $rsh = $this->createResultSetHandler($dbms, $beanMetaData, $returnType);
         $cmd = $this->createSelectDynamicCommand($rsh, $sql->getSql());
-        
         $cmd->setArgNames($sql->getParameterNames());
         $cmd->setArgTypes($method->getParameters());
         return $cmd;

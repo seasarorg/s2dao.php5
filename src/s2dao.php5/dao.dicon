@@ -13,6 +13,7 @@
     </component>
     <component class="S2Dao_FieldAnnotationReaderFactory">
         <property name="useCommentAnnotation">false</property>
+        <property name="returnTypeFactory">constant</property>
     </component>
     <component name="creators" class="ArrayObject" autoBinding="none">
         <initMethod name="append">
@@ -42,5 +43,7 @@
             <arg><component class="S2Dao_AutoSelectSqlWrapperCreatorImpl" /></arg>
         </initMethod>
     </component>
+    <component name="comment" class="S2Dao_ConstantReturnTypeFactory" />
+    <component name="constant" class="S2Dao_CommentReturnTypeFactory" />
     <component name="interceptor" class="S2DaoInterceptor" />
 </components>

@@ -1,7 +1,15 @@
-2007-02-02 nowe(S2Dao.PHP5-1.2.0-beta2)
+2007-02-09 nowel(S2Dao.PHP5-1.2.0-beta2)
+
+    * modify: S2Dao_CommentReturnTypeFactory, S2Dao_ConstantReturnTypeFactoryの追加
+        コメントアノテーション時、及び定数アノテーション時にReturnTypeを出力する処理を分離しました。
+        これにより、定数アノテーション時でもBEANは定数DAOはコメントとReturnTypeを利用可能です。
+        ReturnTypeFactory利用するには、dao.diconに記述してある
+        <property name="returnTypeFactory">constant</property>の値を任意のReturnTypeFactoryに変更してください。
+
+2007-02-02 nowel(S2Dao.PHP5-1.2.0-beta2)
 
     * modify: 定数値S2DAO_PHP5_USE_COMMENTを削除しました。
-        コメントアノテーションを利用する場合は、diconファイルに記述してある
+        コメントアノテーションを利用する場合は、dao.diconファイルに記述してある
         <property name="useCommentAnnotation">false</property>の値をtrueに変更してください。
 
 2007-01-30 nowel(S2Dao.PHP5-1.2.0-beta1)

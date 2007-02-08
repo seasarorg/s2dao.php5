@@ -35,25 +35,22 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
     const QUERY_SUFFIX = '_QUERY';
     const NO_PERSISTENT_PROPS_SUFFIX = '_NO_PERSISTENT_PROPS';
     const PERSISTENT_PROPS_SUFFIX = '_PERSISTENT_PROPS';
-    const RETURN_TYPE_OBJ = '/Obj$/i';
-    const RETURN_TYPE_ARRAY = '/Array$/i';
-    const RETURN_TYPE_LIST = '/List$/i';
-    const RETURN_TYPE_YAML = '/Yaml$/i';
-    const RETURN_TYPE_JSON = '/Json$/i';
-    const RETURN_TYPE_MAP = '/Map$/i';
     const RETURNTYPE_SUFFIX = '_TYPE';
 
     protected $daoBeanDesc;
     protected $interfacesBeanDesc = array();
+    protected $returnTypeFactory;
     
-    public function __construct(S2Container_BeanDesc $daoBeanDesc) {
+    public function __construct(S2Container_BeanDesc $daoBeanDesc,
+                                S2Dao_ReturnTypeFactory $returnTypeFactory) {
         $this->daoBeanDesc = $daoBeanDesc;
         $interfaces = $daoBeanDesc->getBeanClass()->getInterfaces();
         $ifDesc = array();
         foreach($interfaces as $interface){
             $ifDesc[] = S2Container_BeanDescFactory::getBeanDesc($interface); 
         }
-        $interfacesBeanDesc = $ifDesc;
+        $this->interfacesBeanDesc = $ifDesc;
+        $this->returnTypeFactory = $returnTypeFactory;
     }
 
     public function getArgNames(ReflectionMethod $method) {
@@ -171,22 +168,7 @@ class S2Dao_DaoConstantAnnotationReader implements S2Dao_DaoAnnotationReader {
             $returnType = $this->daoBeanDesc->getConstant($key);
             return S2Dao_ReturnTypes::getValueType($returnType);
         }
-        if(preg_match(self::RETURN_TYPE_LIST, $methodName)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_List);
-        }
-        if(preg_match(self::RETURN_TYPE_ARRAY, $methodName)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Array);
-        }
-        if(preg_match(self::RETURN_TYPE_YAML, $methodName)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Yaml);
-        }
-        if(preg_match(self::RETURN_TYPE_JSON, $methodName)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Json);
-        }
-        if(preg_match(self::RETURN_TYPE_MAP, $methodName)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Map);
-        }
-        return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
+        return $this->returnTypeFactory->createReturnType($method);
     }
     
     private function getProps(ReflectionMethod $method, $constName){

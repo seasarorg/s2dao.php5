@@ -27,18 +27,13 @@
  */
 class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
 
-    const RETURN_TYPE_OBJ = '/@return\s*object/i';
-    const RETURN_TYPE_ARRAY = '/@return\s*array/i';
-    const RETURN_TYPE_LIST = '/@return\s*list/i';
-    const RETURN_TYPE_YAML = '/@return\s*yaml/i';
-    const RETURN_TYPE_JSON = '/@return\s*json/i';
-    const RETURN_TYPE_MAP = '/@return\s*map/i';
-    const TYPE_SUFFIX = '/@type\s*(.+)/';
-
     protected $beanClass;
+    protected $returnTypeFactory;
     
-    public function __construct(S2Container_BeanDesc $beanDesc) {
+    public function __construct(S2Container_BeanDesc $beanDesc,
+                                S2Dao_ReturnTypeFactory $returnTypeFactory) {
         $this->beanClass = $beanDesc->getBeanClass();
+        $this->returnTypeFactory = $returnTypeFactory;
     }
     
     public function getBeanClass(ReflectionMethod $method = null) {
@@ -108,26 +103,7 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
     }
     
     public function getReturnType(ReflectionMethod $method){
-        $comment = $this->getMethodComment($method);
-        if(preg_match(self::TYPE_SUFFIX, $comment, $m)){
-            return S2Dao_ReturnTypes::getValueType(trim($m[1]));
-        }
-        if(preg_match(self::RETURN_TYPE_LIST, $comment)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_List);
-        }
-        if(preg_match(self::RETURN_TYPE_ARRAY, $comment)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Array);
-        }
-        if(preg_match(self::RETURN_TYPE_YAML, $comment)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Yaml);
-        }
-        if(preg_match(self::RETURN_TYPE_JSON, $comment)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Json);
-        }
-        if(preg_match(self::RETURN_TYPE_MAP, $comment)){
-            return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Map);
-        }
-        return S2Dao_ReturnTypes::getReturnType(S2Dao_ReturnType::Type_Object);
+        return $this->returnTypeFactory->createReturnType($method);
     }
 
     private function getMethodAnnotation($annoType, ReflectionMethod $method){
@@ -141,10 +117,6 @@ class S2Dao_DaoCommentAnnotationReader implements S2Dao_DaoAnnotationReader {
         return null;
     }
     
-    private function getMethodComment(ReflectionMethod $method){
-        $method = $this->beanClass->getMethod($method->getName());
-        return $method->getDocComment();
-    }
 }
 
 ?>

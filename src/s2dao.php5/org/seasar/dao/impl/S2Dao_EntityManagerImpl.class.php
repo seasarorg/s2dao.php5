@@ -28,8 +28,8 @@
 class S2Dao_EntityManagerImpl implements S2Dao_EntityManager {
     
     private static $EMPTY_ARGS = array();
-    private $beanMetaData;
     private $daoMetaData;
+    private $beanMetaData;
     private $sqlCommandFactory;
 
     public function __construct(

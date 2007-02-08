@@ -31,12 +31,13 @@ class S2Dao_FieldAnnotationReaderFactory implements S2Dao_AnnotationReaderFactor
     
     private $initialized = false;
     private $useCommentAnnotation = false;
+    private $returnTypeFactory;
     
     public function __construct(){
     }
     
     public function initialize(){
-        if((boolean)$this->useCommentAnnotation === true){
+        if(!$this->initialized && (boolean)$this->useCommentAnnotation === true){
             $existsReader = strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER, self::READER) != 0;
             if(class_exists('S2Container_AnnotationContainer') && $existsReader){
                 S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = self::READER;
@@ -57,19 +58,33 @@ class S2Dao_FieldAnnotationReaderFactory implements S2Dao_AnnotationReaderFactor
         return (boolean)$this->useCommentAnnotation;
     }
     
+    public function setReturnTypeFactory(S2Dao_ReturnTypeFactory $returnTypeFactory){
+        $this->returnTypeFactory = $returnTypeFactory;
+    }
+    
+    public function getReturnTypeFactory(){
+        return $this->returnTypeFactory;
+    }
+    
     public function createDaoAnnotationReader(S2Container_BeanDesc $daoBeanDesc) {
+        $reader = '';
         if($this->useCommentAnnotation){
-            return new S2Dao_DaoCommentAnnotationReader($daoBeanDesc);
+            $reader = 'S2Dao_DaoCommentAnnotationReader';
+        } else {
+            $reader = 'S2Dao_DaoConstantAnnotationReader';
         }
-        return new S2Dao_DaoConstantAnnotationReader($daoBeanDesc);
+        return new $reader($daoBeanDesc, $this->returnTypeFactory);
     }
     
     public function createBeanAnnotationReader($beanClass) {
         $beanDesc = S2Container_BeanDescFactory::getBeanDesc($beanClass);
+        $reader = '';
         if($this->useCommentAnnotation){
-            return new S2Dao_BeanCommentAnnotationReader($beanDesc);
+            $reader = 'S2Dao_BeanCommentAnnotationReader';
+        } else {
+            $reader = 'S2Dao_BeanConstantAnnotationReader';
         }
-        return new S2Dao_BeanConstantAnnotationReader($beanDesc);
+        return new $reader($beanDesc);
     }
     
 }
