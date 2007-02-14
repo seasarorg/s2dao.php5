@@ -1,3 +1,7 @@
 <?php
 
+/**
+ * @author {user}
+ * @since {date}
+ */
 interface {daoName} {

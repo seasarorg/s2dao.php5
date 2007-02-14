@@ -17,7 +17,7 @@
         $buf = array();
         foreach($this as $property => $value){
             if($value !== null){
-                $buf[] = $property . '=' . $value;
+                $buf[] = $property . '=' . (string)$value;
             }
         }
         return implode(', ', $buf);

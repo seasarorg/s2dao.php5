@@ -4,4 +4,4 @@
  * @author {user}
  * @since {date}
  */
-class {beanName} {
+class {beanName} implements Serializable {
