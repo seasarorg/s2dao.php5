@@ -1,0 +1,7 @@
+    /**
+     * get {propertyName}
+     * @return {propertyName}
+     */
+    public function get{methodName}(){
+        return $this->{propertyName};
+    }

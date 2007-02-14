@@ -1,0 +1,19 @@
+    /**
+     * @return list
+     */
+    public function getAllList();
+    
+    /**
+     * @param {beanName} $entity
+     */
+    public function insert({beanName} $entity);
+    
+    /**
+     * @param {beanName} $entity
+     */
+    public function update({beanName} $entity);
+    
+    /**
+     * @param {beanName} $entity
+     */
+    public function delete({beanName} $entity);

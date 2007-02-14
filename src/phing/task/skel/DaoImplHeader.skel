@@ -1,0 +1,7 @@
+<?php
+
+/**
+ * @author {user}
+ * @since {date}
+ */
+class {daoImplName} extends S2Dao_AbstractDao implements {daoName} {

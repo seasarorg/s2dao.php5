@@ -1,0 +1,2 @@
+    // {{{ {beanName} constants 
+    const TABLE = "{tableName}";

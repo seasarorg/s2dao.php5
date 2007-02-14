@@ -1,0 +1,7 @@
+    /**
+     * set to {propertyName}
+     * @param {propertyName}
+     */
+    public function set{methodName}(${propertyName}){
+        $this->{propertyName} = ${propertyName};
+    }

@@ -1,0 +1,25 @@
+    public function serialize(){
+        $serial = array();
+        foreach($this as $property => $value){
+            $serial[$property] = $value;
+        }
+        return serialize($serial);
+    }
+    
+    public function unserialize($serialize){
+        $unserialize = unserialize($serialize);
+        foreach($unserialize as $property => $value){
+            $this->$property = $value;
+        }
+    }
+    
+    public function __toString(){
+        $buf = array();
+        foreach($this as $property => $value){
+            if($value !== null){
+                $buf[] = $property . '=' . $value;
+            }
+        }
+        return implode(', ', $buf);
+    }
+    

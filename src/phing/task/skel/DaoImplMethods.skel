@@ -1,0 +1,13 @@
+    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory){
+        parent::__construct($daoMetaDataFactory);
+    }
+    
+    public function getAll(){
+        return $this->getEntityManager()->find("{query}","");
+        //return $this->getEntityManager()->findArray("{query}", "");
+        //return $this->getEntityManager()->findBean("{query}", "");
+        //return $this->getEntityManager()->findObject("{query}", "");
+        //return $this->getEntityManager()->findJson("{query}", "");
+        //return $this->getEntityManager()->findYaml("{query}", "");
+        //return $this->getEntityManager()->findXml("{query}", "");
+    }
