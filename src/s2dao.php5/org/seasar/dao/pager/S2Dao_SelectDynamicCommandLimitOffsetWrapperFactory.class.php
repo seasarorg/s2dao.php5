@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -22,7 +22,7 @@
 // $Id$
 //  
 /**
- * SelectDynamicCommandLimitOffsetWrapper‚ğ¶¬‚·‚éƒNƒ‰ƒX
+ * SelectDynamicCommandLimitOffsetWrapperï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
  * @author yonekawa
  */
 class S2Dao_SelectDynamicCommandLimitOffsetWrapperFactory

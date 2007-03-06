@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -42,21 +42,23 @@ class S2Dao_BindVariableNode extends S2Dao_AbstractNode {
         $value = $ctx->getArg($this->names[0]);
         $clazz = $ctx->getArgType($this->names[0]);
         
+        $objType = gettype(new stdClass);
         $c = count($this->names);
         for($pos = 1; $pos < $c; $pos++){
-            if(gettype(new stdClass) == $clazz || is_object($clazz)){
-                if($value === null){
-                    continue;
-                }
-                $refClass = new ReflectionClass($value);
-                $beanDesc = S2Container_BeanDescFactory::getBeanDesc($refClass);
-                $pd = $beanDesc->getPropertyDesc($this->names[$pos]);
-                if (!is_object($value)) {
-                    break;
-                }
-                $value = $pd->getValue($value);
-                $clazz = $pd->getPropertyType();
+            if(!($objType == $clazz || is_object($clazz))){
+                continue;
             }
+            if($value === null){
+                continue;
+            }
+            if (!is_object($value)) {
+                break;
+            }
+            $refClass = new ReflectionClass($value);
+            $beanDesc = S2Container_BeanDescFactory::getBeanDesc($refClass);
+            $pd = $beanDesc->getPropertyDesc($this->names[$pos]);
+            $value = $pd->getValue($value);
+            $clazz = $pd->getPropertyType();
         }
 
         if($this->isNull($clazz)){

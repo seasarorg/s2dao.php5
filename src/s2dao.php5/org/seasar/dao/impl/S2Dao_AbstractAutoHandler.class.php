@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -158,7 +158,6 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
         }
     }
     
-    // TODO
     protected function setupBindValiablesType($bean){
         $c = count($this->bindVariableTypes_);
         for($i = 0; $i < $c; $i++){
@@ -169,7 +168,6 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
         }
     }
 
-    
     protected function postUpdatePropertyTypes($bean){
         $this->preUpdatePropertyTypes($bean);
     }
@@ -185,10 +183,10 @@ abstract class S2Dao_AbstractAutoHandler extends S2Dao_BasicHandler implements S
         for ($i = 0; $i < $c; ++$i) {
             $pt = $this->propertyTypes_[$i];
             $propName = $pt->getPropertyName();
-            if (strcasecmp($propName, $timestampPropertyName) == 0) {
-                $this->setTimestamp(time());
+            if (strcasecmp($propName, $timestampPropertyName) === 0) {
+                $this->setTimestamp(date('Y-m-d H:i:s', time()));
                 $varList->add($this->getTimestamp());
-            } else if (strcmp($propName, $versionNoPropertyName) == 0) {
+            } else if (strcmp($propName, $versionNoPropertyName) === 0) {
                 $this->setVersionNo(0);
                 $varList->add($this->getVersionNo());
             } else {

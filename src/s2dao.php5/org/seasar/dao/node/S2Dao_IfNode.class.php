@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -26,51 +26,113 @@
  */
 class S2Dao_IfNode extends S2Dao_ContainerNode {
 
-    private $expression_ = '';
-    private $parsedExpression_ = null;
-    private $elseNode_ = null;
+    private $expression = '';
+    private $parsedExpression = null;
+    private $elseNode = null;
 
     public function __construct($expression) {
-        $this->expression_ = $expression;
-        $this->parsedExpression_ = quotemeta($expression);
-        $this->parseExpByManual();
-    }
-    
-    private function parseExpByManual(){
-        $exp = $this->parsedExpression_;
+        $this->expression = $expression;
+        $exp = quotemeta($expression);
         $exp = str_replace('\.', '.', $exp);
-        $this->parsedExpression_ = $exp;
+        $this->parsedExpression = $exp;
     }
 
     public function getExpression() {
-        return $this->expression_;
+        return $this->expression;
     }
 
     public function getElseNode() {
-        return $this->elseNode_;
+        return $this->elseNode;
     }
 
     public function setElseNode(S2Dao_ElseNode $elseNode) {
-        $this->elseNode_ = $elseNode;
+        $this->elseNode = $elseNode;
     }
 
     public function accept(S2Dao_CommandContext $ctx) {
-        $expression = preg_replace('/^(\w+)(\s+.*)/i',
-                        '$ctx->getArg("\1")' . '\2', $this->parsedExpression_);
-        $expression = S2Container_EvalUtil::getExpression($expression);
-        $result = eval($expression);
+        $result = false;
+        if(preg_match('/^([\w\.]+)(\s+.*)?/i', $this->parsedExpression, $matches)){
+            if(2 < count($matches)){
+                $expression = $matches[2];
+                $names = explode('.', $matches[1]);
 
-        if (is_bool($result)) {
-            if ($result) {
-                parent::accept($ctx);
-                $ctx->setEnabled(true);
-            } else if ($this->elseNode_ != null) {
-                $this->elseNode_->accept($ctx);
-                $ctx->setEnabled(true);
+                $value = $ctx->getArg($names[0]);
+                $clazz = $ctx->getArgType($names[0]);
+                $objType = gettype(new stdClass);
+                $c = count($names);
+                for($i = 1; $i < $c; $i++){
+                    if(!($objType == $clazz || is_object($clazz))){
+                        continue;
+                    }
+                    if($value === null){
+                        continue;
+                    }
+                    if(!is_object($value)) {
+                        break;
+                    }
+                    $refClass = new ReflectionClass($value);
+                    $beanDesc = S2Container_BeanDescFactory::getBeanDesc($refClass);
+                    $pd = $beanDesc->getPropertyDesc($names[$i]);
+                    $value = $pd->getValue($value);
+                    $clazz = $pd->getPropertyType();
+                }
+            } else {
+                $value = $matches[1];
+                $expression = '';
+            }
+            $evaluate = S2Container_EvalUtil::getExpression("\$value $expression");
+            $result = eval($evaluate);
+            if(self::isBoolValue($result)){
+                if(self::isTrue($result)){
+                    $ctx->setEnabled(true);
+                    parent::accept($ctx);
+                } else if($this->elseNode !== null){
+                    $ctx->setEnabled(true);
+                    $this->elseNode->accept($ctx);
+                }
+            } else {
+                throw new S2Dao_IllegalBoolExpressionRuntimeException($this->expression);
             }
         } else {
-            throw new S2Dao_IllegalBoolExpressionRuntimeException($this->expression_);
+            throw new S2Dao_IllegalBoolExpressionRuntimeException($this->expression);
         }
+    }
+
+    private static function isBoolValue($value = null){
+        if($value === null){
+            return false;
+        }
+        if(is_string($value)){
+            $v = trim($value);
+            if(self::isTrue($v)){
+                return true;
+            }
+            if(self::isFalse($v)){
+                return true;
+            }
+            return false;
+        }
+        return is_bool($value);
+    }
+
+    private static function isTrue($value){
+        if(is_bool($value)){
+            return $value === true;
+        }
+        if(is_string($value)){
+            return strcasecmp('true', $value) === 0;
+        }
+        return false;
+    }
+
+    private static function isFalse($value){
+        if(is_bool($value)){
+            return $value === true;
+        }
+        if(is_string($value)){
+            return strcasecmp('false', $value) === 0;
+        }
+        return false;
     }
 }
 ?>

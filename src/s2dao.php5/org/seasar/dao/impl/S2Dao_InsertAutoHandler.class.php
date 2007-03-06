@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -30,7 +30,6 @@ class S2Dao_InsertAutoHandler extends S2Dao_AbstractAutoHandler {
                                 S2Dao_StatementFactory $statementFactory = null,
                                 S2Dao_BeanMetaData $beanMetaData,
                                 $propertyTypes) {
-
         parent::__construct($dataSource, $statementFactory, $beanMetaData, $propertyTypes);
     }
 
