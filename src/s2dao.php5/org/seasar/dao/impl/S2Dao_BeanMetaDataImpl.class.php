@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -402,7 +402,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             for ($i = 0; $i < $c; $i++) {
                 $rpt = $this->relationPropertyTypes->get($i);
                 if ($rpt !== null &&
-                    strcasecmp($rpt->getPropertyName(), $propertyName) == 0){
+                    0 === strcasecmp($rpt->getPropertyName(), $propertyName)){
                     return $rpt;
                 }
             }
@@ -413,7 +413,7 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
 
     protected function setupTableName(S2Container_BeanDesc $beanDesc) {
         $ta = $this->beanAnnotationReader->getTableAnnotation();
-        if ($ta != null) {
+        if ($ta !== null) {
             $this->tableName = $ta;
         } else {
             $this->tableName = $this->getBeanClass()->getName();
@@ -496,9 +496,9 @@ class S2Dao_BeanMetaDataImpl extends S2Dao_DtoMetaDataImpl implements S2Dao_Bean
             $c = $this->getPropertyTypeSize();
             for($i = 0; $i < $c; ++$i){
                 $pt = $this->getPropertyType($i);
-                if(0 == strcasecmp($pt->getColumnName(), $col2)){
+                if(0 === strcasecmp($pt->getColumnName(), $col2)){
                     $pd = $pt->getPropertyDesc();
-                    if ($this->beanAnnotationReader->getColumnAnnotation($pd) == null) {
+                    if ($this->beanAnnotationReader->getColumnAnnotation($pd) === null) {
                         $pt->setColumnName($columnName);
                     }
                     break;

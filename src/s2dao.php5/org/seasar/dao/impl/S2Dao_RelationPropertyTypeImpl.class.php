@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -180,7 +180,7 @@ class S2Dao_RelationPropertyTypeImpl
     public function isYourKey($columnName) {
         $size = $this->getKeySize();
         for ($i = 0; $i < $size; ++$i) {
-            if (strcasecmp($columnName, $this->getYourKey($i)) == 0) {
+            if (0 === strcasecmp($columnName, $this->getYourKey($i))) {
                 return true;
             }
         }

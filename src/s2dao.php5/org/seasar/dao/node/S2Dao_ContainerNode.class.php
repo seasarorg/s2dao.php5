@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -31,7 +31,8 @@ class S2Dao_ContainerNode extends S2Dao_AbstractNode {
     }
 
     public function accept(S2Dao_CommandContext $ctx) {
-        for ($i = 0; $i < $this->getChildSize(); ++$i) {
+        $c = $this->getChildSize();
+        for ($i = 0; $i < $c; ++$i) {
             $this->getChild($i)->accept($ctx);
         }
     }

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -37,7 +37,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
 
     public function parse() {
         $this->push(new S2Dao_ContainerNode());
-        while ($this->tokenizer->next() != S2Dao_SqlTokenizer::EOF) {
+        while ($this->tokenizer->next() !== S2Dao_SqlTokenizer::EOF) {
             $this->parseToken();
         }
         return $this->pop();
@@ -67,7 +67,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
         }
         $node = $this->peek();
         if (($node instanceof S2Dao_IfNode || $node instanceof S2Dao_ElseNode)
-                && $node->getChildSize() == 0) {
+                && $node->getChildSize() === 0) {
             $st = new S2Dao_SqlTokenizerImpl($sql);
             $st->skipWhitespace();
             $token = $st->skipToken();
@@ -124,7 +124,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
      */
     protected function parseEnd() {
         while (S2Dao_SqlTokenizer::EOF != $this->tokenizer->next()) {
-            if ($this->tokenizer->getTokenType() == S2Dao_SqlTokenizer::COMMENT
+            if ($this->tokenizer->getTokenType() === S2Dao_SqlTokenizer::COMMENT
                     && $this->isEndComment($this->tokenizer->getToken())) {
                 $this->pop();
                 return;
@@ -168,9 +168,9 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     protected function peek() {
-        $st = $this->nodeStack;
-        $shift = array_pop($st);
-        return $shift;
+        $st = array();
+        $st = (array)$this->nodeStack;
+        return array_pop($st);
     }
 
     protected function push(S2Dao_Node $node) {
@@ -178,9 +178,10 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     protected function isElseMode() {
-        $c = count($this->nodeStack);
+        $stack = $this->nodeStack;
+        $c = count($stack);
         for ($i = 0; $i < $c; ++$i) {
-            if ($this->nodeStack[$i] instanceof S2Dao_ElseNode) {
+            if ($stack[$i] instanceof S2Dao_ElseNode) {
                 return true;
             }
         }
@@ -190,7 +191,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     private static function isTargetComment($comment = null) {
         return $comment !== null &&
                0 < strlen($comment) && 
-               substr($comment, 0, 1) !== null;
+               substr($comment, 0, 1) != null;
     }
 
     private static function isIfComment($comment) {
@@ -198,11 +199,11 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     }
 
     private static function isBeginComment($content = null) {
-        return $content != null && strcmp('BEGIN', $content) == 0;
+        return $content !== null && strcmp('BEGIN', $content) === 0;
     }
 
     private static function isEndComment($content = null) {
-        return $content != null && strcmp('END', $content) == 0;
+        return $content !== null && strcmp('END', $content) === 0;
     }
 }
 ?>

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -55,7 +55,7 @@ class S2Dao_UpdateSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             $pt = $propertyTypes[$i];
             $buf .= $pt->getColumnName();
             if ($updateProperty &&
-                strcasecmp($pt->getPropertyName(), $timestampPropertyName) == 0) {
+                strcasecmp($pt->getPropertyName(), $timestampPropertyName) === 0) {
                 $buf .= ' = /*_timeStamp*/';
                 $this->timeStampPropertyExists = true;
             } else if ($updateProperty &&
@@ -129,7 +129,7 @@ final class S2Dao_UpdateSqlWrapperImplAnony extends S2Dao_SqlWrapperImpl {
     
     public function preUpdateBean(S2Dao_CommandContext $ctx) {
         if ($this->timeStampPropertyExists) {
-            $ctx->addArg('_timeStamp', time());
+            $ctx->addArg('_timeStamp', date('Y-m-d H:i:s', time()), gettype(''));
         }
         if ($this->versionNoPropertyExists) {
             $bean = $ctx->getArg('dto');

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -60,7 +60,7 @@ abstract class S2Dao_AbstractBeanMetaDataResultSetHandler implements S2Dao_Resul
                 for ($iter = $columnNames->iterator(); $iter->valid(); $iter->next()) {
                     $columnName = $iter->current();
                     $columnName2 = str_replace('_', '', $columnName);
-                    if (strcasecmp($columnName2, $ptColumnName) == 0) {
+                    if (0 === strcasecmp($columnName2, $ptColumnName)) {
                         $valueType = $pt->getValueType();
                         $value = $valueType->getValue($rs, $columnName);
                         $pd = $pt->getPropertyDesc();

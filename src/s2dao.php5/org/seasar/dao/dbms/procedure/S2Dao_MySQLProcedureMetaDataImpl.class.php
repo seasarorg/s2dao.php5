@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -54,7 +54,7 @@ class S2Dao_MySQLProcedureMetaDataImpl implements S2Dao_ProcedureMetaData {
             $info = new S2Dao_ProcedureInfo();
             $info->setCatalog($procedure['db']);
             $info->setName($procedure['name']);
-            if(strcasecmp($procedure['type'], 'PROCEDURE') == 0){
+            if(0 === strcasecmp($procedure['type'], 'PROCEDURE')){
                 $info->setType(self::STORED_PROCEDURE);
             } else {
                 $info->setType(self::STORED_FUNCTION);

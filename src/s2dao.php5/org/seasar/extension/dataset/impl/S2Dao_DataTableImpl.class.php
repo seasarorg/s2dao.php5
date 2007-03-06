@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -113,7 +113,7 @@ class S2Dao_DataTableImpl implements S2Dao_DataTable {
                     $values = array_keys($this->columns->toArray());
                     $key = $values[$i];
                     $key2 = str_replace('_', '', $key);
-                    if (strcasecmp($key2, $name) == 0) {
+                    if (0 === strcasecmp($key2, $name)) {
                         $column = $this->getColumn($i);
                         break;
                     }

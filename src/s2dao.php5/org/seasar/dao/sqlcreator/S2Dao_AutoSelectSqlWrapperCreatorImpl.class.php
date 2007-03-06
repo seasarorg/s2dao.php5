@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -43,21 +43,21 @@ class S2Dao_AutoSelectSqlWrapperCreatorImpl
     }
 
     protected static function startsWithOrderBy($query = null) {
-        if ($query == null) {
+        if ($query === null) {
             return false;
         }
         return preg_match(self::startWithOrderByPattern, trim($query));
     }
 
     protected static function startsWithSelect($query = null) {
-        if ($query == null) {
+        if ($query === null) {
             return false;
         }
         return preg_match(self::startWithSelectPattern, trim($query));
     }
     
     protected static function startsWithBeginComment($query = null) {
-        if($query == null){
+        if($query === null){
             return false;
         }
         return preg_match(self::startWithBeginCommentPattern, trim($query));

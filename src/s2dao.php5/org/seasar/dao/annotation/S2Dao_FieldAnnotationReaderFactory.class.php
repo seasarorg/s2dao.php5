@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -38,7 +38,7 @@ class S2Dao_FieldAnnotationReaderFactory implements S2Dao_AnnotationReaderFactor
     
     public function initialize(){
         if(!$this->initialized && (boolean)$this->useCommentAnnotation === true){
-            $existsReader = strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER, self::READER) != 0;
+            $existsReader = (strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER, self::READER) !== 0);
             if(class_exists('S2Container_AnnotationContainer') && $existsReader){
                 S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = self::READER;
             }

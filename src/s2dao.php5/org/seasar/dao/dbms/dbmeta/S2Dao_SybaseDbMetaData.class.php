@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -66,7 +66,7 @@ class S2Dao_SybaseDbMetaData extends S2Dao_StandardDbMetaData {
         $c = count($pkeys);
         for($i = 0; $i < $c; $i++){
             if(preg_match(self::reg_pkey_match, $pkeys[$i]['definition'], $m)){
-                if(strcasecmp(trim($m[1]), $column['column_name']) == 0){
+                if(0 === strcasecmp(trim($m[1]), $column['column_name'])){
                     return (array)self::PRIMARY_KEY;
                 }
             }

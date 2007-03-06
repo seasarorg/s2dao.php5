@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -143,7 +143,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             foreach($interfaces as $intf){
                 $c = count($this->daoSuffixes);
                 for ($j = 0; $j < $c; $j++) {
-                    if(0 == strcasecmp($intf->getName(), $this->daoSuffixes[$j])){
+                    if(0 === strcasecmp($intf->getName(), $this->daoSuffixes[$j])){
                         return $intf;
                     }
                 }

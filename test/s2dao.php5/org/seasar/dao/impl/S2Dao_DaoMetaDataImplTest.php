@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -124,7 +124,7 @@ class S2Dao_DaoMetaDataImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertNotNull($cmd);
         $this->assertEquals("S2Dao_BeanMetaDataResultSetHandler",
                             get_class($cmd->getResultSetHandler()));
-        $this->assertTrue(strcasecmp("SELECT COUNT(*) FROM EMP2 emp2", $cmd->getSql()) == 0);
+        $this->assertTrue(0 === strcasecmp("SELECT COUNT(*) FROM EMP2 emp2", $cmd->getSql()));
     }
 
     public function testUpdate() {

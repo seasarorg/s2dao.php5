@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -100,7 +100,7 @@ final class S2Dao_DatabaseMetaDataUtil {
     public static function getColumnSet(PDO $dbMetaData, $tableName) {
         $schema = null;
         $index = strpos('.', $tableName);
-        if ($index >= 0 && $index !== false) {
+        if (0 <= $index && $index !== false) {
             $schema = substr($tableName, 0, $index);
             $tableName = substr($tableName, $index + 1);
         }

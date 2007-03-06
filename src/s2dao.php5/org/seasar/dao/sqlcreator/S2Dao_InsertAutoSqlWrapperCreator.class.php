@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -80,8 +80,8 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             $pd = $pt->getPropertyDesc();
             $propertyName = $pd->getPropertyName();
             if ($pd->getPropertyType() == null
-                || strcasecmp($propertyName, $timestampPropertyName) == 0
-                || strcmp($propertyName, $versionNoPropertyName) == 0) {
+                || strcasecmp($propertyName, $timestampPropertyName) === 0
+                || strcmp($propertyName, $versionNoPropertyName) === 0) {
                 $isNullCheckRequired = false;
             }
             if ($isNullCheckRequired) {
@@ -96,10 +96,10 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
             $namesBuf .= ',';
             $valuesBuf .= ',';
             $namesBuf .= $pt->getColumnName();
-            if (strcasecmp($pt->getPropertyName(), $timestampPropertyName) == 0) {
+            if (strcasecmp($pt->getPropertyName(), $timestampPropertyName) === 0) {
                 $valuesBuf .= '/*_timeStamp*/';
                 $timeStampPropertyExists = true;
-            } else if (strcmp($pt->getPropertyName(), $versionNoPropertyName) == 0) {
+            } else if (strcmp($pt->getPropertyName(), $versionNoPropertyName) === 0) {
                 $valuesBuf .= '/*_versionNo*/';
                 $versionNoPropertyExists = true;
             } else {
@@ -155,10 +155,10 @@ class S2Dao_InsertAutoSqlWrapperCreator extends S2Dao_AutoSqlWrapperCreator {
                 $valuesBuf .= ', ';
             }
             $namesBuf .= $pt->getColumnName();
-            if (strcasecmp($pt->getPropertyName(), $timestampPropertyName) == 0) {
+            if (strcasecmp($pt->getPropertyName(), $timestampPropertyName) === 0) {
                 $valuesBuf .= '/*_timeStamp*/';
                 $timeStampPropertyExists = true;
-            } else if (strcmp($pt->getPropertyName(), $versionNoPropertyName) == 0) {
+            } else if (strcmp($pt->getPropertyName(), $versionNoPropertyName) === 0) {
                 $valuesBuf .= '/*_versionNo*/';
                 $versionNoPropertyExists = true;
             } else {
@@ -250,7 +250,7 @@ final class S2Dao_InsertSqlWrapper extends S2Dao_SqlWrapperImpl {
             $this->generator->setIdentifier($bean, $this->dataSource);
         }
         if ($this->timeStampPropertyExists) {
-            $ctx->addArg('_timeStamp', time(), gettype(0));
+            $ctx->addArg('_timeStamp', date('Y-m-d H:i:s', time()), gettype(''));
         }
         if ($this->versionNoPropertyExists) {
             $ctx->addArg('_versionNo', 0, gettype(0));
@@ -314,7 +314,7 @@ final class S2Dao_InsertBatchSqlWrapper extends S2Dao_SqlWrapperImpl{
             return;
         }
         if ($this->timeStampPropertyExists) {
-            $ctx->addArg('_timeStamp', time(), gettype(0));
+            $ctx->addArg('_timeStamp', date('Y-m-d H:i:s', time()), gettype(''));
         }
         if ($this->versionNoPropertyExists) {
             $ctx->addArg('_versionNo', 0, gettype(0));
