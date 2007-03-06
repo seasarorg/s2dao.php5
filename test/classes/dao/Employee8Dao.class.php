@@ -8,7 +8,7 @@ interface Employee8Dao {
             /*IF dto.job !== null*/AND job = /*dto.job*/'bbb'/*END*/
             /*END*/";
 
-    public function getEmployeesList(Employee8 $employee);
+    public function getEmployeesList(Employee8 $dto);
 
 }
 

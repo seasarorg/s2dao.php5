@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the 'License');      |
 // | you may not use this file except in compliance with the License.     |
@@ -55,7 +55,7 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
             $tokenizer->next();
             $this->fail('3');
         } catch (S2Dao_TokenNotClosedRuntimeException $ex) {
-            var_dump($ex->getMessage());
+            var_dump('[message]: ' . $ex->getMessage());
         }
     }
 
@@ -203,6 +203,71 @@ class S2Dao_SqlTokenizerImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
         $this->assertEquals(')', $tokenizer->getToken());
         $this->assertEquals(S2Dao_SqlTokenizer::EOF, $tokenizer->next());
+    }
+
+    public function testDAOPHP8_1(){
+        $sql = '/*IF weight != null*/formats.weight = /*weight*/0 --ELSE weight is null/*END*/';
+        $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('IF weight != null', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('formats.weight = ', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('weight', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('0 ', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::ELSE_, $tokenizer->next());
+        $this->assertNull($tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('weight is null', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('END', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::EOF, $tokenizer->next());
+        $this->assertNull($tokenizer->getToken());
+    }
+    
+    public function testDAOPHP8_2(){
+        $sql = '/*IF weight != null*/weight=/*weight*/0 --ELSE isnull(weight)/*END*/';
+        $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('IF weight != null', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('weight=', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('weight', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('0 ', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::ELSE_, $tokenizer->next());
+        $this->assertNull($tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('isnull(weight)', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('END', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::EOF, $tokenizer->next());
+        $this->assertNull($tokenizer->getToken());
+    }
+    
+    public function testDAOPHP8_3(){
+        $sql = 'weight /*IF weight != null*/=/*weight*/0 --ELSE is null/*END*/';
+        $tokenizer = new S2Dao_SqlTokenizerImpl($sql);
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('weight ', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('IF weight != null', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('=', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('weight', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('0 ', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::ELSE_, $tokenizer->next());
+        $this->assertNull($tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::SQL, $tokenizer->next());
+        $this->assertEquals('is null', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::COMMENT, $tokenizer->next());
+        $this->assertEquals('END', $tokenizer->getToken());
+        $this->assertEquals(S2Dao_SqlTokenizer::EOF, $tokenizer->next());
+        $this->assertNull($tokenizer->getToken());
     }
 }
 ?>

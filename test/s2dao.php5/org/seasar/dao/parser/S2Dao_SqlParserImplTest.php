@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright 2005-2006 the Seasar Foundation and the Others.            |
+// | Copyright 2005-2007 the Seasar Foundation and the Others.            |
 // +----------------------------------------------------------------------+
 // | Licensed under the Apache License, Version 2.0 (the "License");      |
 // | you may not use this file except in compliance with the License.     |
@@ -68,9 +68,10 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
             $parser->parse();
             $this->fail("1");
         } catch (S2Dao_TokenNotClosedRuntimeException $ex) {
-            echo $ex . PHP_EOL;
+            var_dump('[message]: ' . $ex->getMessage());
         }
     }
+
     public function testParseBindVariable4() {
         $sql = "SELECT * FROM EMP2 emp2 WHERE job = #*job*#'CLERK' AND deptno = #*deptno*#20";
         $parser = new S2Dao_SqlParserImpl($sql);
@@ -81,7 +82,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("deptno", $deptno, gettype($deptno));
         $root = $parser->parse();
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
     }
     
     public function testParseBindVariable() {
@@ -97,7 +98,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("deptno", $deptno, gettype($deptno));
         $root = $parser->parse();
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(2, count($vars));
@@ -124,7 +125,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx = new S2Dao_CommandContextImpl();
         $root = $parser->parse();
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2_parsed, $ctx->getSql());
         $this->assertEquals(2, $root->getChildSize());
         $sqlNode = $root->getChild(0);
@@ -143,7 +144,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("emp2no", $emp2no, gettype($emp2no));
         $root = $parser->parse();
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $sqlNode = $root->getChild(2);
         $this->assertEquals($sql3, $sqlNode->getSql());
@@ -159,7 +160,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("job", $job, gettype($job));
         $root = $parser->parse();
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars));
@@ -176,7 +177,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $this->assertEquals("job", $varNode->getExpression());
         $ctx2 = new S2Dao_CommandContextImpl();
         $root->accept($ctx2);
-        echo $ctx2->getSql() . PHP_EOL;
+        echo $ctx2->getSql() , PHP_EOL;
         $this->assertEquals($sql3, $ctx2->getSql());
     }
     
@@ -186,28 +187,28 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx = new S2Dao_CommandContextImpl();
         $root = $parser->parse();
         $root->accept($ctx);
-        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx->getSql() . "]" , PHP_EOL;
         $this->assertEquals("", $ctx->getSql());
         $ctx->addArg("aaa", null, gettype(""));
         $ctx->addArg("bbb", "hoge",gettype(""));
         $root->accept($ctx);
-        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx->getSql() . "]" , PHP_EOL;
         $this->assertEquals("", $ctx->getSql());
         $ctx->addArg("aaa", "hoge", gettype(""));
         $root->accept($ctx);
-        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx->getSql() . "]" , PHP_EOL;
         $this->assertEquals("aaabbb", $ctx->getSql());
         $ctx2 = new S2Dao_CommandContextImpl();
         $ctx2->addArg("aaa", "hoge", gettype(""));
         $ctx2->addArg("bbb", null, gettype(""));
         $root->accept($ctx2);
-        echo "[" . $ctx2->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx2->getSql() . "]" , PHP_EOL;
         $this->assertEquals("aaa", $ctx2->getSql());
     }
     
     public function testParseElse() {
-        $sql = "SELECT * FROM EMP2 emp2 WHERE /*IF job != null*/job = /*job*/'CLERK'--ELSE job is null/*END*/";
-        $sql2 = "SELECT * FROM EMP2 emp2 WHERE job = ?";
+        $sql = "SELECT * FROM EMP2 emp2 WHERE /*IF job != null*/job = /*job*/'CLERK' --ELSE job is null/*END*/";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE job = ? ";
         $sql3 = "SELECT * FROM EMP2 emp2 WHERE job is null";
         $parser = new S2Dao_SqlParserImpl($sql);
         $ctx = new S2Dao_CommandContextImpl();
@@ -215,14 +216,14 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("job", $job, gettype($job));
         $root = $parser->parse();
         $root->accept($ctx);
-        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx->getSql() . "]" , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars));
         $this->assertEquals($job, $vars[0]);
         $ctx2 = new S2Dao_CommandContextImpl();
         $root->accept($ctx2);
-        echo "[" . $ctx2->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx2->getSql() . "]" , PHP_EOL;
         $this->assertEquals($sql3, $ctx2->getSql());
     }
     
@@ -234,7 +235,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("bbb", $bbb, gettype($bbb));
         $root = $parser->parse();
         $root->accept($ctx);
-        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx->getSql() . "]" , PHP_EOL;
         $this->assertEquals("bbb = ?", $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars));
@@ -247,18 +248,18 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx = new S2Dao_CommandContextImpl();
         $root = $parser->parse();
         $root->accept($ctx);
-        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx->getSql() . "]" , PHP_EOL;
         $this->assertEquals("bbbddd", $ctx->getSql());
     }
     
     public function testElse4() {
         $sql = "SELECT * FROM EMP2 emp2/*BEGIN*/ WHERE /*IF false*/aaa--ELSE AND deptno = 10/*END*//*END*/";
-        $sql2 = "SELECT * FROM EMP2 emp2 WHERE  deptno = 10";
+        $sql2 = "SELECT * FROM EMP2 emp2 WHERE AND deptno = 10";
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
     }
     
@@ -272,28 +273,28 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         
         $ctx2 = new S2Dao_CommandContextImpl();
         $ctx2->addArg("job", "CLERK", gettype(""));
         $ctx2->addArg("deptno", null, gettype(0));
         $root->accept($ctx2);
-        echo $ctx2->getSql() . PHP_EOL;
+        echo $ctx2->getSql() , PHP_EOL;
         $this->assertEquals($sql3, $ctx2->getSql());
         
         $ctx3 = new S2Dao_CommandContextImpl();
         $ctx3->addArg("job", "CLERK", gettype(""));
         $ctx3->addArg("deptno", 20, gettype(20));
         $root->accept($ctx3);
-        echo $ctx3->getSql() . PHP_EOL;
+        echo $ctx3->getSql() , PHP_EOL;
         $this->assertEquals($sql4, $ctx3->getSql());
         
         $ctx4 = new S2Dao_CommandContextImpl();
         $ctx4->addArg("deptno", 20, gettype(20));
         $ctx4->addArg("job", null, gettype(""));
         $root->accept($ctx4);
-        echo $ctx4->getSql() . PHP_EOL;
+        echo $ctx4->getSql() , PHP_EOL;
         $this->assertEquals($sql5, $ctx4->getSql());
     }
     
@@ -303,10 +304,10 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $parser = new S2Dao_SqlParserImpl($sql);
         $root = $parser->parse();
         $ctx = new S2Dao_CommandContextImpl();
-        $ctx->addArg("bbb", "111", gettype(""));
-        $ctx->addArg("ccc", "222", gettype(""));
+        $ctx->addArg("bbb", "111", gettype("111"));
+        $ctx->addArg("ccc", "222", gettype("222"));
         $root->accept($ctx);
-        echo "[" . $ctx->getSql() . "]" . PHP_EOL;
+        echo "[" . $ctx->getSql() . "]" , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
     }
     
@@ -321,7 +322,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $deptnoList->add(20);
         $ctx->addArg("deptnoList", $deptnoList, gettype($deptnoList->toArray()));
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars[0]));
@@ -337,7 +338,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $deptnoArray = new S2Dao_ArrayList(array(10, 20));
         $ctx->addArg("deptnoList", $deptnoArray, gettype($deptnoArray));
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars[0]));
@@ -355,7 +356,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("enames", $enames, gettype($enames));
         $ctx->addArg("jobs", $jobs, gettype($jobs));
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql2, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(1, count($vars[0]));
@@ -371,7 +372,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg('$1', 0, gettype(0));
         $ctx->addArg('$2', 1000, gettype(1000));
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals($sql, $ctx->getSql());
         $vars = $ctx->getBindVariables();
         $this->assertEquals(2, count($vars));
@@ -386,7 +387,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
             $parser->parse();
             $this->fail("1");
         } catch (S2Dao_EndCommentNotFoundRuntimeException $ex) {
-            echo $ex . PHP_EOL;
+            echo $ex , PHP_EOL;
         }
     }
     
@@ -398,7 +399,7 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx->addArg("id", 0, gettype(0));
         $ctx->addArg("num", 1, gettype(1));
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals(true, preg_match('/\)$/', $ctx->getSql()) == 1);
     }
     
@@ -409,8 +410,56 @@ class S2Dao_SqlParserImplTest extends PHPUnit2_Framework_TestCase {
         $ctx = new S2Dao_CommandContextImpl();
         $ctx->addArg("aaa", 0, gettype(0));
         $root->accept($ctx);
-        echo $ctx->getSql() . PHP_EOL;
+        echo $ctx->getSql() , PHP_EOL;
         $this->assertEquals("", $ctx->getSql());
+    }
+    
+    public function testDAOPHP8_1(){
+        $sql = '/*IF weight != null*/formats.weight = /*weight*/0 --ELSE weight is null/*END*/';
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        // string null
+        $ctx = new S2Dao_CommandContextImpl();
+        $ctx->addArg('weight', '', gettype(null));
+        $root->accept($ctx);
+        echo $ctx->getSql() , PHP_EOL;
+        $this->assertEquals('weight is null', $ctx->getSql());
+        // string value
+        $ctx2 = new S2Dao_CommandContextImpl();
+        $ctx2->addArg('weight', 'hoge', gettype(''));
+        $root->accept($ctx2);
+        echo $ctx2->getSql() , PHP_EOL;
+        $this->assertEquals('formats.weight = ? ', $ctx2->getSql());
+        // null string
+        $ctx3 = new S2Dao_CommandContextImpl();
+        $ctx3->addArg('weight', null, gettype(''));
+        $root->accept($ctx3);
+        echo $ctx3->getSql() , PHP_EOL;
+        $this->assertEquals('weight is null', $ctx3->getSql());
+        // integer value
+        $ctx4 = new S2Dao_CommandContextImpl();
+        $ctx4->addArg('weight', 100, gettype(100));
+        $root->accept($ctx4);
+        echo $ctx4->getSql() , PHP_EOL;
+        $this->assertEquals('formats.weight = ? ', $ctx4->getSql());
+    }
+    
+    public function testDAOPHP8_2(){
+        $sql = 'SELECT * FROM formats WHERE /*IF weight != null*/formats.weight = /*weight*/0 --ELSE weight is null/*END*/';
+        $parser = new S2Dao_SqlParserImpl($sql);
+        $root = $parser->parse();
+        // correct
+        $ctx = new S2Dao_CommandContextImpl();
+        $ctx->addArg('weight', 100, gettype(100));
+        $root->accept($ctx);
+        echo $ctx->getSql() , PHP_EOL;
+        $this->assertEquals('SELECT * FROM formats WHERE formats.weight = ? ', $ctx->getSql());
+        // un
+        $ctx2 = new S2Dao_CommandContextImpl();
+        $ctx2->addArg('weight', null, gettype(null));
+        $root->accept($ctx2);
+        echo $ctx2->getSql() , PHP_EOL;
+        $this->assertEquals('SELECT * FROM formats WHERE weight is null', $ctx2->getSql());
     }
 }
 ?>

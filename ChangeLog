@@ -1,3 +1,15 @@
+2007-03-07 nowel(S2Dao.PHP5-1.1.2)
+
+================ S2Dao.PHP5-1.1.2(stable) 更新履歴 ===================
+
+    * fix: [DAOPHP-8] /*IF */ ... --ELSE ... /*END*/の指定が正しく行われない
+        SQLコメントに特定の文字列を含む羽rメータのバインドが行われない不具合を修正しました。
+    * fix: [DAOPHP-9] timestampによる排他制御時にtimestampフィールドに対しunixtimeが設定される
+        timestamp型のフィールドに対してlongのunix-timestampが設定されるのをdate表記のtimestampへ変更しました。
+    * fix: SQLコメント時の値評価処理を修正しました。
+        SQLコメント(IF Node)時にDTOに設定されていない値が評価された際にNoficeが出るのを修正しました。
+    * update: Copyrightを 'Copyright 2005-2006' から 'Copyright 2005-2007'へ修正しました。
+
 2006-10-15 nowel(S2Dao.PHP5-1.1.1)
 
 ================ S2Dao.PHP5-1.1.1(stable) 更新履歴 ===================
