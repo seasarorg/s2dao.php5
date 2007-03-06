@@ -33,6 +33,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
     const startWithSelectPattern = '/^\s*SELECT/i';
     const startWithBeginCommentPattern = '/^\/\*BEGIN\*\/\s*WHERE .+/i';
     const startWithOrderByPattern = '/^(\/\*[^\*]+\*\/)*order by/i';
+    const startWithIfCommentPattern = '/\/\*IF .+/i';
 
     protected $daoClass_;
     protected $daoInterface_;
@@ -422,6 +423,7 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                                                  $this->resultSetFactory_);
         } else {
             $cmd = $this->createSelectDynamicCommand($rsh);
+            $began = false;
             $buf = '';
             if (self::startsWithSelect($query)) {
                 $buf .= $query;
@@ -433,11 +435,22 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
                 } else if (self::startsWithBeginComment($query)) {
                     $buf .= ' ';
                 } else if (stripos($sql, 'WHERE') === false) {
+                    if (self::startsWithIfComment($query)) {
+                        $buf .= '/*BEGIN*/';
+                        $began = true;
+                    }
                     $buf .= ' WHERE ';
                 } else {
+                    if (self::startsWithIfComment($query)) {
+                        $buf .= '/*BEGIN*/';
+                        $began = true;
+                    }
                     $buf .= ' AND ';
                 }
                 $buf .= $query;
+                if ($began) {
+                    $buf .= '/*END*/';
+                }
             }
             $cmd->setSql($buf);
             return $cmd;
@@ -577,6 +590,13 @@ class S2Dao_DaoMetaDataImpl implements S2Dao_DaoMetaData {
             throw new S2Dao_IllegalSignatureRuntimeException('EDAO0006',
                                             (string)$method->__toString());
         }
+    }
+    
+    protected static function startsWithIfComment($query = null) {
+        if ($query == null) {
+            return false;
+        }
+        return preg_match(self::startWithIfCommentPattern, trim($query));
     }
     
     protected static function startsWithSelect($query = null) {
