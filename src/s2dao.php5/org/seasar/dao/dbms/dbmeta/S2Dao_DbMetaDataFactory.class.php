@@ -27,20 +27,23 @@
  */
 final class S2Dao_DbMetaDataFactory {
     
-    const DBMetaData_Suffix = 'DBMetaData';
+    const DbMetaData_Suffix = 'DbMetaData';
     
     private static $instance = array();
     
     public static function create(PDO $db, S2Dao_Dbms $dbms){
-        $dbmd = get_class($dbms) . self::DBMetaData_Suffix;
+        $dbmd = get_class($dbms) . self::DbMetaData_Suffix;
         if(isset(self::$instance[$dbmd])){
             return self::$instance[$dbmd];
         }
-        if(class_exists($dbmd, false)){
+        if(strcasecmp($dbmd, 'S2Dao_MySQLDbMetaData') === 0){
+            $instance = self::$instance[$dbmd] = new S2Dao_StandardDbMetaData($db, $dbms);
+            return $instance;
+        } else if(class_exists($dbmd)){
             $instance = self::$instance[$dbmd] = new $dbmd($db, $dbms);
             return $instance;
         }
-        return new S2Dao_StandardDBMetaData($db, $dbms);
+        return new S2Dao_StandardDbMetaData($db, $dbms);
     }
 }
 

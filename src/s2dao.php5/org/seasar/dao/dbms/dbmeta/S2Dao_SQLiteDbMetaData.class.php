@@ -68,13 +68,13 @@ class S2Dao_SQLiteDbMetaData extends S2Dao_StandardDbMetaData {
                     $pk = true;
                 }
                 $retVal[] = array(
-                            'name' => $row['name'],
-                            'native_type' => array($row['type']),
-                            'flags' => $pk === true ? (array)self::PRIMARY_KEY : array(),
-                            'len' => -1,
-                            'precision' => 0,
-                            'pdo_type' => 2,
-                        );
+                    'name' => $row['name'],
+                    'native_type' => array($row['type']),
+                    'flags' => $pk === true ? (array)self::PRIMARY_KEY : array(),
+                    'len' => -1,
+                    'precision' => 0,
+                    'pdo_type' => 2,
+                );
             }
         }
         return $retVal;

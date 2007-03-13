@@ -62,13 +62,13 @@ class S2Dao_FirebirdDbMetaData extends S2Dao_StandardDbMetaData {
         $stmt = null;
         foreach($columns as $key => $column){
             $retVal[] = array(
-                            'name' => $key,
-                            'native_type' => array(),
-                            'flags' => null,
-                            'len' => -1,
-                            'precision' => 0,
-                            'pdo_type' => null,
-                        );
+                'name' => $key,
+                'native_type' => array(),
+                'flags' => null,
+                'len' => -1,
+                'precision' => 0,
+                'pdo_type' => null,
+            );
         }
         return $retVal;
     }

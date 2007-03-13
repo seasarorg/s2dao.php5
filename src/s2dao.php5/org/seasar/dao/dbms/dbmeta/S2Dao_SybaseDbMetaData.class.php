@@ -48,16 +48,16 @@ class S2Dao_SybaseDbMetaData extends S2Dao_StandardDbMetaData {
         $columnMeta = array();
         foreach($columns as $column){
             $columnMeta[] = array(
-                        'name' => $column['column_name'],
-                        'native_type' => array(
-                                            $column['type_name'],
-                                            $column['sql_data_type']
-                                        ),
-                        'flags' => $this->getFlags($pkeys, $column),
-                        'len' => $column['length'],
-                        'precision' => $column['precision'],
-                        'pdo_type' => null,
-                    );
+                'name' => $column['column_name'],
+                'native_type' => array(
+                    $column['type_name'],
+                    $column['sql_data_type']
+                ),
+                'flags' => $this->getFlags($pkeys, $column),
+                'len' => $column['length'],
+                'precision' => $column['precision'],
+                'pdo_type' => null,
+            );
         }
         return $columnMeta;
     }

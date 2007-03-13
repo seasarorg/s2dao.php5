@@ -53,13 +53,13 @@ class S2Dao_OracleDbMetaData extends S2Dao_StandardDbMetaData {
             }
 
             $retVal[] = array(
-                            'name' => $row['COLUMN_NAME'],
-                            'native_type' => $row['DATA_TYPE'],
-                            'flags' => $flg,
-                            'len' => $row['CHAR_COL_DECL_LENGTH'],
-                            'precision' => $row['DATA_PRECISION'],
-                            'pdo_type' => null,
-                        );
+                'name' => $row['COLUMN_NAME'],
+                'native_type' => $row['DATA_TYPE'],
+                'flags' => $flg,
+                'len' => $row['CHAR_COL_DECL_LENGTH'],
+                'precision' => $row['DATA_PRECISION'],
+                'pdo_type' => null,
+            );
         }
         return $retVal;
     }
