@@ -36,7 +36,7 @@ final class S2Dao_DbMetaDataFactory {
         if(isset(self::$instance[$dbmd])){
             return self::$instance[$dbmd];
         }
-        if(class_exists($dbmd)){
+        if(class_exists($dbmd, false)){
             $instance = self::$instance[$dbmd] = new $dbmd($db, $dbms);
             return $instance;
         }

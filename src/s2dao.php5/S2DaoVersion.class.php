@@ -30,7 +30,7 @@ final class S2DaoVersion {
     const Version = '1.2.0';
     const DownwardVersion = '1.2.0';
     const ReleaseVersion = 'beta';
-    const FullVersion = 'S2Dao.PHP5-1.2.0-beta1';
+    const FullVersion = 'S2Dao.PHP5-1.2.0-beta2';
     const RequiredPDOVersion = '1.0.3';
     
     public static function getVersion(){

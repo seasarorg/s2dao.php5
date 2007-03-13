@@ -87,15 +87,20 @@ class S2Dao_CaseInsensitiveMap extends S2Dao_HashMap {
     }
     
     public function entrySet(){
-        $set = new S2Dao_CaseInsensitiveSet();
-        $set->addAll(new ArrayObject(array_values($this->toArray())));
-        return $set;
+        return $this->addAllMap(new S2Dao_EntrySet(), $this->toArray());
+    }
+    
+    public function valueSet(){
+        return $this->addAllMap(new S2Dao_CaseInsensitiveSet(), array_values($this->toArray()));
     }
     
     public function keySet(){
-        $set = new S2Dao_CaseInsensitiveSet();
-        $set->addAll(new ArrayObject(array_keys($this->toArray())));
-        return $set;
+        return $this->addAllMap(new S2Dao_CaseInsensitiveSet(), array_keys($this->toArray()));
+    }
+    
+    private function addAllMap(S2Dao_Map $map, array $values){
+        $map->addAll(new ArrayObject($values));
+        return $map;
     }
     
 }

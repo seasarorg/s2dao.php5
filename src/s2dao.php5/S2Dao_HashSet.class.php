@@ -41,6 +41,13 @@ class S2Dao_HashSet extends S2Dao_HashMap {
     /**
      * @throws S2Container_S2RuntimeException
      */
+    public final function valueSet(){
+        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
+    }
+    
+    /**
+     * @throws S2Container_S2RuntimeException
+     */
     public final function keySet(){
         throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
     }

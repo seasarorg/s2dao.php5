@@ -1,8 +1,14 @@
+2007-03-13 nowel(S2Dao.PHP5-1.2.0-beta2)
+
+	* fix: [DAOPHP-13] S2Dao_DBMetaDataFactoryが存在しないクラスをロードしてしまう
+        - S2Dao_DBMetaDataFactoryとS2Dao_ProcedureMetaDataFactoryにおいてクラスロードされていない
+	      クラスをロードしようとしてしまう問題を修正しました。
+
 2007-03-07 nowel(S2Dao.PHP5-1.2.0-beta2)
 
     * merge: S2Dao.PHP5-1.1.2 and S2Dao.PHP5-1.2.0-beta2 (rev. 611)
 	    * fix: [DAOPHP-8] /*IF */ ... --ELSE ... /*END*/の指定が正しく行われない
-	        SQLコメントに特定の文字列を含む羽rメータのバインドが行われない不具合を修正しました。
+	        SQLコメントに特定の文字列を含むパラメータのバインドが行われない不具合を修正しました。
 	    * fix: [DAOPHP-9] timestampによる排他制御時にtimestampフィールドに対しunixtimeが設定される
 	        timestamp型のフィールドに対してlongのunix-timestampが設定されるのをdate表記のtimestampへ変更しました。
 	    * fix: SQLコメント時の値評価処理を修正しました。
@@ -107,9 +113,9 @@
 
     * add: build.properies
 
-2006-10-22 nowel(S2Dao.PHP5-1.2.0-RC)
+2006-10-22 nowel(S2Dao.PHP5-1.2.0-alpha0)
 
-    * merge: S2Dao.PHP5-1.1.1 and S2Dao.PHP5-1.2.0-RC(revision. 523)
+    * merge: S2Dao.PHP5-1.1.1 and S2Dao.PHP5-1.2.0-alpha0(revision. 523)
 
 2006-10-15 nowel(S2Dao.PHP5-1.1.1)
 

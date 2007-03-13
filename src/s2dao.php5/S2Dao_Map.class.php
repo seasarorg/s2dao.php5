@@ -50,5 +50,7 @@ interface S2Dao_Map {
     public function entrySet();
     
     public function keySet();
+    
+    public function valueSet();
 }
 ?>

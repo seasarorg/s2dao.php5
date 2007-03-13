@@ -25,53 +25,45 @@
  * @author nowel
  * @package org.seasar.s2dao
  */
-class S2Dao_CaseInsensitiveSet extends S2Dao_CaseInsensitiveMap {
+class S2Dao_EntrySet extends S2Dao_HashSet {
     
     public function __construct(){
         parent::__construct();
     }
     
-    /**
-     * @throws S2Container_S2RuntimeException
-     */
-    public final function put($key, $value){
-        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
-    }
-    
-    /**
-     * @throws S2Container_S2RuntimeException
-     */
-    public final function valueSet(){
-        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
-    }
-    
-    /**
-     * @throws S2Container_S2RuntimeException
-     */
-    public final function keySet(){
-        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
-    }
-    
-    /**
-     * @throws S2Container_S2RuntimeException
-     */
-    public final function entrySet(){
-        throw new S2Container_S2RuntimeException('IllegalAccess', array(__METHOD__));
-    }
-    
     public function add($element){
-        parent::put($element, $element);
-    }
-    
-    public function addAll(ArrayObject $list){
-        $arrays = $list->getArrayCopy();
-        foreach($arrays as $value){
-            $this->add($value);
-        }
+        parent::put($element, new S2Dao_MapEntry($element));
     }
     
     public function toArray(){
         return array_values(parent::toArray());
+    }
+    
+    public function iterator(){
+        $ao = new ArrayObject($this->toArray());
+        return $ao->getIterator();
+    }
+}
+
+/**
+ * @author nowel
+ */
+class S2Dao_MapEntry {
+    
+    private $key;
+    
+    private $value;
+    
+    public function __construct(array $element){
+        list($this->key, $this->value) = each($element);
+    }
+    
+    public function getKey(){
+        return $this->key;
+    }
+    
+    public function getValue(){
+        return $this->value;
     }
 }
 

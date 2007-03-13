@@ -86,15 +86,20 @@ class S2Dao_HashMap implements S2Dao_Map {
     }
     
     public function entrySet(){
-        $set = new S2Dao_HashSet();
-        $set->addAll(new ArrayObject(array_values($this->element)));
-        return $set;
+        return $this->addAllMap(new S2Dao_EntrySet(), $this->element);
+    }
+    
+    public function valueSet(){
+        return $this->addAllMap(new S2Dao_HashSet(), array_values($this->element));
     }
     
     public function keySet(){
-        $set = new S2Dao_HashSet();
-        $set->addAll(new ArrayObject(array_keys($this->element)));
-        return $set;
+        return $this->addAllMap(new S2Dao_HashSet(), array_keys($this->element));
+    }
+    
+    private function addAllMap(S2Dao_Map $map, array $values){
+        $map->addAll(new ArrayObject($values));
+        return $map;
     }
 }
 ?>

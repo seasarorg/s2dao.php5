@@ -39,7 +39,7 @@ class S2Dao_FieldAnnotationReaderFactory implements S2Dao_AnnotationReaderFactor
     public function initialize(){
         if(!$this->initialized && (boolean)$this->useCommentAnnotation === true){
             $existsReader = (strcasecmp(S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER, self::READER) !== 0);
-            if(class_exists('S2Container_AnnotationContainer') && $existsReader){
+            if(class_exists('S2Container_AnnotationContainer', false) && $existsReader){
                 S2Container_AnnotationContainer::$DEFAULT_ANNOTATION_READER = self::READER;
             }
             $this->initialized = true;

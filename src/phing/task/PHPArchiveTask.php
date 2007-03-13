@@ -13,7 +13,7 @@ class PHPArchiveTask extends Task {
 
     public function main(){
         include_once "PHP/Archive/Creator.php";
-        if(!class_exists("PHP_Archive_Creator")){
+        if(!class_exists("PHP_Archive_Creator", false)){
             throw new BuildException("PHP_Archive_Creator...orz");
         }
         $this->create();

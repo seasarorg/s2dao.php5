@@ -36,7 +36,7 @@ class S2Dao_ProcedureMetaDataFactory {
         $dbms = S2DaoDbmsManager::getDbms($connection);
         $pmd = get_class($dbms) . self::ProcedureMetaData_Suffix;
         
-        if(!class_exists($pmd)){
+        if(!class_exists($pmd, false)){
             throw new Exception('not supported ' . get_class($dbms));
         }
         return new $pmd($connection, $dbms);
