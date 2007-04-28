@@ -36,6 +36,7 @@ final class S2Dao_DbMetaDataFactory {
         if(isset(self::$instance[$dbmd])){
             return self::$instance[$dbmd];
         }
+        // TODO: DbMeta classes mapping table
         if(strcasecmp($dbmd, 'S2Dao_MySQLDbMetaData') === 0){
             $instance = self::$instance[$dbmd] = new S2Dao_StandardDbMetaData($db, $dbms);
             return $instance;

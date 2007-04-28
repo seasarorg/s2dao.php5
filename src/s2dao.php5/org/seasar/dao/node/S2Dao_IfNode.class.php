@@ -84,8 +84,8 @@ class S2Dao_IfNode extends S2Dao_ContainerNode {
             $result = eval($evaluate);
             if(self::isBoolValue($result)){
                 if(self::isTrue($result)){
-                    $ctx->setEnabled(true);
                     parent::accept($ctx);
+                    $ctx->setEnabled(true);
                 } else if($this->elseNode !== null){
                     $ctx->setEnabled(true);
                     $this->elseNode->accept($ctx);
