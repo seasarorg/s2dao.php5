@@ -61,7 +61,6 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
     {
         return $this->condition->getLimit();
     }
-    
     public function setLimit($limit)
     {
         $this->condition->setLimit($limit);
