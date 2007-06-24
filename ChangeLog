@@ -119,12 +119,7 @@
 
 2006-10-15 nowel(S2Dao.PHP5-1.1.1)
 
-================ S2Dao.PHP5-1.1.1(stable) 更新履歴 ===================
-
-    * fix: QUERY, SQLアノテーション時に "$?" を含むパラメータバインドが行えない不具合を修正しました。
-    * doc: ドキュメントに古いリンクが含まれているのを修正しました。
-    * fix: Daoメソッド名が*Json,*Yamlのメソッドをフィルタリングしない不具合を修正しました
-    * fix: SQLiteの空テーブルへのアクセスができない不具合を修正しました。
+    * released!
 
 2006-10-14 nowel(S2Dao.PHP5-1.1.1)
 
@@ -144,105 +139,11 @@
 
 2006-07-28 nowel(S2Dao.PHP5-1.2.0-RC)
 
-    * added
+    * added new components!
 
 2006-07-24 nowel(S2Dao.PHP5-1.1.0)
 
-================ S2Dao.PHP5-1.1.0(stable) 更新履歴 ===================
-
-    * add: 対応するDBMSに以下を追加しました。(nowel)
-        - Firebird
-        - Oracle
-        - Sybase
-    * modify: MySQL接続中にBUFFERED_QUERYを使用するように変更しました。(nowel)
-    	    - PHP5.1.3 以降及び PDO 1.0.3以降であり、かつ
-    	       MySQL接続中の場合にPDO::MYSQL_ATTR_USE_BUFFERED_QUERY, trueをセットします。
-    * rename: S2Dao_PagerResultSetWrapperImpl -> S2Dao_PagerBasicResultSetWrapper(yonekawa)
-    * add: S2Dao_Standard::usableLimitOffsetQuery (yonekawa)
-           S2Dao_MySQL::usableLimitOffsetQuery
-           S2Dao_PostgresSQL::usableLimitOffsetQuery
-        -  DBMSでLimit,Offset句が使用可能かを返します
-    * fix: IN句を含むSQLコメントが正しく処理されない不具合を修正しました。(nowel)
-    * fix: SQLコメントに埋め込まれたバインド変数のネスト時に値が正しくならない不具合を修正しました。(nowel)
-    * fix: QUERYアノテーション時に"order by"句を先頭に指定するとPDOExceptionが発生する不具合を修正しました。(nowel)
-    * fix: findコマンド使用時とQUERYアノテーションの動作がマッチしていない不具合を修正しました。(nowel)
-    * fix: S2Dao_AbstractBeanMetaDataResultSetHandler, S2Dao_BeanMetaDataResultSetHandler(nowel)
-        - 一部のプロパティとSQL分の大小文字判別にstrcasecmpを使うようにしました。
-    * fix[DAOPHP-3]: PDOトランザクションが正しく発行されない不具合を修正しました。(nowel)
-    * fix[DAOPHP-5]: S2Dao_BasicHandler (nowel)
-    	    - PHP5.1.3 以降及び PDO 1.0.3以降であり、かつ
-    	       MySQL接続中の場合にPDO::ATTR_EMULATE_PREPARES, trueをセットするようにしました。
-    * fix: S2Dao_BasicSelectHandler (nowel)
-        - S2Dao_BasicStatementFactoryが正しくセットされない不具合を修正しました。
-    * fix: S2PagerでuseLimitOffsetQueryプロパティをtrueにした時に、Countが取得できない不具合を修正しました。(yonekawa)
-    * add: ResultSetHandler(nowel)
-        - extension/db/impl/S2Dao_AbstractBeanResultSetHandler
-        - extension/db/impl/S2Dao_AbstractMapResultSetHandler
-    	    - extension/db/impl/S2Dao_MapResultSetHandller
-        - extension/db/impl/S2Dao_MapListResultSetHandler
-        - extension/db/impl/S2Dao_BeanResultSetHandler
-        - extension/db/impl/S2Dao_BeanListResultSetHandler
-    * add: S2Dao_BasicStatementFactory::createStatement returns PDOStatement of PDO::query (nowel)
-    * modify: S2Dao_BasicResultSetFactory::create returns S2Dao_ObjectResultSetHandler (nowel)
-    * modify: S2Dao_ResultSetHandler::handler(PDOStatement $resultset) (nowel)
-        - dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler
-        - dao/resultset/S2Dao_BeanMetaDataResultSetHandler
-        - dao/resultset/S2Dao_BeanListMetaDataResultSetHandler
-        - dao/resultset/S2Dao_BeanJsonMetaDataResultSetHandler
-        - dao/resultset/S2Dao_BeanYamlMetaDataResultSetHandler
-        - extension/db/impl/S2Dao_ObjectResultSetHandler
-    * add: S2Dao_ResultSetHandlerFactory, S2Dao_ResultSetHandlerFactoryImpl(nowel)
-    * add: add methods S2Dao_EntityManager (nowel)
-    	    - findYaml
-    	    - findJson
-    * remove: S2Dao_ValueType
-    * add: Json,YAML形式のResultに対応しました。(yonekawa)
-	   S2Dao_PagerResultSetWrapperImpl
-	   S2Dao_PagerJsonResultSetWrapper
-	   S2Dao_PagerYamlResultSetWrapper
-	   S2Dao_PagerResultSetWrapperFactory
-       S2Dao_PagerUtil
-    * delete: S2Dao_PagerResultSetWrapper::create -> S2Dao_PagerResultSetWrapper::filter (yonekawa)
-    * modify: S2Dao_PagerResultSetWrapper -> S2Dao_PagerResultSetWrapperImpl (yonekawa)
-    * modify: class S2Dao_PagerResultSetWrapper -> interface S2Dao_PagerResultSetWrapper (yonekawa)
-    * fix: SQLコメントのELSEが正しく動作しない不具合を修正しました。(nowel)
-    * fix[DAOPHP-4]: S2Dao_BasicSelectHandlerでカラム数が0の場合に正しく結果を取得できない不具合を修正しました。(nowel)
-        - modify: カラム数が0またはnullの場合はS2Dao_BasicSelectHandlerはnullを返すように変更しました。
-    * fix: S2Dao_ObjectResultSetHandlerで指定したクラスのオブジェクトマッピングが正しく行えない不具合を修正しました。(nowel)
-    * fix: S2Pagerを使用して検索結果が１件だった時にNULLが返る不具合を修正しました。 (yonekawa)
-    * add: DBMSにSybase(ASE-15.0)のサポートをしました。(nowel)
-    * add: ResultSetの形式にJSONを追加しました。(nowel)
-    * modify: BasicHandlerでPDOの型とPHPの型のマッピングを必ず行うように変更しました。(nowel)
-    * add: extenstion/dataset(nowel)
-        - S2Dao_DataColumnImpl.class.php
-        - S2Dao_DataRowImpl.class.php
-        - S2Dao_DataTableImpl.class.php
-    * fix: PhingTaskで正常に実行されない不具合を修正しました。(nowel)
-    * fix[DAOPHP-2]: S2Dao_PagerSupportにて、session_startの重複エラーが起きるのを修正しました。(yonekawa)
-    * fix: コメントアノテーション時に正しくアノテーションクラスが読み込めない不具合を修正しました。(nowel)
-    * fix: S2Dao_ClassLoaderが不要なパッケージを参照していたのを修正しました。(nowel)
-    * move: context パッケージを移動しました。(nowel)
-        - /dao/context/S2Dao_CommandContextImpl.class.php to /dao/impl/S2Dao_CommandContextImpl.class.php
-    * move: procedure パッケージを移動しました。(nowel)
-        - /dao/util/procedure to /dao/dbms/proceudre
-    * add: DBMataData パッケージの追加(nowel)
-        - /dao/dbms/dbmeta/S2Dao_DBMetaDataFactory.class.php
-        - /dao/dbms/dbmeta/S2Dao_FirebirdDBMetaData.class.php
-        - /dao/dbms/dbmeta/S2Dao_OracleDBMetaData.class.php
-        - /dao/dbms/dbmeta/S2Dao_PostgreSQLDBMetaData.class.php
-        - /dao/dbms/dbmeta/S2Dao_SQLiteDBMataData.class.php
-        - /dao/dbms/dbmeta/S2Dao_StandardDBMetaData.class.php
-    * add: ResultSet パッケージの追加、ResultSet クラスの移動(nowel)
-        - /dao/impl/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php
-            to /dao/resultset/S2Dao_AbstractBeanMetaDataResultSetHandler.class.php
-        - /dao/impl/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
-            to /dao/resultset/S2Dao_BeanArrayMetaDataResultSetHandler.class.php
-        - /dao/impl/S2Dao_BeanListMetaDataResultSetHandler.class.php
-            to /dao/resultset/S2Dao_BeanListMetaDataResultSetHandler.class.php
-        - /dao/impl/S2Dao_BeanMetaDataResultSetHandler.class.php
-            to /dao/resultset/S2Dao_BeanMetaDataResultSetHandler.class.php
-        - /dao/resultset/S2Dao_BeanJsonMetaDataResultSetHandler.class.php
-        - /dao/resultset/S2Dao_BeanYamlMetaDataResultSetHandler.class.php
+    * released!
 
 2006-07-23 nowel(S2Dao.PHP5-1.1.0)
 
@@ -394,71 +295,7 @@
 
 2006-06-16 nowel(S2Dao.PHP5-1.1.0-RC4)
 
-================ S2Dao.PHP5-1.1.0-RC4 更新履歴 ===================
-
-    * fix: AnnotationReader の処理を最適化しました。(nowel)
-    * info: Licenses 表記を全てのファイルに適用しました。(nowel)
-    * remove: S2ActiveRecord のパッケージを削除しました。(nowel)
-    * add: S2Pagerを追加しました(yonekawa)
-        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerS2DaoInterceptorWrapper.class.php
-        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerResultSetWrapper.class.php
-        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerSupport.class.php
-        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerViewHelper.class.php
-        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_PagerCondition.class.php
-        - add: /src/s2dao.php5/org/seasar/dao/pager/S2Dao_DefaultPagerCondition.class.php
-        - add: /src/s2dao.php5/dao-pager.dicon
-    * add: example/s2dao_pagerを追加しました(yonekawa)
-    * add: S2Dao_SelectDynamicCommand::getResultSetFactory()を追加しました。(yonekawa)
-    * fix: S2DaoTestCaseをS2Container_S2PHPUnit2TestCaseから継承するように変更しました。(nowel)
-    * fix: コメントアノテーション時にN:1マッピングの取得がドキュメントと違っていたのを修正しました。(nowel)
-    * fix: コメントアノテーション時にNoPersistentPropertyが正しく取得されないのを修正しました。(nowel)
-    * add: コメントアノテーションTimestampProperty, VersionNoProperty アノテーションを追加しました。(nowel)
-        ex)
-        /**
-         * @TimestampProperty(aa)
-         * @VersionNoProperty(bb)
-         */
-        class FooBean {
-            private $aa;
-            private $bb;
-                :
-                :
-        }
-    * fix: S2Dao_ArrayList::addAllメソッドでArrayObjectが正しく追加されない不具合を修正しました。(nowel)
-    * add: S2Pager S2Dao_LimitOffsetS2DaoInterceptorを追加しました。(yonekawa)
-        - MySQL,PostgresSQLであれば、データの取得にLimit,Offset句を使うことができます。
-        - 使用する場合はdao-pager.diconの設定を書き換えます。
-          ex)
-          <!-- S2Dao_PagerS2DaoInterceptorWrapperをコメントアウト
-          <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
-              <arg>
-                  <component class="S2DaoInterceptor" />
-              </arg>
-          </component>
-          -->
-         <component name="inteceptor class="S2Dao_LimitOffsetS2DaoInterceptor"/>
-    * add: PhingTask S2DaoTestGenTaskを追加しました。(nowel)
-        - 現在はPHPUnit2のテストコードをPHPUnit2のSkeletonから自動生成します。
-        - /test と同様のテストコードを自動生成します。
-    * remove: Batch処理のパッケージを削除しました。(nowel)
-        - S2Dao_AbstractBatchAutoHandler.class.php
-        - S2Dao_AbstractBatchAutoStaticCommand.class.php
-        - S2Dao_DeleteBatchAutoHandler.class.php
-        - S2Dao_DeleteBatchAutoStaticCommand.class.php
-        - S2Dao_InsertBatchAutoHandler.class.php
-        - S2Dao_InsertBatchAutoStaticCommand.class.php
-        - S2Dao_UpdateBatchAutoHandler.class.php
-        - S2Dao_UpdateBatchAutoStaticCommand.class.php
-    * remove: S2Dao_DataSourceUtilを削除しました。(nowel)
-    * fix: IDアノテーションが正しく行えない不具合を修正しました。(nowel)
-    * remove: S2Dao_LimitOffsetS2DaoInterceptorを削除しました。(yonekawa)
-        - Limit,Offset句を使用する場合はdao-pager.diconのinterceptorの
-          useLimitOffsetQueryプロパティ(初期値false)にtrueを指定することで可能です。
-       ex)
-       <component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper">
-           <property name="useLimitOffsetQuery">true</property>
-       </component>
-    * fix: SQLバインド時に古いクラスを参照していたのを修正しました。(nowel)
+    * released!
 
 2006-05-31 nowel(S2Dao.PHP5-1.1.0-RC4)
 
@@ -549,28 +386,7 @@
 
 2006-05-16 nowel(S2Dao.PHP5-1.1.0-RC3)
 
-================ S2Dao.PHP5-1.1.0-RC3 更新履歴 ===================
-
-    * fix: QUERYアノテーション時にWHERE句が正しく挿入されない不具合を修正しました。
-    * fix: BEANに代入されるtimestampの値が常にIntegerになる不具合を修正しました。
-    * fix: 不正な値がBindされる不具合を修正しました。
-    * fix: DTO使用時に不必要なパラメータが含まれないように修正しました。
-    * fix: PHPtype <-> PDOtype のマッピングの一部の修正しました。
-    * fix: Dto処理を修正しました。
-    * fix: SQLコメントのバインド変数処理を修正しました。   
-    * SQLパーサを一部最適化しました。
-    * /examples/s2dao_java_orign/resource/orign*.sqlの内容が古かったので更新しました。
-    * 自動生成されるSQLバインドのコメントを変更しました。
-        - /*IF dto.prop != null*/ -> /*IF dto.prop !== null*/
-    * S2DaoSkeletonTask を修正しました。
-        - DaoImplを生成するように変更しました。
-    * PROCEDURE アノテーション対応DBMSが増えました。
-        - PostgreSQL
-        - SQLite
-          - 詳しくはサンプルをご覧になってください。(StoredProcedureTestDao.class.php -> SALES_TAX2)
-          * SQLite の場合 StoredFunction/Procedureに対応していないため
-            PHP Functionを代用します。
-            ref - http://jp.php.net/manual/en/function.pdo-sqlitecreatefunction.php
+    * released!
 
 2006-05-15 nowel(S2Dao.PHP5-1.1.0-RC3)
 
@@ -603,14 +419,7 @@
 
 2006-05-03 nowel(S2Dao.PHP5-1.1.0-RC2)
 
-================ S2Dao.PHP5-1.1.0-RC2 更新履歴 ===================
-
-    * add: pear package に対応しました。
-    * info: コメントアノテーションの記法をS2Dao-tiger風に変更しました。
-    * add: E_STRICT レポートについて修正しました。
-    * add: PROCEDURE アノテーションに対応しました。
-        - 現在はMySQLのみStored Functionに対応しています。
-    * add: PDOトランザクションの自動制御を提供しました。
+    * released!
     
 2006-04-29 nowel(S2Dao.PHP5-1.1.0-RC2)
 
@@ -642,44 +451,7 @@
 
 2006-04-10 nowel(S2Dao.PHP5-1.1.0-RC1)
 
-================ S2Dao.PHP5-1.1.0-RC1 更新履歴 ===================
-    * fix: insert/update/delete 時に versionNo/loc の値が正しく設定されない不具合を修正しました。
-    * fix: N:1(RELNO)時のRelation Bean値が正しく設定されない不具合を修正しました。
-    * fix: いくつかの Exception 及びメッセージを修正しました。
-    * fix: s2dao.inc.php にて S2ContainerMessageUtil の指定が間違っていたのを修正しました。
-    * fix: SQLコメントが正しく利用できない不具合を修正しました。
-    * add: Dao, Entity の自動生成タスクを作成しました。(alpha)
-    * add:コメントアノテーションに対応しました。
-        - 詳細はドキュメントをご覧になってください。
-        - examples/s2dao_comment にサンプルがあるのでご覧になってください。
-        * コメントアノテーション使用時には戻り値の指定を@return にて指定します。
-            ex)
-            - Listで戻り値を取得する場合
-                /**
-                 * @return list
-                 */
-                public function getEmployees()
-            - array()で戻り値を取得する場合
-                /**
-                 * @return array
-                 */
-                public function getEmployees()
-            - Object(Entity)で戻り値を取得する場合
-                public function getEmployees()
-    * メソッドの戻り値指定の List_ 及び Array_ の変更
-        - 'List_getEmployee()' to 'getEmployeeList()'
-            - 'EmployeeDao_List_getEmployees.sql' to 'EmployeeDao_getEmployeesList.sql'
-        - 'Array_getDepartment()' to 'getDepartmentArray()'
-            - 'Department_Array_getDepartment.sql' to 'Department_getDepartmentArray.sql'
-        new)
-            getEmployeeByList(args)
-            getEmployeesArray(args)
-        old)
-            List_getEmployeeBy(args)
-                Array_getEmployees(args)
-    * 単一カラムの戻り値を変更
-        'SELECT count(*)' などのように一つだけのカラムが戻り値になった場合は
-          その結果セットを戻します。 
+    * released!
 
 2006-04-08 nowel(S2Dao.PHP5-1.1.0-RC1)
 
@@ -750,12 +522,7 @@
 
 2006-03-18 nowel
 
-================ S2Dao.PHP5-1.0.0-beta4 更新履歴 ===================
-    * S2ActiveRecordを提供開始しました。(alpha)
-    * 埋め込み変数コメントでのプロパティ参照に対応しました。
-    * /src/examples を /examples に移動しました。
-    * fix: IDアノテーション使用時の不具合を修正しました。
-    * fix: SQLコメントが正しく利用できない不具合を修正しました。
+    * released!
 
 2006-03-17 nowel
 
@@ -775,24 +542,7 @@
 
 2006-01-31 nowel 
 
-================ S2Dao.PHP5-1.0.0-beta3 更新履歴 ===================
-    * DBMS の対応が増えました。現在対応しているDBMSは以下です。
-        - MySql
-        - PostgreSQL
-        - SQLite
-        - Oracle
-    * ID アノテーションに対応しました。
-    * COLUMN アノテーションに対応しました。
-    * RELNO アノテーションに対応しました。
-    * RELKEYS アノテーションに対応しました。
-    * ARGS アノテーションを使用しなくても、メソッドの引数名を取得できるようになりました。
-    * S2Dao(Java) の version 1.0.29 とほぼ同等になりました。
-    * SQL 文にて SELECT COUNT(*) FROM EMP などのように、単一の数値を返す場合の処理を変更しました。
-      SELECT のすぐ後ろに COUNT, MAX, MIN が来た場合は結果セットをそのまま返却します。
-    * fix: Array_, find メソッド使用時の不具合を修正しました。
-    * fix: PEAR::DB の情報が残っており正しく動作しない不具合を修正しました。
-    * fix: 型の判定を修正しました。
-    * fix: findObject 使用時に stdClass が戻されるのを修正しました。
+    * released!
 
 2006-01-22 nowel
 
@@ -870,26 +620,7 @@
 
 2005-12-07 nowel
 
-================ S2Dao.PHP5-1.0.0-beta2 更新履歴 ===================
-
-    * PDO に対応しました。
-        S2Dao.PHP5-1.0.0-beta2 が対応している DBMS は以下の通りです。
-        - MySQL(mysql)
-        - SQLite(sqlite)
-        - PostgreSQL(pgsql)
-    * _QUERY アノテーションに対応しました。
-    * _SQL アノテーションに対応しました。
-    * S2Dao_AbstractDaoを用いてEntityManagerに対応しました。
-    * SQL コメント ELSE に対応しました。
-    * S2DaoClassLoader を修正しました。
-    * SQL コメントに関する処理を修正しました。
-    * プリペアステートメントに関する処理を修正しました。
-    * ResultSetHandler に関する処理を修正しました。
-    * 各クラス及びファイルに S2Dao_ のプレフィックスを付けました。
-    * __autoload()関数内に S2DaoClassLoader を含めなくてもよいように変更しました。
-    * Array_ メソッドの戻り値を ArrayObject から array() に変更しました。
-    * SSRMessages.propertiesを削除しメッセージファイルは DaoMessages.properties に変更しました。
-    * 利用していないいくつかのファイルを削除しました。
+    * released!
 
 2005-12-06 nowel
 

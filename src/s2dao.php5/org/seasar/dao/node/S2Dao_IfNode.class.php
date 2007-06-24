@@ -87,8 +87,8 @@ class S2Dao_IfNode extends S2Dao_ContainerNode {
                     parent::accept($ctx);
                     $ctx->setEnabled(true);
                 } else if($this->elseNode !== null){
-                    $ctx->setEnabled(true);
                     $this->elseNode->accept($ctx);
+                    $ctx->setEnabled(true);
                 }
             } else {
                 throw new S2Dao_IllegalBoolExpressionRuntimeException($this->expression);

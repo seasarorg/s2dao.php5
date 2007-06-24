@@ -32,7 +32,7 @@ class S2Dao_PostgreSQL extends S2Dao_Standard {
     }
     
     public function getSequenceNextValString($sequenceName) {
-        return 'SELECT nextval (' . $sequenceName . ')';
+        return 'SELECT nextval (\'' . $sequenceName . '\')';
     }
     
     public function getIdentitySelectString() {
