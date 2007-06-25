@@ -1,3 +1,32 @@
+2007-06-25 nowel(S2Dao.PHP5-1.2.0-beta2)
+
+    * fix: [DAOPHP-13] S2Dao_DBMetaDataFactoryが存在しないクラスをロードしてしまう
+    * fix: [#DAOPHP-21] s2dao.php5 ＋コメントアノテーションでMethod XXXX does not exist - The Seasar Foundation Issues
+        - ドキュメント(faq.html#autoload)にAutoload使用時の注意点を記述
+        - クラスロード時の参照をデフォルトに変更
+            - fix: S2Dao_DbMetaDataFactory
+    * modify: 空白削除のメソッドspacetrimをforeachからarray_mapへ変更
+        - S2Dao_ArrayUtil
+        
+    * fix: [#DAOPHP-23] SQLParserImplの正規表現のパフォーマンス改善
+        - S2Dao_SqlParserImpl
+        
+    * modify: S2DaoClassLoaderの機能を変更しました。
+    	指定したディレクトリ配下についてのAutoload機能を提供します。
+    	- add: S2DaoPackageLoader
+    	- add: S2Dao_Autoload
+    	ex)
+    	    define('MY_DIR', dirname(__FILE__)));
+    	    $packages = array('dao', 'entity', 'dto');
+            spl_autoload_register(array(S2DaoClassLoader::add($packages, MY_DIR), '__load'));
+
+2007-06-24 nowel(S2Dao.PHP5-1.2.0-beta2)
+
+    * fix: [DAOPHP-17] - [seasar-php:137] S2DAOのS2Dao_PostgreSQL::nextvalについて
+        - S2Dao_PostgreSQL
+    * fix: [DAOPHP-22] - S2Dao.PHP5-1.1.2で修正した/*IF*/ ---ELSE /*END*/ についてデグレートした範囲を修正する
+        - S2Dao_IfNode
+
 2007-03-13 nowel(S2Dao.PHP5-1.2.0-beta2)
 
 	* fix: [DAOPHP-13] S2Dao_DBMetaDataFactoryが存在しないクラスをロードしてしまう

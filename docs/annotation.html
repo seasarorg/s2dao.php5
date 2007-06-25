@@ -3,10 +3,12 @@
 <!-- don't edit start -->
 <head>
 <title>Seasar - DI Container with AOP - </title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
 <link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<link href="s2dao_php5.css" type="text/css" rel="stylesheet" media="screen"  />
+<title>Seasar - DI Container with AOP -</title>
 <script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head>
 <body onload="preload('ja')">
@@ -28,6 +30,7 @@
 <tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
 <!-- don't edit end -->
 <!-- document start -->
+<link rel="stylesheet" type="text/css" href="s2dao_php5.css" />
 
 <h2>S2Dao.PHP5アノテーション</h2>
 
@@ -216,246 +219,218 @@
 <p>
 IDアノテーションは、@Idアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const id_ID = "sequence, sequenceName=myseq";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> id_ID = <span class="string" >"sequence, sequenceName=myseq"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Id(value = sequence, sequenceName = "myseq")
- */
-private $id;
-</pre>
+ */</span>
+<span class="keyword" >private</span> <span class="vars" >$id</span>;</pre>
+
 
 <h4><a name="RelationAnnotation">RELNO, RELKEYSアノテーション</a></h4>
 <p>
 RELNO, RELKEYSアノテーションは、@Relationアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const department_RELNO = 0;
-const department_RELKEYS = "DEPTNUM:DEPTNO";
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> department_RELNO = 0;
+<span class="keyword" >const</span> department_RELKEYS = <span class="string" >"DEPTNUM:DEPTNO"</span>;
 </pre>
-<pre>
-// コメントアノテーション
-/**
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Relation(relationNo = 0, relationKey = "DEPTNUM:DEPTNO")
- */
-private $department;
-</pre>
+ */</span>
+<span class="keyword" >private</span> <span class="vars" >$department</span>;</pre>
+
 
 <h4><a name="TableAnnotation">TABLEアノテーション</a></h4>
 <p>
 TABLEアノテーションは、@Beanアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const TABLE = "DEPT";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> TABLE = <span class="string" >"DEPT"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Bean(table=DEPT)
- */
-class Department implements Serializable {
-    // ...
-}
-</pre>
+ */</span>
+<span class="keyword" >class</span> Department <span class="keyword" >implements</span> Serializable {
+    <span class="comment" >// ...</span>
+}</pre>
 
 <h4><a name="ColumnAnnotation">COLUMNアノテーション</a></h4>
 <p>
 COLUMNアノテーションは、@Columnアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const timestamp_COLUMN = "tstamp";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> timestamp_COLUMN = <span class="string" >"tstamp"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Column("tstamp")
- */
-private $timestamp;
-</pre>
+ */</span>
+<span class="keyword" >private</span> <span class="vars" >$timestamp</span>;</pre>
+
 
 <h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h4>
 <p>
 VERSION_NO_PROPERTYアノテーションは、@VersionNoPropertyアノテーションに記述します。<br />
 コメントアノテーションを行う場合は@Beanアノテーションが必須となります。
 </p>
-<pre>
-// 定数アノテーション
-const VERSION_NO_PROPERTY = "myVersionNo";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> VERSION_NO_PROPERTY = <span class="string" >"myVersionNo"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Bean(table=DEPT)
  * @VersionNoProperty = "myVersionNo")
- */
-class Foo {
-    // ...
-}
-</pre>
+ */</span>
+<span class="keyword" >class</span> Foo {
+    <span class="comment" >// ...</span>
+}</pre>
+
 
 <h4><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h4>
 <p>
 TIMESTAMP_PROPERTYアノテーションは、@TimestampPropertyアノテーションに記述します。<br />
 コメントアノテーションを行う場合は@Beanアノテーションが必須となります。
 </p>
-<pre>
-// 定数アノテーション
-const TIMESTAMP_PROPERTY = "myTimestamp";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> TIMESTAMP_PROPERTY = <span class="string" >"myTimestamp"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Bean(table=DEPT)
  * @TimeStampProperty = "myTimestamp")
- */
-class Foo {
-    // ...
-}
-</pre>
+ */</span>
+<span class="keyword" >class</span> Foo {
+    <span class="comment" >// ...</span>
+}</pre>
+
 
 <h4><a name="NoPersistentPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h4>
 <p>
 NO_PERSISTENT_PROPSアノテーションは、@NoPersistentPropertyアノテーションに記述します。<br />
 コメントアノテーションを行う場合は@Beanアノテーションが必須となります。
 </p>
-<pre>
-// 定数アノテーション
-const NO_PERSISTENT_PROPS = "fooProperty";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> NO_PERSISTENT_PROPS = <span class="string" >"fooProperty"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Bean(table=DEPT)
  * @NoPersistentProperty(fooProperty)
- */
-class Foo {
-    // ...
-}
-</pre>
+ */</span>
+<span class="keyword" >class</span> Foo {
+    <span class="comment" >// ...</span>
+}</pre>
+
+
 
 <h3><a name="Dao">Dao(Data Access Object)</a></h3>
 <h4><a name="BeanAnnotation">BEANアノテーション</a></h4>
 <p>
 BEANアノテーションは、@Daoアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const BEAN = "Employee";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> BEAN = <span class="string" >"Employee"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Dao(bean=Employee)
- */
-interface DepartmentDao {
-    // ...
-}
-</pre>
+ */</span>
+<span class="keyword" >interface</span> DepartmentDao {
+    <span class="comment" >// ...</span>
+}</pre>
+
 
 <h4><a name="BeanAnnotation">ARGSアノテーション</a></h4>
 <p>
 ARGSアノテーションは、@Argumentsアノテーションに記述します。<br />
 また、ARGSアノテーションは省略可能です。(省略した場合自動的に設定されます。)
 </p>
-<pre>
-// 定数アノテーション
-const getEmployees_ARGS = "ename";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> getEmployees_ARGS = <span class="string" >"ename"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Arguments("ename")
- */
-public function getEmployees($ename) {
-    // ...
-}
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmployees(<span class="vars" >$ename</span>) {
+    <span class="comment" >// ...</span>
+}</pre>
+
 
 <h4><a name="QueryAnnotation">QUERYアノテーション</a></h4>
 <p>
 QUERYアノテーションは、@Queryアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const getAaa_QUERY = "A > B";
-</pre>
-<pre>
-// コメントアノテーション
-/**
- * @Query("A > B")
- */
-public function getAaa($id);
-</pre>
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> getAaa_QUERY = <span class="string" >"A &gt; B"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
+ * @Query("A &gt; B")
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getAaa(<span class="vars" >$id</span>);</pre>
+
 
 <h4><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h4>
 <p>
 NO_PERSISTENT_PROPSアノテーションは、@NoPersistentPropertyアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const insert_NO_PERSISTENT_PROPS = "sal, comm";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> insert_NO_PERSISTENT_PROPS = <span class="string" >"sal, comm"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @NoPersistentProperty("sal, comm")
- */
-public function insert(Employee $employee);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> insert(Employee <span class="vars" >$employee</span>);</pre>
+
 
 <h4><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h4>
 <p>
 PERSISTENT_PROPSアノテーションは、@PersistentPropertyアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const insert_PERSISTENT_PROPS = "deptno";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> insert_PERSISTENT_PROPS = <span class="string" >"deptno"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @PersistentProperty("deptno")
- */
-public function insert(Employee $employee);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> insert(Employee <span class="vars" >$employee</span>);</pre>
+
 
 <h4><a name="SqlAnnotation">SQLアノテーション</a></h4>
 <p>
 SQLアノテーションは、@Sqlアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const getCount_SQL = "SELECT COUNT(*) FROM emp";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> getCount_SQL = <span class="string" >"SELECT COUNT(*) FROM emp"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Sql("SELECT count(*) FROM emp")
- */
-public function getCount();
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getCount();</pre>
+
 
 <h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h4>
 <p>
 PROCEDUREアノテーションは、@Procedureアノテーションに記述します。
 </p>
-<pre>
-// 定数アノテーション
-const getSalesTax_PROCEDURE = "SALES_TAX";
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// 定数アノテーション</span>
+<span class="keyword" >const</span> getSalesTax_PROCEDURE = <span class="string" >"SALES_TAX"</span>;</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @Procedure("SALES_TAX")
- */
-public function getSalesTax($subtotal);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getSalesTax(<span class="vars" >$subtotal</span>);</pre>
 
 
 <h3><a name="Method">Method</a></h3>
@@ -466,97 +441,84 @@ Methodアノテーションでの定数アノテーションはメソッド名�
 <p>
 Listアノテーションはメソッド名の最後をList、もしくは@return listで記述します。
 </p>
-<pre>
-// 定数アノテーション
-public function getFooList($foo);
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// メソッドアノテーション</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFooList(<span class="vars" >$foo</span>);</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @return list
- */
-public function getFoo($foo);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFoo(<span class="vars" >$foo</span>);</pre>
+
 
 <h4><a name="ArrayAnnotation">Arrayアノテーション</a></h4>
 <p>
 Arrayアノテーションはメソッド名の最後をArray、もしくは@return arrayで記述します。
 </p>
-<pre>
-// 定数アノテーション
-public function getFooArray($foo);
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// メソッドアノテーション</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFooArray(<span class="vars" >$foo</span>);</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @return array
- */
-public function getFoo($foo);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFoo(<span class="vars" >$foo</span>);</pre>
+
 
 <h4><a name="YamlAnnotation">Yamlアノテーション</a></h4>
 <p>
 Yamlアノテーションはメソッド名の最後をYaml、もしくは@return yamlで記述します。
 </p>
-<pre>
-// 定数アノテーション
-public function getFooYaml($foo);
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// メソッドアノテーション</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFooYaml(<span class="vars" >$foo</span>);</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @return yaml
- */
-public function getFoo($foo);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFoo(<span class="vars" >$foo</span>);</pre>
+
 
 <h4><a name="JsonAnnotation">Jsonアノテーション</a></h4>
 <p>
 Jsonアノテーションはメソッド名の最後をJson、もしくは@return jsonで記述します。
 </p>
-<pre>
-// 定数アノテーション
-public function getFooJson($foo);
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// メソッドアノテーション</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFooJson(<span class="vars" >$foo</span>);</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @return json
- */
-public function getFoo($foo);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFoo(<span class="vars" >$foo</span>);</pre>
+
 
 <h4><a name="ObjectAnnotation">Objectアノテーション</a></h4>
 <p>
 Objectアノテーションはメソッド名の最後をObj、もしくは@return objectで記述します。
 </p>
-<pre>
-// 定数アノテーション
-public function getFooObj($foo);
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// メソッドアノテーション</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFooObj(<span class="vars" >$foo</span>);</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @return object
- */
-public function getFoo($foo);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFoo(<span class="vars" >$foo</span>);</pre>
+
 
 <h4><a name="MapAnnotation">Mapアノテーション</a></h4>
 <p>
 Mapアノテーションはメソッド名の最後をMap、もしくは@return mapで記述します。
 </p>
-<pre>
-// 定数アノテーション
-public function getFooMap($foo);
-</pre>
-<pre>
-// コメントアノテーション
-/**
+<pre class="php"><span class="comment" >// メソッドアノテーション</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFooMap(<span class="vars" >$foo</span>);</pre>
+
+<pre class="php"><span class="comment" >// コメントアノテーション</span>
+<span class="annotation" >/**
  * @return map
- */
-public function getFoo($foo);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getFoo(<span class="vars" >$foo</span>);</pre>
 
 <!-- document end -->
 <!-- don't edit start -->

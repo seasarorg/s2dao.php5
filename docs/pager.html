@@ -2,11 +2,12 @@
 <html>
 <!-- don't edit start -->
 <head>
-<title>Seasar - DI Container with AOP - </title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<meta http-equiv="Content-Style-Type" content="text/css"/>
-<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"/>
-<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<link href="s2dao_php5.css" type="text/css" rel="stylesheet" media="screen"  />
+<title>Seasar - DI Container with AOP -</title>
 <script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head>
 <body onload="preload('ja')">
@@ -31,7 +32,6 @@
 <!-- document start -->
 <ul>
 <li><a href="#S2Pager">S2Pagerとは</a></li>
-
 <li><a href="#Setup">セットアップ</a></li>
 <ul>
 <li><a href="#Sample">サンプルの実行</a></li>
@@ -42,7 +42,6 @@
 <li><a href="#PagerCondition">PagerCondition - 検索条件を保持する</a></li>
 <li><a href="#PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></li>
 <li><a href="#PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></li>
-
 <li><a href="#LimitOffset">limitとoffsetを使用した高速取得</a></li>
 </ul>
 </ul>
@@ -63,23 +62,23 @@
     S2Pagerを既存のプロジェクトで使用するには、S2Daoのdao.diconをS2Pager用に修正する必要があります。<br>
     S2Daoディレクトリ/src/s2dao.php5/dao-pager.diconを参考にして以下のようにdao.diconを修正します。
       (dao-pager.diconをdao.diconにリネームする方法が簡単です。) </p>
-<pre>
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components21.dtd"&gt;
-&lt;components namespace="dao"&gt;
+<pre class="xml">
+<span class="tag">&lt;?</span><span class="embsrc"><span class="plain">xml version</span><span class="punc">=</span><span class="string">"1.0"</span><span class="plain"> encoding</span><span class="punc">=</span><span class="string">"utf-8"</span></span><span class="tag">?&gt;</span><span class="plain">
+</span><span class="dtd">&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"&gt;</span><span class="plain">
+</span><span class="tag">&lt;components </span><span class="attr">namespace</span><span class="tag">=</span><span class="value">"dao"</span><span class="tag">&gt;</span><span class="plain">
 
-    &lt;include path="%PDO_DICON%" /&gt;
+    </span><span class="tag">&lt;include </span><span class="attr">path</span><span class="tag">=</span><span class="value">"%PDO_DICON%"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
 
-    &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
-    &lt;component class="S2Dao_BasicStatementFactory" /&gt;
-    &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
-    &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
-    &lt;component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper"&gt;
-      &lt;property name="useLimitOffsetQuery"&gt;false&lt;/property&gt;
-    &lt;/component&gt;
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_BasicResultSetFactory"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_BasicStatementFactory"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_FieldAnnotationReaderFactory"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_DaoMetaDataFactoryImpl"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">name</span><span class="tag">=</span><span class="value">"interceptor"</span><span class="tag"> </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_PagerS2DaoInterceptorWrapper"</span><span class="tag">&gt;</span><span class="plain">
+      </span><span class="tag">&lt;property </span><span class="attr">name</span><span class="tag">=</span><span class="value">"useLimitOffsetQuery"</span><span class="tag">&gt;</span><span class="plain">false</span><span class="tag">&lt;/property&gt;</span><span class="plain">
+    </span><span class="tag">&lt;/component&gt;</span><span class="plain">
 
-&lt;/components&gt;
+</span><span class="tag">&lt;/components&gt;</span>
 </pre>
 
 
@@ -91,108 +90,102 @@
 S2Dao_PagerConditionインターフェイスをimplementsする検索条件DTOを作成します。
 デフォルトの実装として、org.seasar.dao.pager.S2Dao_DefaultPagerConditionクラスが用意されています。
 検索条件DTOはS2Pager用のプロパティ(offset,limit,count)と、検索条件(下記の例ではcategory)を保持します。
-<pre>
-&lt;?php
-/**
+
+<pre class="php">&lt;?php
+<span class="comment" >/**
  * ページャ条件オブジェクトのインターフェイス
  * @author yonekawa
- */
-interface S2Dao_PagerCondition
+ */</span>
+<span class="keyword" >interface</span> S2Dao_PagerCondition
 {
-    /** limitのデフォルト値  */
-    const NONE_LIMIT = -1;
+    <span class="comment" >/** limitのデフォルト値  */</span>
+    <span class="keyword" >const</span> NONE_LIMIT = -1;
 
-    /**
+    <span class="comment" >/**
      * 検索結果の総件数を取得します。
      * @return 総件数
-     */
-    public function getCount();
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getCount();
 
-    /**
+    <span class="comment" >/**
      * 検索結果の総件数をセットします。
      * @param count 総件数
-     */
-    public function setCount($count);
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setCount(<span class="vars" >$count</span>);
 
-    /**
+    <span class="comment" >/**
      * 検索結果から一度に取得する最大件数を取得します。
      * @return 最大件数
-     */
-    public function getLimit();
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getLimit();
 
-    /**
+    <span class="comment" >/**
      * 検索結果から一度に取得する最大件数をセットします。
      * @param limit 最大件数
-     */
-    public function setLimit($limit);
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setLimit(<span class="vars" >$limit</span>);
 
-    /**
+    <span class="comment" >/**
      * 検索結果の取得開始位置ををセットします。
      * @param offset 取得開始位置
-     */
-    public function setOffset($offset);
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setOffset(<span class="vars" >$offset</span>);
 
-    /**
+    <span class="comment" >/**
      * 検索結果の取得開始位置をを取得します。
      * @return 取得開始位置
-     */
-    public function getOffset();
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getOffset();
 }
-?&gt;
-</pre>
+?&gt;</pre>
 
-<pre>
-/**
+<pre class="php"><span class="comment" >/**
  * 検索条件DTO。
  * 独自の検索条件はこのクラスのようにS2Dao_PagerConditionインターフェイスを実装する
  * クラスで実現します。通常はS2Dao_DefaultPagerConditionを継承するとよいでしょう。
  * @author yonekawa
- */
-class CategoryPagerCondition extends S2Dao_DefaultPagerCondition {
-    /** カテゴリー(検索条件) */
-    private $category;
-    public function getCategory() {
-        return $category;
+ */</span>
+<span class="keyword" >class</span> CategoryPagerCondition <span class="keyword" >extends</span> S2Dao_DefaultPagerCondition {
+    <span class="comment" >/** カテゴリー(検索条件) */</span>
+    <span class="keyword" >private</span> <span class="vars" >$category</span>;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getCategory() {
+        <span class="keyword" >return</span> <span class="vars" >$category</span>;
     }
-    public function setCategory($category) {
-        $this-&gt;category = $category;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setCategory(<span class="vars" >$category</span>) {
+        <span class="vars" >$this</span>-&gt;category = <span class="vars" >$category</span>;
     }
-}
-</pre>
+}</pre>
 </li>
 <li>
 検索条件DTOを引数に持つDaoの検索メソッドを作成します。
-<pre>
-interface BookDao {
-    /**
+
+<pre class="php"><span class="keyword" >interface</span> BookDao {
+    <span class="annotation" >/**
      * @return list
-     */
-    public function findByCategoryPagerCondition(CategoryPagerCondition $dto);
-}
-</pre>
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> findByCategoryPagerCondition(CategoryPagerCondition <span class="vars" >$dto</span>);
+}</pre>
+
 </li>
 <li>
 検索条件DTOに開始位置(offset)と最大取得数(limit)をセットしてDaoのメソッドを呼び出します。
-<pre>
+<pre class="php"><span class="comment" >// offsetとlimitをセット</span>
+<span class="vars" >$dto</span> = <span class="keyword" >new</span> CategoryPagerCondition();
+<span class="vars" >$dto</span>-&gt;setLimit(10);
+<span class="vars" >$offset</span> = <span class="vars" >$_REQUEST</span>[<span class="string" >'offset'</span>];
+<span class="vars" >$dto</span>-&gt;setOffset(<span class="vars" >$offset</span>);
 
-// offsetとlimitをセット
-$dto = new CategoryPagerCondition();
-$dto-&gt;setLimit(10);
-$offset = $_REQUEST['offset'];
-$dto-&gt;setOffset($offset);
-
-// 独自の検索条件
-$category = $_REQUEST['category'];
-if ($category != null &amp;&amp; length($category) != 0) {
-    $dto-&gt;setCategory($category);
+<span class="comment" >// 独自の検索条件</span>
+<span class="vars" >$category</span> = <span class="vars" >$_REQUEST</span>[<span class="string" >'category'</span>];
+<span class="keyword" >if</span> (<span class="vars" >$category</span> != null &amp;&amp; length(<span class="vars" >$category</span>) != 0) {
+    <span class="vars" >$dto</span>-&gt;setCategory(<span class="vars" >$category</span>);
 }
 
-// ページャ対応の検索を実行
-$bookDao = $container-&gt;getComponent('BookDao');
-$books = $bookDao-&gt;findByCategoryPagerCondition($dto);
+<span class="comment" >// ページャ対応の検索を実行</span>
+<span class="vars" >$bookDao</span> = <span class="vars" >$container</span>-&gt;getComponent(<span class="string" >'BookDao'</span>);
+<span class="vars" >$books</span> = <span class="vars" >$bookDao</span>-&gt;findByCategoryPagerCondition(<span class="vars" >$dto</span>);
 
-var_dump($books);
-
+var_dump(<span class="vars" >$books</span>);
 </pre>
 </li>
 </ol>
@@ -231,26 +224,27 @@ S2Dao_PagerSupportクラスのコンストラクタで次の項目を指定し�
         <td>セッションの属性名を指定します。ここで指定した名前で検索条件DTOがセッション中に格納されます。</td>
     </tr>
 </table>
-<pre>
-    /** ページャサポートクラス */
-    $pager = new S2Dao_PagerSupport(10, 'CategoryPagerCondition', 'categoryPagerCondition');
+<pre class="php">
+    <span class="comment" >/** ページャサポートクラス */</span>
+    <span class="vars" >$pager</span> = <span class="keyword" >new</span> S2Dao_PagerSupport(10, <span class="string" >'CategoryPagerCondition'</span>, <span class="string" >'categoryPagerCondition'</span>);
 </pre>
 </p>
 
 <p>
 セッション中の検索条件DTOの取得開始位置(offset)の更新は、次のコードで可能です。
-<pre>
-        // ページャのoffset位置を更新
-        $pager-&gt;updateOffset($_REQUEST['offset']);
+<pre class="php">
+        <span class="comment" >// ページャのoffset位置を更新</span>
+        <span class="vars" >$pager</span>-&gt;updateOffset(<span class="vars" >$_REQUEST</span>[<span class="string" >'offset'</span>]);
 </pre>
+
 </p>
 <p>
 セッション中の検索条件DTOを取得するには、次のようなコードになります。
-<pre>
-        // ページャの条件保持オブジェクトをセッションから取得
-        // 存在しない場合は、S2Dao_PagerSupportのコンストラクタで
-        // 渡されたクラスが新規に作成されます。
-        $dto = $pager-&gt;getPagerCondition();
+<pre class="php">
+        <span class="comment" >// ページャの条件保持オブジェクトをセッションから取得</span>
+        <span class="comment" >// 存在しない場合は、S2Dao_PagerSupportのコンストラクタで</span>
+        <span class="comment" >// 渡されたクラスが新規に作成されます。</span>
+        <span class="vars" >$dto</span> = <span class="vars" >$pager</span>-&gt;getPagerCondition();
 </pre>
 </p>
 
@@ -262,32 +256,30 @@ PagerSupportはスレッドセーフです。複数ユーザで共有して安�
 ただし、最大取得数(limit)をユーザごとに切り替えたい場合は、PagerSupport自体をセッションに格納するなど工夫が必要でしょう。
 -->
 
-<pre>
-&lt;?php
+<pre class="php">&lt;?php
 
-/** ページャサポートクラス */
-$pager = new S2Dao_PagerSupport(10, 'CategoryPagerCondition', 'categoryPagerCondition');
+<span class="comment" >/** ページャサポートクラス */</span>
+<span class="vars" >$pager</span> = <span class="keyword" >new</span> S2Dao_PagerSupport(10, <span class="string" >'CategoryPagerCondition'</span>, <span class="string" >'categoryPagerCondition'</span>);
 
-// パラメータoffsetを元にページャのoffset位置を更新
-$pager-&gt;updateOffset($_REQUEST['offset']);
+<span class="comment" >// パラメータoffsetを元にページャのoffset位置を更新</span>
+<span class="vars" >$pager</span>-&gt;updateOffset(<span class="vars" >$_REQUEST</span>[<span class="string" >'offset'</span>]);
 
-// ページャの条件保持オブジェクトをセッションから取得
-// 存在しない場合は、PagerSupportのコンストラクタで
-// 渡されたクラスが新規に作成されます。
-$dto = $pager-&gt;getPagerCondition(request);
+<span class="comment" >// ページャの条件保持オブジェクトをセッションから取得</span>
+<span class="comment" >// 存在しない場合は、PagerSupportのコンストラクタで</span>
+<span class="comment" >// 渡されたクラスが新規に作成されます。</span>
+<span class="vars" >$dto</span> = <span class="vars" >$pager</span>-&gt;getPagerCondition();
 
-// 条件保持オブジェクト中の独自の検索条件をセット
-// この場合、書籍カテゴリを表すcateogry
-$category = $_REQUEST["category"];
-if (isset($category)) {
-    $dto-&gt;setCategory(category);
+<span class="comment" >// 条件保持オブジェクト中の独自の検索条件をセット</span>
+<span class="comment" >// この場合、書籍カテゴリを表すcateogry</span>
+<span class="vars" >$category</span> = <span class="vars" >$_REQUEST</span>[<span class="string" >"category"</span>];
+<span class="keyword" >if</span> (isset(<span class="vars" >$category</span>)) {
+    <span class="vars" >$dto</span>-&gt;setCategory(<span class="vars" >$category</span>);
 }
 
-// ページャ対応の検索を実行
-$books = $dao-&gt;findByCategoryPagerCondition($dto);
+<span class="comment" >// ページャ対応の検索を実行</span>
+<span class="vars" >$books</span> = <span class="vars" >$dao</span>-&gt;findByCategoryPagerCondition(<span class="vars" >$dto</span>);
 
-?&gt;
-</pre>
+?&gt;</pre>
 </p>
 
 <h3><a name="PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></h3>
@@ -299,170 +291,169 @@ $books = $dao-&gt;findByCategoryPagerCondition($dto);
     <br/>
     PagerViewHelperは以下のメソッドを持っています。
 
-<pre>
-&lt;?php
-/**
+<pre class="php">&lt;?php
+<span class="comment" >/**
  * ページャViewのヘルパークラス
  * @author yonekawa
- */
-class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
+ */</span>
+<span class="keyword" >class</span> S2Dao_PagerViewHelper <span class="keyword" >implements</span> S2Dao_PagerCondition
 {
-    /** 画面上でのページの最大表示件数のデフォルト  */
-    const DEFAULT_DISPLAY_PAGE_MAX = 9;
+    <span class="comment" >/** 画面上でのページの最大表示件数のデフォルト  */</span>
+    <span class="keyword" >const</span> DEFAULT_DISPLAY_PAGE_MAX = 9;
 
-    /** 検索条件オブジェクト */
-    private $condition;
+    <span class="comment" >/** 検索条件オブジェクト */</span>
+    <span class="keyword" >private</span> <span class="vars" >$condition</span>;
 
-    /** 画面上でのページの最大表示件数 */
-    private $displayPageMax;
+    <span class="comment" >/** 画面上でのページの最大表示件数 */</span>
+    <span class="keyword" >private</span> <span class="vars" >$displayPageMax</span>;
 
-    public function __construct($condition, $displayPageMax = null)
+    <span class="keyword" >public</span> <span class="keyword" >function</span> __construct(<span class="vars" >$condition</span>, <span class="vars" >$displayPageMax</span> = null)
     {
-        $this-&gt;condition = $condition;
+        <span class="vars" >$this</span>-&gt;condition = <span class="vars" >$condition</span>;
 
-        if (isset($displayPageMax)) {
-            $this-&gt;displayPageMax = $displayPageMax;
-        } else {
-            $this-&gt;displayPageMax = self::DEFAULT_DISPLAY_PAGE_MAX;
+        <span class="keyword" >if</span> (isset(<span class="vars" >$displayPageMax</span>)) {
+            <span class="vars" >$this</span>-&gt;displayPageMax = <span class="vars" >$displayPageMax</span>;
+        } <span class="keyword" >else</span> {
+            <span class="vars" >$this</span>-&gt;displayPageMax = self::DEFAULT_DISPLAY_PAGE_MAX;
         }
     }
 
-    public function getCount(){ ... }
-    public function setCount($count){ ... }
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getCount(){ ... }
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setCount(<span class="vars" >$count</span>){ ... }
 
-    public function getLimit()
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getLimit()
     {
-        return $this-&gt;condition-&gt;getLimit();
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;condition-&gt;getLimit();
     }
 
-    public function setLimit($limit)
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setLimit(<span class="vars" >$limit</span>)
     {
-        $this-&gt;condition-&gt;setLimit($limit);
+        <span class="vars" >$this</span>-&gt;condition-&gt;setLimit(<span class="vars" >$limit</span>);
     }
 
-    public function getOffset()
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getOffset()
     {
-        return $this-&gt;condition-&gt;getOffset();
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;condition-&gt;getOffset();
     }
 
-    public function setOffset($offset)
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setOffset(<span class="vars" >$offset</span>)
     {
-        $this-&gt;condition-&gt;setOffset($offset);
+        <span class="vars" >$this</span>-&gt;condition-&gt;setOffset(<span class="vars" >$offset</span>);
     }
 
-    /**
+    <span class="comment" >/**
      * 前へのリンクが表示できるかどうかを判定します。
-     */
-    public function isPrev()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> isPrev()
     {
-        return 0 &lt; $this-&gt;condition-&gt;getOffset();
+        <span class="keyword" >return</span> 0 &lt; <span class="vars" >$this</span>-&gt;condition-&gt;getOffset();
     }
 
-    /**
+    <span class="comment" >/**
      * 次へのリンクが表示できるかどうかを判定します。
-     */
-    public function isNext()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> isNext()
     {
-        $count = $this-&gt;condition-&gt;getCount();
-        $nextOffset = $this-&gt;condition-&gt;getOffset() + $this-&gt;condition-&gt;getLimit();
+        <span class="vars" >$count</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getCount();
+        <span class="vars" >$nextOffset</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getOffset() + <span class="vars" >$this</span>-&gt;condition-&gt;getLimit();
 
-        return 0 &lt; $count &amp;&amp; $nextOffset &lt; $count;
+        <span class="keyword" >return</span> 0 &lt; <span class="vars" >$count</span> &amp;&amp; <span class="vars" >$nextOffset</span> &lt; <span class="vars" >$count</span>;
     }
 
-    /**
+    <span class="comment" >/**
      * 現在表示中の一覧の最後のoffsetを取得します。
-     */
-    public function getCurrentLastOffset()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getCurrentLastOffset()
     {
-        $count = $this-&gt;condition-&gt;getCount();
-        $nextOffset = $this-&gt;getNextOffset($this-&gt;condition);
-        if ($nextOffset &lt;= 0 || $this-&gt;condition-&gt;getCount() &lt;= 0) {
-            return 0;
-        } else {
-            return $nextOffset &lt; $count ? $nextOffset - 1 : $count - 1;
+        <span class="vars" >$count</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getCount();
+        <span class="vars" >$nextOffset</span> = <span class="vars" >$this</span>-&gt;getNextOffset(<span class="vars" >$this</span>-&gt;condition);
+        <span class="keyword" >if</span> (<span class="vars" >$nextOffset</span> &lt;= 0 || <span class="vars" >$this</span>-&gt;condition-&gt;getCount() &lt;= 0) {
+            <span class="keyword" >return</span> 0;
+        } <span class="keyword" >else</span> {
+            <span class="keyword" >return</span> <span class="vars" >$nextOffset</span> &lt; <span class="vars" >$count</span> ? <span class="vars" >$nextOffset</span> - 1 : <span class="vars" >$count</span> - 1;
         }
     }
 
-    /**
+    <span class="comment" >/**
      * 次へリンクのoffsetを返します。
-     */
-    public function getNextOffset()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getNextOffset()
     {
-        return $this-&gt;condition-&gt;getOffset() + $this-&gt;condition-&gt;getLimit();
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;condition-&gt;getOffset() + <span class="vars" >$this</span>-&gt;condition-&gt;getLimit();
     }
 
-    /**
+    <span class="comment" >/**
      * 前へリンクのoffsetを返します。
-     */
-    public function getPrevOffset()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getPrevOffset()
     {
-        $prevOffset = $this-&gt;condition-&gt;getOffset() - $this-&gt;condition-&gt;getLimit();
-        return $prevOffset &lt; 0 ? 0 : $prevOffset;
+        <span class="vars" >$prevOffset</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getOffset() - <span class="vars" >$this</span>-&gt;condition-&gt;getLimit();
+        <span class="keyword" >return</span> <span class="vars" >$prevOffset</span> &lt; 0 ? 0 : <span class="vars" >$prevOffset</span>;
     }
 
-    /**
+    <span class="comment" >/**
      * 現在ページのインデックスを返します。
-     */
-    public function getPageIndex()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getPageIndex()
     {
-        $limit = $this-&gt;condition-&gt;getLimit();
-        $offset = $this-&gt;condition-&gt;getOffset();
-        if ($limit == 0) {
-            return 1;
-        } else {
-            return floor($offset / $limit);
+        <span class="vars" >$limit</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getLimit();
+        <span class="vars" >$offset</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getOffset();
+        <span class="keyword" >if</span> (<span class="vars" >$limit</span> == 0) {
+            <span class="keyword" >return</span> 1;
+        } <span class="keyword" >else</span> {
+            <span class="keyword" >return</span> <span class="func" >floor</span>(<span class="vars" >$offset</span> / <span class="vars" >$limit</span>);
         }
     }
 
-    /**
+    <span class="comment" >/**
      * 現在ページのカウント(インデックス+1)を返します。
-     */
-    public function getPageCount()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getPageCount()
     {
-        return $this-&gt;getPageIndex() + 1;
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;getPageIndex() + 1;
     }
 
-    /**
+    <span class="comment" >/**
      * 最終ページのインデックスを返します。
-     */
-    public function getLastPageIndex()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getLastPageIndex()
     {
-        $limit = $this-&gt;condition-&gt;getLimit();
-        $count = $this-&gt;condition-&gt;getCount();
-        if ($limit == 0) {
-            return 0;
-        } else {
-            return floor(($count - 1) / $limit);
+        <span class="vars" >$limit</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getLimit();
+        <span class="vars" >$count</span> = <span class="vars" >$this</span>-&gt;condition-&gt;getCount();
+        <span class="keyword" >if</span> (<span class="vars" >$limit</span> == 0) {
+            <span class="keyword" >return</span> 0;
+        } <span class="keyword" >else</span> {
+            <span class="keyword" >return</span> <span class="func" >floor</span>((<span class="vars" >$count</span> - 1) / <span class="vars" >$limit</span>);
         }
     }
 
-    /**
+    <span class="comment" >/**
      * ページリンクの表示上限を元に、ページ番号リンクの表示開始位置を返します。
-     */
-    public function getDisplayPageIndexBegin()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getDisplayPageIndexBegin()
     {
-        $lastPageIndex = $this-&gt;getLastPageIndex();
-        if ( $lastPageIndex &lt; $this-&gt;displayPageMax ) {
-            return 0;
-        } else {
-            $currentPageIndex = $this-&gt;getPageIndex();
-            $displayPageIndexBegin = $currentPageIndex - (floor($this-&gt;displayPageMax / 2));
-            return $displayPageIndexBegin &lt; 0 ? 0 : $displayPageIndexBegin;
+        <span class="vars" >$lastPageIndex</span> = <span class="vars" >$this</span>-&gt;getLastPageIndex();
+        <span class="keyword" >if</span> ( <span class="vars" >$lastPageIndex</span> &lt; <span class="vars" >$this</span>-&gt;displayPageMax ) {
+            <span class="keyword" >return</span> 0;
+        } <span class="keyword" >else</span> {
+            <span class="vars" >$currentPageIndex</span> = <span class="vars" >$this</span>-&gt;getPageIndex();
+            <span class="vars" >$displayPageIndexBegin</span> = <span class="vars" >$currentPageIndex</span> - (<span class="func" >floor</span>(<span class="vars" >$this</span>-&gt;displayPageMax / 2));
+            <span class="keyword" >return</span> <span class="vars" >$displayPageIndexBegin</span> &lt; 0 ? 0 : <span class="vars" >$displayPageIndexBegin</span>;
         }
     }
 
-    /**
+    <span class="comment" >/**
      * ページリンクの表示上限を元に、ページ番号リンクの表示終了位置を返します。
-     */
-    public function getDisplayPageIndexEnd()
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getDisplayPageIndexEnd()
     {
-        $lastPageIndex = $this-&gt;getLastPageIndex();
-        $displayPageIndexBegin = $this-&gt;getDisplayPageIndexBegin();
-        $displayPageRange = $lastPageIndex - $displayPageIndexBegin;
-        if ($displayPageRange &lt; $this-&gt;displayPageMax) {
-            return $lastPageIndex;
-        } else {
-            return $displayPageIndexBegin + $this-&gt;displayPageMax - 1;
+        <span class="vars" >$lastPageIndex</span> = <span class="vars" >$this</span>-&gt;getLastPageIndex();
+        <span class="vars" >$displayPageIndexBegin</span> = <span class="vars" >$this</span>-&gt;getDisplayPageIndexBegin();
+        <span class="vars" >$displayPageRange</span> = <span class="vars" >$lastPageIndex</span> - <span class="vars" >$displayPageIndexBegin</span>;
+        <span class="keyword" >if</span> (<span class="vars" >$displayPageRange</span> &lt; <span class="vars" >$this</span>-&gt;displayPageMax) {
+            <span class="keyword" >return</span> <span class="vars" >$lastPageIndex</span>;
+        } <span class="keyword" >else</span> {
+            <span class="keyword" >return</span> <span class="vars" >$displayPageIndexBegin</span> + <span class="vars" >$this</span>-&gt;displayPageMax - 1;
         }
     }
 
@@ -474,20 +465,20 @@ class S2Dao_PagerViewHelper implements S2Dao_PagerCondition
 <p>
 以下はサンプルのページリンクの実装例です。
 <br/>
-<b>ページリンクの実装：pager.php</b>
-<pre>
-&lt;?php
+<strong>ページリンクの実装：pager.php</strong>
 
-$container = S2ContainerFactory::create('resource/example.dicon.xml');
-$dao = $container-&gt;getComponent('BooksDao');
+<pre class="php">&lt;?php
 
-$dto = new S2Dao_DefaultPagerCondition();
+<span class="vars" >$container</span> = S2ContainerFactory::create(<span class="string" >'resource/example.dicon.xml'</span>);
+<span class="vars" >$dao</span> = <span class="vars" >$container</span>-&gt;getComponent(<span class="string" >'BooksDao'</span>);
 
-$dto-&gt;setOffset(3);
-$dto-&gt;setLimit(5);
+<span class="vars" >$dto</span> = <span class="keyword" >new</span> S2Dao_DefaultPagerCondition();
 
-$books = $dao-&gt;getByPagerDtoList($dto);
-$helper = new S2Dao_PagerViewHelper($dto);
+<span class="vars" >$dto</span>-&gt;setOffset(3);
+<span class="vars" >$dto</span>-&gt;setLimit(5);
+
+<span class="vars" >$books</span> = <span class="vars" >$dao</span>-&gt;getByPagerDtoList(<span class="vars" >$dto</span>);
+<span class="vars" >$helper</span> = <span class="keyword" >new</span> S2Dao_PagerViewHelper(<span class="vars" >$dto</span>);
 
 ?&gt;
 &lt;html&gt;
@@ -495,23 +486,23 @@ $helper = new S2Dao_PagerViewHelper($dto);
 
 &lt;?php
 
-// 前の○件を表示
-if ($helper-&gt;isPrev()) {
-    print('前の' . $helper-&gt;getLimit() . '件');
+<span class="comment" >// 前の○件を表示</span>
+<span class="keyword" >if</span> (<span class="vars" >$helper</span>-&gt;isPrev()) {
+    print(<span class="string" >'前の'</span> . <span class="vars" >$helper</span>-&gt;getLimit() . <span class="string" >'件'</span>);
 }
 
-// ページ番号リンクを表示
-for ( $i = $this->getDisplayPageIndexBegin(); $i <= $this->getDisplayPageIndexEnd(); $i++ ) {
-    if ( $i == $this->getPageIndex() ) {
-        print($i + 1);
-    } else {
-        print('&lt;a href="' . $this->pageUrl . '?offset=' . $i * $this->getLimit() . '"&gt;' . ( $i + 1 ) . '&lt;/a&gt; ');
+<span class="comment" >// ページ番号リンクを表示</span>
+<span class="keyword" >for</span> ( <span class="vars" >$i</span> = <span class="vars" >$helper</span>-&gt;getDisplayPageIndexBegin(); <span class="vars" >$i</span> &lt;= <span class="vars" >$helper</span>-&gt;getDisplayPageIndexEnd(); <span class="vars" >$i</span>++ ) {
+    <span class="keyword" >if</span> ( <span class="vars" >$i</span> == <span class="vars" >$helper</span>-&gt;getPageIndex() ) {
+        print(<span class="vars" >$i</span> + 1);
+    } <span class="keyword" >else</span> {
+        print(<span class="string" >'&lt;a href="pager.php?offset='</span> . <span class="vars" >$i</span> * <span class="vars" >$helper</span>-&gt;getLimit() . <span class="string" >'"&gt;'</span> . ( <span class="vars" >$i</span> + 1 ) . <span class="string" >'&lt;/a&gt; '</span>);
     }
 }
 
-// 次の○件を表示
-if ( $helper-&gt;isNext() ) {
-    print( '　次の' . $helper-&gt;getLimit() . '件' );
+<span class="comment" >// 次の○件を表示</span>
+<span class="keyword" >if</span> ( <span class="vars" >$helper</span>-&gt;isNext() ) {
+    print( <span class="string" >'　次の'</span> . <span class="vars" >$helper</span>-&gt;getLimit() . <span class="string" >'件'</span> );
 }
 ?&gt;
 
@@ -521,12 +512,12 @@ if ( $helper-&gt;isNext() ) {
 &lt;/tr&gt;
 
 &lt;?php
-foreach ($books as $book) {
-    print( '&lt;tr&gt;' );
-    print( '&lt;td&gt;' . $book-&gt;getId() . '&lt;/td&gt;' );
-    print( '&lt;td&gt;' . $book-&gt;getTitle() . '&lt;/td&gt;' );
-    print( '&lt;td&gt;' . $book-&gt;getContent() . '&lt;/td&gt;' );
-    print( '&lt;/tr&gt;' );
+<span class="keyword" >foreach</span> (<span class="vars" >$books</span> <span class="keyword" >as</span> <span class="vars" >$book</span>) {
+    print( <span class="string" >'&lt;tr&gt;'</span> );
+    print( <span class="string" >'&lt;td&gt;'</span> . <span class="vars" >$book</span>-&gt;getId() . <span class="string" >'&lt;/td&gt;'</span> );
+    print( <span class="string" >'&lt;td&gt;'</span> . <span class="vars" >$book</span>-&gt;getTitle() . <span class="string" >'&lt;/td&gt;'</span> );
+    print( <span class="string" >'&lt;td&gt;'</span> . <span class="vars" >$book</span>-&gt;getContent() . <span class="string" >'&lt;/td&gt;'</span> );
+    print( <span class="string" >'&lt;/tr&gt;'</span> );
 }
 ?&gt;
 &lt;/table&gt;
@@ -538,29 +529,30 @@ foreach ($books as $book) {
 <h3><a name="LimitOffset">limitとoffsetを使用した高速取得</a></h3>
 <p>
     PosgreSQLやMySQLのように「limit　offset」が使用できるDBMSでは、大量データ検索時のパフォーマンスが大幅に向上します。
-<br>
+<br />
     以下の設定によりS2Dao_PagerS2DaoInterceptorWrapperのuseLimitOffsetQueryプロパティをtrueにすることで
     「limit　offset」を使用した取得が可能になります。
-<br>
-<br>
-<b>limitとoffsetを使用した高速取得の設定(dao-pager.dicon)</b>
-<pre>
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components21.dtd"&gt;
-&lt;components namespace="dao"&gt;
+<br />
+<br />
+<strong>limitとoffsetを使用した高速取得の設定(dao-pager.dicon)</strong>
 
-    &lt;include path="%PDO_DICON%" /&gt;
+<pre class="xml">
+<span class="tag">&lt;?</span><span class="embsrc"><span class="plain">xml version</span><span class="punc">=</span><span class="string">"1.0"</span><span class="plain"> encoding</span><span class="punc">=</span><span class="string">"utf-8"</span></span><span class="tag">?&gt;</span><span class="plain">
+</span><span class="dtd">&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"&gt;</span><span class="plain">
+</span><span class="tag">&lt;components </span><span class="attr">namespace</span><span class="tag">=</span><span class="value">"dao"</span><span class="tag">&gt;</span><span class="plain">
 
-    &lt;component class="S2Dao_BasicResultSetFactory" /&gt;
-    &lt;component class="S2Dao_BasicStatementFactory" /&gt;
-    &lt;component class="S2Dao_FieldAnnotationReaderFactory" /&gt;
-    &lt;component class="S2Dao_DaoMetaDataFactoryImpl" /&gt;
-    &lt;component name="interceptor" class="S2Dao_PagerS2DaoInterceptorWrapper"&gt;
-      &lt;property name="useLimitOffsetQuery"&gt;<font color="red">true</font>&lt;/property&gt;
-    &lt;/component&gt;
+    </span><span class="tag">&lt;include </span><span class="attr">path</span><span class="tag">=</span><span class="value">"%PDO_DICON%"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
 
-&lt;/components&gt;
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_BasicResultSetFactory"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_BasicStatementFactory"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_FieldAnnotationReaderFactory"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_DaoMetaDataFactoryImpl"</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
+    </span><span class="tag">&lt;component </span><span class="attr">name</span><span class="tag">=</span><span class="value">"interceptor"</span><span class="tag"> </span><span class="attr">class</span><span class="tag">=</span><span class="value">"S2Dao_PagerS2DaoInterceptorWrapper"</span><span class="tag">&gt;</span><span class="plain">
+      </span><span class="tag">&lt;property </span><span class="attr">name</span><span class="tag">=</span><span class="value">"useLimitOffsetQuery"</span><span class="tag">&gt;</span><span class="plain" style="color: red">true</span><span class="tag">&lt;/property&gt;</span><span class="plain">
+    </span><span class="tag">&lt;/component&gt;</span><span class="plain">
+
+</span><span class="tag">&lt;/components&gt;</span>
 </pre>
 </p>
 

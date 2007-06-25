@@ -23,38 +23,9 @@
 //
 /**
  * @author nowel
- * @package org.seasar.s2dao.dbms.dbmeta
+ * @package org.seasar.extension.resultset
  */
-final class S2Dao_DbMetaDataFactory {
-    
-    const DbMetaData_Suffix = 'DbMetaData';
-    
-    private static $meta = array(
-        'S2Dao_MySQLDbMetaData' => 'S2Dao_StandardDbMetaData',
-        'S2Dao_FirebirdDbMetaData' => 'S2Dao_FirebirdDbMetaData',
-        'S2Dao_OracleDbMetaData' => 'S2Dao_OracleDbMetaData',
-        'S2Dao_PostgreSQLDbMetaData' => 'S2Dao_PostgreSQLDbMetaData',
-        'S2Dao_SQLiteDbMetaData' => 'S2Dao_SQLiteDbMetaData',
-        'S2Dao_SybaseDbMetaData' => 'S2Dao_SybaseDbMetaData'
-    );
-    
-    private static $instance = array();
-    
-    public static function create(PDO $db, S2Dao_Dbms $dbms){
-        $dbmd = get_class($dbms) . self::DbMetaData_Suffix;
-        if(isset(self::$instance[$dbmd])){
-            return self::$instance[$dbmd];
-        }
-        if(isset(self::$meta[$dbmd])){
-            $className = self::$meta[$dbmd];
-            $instance = self::$instance[$dbmd] = new $className($db, $dbms);
-            return $instance;
-        } else if(class_exists($dbmd)){
-            $instance = self::$instance[$dbmd] = new $dbmd($db, $dbms);
-            return $instance;
-        }
-        return new S2Dao_StandardDbMetaData($db, $dbms);
-    }
+interface S2Dao_ResultSet {
 }
 
 ?>

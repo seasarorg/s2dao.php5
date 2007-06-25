@@ -31,7 +31,7 @@ class S2Dao_SqlParserImpl implements S2Dao_SqlParser {
     private $nodeStack = array();
 
     public function __construct($sql) {
-        $sql = preg_replace('/(.+);$/s', '\1', trim($sql));
+        $sql = preg_replace('/;$/s', '', trim($sql));
         $this->tokenizer = new S2Dao_SqlTokenizerImpl($sql);
     }
 

@@ -1,8 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="Content-Style-Type" content="text/css">
-<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
+<html><head><!-- don't edit start -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<link href="s2dao_php5.css" type="text/css" rel="stylesheet" media="screen"  />
+<title>Seasar - DI Container with AOP -</title>
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
 <body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
 <td align="left" valign="top" width="780"><table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
 <tbody><tr><td colspan="7"><img src="images/top01_b.gif" alt="" height="5" width="780"></td></tr>
@@ -21,26 +26,11 @@
 <tbody><tr align="left" valign="top"><td width="18"><img src="images/spacer.gif" alt="" height="14" width="18"></td><td class="main" width="744">
 <!-- don't edit end -->
 <!-- document start -->
-<style>
-dl {
-    margin-left: 2em;
-}
-
-dl dt {
-    font-size: 120%;
-    font-weight: bold;
-}
-
-dl dd {
-    margin-bottom: 1em;
-}
-</style>
-
 <h1>S2Dao.PHP5</h1>
 
 <h2>概要</h2>
 <p><a href="http://s2dao.seasar.org/">Java版S2Dao</a>をPHP5に移植します。<br />
-※ S2Dao.PHP5 を利用するには最新版の <a href="http://s2container.php5.seasar.org/">S2Container.PHP5</a> が必要です。</p>
+<img src="images/exclam.gif" />S2Dao.PHP5 を利用するには最新版の <a href="http://s2container.php5.seasar.org/">S2Container.PHP5</a> が必要です。</p>
 
 <h3>リンク</h3>
 <ul>
@@ -69,6 +59,7 @@ dl dd {
             必要なのは<a href="annotation.html">メソッドの定義を命名規則に合わせるか、コメントアノテーションで指定するか</a>、それだけです。
     <dt>インターフェースと実装の分離</dt>
         <dd>インターフェースを定義するだけで、<a href="http://s2container.php5.seasar.org/aop.html">アスペクト</a>の適用やSQL文の自動生成が可能になります。</dd>
+
 </dl>
 
 <h2>ドキュメント</h2>
@@ -94,17 +85,19 @@ dl dd {
 <ul>
     <li>開発環境
         <ul>
-            <li>OS: Linux(SUSE 10.1)</li>
-            <li>PHP: PHP-5.1.6 (tarball)</li>
+            <li>OS: Linux(SUSE 10.2)</li>
+            <li>PHP: PHP-5.2.3 (tarball)</li>
         </ul>
     </li>
     <li>動作環境(以下の環境で動作しています。)
         <ul>
-            <li>SUSE 10.1 PHP-5.1.6(tarball)</li>
+            <li>SUSE 10.2 PHP-5.2.3(tarball)</li>
         </ul>
     </li>
     <li>リリース履歴
         <ul>
+            <li>2007/03/21: S2Dao-1.1.2</li>
+            <li>2007/01/31: S2Dao-1.2.0-beta1</li>
             <li>2006/10/15: S2Dao-1.1.1</li>
             <li>2006/07/24: S2Dao-1.1.0</li>
             <li>2006/06/16: S2Dao-1.1.0RC4</li>

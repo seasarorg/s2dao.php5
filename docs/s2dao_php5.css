@@ -1,0 +1,112 @@
+@charset "utf-8";
+
+dl {
+    margin-left: 2em;
+}
+
+dl dt {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+dl dd {
+    margin-bottom: 1em;
+}
+img {
+    border: none;
+}
+
+li.new1 {
+    list-style: url("images/new1.gif") disc outside;
+}
+li.new2 {
+    list-style: url("images/new2.gif") disc outside;
+}
+
+ul li {
+    list-style: url("images/list.gif") disc outside;
+}
+
+pre {
+    font-family: monospace !important;
+    color: #000 !important;
+    background: #ececec !important;
+    padding: 1em !important;
+    width: auto !important;
+    _width: 90% !important;
+    border: 1px solid #000 !important;
+    border-left: 2px solid #000 !important;
+    clear: both;
+    white-space: pre;
+}
+
+.code {
+    color: #000 !important;
+    font-family: monospace !important;
+    background: url("images/item_little.gif") no-repeat left top;
+    border: 1px solid #ccc;
+    padding: .5em;
+    margin: 1em;
+    clear: both;
+}
+
+pre .comment {
+    color: #008000;
+}
+pre .string {
+    color: #FF3030;
+}
+
+/** PHP */
+pre.php {
+    background: #efefef;
+}
+pre.php .keyword {
+    color: #CC3333;
+}
+pre.php .func {
+    color: #9900CC;
+}
+pre.php .vars {
+    color: #0000FF;
+}
+pre.php .annotation {
+    color: #4040CC;
+}
+
+/** SQL */
+pre.sql {
+    background: #efefef;
+}
+pre.sql .keyword {
+    color: #CC3333;
+}
+pre.sql .func {
+    color: #9900CC;
+}
+pre.sql .number {
+    color: #3333FF;
+}
+pre.sql .annotation {
+    color: #4040FF;
+}
+
+/** XML */
+pre.xml {
+    background: #efefef;
+}
+pre.xml .keyword {
+    color: #CC3333;
+}
+pre.xml .tag {
+    color: #0000FF;
+}
+pre.xml .attr {
+    color: #9900CC;
+}
+pre.xml .value {
+    color: #FF3030;
+}
+pre.xml .dtd {
+    color: #999;
+}

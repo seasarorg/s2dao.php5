@@ -1,9 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- don't edit start -->
-<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="seasar_b.css" type="text/css" rel="stylesheet"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
-</head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
+<head><title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<link href="s2dao_php5.css" type="text/css" rel="stylesheet" media="screen"  />
+<title>Seasar - DI Container with AOP -</title>
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
+<body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
 <td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
 <tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
 <tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
@@ -21,7 +28,6 @@
 <tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="752" class="main">
 <!-- don't edit end -->
 <!-- document start -->
-
     <ul>
         <li><a href="#reference">S2Dao.PHP5リファレンス</a>
             <ul>
@@ -69,8 +75,8 @@
     <h2><a name="reference">S2Dao.PHP5リファレンス</a></h2>
 
     <h3><a name="DaoMakeFile">作成すべきファイル</a></h3>
-        <p>S2Dao機能を使用するにあたり、Entity、Dao、diconファイル、SQLファイル(.sql)の作成が必要となります。</p>
-        <p>詳細なドキュメントは<a href="http://s2dao.seasar.org/">Java版S2Dao</a>をご覧になってください。</p>
+        <p>S2Dao機能を使用するにあたり、Entity、Dao、diconファイル、SQLファイル(.sql)の作成が必要となります。<br />
+        <img src="images/exclam.gif" />より詳細なドキュメントは<a href="http://s2dao.seasar.org/">Java版S2Dao</a>をご覧になってください。</p>
 
         <p>Entityはテーブル、DaoはEntity、diconファイルはDao、SQLファイルはDaoとそれぞれ関連しています。<br />
         各ファイルの実装・設定方法の詳細は次のようになります。</p>
@@ -91,99 +97,54 @@
 
         <p>Entityの構成と説明内で使用するテーブルは以下の通りです。</p>
 
-        <p>テーブル：EMP</p>
-        <table border="1" class="main">
-            <tr bgcolor="#d1f3f4" align="center">
-                <th>カラム名</th>
-                <th>型</th>
-                <th>NotNull</th>
-                <th>主キー</th>
-            </tr>
-            <tr>
-                <td>EMPNO</td>
-                <td>NUMBER</td>
-                <td align="center">〇</td>
-                <td align="center">〇</td>
-            </tr>
-            <tr>
-                <td>ENAME</td>
-                <td>VARCHAR</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>DEPTNUM</td>
-                <td>NUMBER</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-        </table>
+        <p>テーブル：EMP <br />
+            <img src="images/table_emp.png" />
+        </p>
 
-        <p>テーブル：DEPT</p>
-        <table border="1" class="main">
-            <tr bgcolor="#d1f3f4" align="center">
-                <th>カラム名</th>
-                <th>型</th>
-                <th>NotNull</th>
-                <th>主キー</th>
-            </tr>
-            <tr>
-                <td>DEPTNO</td>
-                <td>NUMBER</td>
-                <td align="center">〇</td>
-                <td align="center">〇</td>
-            </tr>
-            <tr>
-                <td>DNAME</td>
-                <td>VARCHAR</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-        </table>
+        <p>テーブル：DEPT <br />
+            <img src="images/table_dept.png" />
+        </p>
 
     <h5><a name="TableAnnotation">TABLEアノテーション</a></h5>
 
         <p>テーブルとの関連付けはTABLEアノテーションを使用します。
         TABLEアノテーションは以下の形式で定数を宣言します。</p>
 
-        <p> -  const TABLE = “<span class="italic">テーブル名</span>”;</p>
+        <p class="code">const TABLE = "<span class="italic">テーブル名</span>";</p>
         <p>EMPテーブルの場合以下のようになります。</p>
-        <pre>const TABLE = "EMP";</pre>
+<pre class="php"><span class="keyword" >const</span> TABLE = <span class="string" >"EMP"</span>;</pre>
 
         <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-        <p> - @Bean(table = <span class="italic">テーブル名</span>)</p>
+        <p class="code">@Bean(table = <span class="italic">テーブル名</span>)</p>
         <p>EMPテーブルの場合以下のようになります。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Bean(table = EMP)
- */
-class Employee {
+ */</span>
+<span class="keyword" >class</span> Employee {
     :
     :
 }</pre>
 
-        <p>※クラス名からパッケージ名を除いた名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。</p>
+        <p><img src="images/exclam.gif" />クラス名からパッケージ名を除いた名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。</p>
 
     <h5><a name="ColumnAnnotation">COLUMNアノテーション</a></h5>
 
         <p>テーブルのカラムとの関連付けはCOLUMNアノテーションを使用します。<br />
         COLUMNアノテーションは以下の形式で定数を宣言します。</p>
 
-        <p> -  const <span class="italic">プロパティ名</span>_COLUMN = "<span class="italic">カラム名</span>";</p>
+        <p class="code">const <span class="italic">プロパティ名</span>_COLUMN = "<span class="italic">カラム名</span>";</p>
         <p>employeeNoというプロパティにEMPNOカラムを関連付けする場合以下のようになります。</p>
-        <pre>const employeeNo_COLUMN = "EMPNO";</pre>
+<pre class="php"><span class="keyword" >const</span> employeeNo_COLUMN = <span class="string" >"EMPNO"</span>;</pre>
 
         <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-        <p> - @Column("<span class="italic">カラム名</span>")
+        <p class="code">@Column("<span class="italic">カラム名</span>")
         <p>employeeNoというプロパティにEMPNOカラムを関連付けする場合以下のようになります。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Column("EMPNO")
- */
-private $employeeNo;
-</pre>
+ */</span>
+<span class="keyword" >private</span> <span class="vars" >$employeeNo</span>;</pre>
 
-        <p>※プロパティ名とカラム名が一致する場合は、COLUMNアノテーションを定義する必要はありません。<br />
+        <p><img src="images/exclam.gif" />プロパティ名とカラム名が一致する場合は、COLUMNアノテーションを定義する必要はありません。<br />
         テーブルに存在しないプロパティは、自動的に無視されるので、特に何か定義する必要はありません。</p>
 
      <h5><a name="N1Mapping">N:1マッピング</a></h5>
@@ -192,33 +153,29 @@ private $employeeNo;
          N:1マッピングを使用するには、RELNO定数とRELKEYS定数をそれぞれ宣言する必要があります。<br />
          RELNO定数は以下の形式になります。</p>
 
-        <p>-  const <span class="italic">プロパティ名</span>_RELNO = <span class="italic">数値</span>;</p>
+        <p class="code">const <span class="italic">プロパティ名</span>_RELNO = <span class="italic">数値</span>;</p>
         <p>RELNO定数は、N:1マッピングの連番です。<br />
         例えば、AAAのテーブルにBBB,CCCのテーブルがN:1マッピングされるとするとBBBのRELNOは0、CCCのRELNOは1になります。 <br />
         RELNOは結果セットに含まれているカラムが、どのテーブルに所属しているのかを判定することに使われます。<br />
         例えば、SELECT ..., BBB.HOGE AS HOGE_0, ... FROM AAA, BBB ...のようなSELECT文があった場合、 HOGE_0はBBBテーブルに含まれているHOGEカラムであると認識されます。<br />
         RELKEYS定数は以下の形式になります。</p>
 
-        <p>-  const <span class="italic">プロパティ名</span>_RELKEYS = "<span class="italic">N側のテーブルのカラム名: 1側のテーブルのカラム名</span>";</p>
+        <p class="code">const <span class="italic">プロパティ名</span>_RELKEYS = "<span class="italic">N側のテーブルのカラム名: 1側のテーブルのカラム名</span>";</p>
         <p>N:1マッピングのキーはRELKEYS定数で指定します。<br />
         キーが複数ある場合には、カンマ( , )で区切ります。例えば、mykey1:yourkey1, mykey2:yourkey2のようにします。<br />
         EMPテーブルのDEPTNUMカラムとDEPTテーブルのDEPTNOを関連付ける場合は以下のようになります。</p>
-<pre>
-const department_RELNO = 0;
-const department_RELKEYS = "DEPTNUM:DEPTNO";
-</pre>
+<pre class="php"><span class="keyword" >const</span> department_RELNO = 0;
+<span class="keyword" >const</span> department_RELKEYS = <span class="string" >"DEPTNUM:DEPTNO"</span>;</pre>
 
         <p>上記の場合のコメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Relation(relationNo = 0, relationKey = "DEPTNUM:DEPTNO")
- */
-private $department;
-</pre>
+ */</span>
+<span class="keyword" >private</span> <span class="vars" >$department</span>;</pre>
 
         <p>1側のテーブルのカラム名がN側のテーブルのカラム名に等しい場合は、1側のテーブルのカラム名を省略することができます。<br />
         その場合以下のように定義することが出来ます。</p>
-        <pre>const department_RELKEYS = "DEPTNO";</pre>
+<pre class="php"><span class="keyword" >const</span> department_RELKEYS = <span class="string" >"DEPTNO"</span>;</pre>
         <p>また1側のテーブルのカラム名とN側のテーブルのカラム名に等しく、1側のテーブルのカラム名がプライマリーキーの場合、RELKEYS定数を省略することができます。</p>
 
     <h5><a name="IDAutoGenerate">IDの自動生成</a></h5>
@@ -226,157 +183,150 @@ private $department;
         <p>ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。<br />
         そのために使うのが、IDアノテーションです。<br />
         IDアノテーションは、プロパティ名_ID = &quot;identity&quot;のように指定します。 </p>
-        <pre>const id_ID = "identity";</pre>
+<pre class="php"><span class="keyword" >const</span> id_ID = <span class="string" >"identity"</span>;</pre>
 
         <p>SEQUENCEを使うことも出来ます。myseqの部分は、実際のSEQUENCEに置き換えてください。</p>
-        <pre>const id_ID = "sequence, sequenceName=myseq";</pre>
+<pre class="php"><span class="keyword" >const</span> id_ID = <span class="string" >"sequence, sequenceName=myseq"</span>;</pre>
 
         <p>手動でIDを設定する場合は、何も指定する必要がありません。<br />
         テーブルのプライマリーキーだという情報は、テーブルの定義(PDOのメタデータ)より自動的に取得されます。
         また、明示的にassignedを指定することもできます。</p>
-        <pre>const id_ID = "assigned";</pre>
+<pre class="php"><span class="keyword" >const</span> id_ID = <span class="string" >"assigned"</span>;</pre>
 
        <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Id(identity)
- */
-private $id;
-</pre>
+ */</span>
+<span class="keyword" >private</span> <span class="vars" >$id</span>;</pre>
 
     <h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
 
         <p>カラムが永続化の対象かどうかという情報は、テーブルの定義(PDOのメタデータ)より自動的に取得されます。
         また、明示的にNO_PERSISTENT_PROPSを使って永続化したくないカラムを指定することもできます。
         NO_PERSISTENT_PROPSに空文字を指定するとPDOのメタデータのメタデータを使わずにすべてのプロパティを永続化の対象とみなします。</p>
-        <pre>const NO_PERSISTENT_PROPS = "dummy1, dummy2";</pre>
+<pre class="php"><span class="keyword" >const</span> NO_PERSISTENT_PROPS = <span class="string" >"dummy1, dummy2"</span>;</pre>
+        
         <p>またコメントアノテーションで指定する場合は以下の書式で記述します</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Bean(table = EMP)
  * @NoPersistentProperty(dummy1, dummy2)
- */
-class Employee {
-    private $dummy1;
-    private $dummy2;
+ */</span>
+<span class="keyword" >class</span> Employee {
+    <span class="keyword" >private</span> <span class="vars" >$dummy1</span>;
+    <span class="keyword" >private</span> <span class="vars" >$dummy2</span>;
       :
       :
-}
-</pre>
+}</pre>
 
     <h5><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h5>
 
         <p><a href="#VersionNo">versionNo</a>による排他制御用のプロパティ名をデフォルトのversionNoから変えるときに使うのがVERSION_NO_PROPERTYアノテーションです。
         次のように使います。</p>
-        <pre>const VERSION_NO_PROPERTY = "myVersionNo";</pre>
+<pre class="php"><span class="keyword" >const</span> VERSION_NO_PROPERTY = <span class="string" >"myVersionNo"</span>;</pre>
+        
         <p>またコメントアノテーションで指定する場合は以下の書式で記述します</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Bean(table = EMP)
  * @VersionNoProperty(myVersionNo)
- */
-class Employee {
-    private $myVersionNo;
+ */</span>
+<span class="keyword" >class</span> Employee {
+    <span class="keyword" >private</span> <span class="vars" >$myVersionNo</span>;
       :
       :
-}
-</pre>
+}</pre>
 
     <h5><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h5>
 
         <p><a href="#Timestamp">timestamp</a>による排他制御用のプロパティ名をデフォルトのtimestampから変えるときに使うのがTIMESTAMP_PROPERTYアノテーションです。次のように使います。</p>
-        <pre>const TIMESTAMP_PROPERTY = "myTimestamp";</pre>
+<pre class="php"><span class="keyword" >const</span> TIMESTAMP_PROPERTY = <span class="string" >"myTimestamp"</span>;</pre>
+        
         <p>またコメントアノテーションで指定する場合は以下の書式で記述します</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Bean(table = EMP)
  * @TimestampProperty(myTimestamp)
- */
-class Employee {
-    private $myTimestamp;
+ */</span>
+<span class="keyword" >class</span> Employee {
+    <span class="keyword" >private</span> <span class="vars" >$myTimestamp</span>;
       :
       :
-}
-</pre>
+}</pre>
 
     <h5><a name="property">カラムに対応するプロパティの宣言</a></h5>
 
         <p>テーブルのカラムに対応した変数を宣言します。</p>
         <p>EMPNOというカラムの場合、以下のように宣言することができます。<p>
-        <pre>private $empno;</pre>
+<pre class="php"><span class="keyword" >private</span> <span class="vars" >$empno</span>;</pre>
 
      <h5><a name="GetterSetterMethod">getter/setterメソッド</a></h5>
 
         <p>テーブルのカラムに対応した各プロパティのgetter/setterメソッドを実装します。メソッドの命名規則は以下の形式になります。</p>
         <p>getterメソッド</p>
-        <p> - public <span class="italic">function</span> get<span class="italic">プロパティ名</span>()</p>
+        <p class="code">public <span class="italic">function</span> get<span class="italic">プロパティ名</span>()</p>
 
         <p>setterメソッド</p>
-        <p> - public function set<span class="italic">プロパティ名(引数)</span></p>
+        <p class="code">public function set<span class="italic">プロパティ名(引数)</span></p>
 
         <p>private $empno;というプロパティの場合は以下のようになります。</p>
 
-<pre>private $empno;
+<pre class="php"><span class="keyword" >private</span> <span class="vars" >$empno</span>;
 
-public function getEmpno() {
-    return $this-&gt;empno;
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmpno() {
+    <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;empno;
 }
 
-public function setEmpno($empno) {
-    $this-&gt;empno = $empno;
-}
-</pre>
+<span class="keyword" >public</span> <span class="keyword" >function</span> setEmpno(<span class="vars" >$empno</span>) {
+    <span class="vars" >$this</span>-&gt;empno = <span class="vars" >$empno</span>;
+}</pre>
 
         <p>以上の設定を行ったEMPテーブルに関連付くEntityは次のようになります。</p>
 
-<pre>&lt;?php
-class Employee {
+<pre class="php"><span class="keyword" >class</span> Employee {
 
-    const TABLE = "EMP";
+    <span class="keyword" >const</span> TABLE = <span class="string" >"EMP"</span>;
 
-    private $empno;
+    <span class="keyword" >private</span> <span class="vars" >$empno</span>;
 
-    private $ename;
+    <span class="keyword" >private</span> <span class="vars" >$ename</span>;
 
-    private $deptnum;
+    <span class="keyword" >private</span> <span class="vars" >$deptnum</span>;
 
-    private $department;
+    <span class="keyword" >private</span> <span class="vars" >$department</span>;
 
-    public function Employee() {
+    <span class="keyword" >public</span> <span class="keyword" >function</span> Employee() {
     }
 
-    public function getDepartment() {
-        return $this-&gt;department;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getDepartment() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;department;
     }
 
-    public function setDepartment(Department $department) {
-        $this-&gt;department = $department;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setDepartment(Department <span class="vars" >$department</span>) {
+        <span class="vars" >$this</span>-&gt;department = <span class="vars" >$department</span>;
     }
 
-    public function getDeptnum() {
-        return $this-&gt;deptnum;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getDeptnum() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;deptnum;
     }
 
-    public function setDeptnum($deptnum) {
-        $this-&gt;deptnum = $deptnum;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setDeptnum(<span class="vars" >$deptnum</span>) {
+        <span class="vars" >$this</span>-&gt;deptnum = <span class="vars" >$deptnum</span>;
     }
 
-    public function getEmpno() {
-        return $this-&gt;empno;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getEmpno() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;empno;
     }
 
-    public function setEmpno($empno) {
-        $this-&gt;empno = $empno;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setEmpno(<span class="vars" >$empno</span>) {
+        <span class="vars" >$this</span>-&gt;empno = <span class="vars" >$empno</span>;
     }
 
-    public function getEname() {
-        return $this-&gt;ename;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getEname() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;ename;
     }
 
-    public function setEname($ename) {
-        $this-&gt;ename = $ename;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setEname(<span class="vars" >$ename</span>) {
+        <span class="vars" >$this</span>-&gt;ename = <span class="vars" >$ename</span>;
     }
-}
+
 ?&gt;</pre>
 
     <h4><a name="Dao">Dao(Data Access Object)</a></h4>
@@ -405,18 +355,17 @@ class Employee {
 
         <p>DaoがどのEntity(エンティティ)に関連付けられているのかはBEANアノテーションで指定します。<br />
         BEANアノテーションは以下の形式で定数を宣言します。</p>
-        <p> - const BEAN = "<span class="italic">Bean(Entity)名</span>";</p>
+        <p class="code">const BEAN = "<span class="italic">Bean(Entity)名</span>";</p>
         <p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。</p>
-        <pre>const BEAN = "Employee";</pre>
+<pre class="php"><span class="keyword" >const</span> BEAN = <span class="string" >"Employee"</span>;</pre>
 
         <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-        <p> - @Dao(bean = <span class="italic">Bean(Entity)名</span>)</p>
+        <p class="code">@Dao(bean = <span class="italic">Bean(Entity)名</span>)</p>
         <p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Dao(bean = Employee)
- */
-interface EmployeeDao {
+ */</span>
+<span class="keyword" >interface</span> EmployeeDao {
     :
     :
 }</pre>
@@ -425,57 +374,48 @@ interface EmployeeDao {
 
         <p>メソッドの引数をSQL文で参照できるように、ARGSアノテーションを使用し、メソッドの引数名を指定することもできます。<br />
         ARGSアノテーションは以下の形式で定数を宣言します。</p>
-        <p> - const <span class="italic">メソッド名</span>_ARGS = "<span class="italic">引数名</span>";</p>
+        <p class="code">const <span class="italic">メソッド名</span>_ARGS = "<span class="italic">引数名</span>";</p>
 
          <p>public function getEmployeeList($empno)というメソッドがDaoに定義されていた場合の引数名は次のように定義します。</p>
-         <pre>const getEmployeeList_ARGS = "empno";</pre>
+<pre class="php"><span class="keyword" >const</span> getEmployeeList_ARGS = <span class="string" >"empno"</span>;</pre>
 
          <p>コメントアノテーションを行うには以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Arguments(empno)
- */
-public function getEmployee($empno);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmployee(<span class="vars" >$empno</span>);</pre>
 
         <p>また、ARGSアノテーションは省略することができます。<br />
         省略した場合は、メソッドの引数名がそのまま使われます。</p>
         <p>例えば以下のようなメソッドの場合</p>
-        <pre>public function methodA($id, $name, $age);</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> methodA(<span class="vars" >$id</span>, <span class="vars" >$name</span>, <span class="vars" >$age</span>);</pre>
 
         <p>もし、ARGSアノテーションを省略した場合、 id, name, age が利用されます。<br />
         よって上のメソッドの場合以下のARGSアノテーションが省略可能です。</p>
-        <pre>//const methodA_ARGS = "id, name, age";</pre>
+<pre class="php"><span class="comment" >//const methodA_ARGS = "id, name, age";</span></pre>
 
     <h5><a name="QueryAnnotation">QUERYアノテーション</a></h5>
 
         <p>自動的に生成されるSELECT文にWHERE句やORDER BY句を追加するには、QUERYアノテーションを使用します。<br />
         QUERYアノテーションは以下の形式で定数を宣言します。</p>
 
-        <p> - const <span class="italic">メソッド名</span>_QUERY = "<span class="italic">WHERE句ORDER BY句</span>";</p>
+        <p class="code">const <span class="italic">メソッド名</span>_QUERY = "<span class="italic">WHERE句ORDER BY句</span>";</p>
         <p>引数で給与の上限と下限を指定し、その間に含まれる従業員を抽出する場合、次のようにします。</p>
-
-<pre>
-const getEmployeesBySalList_QUERY = "sal BETWEEN ? AND ? ORDER BY empno";
-public function getEmployeesBySalList($minSal, $maxSal);
-</pre>
+<pre class="php"><span class="keyword" >const</span> getEmployeesBySalList_QUERY = <span class="string" >"sal BETWEEN ? AND ? ORDER BY empno"</span>;
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmployeesBySalList(<span class="vars" >$minSal</span>, <span class="vars" >$maxSal</span>);</pre>
 
         <p>コメントアノテーションを行う場合には以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @Query("sal BETWEEN ? AND ? ORDER BY empno")
- */
-public function getEmployeesBySal($minSal, $maxSal);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmployeesBySal(<span class="vars" >$minSal</span>, <span class="vars" >$maxSal</span>);</pre>
 
         <p>上記例の“?”をバインド変数と言います。
         バインド変数をQUERYアノテーションに記述することにより、メソッドの引数の値が順に”?”の部分に代入されます。
         ARGSアノテーションは、必要ありません。ORDER BY句だけを記述するときは、ORDER BYで始めてください。<a href="#SQLbind">SQLコメント</a>も記述することが出来ます。
         SQLコメントを使用したサンプルは以下のとおりです。</p>
-
-<pre>const getEmployeesList_QUERY =
-            "job = /*job*/'CLERK'/*IF deptno != null*/ AND deptno = /*deptno*/20/*END*/";
-</pre>
+<pre class="php"><span class="keyword" >const</span> getEmployeesList_QUERY =
+        <span class="string" >"job = /*job*/'CLERK'/*IF deptno != null*/ AND deptno = /*deptno*/20/*END*/"</span>;</pre>
 
         <p>上記サンプルは、引数deptnoがnullでない場合、deptnoが引数の値と一致するという条件を追加します。SQLコメントについての詳しい説明は、<a href="#SQLbind">SQLコメント</a>の項目を参照して下さい。</p>
 
@@ -490,33 +430,24 @@ public function getEmployeesBySal($minSal, $maxSal);
                 <p>INSERT処理を行なうメソッドの名前が、insert, add, createではじまる必要があります。<br />
                 更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
                 メソッドの定義例は以下のようになります。</p>
-
-<pre>
-public function insert(Department $department);
-public function addDept(Department $department);
-public function createDept(Department $department);
-</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> insert(Department <span class="vars" >$department</span>);
+<span class="keyword" >public</span> <span class="keyword" >function</span> addDept(Department <span class="vars" >$department</span>);
+<span class="keyword" >public</span> <span class="keyword" >function</span> createDept(Department <span class="vars" >$department</span>);</pre>
 
         <li>UPDATE処理</li>
             <p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。<br />
             更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
             メソッドの定義例は以下のようになります。</p>
-
-<pre>
-public function update(Department $department);
-public function modifyDept(Department $department);
-public function storeDept(Department $department);
-</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> update(Department <span class="vars" >$department</span>);
+<span class="keyword" >public</span> <span class="keyword" >function</span> modifyDept(Department <span class="vars" >$department</span>);
+<span class="keyword" >public</span> <span class="keyword" >function</span> storeDept(Department <span class="vars" >$department</span>);</pre>
 
         <li>DELETE処理</li>
             <p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。<br />
             更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
             メソッドの定義例は以下のようになります。</p>
-
-<pre>
-public function delete(Department $department);
-public function removeDept(Department $department);
-</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> <span class="func" >delete</span>(Department <span class="vars" >$department</span>);
+<span class="keyword" >public</span> <span class="keyword" >function</span> removeDept(Department <span class="vars" >$department</span>);</pre>
 
         <li>検索(SELECT)処理
             <p>検索処理を行ないたい場合は、メソッド名の最後が<span class="italic">List</span>または、<span class="italic">Array</span>で終わっている必要があります。<br />
@@ -528,46 +459,36 @@ public function removeDept(Department $department);
                     <p>Listで終わるメソッド名の場合は、SELECT文でエンティティのリスト(S2Dao_ArrayList形式)を返します。<br />
                     (S2Dao_ArrayListはS2Dao.PHP5の組み込みクラスです。JavaのArrayListと同じような機能を提供します。)<br />
                     以下のように記述することができます。</p>
-<pre>
-public function getEmpList();
-</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> getEmpList();</pre>
+
                     <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @return list
- */
-public function getEmp();
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmp();</pre>
 </li>
                 <li>Array形式の戻り値
                     <p>Arrayで終わるメソッド名の場合は、エンティティの連想配列(<span class="italic">array()</span>)を返します。<br />
                         以下のように記述することができます。</p>
-<pre>
-public function getEmpArray();
-</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> getEmpArray();</pre>
 
             <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @return array
- */
-public function getEmp();
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmp();</pre>
 </li>
                 <li>YAML形式の戻り値
                     <p>Yamlで終わるメソッド名の場合は、YAML形式の戻り値を返します。<br />
                     以下のように記述することができます。</p>
-<pre>
-public function getEmpYaml();
-</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> getEmpYaml();</pre>
+
                     <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @return yaml
- */
-public function getEmp();
-</pre>
-                    <p>※YAML形式の戻り値を取得するためにはSpyc(<a href="http://spyc.sourceforge.net/" title="spyc: a simple php yaml class">http://spyc.sourceforge.net/</a>)を読み込んでおく必要があります。</p>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmp();</pre>
+                    <p><img src="images/exclam.gif" />YAML形式の戻り値を取得するためにはSpyc(<a href="http://spyc.sourceforge.net/" title="spyc: a simple php yaml class">http://spyc.sourceforge.net/</a>)を読み込んでおく必要があります。</p>
 <pre>
 require_once "spyc.php";
 :
@@ -578,17 +499,14 @@ require_once "spyc.php";
                 <li>JSON形式の戻り値
                     <p>Jsonで終わるメソッド名の場合は、JSON形式の戻り値を返します。<br />
                     以下のように記述することができます。</p>
-<pre>
-public function getEmpJson();
-</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> getEmpJson();</pre>
+
                     <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @return json
- */
-public function getEmp();
-</pre>
-                    <p>※JSON形式の戻り値を取得するためにはphp-jsonのPHP拡張(<a href="http://www.aurore.net/projects/php-json/" title="omar kilani - projects - php-json">http://www.aurore.net/projects/php-json/</a>)を使用します。<br />
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getEmp();</pre>
+                    <p><img src="images/exclam.gif" />JSON形式の戻り値を取得するためにはphp-jsonのPHP拡張(<a href="http://www.aurore.net/projects/php-json/" title="omar kilani - projects - php-json">http://www.aurore.net/projects/php-json/</a>)を使用します。<br />
                         使用するにはphp.iniなどにjson.so(php_json.dll)を読み込んでおいてください。</p>
 <pre>
 extension=json.so(extension=php_json.dll)
@@ -602,32 +520,28 @@ extension=json.so(extension=php_json.dll)
 
         <p>更新するときに、このプロパティは、SQLに含めて欲しくないという場合もあります。
         そのような場合は、NO_PERSISTENT_PROPSアノテーションを使います。</p>
-        <pre>const insert_NO_PERSISTENT_PROPS = "sal, comm";</pre>
+<pre class="php"><span class="keyword" >const</span> insert_NO_PERSISTENT_PROPS = <span class="string" >"sal, comm"</span>;</pre>
         <p>上記のように指定すると、insertメソッドで、salとcommプロパティは永続化の対象になりません。</p>
 
         <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @NoPersistentProperty(sal, comm)
- */
-public function insert(Department $department);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> insert(Department <span class="vars" >$department</span>);</pre>
 
     <h5><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h5>
 
         <p>更新するときに、このプロパティだけをSQLに含めたいという場合もあります。
         そのような場合は、PERSISTENT_PROPSアノテーションを使います。</p>
-        <pre>const update_PERSISTENT_PROPS = "deptno";</pre>
+<pre class="php"><span class="keyword" >const</span> update_PERSISTENT_PROPS = <span class="string" >"deptno"</span>;</pre>
         <p>上記のように指定すると、updateメソッドで、プライマリーキー、versionNo、timestampのプロパティに加えて、
         PERSISTENT_PROPSアノテーションで指定したプロパティが永続化の対象になります。</p>
 
         <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
+<pre class="php"><span class="annotation" >/**
  * @PersistentProperty("deptno")
- */
-public function update(Department $department);
-</pre>
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> update(Department <span class="vars" >$department</span>);</pre>
 
     <h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
 
@@ -638,20 +552,17 @@ public function update(Department $department);
         <ul>
             <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
                 <p>SQLアノテーションとDaoに定義したメソッドの関連付けをするには、SQLアノテーションを以下の形式にする必要があります。</p>
-                <p> - const <span class="italic">メソッド名</span>_SQL</p>
+                <p class="code">const <span class="italic">メソッド名</span>_SQL</p>
                 <p>EmployeeDao::getAllEmployeesList()に対応するSQLアノテーションは以下のようになります。</p>
-
-<pre>const getAllEmployeesList_SQL = "SELECT
-emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
- WHERE emp.deptno = dept.deptno ORDER BY emp.empno;";
-</pre>
+<pre class="php"><span class="keyword" >const</span> getAllEmployeesList_SQL = <span class="string" >"SELECT
+         emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
+             WHERE emp.deptno = dept.deptno ORDER BY emp.empno;"</span>;</pre>
 
                 <p>コメントアノテーションを行う場合は以下のように記述します。</p>
-<pre>
-/**
- * @Sql("SELECT * FROM EMP WHERE EMPNO > 1")
- */
-public function getAllEmployees();
+<pre class="php"><span class="annotation" >/**
+ * @Sql("SELECT * FROM EMP WHERE EMPNO &gt; 1")
+ */</span>
+<span class="keyword" >public</span> <span class="keyword" >function</span> getAllEmployees();
 </pre>
 
             <li>複数DBMS対応</li>
@@ -697,9 +608,9 @@ public function getAllEmployees();
 
     <p>バージョンRC3より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます。
     PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
-    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>";</p>
-    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシジャ名</span>";</p>
-    <p>-  const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
+    <p class="code">const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>";</p>
+    <p class="code">const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシジャ名</span>";</p>
+    <p class="code">const <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
 
     <ul>
         <li>サポートされるStoredProcedureの範囲について</li>
@@ -793,7 +704,7 @@ public function getAllEmployees();
         <p>検索、更新処理等を行うSQL文を記述します。
         Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
         作成したSQLファイルはDaoと同じ場所に配置してください。<br />
-        ※S2DaoにはSQLを<a href="#AutoUpdate">自動で生成する機能</a>が用意されているので、SQLファイルがない場合、S2Dao.PHP5がSQL文を自動生成します。</p>
+        <img src="images/exclam.gif" />S2DaoにはSQLを<a href="#AutoUpdate">自動で生成する機能</a>が用意されているので、SQLファイルがない場合、S2Dao.PHP5がSQL文を自動生成します。</p>
 
     <h5>SQLファイル名</h5>
 
@@ -802,7 +713,7 @@ public function getAllEmployees();
         <ul>
             <li>SQLファイルとDaoに定義したメソッドの関連付け</li>
             <p>作成したSQLファイルとDaoに定義したメソッドの関連付けをするには、SQLファイルのファイル名を以下の形式にする必要があります。</p>
-            <p> -  <span class="italic">Daoのクラス名</span>_<span class="italic">メソッド名</span>.sql</p>
+            <p class="code"><span class="italic">Daoのクラス名</span>_<span class="italic">メソッド名</span>.sql</p>
             <p>examples.dao.EmployeeDao::getAllEmployeesList()に対応するSQLファイルは以下のようになります。</p>
             <pre>examples/dao/EmployeeDao_getAllEmployeesList.sql</pre>
 
@@ -866,86 +777,79 @@ public function getAllEmployees();
         <p>Daoに定義したメソッドの引数の値をSQL文で使用する場合は、SQL文にバインド変数コメントを記述します。
         バインド変数コメントの右側のリテラルに引数の値が自動的に置換され実行されます。
         バインド変数コメントは、以下のように記述します。</p>
-        <p>-  /*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
+        <p class="code">/*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
 
         <p>引数がEntityの場合は以下のように記述します。</p>
-        <p>-  /*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
-
-        <pre>public function getEmployeeList($empno);</pre>
+        <p class="code">/*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> getEmployeeList(<span class="vars" >$empno</span>);</pre>
 
         <p>Daoに上記のメソッドを定義した場合、SQLファイル(EmploeeDao_getEmployeeList.sql)は次のようにバインド変数を使用することが可能です。
         自動的にgetEmployeeListメソッドの引数の値が設定されます。</p>
-        <pre>SELECT * FROM emp WHERE empno = /*empno*/7788</pre>
+<pre class="sql">SELECT * FROM emp WHERE empno = <span class="comment" >/*empno*/</span>7788</pre>
 
         <p>IN句にバインド変数を適用したい場合は以下のようにすることができます。</p>
-        <p>-  IN /*<span class="italic">引数名</span>*/(...)</p>
-        <pre>IN /*names*/('aaa', 'bbb')</pre>
-        <p>引数はjava.util.Listや配列の引数となります。上記のIN句の場合は、以下のように引数を用意します。</p>
-        <pre>$names = array("SCOTT", "SMITH", "JAMES");</pre>
+        <p class="code">IN /*<span class="italic">引数名</span>*/(...)</p>
+<pre class="sql">IN <span class="comment" >/*names*/</span>(<span class="string" >'aaa'</span>, <span class="string" >'bbb'</span>)</pre>
+
+        <p>引数はS2DaoArrayListや配列の引数となります。上記のIN句の場合は、以下のように引数を用意します。</p>
+<pre class="php"><span class="vars" >$names</span> = <span class="keyword" >array</span>(<span class="string" >"SCOTT"</span>, <span class="string" >"SMITH"</span>, <span class="string" >"JAMES"</span>);</pre>
         <p>配列namesが自動的にバインド変数の部分に置換されます。</p>
 
         <p>LIKEを使用する場合は、次のようにします。</p>
-        <pre>ename LIKE /*ename*/'hoge'</pre>
+<pre class="sql">ename LIKE <span class="comment" >/*ename*/</span><span class="string" >'hoge'</span></pre>
 
         <p>ワイルドカードを使いたい場合は、メソッドの引数の値に埋め込みます。
         「"COT"を含む」という条件を指定する場合は、以下のように引数の値にワイルドカードを埋め込みます。</p>
-        <pre>$employeeDao-&gt;findEmployees("%COT%");</pre>
+<pre class="php"><span class="vars" >$employeeDao</span>-&gt;findEmployees(<span class="string" >"%COT%"</span>);</pre>
 
     <h4>埋め込み変数コメント</h4>
-
         <p>Daoに定義したメソッドの引数の値をSQL文に文字列として直接埋め込む場合は、SQL文に埋め込み変数コメントを記述します。
         埋め込み変数コメントの右側のリテラルに引数の値が自動的に置換され実行されます。
         埋め込み変数コメントは、以下のように記述します。</p>
-        <p>-  /*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
+        <p class="code">/*<span class="italic">引数名</span>*/<span class="italic">リテラル</span></p>
 
         <p>引数がEntityの場合は以下のように記述します。</p>
-        <p>-  /*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
+        <p class="code">/*<span class="italic">引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></p>
 
     <h4>IFコメント</h4>
 
         <p>IFコメントでは、条件に応じて実行するSQL文を変えることが可能です。IFコメントは以下の形式で記述します。</p>
 
-        <p> -  /*IF <span class="italic">条件</span>*/ .../*END*/</p>
+        <p class="code">/*IF <span class="italic">条件</span>*/ .../*END*/</p>
         <p>サンプルは以下のとおりです。</p>
-        <pre>/*IF hoge != null*/hoge = /*hoge*/'abc'/*END*/</pre>
+<pre class="sql"><span class="comment" >/*IF hoge != null*/</span>hoge = <span class="comment" >/*hoge*/</span><span class="string" >'abc'</span><span class="comment" >/*END*/</span></pre>
 
         <p>IFコメントは、条件が真の場合、/*IF*/と/*END*/に囲まれた部分が評価されます。
         上記の場合、引数 hoge がnullでない場合にのみ、IFコメントで囲まれている部分(hoge = /*hoge*/'abc')が評価されます。<br />
         また偽の場合の処理としてELSEコメントというものが用意されています。
         条件が偽となった場合は、”ELSE”の後に記述した部分が評価されます。ELSEコメントは以下のように記述します。</p>
 
-<pre>
-/*IF hoge != null*/hoge = /*hoge*/'abc'
-  --ELSE hoge is null
-/*END*/
-</pre>
+<pre class="sql"><span class="comment" >/*IF hoge != null*/</span>hoge = <span class="comment" >/*hoge*/</span><span class="string" >'abc'</span>
+  --ELSE hoge is <span class="keyword" >null</span>
+<span class="comment" >/*END*/</span></pre>
 
         <p>条件がfalseになると--ELSEの後の部分(hoge is null)が評価されます。</p>
 
-        <p>※/*IF hoge != null*/の判別を厳密に行いたい(型も含める)場合は /*IF hoge !== null*/を使用してください。<br />
+        <p><img src="images/exclam.gif" />/*IF hoge != null*/の判別を厳密に行いたい(型も含める)場合は /*IF hoge !== null*/を使用してください。<br />
         例えば hoge = "true" の場合以下のIFコメントでは動作が違います。</p>
-<pre>
-/*IF hoge == true*/hoge = 123/*END*/
-/*IF hoge == "true"*/hoge = 456/*END*/
-/*IF hoge === true*/hoge = 789/*END*/
-/*IF hoge === "true"*/hoge = 823/*END*/
-</pre>
+<pre class="sql"><span class="comment" >/*IF hoge == true*/</span>hoge = 123<span class="comment" >/*END*/</span>
+<span class="comment" >/*IF hoge == "true"*/</span>hoge = 456<span class="comment" >/*END*/</span>
+<span class="comment" >/*IF hoge === true*/</span>hoge = 789<span class="comment" >/*END*/</span>
+<span class="comment" >/*IF hoge === "true"*/</span>hoge = 823<span class="comment" >/*END*/</span></pre>
 
     <h4>BEGINコメント</h4>
 
         <p>BEGINコメントは、WHERE句内のすべてのELSEを含まないIFコメントがfalseになった場合に、
          WHERE句自体を出力したくない場合に使います。BEGINコメントはIFコメントと併せて使用します。<br />
         BEGINコメントは以下の形式で記述します。</p>
-        <p>- /*BEGIN*/<span class="italic">WHERE句</span>/*END*/</p>
+        <p class="code">/*BEGIN*/<span class="italic">WHERE句</span>/*END*/</p>
 
         <p>サンプルは以下の通りです。</p>
 
-<pre>
-/*BEGIN*/WHERE
-  /*IF job != null*/job = /*job*/'CLERK'/*END*/
-  /*IF deptno != null*/AND deptno = /*deptno*/20/*END*/
-/*END*/
-</pre>
+<pre class="sql"><span class="comment" >/*BEGIN*/</span>WHERE
+  <span class="comment" >/*IF job != null*/</span>job = <span class="comment" >/*job*/</span><span class="string" >'CLERK'</span><span class="comment" >/*END*/</span>
+  <span class="comment" >/*IF deptno != null*/</span>AND deptno = <span class="comment" >/*deptno*/</span>20<span class="comment" >/*END*/</span>
+<span class="comment" >/*END*/</span></pre>
 
         <p>上記の場合、job,deptnoがnullの場合は、WHERE句は出力されません。
         job == null,deptno != nullの場合は、WHERE depno = ?、 job != null,deptno == nullの場合は、WHERE job = ?、
@@ -956,7 +860,7 @@ public function getAllEmployees();
         <p>EntityManagerを使用し、自動的に生成されるSELECT文にWHERE句やORDER BY句を追加できます。書き方は、<a href="#QueryAnnotation">QUERYアノテーション</a>と同様です。
         主に、動的にQueryを組み立てたいときに使用します。EntityManagerを使用するには、以下のクラスを継承します。</p>
 
-        <p>- S2Dao_AbstractDao</p>
+        <p class="code">S2Dao_AbstractDao</p>
 
         <p>Daoのインターフェース名は、必ず"Dao"で終わるようにしてください。S2Daoは、S2Dao_AbstractDaoを継承したクラスが実装しているインターフェースの中で、
         クラス名が"Dao"で終わっているインターフェースをDaoインターフェースだと判断しているためです。</p>
@@ -1011,19 +915,16 @@ public function getAllEmployees();
         </ol>
 
         <p>S2Dao_AbstractDaoを継承したクラスのサンプルは以下の通りです。</p>
+<pre class="php"><span class="keyword" >class</span> Employee2DaoImpl <span class="keyword" >extends</span> S2Dao_AbstractDao <span class="keyword" >implements</span> Employee2Dao {
 
-<pre>
-class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
-
-    public function __construct(S2Dao_DaoMetaDataFactory $daoMetaDataFactory) {
-        parent::__construct($daoMetaDataFactory);
+    <span class="keyword" >public</span> <span class="keyword" >function</span> __construct(S2Dao_DaoMetaDataFactory <span class="vars" >$daoMetaDataFactory</span>) {
+        parent::__construct(<span class="vars" >$daoMetaDataFactory</span>);
     }
 
-    public function getEmployeesList($ename) {
-        return $this-&gt;getEntityManager()-&gt;find("ename LIKE ?", "%" + $ename + "%");
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getEmployeesList(<span class="vars" >$ename</span>) {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;getEntityManager()-&gt;find(<span class="string" >"ename LIKE ?"</span>, <span class="string" >"%"</span> + <span class="vars" >$ename</span> + <span class="string" >"%"</span>);
     }
-}
-</pre>
+}</pre>
 
     <h3><a name="VersionNo">VersionNoによる排他制御 </a></h3>
         <p>S2Dao.PHP5は排他制御も自動的に行うことができます。<br />
@@ -1041,23 +942,23 @@ class Employee2DaoImpl extends S2Dao_AbstractDao implements Employee2Dao {
 
         <p>更新SQL文を自動生成させるには、メソッド名を<a href="#DefMethod">命名規則</a>にあわせ、Entityを1つ引数に持つメソッドを定義するだけです。
         SQLファイルの作成は不要です。例としてInsertの場合、命名規則に合わせ、以下のように定義します。</p>
-        <pre>public function insert(Department $department);</pre>
+<pre class="php"><span class="keyword" >public</span> <span class="keyword" >function</span> insert(Department <span class="vars" >$department</span>);</pre>
 
     <h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
 
         <p>メソッドのsignatueより、S2Dao.PHP5に自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、
         引数の値によってWHERE句が変わるような動的なSQL文も自動生成できます。</p>
 
-<pre>
+<pre class="sql">
 SELECT * FROM emp
-/*BEGIN*/WHERE
-  /*IF job != null*/job = /*job*/'CLERK'/*END*/
-  /*IF deptno != null*/AND deptno = /*deptno*/20/*END*/
-/*END*/
+<span class="comment" >/*BEGIN*/</span>WHERE
+  <span class="comment" >/*IF job != null*/</span>job = <span class="comment" >/*job*/</span><span class="string" >'CLERK'</span><span class="comment" >/*END*/</span>
+  <span class="comment" >/*IF deptno != null*/</span>AND deptno = <span class="comment" >/*deptno*/</span>20<span class="comment" >/*END*/</span>
+<span class="comment" >/*END*/</span>
 </pre>
 
         <p>上記SQL文に相当するSQL文を自動生成するには以下のように定義します。上記SQLの/**/などについては、<a href="#SQLBind">SQLコメント</a>を参照してください。</p>
-        <pre>const getEmployeeByJobDeptnoList($job, $deptno);</pre>
+<pre class="php"><span class="keyword" >const</span> getEmployeeByJobDeptnoList(<span class="vars" >$job</span>, <span class="vars" >$deptno</span>);</pre>
 
         <p><a href="#N1Mapping">N:1でマッピング</a>されているカラムを指定する場合には、「カラム名_関連番号」で指定します。
         N:1でマッピングされているBeanは左外部結合を使って1つのSQL文で取得されます。左外部結合をサポートしていないRDBMSはSELECT文自動生成の対象外です。
@@ -1069,17 +970,15 @@ SELECT * FROM emp
         テーブルに存在しないプロパティ(カラム)は自動的に無視されます。プロパティの値によって、WHERE句が変わるような動的SQL文を自動生成します。<br />
         動的SQL文の自動生成とORDER BYではじまるQUERYアノテーションは併用することが出来ます。</p>
 
-<pre>
-class EmployeeSearchCondition {
+<pre class="php"><span class="keyword" >class</span> EmployeeSearchCondition {
 
-    const dname_COLUMN = "dname_0";
-    private $job;
-    private $dname;
+    <span class="keyword" >const</span> dname_COLUMN = <span class="string" >"dname_0"</span>;
+    <span class="keyword" >private</span> <span class="vars" >$job</span>;
+    <span class="keyword" >private</span> <span class="vars" >$dname</span>;
     ...
-}
-</pre>
+}</pre>
 
-<pre>getEmployeesBySearchConditionList(EmployeeSearchCondition $dto);</pre>
+<pre class="php">getEmployeesBySearchConditionList(EmployeeSearchCondition <span class="vars" >$dto</span>);</pre>
 
         <p>また同様の指定方法で引数にEntityを使用することも出来ます。<br />
         DTOの詳しい使用方法は、<a href="example.html#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a>を参照して下さい。</p>
@@ -1100,102 +999,101 @@ class EmployeeSearchCondition {
 
     <h4>定数 'S2DAO_PHP5_USE_COMMENT' の設定</h4>
         <p>コメントアノテーションを使用するにあたってS2DAO_PHP5_USE_COMMENTの定数に true を代入しておく必要があります。</p>
-<pre>
-define('S2DAO_PHP5_USE_COMMENT', true);
-</pre>
+
+<pre class="php">define(<span class="string" >'S2DAO_PHP5_USE_COMMENT'</span>, true);</pre>
         <p>define('S2DAO_PHP5_USE_COMMENT', true);は必ずbooleanを指定してください</p>
 
     <h4>DaoおよびEntity(Bean)にコメントアノテーションを設定</h4>
         <p>各コメントアノテーションをDao及びEntity(Bean)に設定します。</p>
 
     <h5>Daoに設定する場合のサンプル</h5>
-<pre>&lt;?php
+<pre class="php">&lt;?php
 
-/**
+<span class="annotation" >/**
  * @Dao(bean = CdBean)
- */
-interface CdDao {
+ */</span>
+<span class="keyword" >interface</span> CdDao {
 
-    /**
+    <span class="annotation" >/**
      * @NoPersistentProperty("id, content")
-     */
-    public function update(CdBean $cd);
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> update(CdBean <span class="vars" >$cd</span>);
 
-    /**
+    <span class="annotation" >/**
      * @NoPersistentProperty("content")
-     */
-    public function insert(CdBean $cd);
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> insert(CdBean <span class="vars" >$cd</span>);
 
-    /**
+    <span class="annotation" >/**
      * @return array
-     */
-    public function getAll();
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getAll();
 
-    /**
-     * @Sql("SELECT CD.ID, CD.TITLE FROM CD WHERE ID > 1")
+    <span class="annotation" >/**
+     * @Sql("SELECT CD.ID, CD.TITLE FROM CD WHERE ID &gt; 1")
      * @return array
-     */
-    public function getCds();
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getCds();
 
-    /**
+    <span class="annotation" >/**
      * @return list
-     */
-    public function getCD1($id, $title = null);
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getCD1(<span class="vars" >$id</span>, <span class="vars" >$title</span> = null);
 
-    /**
+    <span class="annotation" >/**
      * @Sql("SELECT COUNT(*) FROM CD")
      * @return object
-    */
-    public function getCdCount();
+    */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getCdCount();
 }
 ?&gt;</pre>
 
     <h5>Entity(Bean)に設定する場合のサンプル</h5>
 
-<pre>&lt;?php
+<pre class="php">&lt;?php
 
-/**
+<span class="annotation" >/**
  * @Bean(table = CD)
- */
-class CdBean {
+ */</span>
+<span class="keyword" >class</span> CdBean {
 
-    /**
-     * @Column(ID)
-    */
-    private $id;
+   <span class="annotation" >/**
+    * @Column(ID)
+    */</span>
+    <span class="keyword" >private</span> <span class="vars" >$id</span>;
 
-    /**
-     * @Ccolumn(TITLE)
-    */
-    private $title;
+   <span class="annotation" >/**
+    * @Ccolumn(TITLE)
+    */</span>
+    <span class="keyword" >private</span> <span class="vars" >$title</span>;
 
-    /**
-     * @Column(CONTENT)
-    */
-    private $content;
+   <span class="annotation" >/**
+    * @Column(CONTENT)
+    */</span>
+    <span class="keyword" >private</span> <span class="vars" >$content</span>;
 
-    public function getContent() {
-        return $this-&gt;content;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getContent() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;content;
     }
 
-    public function setContent($content) {
-        $this-&gt;content = $content;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setContent(<span class="vars" >$content</span>) {
+        <span class="vars" >$this</span>-&gt;content = <span class="vars" >$content</span>;
     }
 
-    public function getId() {
-        return $this-&gt;id;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getId() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;id;
     }
 
-    public function setId($id) {
-        $this-&gt;id = $id;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setId(<span class="vars" >$id</span>) {
+        <span class="vars" >$this</span>-&gt;id = <span class="vars" >$id</span>;
     }
 
-    public function getTitle() {
-        return $this-&gt;title;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getTitle() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;title;
     }
 
-    public function setTitle($title) {
-        $this-&gt;title = $title;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setTitle(<span class="vars" >$title</span>) {
+        <span class="vars" >$this</span>-&gt;title = <span class="vars" >$title</span>;
     }
 }
 ?&gt;</pre>
@@ -1203,32 +1101,31 @@ class CdBean {
     <h4>作成したファイル実行する</h4>
         <p>作成したファイルを読み込み、実行させます。</p>
 
-<pre>&lt;?php
-require_once dirname(__FILE__) . "/example.inc.php";
+<pre class="php">&lt;?php
+<span class="keyword" >require_once</span> dirname(<span class="keyword" >__FILE__</span>) . <span class="string" >"/example.inc.php"</span>;
 
-$container = S2ContainerFactory::create("./resource/example.dicon.xml");
-$dao = $container->getComponent("CdDao");
+<span class="vars" >$container</span> = S2ContainerFactory::create(<span class="string" >"./resource/example.dicon.xml"</span>);
+<span class="vars" >$dao</span> = <span class="vars" >$container</span>-&gt;getComponent(<span class="string" >"CdDao"</span>);
 
-$cd = $dao-&gt;getAll();
+<span class="vars" >$cd</span> = <span class="vars" >$dao</span>-&gt;getAll();
 
-for($i = 0; $i &lt; count($cd); $i++){
-    echo "ID: " . $cd[$i]-&gt;getId() . PHP_EOL;
-    echo "TITLE: " . $cd[$i]-&gt;getTitle() . PHP_EOL;
-    echo "CONTENT: " . $cd[$i]-&gt;getContent() . PHP_EOL;
-    echo "-------" . PHP_EOL;
+<span class="keyword" >for</span>(<span class="vars" >$i</span> = 0; <span class="vars" >$i</span> &lt; <span class="func" >count</span>(<span class="vars" >$cd</span>); <span class="vars" >$i</span>++){
+    <span class="func" >echo</span> <span class="string" >"ID: "</span> . <span class="vars" >$cd</span>[<span class="vars" >$i</span>]-&gt;getId(), PHP_EOL;
+    <span class="func" >echo</span> <span class="string" >"TITLE: "</span> . <span class="vars" >$cd</span>[<span class="vars" >$i</span>]-&gt;getTitle(), PHP_EOL;
+    <span class="func" >echo</span> <span class="string" >"CONTENT: "</span> . <span class="vars" >$cd</span>[<span class="vars" >$i</span>]-&gt;getContent(), PHP_EOL;
+    <span class="func" >echo</span> <span class="string" >"-------"</span>, PHP_EOL;
 }
 
-echo "=====" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"====="</span>, PHP_EOL;
 
-$list = $dao-&gt;getCD1(2, 'aaa');
-for($i = 0; $i &lt; $list-&gt;size(); $i++){
-    $cd = $list-&gt;get($i);
-    echo "ID: " . $cd-&gt;getId() . PHP_EOL;
-    echo "TITLE: " . $cd-&gt;getTitle() . PHP_EOL;
-    echo "CONTENT: " . $cd-&gt;getContent() . PHP_EOL;
-    echo "-------" . PHP_EOL;
+<span class="vars" >$list</span> = <span class="vars" >$dao</span>-&gt;getCD1(2, <span class="string" >'aaa'</span>);
+<span class="keyword" >for</span>(<span class="vars" >$i</span> = 0; <span class="vars" >$i</span> &lt; <span class="vars" >$list</span>-&gt;size(); <span class="vars" >$i</span>++){
+    <span class="vars" >$cd</span> = <span class="vars" >$list</span>-&gt;get(<span class="vars" >$i</span>);
+    <span class="func" >echo</span> <span class="string" >"ID: "</span> . <span class="vars" >$cd</span>-&gt;getId(), PHP_EOL;
+    <span class="func" >echo</span> <span class="string" >"TITLE: "</span> . <span class="vars" >$cd</span>-&gt;getTitle(), PHP_EOL;
+    <span class="func" >echo</span> <span class="string" >"CONTENT: "</span> . <span class="vars" >$cd</span>-&gt;getContent(), PHP_EOL;
+    <span class="func" >echo</span> <span class="string" >"-------"</span>, PHP_EOL;
 }
-
 ?&gt;</pre>
 
     <h3><a name="HowToRun">S2Daoの実行</a></h3>
@@ -1242,14 +1139,13 @@ for($i = 0; $i &lt; $list-&gt;size(); $i++){
 
    <p> 実行サンプル</p>
 
-<pre>
-&lt;?php
-define("PATH", "examples/dao/EmployeeDao.dicon");
-define("PDO_DICON", "examples/pdo.dicon");
+<pre class="php">&lt;?php
+define(<span class="string" >"PATH"</span>, <span class="string" >"examples/dao/EmployeeDao.dicon"</span>);
+define(<span class="string" >"PDO_DICON"</span>, <span class="string" >"examples/pdo.dicon"</span>);
 
-$container = S2ContainerFactory::create(PATH); /* 手順1 */
-$dao = $container->getComponent("EmployeeDao"); /* 手順2 */
-var_dump($dao->List_getAllEmployee(7788)); /* 手順3 */
+<span class="vars" >$container</span> = S2ContainerFactory::create(PATH); /* 手順1 */
+<span class="vars" >$dao</span> = <span class="vars" >$container</span>-&gt;getComponent(<span class="string" >"EmployeeDao"</span>); /* 手順2 */
+var_dump(<span class="vars" >$dao</span>-&gt;List_getAllEmployee(7788)); /* 手順3 */
 ?&gt;
 </pre>
 

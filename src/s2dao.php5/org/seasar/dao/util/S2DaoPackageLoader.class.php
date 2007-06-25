@@ -23,38 +23,33 @@
 //
 /**
  * @author nowel
- * @package org.seasar.s2dao.dbms.dbmeta
+ * @package org.seasar.s2dao.util
  */
-final class S2Dao_DbMetaDataFactory {
-    
-    const DbMetaData_Suffix = 'DbMetaData';
-    
-    private static $meta = array(
-        'S2Dao_MySQLDbMetaData' => 'S2Dao_StandardDbMetaData',
-        'S2Dao_FirebirdDbMetaData' => 'S2Dao_FirebirdDbMetaData',
-        'S2Dao_OracleDbMetaData' => 'S2Dao_OracleDbMetaData',
-        'S2Dao_PostgreSQLDbMetaData' => 'S2Dao_PostgreSQLDbMetaData',
-        'S2Dao_SQLiteDbMetaData' => 'S2Dao_SQLiteDbMetaData',
-        'S2Dao_SybaseDbMetaData' => 'S2Dao_SybaseDbMetaData'
-    );
-    
-    private static $instance = array();
-    
-    public static function create(PDO $db, S2Dao_Dbms $dbms){
-        $dbmd = get_class($dbms) . self::DbMetaData_Suffix;
-        if(isset(self::$instance[$dbmd])){
-            return self::$instance[$dbmd];
+class S2DaoPackageLoader implements S2Dao_Autoload {
+
+    private $dir;
+
+    public function __construct($basedir, $package = null){
+        $sep = DIRECTORY_SEPARATOR;
+        if(is_null($basedir) && strcmp('', $package) === 0){
+            $this->dir = $basedir . $sep;
+        } else {
+            $this->dir = $basedir . $sep . $package . $sep;
         }
-        if(isset(self::$meta[$dbmd])){
-            $className = self::$meta[$dbmd];
-            $instance = self::$instance[$dbmd] = new $className($db, $dbms);
-            return $instance;
-        } else if(class_exists($dbmd)){
-            $instance = self::$instance[$dbmd] = new $dbmd($db, $dbms);
-            return $instance;
-        }
-        return new S2Dao_StandardDbMetaData($db, $dbms);
     }
+
+    public function __load($className){
+        $ext = explode(',', spl_autoload_extensions());
+        foreach($ext as $e){
+            $path = $this->dir . $className . $e;
+            if(file_exists($path)){
+                require_once $path;
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 ?>

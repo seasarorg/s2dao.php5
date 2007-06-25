@@ -55,7 +55,9 @@ class S2Dao_MapEntry {
     private $value;
     
     public function __construct(array $element){
-        list($this->key, $this->value) = each($element);
+        $o = each($element);
+        $this->key = $o[0];
+        $this->value = $o[1];
     }
     
     public function getKey(){

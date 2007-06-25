@@ -31,11 +31,7 @@ final class S2Dao_ArrayUtil {
     }
     
     public static function spacetrim(array $elem){
-        $ret = array();
-        foreach($elem as $key => $value){
-            $ret[$key] = trim($value);
-        }
-        return $ret;
+        return array_map('trim', $elem);
     }
 }
 

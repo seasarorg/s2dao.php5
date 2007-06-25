@@ -2,8 +2,13 @@
 <html>
 <!-- don't edit start -->
 <head><title>Seasar - DI Container with AOP - </title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="seasar_b.css" type="text/css" rel="stylesheet"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<link href="s2dao_php5.css" type="text/css" rel="stylesheet" media="screen"  />
+<title>Seasar - DI Container with AOP -</title>
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
 <td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
 <tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
@@ -22,7 +27,6 @@
 <tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="752" class="main">
 <!-- don't edit end -->
 <!-- document start -->
-
 <ul>
     <li><a href="#Tx">PDOトランザクションの自動制御</a>
     <ul>
@@ -81,192 +85,193 @@ PDOが自動で管理するトランザクション管理機能をPHPのクラ�
 <h3><a name="Example">Example</a></h3>
 
 <h4>CdDao.class.php</h4>
-<pre>&lt;?php
+<pre class="php">&lt;?php
 
-/**
+<span class="annotation" >/**
  * @Dao(bean = CdBean)
- */
-interface CdDao {
+ */</span>
+<span class="keyword" >interface</span> CdDao {
 
-    public function update(CdBean $cd);
-    public function insert(CdBean $cd);
-    public function delete(CdBean $cd);
+    <span class="keyword" >public</span> <span class="keyword" >function</span> update(CdBean <span class="vars" >$cd</span>);
+    <span class="keyword" >public</span> <span class="keyword" >function</span> insert(CdBean <span class="vars" >$cd</span>);
+    <span class="keyword" >public</span> <span class="keyword" >function</span> <span class="func" >delete</span>(CdBean <span class="vars" >$cd</span>);
 
-    /**
+    <span class="annotation" >/**
      * @return list
-     */
-    public function getAll();
+     */</span>
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getAll();
 }
 ?&gt;</pre>
 
 <h4>CdBean.class.php</h4>
-<pre>&lt;?php
+<pre class="php">&lt;?php
 
-/**
+<span class="annotation" >/**
  * @Bean(table = CD)
- */
-class CdBean {
+ */</span>
+<span class="keyword" >class</span> CdBean {
 
-    /**
+    <span class="annotation" >/**
      * @Column("ID")
-     */
-    private $id;
+     */</span>
+    <span class="keyword" >private</span> <span class="vars" >$id</span>;
 
-    /**
+    <span class="annotation" >/**
      * @Column("TITLE")
-     */
-    private $title;
+     */</span>
+    <span class="keyword" >private</span> <span class="vars" >$title</span>;
 
-    /**
+    <span class="annotation" >/**
      * @Column("CONTENT")
-     */
-    private $content;
+     */</span>
+    <span class="keyword" >private</span> <span class="vars" >$content</span>;
 
-    public function __construct($id = null, $title = null, $content = null){
-        $this-&gt;id = $id;
-        $this-&gt;title = $title;
-        $this-&gt;content = $content;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> __construct(<span class="vars" >$id</span> = null, <span class="vars" >$title</span> = null, <span class="vars" >$content</span> = null){
+        <span class="vars" >$this</span>-&gt;id = <span class="vars" >$id</span>;
+        <span class="vars" >$this</span>-&gt;title = <span class="vars" >$title</span>;
+        <span class="vars" >$this</span>-&gt;content = <span class="vars" >$content</span>;
     }
 
-    public function getContent() {
-        return $this-&gt;content;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getContent() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;content;
     }
 
-    public function setContent($content) {
-        $this-&gt;content = $content;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setContent(<span class="vars" >$content</span>) {
+        <span class="vars" >$this</span>-&gt;content = <span class="vars" >$content</span>;
     }
 
-    public function getId() {
-        return $this-&gt;id;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getId() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;id;
     }
 
-    public function setId($id) {
-        $this-&gt;id = $id;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setId(<span class="vars" >$id</span>) {
+        <span class="vars" >$this</span>-&gt;id = <span class="vars" >$id</span>;
     }
 
-    public function getTitle() {
-        return $this-&gt;title;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getTitle() {
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;title;
     }
 
-    public function setTitle($title) {
-        $this-&gt;title = $title;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> setTitle(<span class="vars" >$title</span>) {
+        <span class="vars" >$this</span>-&gt;title = <span class="vars" >$title</span>;
     }
 }
 ?&gt;</pre>
 
 <h4>CdTxManager.class.php</h4>
-<pre>&lt;?php
-interface CdTxManager {
-    public function requiredInsert();
-    public function requiresNewInsert();
-    public function mandatoryInsert();
-    public function getAll();
-    public function delete();
+<pre class="php">&lt;?php
+<span class="keyword" >interface</span> CdTxManager {
+    <span class="keyword" >public</span> <span class="keyword" >function</span> requiredInsert();
+    <span class="keyword" >public</span> <span class="keyword" >function</span> requiresNewInsert();
+    <span class="keyword" >public</span> <span class="keyword" >function</span> mandatoryInsert();
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getAll();
+    <span class="keyword" >public</span> <span class="keyword" >function</span> <span class="func" >delete</span>();
 }
-&gt;</pre>
+?&gt;</pre>
 
 <h4>CdTxManagerImpl.class.php</h4>
-<pre>&lt;?php
+<pre class="php">&lt;?php
 
-class CdTxManagerImpl implements CdTxManager {
+<span class="keyword" >class</span> CdTxManagerImpl <span class="keyword" >implements</span> CdTxManager {
 
-    private $dao = null;
+    <span class="keyword" >private</span> <span class="vars" >$dao</span> = null;
 
-    public function __construct(CdDao $dao){
-        $this-&gt;dao = $dao;
+    <span class="keyword" >public</span> <span class="keyword" >function</span> __construct(CdDao <span class="vars" >$dao</span>){
+        <span class="vars" >$this</span>-&gt;dao = <span class="vars" >$dao</span>;
     }
 
-    public function requiredInsert(){
-        $this-&gt;dao-&gt;insert(new CdBean(3, "amanda", "newage"));
-        $this-&gt;dao-&gt;insert(new CdBean(4, "rat race", "metal"));
+    <span class="keyword" >public</span> <span class="keyword" >function</span> requiredInsert(){
+        <span class="vars" >$this</span>-&gt;dao-&gt;insert(<span class="keyword" >new</span> CdBean(3, <span class="string" >"amanda"</span>, <span class="string" >"newage"</span>));
+        <span class="vars" >$this</span>-&gt;dao-&gt;insert(<span class="keyword" >new</span> CdBean(4, <span class="string" >"rat race"</span>, <span class="string" >"metal"</span>));
     }
 
-    public function requiresNewInsert(){
-        $this-&gt;dao-&gt;insert(new CdBean(4, "Crazy Little Thing Called Love", "rock"));
-        $this-&gt;dao-&gt;insert(new CdBean(3, "Staring At The Sun", "rock"));
+    <span class="keyword" >public</span> <span class="keyword" >function</span> requiresNewInsert(){
+        <span class="vars" >$this</span>-&gt;dao-&gt;insert(<span class="keyword" >new</span> CdBean(4, <span class="string" >"Crazy Little Thing Called Love"</span>, <span class="string" >"rock"</span>));
+        <span class="vars" >$this</span>-&gt;dao-&gt;insert(<span class="keyword" >new</span> CdBean(3, <span class="string" >"Staring At The Sun"</span>, <span class="string" >"rock"</span>));
     }
 
-    public function mandatoryInsert(){
-        $this-&gt;dao-&gt;insert(new CdBean(5, "Prophecy", "metal"));
+    <span class="keyword" >public</span> <span class="keyword" >function</span> mandatoryInsert(){
+        <span class="vars" >$this</span>-&gt;dao-&gt;insert(<span class="keyword" >new</span> CdBean(5, <span class="string" >"Prophecy"</span>, <span class="string" >"metal"</span>));
     }
 
-    public function getAll(){
-        return $this-&gt;dao-&gt;getAll();
+    <span class="keyword" >public</span> <span class="keyword" >function</span> getAll(){
+        <span class="keyword" >return</span> <span class="vars" >$this</span>-&gt;dao-&gt;getAll();
     }
 
-    public function delete(){
-        $this-&gt;dao-&gt;delete(new CdBean(3));
-        $this-&gt;dao-&gt;delete(new CdBean(4));
-        $this-&gt;dao-&gt;delete(new CdBean(5));
+    <span class="keyword" >public</span> <span class="keyword" >function</span> <span class="func" >delete</span>(){
+        <span class="vars" >$this</span>-&gt;dao-&gt;<span class="func" >delete</span>(<span class="keyword" >new</span> CdBean(3));
+        <span class="vars" >$this</span>-&gt;dao-&gt;<span class="func" >delete</span>(<span class="keyword" >new</span> CdBean(4));
+        <span class="vars" >$this</span>-&gt;dao-&gt;<span class="func" >delete</span>(<span class="keyword" >new</span> CdBean(5));
     }
 }
 
 ?&gt;</pre>
 
 <h4>example.dicon.xml</h4>
-<pre>
-&lt;components namespace="example"&gt;
+<pre class="xml">
+<span class="tag">&lt;components </span><span class="attr">namespace</span><span class="tag">=</span><span class="value">&quot;example&quot;</span><span class="tag">&gt;</span><span class="plain">
 
-    &lt;include path="%DAO_DICON%" /&gt;
+    </span><span class="tag">&lt;include </span><span class="attr">path</span><span class="tag">=</span><span class="value">&quot;%DAO_DICON%&quot;</span><span class="tag"> </span><span class="attr">/</span><span class="tag">&gt;</span><span class="plain">
 
-    &lt;component class="CdDao"&gt;
-        &lt;aspect&gt;dao.interceptor&lt;/aspect&gt;
-    &lt;/component&gt;
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">&quot;CdDao&quot;</span><span class="tag">&gt;</span><span class="plain">
+        </span><span class="tag">&lt;aspect&gt;</span><span class="plain">dao.interceptor</span><span class="tag">&lt;/aspect&gt;</span><span class="plain">
+    </span><span class="tag">&lt;/component&gt;</span><span class="plain">
 
-    &lt;component class="CdTxManagerImpl"&gt;
-        &lt;aspect pointcut="requiredInsert"&gt;pdo.requiredTx&lt;/aspect&gt;
-        &lt;aspect pointcut="requiresNewInsert"&gt;pdo.requiresNewTx&lt;/aspect&gt;
-        &lt;aspect pointcut="mandatoryInsert"&gt;pdo.mandatoryTx&lt;/aspect&gt;
-        &lt;aspect pointcut="getAll"&gt;pdo.requiredTx&lt;/aspect&gt;
-        &lt;aspect pointcut="delete"&gt;pdo.requiresNewTx&lt;/aspect&gt;
-    &lt;/component&gt;
+    </span><span class="tag">&lt;component </span><span class="attr">class</span><span class="tag">=</span><span class="value">&quot;CdTxManagerImpl&quot;</span><span class="tag">&gt;</span><span class="plain">
+        </span><span class="tag">&lt;aspect </span><span class="attr">pointcut</span><span class="tag">=</span><span class="value">&quot;requiredInsert&quot;</span><span class="tag">&gt;</span><span class="plain">pdo.requiredTx</span><span class="tag">&lt;/aspect&gt;</span><span class="plain">
+        </span><span class="tag">&lt;aspect </span><span class="attr">pointcut</span><span class="tag">=</span><span class="value">&quot;requiresNewInsert&quot;</span><span class="tag">&gt;</span><span class="plain">pdo.requiresNewTx</span><span class="tag">&lt;/aspect&gt;</span><span class="plain">
+        </span><span class="tag">&lt;aspect </span><span class="attr">pointcut</span><span class="tag">=</span><span class="value">&quot;mandatoryInsert&quot;</span><span class="tag">&gt;</span><span class="plain">pdo.mandatoryTx</span><span class="tag">&lt;/aspect&gt;</span><span class="plain">
+        </span><span class="tag">&lt;aspect </span><span class="attr">pointcut</span><span class="tag">=</span><span class="value">&quot;getAll&quot;</span><span class="tag">&gt;</span><span class="plain">pdo.requiredTx</span><span class="tag">&lt;/aspect&gt;</span><span class="plain">
+        </span><span class="tag">&lt;aspect </span><span class="attr">pointcut</span><span class="tag">=</span><span class="value">&quot;delete&quot;</span><span class="tag">&gt;</span><span class="plain">pdo.requiresNewTx</span><span class="tag">&lt;/aspect&gt;</span><span class="plain">
+    </span><span class="tag">&lt;/component&gt;</span><span class="plain">
 
-&lt;/components&gt;
+</span><span class="tag">&lt;/components&gt;</span><span class="plain">
+</span>
 </pre>
 
 <h4>CdTxManagerClient.php</h4>
-<pre>&lt;?php
-require dirname(__FILE__) . "/CdTxManager.class.php";
+<pre class="php">&lt;?php
+<span class="keyword" >require</span> dirname(<span class="keyword" >__FILE__</span>) . <span class="string" >"/CdTxManager.class.php"</span>;
 
-$container = S2ContainerFactory::create("./resource/example.dicon.xml");
-$manager = $container-&gt;getComponent("CdTxManager");
+<span class="vars" >$container</span> = S2ContainerFactory::create(<span class="string" >"./resource/example.dicon.xml"</span>);
+<span class="vars" >$manager</span> = <span class="vars" >$container</span>-&gt;getComponent(<span class="string" >"CdTxManager"</span>);
 
-echo "requiredInsert start" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"requiredInsert start"</span> . PHP_EOL;
 try{
-    $manager-&gt;requiredInsert();
-}catch(Exception $e){
-    var_dump($e-&gt;getMessage());
+    <span class="vars" >$manager</span>-&gt;requiredInsert();
+}catch(Exception <span class="vars" >$e</span>){
+    var_dump(<span class="vars" >$e</span>-&gt;getMessage());
 }
-echo "requiredInsert end" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"requiredInsert end"</span> . PHP_EOL;
 
-echo "requiresNewInsert start" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"requiresNewInsert start"</span> . PHP_EOL;
 try{
-    $manager-&gt;requiresNewInsert();
-}catch(Exception $e){
-    var_dump($e-&gt;getMessage());
+    <span class="vars" >$manager</span>-&gt;requiresNewInsert();
+}catch(Exception <span class="vars" >$e</span>){
+    var_dump(<span class="vars" >$e</span>-&gt;getMessage());
 }
-echo "requiresNewInsert end" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"requiresNewInsert end"</span> . PHP_EOL;
 
-echo "mandatoryInsert start" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"mandatoryInsert start"</span> . PHP_EOL;
 try{
-    $manager-&gt;mandatoryInsert();
-}catch(Exception $e){
-    var_dump($e-&gt;getMessage());
+    <span class="vars" >$manager</span>-&gt;mandatoryInsert();
+}catch(Exception <span class="vars" >$e</span>){
+    var_dump(<span class="vars" >$e</span>-&gt;getMessage());
 }
-echo "mandatoryInsert end" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"mandatoryInsert end"</span> . PHP_EOL;
 
-echo "getAll start" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"getAll start"</span> . PHP_EOL;
 try{
-    var_dump($manager-&gt;getAll());
-}catch(Exception $e){
-    var_dump($e-&gt;getMessage());
+    var_dump(<span class="vars" >$manager</span>-&gt;getAll());
+}catch(Exception <span class="vars" >$e</span>){
+    var_dump(<span class="vars" >$e</span>-&gt;getMessage());
 }
-echo "getAll end" . PHP_EOL;
+<span class="func" >echo</span> <span class="string" >"getAll end"</span> . PHP_EOL;
 
 try{
-    $manager-&gt;delete();
-}catch(Exception $e){
-    var_dump($e-&gt;getMessage());
+    <span class="vars" >$manager</span>-&gt;<span class="func" >delete</span>();
+}catch(Exception <span class="vars" >$e</span>){
+    var_dump(<span class="vars" >$e</span>-&gt;getMessage());
 }
 
 ?&gt;</pre>

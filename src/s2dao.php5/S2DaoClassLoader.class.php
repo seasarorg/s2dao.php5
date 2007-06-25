@@ -25,6 +25,53 @@
  * @author nowel
  * @package org.seasar.s2dao
  */
-class S2DaoClassLoader {
+class S2DaoClassLoader implements S2Dao_Autoload {
+
+    private static $INSTANCE = null;
+
+    private $loaders = array();
+
+    /**
+     * a constructor for private
+     */
+    private function __construct() {
+    }
+
+    private static function getInstance(){
+        if(self::$INSTANCE === null){
+            self::$INSTANCE = new self;
+        }
+        return self::$INSTANCE;
+    }
+
+    public static function add(array $packages, $scopedir = null){
+        if(is_null($scopedir)){
+            $scopedir = dirname(__FILE__);
+        }
+        $instance = self::getInstance();
+        $instance->addLoader($packages, $scopedir);
+        return $instance;
+    }
+
+    public final function __load($className){
+        $c = count($this->loaders);
+        for($i = 0; $i < $c; $i++){
+            if($this->load($this->loaders[$i], $className)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function addLoader(array $packages, $scopedir){
+        foreach($packages as $package){
+            $this->loaders[] = new S2DaoPackageloader($scopedir, $package);
+        }
+    }
+
+    protected function load(S2Dao_Autoload $loader, $className){
+        return $loader->__load($className);
+    }
 }
+
 ?>
