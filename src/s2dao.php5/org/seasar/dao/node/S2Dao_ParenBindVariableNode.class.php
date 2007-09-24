@@ -67,7 +67,9 @@ class S2Dao_ParenBindVariableNode extends S2Dao_AbstractNode {
         for ($i = 0; $i < $length; ++$i) {
             $o = $array[$i];
             if ($o !== null) {
-                $clazz = get_class($o);
+                if(($clazz = get_class($o)) === false){
+                    $clazz = gettype($o);
+                }
             }
         }
         $ctx->addSql('(');
