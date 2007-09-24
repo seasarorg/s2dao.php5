@@ -1,3 +1,8 @@
+2007-09-24 nowel(S2Dao.PHP5-1.2.0-beta2)
+
+    * fix: [s2container-php5:107] IN 句に配列を利用してセットした時、「ORA-01008: バインドされていない変数があります。」
+        - S2Dao_ParenBindVariableNode
+
 2007-06-25 nowel(S2Dao.PHP5-1.2.0-beta2)
 
     * fix: [DAOPHP-13] S2Dao_DBMetaDataFactoryが存在しないクラスをロードしてしまう
